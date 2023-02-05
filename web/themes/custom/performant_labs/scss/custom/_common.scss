@@ -1,0 +1,179 @@
+/*
+ * Main Page page title.
+ */
+.main-page--title {
+  color: $gray-base;
+  font-family: $font-family-rubik;
+  font-size: 2.85088rem;
+  font-weight: 500;
+  margin-bottom: 55px;
+  text-align: center;
+}
+// Underline Custom Block Title.
+.pl-title,
+.lbk-block--title2 {
+  color: $gray-base;
+  display: inline-block;
+  text-transform: uppercase;
+  font-family: $font-family-rubik;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 55px;
+  position: relative;
+  text-align: center;
+  &:after {
+    background: $gray-base;
+    content:'';
+    left:0;
+    height:1px;
+    margin:15px auto;
+    position:absolute;
+    right:0;
+    top:100%;
+    width:40%;
+  }
+}
+h2.lbk-block--title2 {
+  margin: 0 0 55px !important;
+}
+
+.lbk-block--title {
+  font-family: $font-family-rubik;
+  font-size: 2.00225rem;
+  font-weight: 500;
+  margin: 3.8rem 0 1.5rem;
+}
+
+// Internal width page centered.
+.width-internal--content {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Layout Builder styles.
+.pl-section-compressed {
+  @include for-desktop-up {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.pl-section-thin {
+  @include for-desktop-up {
+    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.pl-section-default {
+  @include for-desktop-up {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.pl-section-medium {
+  @include for-desktop-up {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// Buttons
+.button-section,
+.link-section,
+.clients-button {
+  margin: 35px 0;
+  text-align: center;
+  /*
+  a {
+    align-items: center;
+    background: transparent;
+    border: solid 3px $dark-blue;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    display: inline-block;
+    color: $dark-blue;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 17px;
+    font-weight: 700;
+    height: 60px;
+    min-width: 140px;
+    overflow: hidden;
+    padding: 10px 25px;
+    position: relative;
+    transform: perspective(1px) translateZ(0);
+    transition-property: color;
+    transition-duration: 0.3s;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 0;
+    &:before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $dark-blue;
+      transform: scale(0);
+      transition-property: transform;
+      transition-duration: 0.3s;
+      transition-timing-function: ease-out;
+    }
+
+    &:active:before,
+    &:focus:before,
+    &:hover:before {
+      width: 100%;
+      transform: scale(1);
+    }
+    &:hover {
+      border-color: $dark-blue;
+      color: $white-base;
+      &:before {
+        width: 100%;
+      }
+    }
+  }*/
+  a {
+    @extend .default-button;
+  }
+}
+
+// Default Button.
+.default-button,
+.btn-default,
+.btn.btn-primary {
+  border-color: $light-blue !important;
+  background-color: $light-blue !important;
+  color: $white-base !important;
+  font-family: $font-family-rubik !important;
+  padding: 9px 45px !important;
+  border-radius: 30px !important;
+  text-transform: uppercase;
+  transition: background-color 0.5s ease;
+  font-size: 20px;
+  min-width: 130px;
+  display: inline-block;
+  @include for-phone-only {
+    padding: 9px 40px !important;
+  }
+  &:hover {
+    background-color: $dark-blue !important;
+    color: $white-base;
+  }
+  &:visited {
+    &:hover,
+    &:focus,
+    &:active {
+      color: $white-base;
+    }
+  }
+}

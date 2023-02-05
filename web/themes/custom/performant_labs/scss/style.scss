@@ -1,0 +1,24 @@
+// Include bootstrap variables definitions overrides.
+@import 'overrides/variables';
+
+// Include custom sub theme.
+@import 'custom/variables';
+@import 'custom/breakpoints';
+@import 'custom/media_queries';
+@import 'custom/base';
+@import 'custom/main';
+@import 'custom/header';
+@import 'custom/footer';
+@import 'custom/homepage';
+@import 'custom/article';
+@import 'custom/internalpage';
+@import 'custom/contact';
+@import 'custom/book';
+@import 'custom/open-source-project';
+@import "font-awesome/font-awesome.scss";
+@import 'custom/newsletter';
+@import 'custom/services';
+@import 'custom/automated_testing';
+
+// Include parent theme with all things Boostrap for full override
+@import '../../../../themes/contrib/bootstrap4/scss/style';

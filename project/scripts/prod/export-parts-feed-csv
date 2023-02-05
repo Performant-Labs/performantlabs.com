@@ -1,0 +1,42 @@
+#!/bin/bash -x
+
+SITE=$1
+TARGET_ENV=$2
+URI=$3
+DRUSH_ALIAS="@$SITE.$TARGET_ENV"
+ID=$$
+
+SCRIPT=`readlink -e $0`
+SCRIPTPATH=`dirname $SCRIPT`
+
+#PHP_INI_SCAN_DIR=":/home/idtd8/bmosher/php-ini"
+#DRUSH="/usr/local/drush9/drush"
+DRUSH="/mnt/www/html/idtd8/vendor/bin/drush"
+DRUPAL_PATH="/var/www/html/$SITE.$TARGET_ENV/docroot"
+#OP_PATH="/var/www/html/$SITE.$TARGET_ENV/library/op_export"
+OP_PATH=$SCRIPTPATH
+EXPORT="/tmp/$SITE-$TARGET_ENV-$ID-parts.csv"
+EXPORTC="/tmp/$SITE-$TARGET_ENV-$ID-parts-created.csv"
+DEST="/mnt/gfs/$SITE.$TARGET_ENV/sites/default/files/parts_feed/parts.csv"
+DESTC="/mnt/gfs/$SITE.$TARGET_ENV/sites/default/files/parts_feed/parts-created.csv"
+LIMIT=250
+COUNT=0
+
+if [ -z $1 ] || [ -z $2 ] || [ ! -d $DRUPAL_PATH ]; then
+  exit;
+fi
+cd $DRUPAL_PATH
+#echo "$DRUSH --uri=$URI idt_reports:ope --start=0 --limit=$LIMIT --file=$EXPORT | cut -f1"
+#exit
+PROCESSED=`$DRUSH --uri=$URI idt_reports:ope --start=0 --limit=$LIMIT --file=$EXPORT | cut -f1`
+COUNT=$PROCESSED
+while [ ! -z $PROCESSED ] && [ ${PROCESSED} -gt 0 ]; do
+  PROCESSED=`$DRUSH --uri=$URI idt_reports:ope --start=$COUNT --limit=$LIMIT --file=$EXPORT --append`
+  #COUNT=`expr $COUNT + $PROCESSED`
+  COUNT=$PROCESSED
+  echo $COUNT
+done
+
+mv $EXPORT $DEST
+mv $EXPORTC $DESTC
+

@@ -1,0 +1,151 @@
+@import 'variables';
+@import "../font-awesome/font-awesome.scss";
+
+/*
+ * Footer.
+ */
+footer.navbar {
+  background: $dark-blue;
+  margin-top: 40px !important;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  @include for-desktop-up {
+    margin-top: 80px !important;
+    padding-bottom: 30px;
+  }
+  .menu--main,
+  .menu--social-links,
+  .menu--footer {
+    ul.navbar-nav {
+      li {
+        @include for-phone-only {
+          text-align: center;
+        }
+      }
+      li a {
+        color: $white-base;
+      }
+    }
+  }
+  .menu--footer {
+    ul.navbar-nav {
+      flex-direction: column;
+      @include for-phone-only {
+        flex-direction: column;
+        margin: 5px 0 25px;
+      }
+      li {
+        @include for-phone-only {
+          padding-top: 3px;
+          padding-bottom: 4px;
+        }
+      }
+      li a {
+        font-family: $font-family-rubik;
+        font-size: 20px;
+        font-weight: 500;
+        padding: 0 0.9375rem;
+        line-height: 1.6;
+      }
+    }
+  }
+  .region-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+    @include for-phone-only {
+      align-items: center;
+      flex-direction: column;
+    }
+  }
+  .menu--social-links {
+    margin-left: 25px;
+    @include for-phone-only {
+      margin-left: 0;
+    }
+    ul.navbar-nav {
+      @include for-phone-only {
+        flex-direction: row;
+        margin: 15px 0 18px;
+      }
+    }
+  }
+  .menu--social-links ul.navbar-nav li {
+    position: relative;
+    a {
+      font-size: 0;
+      height: 26px;
+      margin: 0 0 0 14px;
+      width: 22px;
+    }
+    &:last-child a {
+      @include for-phone-only {
+        width: 8px;
+      }
+    }
+    a:before {
+      color: $white-base;
+      display: inline-block;
+      font-family: "FontAwesome";
+      font-size: 22px;
+      position: absolute;
+      top: -4px;
+      left: 0;
+    }
+    // RSS icon.
+    &:first-child a:before {
+      content: "\f09e";
+    }
+    // Twitter icon.
+    &:nth-child(2) a:before {
+      content: "\f099";
+    }
+    // Facebook icon.
+    &:nth-child(3) a:before {
+      content: "\f09a";
+    }
+    // Linkedin icon.
+    &:nth-child(4) a:before {
+      content: "\f0e1";
+    }
+  }
+}
+
+#block-performantlabs {
+  color: $white-base;
+  font-family: $font-family-rubik;
+  max-width: 450px;
+  @include for-phone-only {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+  h2 {
+    color: $white-base;
+    font-size: 1.8rem;
+    margin: 0 !important;
+  }
+  .field field--name-body p {
+    font-weight: 400;
+  }
+}
+
+#block-copyright {
+  color: $white-base;
+  font-family: $font-family-rubik;
+  flex-basis: 100%;
+  text-align: center;
+  margin: 30px 0 0;
+  width: 100%;
+  @include for-phone-only {
+    font-size: 13px;
+  }
+  .field field--name-body p {
+    font-weight: 400;
+  }
+}
+

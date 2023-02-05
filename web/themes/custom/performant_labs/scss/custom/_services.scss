@@ -1,0 +1,238 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Services page.
+ */
+.services-page {
+  main .container {
+    overflow: hidden;
+    @include for-desktop-up {
+      max-width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+  .layout--onecol .block-layout-builder-kit {
+    margin-bottom: 0;
+  }
+  .layout--fourcol-section {
+    background: rgba(99, 187, 204, 0.2);
+    padding: 25px 0;
+  }
+  .service-item {
+    h2 {
+      font-size: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      text-align: center;
+      width: 200px;
+      @include for-phone-only {
+        margin-top: 25px !important;
+        width: 100%;
+      }
+    }
+  }
+  .services-list--items {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    @include for-phone-only {
+      flex-direction: column;
+      max-width: 100%;
+    }
+    .layout__region {
+      flex: 0 1 25%;
+    }
+  }
+  .services-list {
+    margin: 0 0 50px;
+    @include for-phone-only {
+      margin: 0 0 10px;
+    }
+    h2.lbk-block--title {
+      @include for-phone-only {
+        font-size: 1.8rem;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+  .services-logos {
+    background: rgba(99, 187, 204, 0.2);
+    margin-bottom: 50px;
+    padding-bottom: 60px;
+    @include for-phone-only {
+      padding-bottom: 20px;
+    }
+    .lbk-block--title {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+.services-page {
+  .services-data--image {
+    margin: 68px 0 100px;
+    @include for-phone-only {
+      margin-bottom: 15px;
+    }
+    img {
+      max-width: 100%;
+      @include for-phone-only {
+        max-width: 220px;
+      }
+    }
+    .image-component {
+      @include for-phone-only {
+        text-align: center;
+      }
+    }
+  }
+  .services-data--desc {
+    padding-left: 95px;
+    margin-bottom: 100px;
+    @include for-phone-only {
+      margin-bottom: 50px;
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+    h2.lbk-block--title {
+      @include for-phone-only {
+        margin: 10px 0 25px !important;
+      }
+    }
+  }
+  .services-subtitle,
+  .services-list,
+  .services-logos {
+    .lbk-block--title {
+      text-align: center;
+    }
+  }
+  .services-subtitle {
+    background: rgba(99, 187, 204, 0.2);
+    padding: 50px 0 20px;
+    h2.lbk-block--title {
+      margin: 0 !important;
+    }
+  }
+  .services-list ul {
+    list-style-type: none;
+    margin-bottom: 50px;
+    padding: 0 30px;
+    @include for-phone-only {
+      margin-bottom: 20px;
+    }
+  }
+  .services-logos {
+    ul {
+      align-items: center;
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      flex-flow: row wrap;
+      justify-content: center;
+      @include for-phone-only {
+        flex-direction: column;
+      }
+      li {
+        @include for-phone-only {
+          margin-bottom: 50px;
+        }
+      }
+      img {
+        max-width: 100px;
+        height: auto;
+        margin: 0 35px;
+      }
+      li:nth-child(3) img {
+        max-width: 155px;
+      }
+    }
+  }
+  .service-item {
+    padding-left: 20px;
+    padding-right: 20px
+  }
+  .layout--threecol-section.pl-section-default {
+    @include for-desktop-up {
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+  }
+}
+.services-page {
+  .bars-image {
+    img {
+      max-height: 200px;
+      width: auto;
+    }
+  }
+  .bars-image {
+    padding-right: 20px;
+    @include for-phone-only {
+      padding-right: 0;
+    }
+    .right {
+      @include for-phone-only {
+        text-align: center;
+      }
+    }
+  }
+  .bars-description {
+    color: $gray-base-2;
+    display: flex;
+    font-size: 22px;
+    flex-direction: column;
+    justify-content: flex-end;
+    line-height: 1.8;
+    min-height: 200px;
+    padding-left: 20px;
+    @include for-phone-only {
+      min-height: auto;
+      padding-left: 0;
+      text-align: center;
+    }
+    p {
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+  .highlighted-colors--text {
+    color: #444;
+    margin: 45px auto 0;
+    @include for-phone-only {
+      margin: 10px auto 0;
+    }
+    p {
+      font-weight: 500;
+      margin: 0
+    }
+    a {
+      color: $orange-2;
+    }
+  }
+  main .container {
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    #block-performant-labs-breadcrumbs,
+    .block-local-tasks-block {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .alert-status {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  footer.navbar {
+    @include for-desktop-up {
+      margin-top: 53px !important;
+    }
+  }
+}

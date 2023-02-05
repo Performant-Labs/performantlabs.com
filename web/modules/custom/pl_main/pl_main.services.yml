@@ -1,0 +1,6 @@
+services:
+  paramconverter.latest_revision:
+    class: Drupal\Core\ParamConverter\EntityConverter
+    tags:
+      - { name: paramconverter }
+    arguments: [ '@entity_type.manager', '@entity.repository' ]

@@ -1,0 +1,15 @@
+pre {border-bottom: 1px solid #cacaca;margin:0; padding:10px 0;}
+
+#buttons {display:flex; padding-bottom:10px; margin-bottom:10px;border-bottom: 1px #cacaca dotted;}
+
+span {background-color:#F4F5F7;font-size:10px;font-weight:bold;border-radius: 3px;margin:5px;padding:5px;word-break: break-all;color:rgb(23, 43, 77)}
+
+.m1 {display: flex;}
+
+.m1 label {min-width:80px; text-align: right; margin-right: 5px;}
+
+.m1 textarea {width:100%;}
+
+#query {border-top:1px solid #cacaca; margin-top: 10px;}
+
+.pm, .luke-id {cursor: pointer;}

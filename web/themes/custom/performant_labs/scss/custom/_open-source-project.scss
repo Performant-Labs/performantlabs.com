@@ -1,0 +1,69 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Open Source Projects.
+ */
+.pl-section-columns {
+  .layout__region--first,
+  .layout__region--second,
+  .layout__region--third {
+    padding-bottom: 25px;
+  }
+  .layout__region--first {
+    background: rgba(224, 228, 204,0.3);
+  }
+  .layout__region--second {
+    background: rgba(167, 219, 216, 0.3);
+  }
+  .layout__region--third {
+    background: rgba(224, 228, 204,0.3);
+  }
+  .data-col .center {
+    .image-component img {
+      max-height: 95%;
+      max-width: 68%;
+      @include for-phone-only {
+        max-height: 95%;
+        max-width: 80%;
+      }
+    }
+  }
+  .data-col.data-right .center img {
+    @include for-desktop-up {
+      height: auto;
+      max-width: 300px;
+    }
+  }
+  .data-col.data-left .center img {
+    @include for-desktop-up {
+      height: auto;
+      max-width: 230px;
+    }
+  }
+  .data-col {
+    padding-top: 40px;
+  }
+  .view-articles {
+    padding: 0 30px 40px;
+    .article-teaser--info {
+      border-bottom: solid 1px $light-gray2;
+    }
+    .views-row:last-child {
+      .article-teaser--info {
+        border-bottom: 0;
+      }
+    }
+    .field--name-field-display-title h2 {
+      font-size: 25px;
+      line-height: 1.4;
+    }
+  }
+  .layout__region--first,
+  .layout__region--second,
+  .layout__region--third {
+    @include for-tablet-landscape-down {
+      flex: 0 1 100%;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Performant Labs Theme",
+  "version": "1.0.0",
+  "author": "Andre Angelantoni",
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "compass": "^0.1.1",
+    "grunt": "1.5.3",
+    "grunt-contrib-compass": "^1.1",
+    "grunt-contrib-sass": "^2.0",
+    "grunt-contrib-watch": "^1.1"
+  }
+}

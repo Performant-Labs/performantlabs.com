@@ -1,0 +1,16 @@
+#!/bin/bash
+if ! [ -x "$(command -v dyff)" ]; then
+    echo "dyff command not found, installing .."
+    wget https://github.com/homeport/dyff/releases/download/v1.5.2/dyff_1.5.2_linux_amd64.tar.gz -P /tmp
+    tar -zxvf /tmp/dyff_1.5.2_linux_amd64.tar.gz -C /tmp
+    sudo cp /tmp/dyff /usr/bin/
+fi
+find "$1/" "$2/" -type f -printf '%P\n' | sort | uniq -d | egrep -i '(.yml|.yaml)$' >/tmp/dyff_list
+for FILE in $(cat /tmp/dyff_list); do
+    dyff between $1/$FILE $2/$FILE >/tmp/dyff_result
+    if grep -q "returned no differences" /tmp/dyff_result; then
+        true
+    else
+        cat /tmp/dyff_result
+    fi
+done

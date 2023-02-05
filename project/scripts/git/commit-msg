@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Fetch the current branch.
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+# Check commit messages only on feature branches.
+if [ "${CURRENT_BRANCH:0:7}" != "feature" ]
+  then
+    echo "Not in a feature branch. Not checking commit message format."
+    exit 0
+fi
+
+# For this project, the acceptable message patterns are:
+# "WW2-0001: Some pithy message."
+# "merge"
+#
+# The regex for the above:
+COMMIT_REGEX='(^[a-zA-Z0-9]{3,4}-[0-9]{3,}: [A-Za-z0-9 ]{5,50}.|[Mm]erge)'
+ERROR_MSG="Aborting commit. Your commit message is missing either a JIRA Issue ('PID-11111: Some pithy message.') or 'merge'. PID corresponds to 3 or 4 chars JIRA project. (WW2, UX21, ...) "
+
+if ! grep -iqE "${COMMIT_REGEX}" "$1"; then
+    echo "${ERROR_MSG}" >&2
+    exit 1
+fi

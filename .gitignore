@@ -1,0 +1,68 @@
+# Drupal scaffold files.
+.editorconfig
+.gitattributes
+web/.csslintrc
+web/.eslintignore
+web/.eslintrc.json
+web/.ht.router.php
+web/.htaccess
+web/example.gitignore
+web/index.php
+web/INSTALL.txt
+web/README.md
+web/update.php
+web/web.config
+web/modules/README.txt
+web/profiles/README.txt
+web/themes/README.txt
+
+# Drupal core, contributed modules and vendor.
+vendor
+web/autoload.php
+web/robots.txt
+web/core
+web/libraries
+web/modules/contrib
+web/themes/contrib
+
+# User files including images.
+web/sites/*/files
+web/sites/*/private
+web/files/*
+web/sites/default/**/files
+web/sites/default/**/private
+private/files/**/.jpg
+private/files/**/.jpeg
+private/files/**/.png
+private/files/**/.svg
+private/files/**/.gif
+private/files/**/.webp
+private/files/**/.avi
+private/files/**/.jpeg
+private/files/**/.mp4
+private/files/**/.wmv
+private/files/**/.mov
+private/files/**/.avi
+private/files/**/.flv
+
+# Working files.
+*.sql
+*.mysql
+*.sql.gz
+*.mysql.gz
+*.log
+*.gz
+
+# PHPStorm
+.idea
+
+# OS generated files.
+.DS_Store*
+ehthumbs.db
+Thumbs.db
+._*
+
+# Node modules.
+/node_modules
+/web/themes/custom/performant_labs/node_modules
+
