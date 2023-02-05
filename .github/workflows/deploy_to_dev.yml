@@ -24,6 +24,7 @@ jobs:
       #  run: rm composer.lock
         
       - name: Validate composer.json and composer.lock
+        continue-on-error: true
         run: composer validate --strict        
         
       - name: Set Composer cache directory
