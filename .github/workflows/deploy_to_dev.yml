@@ -4,6 +4,9 @@ on: [push]
 
 env:
   php_version: '8.1'
+  pantheon_env: 'dev'
+  pantheon_repo: ${{ secrets.PANTHEON_REPO }}
+  pantheon_site_name: ${{ secrets.PANTHEON_SITE_NAME }}
   
 jobs:
   Deploy-to-Dev:
@@ -16,6 +19,8 @@ jobs:
         
       - name: Set up PHP
         uses: shivammathur/setup-php@2.24.0
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
           php-version: ${{ env.php_version }}
           
@@ -38,13 +43,13 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-        
+
+      - name: Avoid GitHub rate limit for Composer
+        run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
       - name: Composer install
         run: composer install --no-dev --no-interaction
       
-      #- name: Avoid GitHub rate limit for Composer
-      #  run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-
       - name: List the directories in the project
         run: tree -d -L 3
         
