@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is deploying to Pantheon Dev.
 on: [push]
 
 env:
-  php_version: '8.2'
+  php_version: '8.1'
   
 jobs:
   Deploy-to-Dev:
