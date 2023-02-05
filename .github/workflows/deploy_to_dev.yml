@@ -18,9 +18,13 @@ jobs:
         uses: shivammathur/setup-php@2.24.0
         with: 
           php-version: ${{ env.php_version }}
+          
+      - name: Remove composer.lock
+        run: rm composer.lock
         
       - run: composer update
-      - run: php -v
+
       - name: List the directories in the project
         run: tree -d -L 3
+        
       - run: echo "🍏 This job's status is ${{ job.status }}."
