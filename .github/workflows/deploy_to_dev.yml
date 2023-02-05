@@ -55,8 +55,6 @@ jobs:
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
-          
-      - run: ls ~/.ssh
       
       - name: Install Terminus
         run: |
