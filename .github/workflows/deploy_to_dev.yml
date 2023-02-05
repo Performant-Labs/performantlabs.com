@@ -40,7 +40,7 @@ jobs:
             ${{ runner.os }}-composer-        
         
       - name: Composer install
-        run: composer install --nod-dev --no-interaction
+        run: composer install --no-dev --no-interaction
       
       #- name: Avoid GitHub rate limit for Composer
       #  run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
