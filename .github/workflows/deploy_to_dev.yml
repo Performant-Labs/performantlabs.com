@@ -54,7 +54,16 @@ jobs:
         uses: shimataro/ssh-key-action@v2.5.0
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}        
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
+          
+      - run: ls ~/.ssh
+      
+      - name: Install Terminus
+        # We use cgr to avoid dependency conflicts
+        run: |
+          composer global require consolidation/cgr:^2.0.5
+          cgr pantheon-systems/terminus:^3.1.3
+          terminus auth:login --machine-token=${{ secrets.PANTHEON_MACHINE_TOKEN }}
       
       - name: List the directories in the project
         run: tree -d -L 3
