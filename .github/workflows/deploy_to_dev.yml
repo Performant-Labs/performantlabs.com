@@ -47,4 +47,4 @@ jobs:
       - name: List the directories in the project
         run: tree -d -L 3
         
-      - run: echo "🍏 Job's status: ${{ job.status }}."
+      - run: echo "🍏 Job's status ${{ job.status }}."
