@@ -781,10 +781,12 @@ else {
  */
 if (!isset($settings['trusted_host_patterns'])) $settings['trusted_host_patterns'] = [];
 array_push($settings['trusted_host_patterns'],
-  '^\performantlabs\.com$',
+'^performantlabs\.com$',
+  '^performantlabs-com$',
   '^.+\.performantlabs\.com$',
   '^.+\.pantheonsite\.io$',
-  '^.+\.performantlabs$',);
+  '^.+\.performantlabs$');
+
 
 /**
  * Redirect for SSL.
