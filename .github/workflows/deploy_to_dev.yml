@@ -13,8 +13,8 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - run: pwd
+      - run: composer -v
       - run: composer update
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
+      - name: List the directories in the project
+        run: tree -d
       - run: echo "🍏 This job's status is ${{ job.status }}."
