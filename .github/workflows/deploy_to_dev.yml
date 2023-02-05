@@ -19,12 +19,32 @@ jobs:
         with: 
           php-version: ${{ env.php_version }}
           
-      - name: Remove composer.lock
-        run: rm composer.lock
+      # When dependencies are to be updated, remove the lock file.    
+      #- name: Remove composer.lock
+      #  run: rm composer.lock
         
-      - run: composer update
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict        
+        
+      - name: Set Composer cache directory
+        id: composer-cache-dir
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3.2.4
+        with:
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-        
+        
+      - name: Composer install
+      - run: composer install --nod-dev --no-interaction
+      
+      #- name: Avoid GitHub rate limit for Composer
+      #  run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
 
       - name: List the directories in the project
         run: tree -d -L 3
         
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "🍏 Job's status: ${{ job.status }}."
