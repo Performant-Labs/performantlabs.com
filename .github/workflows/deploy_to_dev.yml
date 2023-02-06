@@ -86,6 +86,12 @@ jobs:
 
       - name: Install drush globally.
         run: composer global require drush/drush
+        
+      - name: Run drush status to see if it works.
+        run: |
+          pwd
+          drush status
+        
       - name: Enable maintenance mode.
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
