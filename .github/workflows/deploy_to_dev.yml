@@ -67,6 +67,7 @@ jobs:
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
               IdentitiesOnly yes
+              StrictHostKeyChecking no
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
           if_key_exists: replace
       
