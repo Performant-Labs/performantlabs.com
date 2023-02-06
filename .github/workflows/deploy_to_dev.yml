@@ -49,7 +49,7 @@ jobs:
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
       #- name: Composer install.
-      #  run: composer install --no-dev --no-interaction --no-progress
+      #  run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress --no-suggest
         
       - name: Show values.
         run: |
@@ -60,8 +60,15 @@ jobs:
         uses: shimataro/ssh-key-action@v2.5.0
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
-          config: ${{ secrets.SSH_CONFIG }}
+          config: |
+          Host *.drush.in
+            IdentityFile ~/.ssh/id_rsa
+            User aangelantoni 
+            HostKeyAlgorithms +ssh-rsa
+            PubkeyAcceptedAlgorithms +ssh-rsa
+            IdentitiesOnly yes
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
+          if_key_exists: replace
       
       - name: Install Terminus.
         run: |
@@ -70,6 +77,9 @@ jobs:
 
       - name: List the directories in the project.
         run: tree -d -L 3
+        
+      - name: Show connection info.
+        run: terminus connection:info $pantheon_site_name.$pantheon_env
 
       - name: Enable maintenance mode.
         run: |
@@ -93,4 +103,9 @@ jobs:
           #git add --force .
           #git commit -m "Automated deploy: $commit_message" >/dev/null
  
+      - name: Terminus Drush updates.
+        run: |
+          #terminus remote:drush $pantheon_site_name.$pantheon_env -- deploy -y
+          #terminus env:clear-cache $pantheon_site.$pantheon_env
+          
       - run: echo "🍏 Job's status ${{ job.status }}."
