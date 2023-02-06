@@ -55,6 +55,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2.5.0
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          name: id_rsa
           config: |
             Host *.drush.in
               IdentityFile ~/.ssh/id_rsa
