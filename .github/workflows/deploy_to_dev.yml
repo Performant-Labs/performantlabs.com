@@ -61,12 +61,12 @@ jobs:
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
           config: |
-          Host *.drush.in
-            IdentityFile ~/.ssh/id_rsa
-            User aangelantoni 
-            HostKeyAlgorithms +ssh-rsa
-            PubkeyAcceptedAlgorithms +ssh-rsa
-            IdentitiesOnly yes
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa
+              User aangelantoni 
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              IdentitiesOnly yes
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
           if_key_exists: replace
       
