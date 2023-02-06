@@ -4,9 +4,7 @@ on: [push]
 
 env:
   php_version: '8.1'
-  pantheon_repo: ${{ secrets.PANTHEON_REPO }}
-  pantheon_site_name: ${{ secrets.PANTHEON_SITE_NAME }}
-  #pantheon_site_name: 'performant-labs'
+  pantheon_site_name: 'performant-labs'
   pantheon_env: 'dev'
   
 jobs:
