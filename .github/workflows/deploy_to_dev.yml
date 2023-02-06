@@ -6,7 +6,7 @@ env:
   php_version: '8.1'
   pantheon_repo: ${{ secrets.PANTHEON_REPO }}
   #pantheon_site_name: ${{ secrets.PANTHEON_SITE_NAME }}
-  pantheon_sie_name: 'performant-labs'
+  pantheon_site_name: 'performant-labs'
   pantheon_env: 'dev'
   
 jobs:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "For site $pantheon_site_name.$pantheon_env."
+      - run: echo "For site ${{pantheon_site_name}}.${{pantheon_env}}."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
       - name: Check out repository code.
@@ -51,7 +51,7 @@ jobs:
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
       #- name: Composer install.
-      #  run: composer install --no-dev --no-interaction
+      #  run: composer install --no-dev --no-interaction --no-progress
         
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
