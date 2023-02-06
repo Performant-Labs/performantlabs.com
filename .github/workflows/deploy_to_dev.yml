@@ -51,6 +51,11 @@ jobs:
       #- name: Composer install.
       #  run: composer install --no-dev --no-interaction --no-progress
         
+      - name: Show values.
+        run: |
+          echo "private key ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}"
+          echo "known hosts ${{ secrets.SSH_KNOWN_HOSTS }}"
+        
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
         with:
@@ -64,7 +69,7 @@ jobs:
       
       - name: List the directories in the project.
         run: tree -d -L 3
-        
+              
       - name: Enable maintenance mode.
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
