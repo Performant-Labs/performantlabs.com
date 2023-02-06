@@ -70,10 +70,9 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
           if_key_exists: replace
-      
+  
       - name: Install Terminus as standalone command to avoid dependency interference.
         run: |
-          #composer global require pantheon-systems/terminus:^3.1.3
           TERMINUS_RELEASE=$(curl --silent "https://api.github.com/repos/pantheon-systems/terminus/releases/latest" | perl -nle'print $& while m#"tag_name": "\K[^"]*#g')
           curl -L https://github.com/pantheon-systems/terminus/releases/download/$TERMINUS_RELEASE/terminus.phar --output /usr/local/bin/terminus
           chmod +x /usr/local/bin/terminus
@@ -85,6 +84,8 @@ jobs:
       - name: Show connection info.
         run: terminus connection:info $pantheon_site_name.$pantheon_env
 
+      - name: Install drush globally.
+        run: composer global require drush/drush
       - name: Enable maintenance mode.
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
