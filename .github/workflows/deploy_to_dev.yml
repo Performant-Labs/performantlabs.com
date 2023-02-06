@@ -71,8 +71,9 @@ jobs:
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
           #terminus remote:drush $pantheon_site_name.$pantheon_env -- sset system.maintenance_mode 1
-          terminus remote:drush performant-labs.dev -- sget system.maintenance_mode
-          terminus remote:drush performant-labs.dev -- sset system.maintenance_mode 1
+          #terminus remote:drush performant-labs.dev -- sget system.maintenance_mode
+          #terminus remote:drush performant-labs.dev -- sset system.maintenance_mode 1
+          terminus remote:drush performant-labs.dev -- status
         
       - name: Prepare code for deployment.
         run: |
