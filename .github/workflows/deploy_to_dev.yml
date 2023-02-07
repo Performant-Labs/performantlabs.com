@@ -97,7 +97,7 @@ jobs:
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
           # Pantheon needs special .gitignore
-          cp .gitignore.pantheon .gitignore
+          cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
           rm -rf web/core/*.txt
           git init
