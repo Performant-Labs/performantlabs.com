@@ -77,7 +77,7 @@ jobs:
       - name: List the directories in the project.
         run: |
           #tree -d -L 3
-          #terminus connection:info performant-labs.dev
+          terminus connection:info performant-labs.dev
                 
       - name: Enable maintenance mode.
         run: |
