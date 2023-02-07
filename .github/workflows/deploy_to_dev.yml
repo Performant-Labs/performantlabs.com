@@ -51,21 +51,30 @@ jobs:
       - name: Composer install.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
                 
-      #- name: Install SSH Key.
-      #  uses: shimataro/ssh-key-action@v2.5.0
-      #  with:
-      #    key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
-      #    name: id_rsa
-      #    config: |
-      #      Host *.drush.in
-      #        IdentityFile ~/.ssh/id_rsa
-      #        User aangelantoni 
-      #        HostKeyAlgorithms +ssh-rsa
-      #        PubkeyAcceptedAlgorithms +ssh-rsa
-      #        IdentitiesOnly yes
-      #        StrictHostKeyChecking no
-      #    known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
-      #    if_key_exists: replace
+      - name: Install SSH Key.
+        uses: shimataro/ssh-key-action@v2.5.0
+        with:
+          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          name: id_rsa
+          config: |
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa
+              User aangelantoni 
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              IdentitiesOnly yes
+              StrictHostKeyChecking no
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
+          if_key_exists: replace
+          
+      - name: Start SSH agent.
+        run: |
+          chmod 400 ~/.ssh/id_rsa
+          eval `ssh-agent`
+          ssh-add ~/.ssh/id_rsa
+          
+      - name: Test SFTP.
+        run: sftp -o Port=2222 dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@appserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
   
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
