@@ -25,10 +25,6 @@ jobs:
         with: 
           php-version: ${{ env.php_version }}
           
-      # When dependencies are to be updated, remove the lock file.    
-      #- name: Remove composer.lock.
-      #  run: rm composer.lock
-        
       - name: Validate composer.json and composer.lock.
         continue-on-error: true
         run: composer validate --strict        
@@ -67,7 +63,7 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
           if_key_exists: replace
           
-      - name: Start SSH agent.
+      - name: Start SSH agent and add key.
         run: |
           chmod 400 ~/.ssh/id_rsa
           eval `ssh-agent`
@@ -94,20 +90,27 @@ jobs:
 
       - name: Prepare code for deployment.
         run: |
-          git config --global user.email "github-actions@example.com"
-          git config --global user.name "GitHub Actions"
+          git config user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+          git config user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
           # Pantheon needs special .gitignore
           cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
           rm -rf web/core/*.txt
           git init
-          # This cleans extra .git directories, creates a new branch, commits
-          # the artifact and pushes it to Pantheon.
-          terminus build:env:push $pantheon_site_name.$pantheon_env --message="${{ github.actor }}: CI Deployment for: $commit_message"
+          # Cleans extra .git directories otherwise the directory will be interpreted by git
+          # as a submodule and will not be added to the repo.
+          find ./web -type d -name ".git" | xargs rm -fr
+          # Remove because files are handled separately by Pantheon.
+          rm -Rf web/sites/default/files
+          git remote add pantheon ${{secrets.PANTHEON_REPO}}
+          git checkout -B master
+          git add --force -A .
+          git commit -q -m "Build assets for $pantheon_site_name.$pantheon_env."
+          git push --force -q pantheon master
  
       - name: Terminus Drush updates.
         run: |
-          #terminus remote:drush $pantheon_site_name.$pantheon_env -- deploy -y
-          #terminus env:clear-cache $pantheon_site.$pantheon_env
+          terminus remote:drush $pantheon_site_name.$pantheon_env -- deploy -y
+          terminus env:clear-cache $pantheon_site.$pantheon_env
           
       - run: echo "🍏 Job's status ${{ job.status }}."
