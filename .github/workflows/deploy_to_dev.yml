@@ -65,6 +65,7 @@ jobs:
           
       - name: Start SSH agent in the background and add key.
         run: |
+          cat ~/.ssh/id_rsa
           chmod 400 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
