@@ -97,17 +97,18 @@ jobs:
           
       - name: Deploy.
         run: |
-          sftp -o Port=2222 dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@appserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
           git init
           git config user.name "Github Action"
           git config user.email "build-action@example.com"
           git remote add pantheon ${{secrets.PANTHEON_REPO}}
+          echo "Performing fetch."
+          git pull
           git checkout -B master
           echo "Adding even .gitignored files."
           git add --force -A .
           git commit -q -m "Build assets for $pantheon_site_name.$pantheon_env."
           echo "Pushing build to Pantheon."
-          git push --force -q pantheon master
+          #git push --force -q pantheon master
           echo "Push complete."
  
       - name: Terminus Drush updates.
