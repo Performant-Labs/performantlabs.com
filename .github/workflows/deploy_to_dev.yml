@@ -96,8 +96,6 @@ jobs:
         run: |
           git config --global user.email "github-actions@example.com"
           git config --global user.name "GitHub Actions"
-          commit_message=$(git log -1 --pretty=%B)
-          echo $commit_message
           # Pantheon needs special .gitignore
           cp .gitignore.pantheon .gitignore
           rm -rf .git .github .idea
