@@ -73,7 +73,13 @@ jobs:
         uses: pantheon-systems/terminus-github-actions@main
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-
+          
+      - name: Install Terminus build tools
+        shell: bash
+        if: success()
+        run: |
+          terminus self:plugin:install terminus-build-tools-plugin
+          
       - name: List the directories in the project.
         run: |
           tree -d -L 3
