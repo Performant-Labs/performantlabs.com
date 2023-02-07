@@ -73,12 +73,7 @@ jobs:
         uses: pantheon-systems/terminus-github-actions@main
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          
-      - name: Install Terminus build tools
-        shell: bash
-        if: success()
-        run: |
-          terminus self:plugin:install terminus-build-tools-plugin
+        
           
       - name: List the directories in the project.
         run: |
@@ -89,18 +84,18 @@ jobs:
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
           terminus remote:drush $pantheon_site_name.$pantheon_env -- sset system.maintenance_mode 1
-          terminus remote:drush $pantheon_site_name.$pantheon_env -- status
-          ssh -vT codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
+          #terminus remote:drush $pantheon_site_name.$pantheon_env -- status
+          #ssh -vT codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
 
       - name: Prepare code.
         run: |
           # Pantheon needs special .gitignore
-          cp .pantheon.gitignore .gitignore
+          # cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
           rm -rf web/core/*.txt
           # Cleans extra .git directories otherwise the module will be interpreted by git
           # as a submodule and will not be added to the repo.
-          echo "Deleting all occurances of .git in modules."
+          echo "Deleting all occurrences of .git in modules."
           find ./web -type d -name ".git" | xargs rm -fr
           # Remove because files are handled separately by Pantheon.
           rm -Rf web/sites/default/files
@@ -118,7 +113,7 @@ jobs:
           git add --force -A .
           git commit -q -m "Build assets for $pantheon_site_name.$pantheon_env."
           echo "Pushing build to Pantheon."
-          #git push --force -q pantheon master
+          git push --force -q pantheon master
           echo "Push complete."
  
       - name: Terminus Drush updates.
