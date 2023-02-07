@@ -82,10 +82,8 @@ jobs:
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
           terminus remote:drush $pantheon_site_name.$pantheon_env -- sset system.maintenance_mode 1
 
-      - name: Prepare code for deployment.
+      - name: Prepare code and deploy.
         run: |
-          git config user.name "Github Action"
-          git config user.email "build-action@example.com"
           # Pantheon needs special .gitignore
           cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
@@ -96,6 +94,8 @@ jobs:
           # Remove because files are handled separately by Pantheon.
           rm -Rf web/sites/default/files
           git init
+          git config user.name "Github Action"
+          git config user.email "build-action@example.com"
           git remote add pantheon ${{secrets.PANTHEON_REPO}}
           git checkout -B master
           echo "Adding even .gitignored files."
