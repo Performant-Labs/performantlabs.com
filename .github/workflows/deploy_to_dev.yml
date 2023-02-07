@@ -102,7 +102,7 @@ jobs:
           git config user.email "build-action@example.com"
           git remote add pantheon ${{secrets.PANTHEON_REPO}}
           echo "Performing fetch."
-          git pull
+          git fetch
           git checkout -B master
           echo "Adding even .gitignored files."
           git add --force -A .
