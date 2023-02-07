@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Page Diff v1.0</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<strong>Page Diff v1.0</strong>
+<div class="main">
+    <div class="if ">
+        <form action="#" id="ipcForm">
+            <div class="m1">
+                <label>Base URLs: </label><br />
+                <input id="src" type="text" size=20 value="" name="src" />
+                <input id="dest" type="text" size=20 value="" name="dest" />
+            </div>
+            <div class="m1">
+                <label>Region: </label><input size="4" id="region" type="text" value="" name="region" />
+                <label>Keywords: </label><input id="keywords" type="text" value="" name="keywords" />
+            </div>
+            <div class="m1">
+                <label>Find: </label><input id="link" size=20 type="text" value="" name="link" />
+                <input id="submit" type="submit" value="Submit" name="submit" />
+            </div>
+        </form>
+    </div>
+    <div id="response"></div>
+    <div id="tests"></div>
+    <script src="renderer.js"></script>
+</div>
+</body>
+</html>

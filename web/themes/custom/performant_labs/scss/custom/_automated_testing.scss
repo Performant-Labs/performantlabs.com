@@ -1,0 +1,1419 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Automated Testing page.
+ */
+.automated-testing-page {
+  main .container {
+    overflow: hidden;
+    @include for-desktop-up {
+      max-width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+  }
+  .layout--onecol .block-layout-builder-kit {
+    margin-bottom: 0;
+  }
+  .layout--fourcol-section {
+    background: rgba(99, 187, 204, 0.2);
+    padding: 25px 0;
+  }
+  .automated-testing-item {
+    h2 {
+      font-size: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      text-align: center;
+      width: 200px;
+      @include for-phone-only {
+        margin-top: 25px !important;
+        width: 100%;
+      }
+    }
+  }
+  .automated-testing-list--items {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    @include for-phone-only {
+      flex-direction: column;
+      max-width: 100%;
+    }
+    .layout__region {
+      flex: 0 1 25%;
+    }
+  }
+  .automated-testing-list {
+    margin: 0 0 50px;
+    @include for-phone-only {
+      margin: 0 0 10px;
+    }
+    h2.lbk-block--title {
+      @include for-phone-only {
+        font-size: 1.8rem;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+  .automated-testing-logos {
+    background: rgba(99, 187, 204, 0.2);
+    margin-bottom: 50px;
+    padding-bottom: 60px;
+    @include for-phone-only {
+      padding-bottom: 20px;
+    }
+    .lbk-block--title {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+// The circled check marks.
+.automated-testing-page .pl-section-medium {
+  width: 901px;
+}
+
+.automated-testing-page {
+  .automated-testing--not-sure-image {
+    margin: 68px 0 100px;
+    @include for-phone-only {
+      margin-bottom: 15px;
+    }
+
+    img {
+      max-width: 100%;
+      @include for-phone-only {
+        max-width: 220px;
+      }
+    }
+
+    .image-component {
+      max-width: 100%;
+      @include for-phone-only {
+        text-align: center;
+      }
+    }
+  }
+
+  .automated-testing--not-sure-text {
+    padding-left: 95px;
+    margin-bottom: 100px;
+    @include for-phone-only {
+      margin-bottom: 50px;
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+
+    h2.lbk-block--title {
+      @include for-phone-only {
+        margin: 10px 0 25px !important;
+      }
+    }
+  }
+
+  .automated-testing-subtitle,
+  .automated-testing-list,
+  .automated-testing-logos {
+    .lbk-block--title {
+      text-align: center;
+    }
+  }
+
+  .automated-testing-subtitle {
+    background: rgba(99, 187, 204, 0.2);
+    padding: 50px 0 20px;
+
+    h2.lbk-block--title {
+      margin: 0 !important;
+    }
+  }
+
+  .automated-testing-list ul {
+    list-style-type: none;
+    margin-bottom: 50px;
+    padding: 0 30px;
+    @include for-phone-only {
+      margin-bottom: 20px;
+    }
+  }
+}
+$breakpoint: 750px;
+$heading-color: #43BAC0;
+
+* {
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1000px;
+  margin: 1em auto;
+  padding: 1em;
+}
+
+.is-striped { background-color: rgba(233,200,147,0.2) }
+
+
+/* Table column sizing
+================================== */
+.date-cell  { width: 20%; }
+.topic-cell  { width: 41%; }
+.access-link-cell  { width: 13%; }
+.replay-link-cell  { width: 13%; }
+.pdf-cell  { width: 13%; }
+
+/* Apply styles
+================================== */
+.Rtable {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 3em 0;
+  padding: 0;
+  box-shadow: 0 0 40px rgba(0,0,0,0.2);
+  
+  .Rtable-row {
+    width: 100%;
+    display: flex;
+    
+    .Rtable-cell {
+      box-sizing: border-box;
+      flex-grow: 1;
+      padding: 0.8em 1.2em;
+      overflow: hidden; // Or flex might break
+      list-style: none;
+
+      &.column-heading {
+        background-color: $heading-color;
+        color: white;
+        padding: 1em;
+      }
+
+      .Rtable-cell--heading {
+        display: none;
+      }
+
+      .Rtable-cell--content {
+        a {
+          font-size: 2em;
+          color: #333;
+        }
+        
+        .webinar-date {
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+/* Responsive
+==================================== */
+@media all and (max-width: $breakpoint) {
+  .is-striped {
+    background-color: white;
+  }
+  
+  .Rtable--collapse  {
+    display: block;
+    width: 100%;
+    padding: 1em;
+    box-shadow: none;
+    
+    .Rtable-row {
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 2em;
+      box-shadow: 0 0 40px rgba(0,0,0,0.2);
+      
+      .Rtable-cell {
+        width: 100% !important;
+        display: flex;
+        align-items: center;
+
+        .Rtable-cell--heading {
+          display: inline-block;
+          flex: 1;
+          max-width: 120px;
+          min-width: 120px;
+          color: $heading-color;
+          font-weight: 700;
+          border-right: 1px solid #ccc;
+          margin-right: 1em;
+        }
+
+        .Rtable-cell--content {
+          flex: 2;
+          padding-left: 1em;
+        }
+      }
+    }
+    
+    .topic-cell {
+      background-color: $heading-color;
+      color: white;
+      font-weight: 700;
+      order: -1;
+      
+      .Rtable-cell--content {
+        padding-left: 0 !important;
+      }
+    }
+    
+    .Rtable-row--head {
+      display: none;
+    }
+  }
+}
+
+// Non-Flex modernizer fallback
+.no-flexbox .Rtable {
+  display: block;
+  
+  &.Rtable-cell {
+    width: 100%;
+  }
+}
+.automated-testing--header-image img {
+  max-width: 100%;
+}
+.automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.PL-section-thin {
+  max-width: 96%;
+}
+.checkboxes-container {
+  text-align: center;
+}
+.checkboxes-container ul {
+  list-style-type:none;
+  width: 100%;
+  position: relative;
+}
+.checkboxes-container ul li{
+ display:inline-block;
+ width: 17%;
+ /* text-indent: -80px;
+  */
+ margin-left: 9%;
+ line-height: normal;
+ line-height: 22px;
+ position: relative;
+  text-align:left;
+}
+.checkboxes-container ul li::before {
+  content: '';
+  display: inline-block;
+  height: 65px;
+  width: 65px;
+  background-size: cover;
+  background-image: url('/sites/default/files/layout_builder_kit/CircledCheckmark%402x_0.png');
+  background-repeat: no-repeat;
+  left: -80px;
+  background-position: center center;
+  vertical-align: middle;
+  position: absolute;
+  top: -12px;
+}
+.automated-testing--wwu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto;
+  flex-direction: column;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  width: 100%;
+  text-align: center;
+}
+.automated-testing--wwu .lbk-icon-text--content.has-image {
+  text-align: center;
+  margin: auto;
+}
+.automated-testing--wwu--title h2 {
+  text-align: center;
+}
+.automated-testing--wwu .lbk-icon-text--image img {
+  width: 80px;
+  text-align: center;
+  margin: auto;
+}
+.pl-table .container {
+  display: grid;
+ /* grid containers */
+  grid-template-columns: repeat(4, 1fr);
+ /* four columns */
+  grid-template-rows: repeat(7, 1fr);
+ /* four rows */
+  grid-auto-flow: column;
+ /* in column direction */
+  border: 1px solid black;
+}
+.pl-table .column {
+  display: contents;
+ /* the child elements would be grid items */
+  border: 1px solid black;
+}
+.pl-table .cell {
+  border: 1px solid black;
+  padding: 5px;
+}
+.pl-table .column:first-child .cell {
+  background: black;
+  color: white;
+  border-bottom: 1px solid white;
+}
+.pl-table .column .cell {
+  line-height: normal;
+  font-size: 19px;
+  padding: 11px;
+  text-align: center;
+  font-size: 16px;
+  padding-left: 22%;
+  padding-right: 22%;
+}
+body .pl-table .column:first-child .cell {
+  text-align: left;
+  padding-left: 25px;
+  padding-right: 37%;
+}
+.header.blue {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  background: #50a2cc;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 28px;
+}
+.header.blue > h3 {
+  width: 25%;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 24px;
+}
+.white-border-arrow {
+  display: flex;
+  flex-direction: row;
+  background: #50a2cc;
+  margin: 0;
+  margin-bottom: 0px;
+  justify-content: flex-end;
+  align-content: center;
+  flex-wrap: nowrap;
+}
+.white-border-arrow h2 {
+  color: white;
+  border-top: 2px solid white;
+  width: 75%;
+  text-align: center;
+  padding-bottom: 31px;
+  margin: 0;
+  margin-top: 11px !important;
+}
+.header.yellow {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-end;
+  background: #ccbd50;
+  align-items: center;
+  margin: 0;
+  margin-bottom: 0px;
+  padding-top: 28px;
+  align-content: stretch;
+  align-items: flex-start;
+}
+.header.yellow > div {
+  width: 25%;
+  color: #050505;
+  text-align: center;
+}
+.header.yellow > div p {
+  line-height: 6px;
+}
+.pl-table .cell {
+  border: 1px solid #c0baba;
+}
+.pl-table .container {
+  border: 0;
+  padding: 0px !important;
+}
+.pl-table .cell {
+  border-top: 0px;
+  border-left: 0px;
+}
+.pl-table .column:first-child .cell {
+  background: black;
+  color: #fbfbfb;
+  border-bottom: 1px solid #6d6b6b;
+}
+.pl-table .cell {
+  position:relative;
+}
+.pl-table .cell .tick {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-left: 40%;
+}
+.cell.tick {
+  background: url('/sites/default/files/2022-12/tick.png');
+  background-repeat: no-repeat;
+  background-size: 40px;
+  background-position: center;
+}
+.automated-testing-page main .container {
+  overflow: hidden;
+}
+@media (min-width: 1200px) {
+  .automated-testing-page main .container {
+      max-width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+ }
+}
+.automated-testing-page .layout--onecol .block-layout-builder-kit {
+  margin-bottom: 0;
+}
+.automated-testing-page .layout--fourcol-section {
+  background: rgba(99, 187, 204, 0.2);
+  padding: 25px 0;
+}
+.automated-testing-page .service-item h2 {
+  font-size: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-align: center;
+  width: 200px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .service-item h2 {
+      margin-top: 25px !important;
+      width: 100%;
+ }
+}
+.automated-testing-page .services-list--items {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-list--items {
+      flex-direction: column;
+      max-width: 100%;
+ }
+}
+.automated-testing-page .services-list--items .layout__region {
+  flex: 0 1 25%;
+}
+.automated-testing-page .services-list {
+  margin: 0 0 50px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-list {
+      margin: 0 0 10px;
+ }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-list h2.lbk-block--title {
+      font-size: 1.8rem;
+      padding-left: 15px;
+      padding-right: 15px;
+ }
+}
+.automated-testing-page .services-logos {
+  background: rgba(99, 187, 204, 0.2);
+  margin-bottom: 50px;
+  padding-bottom: 60px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-logos {
+      padding-bottom: 20px;
+ }
+}
+.automated-testing-page .services-logos .lbk-block--title {
+  display: inline-block;
+  width: 100%;
+}
+.automated-testing-page .services-data--image {
+  margin: 68px 0 100px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-data--image {
+      margin-bottom: 15px;
+ }
+}
+.automated-testing-page .services-data--image img {
+  max-width: 100%;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-data--image img {
+      max-width: 220px;
+ }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-data--image .image-component {
+      text-align: center;
+ }
+}
+.automated-testing-page .services-data--desc {
+  padding-left: 95px;
+  margin-bottom: 100px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-data--desc {
+      margin-bottom: 50px;
+      padding-left: 25px;
+      padding-right: 25px;
+ }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-data--desc h2.lbk-block--title {
+      margin: 10px 0 25px !important;
+ }
+}
+.automated-testing-page .services-subtitle .lbk-block--title, .automated-testing-page .services-list .lbk-block--title, .automated-testing-page .services-logos .lbk-block--title {
+  text-align: center;
+}
+.automated-testing-page .services-subtitle {
+  background: rgba(99, 187, 204, 0.2);
+  padding: 50px 0 20px;
+}
+.automated-testing-page .services-subtitle h2.lbk-block--title {
+  margin: 0 !important;
+}
+.automated-testing-page .services-list ul {
+  list-style-type: none;
+  margin-bottom: 50px;
+  padding: 0 30px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-list ul {
+      margin-bottom: 20px;
+ }
+}
+.automated-testing-page .services-logos ul {
+  align-items: center;
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-logos ul {
+      flex-direction: column;
+ }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .services-logos ul li {
+      margin-bottom: 50px;
+ }
+}
+.automated-testing-page .services-logos ul img {
+  max-width: 100px;
+  height: auto;
+  margin: 0 35px;
+}
+.automated-testing-page .services-logos ul li:nth-child(3) img {
+  max-width: 155px;
+}
+.automated-testing-page .service-item {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+@media (min-width: 1200px) {
+  .automated-testing-page .layout--threecol-section.PL-section-default {
+      padding-left: 100px;
+      padding-right: 100px;
+ }
+}
+.automated-testing-page .bars-image img {
+  max-height: 200px;
+  width: auto;
+}
+.automated-testing-page .bars-image {
+  padding-right: 20px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .bars-image {
+      padding-right: 0;
+ }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .bars-image .right {
+      text-align: center;
+ }
+}
+.automated-testing-page .bars-description {
+  color: #444;
+  display: flex;
+  font-size: 22px;
+  flex-direction: column;
+  justify-content: flex-end;
+  line-height: 1.8;
+  min-height: 200px;
+  padding-left: 20px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .bars-description {
+      min-height: auto;
+      padding-left: 0;
+      text-align: center;
+ }
+}
+.automated-testing-page .bars-description p {
+  font-weight: 400;
+  margin: 0;
+}
+.automated-testing-page .highlighted-colors--text {
+  color: #444;
+  margin: 45px auto 0;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .highlighted-colors--text {
+      margin: 10px auto 0;
+ }
+}
+.automated-testing-page .highlighted-colors--text p {
+  font-weight: 500;
+  margin: 0;
+}
+.automated-testing-page .highlighted-colors--text a {
+  color: #f56603;
+}
+.automated-testing-page main .container {
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+.automated-testing-page main .container #block-performant-labs-breadcrumbs, .automated-testing-page main .container .block-local-tasks-block {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.automated-testing-page main .container .alert-status {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+@media (min-width: 1200px) {
+  .automated-testing-page footer.navbar {
+      margin-top: 53px !important;
+ }
+}
+.pl-section-bg-img {
+  background: url('https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/space.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 30px 26%;
+  margin-bottom: 60px;
+}
+.automated-testing--header-image {
+  max-width: 75%;
+  margin-left: 0%;
+  width: 75%;
+}
+.automating-testing--header-title h1 {
+  color: #d7d771;
+  text-align: left !important;
+  font-size: 60px;
+  padding-bottom: 0px !important;
+  margin-bottom: 4px !important;
+}
+.automating-testing--header-title {
+  width: 80%;
+}
+.automating-testing--header-title h5 {
+  color: white;
+}
+.automating-testing--header-title p {
+  color: #f1eeee;
+}
+.lbk-rich-text-component.checkboxes-container {
+  margin-bottom: 120px;
+  margin-top: 120px;
+}
+.checkboxes-container ul li:first-child {
+  margin-left: 50px;
+}
+.automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50 {
+  padding: 30px 14% !important;
+}
+.not-sure-image {
+  max-width: 75%;
+  margin-left: 0%;
+  width: 75%;
+}
+.not-sure-image img {
+  width: 85%;
+}
+.automated-testing--wwu {
+  margin-top: 120px !important;
+}
+.automated-testing--wwu .lbk-icon-text--image {
+  width: 100%;
+  text-align: center;
+}
+.automated-testing--wwu .lbk-icon-text--image img {
+  width: 81px !important;
+}
+.automated-testing--wwu .lbk-icon-text--content {
+  color: white;
+  max-width: 180px !important;
+  padding-top: 12px;
+  display: block;
+}
+.lbk-rich-text-component.automated-testing--wwu--title {
+  position: absolute;
+  margin: auto;
+  left: 34%;
+}
+.lbk-rich-text-component.automated-testing--wwu--title h2 {
+  color: white;
+  text-align: center;
+  display: block;
+}
+.automated-testing--wwu .lbk-icon-text--content.has-image {
+  text-align: center;
+  margin: auto;
+  color: white !important;
+}
+.automated-testing--build-quality-into {
+  text-align: center;
+}
+.automated-testing-page div#block-performant-labs-breadcrumbs {
+  display: none;
+}
+.automated-testing-page .container {
+}
+.automated-testing-page header.navbar-expand-lg {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px;
+  border: 0px !important;
+}
+.automated-testing-page main .container {
+  padding-top: 0px;
+  margin-top: -5px;
+}
+.automated-testing--level-up {
+  background: url(https://dev-performant-labs.pantheonsite.io/sites/default/files/2022-12/LevelUp%402x.png);
+  background-size: cover;
+  min-height: 480px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.automated-testing--level-up h2, .automated-testing--level-up p {
+  color: white;
+  padding-left: 12%;
+  padding-top: 100px;
+  display: block;
+  font-size: 40px;
+}
+body .automated-testing--level-up p {
+  padding-top: 0px;
+  padding-bottom: 0px !important;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+/*FAQ CSS*/
+.faq-heading{
+  border-bottom: #777;
+  padding: 20px 60px;
+}
+.faq-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.hr-line{
+  width: 60%;
+  margin: auto;
+}
+/* Style the buttons that are used to open and close the faq-page body */
+.faq-page {
+ /* background-color: #eee;
+  */
+  color: #444;
+  cursor: pointer;
+  padding: 30px 20px;
+  width: 60%;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  margin: auto;
+}
+.faq-body{
+  margin: auto;
+ /* text-align: center;
+  */
+  width: 50%;
+  padding: auto;
+}
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .faq-page:hover {
+  background-color: #F9F9F9;
+}
+/* Style the faq-page panel. Note: hidden by default */
+.faq-body {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
+.faq-page:after {
+  content: '\02795';
+ /* Unicode character for "plus" sign (+) */
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+.automated-testing--faq .active::after {
+  content: "\2796";
+}
+.automated-testing--faq h1 {
+  font-size: 20px;
+  margin-bottom: 0px !important;
+  text-align: left !important;
+  padding: 15px 0px;
+  margin: 0px;
+  background: transparent;
+}
+.faq-body {
+  padding: 0px;
+  margin: 0px;
+}
+.automated-testing--faq {
+  padding: 30px 15%;
+}
+hr.hr-line {
+  margin: 0;
+}
+.lbk-rich-text-component.automated-testing--faq h2:first-child {
+  text-align: center;
+}
+.automated-testing--trusted-by {
+  padding: 30px 15%;
+}
+.automated-testing--trusted-by h2.lbk-block--title {
+  text-align: center;
+}
+.automated-testing--trusted-by ul.clients-list {
+  list-style: none;
+  display: block;
+  padding: 0;
+}
+.automated-testing--trusted-by ul.clients-list li {
+  display: inline-block;
+  max-width: 20%;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.automated-testing--trusted-by ul.clients-list li a img {
+  height: 30px;
+  margin: auto;
+  display: block;
+  width: 75%;
+  margin-right: 50px;
+}
+.automated-testing--we-work-with {
+  padding: 30px 15%;
+}
+.automated-testing--we-work-with h2 {
+  text-align: center;
+}
+.automated-testing--we-work-with ul.clients-list {
+  list-style: none;
+  display: block;
+  padding: 0;
+  text-align: center;
+}
+ul.clients-list {
+}
+.automated-testing--we-work-with ul.clients-list li {
+  display: inline-block;
+  margin-right: 25px;
+}
+.automated-testing--we-work-with ul.clients-list li img {
+  width: 130px;
+}
+@media only screen and (max-width: 600px){
+  .automating-testing--header-title h1 {
+      font-size: 29px;
+ }
+  .checkboxes-container ul li {
+      display: block;
+      width: 100%;
+      margin: 0px;
+      line-height: inherit;
+      width: auto;
+      height: 90px;
+      padding-left: 67px;
+      text-align: center;
+      text-align: left;
+ }
+  .checkboxes-container ul li::before {
+      left: -26px;
+ }
+  .checkboxes-container ul li:first-child {
+      margin: 0;
+ }
+  .lbk-rich-text-component.checkboxes-container {
+      margin-bottom: 0px;
+      margin-top: 0px;
+ }
+  .lbk-rich-text-component.automated-testing--wwu--title h2 {
+      text-align: left;
+      margin: 0px;
+      padding: 0;
+ }
+  .lbk-rich-text-component.automated-testing--wwu--title {
+      left: 10%;
+      width: 73%;
+ }
+  h1.faq-page {
+ }
+  .faq-page {
+      width: 100%;
+ }
+  hr.hr-line {
+      width: 100%;
+ }
+  .automated-testing--trusted-by {
+      padding-top: 0px;
+      padding-bottom: 0px;
+ }
+  img {
+ }
+  .automated-testing--trusted-by ul.clients-list li a img {
+      height: 40px;
+      width: 100%;
+ }
+  li {
+ }
+  li {
+ }
+  .automated-testing--trusted-by ul.clients-list li {
+      max-width: 32%;
+ }
+  .automated-testing--we-work-with {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      padding: 15px;
+ }
+  .automated-testing--we-work-with h2 {
+      text-align: center;
+      width: 100%;
+ }
+}
+section.faq-container>div, section.faq-container h1 {
+  width: 100%;
+}
+.hr-line {
+  width: 100%;
+}
+.white-border-arrow {
+  background: url('https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/white-arrow.png');
+  background-repeat: no-repeat;
+  background-color: #0093b3;
+  background-size: 74%;
+  background-position: 99% -9%;
+}
+.white-border-arrow h2 {
+  border: none;
+  padding-top: 30px;
+}
+body .header.blue {
+  background-color: #0093b3;
+}
+.pl-table .container .column .cell:first-child {
+  margin-top: 5px;
+}
+@media (max-width: 599px) {
+  .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu {
+      margin-top: 0px !important;
+ }
+  .layout.layout--threecol-section.layout--threecol-section--33-34-33.pl-section-bg-img {
+      padding-top: 166px;
+ }
+}
+.automated-testing--trusted-by ul.clients-list li:nth-child(5) {
+  max-width: 300px;
+}
+.automated-testing--trusted-by ul.clients-list li:nth-child(5) img {
+  height: 61px;
+}
+.automated-testing--wwu .lbk-icon-text--content.has-image {
+  padding-left: 0px;
+}
+.automated-testing--wwu .lbk-icon-text--content.has-image p{
+  font-weight:500;
+  font-size:18px;
+}
+@media only screen and (max-width: 600px){
+  .automating-testing--header-title {
+      width: 100%;
+ }
+  .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50 {
+      padding: 30px 20px !important;
+ }
+  .automating-testing--header-title h5 {
+      color: white;
+      margin-top: 26px;
+      margin-bottom: 15px;
+ }
+  .not-sure-image img {
+      width: 100%;
+ }
+  .not-sure-image {
+      max-width: 100%;
+      margin-left: 0%;
+      width: 100%;
+ }
+  .automated-testing--header-image {
+      max-width: 100%;
+      margin-left: 0%;
+      width: 100%;
+ }
+  .layout.layout--threecol-section.layout--threecol-section--33-34-33.pl-section-bg-img .block.block-layout-builder-kit.block-lbk-icon-text {
+      margin-bottom: 0px;
+ }
+  .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu .lbk-icon-text--content.has-image {
+      width: 100%;
+ }
+  .automated-testing--build-quality-into p {
+      padding: 0px 20px;
+      text-align: left;
+ }
+  .lbk-rich-text-component.automated-testing--build-quality-into h2.text-align-center {
+      text-align: left;
+      padding: 0px 20px;
+ }
+  .automated-testing--level-up h2, .automated-testing--level-up p {
+      color: white;
+      padding-left: 20px;
+      padding-top: 45px;
+      display: block;
+      font-size: 32px;
+      margin-bottom: 30px !important;
+      padding-bottom: 0px;
+ }
+  .automated-testing--level-up p {
+      color: white;
+      padding-left: 20px;
+      padding-top: 0px;
+      display: block;
+      font-size: 18px;
+      margin-bottom: 0px !important;
+      padding-bottom: 0px;
+ }
+  .automated-testing--level-up {
+      min-height: 400px;
+ }
+  .automated-testing--faq {
+      padding: 20px;
+ }
+  .lbk-rich-text-component.automated-testing--faq h2:first-child {
+      text-align: left;
+ }
+  .faq-body {
+      width: 100%;
+ }
+  .automated-testing--trusted-by {
+      padding: 0 20px;
+ }
+  .automated-testing--trusted-by h2.lbk-block--title {
+      text-align: left;
+ }
+  .automated-testing--trusted-by ul.clients-list li a img {
+      margin-bottom: 25px;
+ }
+  .automated-testing--we-work-with {
+      padding: 0 20px;
+ }
+  .automated-testing--we-work-with h2 {
+      text-align: left;
+      padding-top: 0px;
+      margin-top: 40px !important;
+ }
+  .automated-testing--we-work-with ul.clients-list {
+      text-align: left;
+ }
+  .automated-testing-page div#block-performantlabs h2 {
+      text-align: left;
+ }
+  .header.blue {
+      display: flex;
+      flex-direction: row;
+      background: #50a2cc;
+      align-items: center;
+      margin: 0p;
+      margin-bottom: 0px;
+      padding-top: 28px;
+      flex-wrap: nowrap;
+      align-content: stretch;
+      justify-content: flex-start;
+ }
+  .header.blue > h3 {
+      width: 100%;
+      color: white;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 300;
+      font-size: 16px;
+ }
+  .white-border-arrow h2 {
+      color: white;
+      border-top: 0;
+      width: 100%;
+      text-align: center;
+      padding-bottom: 3px;
+      margin: 0;
+      margin-top: -13px !important;
+      font-size: 22px;
+      margin-bottom: 8px !important;
+ }
+  .white-border-arrow {
+      background: url(https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/white-arrow.png);
+      background-repeat: no-repeat;
+      background-color: #0093b3;
+      background-size: 93%;
+      background-position: 90% 0%;
+ }
+  .header.yellow {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: flex-start;
+      background: #ccbd50;
+      margin: 0;
+      margin-bottom: 0px;
+      padding-top: 28px;
+      align-content: stretch;
+      align-items: flex-start;
+ }
+  .header.yellow > div {
+      width: 100%;
+      color: #050505;
+      text-align: center;
+ }
+  .header.yellow > div p {
+     line-height: 14px;
+     font-size: 14px;
+     margin-bottom: 9px;
+ }
+  .header.yellow > div h5 {
+      font-size: 18px;
+ }
+  body .pl-table .column:first-child .cell {
+      text-align: left;
+      padding-left: 10px;
+      padding-right: 13px;
+      font-size: 12px;
+ }
+  .pl-table .column .cell {
+      line-height: normal;
+      font-size: 19px;
+      padding: 5px 2px;
+      text-align: center;
+      font-size: 12px;
+      padding-left: 2px;
+      padding-right: 2px;
+ }
+  .cell.tick {
+      background-size: 25px;
+ }
+  .header.yellow > div p {
+      line-height: 12px;
+      font-size: 12px;
+ }
+  .header.yellow {
+      padding-left: 25%;
+ }
+  .header.blue {
+      padding-left: 25%;
+ }
+  .white-border-arrow {
+      padding-left: 25%;
+ }
+  .white-border-arrow {
+      background: url(https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/white-arrow.png);
+      background-repeat: no-repeat;
+      background-color: #0093b3;
+      background-size: 70%;
+      background-position: 94% 0%;
+ }
+  .header.yellow > div:last-child {
+      padding-right: 3px;
+ }
+  .automating-testing--header-title h1 {
+      font-size: 39px;
+      margin-top: 12vh;
+      margin-bottom: 12vh !important;
+      text-align: center !important;
+      font-size: 1.9rem;
+      padding: 0 1.2em !important;
+ }
+  .automating-testing--header-title h5 {
+      color: white;
+      margin-top: 26px;
+      margin-bottom: 15px;
+      text-align: left;
+      margin-bottom: 2vh;
+ }
+  .automating-testing--header-title h1 {
+      font-size: 39px;
+      margin-top: 12vh;
+      margin-bottom: 12vh !important;
+      text-align: center !important;
+      font-size: 1.9rem;
+      padding: 0 1.2em !important;
+ }
+  .automating-testing--header-title h5 {
+      color: white;
+      margin-top: 26px;
+      margin-bottom: 15px;
+      text-align: left;
+      margin-bottom: 2vh;
+ }
+  body.automated-testing-page p, body.automated-testing-page h2, body.automated-testing-page h3, body.automated-testing-page h5, body.automated-testing-page div{
+     text-align:center !important;
+ }
+  .lbk-rich-text-component.automated-testing--wwu--title {
+      left: 0;
+      width: 70%;
+      margin: auto;
+      display: block;
+      left: 15%;
+      text-align: center !important;
+ }
+}
+@media (min-width:600px) and (max-width:1200px) {
+  .pl-section-bg-img {
+      padding: 0px;
+ }
+}
+@media (min-width:300px) and (max-width:960px) {
+  .header.yellow > div h5 {
+      font-size: 14px;
+ }
+  .header.yellow > div p {
+      font-size: 10px;
+ }
+  .header.blue {
+      padding-top: 13px;
+      padding-bottom: 0px !important;
+      border: 0px !important;
+      margin-bottom: -1px;
+ }
+  .header.blue > h3 {
+      font-size: 14px;
+ }
+  .white-border-arrow {
+      background-position: 99% 0%;
+ }
+  .header.blue > h3 {
+      padding-bottom: 0px !important;
+      margin-bottom: 0px;
+ }
+  .pl-table .column .cell {
+      vertical-align: middle !important;
+ }
+  .pl-table .column .cell {
+      text-align: center !important;
+      vertical-align: middle !important;
+ }
+}
+body .pl-table .column:first-child .cell {
+  padding-top: 17px;
+  margin-bottom: -7px !important;
+  border-bottom: 8px solid #8b8888 !important;
+}
+body .pl-table .column:first-child .cell {
+  padding-top: 17px;
+  margin-bottom: -7px !important;
+  border-bottom: 8px solid #8b8888 !important;
+}
+.lbk-rich-text-component.automated-testing--wwu--title {
+  width: 100%;
+  left: 0;
+}
+.lbk-rich-text-component.automated-testing--wwu--title h2 {
+  padding: 0px 35px;
+}
+body .lbk-rich-text-component.automated-testing--level-up p {
+  max-width: 580px;
+}
+.automated-testing--trusted-by ul.clients-list {
+  text-align: center;
+  line-height: 50px;
+}
+@media (min-width:0px) and (max-width:1190px) {
+  .automated-testing--faq {
+      padding: 30px 15px;
+ }
+}
+.faq-body {
+  width: 96%;
+}
+.faq-page:after {
+  margin-right: 10px;
+}
+.automated-testing--faq h1 {
+  text-indent: 10px;
+}
+@media (min-width:0px) and (max-width:600px) {
+  .container h1 {
+      font-size: 14px;
+      text-indent: 10px;
+ }
+}
+body.automated-testing-page .automated-testing--faq p {
+  text-align: left !important;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+@media (min-width:601px) and (max-width:640px) {
+  .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu.train-team, .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu.save-money {
+      margin-top: 0px !important;
+      margin-bottom: 0px !important;
+ }
+}
+@media (min-width:640px) and (max-width:730px) {
+  .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu *{
+      font-size:15px !important;
+ }
+}
+@media (min-width:600px) and (max-width:990px) {
+  body .checkboxes-container ul li {
+      display: block !important;
+      margin-top: 33px !important;
+      margin: auto !important;
+      margin-top: 92px !important;
+      width: 160px;
+ }
+  body .checkboxes-container ul {
+      width: 100%;
+      display: block;
+      text-align: center;
+ }
+}
+.automated-testing--trusted-by ul.clients-list li a img{
+  max-width: 100%;
+  height: auto;
+  width: auto\9;
+ /* ie8 */
+}

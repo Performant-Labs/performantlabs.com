@@ -1,0 +1,12 @@
+FROM mysql/mysql-server:8.0 as builder
+RUN ["sed", "-i", "s/exec \"$@\"/echo \"not running $@\"/", "/entrypoint.sh"]
+ENV MYSQL_DATABASE=tugboat \
+    MYSQL_ROOT_PASSWORD=root \
+    MYSQL_USER=user \
+    MYSQL_PASSWORD=user
+RUN echo "max_allowed_packet = 1073741824" >> /etc/my.cnf
+COPY *.sql  /docker-entrypoint-initdb.d/
+RUN ["/entrypoint.sh", "mysqld", "--user", "root", "--datadir", "/tugboat-db", "--default-authentication-plugin", "mysql_native_password"]
+FROM mysql/mysql-server:8.0
+RUN echo "max_allowed_packet = 1073741824" >> /etc/my.cnf
+COPY --from=builder /tugboat-db /var/lib/mysql

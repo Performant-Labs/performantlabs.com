@@ -1,0 +1,143 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Header.
+ */
+
+header.navbar-expand-lg {
+  @include for-desktop-up {
+    left: 0;
+    height: 125px;
+    position: fixed;
+    padding-top: 0;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+  }
+}
+.pl-container {
+  main {
+    @include for-desktop-up {
+      flex: 1;
+      padding-top: 125px;
+    }
+  }
+}
+.path-frontpage {
+  .pl-container {
+    main {
+      @include for-desktop-up {
+        padding-top: 121px;
+      }
+    }
+  }
+}
+.user-logged-in {
+  .pl-container {
+    header.navbar-expand-lg {
+      @include for-desktop-up {
+        padding-top: 79px;
+      }
+    }
+    main {
+      @include for-desktop-up {
+        flex: 1;
+        padding-top: 160px;
+      }
+    }
+  }
+  &.path-frontpage {
+    main {
+      @include for-desktop-up {
+        padding-top: 120px;
+      }
+    }
+  }
+}
+.region-header {
+  background: $light-blue;
+  color: $white-base;
+  .block-system-branding-block {
+    @include for-phone-only {
+      order: -1;
+    }
+    a.navbar-brand img,
+    a.site-logo img {
+      max-width: 330px;
+      height: auto;
+      @include for-phone-only {
+        max-width: 175px;
+      }
+    }
+  }
+  .menu--main {
+    ul.navbar-nav > li > a {
+      color: $white-base;
+      font-family: $font-family-rubik;
+      font-size: .87794rem; //14px
+      font-weight: 500;
+      margin-right: 25px;
+      padding-left: 0;
+      padding-right: 0;
+      text-transform: uppercase;
+      &:hover {
+        color: rgba(255,255,255,0.7);
+      }
+      &.is-active {
+        color: #085f75;
+      }
+    }
+    ul.navbar-nav > li:last-child > a {
+      margin-right: 0;
+    }
+  }
+  .block-responsive-menu-toggle {
+    display: none;
+    @include for-phone-only {
+      display: block;
+    }
+  }
+  .navigation.menu--main {
+    @include for-phone-only {
+      display: none;
+    }
+  }
+  .container {
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 25px 0;
+    @include for-phone-only {
+      padding: 25px 12px 25px 20px;
+    }
+    @include for-desktop-up {
+      padding-left: 1.875rem;
+      padding-right: 1.875rem;
+    }
+  }
+}
+
+/* Mobile Main Menu */
+.mm-navbar {
+  background: $dark-blue;
+  color: $white-base;
+}
+.mm-panels>.mm-panel {
+  @include for-phone-only {
+    background: $light-blue;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  ul.mm-listview li {
+    padding-left: 20px;
+  }
+}
+.responsive-menu-toggle-icon {
+  span.label {
+    @include for-phone-only {
+      display: none;
+    }
+  }
+}

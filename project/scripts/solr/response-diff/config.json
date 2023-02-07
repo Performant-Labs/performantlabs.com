@@ -1,0 +1,17 @@
+{
+  "servers": [{
+    "id": "PROD",
+    "url":  "https://www.renesas.com/",
+    "solr_host": "renesas7-prod.solrcluster.com",
+    "core": "renesasprods7"
+  }, {
+    "id": "DEV4",
+    "url":  "https://idtweb:lowjitter@www-idtdev4-www.idt.com/",
+    "solr_host": "renesas7-prod.solrcluster.com",
+    "core": "renesasprods7b"
+  }],
+  "requests_log": "/var/www/solr-requests.csv",
+  "response_log": "/var/www/solr-response.csv",
+  "page_diff_config": "/var/www/page-diff-config.json",
+  "log_dir": "/tmp/response-diff"
+}

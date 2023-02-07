@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Contains pl_main.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_help().
+ */
+function pl_main_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the pl_main module.
+    case 'help.page.pl_main':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('PL Main module.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function pl_main_preprocess_node(&$variables) {
+  $node = &$variables['node'];
+  $type = $node->bundle();
+
+  if (($type == 'article') && ($variables['view_mode'] == 'card')) {
+    $node->title = null;
+  }
+}
+
+/**
+ * GENERAL FORM ALTERS.
+ */
+
+/**
+ * Implements hook_form_alter().
+ */
+function pl_main_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $currentUserId = \Drupal::currentUser()->id();
+
+  switch ($form_id) {
+    case 'node_issue_form':
+      $form['field_reported_by']['widget']['#default_value'][0] = $currentUserId;
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function pl_main_entity_operation(EntityInterface $entity) {
+  if (!(\Drupal::currentUser()->hasPermission('access content'))) {
+    return;
+  }
+
+  $entityTypeId = $entity->getEntityTypeId();
+
+  if ($entityTypeId !== 'node') {
+    return;
+  }
+
+  // Find entity displays.
+  // https://api.drupal.org/api/drupal/core%21includes%21entity.inc/function/entity_get_display/8.2.x
+  $display = \Drupal::entityTypeManager()
+    ->getStorage('entity_view_display')
+    ->load($entityTypeId . '.' . $entity->bundle() . '.' . 'default');
+
+  // only if LB is enabled
+  if ($display->isLayoutBuilderEnabled()) {
+
+    $nodeId = $entity->id();
+    $layoutUrl = Url::fromRoute('pl_main.layout', ['node' => $nodeId]);
+
+    $operations['Layout'] = [
+      'title' => t('Layout'),
+      'weight' => 50,
+      'url' => $layoutUrl
+    ];
+
+    return $operations;
+  }
+}

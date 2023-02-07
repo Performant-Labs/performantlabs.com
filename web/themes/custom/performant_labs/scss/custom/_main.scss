@@ -1,0 +1,70 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Main container.
+ */
+
+.pl-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  .region-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.container {
+  @include for-tablet-portrait-up {
+    max-width: 80rem !important;
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+    width: 100%;
+  }
+  @include for-desktop-up {
+    max-width: 80rem !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}
+
+main {
+  .container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+}
+
+h2.lbk-block--title,
+.block-layout-builder-kit .lbk-block--title,
+h2.title-large {
+  @include for-phone-only {
+    font-size: 1.8rem;
+  }
+}
+
+// Responsive menu
+.mm-wrapper_opening .mm-panels {
+  > .mm-panel {
+    @include for-phone-only {
+      padding-left: 0;
+      padding-right: 0;
+      width: 68.5%;
+
+    }
+  }
+  .mm-panel_opened {
+    .navbar-nav.mm-listview {
+      @include for-phone-only {
+        width: 91%;
+      }
+      .nav-item.mm-listitem a {
+        @include for-phone-only {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+}

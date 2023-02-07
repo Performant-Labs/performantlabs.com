@@ -1,0 +1,126 @@
+@import 'variables';
+@import 'media_queries';
+@import 'common';
+
+/*
+ * Internal page.
+ */
+
+.path-node {
+  h1 {
+    margin-bottom: 55px;
+    text-align: center;
+  }
+  .field--name-field-display-title {
+    @extend .main-page--title;
+    .field__item {
+      @include for-phone-only {
+        font-size: 1.8rem;
+      }
+    }
+    h2 {
+      text-align: left;
+    }
+  }
+}
+
+// Lists
+.item-list ul {
+  margin: 20px 0 40px 50px;
+}
+
+// Jobs page
+.centered-section {
+  margin: 25px auto;
+  text-align: center;
+  p {
+    margin-top: 0;
+  }
+}
+
+.node--type-job {
+  .node__content {
+    text-align: center;
+    .field--name-body ul {
+      margin: 20px 0 40px 34px;
+    }
+    .field--name-body,
+    .field--name-field-location {
+      text-align: left;
+    }
+  }
+}
+
+// Opening Statement.
+.opening-statement {
+  color: $gray-base;
+  font-size: 1.56rem;
+  line-height: 2.25rem;
+  max-width: 600px;
+  margin: 9rem auto;
+  text-align: center;
+  @include for-phone-only {
+    margin: 6rem auto;
+    max-width: 100%;
+  }
+}
+
+// Open Source Projects
+.layout--threecol-section.pl-section-compressed {
+  .data-col {
+    padding-left: 10px;
+    padding-right: 10px;
+    .image-component img {
+      max-height: 95px;
+    }
+    h2 {
+      font-size: 19px;
+      min-height: 65px;
+    }
+    p {
+      font-size: 17px;
+    }
+  }
+  .data-left {
+    padding-left: 0;
+  }
+  .data-right {
+    padding-right: 0;
+    .image-component img {
+      max-width: 225px;
+    }
+  }
+}
+
+.payment-stripe--section {
+  text-align: center;
+  margin: 70px 0 50px;
+  .payment-stripe {
+    text-align: left;
+    h2 {
+      margin: 40px 0 20px !important;
+      @include for-phone-only {
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+// About Us.
+.pl-section-medium {
+  .data-column {
+    padding-left: 15px;
+    padding-right: 15px;
+    img {
+      height: auto;
+      width: 100%;
+    }
+  }
+}
+
+//How we do it page.
+.how-we-do-it-page {
+  .lbk-rich-text-component h2 {
+    font-size: 1.8rem;
+  }
+}

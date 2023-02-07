@@ -1,0 +1,1 @@
+drush sql:dump --gzip --structure-tables-list=s3fs_file,doc_downloads,idt_health_monitor_entries,idt_health_monitor_entries_summary,idt_health_monitor_messages,idt_document_notify_queue,queue,node__field_file_path_merged,node_revision__field_file_path_merged,idt_userapi_customer_data --result-file=~/backups/tolt.sql

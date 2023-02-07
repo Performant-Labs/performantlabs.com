@@ -1,0 +1,68 @@
+@import 'variables';
+@import 'media_queries';
+@import 'common';
+
+/*
+ * Book page.
+ */
+
+.block-field-blocknodebookfield-display-title,
+.block-field-blocknodebooktitle {
+  text-align: center;
+}
+
+.block-field-blocknodebooktitle {
+  .field--name-title {
+    @extend .pl-title;
+  }
+}
+
+.page-node-type-book {
+  main {
+    .container {
+      padding-top: 0;
+    }
+  }
+  #block-campaignkitlogo,
+  #block-layoutbuilderkitlogo {
+    @include for-desktop-up {
+      position: relative;
+    }
+    .field--name-body {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .field--name-body img {
+      height: auto;
+      max-width: 260px;
+    }
+  }
+}
+
+// Sidebar Left
+.page-node-type-book {
+  main .container {
+    .col-lg-3 {
+      background: $light-gray4;
+    }
+  }
+  main .region-content {
+    padding-top: 60px;
+  }
+  .region-sidebar-first {
+    padding: 60px 15px 50px;
+  }
+  #block-booknavigation {
+    font-size: 1.1rem;
+  }
+}
+.page-node-type-book,
+.user-logged-in.page-node-type-book {
+  .pl-container {
+    main {
+      @include for-desktop-up {
+        padding-top: 122px;
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Solr Request Debug v1.0</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+<strong>SOLR Request Debug v1.0</strong>
+<div class="main">
+    <div class="if ">
+        <form action="#" id="ipcForm">
+            <div class="m1">
+                <label>SOLR Host:</label>
+                <input id="host" type="text" size=40 value="" name="host" />
+            </div>
+            <div class="m1">
+                <label>Request: </label>
+                <textarea id="request" name="request"></textarea>
+            </div>
+            <div class="m1">
+                <label>Select:</label>
+                <select id="select">
+                    <option value="">--Please choose a request to debug--</option>
+                </select>
+            </div>
+            <div class="m1">
+                <input type="submit" value="Submit" name="submit" />
+            </div>
+        </form>
+    </div>
+    <ul id="tests"></ul>
+    <div id="response">
+        <div id="buttons"><button id="collapse-all" data-state="open">Collapse all</button><div id="stats"></div></div>
+        <div id="explain"></div>
+        <div id="query"></div>
+    </div>
+    <script src="renderer.js"></script>
+</div>
+</body>
+</html>

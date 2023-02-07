@@ -1,0 +1,5 @@
+name: 'Performant Labs Main'
+description: 'PL Main module.'
+type: module
+package: 'Custom'
+core_version_requirement: ^8 || ^9 || ^10

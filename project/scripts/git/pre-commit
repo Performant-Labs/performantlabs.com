@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# TODO Do not call this in the build pipeline.
+exit 0
+
+# Fetch the current branch.
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+### Check the branch-name.
+msg()
+{
+echo -e "$(tput setaf 1)The acceptable branch names are:\n > <stem_prefix>/[A-Z][A-Z0-9]*-[0-9]*-short-description\n > For the short description, only hyphens are allowed, no underscores, no double hyphens, like feature/WW2-4391--update-orderable-product-csv-delimit\n > Names longer than 255 characters are not alllowed\n > Releases use a different format, a short description is not required\nExamples:\n  feature/WW2-3241-category-banner\n  bugfix/WW2-3241-category-banner\n  hotfix/WW2-3241-category-banner\n  dev/WW2-3241-category-banner\n  release/3.5\n  release/3.5.1"
+}
+
+if [[ $(echo $CURRENT_BRANCH | cut -d '/' -f1) =~ feature ]]; then
+    VALID_BRANCH="^feature/[A-Z0-9]*-[0-9]*-[A-Za-z0-9-]*$"
+    if [[ $(echo $CURRENT_BRANCH | cut -d '/' -f2) =~ ^[[:digit:]] ]] || [[ ! $CURRENT_BRANCH =~ $VALID_BRANCH ]] || [[ $(echo ${#CURRENT_BRANCH}) -ge 255 ]] | echo $CURRENT_BRANCH | grep -- --; then
+        echo "Aborting commit. Feature branch-name does not meet the naming convention."
+        msg
+        exit 1
+    fi
+elif [[ $(echo $CURRENT_BRANCH | cut -d '/' -f1) =~ dev ]]; then
+    VALID_BRANCH="^dev/[A-Z0-9]*-[0-9]*-[A-Za-z0-9-]*$"
+    if [[ $(echo $CURRENT_BRANCH | cut -d '/' -f2) =~ ^[[:digit:]] ]] || [[ ! $CURRENT_BRANCH =~ $VALID_BRANCH ]] || [[ $(echo ${#CURRENT_BRANCH}) -ge 255 ]] | echo $CURRENT_BRANCH | grep -- --; then
+        echo "Aborting commit. Dev branch-name does not meet the naming convention."
+        msg
+        exit 1
+    fi
+elif [[ $(echo $CURRENT_BRANCH | cut -d '/' -f1) =~ bugfix ]]; then
+    VALID_BRANCH="^bugfix/[A-Z0-9]*-[0-9]*-[A-Za-z0-9-]*$"
+    if [[ $(echo $CURRENT_BRANCH | cut -d '/' -f2) =~ ^[[:digit:]] ]] || [[ ! $CURRENT_BRANCH =~ $VALID_BRANCH ]] || [[ $(echo ${#CURRENT_BRANCH}) -ge 255 ]] | echo $CURRENT_BRANCH | grep -- --; then
+        echo "Aborting commit. Bugfix branch-name does not meet the naming convention."
+        msg
+        exit 1
+    fi
+elif [[ $(echo $CURRENT_BRANCH | cut -d '/' -f1) =~ hotfix ]]; then
+    VALID_BRANCH="^hotfix/[A-Z0-9]*-[0-9]*-[A-Za-z0-9-]*$"
+    if [[ $(echo $CURRENT_BRANCH | cut -d '/' -f2) =~ ^[[:digit:]] ]] || [[ ! $CURRENT_BRANCH =~ $VALID_BRANCH ]] || [[ $(echo ${#CURRENT_BRANCH}) -ge 255 ]] | echo $CURRENT_BRANCH | grep -- --; then
+        echo "Aborting commit. Hotfix branch-name does not meet the naming convention."
+        msg
+        exit 1
+    fi
+elif [[ $(echo $CURRENT_BRANCH | cut -d '/' -f1) =~ release ]]; then
+    VALID_BRANCH="^release/[0-9.]*$"
+    if [[ ! $CURRENT_BRANCH =~ $VALID_BRANCH ]]; then
+        echo "Aborting commit. Release branch-name does not meet the naming convention."
+        msg
+        exit 1
+    fi
+else
+    echo "Aborting commit. Branch name does not meet the naming convention."
+    msg
+    exit 1
+fi
+
+echo "Calling quality code tests."
+./scripts/git/quality-checkcode

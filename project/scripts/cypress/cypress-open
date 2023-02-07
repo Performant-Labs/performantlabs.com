@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if ! [ -x "$(command -v fin)" ]; then
+     echo "Running the Cypress GUI inside a container is not possible."
+else
+     npx cypress open
+fi

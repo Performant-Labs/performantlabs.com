@@ -1,0 +1,18 @@
+{
+  "src": {"url": "https://www.renesas.com/", "id": "PROD"},
+  "dest": {"url": "https://www.renesas.com.docksal.site/", "id": "TEST"},
+  "viewport": {"width": 1024, "height": 600},
+  "dev_tools": "open",
+  "tests" : [
+    ["us/en", "flash programmer", "/software-tool/renesas-flash-programmer-programming-gui"],
+    ["us/en", "RT plastic", "/products/space-harsh-environment/rad-tolerant-plastic"],
+    ["us/en", "isim:pe", "/software-tool/isimpe-offline-simulation-tool"],
+    ["us/en", "e2 lite", "/software-tool/e2-emulator-lite-rte0t0002lkce00000r"],
+    ["us/en", "cs+", "/software-tool/cs"],
+    ["us/en", "rl78", "/products/microcontrollers-microprocessors/rl78-low-power-8-16-bit-mcus"],
+    ["us/en", "bluetooth", "/products/interface-connectivity/wireless-communications/bluetooth-low-energy-modules"],
+    ["us/en", "ra nomenclature", "/document/gde/ra-family-nomenclature"],
+    ["us/ja", "スマコン", "/software-tool/smart-configurator"],
+    ["us/ja", "e2エミュレータ", "/software-tool/e2-emulator-rte0t00020kce00000r"]
+  ]
+}

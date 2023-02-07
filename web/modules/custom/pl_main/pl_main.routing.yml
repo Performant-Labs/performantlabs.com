@@ -1,0 +1,4 @@
+pl_main.layout:
+  path: '/node/{node}/layout'
+  requirements:
+    _permission: 'access content'

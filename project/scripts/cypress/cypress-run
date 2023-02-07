@@ -1,0 +1,144 @@
+#!/bin/bash
+echo "Usage:"
+echo "  'fin composer cypress:run'     To run Cypress inside the container."
+echo "  'composer cypress:run'         To run Cypress on the host machine."
+echo -e " Note: The default browser is electron. The other available browsers are chrome and chromium. Argument to use: --headless --browser <browser_name>"
+echo -e " For ec2 cypress machine, please provide the argument: --ssh-user=<user_name>,\n For Tugboat, please provide the argument: --tugboat-preview-id=<preview_id>"
+echo -e " And please provide the respective config files for the argument --config-file, local: cypress-local.config.js, dev: cypress-dev.config.js, prod: cypress-prod.config.js, tugboat: cypress-tugboat.config.js, ec2: cypress-ec2.config.js.\n"
+if ! [ -x "$(command -v fin)" ]; then
+     echo "Running the Cypress inside the container."
+else
+     echo "Running the Cypress on the host machine."
+fi
+position=1
+for VALUE in `echo $@`
+do
+  if [[ $VALUE =~ .*grepTag.* ]]; then
+    break
+  fi
+  (( position++ ))
+done
+if [[ ($position -gt $#) && !( $@ =~ .*-skip.* ) ]]; then
+  CYPRESS_TAGS='--env grepTags=-skip'
+elif ! [[ $@ =~ .*-skip.* ]]; then
+  CYPRESS_TAGS=$(echo ${!position} | sed 's/grepTags=/grepTags=-skip+/')
+else
+  CYPRESS_TAGS=$(echo ${!position})
+fi
+PREVIEW_ID_FLAG=0
+SSH_USER_FLAG=0
+echo -e "Refining out the cypress arguments."
+for (( i=$position-1; i>0; i-- ))
+do
+  if [[ ${!i} =~ --tugboat-preview-id.* ]]; then
+    PREVIEW_ID_FLAG=1
+    VALUE=$(echo ${!i} | cut -f2 -d=)
+    export "PREVIEW_ID"="$VALUE"
+  elif [[ ${!i} =~ --ssh-user.* ]]; then
+    SSH_USER_FLAG=1
+    VALUE=$(echo ${!i} | cut -f2 -d=)
+    export "SSH_USER"="$VALUE"
+  else
+    CYPRESS_TAGS=$(echo ${!i} $CYPRESS_TAGS)
+  fi
+done
+
+if [[ $position -gt $# ]]; then
+  (( position-- ))
+fi
+shift $position
+
+for j in `echo $@`
+do
+  if [[ ${j} =~ --tugboat-preview-id.* ]]; then
+    PREVIEW_ID_FLAG=1
+    VALUE=$(echo ${j} | cut -f2 -d=)
+    export "PREVIEW_ID"="$VALUE"
+  elif [[ ${j} =~ --ssh-user.* ]]; then
+    SSH_USER_FLAG=1
+    VALUE=$(echo ${j} | cut -f2 -d=)
+    export "SSH_USER"="$VALUE"
+  else
+    CYPRESS_TAGS=$(echo $CYPRESS_TAGS ${j})
+  fi
+done
+
+echo -e "\nThe command going to be executed:"
+echo -e "   npx cypress run $CYPRESS_TAGS \n"
+
+echo "Generate translation files,"
+TRANS_FILE_PATH=docroot/sites/default/files
+REMOTE_SETUP_SCRIPT=scripts/cypress/export-translations.php
+JA_FILE=ja-xlations.json
+ZH_FILE=zh-hans-xlations.json
+mkdir -p ${TRANS_FILE_PATH}
+
+SSH_ACQUIA_FUN()
+{
+   ssh ${SSH_USER}@${SSH_HOST} "cd ${PROJECT_PATH} && drush scr ${REMOTE_SETUP_SCRIPT}"
+   echo "Downloading translation files."
+   scp ${SSH_USER}@${SSH_HOST}:${PROJECT_PATH}/${TRANS_FILE_PATH}/*-xlations.json ${TRANS_FILE_PATH}/
+}
+
+if echo "$CYPRESS_TAGS" | grep -q "cypress-stage.config.js"; then
+   echo -e "   from the stage server."
+   SSH_USER=idtd8.stage
+   SSH_HOST=idtd8stage.ssh.prod.acquia-sites.com
+   PROJECT_PATH=/var/www/html/idtd8.stage
+   SSH_ACQUIA_FUN
+elif echo "$CYPRESS_TAGS" | grep -q "cypress-dev.config.js"; then
+   echo -e "   from the dev server."
+   SSH_USER=idtd8.dev
+   SSH_HOST=idtd8dev.ssh.prod.acquia-sites.com
+   PROJECT_PATH=/var/www/html/idtd8.dev
+   SSH_ACQUIA_FUN
+elif echo "$CYPRESS_TAGS" | grep -q "cypress-prod.config.js"; then
+   echo -e "   from the prod server."
+   SSH_USER=idtd8.prod
+   SSH_HOST=idtd8.ssh.prod.acquia-sites.com
+   PROJECT_PATH=/var/www/html/idtd8.prod
+   SSH_ACQUIA_FUN
+elif echo "$CYPRESS_TAGS" | grep -q "cypress-ec2.config.js"; then
+   echo -e "   from the cypress ec2 machine."
+   SSH_HOST=ec2-35-88-70-232.us-west-2.compute.amazonaws.com
+   PROJECT_PATH=/home/cypress/ww2-dev
+   if ! [ $SSH_USER_FLAG == 1 ]; then
+     read -p "Enter your ssh user to login cypress ec2 machine: " SSH_USER
+   fi
+   ssh ${SSH_USER}@${SSH_HOST} 'sudo su - cypress -c "cd ww2-dev && fin drush scr scripts/cypress/export-translations.php"'
+   echo "Downloading translation files."
+   rsync -avze ssh --rsync-path='sudo rsync' ${SSH_USER}@${SSH_HOST}:${PROJECT_PATH}/${TRANS_FILE_PATH}/*-xlations.json ${TRANS_FILE_PATH}/
+elif echo "$CYPRESS_TAGS" | grep -q "cypress-tugboat.config.js"; then
+   echo -e "   from the tugboat."
+   OS_NAME=$(uname); echo "Machine OS: ${OS_NAME}"
+   if ! [ -x "$(command -v tugboat)" ]; then
+        echo "Tugboat not installed, installing."
+        if [[ $OS_NAME == Linux ]]; then
+          wget https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
+          sudo tar -zxf tugboat.tar.gz -C /usr/local/bin/
+        elif [[ $OS_NAME == Darwin ]]; then
+          brew install tugboat-cli
+        fi
+   fi
+   if ! [ $PREVIEW_ID_FLAG == 1 ]; then
+     read -p "Enter the tugboat preview id: " PREVIEW_ID
+   fi
+   echo -e "Connecting the Tugboat-preview with the provided ID: ${PREVIEW_ID}"
+   tugboat --debug shell $PREVIEW_ID command="drush scr ${REMOTE_SETUP_SCRIPT}"
+   echo "Downloading translation files."
+   if ! [ -x "$(command -v tugboat)" ]; then
+     tugboat shell $PREVIEW_ID command="cat ${TRANS_FILE_PATH}/${JA_FILE}" -q | head -n -2 > ${TRANS_FILE_PATH}/${JA_FILE}
+     tugboat shell $PREVIEW_ID command="cat ${TRANS_FILE_PATH}/${ZH_FILE}" -q | head -n -2 > ${TRANS_FILE_PATH}/${ZH_FILE}
+   elif [[ $OS_NAME == Darwin ]]; then
+     brew install coreutils
+     tugboat shell $PREVIEW_ID command="cat ${TRANS_FILE_PATH}/${JA_FILE}" -q | ghead -n -2 > ${TRANS_FILE_PATH}/${JA_FILE}
+     tugboat shell $PREVIEW_ID command="cat ${TRANS_FILE_PATH}/${ZH_FILE}" -q | ghead -n -2 > ${TRANS_FILE_PATH}/${ZH_FILE}
+   fi
+elif echo "$CYPRESS_TAGS" | grep -q "cypress-local.config.js"; then
+   echo -e "   locally."
+   drush scr ${REMOTE_SETUP_SCRIPT}
+else
+   echo -e "Error: Could not find a valid config.js file in the arguments, please retry by providing a valid config.js file."
+   exit 1
+fi
+npx cypress run $CYPRESS_TAGS

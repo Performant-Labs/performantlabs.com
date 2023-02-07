@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# VERSION: 1.0.0
+
+echo "Usage:"
+echo "    fin composer check-code:phpcs"
+echo "    fin composer check-code:phpstan"
+echo "    fin composer check-code:cspell"
+echo "    fin composer check-code:all"
+echo "    fin composer check-code:phpcbf <path to filename>  # Not included in all above."
+echo "    optional: add '-- --omit-untracked' to skip untracked files."
+
+EXTENSIONS="php,module,inc,install,test,profile,theme,txt,md,yaml,yml"
+STANDARDS="Drupal,DrupalPractice,PHPCompatibility"
+echo "false" > /tmp/SCAN_FAILED
+SCAN_FAILED=false
+
+# get bash colors and styles here:
+C_RESET='\e[0m'
+C_RED='\e[31m'
+C_GREEN='\e[32m'
+C_YELLOW='\e[33m'
+function __run() { #(name, cmd)
+    local color output exitcode
+    printf "${C_YELLOW}[%s]${C_RESET} %-20s" "$1"
+    output=$(eval "$2" 2>&1)
+    exitcode=$?
+    if [[ 0 == $exitcode || 130 == $exitcode ]]; then
+        echo -e "${C_GREEN}OK!${C_RESET}"
+    else
+        echo -e "${C_RED}Not OK!${C_RESET}\n\n$output"
+        echo "true" > /tmp/SCAN_FAILED
+    fi
+}
+
+phpcs_scan() {
+    echo -e "\nCoding standards for phpcs scan: Drupal, DrupalPractice and PHPCompatibility."
+    __run "code sniffer" "${modified} | xargs -r ${phpcs}" 2>&1 | tee tests/results/phpcs_result.txt
+}
+phpstan_scan() {
+    __run "phpstan scanning" "${modified} | xargs -r ${phpstan}" 2>&1 | tee tests/results/phpstan_result.txt
+}
+cspell_scan() {
+    cat scripts/cspell/renesas.dictionary.txt docroot/core/misc/cspell/dictionary.txt > /tmp/combined_dict.txt
+    echo "Using combined Renesas and Drupal dictionaries."
+    DRUPAL_CSPELL_CONFIG="docroot/core/.cspell.json"
+    if [[ ! -f $DRUPAL_CSPELL_CONFIG ]]; then
+        echo "ERROR: Drupal dictionary missing from ${DRUPAL_CSPELL_CONFIG}. Have you run 'fin composer install' yet?"
+        SCAN_FAILED=true
+    else
+        sed -i.bu 's|misc/cspell/dictionary.txt|/tmp/combined_dict.txt|g' docroot/core/.cspell.json
+        sed -i.bu 's|.//tmp/combined_dict.txt|/tmp/combined_dict.txt|g' docroot/core/.cspell.json
+        rm -rf docroot/core/.cspell.json.bu
+        __run "cspell scanning" "${modified} | xargs -r ${cspell} -c ${DRUPAL_CSPELL_CONFIG}" 2>&1 | tee -a tests/results/cspell_result.txt
+    fi
+}
+
+RESULT_PATH=tests/results
+if [[ $# == 0 || $1 = "tugboat" ]]; then
+    echo -e "\nReports will be added to: ${RESULT_PATH}."
+fi
+if [ ! -d "$RESULT_PATH" ]; then
+    mkdir $RESULT_PATH
+fi
+
+if [[ $1 == "tugboat" ]]; then
+    git fetch origin "+refs/heads/*:refs/remotes/origin/*"
+    modified="git diff --name-only remotes/origin/$TUGBOAT_BITBUCKET_DESTINATION... | egrep '\.php$|\.module$|\.inc$|\.install$|\.test$|\.profile$|\.theme$|\.txt$|\.md$|\.yaml$|\.yml' | grep -vf scripts/.check-ignore"
+    #npm install -g cspell@latest
+    phpcs="php vendor/bin/phpcs --standard="$STANDARDS" --extensions="$EXTENSIONS""
+    phpstan="php vendor/bin/phpstan analyze  -c scripts/phpstan/renesas.phpstan.neon"
+    cspell="cspell lint"
+elif ! [ -x "$(command -v fin)" ]; then
+    USAGE="FIN_COMPOSER"
+    if echo $@ | grep -q omit-untracked; then
+       modified="git status --porcelain | grep -E '^(.M|[MA].)' | grep -Ev '^(AD)' | sed s/^...// | egrep '\.php$|\.module$|\.inc$|\.install$|\.test$|\.profile$|\.theme$|\.txt$|\.md$|\.yaml$|\.yml' | grep -vf scripts/.check-ignore"
+    else
+       modified="git status --porcelain | grep -E '^(.M|[MA].|\?\?)' | grep -Ev '^(AD)' | sed s/^...// | egrep '\.php$|\.module$|\.inc$|\.install$|\.test$|\.profile$|\.theme$|\.txt$|\.md$|\.yaml$|\.yml' | grep -vf scripts/.check-ignore"
+    fi
+    phpcs="/home/docker/.composer/vendor/bin/phpcs --standard="$STANDARDS" --extensions="$EXTENSIONS""
+    phpstan="php vendor/bin/phpstan analyze  -c scripts/phpstan/renesas.phpstan.neon"
+    cspell="cspell lint"
+else
+    USAGE="GIT_COMMIT"
+    modified="git diff --diff-filter=ACMR --name-only --cached | egrep '\.php$|\.module$|\.inc$|\.install$|\.test$|\.profile$|\.theme$|\.txt$|\.md$|\.yaml$|\.yml' | grep -vf scripts/.check-ignore"
+    phpcs="/usr/local/bin/fin run phpcs --standard="$STANDARDS" --extensions="$EXTENSIONS""
+    phpstan="/usr/local/bin/fin exec php vendor/bin/phpstan analyze  -c scripts/phpstan/renesas.phpstan.neon"
+    cspell="/usr/local/bin/fin exec cspell lint"
+fi
+
+echo -e "\nFiles queued for check-code are:"
+echo -e "....."
+eval "${modified}"
+echo -e ".....\n"
+
+if [ "$1" == "phpcs" ]; then
+    phpcs_scan
+elif [ "$1" == "phpstan" ]; then
+    phpstan_scan
+elif [ "$1" == "cspell" ]; then
+    cspell_scan
+elif [ "$1" == "phpcbf" ]; then
+    shift;
+    phpcbf $@
+elif [[ $# == 0 || "$1" == "tugboat" ]] || echo $@ | grep -q "omit-untracked";  then
+    phpcs_scan
+    phpstan_scan
+    cspell_scan
+else
+    echo "Invalid Argument"
+    exit 1
+fi
+echo -e "....\n"
+
+SCAN_FAILED=$(cat /tmp/SCAN_FAILED)
+if [[ $USAGE == GIT_COMMIT && $SCAN_FAILED == true ]]; then
+    echo "Commit unsuccessful due to above errors."
+    exit 1
+fi

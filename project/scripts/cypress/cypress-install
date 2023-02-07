@@ -1,0 +1,75 @@
+#!/bin/bash
+     echo " Usage:"
+     echo "  'fin composer cypress:install'              To install the latest version of Cypress inside the container"
+     echo "  'fin composer cypress:install <version>'    To install a specific version of Cypress inside the container"
+     echo "  'composer cypress:install'                  To install the latest version of Cypress on the host machine"
+     echo "  'composer cypress:install <version>'        To install a specific version of Cypress on the host machine"
+cypress_input() {
+        if [[ $input == "" ]]; then
+           input=y
+        fi
+        case $input in
+        [yY][eE][sS] | [yY])
+                OS_NAME=$(uname); echo -e "\nMachine OS: ${OS_NAME}"
+                if ! [ -x "$(command -v node)" ]; then
+                        echo "Node is not installed, installing."
+                        if [[ $OS_NAME == Linux ]]; then
+                         # Define versions
+                         INSTALL_NODE_VER=17
+                         INSTALL_NVM_VER=0.35.0
+                         # You can pass an argument to this script
+                         # cypress-install --version 8
+                         if [ "$1" = '--version' ]; then
+                            echo -e "\n==> Using specified Node version - $2."
+                            INSTALL_NODE_VER=$2
+                         fi
+                         echo -e "\nEnsuring .bashrc exists and is writable."
+                         touch ~/.bashrc
+                         echo -e "\nInstalling Node Version Manager (NVM) version $INSTALL_NVM_VER."
+                         # Remove if already installed
+                         rm -rf ~/.nvm
+                         # Install nvm
+                         curl -o- https://raw.githubusercontent.com/creationix/nvm/v$INSTALL_NVM_VER/install.sh | bash
+                         # Make nvm command available to terminal
+                         source ~/.nvm/nvm.sh
+                         echo -e "\nInstalling Node js version $INSTALL_NODE_VER."
+                         nvm install $INSTALL_NODE_VER
+                        elif [[ $OS_NAME == Darwin ]]; then
+                         brew install node
+                        fi
+                fi
+                if [[ $OS_NAME == Linux ]]; then
+                  rm -rf ~/.cache/Cypress
+                  echo -e "\nInstalling dependencies."
+                  sudo apt-get update
+                  sudo apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb npm fonts-liberation xdg-utils chromium
+		  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+		  sudo dpkg -i google-chrome-stable_current_amd64.deb
+		  sudo ln /usr/bin/google-chrome-stable /usr/bin/chrome
+                  rm -rf ./google-chrome-stable_current_amd64.deb
+                elif [[ $OS_NAME == Darwin ]]; then
+                  rm -rf ~/Library/Caches/Cypress
+                  brew install chrome-cli
+                  sudo ln -s /usr/local/bin/chrome-cli /usr/local/bin/chrome 
+                fi
+                echo "Removing Cypress if it already exists."
+                npm remove cypress
+                echo -e "\nInstalling Cypress."
+                npm install cypress@$1 --save-dev
+                ;;
+        [nN][oO] | [nN])
+                exit
+                ;;
+        *)
+                echo "Invalid input."
+                exit 1
+                ;;
+        esac
+}
+if ! [ -x "$(command -v fin)" ]; then
+        read  -n 1 -r -p "This will install Cypress in the container. Proceed? (Y/n) " input
+        cypress_input $1
+else
+        read -n 1 -r -p "This will install Cypress on the host i.e. outside the container. Proceed? (Y/n) " input
+        cypress_input $1
+fi

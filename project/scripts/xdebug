@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+echo "Usage:"
+echo "    'fin composer xdebug:enable'      ### To enable xdebug"
+echo "    'fin composer xdebug:disable'     ### To disable xdebug"
+
+if [[ $1 == "enable" ]]; then
+    sudo PHP_INI_DIR=/usr/local/etc/php docker-php-ext-enable xdebug && sudo pkill -o -USR2 php-fpm
+    echo "XDebug enabled"
+    php -v
+elif [[ $1 == "disable" ]]; then
+    sudo rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && sudo pkill -o -USR2 php-fpm
+    echo "XDebug disabled"
+    php -v
+else
+   echo "Invalid usage"
+fi
