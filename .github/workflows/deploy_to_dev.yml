@@ -73,7 +73,6 @@ jobs:
         uses: pantheon-systems/terminus-github-actions@main
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-        
           
       - name: List the directories in the project.
         run: |
@@ -87,7 +86,7 @@ jobs:
           #terminus remote:drush $pantheon_site_name.$pantheon_env -- status
           #ssh -vT codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
 
-      - name: Prepare code.
+      - name: Prepare code for deployment.
         run: |
           # Pantheon needs special .gitignore
           # cp .pantheon.gitignore .gitignore
@@ -100,7 +99,7 @@ jobs:
           # Remove because files are handled separately by Pantheon.
           rm -Rf web/sites/default/files
           
-      - name: Deploy.
+      - name: Deploy to Pantheon.
         run: |
           git init
           git config user.name "Github Action"
@@ -113,7 +112,7 @@ jobs:
           git add --force -A .
           git commit -q -m "Build assets for $pantheon_site_name.$pantheon_env."
           echo "Pushing build to Pantheon."
-          git push --force -q pantheon master
+          git push --force pantheon master
           echo "Push complete."
  
       - name: Terminus Drush updates.
