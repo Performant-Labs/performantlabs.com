@@ -63,10 +63,10 @@ jobs:
           known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}   
           if_key_exists: replace
           
-      - name: Start SSH agent and add key.
+      - name: Start SSH agent in the background and add key.
         run: |
           chmod 400 ~/.ssh/id_rsa
-          eval `ssh-agent`
+          eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
           
       - name: Install Terminus as standalone command to avoid dependency interference.
