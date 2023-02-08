@@ -30,6 +30,13 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
         
+      - name: Set up PHP.
+        uses: shivammathur/setup-php@2.24.0
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          php-version: "$PHP_VERSION"
+          
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
         with:
@@ -39,13 +46,6 @@ jobs:
       #- name: 'Install NPM dependencies'
       #  run: npm ci          
         
-      - name: Set up PHP.
-        uses: shivammathur/setup-php@2.24.0
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          php-version: "$PHP_VERSION"
-          
       - name: Validate composer.json and composer.lock.
         continue-on-error: true
         run: composer validate --strict        
