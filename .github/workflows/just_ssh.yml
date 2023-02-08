@@ -40,11 +40,14 @@ jobs:
 
       - name: Start SSH agent in the background and add key.
         run: |
-          chmod 400 ~/.ssh/id_rsa
+          #chmod 400 ~/.ssh/id_rsa
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_rsa
           cd ~/.ssh
           ls -la
+          echo -e "Cat config & known_hosts."
+          cat config
+          cat known_hosts
           
       #- name: Install Terminus as standalone command to avoid dependency interference.
       #  uses: pantheon-systems/terminus-github-actions@main
