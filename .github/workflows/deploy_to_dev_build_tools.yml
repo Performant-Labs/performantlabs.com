@@ -12,7 +12,8 @@ jobs:
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+      PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
