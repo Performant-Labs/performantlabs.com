@@ -114,22 +114,24 @@ jobs:
         run: |
           # Pantheon needs special .gitignore
           # cp .pantheon.gitignore .gitignore
-          rm -rf .git .github .idea
-          rm -rf web/core/*.txt
+          #rm -rf .git .github .idea
+          #rm -rf web/core/*.txt
           # Cleans extra .git directories otherwise the module will be interpreted by git
           # as a submodule and will not be added to the repo.
-          echo "Deleting all occurrences of .git in modules."
-          find ./web -type d -name ".git" | xargs rm -fr
+          #echo "Deleting all occurrences of .git in modules."
+          #find ./web -type d -name ".git" | xargs rm -fr
           # Remove because files are handled separately by Pantheon.
-          rm -Rf web/sites/default/files
+          #rm -Rf web/sites/default/files
           
       - name: Clone Pantheon repo locally.
         run: |
+          mkdir "$PANTHEON_REPO_DIR"
           cd "$PANTHEON_REPO_DIR"
           git init
           git config user.email "$GIT_EMAIL"
           git config user.name "CI Bot"
           git config core.fileMode false
+          echo "Pantheon repo URL - ${{secrets.PANTHEON_REPO}}"
           git remote add pantheon ${{secrets.PANTHEON_REPO}}
           
           # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
