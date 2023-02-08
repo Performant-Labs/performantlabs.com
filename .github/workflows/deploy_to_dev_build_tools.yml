@@ -136,7 +136,7 @@ jobs:
           git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
           
           # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
-          git remote add origin "$GITHUB_REPOSITORY_URL"
+          #git remote add origin "$GITHUB_REPOSITORY_URL"
           
           # List remotes (for debugging)
           git remote -v
