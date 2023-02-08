@@ -33,7 +33,7 @@ jobs:
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
         with:
-          node-version-file: 'package.json' # Uses `engines.node` value.
+          node-version: '19' 
           cache: 'npm'
           
       #- name: 'Install NPM dependencies'
