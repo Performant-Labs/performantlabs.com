@@ -58,15 +58,16 @@ jobs:
         run: |
           mkdir "$PANTHEON_REPO_DIR"
           cd "$PANTHEON_REPO_DIR"
+          pwd
           git init
-          git config user.email "$GIT_EMAIL"
+          git config user.email "aangel@performantlabs.com"
           git config user.name "CI Bot"
           git config core.fileMode false
-          echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
+          echo -e "Pantheon repo URL: ${{vars.PANTHEON_REPO_URL}}"
           git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
           
           # List remotes (for debugging)
           git remote -v
           
-          echo "Performing fetch."
+          echo -e "Performing fetch."
           git pull pantheon
