@@ -1,0 +1,67 @@
+name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
+run-name: ${{ github.actor }} is deploying to Pantheon Dev.
+on: [workflow_dispatch]
+ 
+env:
+  PHP_VERSION: '8.1'
+  PANTHEON_SITE_NAME: 'performant-labs'
+  PANTHEON_ENV: 'dev'
+
+jobs:
+  Deploy-to-Dev:
+    env:
+      GIT_EMAIL: 'ci-bot@pantheon.io'
+      GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+      PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
+      
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      
+      - name: Install SSH Key.
+        uses: shimataro/ssh-key-action@v2.5.0
+        with:
+          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          name: id_rsa
+          config: |
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa
+              User aangelantoni 
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              IdentitiesOnly yes
+              StrictHostKeyChecking no
+          known_hosts: ' '   
+          if_key_exists: replace
+          
+      - name: Start SSH agent in the background and add key.
+        run: |
+          chmod 400 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          
+      #- name: Install Terminus as standalone command to avoid dependency interference.
+      #  uses: pantheon-systems/terminus-github-actions@main
+      #  with:
+      #    pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+          
+      #- name: Install Terminus Build Tools.
+      #  run: terminus self:plugin:install terminus-build-tools-plugin
+        
+      - name: Clone Pantheon repo locally.
+        run: |
+          mkdir "$PANTHEON_REPO_DIR"
+          cd "$PANTHEON_REPO_DIR"
+          git init
+          git config user.email "$GIT_EMAIL"
+          git config user.name "CI Bot"
+          git config core.fileMode false
+          echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
+          git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
+          
+          # List remotes (for debugging)
+          git remote -v
+          
+          echo "Performing fetch."
+          git pull pantheon
