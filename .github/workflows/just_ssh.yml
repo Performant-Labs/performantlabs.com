@@ -18,7 +18,7 @@ jobs:
       
     runs-on: ubuntu-latest
     steps:
-      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo -e "Install the SSH key.\n"
       
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
@@ -35,7 +35,9 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: ' '   
           if_key_exists: replace
-          
+
+      - run: echo -e "Start the agent.\n"
+
       - name: Start SSH agent in the background and add key.
         run: |
           chmod 400 ~/.ssh/id_rsa
@@ -50,6 +52,8 @@ jobs:
       #- name: Install Terminus Build Tools.
       #  run: terminus self:plugin:install terminus-build-tools-plugin
         
+      - run: echo -e "Clone the repo.\n"
+
       - name: Clone Pantheon repo locally.
         run: |
           mkdir "$PANTHEON_REPO_DIR"
