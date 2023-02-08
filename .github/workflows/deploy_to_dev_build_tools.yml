@@ -125,7 +125,7 @@ jobs:
           rm -Rf web/sites/default/files
           
       - name: Clone Pantheon repo locally.
-        run |
+        run: |
           cd "$PANTHEON_REPO_DIR"
           git init
           git config user.email "$GIT_EMAIL"
