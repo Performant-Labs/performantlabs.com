@@ -1,6 +1,7 @@
 name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
 run-name: ${{ github.actor }} is testing just SSH.
-on: workflow_dispatch
+on: 
+  workflow_dispatch
  
 env:
   PHP_VERSION: '8.1'
