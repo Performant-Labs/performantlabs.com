@@ -17,15 +17,16 @@ jobs:
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
-      #DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      #TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      #LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+      DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+      TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+      LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
       
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "$GITHUB_CONTEXT"
       
       - name: Check out repository code.
         uses: actions/checkout@v3
@@ -65,8 +66,8 @@ jobs:
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
-      - name: Install Composer.
-        run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
+      #- name: Install Composer.
+      #  run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
                 
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
@@ -122,6 +123,33 @@ jobs:
           #find ./web -type d -name ".git" | xargs rm -fr
           # Remove because files are handled separately by Pantheon.
           #rm -Rf web/sites/default/files
+          
+          
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+        
           
       - name: Clone Pantheon repo locally.
         run: |
