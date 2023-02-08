@@ -1,4 +1,4 @@
-name: Build and deploy artifact to Pantheon Dev.
+name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
 run-name: ${{ github.actor }} is deploying to Pantheon Dev.
 on: [push]
  
@@ -16,7 +16,6 @@ jobs:
       PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
-      PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
       DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
       TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
