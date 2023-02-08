@@ -8,7 +8,7 @@ env:
   PANTHEON_ENV: 'dev'
 
 jobs:
-  Deploy-to-Dev:
+  Just-ssh:
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
