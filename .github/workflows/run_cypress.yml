@@ -1,0 +1,26 @@
+name: Run Cypress tests.
+run-name: ${{ github.actor }} is running Cypress.
+on: workflow_dispatch
+
+env:
+  php_version: '8.1'
+  pantheon_site_name: 'performant-labs'
+  pantheon_env: 'dev'
+
+jobs:
+  Deploy-to-Dev:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $pantheon_site_name.$pantheon_env."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+        
+      - name: Set up PHP.
+        uses: shivammathur/setup-php@2.24.0
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with: 
+          php-version: ${{ env.php_version }}
