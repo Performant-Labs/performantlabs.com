@@ -1,5 +1,5 @@
 name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
-run-name: ${{ github.actor }} is deploying to Pantheon Dev.
+run-name: ${{ github.actor }} is testing just SSH.
 on: [workflow_dispatch]
  
 env:
