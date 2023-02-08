@@ -26,7 +26,6 @@ jobs:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - run: echo "$GITHUB_CONTEXT"
       
       - name: Check out repository code.
         uses: actions/checkout@v3
@@ -108,6 +107,7 @@ jobs:
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
           terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sset system.maintenance_mode 1
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sget system.maintenance_mode
           #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- status
           #ssh -vT codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
 
@@ -123,34 +123,7 @@ jobs:
           #find ./web -type d -name ".git" | xargs rm -fr
           # Remove because files are handled separately by Pantheon.
           #rm -Rf web/sites/default/files
-          
-          
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-        
-          
+                    
       - name: Clone Pantheon repo locally.
         run: |
           mkdir "$PANTHEON_REPO_DIR"
@@ -159,8 +132,8 @@ jobs:
           git config user.email "$GIT_EMAIL"
           git config user.name "CI Bot"
           git config core.fileMode false
-          echo "Pantheon repo URL - ${{secrets.PANTHEON_REPO}}"
-          git remote add pantheon ${{secrets.PANTHEON_REPO}}
+          echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
+          git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
           
           # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
           git remote add origin "$GITHUB_REPOSITORY_URL"
