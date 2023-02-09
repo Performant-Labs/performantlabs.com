@@ -23,7 +23,7 @@ jobs:
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
         with:
-          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          key: ${{ vars.SSH_PRIVATE_KEY }}
           config: |
             Host *.drush.in
               IdentityFile ~/.ssh/id_rsa
@@ -43,6 +43,7 @@ jobs:
           #ssh-add ~/.ssh/id_rsa
           cd ~/.ssh
           ls -la
+          cat id_rsa
           
       #- name: Install Terminus as standalone command to avoid dependency interference.
       #  uses: pantheon-systems/terminus-github-actions@main
