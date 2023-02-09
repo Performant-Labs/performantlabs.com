@@ -65,31 +65,24 @@ jobs:
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
-      #- name: Install Composer.
-      #  run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
+      - name: Install Composer.
+        run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
                 
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
         with:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
-          name: id_rsa
+          name: id_rsa_pantheon
           config: |
             Host *.drush.in
               IdentityFile ~/.ssh/id_rsa
-              User aangelantoni 
+              IdentitiesOnly yes
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
-              IdentitiesOnly yes
               StrictHostKeyChecking no
           known_hosts: ' '   
           if_key_exists: replace
-          
-      - name: Start SSH agent in the background and add key.
-        run: |
-          chmod 400 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
-          
+                    
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
         with:
@@ -108,8 +101,6 @@ jobs:
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
           terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sset system.maintenance_mode 1
           terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sget system.maintenance_mode
-          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- status
-          #ssh -vT codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc@codeserver.dev.438108bb-37d2-42cc-8132-2e8e3a0551bc.drush.in
 
       - name: Prepare code for deployment.
         run: |
@@ -136,15 +127,15 @@ jobs:
           git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
           
           # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
-          #git remote add origin "$GITHUB_REPOSITORY_URL"
+          git remote add origin "$GITHUB_REPOSITORY_URL"
           
           # List remotes (for debugging)
           git remote -v
           
           echo "Performing fetch."
-          git pull pantheon
+          git checkout -b master
+          git pull pantheon master
           git checkout -b "$PANTHEON_BRANCH"
-          
           
       - name: Deploy to Pantheon.
         run: |
