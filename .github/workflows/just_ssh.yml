@@ -44,6 +44,8 @@ jobs:
           cd ~/.ssh
           ls -la
           cat id_rsa
+          cat config
+          cat known_hosts
           
       #- name: Install Terminus as standalone command to avoid dependency interference.
       #  uses: pantheon-systems/terminus-github-actions@main
