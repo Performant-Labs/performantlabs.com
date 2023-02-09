@@ -26,7 +26,8 @@ jobs:
           key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
           config: |
             Host *.drush.in
-              User aangelantoni 
+              IdentityFile ~/.ssh/id_rsa
+              IdentitiesOnly yes
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
               StrictHostKeyChecking no
@@ -42,9 +43,6 @@ jobs:
           ssh-add ~/.ssh/id_rsa
           cd ~/.ssh
           ls -la
-          echo -e "Cat config & known_hosts."
-          cat config
-          cat known_hosts
           
       #- name: Install Terminus as standalone command to avoid dependency interference.
       #  uses: pantheon-systems/terminus-github-actions@main
