@@ -108,8 +108,7 @@ jobs:
         
       - name: List the directories in the project.
         run: |
-          #tree -d -L 3
-          terminus connection:info performant-labs.dev
+          tree -d -L 3
                 
       - name: Enable maintenance mode.
         run: |
@@ -169,14 +168,14 @@ jobs:
           echo "Adding even .gitignored files."
           git add --force -A .
           git commit -q -m "Build assets for $PANTHEON_SITE_NAME.$PANTHEON_ENV."
-          #echo "Pushing build to Pantheon."
-          #git push --force pantheon master
-          #echo "Push complete."
+          echo "Pushing build to Pantheon."
+          git push --force pantheon master
+          echo "Push complete."
  
       - name: Terminus Drush updates.
         run: |
           echo "Running drush deploy, clearing the cache."
-          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
-          #terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
+          terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
           
       - run: echo "🍏 Job's status ${{ job.status }}."
