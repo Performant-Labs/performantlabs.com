@@ -39,6 +39,7 @@ jobs:
       
       - name: Create key from scratch.
         run: |
+          mkdir ~/.ssh
           printf "${{vars.SSH_PRIVATE_KEY}}" >> ~/.ssh/id_rsa_pantheon
           
       - name: Start SSH agent in the background and add key.
