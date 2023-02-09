@@ -75,7 +75,7 @@ jobs:
           name: id_rsa_pantheon
           config: |
             Host *.drush.in
-              IdentityFile ~/.ssh/id_rsa
+              IdentityFile ~/.ssh/id_rsa_pantheon
               IdentitiesOnly yes
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
