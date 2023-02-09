@@ -180,7 +180,8 @@ jobs:
           
           terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
           terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy:hook
+          # deploy:hook currently has an error
+          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy:hook
           terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
           
       - run: echo "🍏 Job's status ${{ job.status }}."
