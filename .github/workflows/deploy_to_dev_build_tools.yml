@@ -28,8 +28,9 @@ jobs:
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      - name: Change to Github working directory.
+      - name: Create and change to Github working directory.
         run: |
+          mkdir "$GITHUB_WORKING_DIR"
           cd "$GITHUB_WORKING_DIR"
           pwd
           
