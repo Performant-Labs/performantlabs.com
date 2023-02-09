@@ -44,7 +44,7 @@ jobs:
           #ssh-add ~/.ssh/id_rsa
           cd ~/.ssh
           ls -la
-          cat id_rsa
+          cat id_rsa_pantheon
           cat config
           cat known_hosts
           
