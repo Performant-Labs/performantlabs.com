@@ -20,28 +20,23 @@ jobs:
     steps:
       - run: echo -e "Install the SSH key.\n"
       
-      #- name: Install SSH Key.
-      #  uses: shimataro/ssh-key-action@v2.5.0
-      #  with:
-      #    key: ${{ vars.SSH_PRIVATE_KEY }}
-      #    name: id_rsa_pantheon
-      #    config: |
-      #      Host *.drush.in
-      #        IdentityFile ~/.ssh/id_rsa_pantheon
-      #        IdentitiesOnly yes
-      #        HostKeyAlgorithms +ssh-rsa
-      #        PubkeyAcceptedAlgorithms +ssh-rsa
-      #        StrictHostKeyChecking no
-      #    known_hosts: ' '   
-      #    if_key_exists: replace
+      - name: Install SSH Key.
+        uses: shimataro/ssh-key-action@v2.5.0
+        with:
+          key: ${{ vars.SSH_PRIVATE_KEY }}
+          name: id_rsa_pantheon
+          config: |
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa_pantheon
+              IdentitiesOnly yes
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              StrictHostKeyChecking no
+          known_hosts: ''   
+          if_key_exists: replace
 
       - run: echo -e "Start the agent.\n"
-      
-      - name: Create key from scratch.
-        run: |
-          mkdir ~/.ssh
-          printf "${{vars.SSH_PRIVATE_KEY}}" >> ~/.ssh/id_rsa_pantheon
-          
+                
       - name: Start SSH agent in the background and add key.
         run: |
           #chmod 400 ~/.ssh/id_rsa
@@ -50,8 +45,8 @@ jobs:
           cd ~/.ssh
           ls -la
           cat id_rsa_pantheon
-          #cat config
-          #cat known_hosts
+          cat config
+          cat known_hosts
           
       #- name: Install Terminus as standalone command to avoid dependency interference.
       #  uses: pantheon-systems/terminus-github-actions@main
