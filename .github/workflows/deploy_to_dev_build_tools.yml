@@ -178,9 +178,9 @@ jobs:
           # Don't use drush deploy until the configuration is being imported.
           # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
           
-          terminus remote:drush -- updatedb --no-cache-clear
-          terminus remote:drush -- cache:rebuild
-          terminus remote:drush -- deploy:hook
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy:hook
           terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
           
       - run: echo "🍏 Job's status ${{ job.status }}."
