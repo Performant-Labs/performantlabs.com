@@ -297,6 +297,7 @@
         "drupal/filefield_paths": "~1.0",
         "drupal/footnotes": "~2.0",
         "drupal/google_analytics": "~4.0",
+        "drupal/header_and_footer_scripts": "^3.0",
         "drupal/honeypot": "~2.0",
         "drupal/hook_event_dispatcher": "^3.3",
         "drupal/imce": "~2.0",
