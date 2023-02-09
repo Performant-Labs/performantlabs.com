@@ -32,7 +32,7 @@ jobs:
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
               StrictHostKeyChecking no
-          known_hosts: ''   
+          known_hosts: ' '   
           if_key_exists: replace
 
       - run: echo -e "Start the agent.\n"
