@@ -3826,6 +3826,74 @@
             "install-path": "../../web/modules/contrib/google_analytics"
         },
         {
+            "name": "drupal/header_and_footer_scripts",
+            "version": "3.0.0",
+            "version_normalized": "3.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/header_and_footer_scripts.git",
+                "reference": "3.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/header_and_footer_scripts-3.0.0.zip",
+                "reference": "3.0.0",
+                "shasum": "a595550e7d865b615bffd52c030219dbaf26fc98"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
+                "drupal/coder": "^8.3"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0",
+                    "datestamp": "1635754974",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "See contributors",
+                    "homepage": "https://www.drupal.org/node/2832400/committers",
+                    "role": "Developer"
+                },
+                {
+                    "name": "drupalnetworks",
+                    "homepage": "https://www.drupal.org/user/846558"
+                },
+                {
+                    "name": "sasiddiqui",
+                    "homepage": "https://www.drupal.org/user/3100375"
+                }
+            ],
+            "description": "Allows you to add the scripts and styles on overall site from the front-end. No need to open files and add them there.",
+            "homepage": "https://www.drupal.org/project/header_and_footer_scripts",
+            "keywords": [
+                "Drupal",
+                "script",
+                "style"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/header_and_footer_scripts",
+                "email": "sami.siddiqui@yasglobal.com",
+                "issues": "https://www.drupal.org/project/issues/header_and_footer_scripts"
+            },
+            "install-path": "../../web/modules/contrib/header_and_footer_scripts"
+        },
+        {
             "name": "drupal/honeypot",
             "version": "2.1.2",
             "version_normalized": "2.1.2.0",
