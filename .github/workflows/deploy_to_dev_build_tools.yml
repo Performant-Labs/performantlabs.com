@@ -7,7 +7,7 @@ env:
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: 'dev'
   PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
-  GITHUB_WORKING_DIR: '~/working'
+  GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
 jobs:
   Deploy-to-Dev:
@@ -28,14 +28,6 @@ jobs:
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      - name: Create and change to Github working directory.
-        run: |
-          pwd
-          tree -d -L 3
-          mkdir "$GITHUB_WORKING_DIR"
-          cd "$GITHUB_WORKING_DIR"
-          pwd
-          
       - name: Check out repository code.
         uses: actions/checkout@v3
         
