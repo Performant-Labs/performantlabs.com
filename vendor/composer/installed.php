@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'drupal/recommended-project',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'b531dac792edda82e74cfdccfcaea0e77cf10d47',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '35ab00a2cee2cc7324176f48d54a555b00bc7fa2',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'asm89/stack-cors' => array(
@@ -839,9 +839,9 @@
             'dev_requirement' => false,
         ),
         'drupal/recommended-project' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'b531dac792edda82e74cfdccfcaea0e77cf10d47',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '35ab00a2cee2cc7324176f48d54a555b00bc7fa2',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
