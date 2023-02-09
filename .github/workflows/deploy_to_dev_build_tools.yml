@@ -28,13 +28,23 @@ jobs:
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      - name: Set up PHP.
-        uses: shivammathur/setup-php@2.24.0
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          php-version: "8.1"
+      - name: Change to Github working directory.
+        run: |
+          cd "$GITHUB_WORKING_DIR"
+          pwd
           
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+        
+      - name: Change to Github working directory.
+        run: |
+          cd "$GITHUB_WORKING_DIR"
+          pwd
+          
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+      
+      # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
         with:
