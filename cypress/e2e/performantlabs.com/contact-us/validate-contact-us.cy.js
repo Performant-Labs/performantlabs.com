@@ -1,5 +1,4 @@
 /// <reference types="Cypress" />
-/// <reference types="cypress-data-session" />
 
 import { createRandomString } from '../../../support/utils.js'
 
@@ -10,6 +9,7 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
 
   it("(PER-1100) Contact Us form accepts correct input", {defaultCommandTimeout: 1000, languages: ['en'],  regions: ['us'], tags: ['contact-us', 'anonymous', 'smoke']}, () => {
     const randomString = createRandomString(10)
+    cy.log("** Fill out contact form **")
     cy.visit('contact-us').then(() => {
       cy.get('#edit-name').type('André Angelantoni')
       cy.get('#edit-email').type('aangel100+001@gmail.com')
