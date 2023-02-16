@@ -3,6 +3,10 @@
 // https://github.com/bahmutov/cypress-log-to-term
 import 'cypress-log-to-term/commands'
 
+// Not being picked up in the config file.
+// See: https://github.com/cypress-io/cypress/issues/8250
+Cypress.config('defaultCommandTimeout', 5000)
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
