@@ -50,6 +50,11 @@ module.exports = defineConfig({
     experimentalSessionAndOrigin: true,
     baseUrl: 'https://www.performantlabs.com',
     setupNodeEvents(on, config) {
+      // register the "cypress-log-to-term" plugin
+      // https://github.com/bahmutov/cypress-log-to-term
+      // IMPORTANT: pass the "on" callback argument
+      require('cypress-log-to-term')(on)
+
       // Test for presence of a file.
       on('task', {
         fileExists(filename) {
