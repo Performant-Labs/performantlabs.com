@@ -175,7 +175,13 @@ jobs:
       - name: Terminus Drush updates.
         run: |
           echo "Running drush deploy, clearing the cache."
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
+          # Don't use drush deploy until the configuration is being imported.
+          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
+          
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
+          # deploy:hook currently has an error
+          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy:hook
           terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
           
       - run: echo "🍏 Job's status ${{ job.status }}."
