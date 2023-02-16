@@ -1,5 +1,11 @@
 /// <reference types="Cypress" />
 
+// https://github.com/bahmutov/cypress-log-to-term
+import 'cypress-log-to-term/commands'
+
+// Not being picked up in the config file.
+// See: https://github.com/cypress-io/cypress/issues/8250
+Cypress.config('defaultCommandTimeout', 5000)
 
 // ***********************************************
 // This example commands.js shows you how to
@@ -256,11 +262,11 @@ Cypress.Commands.add("logInViaForm", (account) => {
       cy.visit(Cypress.env('url').login)
 
       // It is ok for the username to be visible in the Command Log.
-      expect(account.username, 'username was set').to.be.a('string').and.not.be.empty
+      expect(account.userName, 'username was set').to.be.a('string').and.not.be.empty
 
       // But the password value should not be shown.
-      if (typeof account.password !== 'string' || !account.password) {
-        throw new Error('Missing password value, set using CYPRESS_password=...')
+      if (typeof account.userPassword !== 'string' || !account.userPassword) {
+        throw new Error('Missing password value, check the environment configuration file.')
       }
       cy.get('#edit-name').type(account.userName, { force: true })
 

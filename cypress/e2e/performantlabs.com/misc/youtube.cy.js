@@ -7,7 +7,7 @@ describe('User registration and login tasks', () => {
 
   // Keep for playing with.
   // npx cypress open --config baseUrl=https://youtube.com
-  it("(PER-0000) Play YouTube", () => {
+  it.skip("(PER-0000) Play YouTube", () => {
 
     // Peaceful piano music
     // cy.visit('watch?v=vxu2IAG1mLk')
