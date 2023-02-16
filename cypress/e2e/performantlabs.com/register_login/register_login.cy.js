@@ -70,10 +70,10 @@ describe('User registration and login tasks', () => {
         // Use log in url stored in the environment.
         cy.visit(Cypress.env('url').login)
 
-        cy.get('#edit-name').type(account[1].username)
+        cy.get('#edit-name').type(account[1].userName)
 
         // Type password and the password value should not be shown - {log: false}.
-        cy.get('#edit-pass').type(account[1].password, { log: false })
+        cy.get('#edit-pass').type(account[1].userPassword, { log: false })
 
         // Click the log in button using ID.
         cy.get('#edit-submit').click()
