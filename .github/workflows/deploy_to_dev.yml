@@ -1,7 +1,8 @@
 name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
 run-name: ${{ github.actor }} is deploying to Pantheon Dev.
-on: [push]
- 
+#on: [push]
+on: workflow-dispatch
+
 env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
