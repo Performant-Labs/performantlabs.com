@@ -6,10 +6,23 @@ env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
   pantheon_env: 'dev'
-
+  local_db: "mysql://drupal:drupal@mariadb:3306/drupal"
+  local_base_url: "http://127.0.0.1:8080"
+  
 jobs:
-  Deploy-to-Dev:
+  Run-Cypress-Tests-Locally:
     runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.9
+        env:
+          MYSQL_USER: drupal
+          MYSQL_PASSWORD: drupal
+          MYSQL_DATABASE: drupal
+          MYSQL_ROOT_PASSWORD: drupal
+        ports:
+          - 3306:3306
+          
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
@@ -19,7 +32,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Set up PHP.
-        uses: shivammathur/setup-php@2.24.0
+        uses: shivammathur/setup-php@v2
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
@@ -45,8 +58,30 @@ jobs:
         
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
-                 
-      - name: Rnn Cypress tests.
+
+      - name: List the directories in the project.
+        run: |
+          tree -d -L 3
+          
+      - name: Copy settings.github.php to settings.local.php
+        run: cp web/sites/default/settings.github.php web/sites/default.settings.local.php
+          
+      - name: Start Drush webserver.
+        run: |
+          # Hide all output and errors.
+          # vendor/bin/drush runserver $local_base_url > /dev/null 2>&1 &
+          vendor/bin/drush -vvv runserver $local_base_url &
+
+          # Wait for drush server to start.
+          for i in {1..5}; do \
+            RESPONSE_CODE=$(curl -s -o /dev/null \
+            -w "%{http_code}" "$local_base_url" || true); \
+            if [ "$RESPONSE_CODE" -gt "301" ] || [ "$RESPONSE_CODE" -lt "200" ]; \
+            then sleep 2; fi; done
+            
+      - name: Run Cypress tests.
         uses: cypress-io/github-action@v5
+        with:
+          config-file: cypress-github.config.js
         
         
