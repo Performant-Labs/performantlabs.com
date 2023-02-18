@@ -48,7 +48,7 @@ private/files/**/.flv
 # Working files.
 *.sql
 *.mysql
-*.sql.gz
+#*.sql.gz
 *.mysql.gz
 *.log
 *.gz
