@@ -28,6 +28,16 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
+      - name: Unix tool setup.
+        run: |
+          gunzip -help
+          apt-get gunzip
+          
+      - name: Import the database.
+        run: |
+          gunzip project/database/performant-labs_dev.sql.gz
+          mysqlimport --user=drupal --password=drupal project/database/performant-labs_dev.sql
+        
       - name: Check out repository code.
         uses: actions/checkout@v3
         
