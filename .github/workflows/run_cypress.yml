@@ -64,8 +64,9 @@ jobs:
           tree -d -L 3
           
       - name: Copy settings.github.php to settings.local.php
-        run: cp web/sites/default/settings.github.php web/sites/default.settings.local.php
+        run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
           
+      # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
         run: |
           # Hide all output and errors.
