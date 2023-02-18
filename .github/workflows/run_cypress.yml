@@ -24,3 +24,29 @@ jobs:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
           php-version: ${{ env.php_version }}
+          
+      - name: Checkout.
+        uses: actions/checkout@v3
+        
+      - name: Set Composer cache directory.
+        id: composer-cache-dir
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        
+      - name: Cache Composer dependencies.
+        uses: actions/cache@v3.2.4
+        with:
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-    
+            
+      - name: Avoid GitHub rate limit for Composer.
+        run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+        
+      - name: Install Composer.
+        run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
+                 
+      - name: Rnn Cypress tests.
+        uses: cypress-io/github-action@v5
+        
+        
