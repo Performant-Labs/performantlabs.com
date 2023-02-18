@@ -32,6 +32,7 @@ jobs:
       
       - name: Unix tool setup.
         run: |
+          ls
           pwd
           ls project/database
           
