@@ -28,8 +28,9 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      #- name: Unix tool setup.
-      #  run: |
+      - name: Unix tool setup.
+        run: |
+          cat project/database
           
       - name: Import the database.
         run: |
