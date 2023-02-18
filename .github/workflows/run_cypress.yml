@@ -56,8 +56,8 @@ jobs:
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
-      #- name: Install Composer.
-      #  run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
+      - name: Install Composer.
+        run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
       - name: List the directories in the project.
         run: |
@@ -79,6 +79,6 @@ jobs:
       - name: Run Cypress tests.
         uses: cypress-io/github-action@v5
         with:
-          config-file: cypress-local.config.js
+          config-file: cypress-github.config.js
         
         
