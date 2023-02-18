@@ -34,7 +34,9 @@ jobs:
       #  run: |
       
       - name: Install MariaDB client
-        run: sudo apt-get update && sudo apt-get install -y mariadb-client
+        run: |
+          sudo apt-get update && sudo apt-get install -y mariadb-client
+          systemctl status mysql
 
       - name: Check out repository code.
         uses: actions/checkout@v3
