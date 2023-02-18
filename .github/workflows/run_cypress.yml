@@ -32,7 +32,8 @@ jobs:
       
       - name: Unix tool setup.
         run: |
-          ls
+          ls -la
+          tree -d -L 3
           pwd
           ls project/database
           
