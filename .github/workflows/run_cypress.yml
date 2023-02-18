@@ -39,7 +39,7 @@ jobs:
       - name: Import the database.
         run: |
           gunzip project/database/performant-labs_dev.sql.gz
-          mysqlimport --user=drupal --password=drupal project/database/performant-labs_dev.sql
+          mysqlimport drupal --user=drupal --password=drupal project/database/performant-labs_dev.sql
         
       - name: Set up PHP.
         uses: shivammathur/setup-php@v2
