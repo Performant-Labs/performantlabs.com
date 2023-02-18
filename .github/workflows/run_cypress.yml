@@ -32,7 +32,8 @@ jobs:
       
       - name: Unix tool setup.
         run: |
-          cat project/database
+          pwd
+          ls project/database
           
       - name: Import the database.
         run: |
