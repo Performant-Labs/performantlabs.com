@@ -1,7 +1,9 @@
 name: Run Cypress tests.
 run-name: ${{ github.actor }} is running Cypress.
-on: workflow_dispatch
-
+#on: workflow_dispatch
+on: 
+  [push]
+  
 env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
