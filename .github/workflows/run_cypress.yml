@@ -32,14 +32,18 @@ jobs:
       
       #- name: Unix tools setup.
       #  run: |
+      
+      - name: Install MariaDB client
+        run: sudo apt-get update && sudo apt-get install -y mariadb-client
 
       - name: Check out repository code.
         uses: actions/checkout@v3
-        
-      - name: Import the database.
+                  
+      - name: Import database
         run: |
           gunzip project/database/performant-labs_dev.sql.gz
-          mysqlimport drupal --user=drupal --password=drupal project/database/performant-labs_dev.sql
+          mysql -hlocalhost -udrupal -pdrupal -e "CREATE DATABASE drupal;"
+          mysql -hlocalhost -udrupal -pdrupal drupal < project/database/performant-labs_dev.sql      
         
       - name: Set up PHP.
         uses: shivammathur/setup-php@v2
