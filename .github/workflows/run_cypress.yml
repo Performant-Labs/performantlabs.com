@@ -30,20 +30,16 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      - name: Unix tool setup.
-        run: |
-          ls -la
-          tree -d -L 3
-          pwd
-          ls project/database
-          
+      #- name: Unix tools setup.
+      #  run: |
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+        
       - name: Import the database.
         run: |
           gunzip project/database/performant-labs_dev.sql.gz
           mysqlimport --user=drupal --password=drupal project/database/performant-labs_dev.sql
-        
-      - name: Check out repository code.
-        uses: actions/checkout@v3
         
       - name: Set up PHP.
         uses: shivammathur/setup-php@v2
