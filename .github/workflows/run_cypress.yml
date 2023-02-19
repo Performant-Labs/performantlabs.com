@@ -68,9 +68,9 @@ jobs:
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
-      - name: List the directories in the project.
-        run: |
-          tree -d -L 3
+      #- name: List the directories in the project.
+      #  run: |
+      #    tree -d -L 3
           
       - name: Copy settings.github.php to settings.local.php
         run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
