@@ -1,35 +1,44 @@
 name: Run Cypress tests.
 run-name: ${{ github.actor }} is running Cypress.
-on: workflow_dispatch
-
+#on: workflow_dispatch
+on: 
+  [push]
+  
 env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
   pantheon_env: 'dev'
-  local_db: "mysql://drupal:drupal@mariadb:3306/drupal"
+  local_db: "mysql://root:root@mysql:3306/drupal"
   local_base_url: "http://127.0.0.1:8080"
+  db_database: drupal
+  db_user: root
+  db_password: root
   
 jobs:
   Run-Cypress-Tests-Locally:
     runs-on: ubuntu-latest
-    services:
-      mariadb:
-        image: mariadb:10.9
-        env:
-          MYSQL_USER: drupal
-          MYSQL_PASSWORD: drupal
-          MYSQL_DATABASE: drupal
-          MYSQL_ROOT_PASSWORD: drupal
-        ports:
-          - 3306:3306
-          
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
+      #- name: Unix tools setup.
+      #  run: |
+      
+      - name: Start mysql.
+        run: |
+          sudo /etc/init.d/mysql start
+          #mysql -e 'CREATE DATABASE ${{ env.db_database }};' -u${{ env.db_user }} -p${{ env.db_password }}
+          systemctl status mysql
+
       - name: Check out repository code.
         uses: actions/checkout@v3
+                  
+      - name: Import database
+        run: |
+          gunzip project/database/performant-labs_dev.sql.gz
+          mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} -e "CREATE DATABASE ${{ env.db_database }};"
+          mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} ${{ env.db_database }} < project/database/performant-labs_dev.sql      
         
       - name: Set up PHP.
         uses: shivammathur/setup-php@v2
@@ -64,8 +73,14 @@ jobs:
           tree -d -L 3
           
       - name: Copy settings.github.php to settings.local.php
-        run: cp web/sites/default/settings.github.php web/sites/default.settings.local.php
+        run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
+        
+      - name: Test drush.
+        run: |
+          pwd
+          vendor/bin/drush status
           
+      # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
         run: |
           # Hide all output and errors.
