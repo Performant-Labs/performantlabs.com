@@ -76,7 +76,10 @@ jobs:
         run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
         
       - name: Test drush.
-        run: drush status
+        run: |
+          pwd
+          cd web
+          drush status
           
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
