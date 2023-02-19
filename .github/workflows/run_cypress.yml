@@ -79,7 +79,7 @@ jobs:
         run: |
           pwd
           cd web
-          drush status
+          vendor/bin/drush status
           
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
