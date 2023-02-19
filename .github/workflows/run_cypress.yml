@@ -78,7 +78,6 @@ jobs:
       - name: Test drush.
         run: |
           pwd
-          cd web
           vendor/bin/drush status
           
       # See: https://www.drush.org/latest/commands/runserver/
