@@ -167,8 +167,8 @@ if (file_exists($gh_services_file)) {
 
 $databases['default']['default'] = array (
   'database' => 'drupal',
-  'username' => 'drupal',
-  'password' => 'drupal',
+  'username' => 'root',
+  'password' => 'root',
   'prefix' => '',
   'host' => 'localhost',
   'port' => '3306',
