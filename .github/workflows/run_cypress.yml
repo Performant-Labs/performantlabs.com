@@ -8,7 +8,7 @@ env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
   pantheon_env: 'dev'
-  local_db: "mysql://drupal:drupal@mariadb:3306/drupal"
+  local_db: "mysql://root:root@mysql:3306/drupal"
   local_base_url: "http://127.0.0.1:8080"
   db_database: drupal
   db_user: root
@@ -17,18 +17,6 @@ env:
 jobs:
   Run-Cypress-Tests-Locally:
     runs-on: ubuntu-latest
-    
-    #services:
-    #  mariadb:
-    #    image: mariadb:10.9
-    #    env:
-    #      MYSQL_USER: drupal
-    #      MYSQL_PASSWORD: drupal
-    #      MYSQL_DATABASE: drupal
-    #      MYSQL_ROOT_PASSWORD: drupal
-    #    ports:
-    #      - 3306:3306
-          
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
@@ -37,10 +25,6 @@ jobs:
       #- name: Unix tools setup.
       #  run: |
       
-      #- name: Install MariaDB client
-      #  run: |
-      #    sudo apt-get update && sudo apt-get install -y mariadb-client
-
       - name: Start mysql.
         run: |
           sudo /etc/init.d/mysql start
@@ -90,6 +74,9 @@ jobs:
           
       - name: Copy settings.github.php to settings.local.php
         run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
+        
+      - name: Test drush.
+        run: drush status
           
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
