@@ -50,12 +50,6 @@ jobs:
       - name: Checkout.
         uses: actions/checkout@v3
         
-      - name: Disable maintenance mode.
-        run: |
-          echo "Disabling maintenance mode for $pantheon_site_name.$pantheon_env."
-          vendor/bin/drush sset system.maintenance_mode 0    
-          vendor/bin/drush sget system.maintenance_mode
-        
       - name: Set Composer cache directory.
         id: composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -85,7 +79,13 @@ jobs:
         run: |
           pwd
           vendor/bin/drush status
-          
+
+      - name: Disable maintenance mode.
+        run: |
+          echo "Disabling maintenance mode for $pantheon_site_name.$pantheon_env."
+          vendor/bin/drush sset system.maintenance_mode 0    
+          vendor/bin/drush sget system.maintenance_mode
+        
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
         run: |
