@@ -1,4 +1,5 @@
 const { defineConfig } = require("cypress");
+const {unlinkSync} = require("fs");
 
 module.exports = defineConfig({
   // Used by Cypress.io
@@ -8,8 +9,8 @@ module.exports = defineConfig({
   responseTimeout : 5000,
   defaultCommandTimeout: 5000,
   numTestsKeptInMemory: 0,
-  screenshotOnRunFailure: false,
-  video: false,
+  screenshotOnRunFailure: true,
+  video: true,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.
@@ -41,6 +42,17 @@ module.exports = defineConfig({
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
       require('cypress-log-to-term')(on)
+      on('after:spec'), (spec, results) => {
+        if (config.video) {
+          if (results.stats.failures || results.stats.skipped) {
+            console.log('Keeping video of failure.')
+          }
+          else {
+            console.log('Deleting video', results.video)
+            unlinkSync(results.video)
+          }
+        }
+      }
     },
   },
 });
