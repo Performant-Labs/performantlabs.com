@@ -42,7 +42,7 @@ module.exports = defineConfig({
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
       require('cypress-log-to-term')(on)
-      on('after:spec'), (spec, results) => {
+      on('after:spec', (spec, results) => {
         if (config.video) {
           if (results.stats.failures || results.stats.skipped) {
             console.log('Keeping video of failure.')
@@ -52,7 +52,7 @@ module.exports = defineConfig({
             unlinkSync(results.video)
           }
         }
-      }
+      })
     },
   },
 });
