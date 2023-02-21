@@ -151,7 +151,7 @@ $settings['skip_permissions_hardening'] = TRUE;
 if (!isset($settings['trusted_host_patterns'])) $settings['trusted_host_patterns'] = [];
 array_push($settings['trusted_host_patterns'],
   '^performantlabs$',
-  '^127.0.0.1$',
+  '^127\.0\.0\.1$',
   '^.+\.lndo\.site$');
 
 /**
