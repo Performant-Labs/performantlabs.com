@@ -1,4 +1,4 @@
-name: Run Cypress tests.
+name: Launch app on GH, run Cypress tests on GH.
 run-name: ${{ github.actor }} is running Cypress.
 #on: workflow_dispatch
 on: 
