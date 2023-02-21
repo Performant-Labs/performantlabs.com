@@ -1,5 +1,5 @@
-name: Launch app on GH, run Cypress tests on Testery.
-#See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
+name: App->GH Cypress->Testery
+# See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is running Cypress.
 #on: workflow_dispatch
 on: 
