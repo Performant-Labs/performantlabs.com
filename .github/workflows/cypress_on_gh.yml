@@ -1,8 +1,8 @@
-name: Launch app on GH, run Cypress tests on GH.
+name: App->GH Cypress->GH
 run-name: ${{ github.actor }} is running Cypress.
-#on: workflow_dispatch
-on: 
-  [push]
+on: workflow_dispatch
+#on: 
+#  [push]
   
 env:
   php_version: '8.1'
