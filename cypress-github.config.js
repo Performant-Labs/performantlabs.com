@@ -52,7 +52,7 @@ module.exports = defineConfig({
             unlinkSync(results.video)
           }
         }
-      }
+      })
     },
   },
 });
