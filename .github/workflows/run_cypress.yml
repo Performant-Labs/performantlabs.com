@@ -98,5 +98,21 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config-file: cypress-github.config.js
+          
+      - name: Save the screenshots and videos.
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+         name: cypress-screenshots
+         path: ./cypress/screenshots
+         
+      # The videos may be saved only if they fail. See the "after:spec" in the
+      # configuration file.
+      - name: Save the videos.
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: cypress-videos
+          path: ./cypress/videos
         
         
