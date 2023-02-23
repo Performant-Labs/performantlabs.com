@@ -1,11 +1,12 @@
 name: App->GH Cypress->Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is running Cypress.
-#on: workflow_dispatch
+
 on: 
   push:
     paths:
       - .github/workflows/cypress_on_testery.yml
+  workflow_dispatch:    
   
 env:
   php_version: '8.1'
