@@ -44,6 +44,8 @@ module.exports = defineConfig({
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
       require('cypress-log-to-term')(on)
+
+      // Delete videos if test passes.
       on('after:spec', (spec, results) => {
         if (config.video) {
           if (results.stats.failures || results.stats.skipped) {
