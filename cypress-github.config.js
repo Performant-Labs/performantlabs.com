@@ -57,6 +57,45 @@ module.exports = defineConfig({
           }
         }
       })
+
+      // Increase the browser window size when running headlessly
+      // to produce higher resolution images and videos.
+      // https://on.cypress.io/browser-launch-api
+      // https://www.cypress.io/blog/2021/03/01/generate-high-resolution-videos-and-screenshots/
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        console.log(
+          'launching browser %s is headless? %s',
+          browser.name,
+          browser.isHeadless,
+        )
+
+        // Target browser width and height.
+        const width = 1920
+        const height = 1080
+
+        console.log('**Setting the browser window size to %d x %d**', width, height)
+
+        if (browser.name === 'chrome' && browser.isHeadless) {
+          launchOptions.args.push(`--window-size=${width},${height}`)
+
+          // Force screen to be non-retina and just use our given resolution.
+          launchOptions.args.push('--force-device-scale-factor=1')
+        }
+
+        if (browser.name === 'electron' && browser.isHeadless) {
+          // Might not work on CI for some reason
+          launchOptions.preferences.width = width
+          launchOptions.preferences.height = height
+        }
+
+        if (browser.name === 'firefox' && browser.isHeadless) {
+          launchOptions.args.push(`--width=${width}`)
+          launchOptions.args.push(`--height=${height}`)
+        }
+
+        // IMPORTANT: return the updated browser launch options
+        return launchOptions
+      })
     },
   },
 });
