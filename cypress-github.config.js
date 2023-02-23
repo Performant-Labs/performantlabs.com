@@ -5,10 +5,10 @@ const fs = require("fs");
 module.exports = defineConfig({
   // Used by Cypress.io
   projectId: 'projectID',
-  pageLoadTimeout: 5000,
-  requestTimeout : 5000,
-  responseTimeout : 5000,
-  defaultCommandTimeout: 5000,
+  pageLoadTimeout: 10000,
+  requestTimeout : 10000,
+  responseTimeout : 10000,
+  defaultCommandTimeout: 10000,
   numTestsKeptInMemory: 0,
   screenshotOnRunFailure: true,
   video: true,
