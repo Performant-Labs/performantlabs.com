@@ -372,6 +372,9 @@ Cypress.Commands.add('parseXlsx', (inputFile) => {
 
 /**
  * Prepare for test run.
+ *
+ * TODO: Figure out how to get this to run only once.
+ * Until then, put code in the CI.
  */
 Cypress.Commands.add("prepareForTestRun", () => {
   // Set the Honeypot time limit to 0.
@@ -380,9 +383,9 @@ Cypress.Commands.add("prepareForTestRun", () => {
 
   // Uninstall honeypot and coffee.
   // Coffee is presenting an overlay that is hiding other elements.
-  cy.log("**Uninstall Honeypot and coffee.**")
-  cy.execDrush('pmu -y coffee honeypot')
-  cy.wait(2000)
+  // cy.log("**Uninstall Honeypot and Coffee.**")
+  // cy.execDrush('pmu -y coffee honeypot')
+  // cy.wait(2000)
 })
 
 

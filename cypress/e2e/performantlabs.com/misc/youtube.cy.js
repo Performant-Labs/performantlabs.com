@@ -1,10 +1,6 @@
 /// <reference types="Cypress" />
 
 describe('User registration and login tasks', () => {
-  before(function () {
-    cy.prepareForTestRun()
-  })
-
   // Keep for playing with.
   // npx cypress open --config baseUrl=https://youtube.com
   it.skip("(PER-0000) Play YouTube", () => {
