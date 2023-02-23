@@ -43,7 +43,7 @@ let hasRunSetup = false
 // Perform setup before all tests run.
 //
 before(() => {
-  if (typeof hasRunSetup !== 'undefined') {
+  if (typeof hasRunSetup == 'undefined') {
     cy.log("**Before all tests run.**")
     cy.prepareForTestRun()
     hasRunSetup = true
