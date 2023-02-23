@@ -107,6 +107,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           config-file: cypress-github.config.js
+          quiet: true # Hide warnings.
           
       - name: Save the screenshots.
         uses: actions/upload-artifact@v3
