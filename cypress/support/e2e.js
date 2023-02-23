@@ -39,6 +39,15 @@ const localizedPrefix = '/'
 const _it = it
 
 //
+// Perform setup before all tests run.
+//
+before(() => {
+  cy.log("**Before all tests run.**")
+  cy.prepareForTestRun()
+})
+
+
+//
 // TAKEN OUT OF USE UNTIL IT DOESN'T INTERFERE WITH
 // .SKIP AND .ONLY.
 

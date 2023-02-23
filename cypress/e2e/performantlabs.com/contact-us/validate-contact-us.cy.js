@@ -4,10 +4,6 @@
 import { createRandomString } from '../../../support/utils.js'
 
 describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, () => {
-  before(function () {
-    cy.prepareForTestRun()
-  })
-
   it("(PER-1100) Contact Us form accepts correct input", {languages: ['en'],  regions: ['us'], tags: ['contact-us', 'anonymous', 'smoke']}, () => {
     const randomString = createRandomString(10)
     cy.log("**Fill out contact form**")
