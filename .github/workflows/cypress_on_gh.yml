@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - .github/workflows/cypress_on_gh.yml
+  workflow_dispatch:  
   
 env:
   php_version: '8.1'
@@ -107,7 +108,7 @@ jobs:
         with:
           config-file: cypress-github.config.js
           
-      - name: Save the screenshots and videos.
+      - name: Save the screenshots.
         uses: actions/upload-artifact@v3
         if: failure()
         with:
