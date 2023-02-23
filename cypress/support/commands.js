@@ -374,8 +374,6 @@ Cypress.Commands.add('parseXlsx', (inputFile) => {
  * Prepare for test run.
  */
 Cypress.Commands.add("prepareForTestRun", () => {
-  return;
-
   // Set the Honeypot time limit to 0.
   cy.log("**Setting Honeypot time limit to 0.**")
   cy.setDrupalConfiguration('honeypot.settings', 'time_limit', '0')
