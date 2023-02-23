@@ -95,8 +95,8 @@ jobs:
           # Hide all output and errors.
           vendor/bin/drush runserver $local_base_url > /dev/null 2>&1 &
 
-          # For debugging.
-          vendor/bin/drush -vvv runserver $local_base_url &
+          # Uncomment when debugging.
+          #vendor/bin/drush -vvv runserver $local_base_url &
 
           # Wait for drush server to start.
           for i in {1..5}; do \
