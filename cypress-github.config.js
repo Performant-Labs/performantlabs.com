@@ -51,7 +51,7 @@ module.exports = defineConfig({
           else {
             const fs = require("fs");
             if (fs.existsSync(results.video)) {
-              console.log(`**Deleting video ${results.video}**`)
+              //console.log(`**Deleting video ${results.video}**`)
               //unlinkSync(results.video)
             }
           }
