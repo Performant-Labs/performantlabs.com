@@ -88,7 +88,12 @@ jobs:
           echo "Disabling maintenance mode for $pantheon_site_name.$pantheon_env."
           vendor/bin/drush sset system.maintenance_mode 0    
           vendor/bin/drush sget system.maintenance_mode
-        
+          
+      - name: Uninstall Honeypot and Coffee.
+        run: |
+          echo "Uninstalling Honeypot and Coffee."
+          vendor/bin/drush pmu -y coffee honeypot   
+
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
         run: |
