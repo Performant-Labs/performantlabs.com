@@ -5,13 +5,14 @@ const fs = require("fs");
 module.exports = defineConfig({
   // Used by Cypress.io
   projectId: 'projectID',
-  pageLoadTimeout: 10000,
+  pageLoadTimeout: 15000,
   requestTimeout : 10000,
   responseTimeout : 10000,
   defaultCommandTimeout: 10000,
   numTestsKeptInMemory: 0,
   screenshotOnRunFailure: true,
   video: true,
+  videoCompression: 16,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.
