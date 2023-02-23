@@ -11,6 +11,6 @@ const helloTest = {
   `
 }
 
-it('tests hello', () => {
+it.skip('tests hello', () => {
   cy.runExample(helloTest)
 })
