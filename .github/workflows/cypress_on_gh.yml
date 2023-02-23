@@ -93,8 +93,10 @@ jobs:
       - name: Start Drush webserver.
         run: |
           # Hide all output and errors.
-          # vendor/bin/drush runserver $local_base_url > /dev/null 2>&1 &
-          vendor/bin/drush -vvv runserver $local_base_url &
+          vendor/bin/drush runserver $local_base_url > /dev/null 2>&1 &
+
+          # Uncomment when debugging.
+          #vendor/bin/drush -vvv runserver $local_base_url &
 
           # Wait for drush server to start.
           for i in {1..5}; do \
