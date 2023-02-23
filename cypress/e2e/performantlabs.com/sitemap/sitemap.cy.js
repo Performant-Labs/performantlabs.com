@@ -10,7 +10,7 @@ describe('Sitemap tasks', () => {
   it("(PER-0000) Check all URLs in the sitemap", () => {
 
     // Watch this:
-    cy.request('sitemap.xml')
+    cy.request('/sitemap.xml')
       .its('body')
       .then(body => {
         const x2js = new X2JS()

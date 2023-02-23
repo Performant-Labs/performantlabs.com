@@ -377,9 +377,11 @@ Cypress.Commands.add("prepareForTestRun", () => {
   return;
 
   // Set the Honeypot time limit to 0.
+  cy.log("**Setting Honeypot time limit to 0.**")
   cy.setDrupalConfiguration('honeypot.settings', 'time_limit', '0')
 
   // Coffee is presenting an overlay that is hiding other elements.
+  cy.log("**Uninstall coffee.**")
   cy.execDrush('pmu -y coffee')
 })
 
