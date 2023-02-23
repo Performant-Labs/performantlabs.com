@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - .github/workflows/cypress_on_gh.yml
+  workflow_dispatch:  
   
 env:
   php_version: '8.1'
