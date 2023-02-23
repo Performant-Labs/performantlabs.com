@@ -38,12 +38,16 @@ const localizedPrefix = '/'
 // Create pointer to function.
 const _it = it
 
+let hasRunSetup = false
 //
 // Perform setup before all tests run.
 //
 before(() => {
-  cy.log("**Before all tests run.**")
-  cy.prepareForTestRun()
+  if (typeof hasRunSetup !== 'undefined') {
+    cy.log("**Before all tests run.**")
+    cy.prepareForTestRun()
+    hasRunSetup = true
+  }
 })
 
 
