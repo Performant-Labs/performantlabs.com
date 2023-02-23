@@ -109,7 +109,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           record: true
-          headless: true
           browser: chrome
           config-file: cypress-github.config.js
           quiet: true # Hide warnings.
