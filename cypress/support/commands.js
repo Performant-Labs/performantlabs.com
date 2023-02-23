@@ -98,7 +98,20 @@ Cypress.Commands.add("execDrush", (command) => {
 })
 
 /**
- * Run a Drush command via a SSH shell.
+ * Download a file.
+ *
+ * @param url - String
+ * @param selector - String
+ *
+ * @see https://docs.cypress.io/api/commands/get
+ */
+Cypress.Commands.add('downloadFile', (url = {}, selector) => {
+  cy.visit(url)
+    .get(`${selector}`).click()
+})
+
+/**
+ * Run a Drush command via an SSH shell.
  *
  * @param cmd         The terminus cmd to execute.
  */
@@ -127,19 +140,6 @@ Cypress.Commands.add("execSSHDrush", (cmd) => {
         });
     })
 });
-
-/**
- * Download file.
- *
- * @param url - String
- * @param selector - String
- *
- * @see https://docs.cypress.io/api/commands/get
- */
-Cypress.Commands.add('downloadFile', (url = {}, selector) => {
-  cy.visit(url)
-    .get(`${selector}`).click()
-})
 
 /**
  * Find text in a specific column / row in a table.

@@ -45,11 +45,13 @@ module.exports = defineConfig({
       on('after:spec', (spec, results) => {
         if (config.video) {
           if (results.stats.failures || results.stats.skipped) {
-            console.log('Keeping video of failure.')
+            cy.log('Keeping video of failure.')
           }
           else {
-            console.log('Deleting video', results.video)
-            unlinkSync(results.video)
+            cy.log(`**Deleting video ${results.video}**`)
+            if (fs.existsSync(results.video)) {
+              unlinkSync(results.video)
+            }
           }
         }
       })
