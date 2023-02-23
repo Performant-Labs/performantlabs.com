@@ -64,7 +64,7 @@ module.exports = defineConfig({
       // https://www.cypress.io/blog/2021/03/01/generate-high-resolution-videos-and-screenshots/
       on('before:browser:launch', (browser = {}, launchOptions) => {
         console.log(
-          'launching browser %s is headless? %s',
+          '**Launching browser: %s Is headless? %s',
           browser.name,
           browser.isHeadless,
         )

@@ -375,12 +375,13 @@ Cypress.Commands.add('parseXlsx', (inputFile) => {
  */
 Cypress.Commands.add("prepareForTestRun", () => {
   // Set the Honeypot time limit to 0.
-  cy.log("**Setting Honeypot time limit to 0.**")
-  cy.setDrupalConfiguration('honeypot.settings', 'time_limit', '0')
+  // cy.log("**Setting Honeypot time limit to 0.**")
+  // cy.setDrupalConfiguration('honeypot.settings', 'time_limit', '0')
 
+  // Uninstall honeypot and coffee.
   // Coffee is presenting an overlay that is hiding other elements.
-  cy.log("**Uninstall coffee.**")
-  cy.execDrush('pmu -y coffee')
+  cy.log("**Uninstall Honeypot and coffee.**")
+  cy.execDrush('pmu -y coffee honeypot')
 })
 
 
