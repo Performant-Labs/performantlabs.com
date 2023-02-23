@@ -382,6 +382,7 @@ Cypress.Commands.add("prepareForTestRun", () => {
   // Coffee is presenting an overlay that is hiding other elements.
   cy.log("**Uninstall Honeypot and coffee.**")
   cy.execDrush('pmu -y coffee honeypot')
+  cy.wait(2000)
 })
 
 
