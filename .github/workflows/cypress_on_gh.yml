@@ -91,7 +91,8 @@ jobs:
         
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
-        silent: true
+        with:
+          quiet: true
         run: |
           # Hide all output and errors.
           # vendor/bin/drush runserver $local_base_url > /dev/null 2>&1 &
