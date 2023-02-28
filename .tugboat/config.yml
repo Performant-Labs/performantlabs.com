@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: tugboatqa/percona:5.7
+    image: tugboatqa/mysql:8-debian
 
     commands:
       init:
