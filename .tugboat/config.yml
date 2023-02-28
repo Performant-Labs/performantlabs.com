@@ -21,6 +21,7 @@ services:
     #   2. Exposes port 80 to the Tugboat HTTP proxy
     #   3. Routes requests to the preview URL to this service
     default: true
+
     # Wait until the mysql service is done building
     depends:
       - mysql
@@ -29,6 +30,10 @@ services:
     commands:
       # Commands that set up the basic preview infrastructure
       init:
+        # Install opcache and enable mod-rewrite.
+        - docker-php-ext-install opcache
+        - a2enmod headers rewrite
+        - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
         - echo "===== init"
 
       update:
