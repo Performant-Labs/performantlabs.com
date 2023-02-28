@@ -1,4 +1,17 @@
 services:
+  mysql:
+    image: tugboatqa/percona:5.7
+
+    commands:
+      init:
+        # Increase the allowed packet size to 512MB.
+        - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
+        # Ensure this packet size persists even if MySQL restarts.
+        - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
+
+      update:
+        - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
+
   php:
     # Use PHP 8.x with Apache; this syntax pulls in the latest version of PHP 8
     image: tugboatqa/php:8.1-apache
@@ -22,12 +35,6 @@ services:
         - a2enmod headers rewrite
         # Add some tools.
         - apt-get update && apt-get -y install libzip-dev libicu-dev npm nano screen
-        - docker-php-ext-install zip
-        - docker-php-ext-configure exif
-        - docker-php-ext-install exif
-        - docker-php-ext-install intl
-        - docker-php-ext-configure gd --with-jpeg --with-freetype
-        - docker-php-ext-install gd
         - composer self-update --2
 
         # Install drush-launcher, if desired.
@@ -86,84 +93,29 @@ services:
       build:
         - echo "===== build"
 
-        - rm -rf vendor/ docroot/modules/contrib/ docroot/core/
+        - rm -rf vendor/ web/modules/contrib/ web/core/
         - composer self-update --2
         - composer update
 
         - # Use the tugboat-specific Drupal settings.
-        - cp "${TUGBOAT_ROOT}/.tugboat/local.settings.php" "${DOCROOT}/sites/default/settings/local.settings.php"
+        - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
 
-        - cd ${DOCROOT}/themes/idt8 && npm i && npm rebuild node-sass && npm run build
-        - ${TUGBOAT_ROOT}/.tugboat/init-sso
+        # Enable the QA accounts.
         - ${TUGBOAT_ROOT}/scripts/promote-admins.sh
         - drush updb -y --no-post-updates
         - drush cr
-        #- drush fra -y --bundle idt
-        - drush -y config:import || true
-        - drush -y config:import || true
-        - drush -y config:import
-        - drush cr
-        - drush updb -y
-        - drush cr
-        - ${TUGBOAT_ROOT}/.tugboat/update-jira
-        - apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb libxml2-dev
-        #- docker-php-ext-install -j$(nproc) xmlrpc
         - touch /var/log/php-error.log && chown www-data:www-data /var/log/php-error.log
         - echo "log_errors = On"  >> /usr/local/etc/php/conf.d/my-php.ini
         - echo "error_log = /var/log/php-error.log" >> /usr/local/etc/php/conf.d/my-php.ini
         - echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/my-php.ini
-        - npm i -D cypress@9.6.1 cypress-grep
-        - npm list | grep cypress
-        - npm install -g cspell@5.21.2
 
       # runs once all services are running, runs on rebuild
       online:
         - echo "===== online"
-        -
-          # AVA: Begin removal of Behat.
-          # - cp tests/behat-tugboat.yml tests/behat.yml
-          #- mkdir -p ${DOCROOT}/screenshots
-          #- sed -e "s@https://idt.docksal@${TUGBOAT_DEFAULT_SERVICE_URL_PROTOCOL}://idtweb:lowjitter\@${TUGBOAT_DEFAULT_SERVICE_URL_HOST}@g" -i tests/behat.yml
-          #- mkdir -p ${TUGBOAT_ROOT}/tests/bin
-        #- ln -snf ${TUGBOAT_ROOT}/vendor/behat/behat/bin/behat ${TUGBOAT_ROOT}/tests/bin/behat
         - drush cr
-        - ${TUGBOAT_ROOT}/scripts/git/quality-checkcode tugboat
+        #- ${TUGBOAT_ROOT}/scripts/git/quality-checkcode tugboat
 
       # This is run on clone, but not build
       clone:
         - echo "===== clone"
-        - ${TUGBOAT_ROOT}/.tugboat/init-sso
-        - ${TUGBOAT_ROOT}/.tugboat/update-jira
 
-    #urls:
-    #  # frontpage
-    #  - /us/en
-    #  - /jp/ja
-    #  - /cn/zh
-    #  # Product Category
-    #  - /us/en/products/interface-connectivity
-    #  # Product Subcategory
-    #  - /us/en/products/interface-connectivity/pci-express-solutions
-    #  # Generic Product
-    #  - /us/en/products/interface-connectivity/pci-express-solutions/pci-express-serial-rapidio-bridges/tsi721-rapidio-bridge
-    #  # Application Category
-    #  - /us/en/application/automotive
-    #  # Application
-    #  - /us/en/application/automotive/adas
-    #  # Press Release
-    #  - /us/en/about/press-room/renesas-and-syntiant-develop-voice-controlled-multimodal-ai-solution-combining-advanced-vision-and
-    #  # Executive Team
-    #  - /us/en/about/executive-team
-
-  mysql:
-    image: tugboatqa/percona:5.7
-
-    commands:
-      init:
-        # Increase the allowed packet size to 512MB.
-        - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
-        # Ensure this packet size persists even if MySQL restarts.
-        - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
-
-      update:
-        - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
