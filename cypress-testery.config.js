@@ -1,5 +1,6 @@
 const { defineConfig } = require("cypress");
 const {unlinkSync} = require("fs");
+const fs = require("fs");
 
 module.exports = defineConfig({
   // Used by Cypress.io
@@ -11,6 +12,7 @@ module.exports = defineConfig({
   numTestsKeptInMemory: 0,
   screenshotOnRunFailure: true,
   video: true,
+  videoCompression: 16,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.
@@ -42,6 +44,8 @@ module.exports = defineConfig({
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
       require('cypress-log-to-term')(on)
+
+      // Delete videos if test passes.
       on('after:spec', (spec, results) => {
         if (config.video) {
           if (results.stats.failures || results.stats.skipped) {
@@ -52,6 +56,45 @@ module.exports = defineConfig({
             unlinkSync(results.video)
           }
         }
+      })
+
+      // Increase the browser window size when running headlessly
+      // to produce higher resolution images and videos.
+      // https://on.cypress.io/browser-launch-api
+      // https://www.cypress.io/blog/2021/03/01/generate-high-resolution-videos-and-screenshots/
+      on('before:browser:launch', (browser = {}, launchOptions) => {
+        console.log(
+          '**Launching browser: %s Is headless? %s',
+          browser.name,
+          browser.isHeadless,
+        )
+
+        // Target browser width and height.
+        const width = 1920
+        const height = 1080
+
+        console.log('**Setting the browser window size to %d x %d**', width, height)
+
+        if (browser.name === 'chrome' && browser.isHeadless) {
+          launchOptions.args.push(`--window-size=${width},${height}`)
+
+          // Force screen to be non-retina and just use our given resolution.
+          launchOptions.args.push('--force-device-scale-factor=1')
+        }
+
+        if (browser.name === 'electron' && browser.isHeadless) {
+          // Might not work on CI for some reason
+          launchOptions.preferences.width = width
+          launchOptions.preferences.height = height
+        }
+
+        if (browser.name === 'firefox' && browser.isHeadless) {
+          launchOptions.args.push(`--width=${width}`)
+          launchOptions.args.push(`--height=${height}`)
+        }
+
+        // IMPORTANT: return the updated browser launch options
+        return launchOptions
       })
     },
   },

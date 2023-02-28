@@ -52,7 +52,6 @@ module.exports = defineConfig({
             console.log('Keeping video of failure.')
           }
           else {
-            const fs = require("fs");
             if (fs.existsSync(results.video)) {
               //console.log(`**Deleting video ${results.video}**`)
               //unlinkSync(results.video)
