@@ -11,7 +11,6 @@ services:
     # Wait until the mysql service is done building
     depends:
       - mysql
-      - browser
 
     # A set of commands to run while building this service
     commands:
@@ -167,15 +166,5 @@ services:
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
 
       update:
-        - rm -rf repo && mkdir repo && cd repo && git clone git@bitbucket.org:$TUGBOAT_REPO.git . && git checkout $TUGBOAT_PREVIEW_SHA
-        - cd repo && ssh idtd8.stage@idtd8stage.ssh.prod.acquia-sites.com ls -t /home/idtd8/backups/archive/ | grep "^`cat deployment_identifier`" | grep lean | head -n 1
-        - cd repo && scp idtd8.stage@idtd8stage.ssh.prod.acquia-sites.com:backups/archive/$(ssh idtd8.stage@idtd8stage.ssh.prod.acquia-sites.com ls -t /home/idtd8/backups/archive/ | grep "^`cat deployment_identifier`" | grep lean | head -n 1) /tmp/database.sql.gz
-        - mysql -e "DROP DATABASE IF EXISTS tugboat; CREATE DATABASE tugboat;"
-        - zcat /tmp/database.sql.gz | mysql tugboat
-        - rm /tmp/database.sql.gz
-        - rm -rf /var/lib/repo
-
-
-  browser:
-    # The version that was tested to work. "latest" chrome is always pulled within the image.
-    image: selenium/standalone-chrome-debug:3.141.59-xenon
+        - mysql -hlocalhost -utugboat -ptugboat -e "CREATE DATABASE tugboat;"
+        - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
