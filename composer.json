@@ -323,6 +323,7 @@
         "drupal/scheduler": "~1.1",
         "drupal/simple_sitemap": "~4.0",
         "drupal/sitemap": "~2.0",
+        "drupal/stage_file_proxy": "~1.5",
         "drupal/svg_image": "~1.9",
         "drupal/symfony_mailer": "^1",
         "drupal/title_field_for_manage_display": "~1.0",
