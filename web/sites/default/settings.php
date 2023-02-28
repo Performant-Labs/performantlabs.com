@@ -723,10 +723,17 @@ include __DIR__ . "/settings.pantheon.php";
 /**
  * If there is a local settings file, then include it
  */
-if (file_exists($app_root . '/' . $site_path . '/settings.local.php') && !isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+if ($_ENV['TUGBOAT_DEFAULT_SERVICE_URL_HOST']) {
+  // Running on Tugboat.
+  include $app_root . '/' . $site_path . '/settings.tugboat.php';
+}
+else if (file_exists($app_root . '/' . $site_path . '/settings.local.php') && !isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  // Running locally.
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
 else {
+  // Running on Pantheon.
+
   #
   # Set up environment indicator colors
   #
