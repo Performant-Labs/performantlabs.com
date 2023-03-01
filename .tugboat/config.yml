@@ -1,57 +1,53 @@
 services:
   php:
-    # Use PHP 8.x with Apache; this syntax pulls in the latest version of PHP 8
+    # Use PHP 8.x with Apache; this syntax pulls in the latest version of PHP 8.
     image: tugboatqa/php:8.1-apache
 
-    # Set this as the default service. This does a few things
+    # Set this as the default service. This does a few things:
     #   1. Clones the git repository into the service container
     #   2. Exposes port 80 to the Tugboat HTTP proxy
     #   3. Routes requests to the preview URL to this service
     default: true
 
-    # Wait until the mysql service is done building
+    # Wait until the mysql service is done building.
     depends:
       - mysql
 
-    # A set of commands to run while building this service
+    # A set of commands to run while building this service.
     commands:
-      # Commands that set up the basic preview infrastructure
+      # Commands that set up the basic preview infrastructure.
       init:
         - echo "===== Apache/PHP Init ======"
         - apt-get update && apt-get -y install tree nano
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
         # Install opcache and enable mod-rewrite.
-        - docker-php-ext-install opcache
-        - a2enmod headers rewrite
+        #- docker-php-ext-install opcache
+        #- a2enmod headers rewrite
         - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
 
       update:
         - echo "===== Apache/PHP Update ====="
         - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
 
-      # only step that executes on new PR or tugboat builds from base previews
+      # Only step that executes on new PR or tugboat builds from base previews.
       build:
         - echo "===== Apache/PHP Build ====="
 
-      # runs once all services are running, runs on rebuild
+      # Runs once all services are running, runs on rebuild.
       online:
-
-      # This is run on clone, but not build
-      clone:
-        - echo "===== Apache/PHP Clone ====="
 
   mysql:
     image: tugboatqa/mysql:8-debian
 
     commands:
       init:
-        - echo -e '===== mySQL Service Init ======'
-        -
+        - echo '===== mySQL Service Init ======'
+
         # Increase the allowed packet size to 512MB.
         - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
         - mysql --help | grep "Default options" -A 1
-        -
+
         # Ensure this packet size persists even if MySQL restarts.
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
 
