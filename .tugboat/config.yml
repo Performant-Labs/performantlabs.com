@@ -18,7 +18,7 @@ services:
       # Commands that set up the basic preview infrastructure
       init:
         - echo "===== Apache/PHP Init ====="
-        - apt-get -y install tree nano
+        - apt-get update && apt-get -y install tree nano
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
         # Install opcache and enable mod-rewrite.
