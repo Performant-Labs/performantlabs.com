@@ -21,6 +21,10 @@ services:
         - alias ll='ls -la'
         - mysql --help | grep "Default options" -A 1
 
+        # Link the document root to the expected path. This example links
+        # /var/lib/tugboat/web to the docroot of the Apache server (/var/www/html).
+        - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
+
       update:
         - echo "===== Apache/PHP Update ====="
 
