@@ -30,9 +30,6 @@ services:
         # /var/lib/tugboat/web to the docroot of the Apache server (/var/www/html).
         - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
 
-        # Ensure composer is up-to-date.
-        - composer self-update --2
-
         # Increase php memory limit to 256M.
         - echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/my-php.ini
 
@@ -45,8 +42,21 @@ services:
 
       update:
         - echo "===== Apache/PHP Update ====="
-        -
+
+        # Import the database.
         #- zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
+
+        # Install/update packages managed by composer, including drush.
+        # First ensure there are no artifacts that snuck into the repo.
+        - rm -rf vendor/ web/modules/contrib/ web/core/
+        - composer update --optimize-autoloader
+
+        # Enable the stage_file_proxy Drupal module. This module lets Drupal serve
+        # files from another publicly-accessible Drupal site instead of
+        # syncing the entire files directory into the Tugboat Preview.
+        # This results in smaller previews and reduces the build time.
+        - vendor/bin/drush pm:enable --yes stage_file_proxy
+        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
