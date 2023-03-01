@@ -35,6 +35,8 @@ services:
         #- a2enmod headers rewrite
         # Add some tools.
         - apt-get update && apt-get -y install nano
+
+        # Ensure composer is up-to-date.
         - composer self-update --2
 
         # Increase php memory limit to 256M.

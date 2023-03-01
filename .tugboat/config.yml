@@ -18,22 +18,40 @@ services:
       # Commands that set up the basic preview infrastructure.
       init:
         - echo "===== Apache/PHP Init ======"
+        - alias ll='ls -la'
         - apt-get update && apt-get -y install tree nano python3 python3-pip
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
         # Install opcache and enable mod-rewrite.
         #- docker-php-ext-install opcache
         #- a2enmod headers rewrite
+
+        # Link the document root to the expected path. This example links
+        # /var/lib/tugboat/web to the docroot of the Apache server (/var/www/html).
         - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
-        - echo "TUGBOAT_ROOT-${TUGBOAT_ROOT} DOCROOT-${DOCROOT}"
+
+        # Ensure composer is up-to-date.
+        - composer self-update --2
+
+        # Increase php memory limit to 256M.
+        - echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/my-php.ini
+
+        # enable display errors.
+        - echo "display_errors = On" >> /usr/local/etc/php/conf.d/my-php.ini
+
+        # Enable colored terminal and some aliases.
+        - sed -e '9,13 s/#//' -i ~/.bashrc
+        - sed -e '16,19 s/#//' -i ~/.bashrc
 
       update:
         - echo "===== Apache/PHP Update ====="
+        -
         #- zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
 
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
         - echo "===== Apache/PHP Build ====="
+        -
         # Check for upgrades to the Testery command line interface.
         - pip3 install testery --upgrade
 
