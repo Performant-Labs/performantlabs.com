@@ -4,7 +4,7 @@ services:
 
     commands:
       init:
-        - echo "===== mySQL Service: init ======"
+        - echo "===== mySQL Service\: init ======"
 
         # Increase the allowed packet size to 512MB.
         - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
