@@ -19,81 +19,21 @@ services:
       init:
         - echo "===== Apache/PHP Init ======"
         - alias ll='ls -la'
-        - apt-get update && apt-get -y install tree nano python3 python3-pip
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
-        # Install opcache and enable mod-rewrite.
-        #- docker-php-ext-install opcache
-        #- a2enmod headers rewrite
-
-        # Link the document root to the expected path. This example links
-        # /var/lib/tugboat/web to the docroot of the Apache server (/var/www/html).
-        - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
-
-        # Increase php memory limit to 256M.
-        - echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/my-php.ini
-
-        # enable display errors.
-        - echo "display_errors = On" >> /usr/local/etc/php/conf.d/my-php.ini
-
-        # Enable colored terminal and some aliases.
-        - sed -e '9,13 s/#//' -i ~/.bashrc
-        - sed -e '16,19 s/#//' -i ~/.bashrc
 
       update:
         - echo "===== Apache/PHP Update ====="
 
         # Import the database.
-        #- zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
-
-        # Install/update packages managed by composer, including drush.
-        # First ensure there are no artifacts that snuck into the repo.
-        - rm -rf vendor/ web/modules/contrib/ web/core/
-        - composer update --optimize-autoloader
-
-        # Enable the stage_file_proxy Drupal module. This module lets Drupal serve
-        # files from another publicly-accessible Drupal site instead of
-        # syncing the entire files directory into the Tugboat Preview.
-        # This results in smaller previews and reduces the build time.
-        #- vendor/bin/drush pm:enable --yes stage_file_proxy
-        #- vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
-
-        # Set file permissions such that Drupal will not complain
-        - mkdir -p "${DOCROOT}/sites/default/files"
-        - chgrp -R www-data "${DOCROOT}/sites/default/files"
-        - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
-        - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
-        - mkdir -p "${DOCROOT}/sites/default/files-private"
-        - chgrp -R www-data "${DOCROOT}/sites/default/files-private"
-        - find "${DOCROOT}/sites/default/files-private" -type d -exec chmod 2775 {} \;
-        - find "${DOCROOT}/sites/default/files-private" -type f -exec chmod 0664 {} \;
-
+        # zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
 
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
         - echo "===== Apache/PHP Build ====="
-        -
-        # Check for upgrades to the Testery command line interface.
-        - pip3 install testery --upgrade
 
         - # Use the tugboat-specific Drupal settings.
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
-
-        # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
-        - testery update-environment
-          --create-if-not-exists
-          --token "$TESTERY_TOKEN"
-          --key "${TUGBOAT_PREVIEW}"
-          --name "${TUGBOAT_PREVIEW}"
-          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
-
-      # Runs once all services are running, runs on rebuild.
-      online:
-        - testery create-test-run
-          --token "$TESTERY_TOKEN"
-          --git-ref "$TUGBOAT_PREVIEW_SHA"
-          --project "testery"
-          --environment "${TUGBOAT_PREVIEW}"
 
   mysql:
     image: tugboatqa/mysql:8-debian
