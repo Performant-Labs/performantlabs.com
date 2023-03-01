@@ -28,6 +28,7 @@ services:
 
       update:
         - echo "===== Apache/PHP Update ====="
+        - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
 
       # only step that executes on new PR or tugboat builds from base previews
       build:
@@ -55,4 +56,4 @@ services:
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
 
       update:
-      - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
+
