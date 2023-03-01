@@ -55,8 +55,19 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
-        - vendor/bin/drush pm:enable --yes stage_file_proxy
-        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
+        #- vendor/bin/drush pm:enable --yes stage_file_proxy
+        #- vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
+
+        # Set file permissions such that Drupal will not complain
+        - mkdir -p "${DOCROOT}/sites/default/files"
+        - chgrp -R www-data "${DOCROOT}/sites/default/files"
+        - find "${DOCROOT}/sites/default/files" -type d -exec chmod 2775 {} \;
+        - find "${DOCROOT}/sites/default/files" -type f -exec chmod 0664 {} \;
+        - mkdir -p "${DOCROOT}/sites/default/files-private"
+        - chgrp -R www-data "${DOCROOT}/sites/default/files-private"
+        - find "${DOCROOT}/sites/default/files-private" -type d -exec chmod 2775 {} \;
+        - find "${DOCROOT}/sites/default/files-private" -type f -exec chmod 0664 {} \;
+
 
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
@@ -64,6 +75,9 @@ services:
         -
         # Check for upgrades to the Testery command line interface.
         - pip3 install testery --upgrade
+
+        - # Use the tugboat-specific Drupal settings.
+        - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
 
         # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
         - testery update-environment
