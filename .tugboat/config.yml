@@ -18,7 +18,7 @@ services:
       # Commands that set up the basic preview infrastructure.
       init:
         - echo "===== Apache/PHP Init ======"
-        - apt-get update && apt-get -y install tree nano
+        - apt-get update && apt-get -y install tree nano python3 python3-pip
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
         # Install opcache and enable mod-rewrite.
@@ -33,9 +33,24 @@ services:
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
         - echo "===== Apache/PHP Build ====="
+        # Check for upgrades to the Testery command line interface.
+        - pip3 install testery --upgrade
+        
+        # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
+        - testery update-environment
+          --create-if-not-exists
+          --token "$TESTERY_TOKEN"
+          --key "${TUGBOAT_PREVIEW}"
+          --name "${TUGBOAT_PREVIEW}"
+          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
 
       # Runs once all services are running, runs on rebuild.
       online:
+        #- testery create-test-run
+        #  --token "$TESTERY_TOKEN"
+        #  --git-ref "$TUGBOAT_PREVIEW_SHA"
+        #  --project "testery"
+        #  --environment "${TUGBOAT_PREVIEW}"
 
   mysql:
     image: tugboatqa/mysql:8-debian
@@ -51,5 +66,4 @@ services:
         # Ensure this packet size persists even if MySQL restarts.
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
 
-      update:
-
+        -  zcat /tmp/database.sql.gz | mysql tugboat
