@@ -5,13 +5,13 @@ services:
     commands:
       init:
         - echo -e '===== mySQL Service Init ======'
-
         # Increase the allowed packet size to 512MB.
         - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
         - mysql --help | grep "Default options" -A 1
         # Ensure this packet size persists even if MySQL restarts.
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
         - pwd
+        - tree -d -L 3
 
       update:
         #- zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
@@ -35,6 +35,8 @@ services:
       # Commands that set up the basic preview infrastructure
       init:
         - echo "===== Apache/PHP Init ====="
+        - mysql --help | grep "Default options" -A 1
+        - tree -d -L 3
         # Install opcache and enable mod-rewrite.
         #- docker-php-ext-install opcache
         #- a2enmod headers rewrite
