@@ -20,7 +20,6 @@ services:
         - echo "===== Apache/PHP Init ======"
         - alias ll='ls -la'
         - mysql --help | grep "Default options" -A 1
-        - tree -d -L 3
 
       update:
         - echo "===== Apache/PHP Update ====="
