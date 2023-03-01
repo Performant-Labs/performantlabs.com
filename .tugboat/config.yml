@@ -1,7 +1,8 @@
 services:
   php:
     # Use PHP 8.x with Apache; this syntax pulls in the latest version of PHP 8.
-    image: tugboatqa/php:8.1-apache
+    #image: tugboatqa/php:8.1-apache
+    image: tugboatqa/php:7-apache
 
     # Set this as the default service. This does a few things:
     #   1. Clones the git repository into the service container
@@ -39,7 +40,8 @@ services:
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
 
   mysql:
-    image: tugboatqa/mysql:8-debian
+    #image: tugboatqa/mysql:8-debian
+    image: tugboatqa/mariadb:10.5
 
     commands:
       init:
