@@ -4,15 +4,17 @@ services:
 
     commands:
       init:
-        - echo -e '===== mySQL Service\x3A init ======'
+        - echo -e '===== mySQL Service Init ======'
 
         # Increase the allowed packet size to 512MB.
         - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
+        - mysql --help | grep "Default options" -A 1
         # Ensure this packet size persists even if MySQL restarts.
         - echo "max_allowed_packet=2147483648" >> /etc/mysql/tugboat.cnf
+        - pwd
 
       update:
-        - zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
+        #- zcat project/database/performant-labs_dev.sql.gz | mysql tugboat
 
   php:
     # Use PHP 8.x with Apache; this syntax pulls in the latest version of PHP 8
@@ -32,20 +34,20 @@ services:
     commands:
       # Commands that set up the basic preview infrastructure
       init:
-        - echo "===== Apache/PHP\x3A Init ====="
+        - echo "===== Apache/PHP Init ====="
         # Install opcache and enable mod-rewrite.
-        - docker-php-ext-install opcache
-        - a2enmod headers rewrite
-        - ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
-        - echo "===== init"
+        #- docker-php-ext-install opcache
+        #- a2enmod headers rewrite
+        #- ln -snf "${TUGBOAT_ROOT}/web" "${DOCROOT}"
+        - echo "===== Apache/PHP Init"
 
       update:
-        - echo "===== Apache/PHP\x3A Update nothing ====="
+        - echo "===== Apache/PHP Update ====="
 
 
       # only step that executes on new PR or tugboat builds from base previews
       build:
-        - echo "===== Apache/PHP\x3A Build nothing ====="
+        - echo "===== Apache/PHP Build ====="
 
 
       # runs once all services are running, runs on rebuild
@@ -53,5 +55,5 @@ services:
 
       # This is run on clone, but not build
       clone:
-        - echo "===== Apache/PHP\x3A Clone ====="
+        - echo "===== Apache/PHP Clone ====="
 
