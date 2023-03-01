@@ -4,6 +4,8 @@ services:
 
     commands:
       init:
+        - echo "===== mySQL Service: init ======"
+
         # Increase the allowed packet size to 512MB.
         - mysql -e "SET GLOBAL max_allowed_packet=2147483648;"
         # Ensure this packet size persists even if MySQL restarts.
@@ -30,6 +32,7 @@ services:
     commands:
       # Commands that set up the basic preview infrastructure
       init:
+        - echo "===== Apache/PHP: Init ====="
         # Install opcache and enable mod-rewrite.
         - docker-php-ext-install opcache
         - a2enmod headers rewrite
@@ -37,12 +40,12 @@ services:
         - echo "===== init"
 
       update:
-        - echo "===== update nothing ====="
+        - echo "===== Apache/PHP: Update nothing ====="
 
 
       # only step that executes on new PR or tugboat builds from base previews
       build:
-        - echo "===== build nothing ====="
+        - echo "===== Apache/PHP: Build nothing ====="
 
 
       # runs once all services are running, runs on rebuild
@@ -50,5 +53,5 @@ services:
 
       # This is run on clone, but not build
       clone:
-        - echo "===== clone"
+        - echo "===== Apache/PHP: Clone ====="
 
