@@ -17,7 +17,7 @@ services:
     commands:
       # Commands that set up the basic preview infrastructure
       init:
-        - echo "===== Apache/PHP Init ====="
+        - echo "===== Apache/PHP Init ======"
         - apt-get update && apt-get -y install tree nano
         - mysql --help | grep "Default options" -A 1
         - tree -d -L 3
