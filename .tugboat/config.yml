@@ -41,6 +41,9 @@ services:
         - sed -e '9,13 s/#//' -i ~/.bashrc
         - sed -e '16,19 s/#//' -i ~/.bashrc
 
+        - # Use the tugboat-specific Drupal settings (needed for Drush to work).
+        - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
+
       update:
         - echo "===== Apache/PHP Update ====="
 
@@ -56,6 +59,7 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
+        - vendor/bin/drush status -vvv
         - vendor/bin/drush pm:enable --yes stage_file_proxy
         - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
@@ -88,9 +92,6 @@ services:
 
         # Check for upgrades to the Testery command line interface.
         - pip3 install testery --upgrade
-
-        - # Use the tugboat-specific Drupal settings.
-        - cp "${TUGBOAT_ROOT}/.tugboat/settings.tugboat.php" "${DOCROOT}/sites/default/settings.local.php"
 
         # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
         - testery update-environment
