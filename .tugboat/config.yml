@@ -59,7 +59,6 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
-        - vendor/bin/drush status -vvv
         - vendor/bin/drush pm:enable --yes stage_file_proxy
         - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
@@ -77,8 +76,8 @@ services:
         #- ${TUGBOAT_ROOT}/scripts/promote-admins.sh
 
         # Update database
-        - drush updb -y --no-post-updates
-        - drush cr
+        - vendor/bin/drush updb -y --no-post-updates
+        - vendor/bin/drush cr
 
         # Set up error capture.
         - touch /var/log/php-error.log && chown www-data:www-data /var/log/php-error.log
