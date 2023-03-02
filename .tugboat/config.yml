@@ -62,6 +62,9 @@ services:
         - vendor/bin/drush pm:enable --yes stage_file_proxy
         - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
+        # Take out of maintenance mode.
+        - vendor/bin/drush state:set system.maintenance_mode 0
+
         # Set file permissions such that Drupal will not complain
         - mkdir -p "${DOCROOT}/sites/default/files"
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
