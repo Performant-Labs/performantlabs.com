@@ -56,8 +56,8 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
-        #- vendor/bin/drush pm:enable --yes stage_file_proxy
-        #- vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
+        - vendor/bin/drush pm:enable --yes stage_file_proxy
+        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
         # Set file permissions such that Drupal will not complain
         - mkdir -p "${DOCROOT}/sites/default/files"
@@ -70,7 +70,7 @@ services:
         - find "${DOCROOT}/sites/default/files-private" -type f -exec chmod 0664 {} \;
 
         # Enable the QA accounts.
-        - ${TUGBOAT_ROOT}/scripts/promote-admins.sh
+        #- ${TUGBOAT_ROOT}/scripts/promote-admins.sh
 
         # Update database
         - drush updb -y --no-post-updates
