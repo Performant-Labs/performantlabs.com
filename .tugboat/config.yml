@@ -30,7 +30,7 @@ services:
         - echo "===== Apache/PHP Update ====="
 
         # Import the database.
-        zcat project/database/performant-labs_dev.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
+        - zcat project/database/performant-labs_dev.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
 
       # Only step that executes on new PR or tugboat builds from base previews.
       build:
