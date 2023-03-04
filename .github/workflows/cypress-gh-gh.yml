@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is running Cypress.
 on: 
   push:
     paths:
-      - .github/workflows/cypress_on_gh.yml
+      - .github/workflows/cypress-gh-gh.yml
   workflow_dispatch:  
   
 env:
