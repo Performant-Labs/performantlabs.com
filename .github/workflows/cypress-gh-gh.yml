@@ -1,5 +1,5 @@
 name: App->GH Cypress->GH
-run-name: ${{ github.actor }} is running Cypress.
+run-name: ${{ github.actor }} is running Cypress on GitHub Actions.
 
 on: 
   push:
