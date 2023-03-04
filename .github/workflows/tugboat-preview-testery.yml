@@ -16,7 +16,8 @@ jobs:
     name: Trigger Tugboat Preview that triggers Testery.
     runs-on: ubuntu-latest
     env:
-      TESTERY_TOKEN: ${{ secrets.TESTERY_API_TOKEN }}    
+      TESTERY_TOKEN: ${{ secrets.TESTERY_API_TOKEN }}
+      TUGBOAT_REPO: "63fe5557d5af549afd35a86a"
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
@@ -24,14 +25,16 @@ jobs:
               
       - name: Install tools.
         run: |
-          #apt-get update
-          #apt-get -y install curl tree
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
-          ./tugboat ls previews --api-token ${{ secrets.TUGBOAT_TOKEN }}
-          echo "Show without token."
-          ./tugboat ls previews
+          DATE=`date "+%Y-%m-%d %H:%M:%S"`
+          # The run_id is the build id in GHA.
+          tugboat create preview "${{ github.run_id }}" \
+	          base=false \
+	          repo="$TUGBOAT_REPO" \
+	          label="main $DATE" \
+	          output=json \
+            --api-token ${{ secrets.TUGBOAT_TOKEN }}
           
-
       #- name: Trigger Tugboat.
       #  run: |
