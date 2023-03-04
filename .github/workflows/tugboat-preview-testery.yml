@@ -24,7 +24,7 @@ jobs:
               
       - name: Install tools.
         run: |
-          apt-get update
+          #apt-get update
           #apt-get -y install curl tree
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           ls -la
