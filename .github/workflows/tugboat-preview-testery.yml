@@ -1,6 +1,6 @@
 name: GH->Tugboat Preview->Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
-run-name: ${{ github.actor }} is running Cypress.
+run-name: ${{ github.actor }} is triggering a Tugboat preview.
 
 on: 
   push:
@@ -30,8 +30,5 @@ jobs:
           ls -la
           curl
 
-      - name: Trigger Tugboat.
-        run: |
-          
-              
-        
+      #- name: Trigger Tugboat.
+      #  run: |
