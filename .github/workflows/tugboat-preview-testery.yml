@@ -1,6 +1,6 @@
 name: GH->Tugboat Preview->Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
-run-name: ${{ github.actor }} is triggering a Tugboat preview.
+run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger Testery.
 
 on: 
   push:
@@ -23,7 +23,7 @@ jobs:
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
               
       - name: Install tools.
-      - run: |
+        run: |
           apt-get update && apt-get -y install curl tree
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           sudo tar -zxf tugboat.tar.gz -C /usr/local/bin/
