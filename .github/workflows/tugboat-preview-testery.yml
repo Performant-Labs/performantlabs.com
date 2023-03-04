@@ -28,7 +28,7 @@ jobs:
           #apt-get -y install curl tree
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           ls -la
-          sudo tar -zxf tugboat.tar.gz -C /usr/local/bin/
+          tar -zxf tugboat.tar.gz
           ls -la
           ./tugboat -t ${TUGBOAT_TOKEN}
           ./tugboat ls repos
