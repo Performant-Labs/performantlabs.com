@@ -99,8 +99,8 @@ services:
         - testery update-environment
           --create-if-not-exists
           --token "$TESTERY_TOKEN"
-          --key "${TUGBOAT_PREVIEW}"
-          --name "${TUGBOAT_PREVIEW}"
+          --key "tugboat"
+          --name "Testery on Tugboat"
           --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
 
       # Runs once all services are running, runs on rebuild.
@@ -108,10 +108,12 @@ services:
         - testery create-test-run
           --token "$TESTERY_TOKEN"
           --git-ref "$TUGBOAT_PREVIEW_SHA"
-          --project "testery"
-          --environment "${TUGBOAT_PREVIEW}"
+          --project-key "performant-labs"
+          --environment-key "tugboat"
+          --latest-deploy
+          --parallelize-by-file
 
-  mysql:
+mysql:
     image: tugboatqa/mysql:8-debian
 
     commands:
