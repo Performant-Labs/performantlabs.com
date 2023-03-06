@@ -10,14 +10,12 @@ on:
   
 env:
   pantheon_site_name: 'performant-labs'
+  tugboat_repo_id: "63fe5557d5af549afd35a86a"
   
 jobs:
   Run-Testery-On-Tugboat-Preview:
     name: Trigger Tugboat Preview that triggers Testery.
     runs-on: ubuntu-latest
-    env:
-      TESTERY_TOKEN: ${{ secrets.TESTERY_API_TOKEN }}
-      TUGBOAT_REPO: "63fe5557d5af549afd35a86a"
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
@@ -31,7 +29,6 @@ jobs:
       - name: Create the preview (this triggers Testery). 
         run: |
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          TUGBOAT_REPO="[your-repo-id]"
           ./tugboat create preview "${{ github.run_id }}" \
             base=false repo=${{ env.TUGBOAT_REPO_ID }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
