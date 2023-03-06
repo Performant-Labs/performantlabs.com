@@ -23,18 +23,17 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
               
-      - name: Install tools.
+      - name: Install Tugboat.
         run: |
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
-          DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          # The run_id is the build id in GHA.
+	  
+      - name: Create the preview (this triggers Testery). 
+        run: |
+	  RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
           tugboat create preview "${{ github.run_id }}" \
 	          base=false \
 	          repo="$TUGBOAT_REPO" \
 	          label="main $DATE" \
 	          output=json \
             --api-token ${{ secrets.TUGBOAT_TOKEN }}
-          
-      #- name: Trigger Tugboat.
-      #  run: |
