@@ -32,6 +32,6 @@ jobs:
         run: |
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
           TUGBOAT_REPO="[your-repo-id]"
-          tugboat create preview "${{ github.run_id }}" \
+          ./tugboat create preview "${{ github.run_id }}" \
             base=false repo=${{ env.TUGBOAT_REPO_ID }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
