@@ -25,9 +25,6 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       
-      #- name: Unix tools setup.
-      #  run: |
-      
       - name: Start mysql.
         run: |
           sudo /etc/init.d/mysql start
@@ -37,7 +34,7 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
                   
-      - name: Import database
+      - name: Import database.
         run: |
           gunzip project/database/performant-labs_dev.sql.gz
           mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} -e "CREATE DATABASE ${{ env.db_database }};"
@@ -71,10 +68,6 @@ jobs:
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
-      #- name: List the directories in the project.
-      #  run: |
-      #    tree -d -L 3
-          
       - name: Copy settings.github.php to settings.local.php
         run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
         
