@@ -32,7 +32,7 @@ jobs:
           ./
           tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
           PREVIEW_ID=`./jq '.[0].preview' previews.json`
-          if [ -n "$PREVIEW_ID" ] 
+          if [ $PREVIEW_ID != "null" ] 
             ./tugboat delete ${PREVIEW_ID} --api-token ${{ secrets.TUGBOAT_TOKEN }}
           fi
           
