@@ -113,7 +113,7 @@ services:
           --latest-deploy
           --parallelize-by-file
 
-mysql:
+  mysql:
     image: tugboatqa/mysql:8-debian
 
     commands:
