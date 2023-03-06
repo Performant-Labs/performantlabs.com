@@ -1,4 +1,4 @@
-name: GH->Tugboat Preview->Testery
+name: App on Tugboat, Cypress on Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger Testery.
 
