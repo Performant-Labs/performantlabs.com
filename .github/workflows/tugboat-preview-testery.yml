@@ -32,7 +32,9 @@ jobs:
           ./
           tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
           PREVIEW_ID=`./jq '.[0].preview' previews.json`
-          ./tugboat delete ${PREVIEW_ID} --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          if [ -n "$PREVIEW_ID" ] 
+            ./tugboat delete ${PREVIEW_ID} --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          fi
           
       - name: Create the preview (this triggers Testery). 
         run: |
