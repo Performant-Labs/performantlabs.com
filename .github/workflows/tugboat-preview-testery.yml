@@ -29,8 +29,7 @@ jobs:
           
       - name: Delete prior preview.
         run: |
-          ./
-          tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
+          ./tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
           echo "After ls previews."
           
           PREVIEW_ID=`jq '.[0].preview' previews.json`
