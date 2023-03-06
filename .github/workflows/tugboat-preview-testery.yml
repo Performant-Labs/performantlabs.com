@@ -25,15 +25,11 @@ jobs:
         run: |
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
-          # sudo apt-get update && sudo apt-get install jq
           
       - name: Delete prior preview.
         run: |
           ./tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
-          echo "After ls previews."
-          
           PREVIEW_ID=`jq '.[0].preview' previews.json`
-          echo "After PREVIEW_ID."
           
           if [ ${PREVIEW_ID} != "null" ]; then 
             echo "Deleting preview ${PREVIEW_ID}."
@@ -44,6 +40,6 @@ jobs:
       - name: Create the preview (this triggers Testery). 
         run: |
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          ./tugboat create preview "${{ github.run_id }}" \
+          ./tugboat create preview "main" \
             base=false repo=${{ env.TUGBOAT_REPO_ID }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
