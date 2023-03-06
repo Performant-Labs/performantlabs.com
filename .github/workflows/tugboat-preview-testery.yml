@@ -25,3 +25,5 @@ jobs:
               
       - name: Install Tugboat.
         run: |
+          curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
+          tar -zxf tugboat.tar.gz
