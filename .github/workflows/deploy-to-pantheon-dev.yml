@@ -1,4 +1,4 @@
-name: Using Terminus Build Tool to deploy artifact to Pantheon Dev.
+name: (Deploy) Using Terminus Build Tool to deploy artifact to Pantheon Dev.
 run-name: ${{ github.actor }} is deploying to Pantheon Dev.
 #on: [push]
 on: workflow_dispatch
