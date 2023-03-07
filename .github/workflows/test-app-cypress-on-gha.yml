@@ -1,4 +1,4 @@
-name: App + Cypress on Github Actions
+name: (Test) App + Cypress on Github Actions
 run-name: ${{ github.actor }} is running Cypress on GitHub Actions.
 
 on: 
