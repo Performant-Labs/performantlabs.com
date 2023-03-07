@@ -21,7 +21,7 @@ jobs:
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
               
-      - name: Install Tugboat and jq.
+      - name: Install Tugboat.
         run: |
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
@@ -35,11 +35,11 @@ jobs:
             echo "Deleting preview ${PREVIEW_ID}."
             ./tugboat delete ${PREVIEW_ID} --api-token ${{ secrets.TUGBOAT_TOKEN }}
           fi
-          echo "After if test."
           
       - name: Create the preview (this triggers Testery). 
         run: |
-          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
+          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`          
+          echo "Creating preview (this triggers Testery)."
           ./tugboat create preview "main" \
             base=false repo=${{ env.tugboat_repo_id }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
