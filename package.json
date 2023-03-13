@@ -20,6 +20,7 @@
     "@bahmutov/cy-api": "^2.2.3",
     "@cypress/fiddle": "^1.1.0",
     "cypress-data-session": "^2.3.1",
+    "cypress-if": "^1.10.4",
     "cypress-log-to-term": "^1.5.2",
     "cypress-map": "^1.12.3"
   },
