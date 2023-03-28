@@ -120,7 +120,6 @@ jobs:
         run: |
           # Create test run.
           testery create-test-run --token "$TESTERY_TOKEN" --include-tags "smoke" \
-              -c "cypress.config.js"
               --variable "TEST_URL=${TEST_URL}" \
               --git-ref "$GITHUB_SHA" --project "performant-labs" --environment "testery-on-gh" \
               --wait-for-results

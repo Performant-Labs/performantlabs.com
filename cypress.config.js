@@ -39,7 +39,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://www.performantlabs.com',
     isPantheon: true,
-    SpecPattern: 'cypress/e2e/*/.cy.{js,jsx,ts,tsx}',
+    specPattern: 'cypress/e2e/*/.cy.{js,jsx,ts,tsx}',
     pantheonSite: 'performant-labs',
     pantheonEnvironment: 'live',
     pantheonTerminus: 'terminus',
