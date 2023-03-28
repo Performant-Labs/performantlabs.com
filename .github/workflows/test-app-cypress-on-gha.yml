@@ -1,4 +1,4 @@
-name: App on GHA + Cypress on GHA
+name: (Test) App on GHA + Cypress on GHA
 run-name: ${{ github.actor }} is running Cypress on GitHub Actions.
 
 on: 
