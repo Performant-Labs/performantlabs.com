@@ -1,4 +1,4 @@
-name: App on Tugboat Cypress on Testery
+name: (Test) App on Tugboat Cypress on Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger Testery.
 
@@ -10,7 +10,7 @@ on:
   
 env:
   pantheon_site_name: 'performant-labs'
-  tugboat_repo_id: "63fe5557d5af549afd35a86a"
+  tugboat_repo_id: 63fe5557d5af549afd35a86a
   
 jobs:
   Run-Testery-On-Tugboat-Preview:
@@ -26,9 +26,20 @@ jobs:
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
           
+      - name: Delete prior preview.
+        run: |
+          ./tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
+          PREVIEW_ID=`jq -r '.[0].preview' previews.json`
+          
+          if [ ${PREVIEW_ID} != "null" ]; then 
+            echo "Deleting preview ${PREVIEW_ID}."
+            ./tugboat delete ${PREVIEW_ID} --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          fi
+          
       - name: Create the preview (this triggers Testery). 
         run: |
-          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          ./tugboat create preview "${{ github.run_id }}" \
-            base=false repo=${{ env.TUGBOAT_REPO_ID }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`          
+          echo "Creating preview (this triggers Testery)."
+          ./tugboat create preview "main" \
+            base=false repo=${{ env.tugboat_repo_id }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
