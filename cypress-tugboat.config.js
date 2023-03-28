@@ -17,7 +17,7 @@ module.exports = defineConfig({
   retries: {
     // Configure retry attempts for 'cypress run'.
     // Default is 0.
-    runMode: 3,
+    runMode: 0,
     // Configure retry attempts for 'cypress open'.
     // Default is 0
     openMode: 0
@@ -39,6 +39,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://127.0.0.1:8080',
     useRegions: false,
+    specPattern: 'cypress/e2e/*/.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
       // register the "cypress-log-to-term" plugin
       // https://github.com/bahmutov/cypress-log-to-term
