@@ -1,4 +1,4 @@
-name: (Test) App + Cypress on Github Actions
+name: App on GHA + Cypress on GHA
 run-name: ${{ github.actor }} is running Cypress on GitHub Actions.
 
 on: 
@@ -107,7 +107,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           browser: chrome
-          config-file: cypress-github.config.js
+          config-file: cypress-gha.config.js
           quiet: true # Hide warnings.
           
       - name: Save the screenshots.
