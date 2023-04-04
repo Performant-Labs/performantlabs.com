@@ -119,7 +119,7 @@ jobs:
       - name: Run Testery Tests
         run: |
           # Create test run.
-          testery create-test-run --token "$TESTERY_TOKEN" --include-tags "smoke" \
+          testery create-test-run --token "$TESTERY_TOKEN" \
               --variable "TEST_URL=${TEST_URL}" \
               --git-ref "$GITHUB_SHA" --project "performant-labs" --environment "testery-on-gh" \
               --wait-for-results
