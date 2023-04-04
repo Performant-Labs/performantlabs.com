@@ -37,7 +37,7 @@ module.exports = defineConfig({
     grepFilterSpecs: true,
   },
   e2e: {
-    baseUrl: 'http://127.0.0.1:8080',
+    baseUrl: 'https://www.performantlabs.com',
     useRegions: false,
     specPattern: 'cypress/e2e/*/.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
