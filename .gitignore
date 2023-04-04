@@ -66,4 +66,5 @@ Thumbs.db
 /node_modules
 /web/themes/custom/performant_labs/node_modules
 
+# Cypress.
 cypress/videos
