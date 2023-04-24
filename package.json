@@ -13,9 +13,6 @@
     "node-xlsx": "^0.21.0",
     "x2js": "^3.4.4"
   },
-  "scripts": {
-    "testeryPreRunScript": "cypress/e2e/performantlabs.com/miscellaneous/testeryPreRunScript.js"
-  },
   "devDependencies": {
     "@bahmutov/cy-api": "^2.2.3",
     "@cypress/fiddle": "^1.1.0",
