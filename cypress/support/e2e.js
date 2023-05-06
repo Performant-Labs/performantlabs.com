@@ -16,9 +16,7 @@
 
 // Import commands.js using ES2015 syntax:
 import './commands'
-import '@cypress/fiddle'
 import '@cypress/grep'
-import 'cypress-if'
 
 // Use the lodash library to provide various utility functions for arrays,
 // collections, strings, deep cloning and more (see https://lodash.com).
