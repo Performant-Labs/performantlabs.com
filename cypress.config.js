@@ -11,7 +11,7 @@ module.exports = defineConfig({
   defaultCommandTimeout: 5000,
   numTestsKeptInMemory: 0,
   screenshotOnRunFailure: false,
-  video: false,
+  video: true,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.

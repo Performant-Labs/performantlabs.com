@@ -2,6 +2,7 @@
 /// <reference types="cypress-data-session" />
 
 import { createRandomString } from '../../../support/utils.js'
+import 'cypress-recurse/commands'
 
 describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, () => {
   before(function () {
@@ -27,9 +28,6 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
     cy.contains('Thank you')
     cy.visit(Cypress.env('url').login)
 
-    // But there shouldn't be an error on it.
-    // cy.get('.alert').should('not.exist')
-
     // Now check for the entry in the database.
     // Note that experiencing this problem and clearing isn't working:
     // https://github.com/cypress-io/cypress/issues/14590
@@ -41,35 +39,19 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
     // Check only some of them.
     var submissionIndex = 0
 
-    // TODO: Catching the error is failing.
-    // cy.on('fail', (e) => {
-    //   // If the error testing for a missing string fails
-    //   // that is, the string is actually present, stop the loop
-    //   // and return true.
-    //   cy.log("**Found the entry.**")
-    //   return true
-    // })
-
     cy.log("**Look through table for entry.**")
-
-    // cy.get('.webform-results-table > tbody > tr').first().find('a.view.dropbutton__item').invoke('attr', 'href').then((href) => {
-    //   cy.visit(href)
-    //   cy.contains(randomString)
-    //   cy.log('**Found entry.**')
-    // })
 
     cy.get('.webform-results-table > tbody > tr').each((row) => {
       cy.visit(row[0].dataset.webformHref)
-      // cy.get('body').should('not.contain', randomString);
 
       cy.contains(randomString)
-      // submissionIndex++
+
+      submissionIndex++
       // If we checked all of them with no success, fail the test
-      // if (submissionIndex == 10 ) {
-      //   cy.log("**Failed to find entry.**")
-      //   return false  // Fail test.
-      // }
-      // return true
+      if (submissionIndex == 1 ) {
+        return false  // Fail test.
+      }
+      return true
     })
   })
 })
