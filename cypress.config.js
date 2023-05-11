@@ -34,7 +34,8 @@ module.exports = defineConfig({
   ],
   env: {
     grepFilterSpecs: true,
-    drupalDrushCmdLine: "./vendor/bin/drush %command"
+    drupalDrushCmdLine: "./vendor/bin/drush %command",
+    commandDelay: 2000
   },
   e2e: {
     baseUrl: 'https://www.performantlabs.com',
