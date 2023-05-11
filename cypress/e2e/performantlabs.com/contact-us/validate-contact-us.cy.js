@@ -10,6 +10,7 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
 
   it("(PER-1100) Contact Us form accepts correct input", {defaultCommandTimeout: 1000, languages: ['en'],  regions: ['us'], tags: ['contact-us', 'anonymous', 'smoke']}, () => {
     const randomString = createRandomString(10)
+
     cy.log("**Fill out contact form.**")
     cy.visit('contact-us').then(() => {
       cy.get('#edit-name').type('André Angelantoni')
@@ -18,13 +19,13 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
 
       // We will check for this later.
       cy.get('#edit-message').type(randomString)
+      cy.log("Looking for " + randomString)
       cy.contains('Send message').click()
     })
 
     cy.log("**Should see the thank-you page.**")
     cy.contains('Thank you')
     cy.visit(Cypress.env('url').login)
-    // cy.wrap(Cypress.env()).log('Environment variables %o')
 
     // But there shouldn't be an error on it.
     // cy.get('.alert').should('not.exist')
@@ -42,19 +43,33 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
 
     // TODO: Catching the error is failing.
     // cy.on('fail', (e) => {
-    //   Absorb the error.
-    //   return false
+    //   // If the error testing for a missing string fails
+    //   // that is, the string is actually present, stop the loop
+    //   // and return true.
+    //   cy.log("**Found the entry.**")
+    //   return true
     // })
 
     cy.log("**Look through table for entry.**")
+
+    // cy.get('.webform-results-table > tbody > tr').first().find('a.view.dropbutton__item').invoke('attr', 'href').then((href) => {
+    //   cy.visit(href)
+    //   cy.contains(randomString)
+    //   cy.log('**Found entry.**')
+    // })
+
     cy.get('.webform-results-table > tbody > tr').each((row) => {
       cy.visit(row[0].dataset.webformHref)
-      cy.get('#contact--message').then( (element) => {
-        cy.wrap(element[0]).contains(randomString)
-      })
-      submissionIndex++
+      // cy.get('body').should('not.contain', randomString);
+
+      cy.contains(randomString)
+      // submissionIndex++
       // If we checked all of them with no success, fail the test
-      if (submissionIndex == 10 ) return false  // Fail test.
+      // if (submissionIndex == 10 ) {
+      //   cy.log("**Failed to find entry.**")
+      //   return false  // Fail test.
+      // }
+      // return true
     })
   })
 })
