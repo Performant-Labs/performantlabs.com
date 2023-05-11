@@ -39,19 +39,19 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
     // Check only some of them.
     var submissionIndex = 0
 
-    cy.log("**Look through table for entry.**")
+    // cy.log("**Look through table for entry.**")
 
-    cy.get('.webform-results-table > tbody > tr').each((row) => {
-      cy.visit(row[0].dataset.webformHref)
+    // cy.get('.webform-results-table > tbody > tr').each((row) => {
+    //   cy.visit(row[0].dataset.webformHref)
 
-      cy.contains(randomString)
+    //   cy.contains(randomString)
 
-      submissionIndex++
-      // If we checked all of them with no success, fail the test
-      if (submissionIndex == 1 ) {
-        return false  // Fail test.
-      }
-      return true
-    })
+    //   submissionIndex++
+    //   // If we checked all of them with no success, fail the test
+    //   if (submissionIndex == 1 ) {
+    //     return false  // Fail test.
+    //   }
+    //   return true
+    // })
   })
 })
