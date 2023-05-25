@@ -1,10 +1,15 @@
 /// <reference types="Cypress" />
 /// <reference types="cypress-data-session" />
 
-import { createRandomString } from '../../../support/utils.js'
-import 'cypress-recurse/commands'
+const createRandomString = require('../../../support/utils.js').createRandomString;
+// import { createRandomString } from '../../../support/utils.js'
+//  import 'cypress-recurse/commands'
 
 describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, () => {
+  it("basics", () => {
+    expect(true).to.equal(true)
+  })
+  
   before(function () {
     cy.prepareForTestRun()
   })
