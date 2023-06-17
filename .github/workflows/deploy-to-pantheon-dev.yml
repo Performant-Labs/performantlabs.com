@@ -81,6 +81,9 @@ jobs:
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
         
+      - name: Remove composer.lock.
+        run: rm composer.lock
+        
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
                 
