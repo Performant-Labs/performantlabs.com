@@ -169,7 +169,9 @@ if (!isset($settings['trusted_host_patterns'])) $settings['trusted_host_patterns
 array_push($settings['trusted_host_patterns'],
   '^performantlabs$',
   '^127\.0\.0\.1$',
-  '^.+\.lndo\.site$');
+  '^performantlabs-dev$',
+  '^.+\.lndo\.site$'
+);
 
 /**
  * Disable CSS and JS aggregation.
@@ -199,7 +201,7 @@ if (getcwd() == "/app/html") {
 }
 else {
   $databases['default']['default'] = array (
-    'database' => 'performant_labs',
+    'database' => 'performant_labs_dev',
     'username' => 'root',
     'password' => 'root',
     'prefix' => '',
