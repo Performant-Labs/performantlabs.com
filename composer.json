@@ -336,7 +336,7 @@
         "drupal/views_bulk_operations": "~3.0",
         "drupal/views_infinite_scroll": "~1.0",
         "drupal/webform": "~6.0",
-        "drush/drush": "^11.0",
+        "drush/drush": "^10",
         "jquery/inputmask": "*",
         "jquery/intl-tel-input": "*",
         "jquery/rateit": "*",

@@ -1,5 +1,4 @@
 <?php
-
 namespace Consolidation\Config\Util;
 
 /**
@@ -20,9 +19,8 @@ namespace Consolidation\Config\Util;
  */
 class ConfigFallback extends ConfigGroup
 {
-
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -37,7 +35,7 @@ class ConfigFallback extends ConfigGroup
      */
     protected function getWithFallback($key, $group, $prefix = '', $postfix = '.')
     {
-        $configKey = "{$prefix}{$group}{$postfix}{$key}";
+        $configKey = "{$prefix}{$group}${postfix}{$key}";
         if ($this->config->has($configKey)) {
             return $this->config->get($configKey);
         }

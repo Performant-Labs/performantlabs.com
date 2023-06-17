@@ -1,9 +1,7 @@
 <?php
-
 namespace Drush\Commands\core;
 
 use Consolidation\SiteProcess\Util\Shell;
-use Consolidation\SiteProcess\Util\Tty;
 use Drush\Commands\DrushCommands;
 use Consolidation\SiteAlias\SiteAliasManagerAwareInterface;
 use Consolidation\SiteAlias\SiteAliasManagerAwareTrait;
@@ -32,7 +30,7 @@ class SshCommands extends DrushCommands implements SiteAliasManagerAwareInterfac
      * @aliases ssh,site-ssh
      * @topics docs:aliases
      */
-    public function ssh(array $code, $options = ['cd' => self::REQ]): void
+    public function ssh(array $code, $options = ['cd' => self::REQ, 'tty' => false])
     {
         $alias = $this->siteAliasManager()->getSelf();
 
@@ -50,9 +48,7 @@ class SshCommands extends DrushCommands implements SiteAliasManagerAwareInterfac
         }
 
         $process = $this->processManager()->siteProcess($alias, $code);
-        if (Tty::isTtySupported()) {
-            $process->setTty($options['tty']);
-        }
+        $process->setTty($options['tty']);
         // The transport handles the chdir during processArgs().
         $fallback = $alias->hasRoot() ? $alias->root() : null;
         $process->setWorkingDirectory($options['cd'] ?: $fallback);

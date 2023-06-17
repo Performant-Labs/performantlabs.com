@@ -1,5 +1,4 @@
 <?php
-
 namespace Consolidation\Config\Util;
 
 /**
@@ -9,7 +8,7 @@ namespace Consolidation\Config\Util;
 class ConfigMerge extends ConfigGroup
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -18,17 +17,10 @@ class ConfigMerge extends ConfigGroup
 
     /**
      * Merge available configuration from each configuration group.
-     *
-     * @param string $key
-     * @param string $group
-     * @param string $prefix
-     * @param string $postfix
-     *
-     * @return array
      */
     public function getWithMerge($key, $group, $prefix = '', $postfix = '.')
     {
-        $configKey = "{$prefix}{$group}{$postfix}{$key}";
+        $configKey = "{$prefix}{$group}${postfix}{$key}";
         $result = $this->config->get($configKey, []);
         if (!is_array($result)) {
             throw new \UnexpectedValueException($configKey . ' must be a list of settings to apply.');

@@ -1,5 +1,4 @@
 <?php
-
 namespace Drush;
 
 use Composer\Autoload\ClassLoader;
@@ -11,6 +10,7 @@ use Drush\Boot\BootstrapManager;
 use Drush\Command\RemoteCommandProxy;
 use Drush\Commands\DrushCommands;
 use Drush\Config\ConfigAwareTrait;
+use Drush\Log\LogLevel;
 use Drush\Runtime\RedispatchHook;
 use Drush\Runtime\TildeExpansionHook;
 use Psr\Log\LoggerAwareInterface;
@@ -48,25 +48,19 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
     /** @var TildeExpansionHook */
     protected $tildeExpansionHook;
 
-    /** @var string[] */
-    protected array $bootstrapCommandClasses = [];
-
     /**
      * Add global options to the Application and their default values to Config.
      */
     public function configureGlobalOptions()
     {
-        // Symfony 6.1+ has a --debug option for its completion command.
-        if ($this->getDefinition()->hasOption('--debug')) {
-            $this->getDefinition()
-                ->addOption(
-                    new InputOption('--debug', 'd', InputOption::VALUE_NONE, 'Equivalent to -vv')
-                );
-        }
+        $this->getDefinition()
+            ->addOption(
+                new InputOption('--debug', 'd', InputOption::VALUE_NONE, 'Equivalent to -vv')
+            );
 
         $this->getDefinition()
             ->addOption(
-                new InputOption('--yes', 'y', InputOption::VALUE_NONE, 'Auto-accept the default for all user prompts. Equivalent to --no-interaction.')
+                new InputOption('--yes', 'y', InputOption::VALUE_NONE, 'Equivalent to --no-interaction.')
             );
 
         // Note that -n belongs to Symfony Console's --no-interaction.
@@ -77,13 +71,23 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
 
         $this->getDefinition()
             ->addOption(
+                new InputOption('--remote-host', null, InputOption::VALUE_REQUIRED, 'Run on a remote server.')
+            );
+
+        $this->getDefinition()
+            ->addOption(
+                new InputOption('--remote-user', null, InputOption::VALUE_REQUIRED, 'The user to use in remote execution.')
+            );
+
+        $this->getDefinition()
+            ->addOption(
                 new InputOption('--root', '-r', InputOption::VALUE_REQUIRED, 'The Drupal root for this site.')
             );
 
 
         $this->getDefinition()
             ->addOption(
-                new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, 'A base URL for building links and selecting a multi-site. Defaults to <info>https://default</info>.')
+                new InputOption('--uri', '-l', InputOption::VALUE_REQUIRED, 'Which multisite from the selected root to use.')
             );
 
         $this->getDefinition()
@@ -94,7 +98,7 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
         // TODO: Implement handling for 'pipe'
         $this->getDefinition()
             ->addOption(
-                new InputOption('--pipe', null, InputOption::VALUE_NONE, 'Select the canonical script-friendly output format. Deprecated - use --format.')
+                new InputOption('--pipe', null, InputOption::VALUE_NONE, 'Select the canonical script-friendly output format.')
             );
 
         $this->getDefinition()
@@ -181,11 +185,6 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
         return $uri;
     }
 
-    public function bootstrapCommandClasses(): array
-    {
-        return $this->bootstrapCommandClasses;
-    }
-
     /**
      * @inheritdoc
      */
@@ -227,9 +226,9 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
                 throw $e;
             }
 
-            $this->logger->debug('Bootstrap further to find {command}', ['command' => $name]);
+            $this->logger->log(LogLevel::DEBUG, 'Bootstrap further to find {command}', ['command' => $name]);
             $this->bootstrapManager->bootstrapMax();
-            $this->logger->debug('Done with bootstrap max in Application::bootstrapAndFind(): trying to find {command} again.', ['command' => $name]);
+            $this->logger->log(LogLevel::DEBUG, 'Done with bootstrap max in Application::bootstrapAndFind(): trying to find {command} again.', ['command' => $name]);
 
             if (!$this->bootstrapManager()->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_ROOT)) {
                 // Unable to progress in the bootstrap. Give friendly error message.
@@ -328,20 +327,6 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
             [FilterHooks::class]
         ));
 
-        // If a command class has a static `create` method, then we will
-        // postpone instantiating it until after we bootstrap Drupal.
-        $this->bootstrapCommandClasses = array_filter($commandClasses, function (string $class): bool {
-            if (!method_exists($class, 'create')) {
-                return false;
-            }
-
-            $reflectionMethod = new \ReflectionMethod($class, 'create');
-            return $reflectionMethod->isStatic();
-        });
-
-        // Remove the command classes that we put into the bootstrap command classes.
-        $commandClasses = array_diff($commandClasses, $this->bootstrapCommandClasses);
-
         // Uncomment the lines below to use Console's built in help and list commands.
         // unset($commandClasses[__DIR__ . '/Commands/help/HelpCommands.php']);
         // unset($commandClasses[__DIR__ . '/Commands/help/ListCommands.php']);
@@ -366,7 +351,7 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
             }
         }
         $this->loadCommandClasses($commandList);
-        return array_values($commandList);
+        return array_keys($commandList);
     }
 
     /**
@@ -429,15 +414,5 @@ class Application extends SymfonyApplication implements LoggerAwareInterface, Co
         $output->writeln('', OutputInterface::VERBOSITY_QUIET);
 
         $this->doRenderException($e, $output);
-    }
-
-    /**
-     * Renders a caught Throwable. Omits the command docs at end.
-     */
-    public function renderThrowable(\Throwable $e, OutputInterface $output): void
-    {
-        $output->writeln('', OutputInterface::VERBOSITY_QUIET);
-
-        $this->doRenderThrowable($e, $output);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Drush\Commands\core;
 
 use Consolidation\SiteProcess\Util\Tty;
@@ -7,10 +6,11 @@ use Drush\Drush;
 use Drupal\Core\Url;
 use Drush\Commands\DrushCommands;
 use Drush\Exec\ExecTrait;
-use Symfony\Component\Filesystem\Path;
+use Webmozart\PathUtil\Path;
 
 class RunserverCommands extends DrushCommands
 {
+
     use ExecTrait;
 
     protected $uri;
@@ -75,7 +75,6 @@ class RunserverCommands extends DrushCommands
         $router = Path::join(DRUSH_BASE_PATH, '/misc/d8-rs-router.php');
         $php = $this->getConfig()->get('php', 'php');
         $process = $this->processManager()->process([$php, '-S', $addr . ':' . $uri['port'], $router]);
-        $process->setTimeout(null);
         $process->setWorkingDirectory(Drush::bootstrapManager()->getRoot());
         $process->setTty(Tty::isTtySupported());
         if ($options['quiet']) {
@@ -87,7 +86,7 @@ class RunserverCommands extends DrushCommands
     /**
      * Determine the URI to use for this server.
      */
-    public function uri($uri, $options): array
+    public function uri($uri, $options)
     {
         $drush_default = [
             'host' => '127.0.0.1',
@@ -120,12 +119,13 @@ class RunserverCommands extends DrushCommands
     /**
      * Parse a URI or partial URI (including just a port, host IP or path).
      *
-     * @param $uri
+     * @param string $uri
      *   String that can contain partial URI.
      *
+     * @return array
      *   URI array as returned by parse_url.
      */
-    public function parseUri(?string $uri): array
+    public function parseUri($uri)
     {
         if (empty($uri)) {
             return [];
