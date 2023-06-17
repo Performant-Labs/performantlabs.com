@@ -6,8 +6,6 @@ use function array_key_exists;
 
 /**
  * Class AbstractEventVariables.
- *
- * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractEventVariables {
 
@@ -16,7 +14,7 @@ abstract class AbstractEventVariables {
    *
    * @var array
    */
-  protected $variables;
+  protected $variables = [];
 
   /**
    * Event Variables constructor.

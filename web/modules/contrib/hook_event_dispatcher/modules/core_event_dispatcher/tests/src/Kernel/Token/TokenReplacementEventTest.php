@@ -112,7 +112,7 @@ class TokenReplacementEventTest extends KernelTestBase {
   public function testTokenReplacementEventWrongReplacementException(): void {
     $this->expectException(\UnexpectedValueException::class);
 
-    $this->eventDispatcher->addListener(TokenHookEvents::TOKEN_REPLACEMENT, function (TokensReplacementEvent $event) {
+    $this->eventDispatcher->addListener(TokenHookEvents::TOKEN_REPLACEMENT, static function (TokensReplacementEvent $event) {
       $event->setReplacementValue('', '', '');
     });
 
@@ -125,7 +125,7 @@ class TokenReplacementEventTest extends KernelTestBase {
   public function testTokenReplacementEventInvalidReplacementException(): void {
     $this->expectException(\UnexpectedValueException::class);
 
-    $this->eventDispatcher->addListener(TokenHookEvents::TOKEN_REPLACEMENT, function (TokensReplacementEvent $event) {
+    $this->eventDispatcher->addListener(TokenHookEvents::TOKEN_REPLACEMENT, static function (TokensReplacementEvent $event) {
       $event->setReplacementValue('test', 'token', NULL);
     });
 

@@ -3,8 +3,8 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
-use Drupal\preprocess_event_dispatcher\Event\EckEntityPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\HtmlPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Event\PagePreprocessEvent;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\FakePreprocessEvent;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\FakePreprocessEventFactory;
 
@@ -31,16 +31,18 @@ class PreprocessEventPassTest extends KernelTestBase {
    * Using the preprocess_event_dispatcher_factory tag.
    *
    * @throws \Exception
+   *
+   * @group legacy
    */
   public function testOverwritingDefaultFactory(): void {
     /** @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper $mapper */
     $mapper = $this->container->get('preprocess_event.factory_mapper');
     $variables = [];
 
-    $eckMappedFactory = $mapper->getFactory(EckEntityPreprocessEvent::getHook());
-    $this->assertInstanceOf(FakePreprocessEventFactory::class, $eckMappedFactory);
-    $this->assertSame(EckEntityPreprocessEvent::getHook(), $eckMappedFactory->getEventHook());
-    $this->assertInstanceOf(FakePreprocessEvent::class, $eckMappedFactory->createEvent($variables));
+    $pageMappedFactory = $mapper->getFactory(PagePreprocessEvent::getHook());
+    $this->assertInstanceOf(FakePreprocessEventFactory::class, $pageMappedFactory);
+    $this->assertSame(PagePreprocessEvent::getHook(), $pageMappedFactory->getEventHook());
+    $this->assertInstanceOf(FakePreprocessEvent::class, $pageMappedFactory->createEvent($variables));
 
     $htmlMappedFactory = $mapper->getFactory(HtmlPreprocessEvent::getHook());
     $this->assertInstanceOf(FakePreprocessEventFactory::class, $htmlMappedFactory);

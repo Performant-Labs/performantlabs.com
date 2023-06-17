@@ -102,12 +102,11 @@ final class SetList implements SetListInterface
      */
     public const TYPE_DECLARATION = __DIR__ . '/../../../config/set/type-declaration.php';
     /**
-     * @deprecated Use only TYPE_DECLARATION instead
-     * @var string
-     */
-    public const TYPE_DECLARATION_STRICT = __DIR__ . '/../../../config/set/type-declaration-strict.php';
-    /**
      * @var string
      */
     public const EARLY_RETURN = __DIR__ . '/../../../config/set/early-return.php';
+    /**
+     * @var string
+     */
+    public const INSTANCEOF = __DIR__ . '/../../../config/set/instanceof.php';
 }

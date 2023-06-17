@@ -12,7 +12,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Renaming\ValueObject\RenameStaticMethod;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Renaming\Rector\StaticCall\RenameStaticMethodRector\RenameStaticMethodRectorTest
  */
@@ -39,10 +39,10 @@ final class RenameStaticMethodRector extends AbstractRector implements Configura
     public function refactor(Node $node) : ?Node
     {
         foreach ($this->staticMethodRenames as $staticMethodRename) {
-            if (!$this->isObjectType($node->class, $staticMethodRename->getOldObjectType())) {
+            if (!$this->isName($node->name, $staticMethodRename->getOldMethod())) {
                 continue;
             }
-            if (!$this->isName($node->name, $staticMethodRename->getOldMethod())) {
+            if (!$this->isObjectType($node->class, $staticMethodRename->getOldObjectType())) {
                 continue;
             }
             return $this->rename($node, $staticMethodRename);

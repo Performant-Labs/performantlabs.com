@@ -18,7 +18,7 @@ class PageBottomEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $build;
+  private $build = [];
 
   /**
    * PageBottomEvent constructor.

@@ -20,7 +20,7 @@ use Rector\TypeDeclaration\ValueObject\AddReturnTypeDeclaration;
 use Rector\VendorLocker\ParentClassMethodTypeOverrideGuard;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\TypeDeclaration\Rector\ClassMethod\AddReturnTypeDeclarationRector\AddReturnTypeDeclarationRectorTest
  */
@@ -83,11 +83,11 @@ CODE_SAMPLE
     public function refactor(Node $node) : ?Node
     {
         foreach ($this->methodReturnTypes as $methodReturnType) {
-            $objectType = $methodReturnType->getObjectType();
-            if (!$this->isObjectType($node, $objectType)) {
+            if (!$this->isName($node, $methodReturnType->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node, $methodReturnType->getMethod())) {
+            $objectType = $methodReturnType->getObjectType();
+            if (!$this->isObjectType($node, $objectType)) {
                 continue;
             }
             $this->processClassMethodNodeWithTypehints($node, $methodReturnType->getReturnType(), $objectType);

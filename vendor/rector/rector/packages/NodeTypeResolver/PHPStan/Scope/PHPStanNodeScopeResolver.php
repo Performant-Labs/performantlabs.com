@@ -11,9 +11,12 @@ use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Expr\Assign;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\BinaryOp;
+use PhpParser\Node\Expr\Cast;
+use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\Ternary;
 use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
@@ -33,11 +36,7 @@ use PHPStan\AnalysedCodeException;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Analyser\NodeScopeResolver;
 use PHPStan\Analyser\ScopeContext;
-use PHPStan\BetterReflection\Reflector\Reflector;
-use PHPStan\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use PHPStan\BetterReflection\SourceLocator\Type\SourceLocator;
 use PHPStan\Node\UnreachableStatementNode;
-use PHPStan\Reflection\BetterReflection\Reflector\MemoizingReflector;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Type\ObjectType;
@@ -45,13 +44,13 @@ use PHPStan\Type\TypeCombinator;
 use Rector\Caching\Detector\ChangedFilesDetector;
 use Rector\Caching\FileSystem\DependencyResolver;
 use Rector\Core\Exception\ShouldNotHappenException;
-use Rector\Core\StaticReflection\SourceLocator\RenamedClassesSourceLocator;
+use Rector\Core\NodeAnalyzer\ClassAnalyzer;
+use Rector\Core\PhpParser\Node\BetterNodeFinder;
 use Rector\Core\Util\Reflection\PrivatesAccessor;
-use Rector\Core\Util\StringUtils;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Rector\NodeTypeResolver\PHPStan\Scope\NodeVisitor\RemoveDeepChainMethodCallNodeVisitor;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @inspired by https://github.com/silverstripe/silverstripe-upgrader/blob/532182b23e854d02e0b27e68ebc394f436de0682/src/UpgradeRule/PHP/Visitor/PHPStanScopeVisitor.php
  * - https://github.com/silverstripe/silverstripe-upgrader/pull/57/commits/e5c7cfa166ad940d9d4ff69537d9f7608e992359#diff-5e0807bb3dc03d6a8d8b6ad049abd774
@@ -60,13 +59,13 @@ final class PHPStanNodeScopeResolver
 {
     /**
      * @var string
-     * @see https://regex101.com/r/aXsCkK/1
-     */
-    private const ANONYMOUS_CLASS_START_REGEX = '#^AnonymousClass(\\w+)#';
-    /**
-     * @var string
      */
     private const CONTEXT = 'context';
+    /**
+     * @readonly
+     * @var \PhpParser\NodeTraverser
+     */
+    private $nodeTraverser;
     /**
      * @readonly
      * @var \Rector\Caching\Detector\ChangedFilesDetector
@@ -89,11 +88,6 @@ final class PHPStanNodeScopeResolver
     private $reflectionProvider;
     /**
      * @readonly
-     * @var \Rector\NodeTypeResolver\PHPStan\Scope\NodeVisitor\RemoveDeepChainMethodCallNodeVisitor
-     */
-    private $removeDeepChainMethodCallNodeVisitor;
-    /**
-     * @readonly
      * @var \Rector\NodeTypeResolver\PHPStan\Scope\ScopeFactory
      */
     private $scopeFactory;
@@ -104,26 +98,32 @@ final class PHPStanNodeScopeResolver
     private $privatesAccessor;
     /**
      * @readonly
-     * @var \Rector\Core\StaticReflection\SourceLocator\RenamedClassesSourceLocator
-     */
-    private $renamedClassesSourceLocator;
-    /**
-     * @readonly
      * @var \Rector\NodeNameResolver\NodeNameResolver
      */
     private $nodeNameResolver;
-    public function __construct(ChangedFilesDetector $changedFilesDetector, DependencyResolver $dependencyResolver, NodeScopeResolver $nodeScopeResolver, ReflectionProvider $reflectionProvider, RemoveDeepChainMethodCallNodeVisitor $removeDeepChainMethodCallNodeVisitor, \Rector\NodeTypeResolver\PHPStan\Scope\ScopeFactory $scopeFactory, PrivatesAccessor $privatesAccessor, RenamedClassesSourceLocator $renamedClassesSourceLocator, NodeNameResolver $nodeNameResolver)
+    /**
+     * @readonly
+     * @var \Rector\Core\PhpParser\Node\BetterNodeFinder
+     */
+    private $betterNodeFinder;
+    /**
+     * @readonly
+     * @var \Rector\Core\NodeAnalyzer\ClassAnalyzer
+     */
+    private $classAnalyzer;
+    public function __construct(ChangedFilesDetector $changedFilesDetector, DependencyResolver $dependencyResolver, NodeScopeResolver $nodeScopeResolver, ReflectionProvider $reflectionProvider, RemoveDeepChainMethodCallNodeVisitor $removeDeepChainMethodCallNodeVisitor, \Rector\NodeTypeResolver\PHPStan\Scope\ScopeFactory $scopeFactory, PrivatesAccessor $privatesAccessor, NodeNameResolver $nodeNameResolver, BetterNodeFinder $betterNodeFinder, ClassAnalyzer $classAnalyzer)
     {
         $this->changedFilesDetector = $changedFilesDetector;
         $this->dependencyResolver = $dependencyResolver;
         $this->nodeScopeResolver = $nodeScopeResolver;
         $this->reflectionProvider = $reflectionProvider;
-        $this->removeDeepChainMethodCallNodeVisitor = $removeDeepChainMethodCallNodeVisitor;
         $this->scopeFactory = $scopeFactory;
         $this->privatesAccessor = $privatesAccessor;
-        $this->renamedClassesSourceLocator = $renamedClassesSourceLocator;
         $this->nodeNameResolver = $nodeNameResolver;
-        $this->decoratePHPStanNodeScopeResolverWithRenamedClassSourceLocator($this->nodeScopeResolver);
+        $this->betterNodeFinder = $betterNodeFinder;
+        $this->classAnalyzer = $classAnalyzer;
+        $this->nodeTraverser = new NodeTraverser();
+        $this->nodeTraverser->addVisitor($removeDeepChainMethodCallNodeVisitor);
     }
     /**
      * @param Stmt[] $stmts
@@ -137,11 +137,11 @@ final class PHPStanNodeScopeResolver
          * @see vendor/phpstan/phpstan/phpstan.phar/src/Analyser/NodeScopeResolver.php:282
          */
         Assert::allIsInstanceOf($stmts, Stmt::class);
-        $this->removeDeepChainMethodCallNodes($stmts);
+        $this->nodeTraverser->traverse($stmts);
         $scope = $formerMutatingScope ?? $this->scopeFactory->createFromFile($filePath);
         // skip chain method calls, performance issue: https://github.com/phpstan/phpstan/issues/254
         $nodeCallback = function (Node $node, MutatingScope $mutatingScope) use(&$nodeCallback, $isScopeRefreshing, $filePath) : void {
-            if (($node instanceof Expression || $node instanceof Return_ || $node instanceof Assign || $node instanceof EnumCase || $node instanceof AssignOp) && $node->expr instanceof Expr) {
+            if (($node instanceof Expression || $node instanceof Return_ || $node instanceof Assign || $node instanceof EnumCase || $node instanceof AssignOp || $node instanceof Cast) && $node->expr instanceof Expr) {
                 $node->expr->setAttribute(AttributeKey::SCOPE, $mutatingScope);
             }
             if ($node instanceof Ternary) {
@@ -178,7 +178,7 @@ final class PHPStanNodeScopeResolver
             if ($node instanceof FuncCall && $node->name instanceof Expr) {
                 $node->name->setAttribute(AttributeKey::SCOPE, $mutatingScope);
             }
-            if ($node instanceof Assign) {
+            if ($node instanceof Assign || $node instanceof AssignOp) {
                 // decorate value as well
                 $node->var->setAttribute(AttributeKey::SCOPE, $mutatingScope);
             }
@@ -202,6 +202,9 @@ final class PHPStanNodeScopeResolver
                 /** @var MutatingScope $mutatingScope */
                 $mutatingScope = $this->resolveClassOrInterfaceScope($node, $mutatingScope, $isScopeRefreshing);
             }
+            if ($node instanceof Stmt) {
+                $this->setChildOfUnreachableStatementNodeAttribute($node);
+            }
             // special case for unreachable nodes
             if ($node instanceof UnreachableStatementNode) {
                 $this->processUnreachableStatementNode($node, $filePath, $mutatingScope);
@@ -210,6 +213,25 @@ final class PHPStanNodeScopeResolver
             }
         };
         return $this->processNodesWithDependentFiles($filePath, $stmts, $scope, $nodeCallback);
+    }
+    private function setChildOfUnreachableStatementNodeAttribute(Stmt $stmt) : void
+    {
+        if ($stmt->getAttribute(AttributeKey::IS_UNREACHABLE) === \true) {
+            return;
+        }
+        $parentStmt = $stmt->getAttribute(AttributeKey::PARENT_NODE);
+        if (!$parentStmt instanceof Node) {
+            return;
+        }
+        if ($parentStmt instanceof Closure) {
+            $parentStmt = $this->betterNodeFinder->resolveCurrentStatement($parentStmt);
+        }
+        if (!$parentStmt instanceof Stmt) {
+            return;
+        }
+        if ($parentStmt->getAttribute(AttributeKey::IS_UNREACHABLE) === \true) {
+            $stmt->setAttribute(AttributeKey::IS_UNREACHABLE, \true);
+        }
     }
     private function processArray(Array_ $array, MutatingScope $mutatingScope) : void
     {
@@ -308,22 +330,13 @@ final class PHPStanNodeScopeResolver
         return $stmts;
     }
     /**
-     * @param Node[] $nodes
-     */
-    private function removeDeepChainMethodCallNodes(array $nodes) : void
-    {
-        $nodeTraverser = new NodeTraverser();
-        $nodeTraverser->addVisitor($this->removeDeepChainMethodCallNodeVisitor);
-        $nodeTraverser->traverse($nodes);
-    }
-    /**
      * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\Interface_|\PhpParser\Node\Stmt\Enum_ $classLike
      */
     private function resolveClassOrInterfaceScope($classLike, MutatingScope $mutatingScope, bool $isScopeRefreshing) : MutatingScope
     {
         $className = $this->resolveClassName($classLike);
         // is anonymous class? - not possible to enter it since PHPStan 0.12.33, see https://github.com/phpstan/phpstan-src/commit/e87fb0ec26f9c8552bbeef26a868b1e5d8185e91
-        if ($classLike instanceof Class_ && StringUtils::isMatch($className, self::ANONYMOUS_CLASS_START_REGEX)) {
+        if ($classLike instanceof Class_ && $this->classAnalyzer->isAnonymousClass($classLike)) {
             $classReflection = $this->reflectionProvider->getAnonymousClassReflection($classLike, $mutatingScope);
         } elseif (!$this->reflectionProvider->hasClass($className)) {
             return $mutatingScope;
@@ -345,7 +358,7 @@ final class PHPStanNodeScopeResolver
         if ($classLike->namespacedName instanceof Name) {
             return (string) $classLike->namespacedName;
         }
-        if ($classLike->name === null) {
+        if (!$classLike->name instanceof Identifier) {
             throw new ShouldNotHappenException();
         }
         return $classLike->name->toString();
@@ -365,24 +378,5 @@ final class PHPStanNodeScopeResolver
             }
         }
         $this->changedFilesDetector->addFileWithDependencies($filePath, $dependentFiles);
-    }
-    /**
-     * In case PHPStan tried to parse a file with missing class, it fails.
-     * But sometimes we want to rename old class that is missing with Rector..
-     *
-     * That's why we have to skip fatal errors of PHPStan caused by missing class,
-     * so Rector can fix it first. Then run Rector again to refactor code with new classes.
-     */
-    private function decoratePHPStanNodeScopeResolverWithRenamedClassSourceLocator(NodeScopeResolver $nodeScopeResolver) : void
-    {
-        // 1. get PHPStan locator
-        /** @var MemoizingReflector $classReflector */
-        $classReflector = $this->privatesAccessor->getPrivatePropertyOfClass($nodeScopeResolver, 'reflector', Reflector::class);
-        $reflector = $this->privatesAccessor->getPrivatePropertyOfClass($classReflector, 'reflector', Reflector::class);
-        /** @var SourceLocator $sourceLocator */
-        $sourceLocator = $this->privatesAccessor->getPrivatePropertyOfClass($reflector, 'sourceLocator', SourceLocator::class);
-        // 2. get Rector locator
-        $aggregateSourceLocator = new AggregateSourceLocator([$sourceLocator, $this->renamedClassesSourceLocator]);
-        $this->privatesAccessor->setPrivatePropertyOfClass($reflector, 'sourceLocator', $aggregateSourceLocator, AggregateSourceLocator::class);
     }
 }

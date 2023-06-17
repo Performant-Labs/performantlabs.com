@@ -29,7 +29,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Arguments\Rector\ClassMethod\ArgumentAdderRector\ArgumentAdderRectorTest
  */
@@ -111,10 +111,10 @@ CODE_SAMPLE
     {
         $this->haveArgumentsChanged = \false;
         foreach ($this->addedArguments as $addedArgument) {
-            if (!$this->isObjectTypeMatch($node, $addedArgument->getObjectType())) {
+            if (!$this->isName($node->name, $addedArgument->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node->name, $addedArgument->getMethod())) {
+            if (!$this->isObjectTypeMatch($node, $addedArgument->getObjectType())) {
                 continue;
             }
             $this->processPositionWithDefaultValues($node, $addedArgument);
@@ -202,7 +202,7 @@ CODE_SAMPLE
         for ($index = $lastPosition + 1; $index < $position; ++$index) {
             $param = $classMethod->params[$index];
             if (!$param->default instanceof Expr) {
-                throw new ShouldNotHappenException('Previous position does not has default value');
+                throw new ShouldNotHappenException('Previous position does not have default value');
             }
             $default = $this->nodePrinter->print($param->default);
             $node->args[$index] = new Arg(new ConstFetch(new Name($default)));
@@ -251,7 +251,7 @@ CODE_SAMPLE
             throw new ShouldNotHappenException();
         }
         $param = new Param(new Variable($argumentName), BuilderHelpers::normalizeValue($defaultValue));
-        if ($type !== null) {
+        if ($type instanceof Type) {
             $param->type = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($type, TypeKind::PARAM);
         }
         $classMethod->params[$position] = $param;

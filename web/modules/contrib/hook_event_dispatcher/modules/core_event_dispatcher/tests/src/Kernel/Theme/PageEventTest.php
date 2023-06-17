@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\core_event_dispatcher\Kernel\Theme;
 
+use Drupal\Core\Render\HtmlResponse;
 use Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent;
 use Drupal\core_event_dispatcher\Event\Theme\PageBottomEvent;
 use Drupal\core_event_dispatcher\Event\Theme\PageTopEvent;
@@ -46,6 +47,7 @@ class PageEventTest extends KernelTestBase {
       $this->container->get('request_stack')->getCurrentRequest(),
       $this->container->get('current_route_match'),
     );
+    $this->assertInstanceOf(HtmlResponse::class, $response);
 
     $attachments = $response->getAttachments();
     $this->assertArrayHasKey('library', $attachments);

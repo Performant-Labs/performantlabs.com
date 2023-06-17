@@ -74,6 +74,7 @@ class MenuLocalTasksAlterEventTest extends KernelTestBase {
       $refData = &$event->getData();
       $refData['tabs'][0]['bar'] = TRUE;
     }
+
     $this->assertNotContains('kittens:dwarf-cat', $event->getCacheability()->getCacheTags());
     $event->getCacheability()->addCacheTags(['kittens:dwarf-cat']);
   }

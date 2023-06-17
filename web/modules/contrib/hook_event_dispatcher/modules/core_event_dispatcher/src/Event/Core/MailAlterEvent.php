@@ -18,7 +18,7 @@ class MailAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $message;
+  protected $message = [];
 
   /**
    * MailAlterEvent constructor.

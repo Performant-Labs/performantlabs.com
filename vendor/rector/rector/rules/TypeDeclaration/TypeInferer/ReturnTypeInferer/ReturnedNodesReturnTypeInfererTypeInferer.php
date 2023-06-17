@@ -28,8 +28,7 @@ use Rector\PhpDocParser\NodeTraverser\SimpleCallableNodeTraverser;
 use Rector\TypeDeclaration\TypeInferer\SilentVoidResolver;
 use Rector\TypeDeclaration\TypeInferer\SplArrayFixedTypeNarrower;
 /**
- * @deprecated
- * @todo Split into many narrow-focused rules
+ * @internal
  */
 final class ReturnedNodesReturnTypeInfererTypeInferer
 {
@@ -168,6 +167,10 @@ final class ReturnedNodesReturnTypeInfererTypeInferer
         if (!$methodReflection instanceof MethodReflection) {
             return new MixedType();
         }
+        $parentClassMethod = $this->betterNodeFinder->findParentType($return, ClassMethod::class);
+        if ($parentClassMethod === $originalFunctionLike) {
+            return new MixedType();
+        }
         return $this->resolveClassMethod($methodReflection, $originalFunctionLike);
     }
     private function isArrayTypeMixed(Type $type) : bool
@@ -185,7 +188,7 @@ final class ReturnedNodesReturnTypeInfererTypeInferer
         if ($resolvedType instanceof MixedType || $this->isArrayTypeMixed($resolvedType)) {
             $correctedType = $this->inferFromReturnedMethodCall($return, $functionLike);
             // override only if has some extra value
-            if (!$correctedType instanceof MixedType && !$correctedType instanceof VoidType) {
+            if (!$correctedType instanceof MixedType && !$correctedType->isVoid()->yes()) {
                 return $correctedType;
             }
         }

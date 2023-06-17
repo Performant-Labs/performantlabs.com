@@ -35,16 +35,11 @@ use Drupal\views\Plugin\views\field\FieldHandlerInterface;
 use Drupal\views\Plugin\views\field\Markup;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
-use Mockery;
 
 /**
  * Class OtherEventVariablesTest.
  *
  * @group preprocess_event_dispatcher
- *
- * Testing the other events gives expected PHPMD warnings.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 final class OtherEventVariablesTest extends TestCase {
 
@@ -58,7 +53,7 @@ final class OtherEventVariablesTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $this->mapper = YamlDefinitionsLoader::getInstance()->getMapper();
   }
 
@@ -67,7 +62,7 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testBlockEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $block = Mockery::mock(BlockInterface::class);
+    $block = \Mockery::mock(BlockInterface::class);
     $variablesArray['block'] = $block;
     $variablesArray['elements']['#id'] = '22';
     $variablesArray['content']['test'] = ['success2'];
@@ -88,7 +83,7 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testBlockEventWithBlockContent(): void {
     $variablesArray = $this->createVariablesArray();
-    $blockContent = Mockery::mock(BlockContentInterface::class);
+    $blockContent = \Mockery::mock(BlockContentInterface::class);
     $variablesArray['content']['#block_content'] = $blockContent;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\BlockEventVariables $variables */
@@ -171,7 +166,7 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testUsernameEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $accountMock = Mockery::mock(UserInterface::class);
+    $accountMock = \Mockery::mock(UserInterface::class);
     $accountMock->expects('isAnonymous')
       ->with()
       ->once()
@@ -191,13 +186,13 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testViewFieldEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $field = Mockery::mock(FieldHandlerInterface::class);
+    $field = \Mockery::mock(FieldHandlerInterface::class);
     $variablesArray['field'] = $field;
-    $output = Mockery::mock(Markup::class);
+    $output = \Mockery::mock(Markup::class);
     $variablesArray['output'] = $output;
-    $row = Mockery::mock(ResultRow::class);
+    $row = \Mockery::mock(ResultRow::class);
     $variablesArray['row'] = $row;
-    $view = Mockery::mock(ViewExecutable::class);
+    $view = \Mockery::mock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewFieldEventVariables $variables */
@@ -216,9 +211,9 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testViewTableEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $rows = Mockery::mock(ResultRow::class);
+    $rows = \Mockery::mock(ResultRow::class);
     $variablesArray['rows'] = $rows;
-    $view = Mockery::mock(ViewExecutable::class);
+    $view = \Mockery::mock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewTableEventVariables $variables */
@@ -236,7 +231,7 @@ final class OtherEventVariablesTest extends TestCase {
   public function testViewEvent(): void {
     $variablesArray = $this->createVariablesArray();
     $variablesArray['rows'] = [['#rows' => ['rows']]];
-    $view = Mockery::mock(ViewExecutable::class);
+    $view = \Mockery::mock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewEventVariables $variables */

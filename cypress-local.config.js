@@ -1,4 +1,6 @@
 const { defineConfig } = require("cypress");
+const {unlinkSync} = require("fs");
+const { exec } = require('node:child_process')
 
 module.exports = defineConfig({
   // Used by Cypress.io
@@ -8,8 +10,8 @@ module.exports = defineConfig({
   responseTimeout : 5000,
   defaultCommandTimeout: 5000,
   numTestsKeptInMemory: 0,
-  screenshotOnRunFailure: false,
-  video: false,
+  screenshotOnRunFailure: true,
+  video: true,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.
@@ -36,11 +38,25 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'http://performantlabs:8888',
     useRegions: false,
+    SpecPattern: 'cypress/e2e/*/.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
       // register the "cypress-log-to-term" plugin
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
       require('cypress-log-to-term')(on)
+
+      // Delete videos if test passes.
+      on('after:spec', (spec, results) => {
+        if (config.video) {
+          if (results.stats.failures || results.stats.skipped) {
+            console.log('Keeping video of failure.')
+          }
+          else {
+            // console.log('Deleting video', results.video)
+            // unlinkSync(results.video)
+          }
+        }
+      })
     },
   },
 });

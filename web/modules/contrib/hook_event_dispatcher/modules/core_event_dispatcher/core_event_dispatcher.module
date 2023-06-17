@@ -658,7 +658,6 @@ function core_event_dispatcher_form_alter(array &$form, FormStateInterface $form
 
   $buildInfo = $formState->getBuildInfo();
   if (!empty($buildInfo['base_form_id'])) {
-    /** @var \Drupal\core_event_dispatcher\Event\Form\FormBaseAlterEvent $event */
     $manager->register(new FormBaseAlterEvent($form, $formState, $formId));
   }
   $manager->register(new FormIdAlterEvent($form, $formState, $formId));

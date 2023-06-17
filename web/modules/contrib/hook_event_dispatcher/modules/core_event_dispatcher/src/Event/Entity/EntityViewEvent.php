@@ -21,7 +21,7 @@ class EntityViewEvent extends AbstractEntityEvent {
    *
    * @var array
    */
-  private $build;
+  private $build = [];
 
   /**
    * The entity view display.

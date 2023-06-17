@@ -3,8 +3,9 @@ type: module
 description: Registers an extra preprocess event.
 core_version_requirement: ^9.3
 package: Example
+hidden: true
 
-# Information added by Drupal.org packaging script on 2022-09-02
-version: '3.3.1'
+# Information added by Drupal.org packaging script on 2023-05-18
+version: '3.3.3'
 project: 'hook_event_dispatcher'
-datestamp: 1662146259
+datestamp: 1684392592

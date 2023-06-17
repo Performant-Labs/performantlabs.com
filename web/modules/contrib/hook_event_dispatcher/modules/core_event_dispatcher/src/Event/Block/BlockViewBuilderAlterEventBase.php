@@ -16,7 +16,7 @@ abstract class BlockViewBuilderAlterEventBase extends Event implements EventInte
    *
    * @var array
    */
-  protected $build;
+  protected $build = [];
 
   /**
    * The block plugin instance.

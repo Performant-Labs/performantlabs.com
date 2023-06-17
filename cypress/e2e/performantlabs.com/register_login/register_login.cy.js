@@ -4,10 +4,6 @@
 const userAccount = require("../../../fixtures/createUserUsingDrush.json")
 
 describe('User registration and login tasks', () => {
-  before(function () {
-    cy.prepareForTestRun()
-  })
-
   // Keep for playing with.
   it.only("(PER-0000) Play", {languages: ['en'],  regions: ['us'], tags: ['register-login', 'anonymous', 'smoke']}, () => {
     // Clean up user in case it exists.

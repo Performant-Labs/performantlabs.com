@@ -26,6 +26,7 @@ class LanguageSwitchLinksAlterEventTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
+    'system',
     'language',
     'hook_event_dispatcher',
     'core_event_dispatcher',
@@ -51,7 +52,7 @@ class LanguageSwitchLinksAlterEventTest extends KernelTestBase {
     $languageManager = $this->container->get('language_manager');
     $this->assertInstanceOf(ConfigurableLanguageManager::class, $languageManager);
 
-    $languageSwitchLinks = $languageManager->getLanguageSwitchLinks(LanguageInterface::TYPE_URL, new Url('<current>'));
+    $languageSwitchLinks = $languageManager->getLanguageSwitchLinks(LanguageInterface::TYPE_URL, new Url('<front>'));
 
     $this->assertArrayHasKey('test', $languageSwitchLinks->links);
     $this->assertArrayHasKey('test', $languageSwitchLinks->links['en']['query']);
@@ -66,10 +67,10 @@ class LanguageSwitchLinksAlterEventTest extends KernelTestBase {
    */
   public function onLanguageSwitchLinksAlter(LanguageSwitchLinksAlterEvent $event): void {
     $this->assertEquals(LanguageInterface::TYPE_URL, $event->getType());
-    $this->assertEquals('<current>', $event->getPath()->getRouteName());
+    $this->assertEquals('<front>', $event->getPath()->getRouteName());
 
     $event->setLinkForLanguage('test', [
-      'url' => new Url('<current>'),
+      'url' => new Url('<front>'),
     ]);
 
     $links = &$event->getLinks();

@@ -11,7 +11,7 @@ module.exports = defineConfig({
   defaultCommandTimeout: 5000,
   numTestsKeptInMemory: 0,
   screenshotOnRunFailure: false,
-  video: false,
+  video: true,
   chromeWebSecurity: false,
   retries: {
     // Configure retry attempts for 'cypress run'.
@@ -34,11 +34,13 @@ module.exports = defineConfig({
   ],
   env: {
     grepFilterSpecs: true,
-    drupalDrushCmdLine: "./vendor/bin/drush %command"
+    drupalDrushCmdLine: "./vendor/bin/drush %command",
+    commandDelay: 2000
   },
   e2e: {
     baseUrl: 'https://www.performantlabs.com',
     isPantheon: true,
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     pantheonSite: 'performant-labs',
     pantheonEnvironment: 'live',
     pantheonTerminus: 'terminus',

@@ -6,7 +6,7 @@ namespace Rector\TypeDeclaration\Rector\ClassMethod;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\Expr\Yield_;
-use PhpParser\Node\Name;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Expression;
@@ -92,7 +92,7 @@ CODE_SAMPLE
         }
         if ($this->phpVersionProvider->isAtLeastPhpVersion(PhpVersionFeature::NEVER_TYPE)) {
             // never-type supported natively
-            $node->returnType = new Name('never');
+            $node->returnType = new Identifier('never');
         } else {
             // static anlysis based never type
             $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
@@ -115,8 +115,8 @@ CODE_SAMPLE
         if ($hasReturn) {
             return \true;
         }
-        $yieldAndConditionalNodes = \array_merge([Yield_::class], ControlStructure::CONDITIONAL_NODE_SCOPE_TYPES);
-        $hasNotNeverNodes = $this->betterNodeFinder->hasInstancesOfInFunctionLikeScoped($node, $yieldAndConditionalNodes);
+        $item1Unpacked = ControlStructure::CONDITIONAL_NODE_SCOPE_TYPES;
+        $hasNotNeverNodes = $this->betterNodeFinder->hasInstancesOfInFunctionLikeScoped($node, \array_merge([Yield_::class], $item1Unpacked));
         if ($hasNotNeverNodes) {
             return \true;
         }
@@ -134,7 +134,7 @@ CODE_SAMPLE
         return $this->isName($node->returnType, 'never');
     }
     /**
-     * @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Function_|\PhpParser\Node\Expr\Closure $functionLike
+     * @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Expr\Closure|\PhpParser\Node\Stmt\Function_ $functionLike
      */
     private function hasNeverFuncCall($functionLike) : bool
     {

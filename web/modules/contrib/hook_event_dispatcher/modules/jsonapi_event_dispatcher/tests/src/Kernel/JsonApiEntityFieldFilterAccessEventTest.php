@@ -39,7 +39,7 @@ class JsonApiEntityFieldFilterAccessEventTest extends KernelTestBase {
    *
    * @var array
    */
-  protected $fieldAccess;
+  protected $fieldAccess = [];
 
   /**
    * {@inheritdoc}

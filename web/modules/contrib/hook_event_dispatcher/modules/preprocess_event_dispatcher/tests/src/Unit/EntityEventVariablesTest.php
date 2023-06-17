@@ -25,7 +25,6 @@ use Drupal\taxonomy\TermInterface;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\EntityMockFactory;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
 use PHPUnit\Framework\TestCase;
-use Mockery;
 
 /**
  * Class EntityEventVariablesTest.
@@ -33,9 +32,6 @@ use Mockery;
  * @group preprocess_event_dispatcher
  *
  * @requires module eck
- *
- * Testing all variables gives expected PHPMD warnings.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class EntityEventVariablesTest extends TestCase {
 
@@ -49,7 +45,7 @@ final class EntityEventVariablesTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $this->mapper = YamlDefinitionsLoader::getInstance()->getMapper();
   }
 
@@ -58,7 +54,7 @@ final class EntityEventVariablesTest extends TestCase {
    */
   public function testCommentEvent(): void {
     $comment = EntityMockFactory::getMock(CommentInterface::class, 'comment', 'comment_bundle', 'comment_view_mode');
-    $commentedEntity = Mockery::mock(ContentEntityInterface::class);
+    $commentedEntity = \Mockery::mock(ContentEntityInterface::class);
     $variablesArray = $this->createVariablesArray();
     $variablesArray['comment'] = $comment;
     $variablesArray['commented_entity'] = $commentedEntity;
@@ -74,6 +70,8 @@ final class EntityEventVariablesTest extends TestCase {
 
   /**
    * Test a EckEntityPreprocessEvent.
+   *
+   * @group legacy
    */
   public function testEckEntityEvent(): void {
     $eckEntity = EntityMockFactory::getMock(EckEntityInterface::class, 'eck_entity', 'eck_entity_bundle', 'eck_entity_view_mode');
@@ -87,7 +85,9 @@ final class EntityEventVariablesTest extends TestCase {
     $variablesArray['bundle'] = $eckEntity->bundle();
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\EckEntityEventVariables $variables */
+    // @phpstan-ignore-next-line
     $variables = $this->getVariablesFromCreatedEvent(EckEntityPreprocessEvent::class, $variablesArray);
+    // @phpstan-ignore-next-line
     self::assertInstanceOf(EckEntityEventVariables::class, $variables);
     $this->assertAbstractEntityEventVariables($variables, $eckEntity);
     self::assertSame($eckEntity, $variables->getEckEntity());

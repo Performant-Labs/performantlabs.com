@@ -18,7 +18,7 @@ class ViewsPostRenderEvent extends AbstractViewsEvent {
    *
    * @var array
    */
-  private $output;
+  private $output = [];
 
   /**
    * The cache settings.

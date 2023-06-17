@@ -15,13 +15,15 @@ abstract class AbstractThemeSuggestionsEvent extends Event implements EventInter
    *
    * @var array
    */
-  private $suggestions;
+  private $suggestions = [];
+
   /**
    * Variables.
    *
    * @var array
    */
-  private $variables;
+  private $variables = [];
+
   /**
    * Hook name.
    *

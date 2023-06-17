@@ -70,14 +70,14 @@ CODE_SAMPLE
         if (!$originalNode instanceof Node) {
             return \true;
         }
-        if (!$this->isObjectType($methodCall->var, new ObjectType('Symfony\\Component\\Form\\Form'))) {
-            return \true;
-        }
         if (!$this->isName($methodCall->name, 'isValid')) {
             return \true;
         }
+        if (!$this->isObjectType($methodCall->var, new ObjectType('Symfony\\Component\\Form\\Form'))) {
+            return \true;
+        }
         $previousNode = $methodCall->getAttribute(AttributeKey::PREVIOUS_NODE);
-        if ($previousNode !== null) {
+        if ($previousNode instanceof Node) {
             return \true;
         }
         $variableName = $this->getName($methodCall->var);

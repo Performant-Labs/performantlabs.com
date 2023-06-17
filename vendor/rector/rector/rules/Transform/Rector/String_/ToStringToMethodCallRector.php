@@ -12,7 +12,7 @@ use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Transform\Rector\String_\ToStringToMethodCallRector\ToStringToMethodCallRectorTest
  */
@@ -76,10 +76,10 @@ CODE_SAMPLE
     private function processMethodCall(MethodCall $methodCall) : ?Node
     {
         foreach ($this->methodNamesByType as $type => $methodName) {
-            if (!$this->isObjectType($methodCall->var, new ObjectType($type))) {
+            if (!$this->isName($methodCall->name, '__toString')) {
                 continue;
             }
-            if (!$this->isName($methodCall->name, '__toString')) {
+            if (!$this->isObjectType($methodCall->var, new ObjectType($type))) {
                 continue;
             }
             $methodCall->name = new Identifier($methodName);

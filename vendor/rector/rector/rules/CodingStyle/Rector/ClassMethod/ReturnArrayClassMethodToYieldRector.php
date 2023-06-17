@@ -18,7 +18,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @changelog https://medium.com/tech-tajawal/use-memory-gently-with-yield-in-php-7e62e2480b8d
  * @changelog https://3v4l.org/5PJid
@@ -86,10 +86,10 @@ CODE_SAMPLE
     {
         $hasChanged = \false;
         foreach ($this->methodsToYields as $methodToYield) {
-            if (!$this->isObjectType($node, $methodToYield->getObjectType())) {
+            if (!$this->isName($node, $methodToYield->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node, $methodToYield->getMethod())) {
+            if (!$this->isObjectType($node, $methodToYield->getObjectType())) {
                 continue;
             }
             $arrayNode = $this->collectReturnArrayNodesFromClassMethod($node);

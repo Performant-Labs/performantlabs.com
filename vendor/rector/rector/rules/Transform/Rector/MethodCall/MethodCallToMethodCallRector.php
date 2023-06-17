@@ -19,7 +19,7 @@ use Rector\PostRector\ValueObject\PropertyMetadata;
 use Rector\Transform\ValueObject\MethodCallToMethodCall;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Transform\Rector\MethodCall\MethodCallToMethodCallRector\MethodCallToMethodCallRectorTest
  */
@@ -146,10 +146,10 @@ CODE_SAMPLE
             }
             return $this->isName($methodCall->name, $methodCallToMethodCall->getOldMethod());
         }
-        if (!$this->isObjectType($methodCall->var, $oldTypeObject)) {
+        if (!$this->isName($methodCall->name, $methodCallToMethodCall->getOldMethod())) {
             return \false;
         }
-        return $this->isName($methodCall->name, $methodCallToMethodCall->getOldMethod());
+        return $this->isObjectType($methodCall->var, $oldTypeObject);
     }
     private function matchNewPropertyName(MethodCallToMethodCall $methodCallToMethodCall, Class_ $class) : ?string
     {

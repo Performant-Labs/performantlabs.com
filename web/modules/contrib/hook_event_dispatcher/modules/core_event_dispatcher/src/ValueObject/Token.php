@@ -3,7 +3,6 @@
 namespace Drupal\core_event_dispatcher\ValueObject;
 
 use Drupal\Component\Render\MarkupInterface;
-use UnexpectedValueException;
 use function is_string;
 
 /**
@@ -19,24 +18,28 @@ final class Token {
    * @var string
    */
   private $type;
+
   /**
    * Token.
    *
    * @var string
    */
   private $token;
+
   /**
    * Description.
    *
    * @var string
    */
   private $description;
+
   /**
    * Name.
    *
    * @var string|\Drupal\Component\Render\MarkupInterface
    */
   private $name;
+
   /**
    * Is a dynamic field.
    *
@@ -68,8 +71,9 @@ final class Token {
   public static function create(string $type, string $token, $name): self {
     $instance = new self();
     if (!is_string($name) && !$name instanceof MarkupInterface) {
-      throw new UnexpectedValueException('Name should be a string or an instance of MarkupInterface');
+      throw new \UnexpectedValueException('Name should be a string or an instance of MarkupInterface');
     }
+
     $instance->type = $type;
     $instance->token = $token;
     $instance->name = $name;
@@ -89,8 +93,9 @@ final class Token {
    */
   public function setDescription($description): self {
     if (!is_string($description) && !$description instanceof MarkupInterface) {
-      throw new UnexpectedValueException('Description should be a string or an instance of MarkupInterface');
+      throw new \UnexpectedValueException('Description should be a string or an instance of MarkupInterface');
     }
+
     $clone = clone $this;
     $clone->description = $description;
     return $clone;

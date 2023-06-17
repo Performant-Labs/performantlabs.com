@@ -22,7 +22,7 @@ class ConfigImportStepsAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $syncSteps;
+  protected $syncSteps = [];
 
   /**
    * The config importer.

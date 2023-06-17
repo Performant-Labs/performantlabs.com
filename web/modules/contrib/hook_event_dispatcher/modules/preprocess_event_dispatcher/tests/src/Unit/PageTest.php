@@ -5,8 +5,6 @@ namespace Drupal\Tests\preprocess_event_dispatcher\Unit;
 use Drupal\node\NodeInterface;
 use Drupal\preprocess_event_dispatcher\Variables\PageEventVariables;
 use PHPUnit\Framework\TestCase;
-use Mockery;
-use stdClass;
 
 /**
  * Class PageTest.
@@ -22,11 +20,11 @@ final class PageTest extends TestCase {
     $vars = [];
     $vars['page']['test'] = TRUE;
     $vars['page']['array'] = ['array key' => 1];
-    $vars['page']['object'] = new stdClass();
+    $vars['page']['object'] = new \stdClass();
     $page = new PageEventVariables($vars);
     self::assertTrue($page->get('test'));
     self::assertArrayHasKey('array key', $page->get('array'));
-    self::assertInstanceOf(stdClass::class, $page->get('object'));
+    self::assertInstanceOf(\stdClass::class, $page->get('object'));
     self::assertFalse($page->get('doesNotExists', FALSE));
   }
 
@@ -38,10 +36,10 @@ final class PageTest extends TestCase {
     $page = new PageEventVariables($vars);
     $page->set('test', TRUE);
     $page->set('array', ['array key' => 1]);
-    $page->set('object', new stdClass());
+    $page->set('object', new \stdClass());
     self::assertTrue($page->get('test'));
     self::assertArrayHasKey('array key', $page->get('array'));
-    self::assertInstanceOf(stdClass::class, $page->get('object'));
+    self::assertInstanceOf(\stdClass::class, $page->get('object'));
     $page->set('null');
     self::assertNull($page->get('null'));
   }
@@ -54,10 +52,10 @@ final class PageTest extends TestCase {
     $page = new PageEventVariables($vars);
     $vars['page']['test'] = TRUE;
     $vars['page']['array'] = ['array key' => 1];
-    $vars['page']['object'] = new stdClass();
+    $vars['page']['object'] = new \stdClass();
     self::assertTrue($page->get('test'));
     self::assertArrayHasKey('array key', $page->get('array'));
-    self::assertInstanceOf(stdClass::class, $page->get('object'));
+    self::assertInstanceOf(\stdClass::class, $page->get('object'));
   }
 
   /**
@@ -67,9 +65,9 @@ final class PageTest extends TestCase {
     $vars = [];
     $page = new PageEventVariables($vars);
     self::assertFalse($page->isNodePage());
-    $vars['node'] = new stdClass();
+    $vars['node'] = new \stdClass();
     self::assertFalse($page->isNodePage());
-    $vars['node'] = Mockery::mock(NodeInterface::class);
+    $vars['node'] = \Mockery::mock(NodeInterface::class);
     self::assertTrue($page->isNodePage());
   }
 
@@ -80,9 +78,9 @@ final class PageTest extends TestCase {
     $vars = [];
     $page = new PageEventVariables($vars);
     self::assertNull($page->getNode());
-    $page->set('node', new stdClass());
+    $page->set('node', new \stdClass());
     self::assertNull($page->getNode());
-    $vars['node'] = Mockery::mock(NodeInterface::class);
+    $vars['node'] = \Mockery::mock(NodeInterface::class);
     self::assertInstanceOf(NodeInterface::class, $page->getNode());
   }
 

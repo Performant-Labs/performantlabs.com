@@ -22,7 +22,7 @@ class EntityOperationAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $operations;
+  private $operations = [];
 
   /**
    * The entity.

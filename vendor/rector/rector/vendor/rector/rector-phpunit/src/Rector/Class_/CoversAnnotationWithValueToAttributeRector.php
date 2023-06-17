@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Rector\PHPUnit\Rector\Class_;
 
 use PhpParser\Node;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
@@ -96,34 +97,46 @@ CODE_SAMPLE
         if (!$this->testsNodeAnalyzer->isInTestClass($node)) {
             return null;
         }
-        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
-        if (!$phpDocInfo instanceof PhpDocInfo) {
+        $coversAttributeGroups = $this->resolveCoversAttributeGroups($node);
+        if ($coversAttributeGroups === []) {
             return null;
         }
-        $hasChanged = \false;
+        $node->attrGroups = $coversAttributeGroups;
+        return $node;
+    }
+    private function createAttributeGroup(string $annotationValue) : AttributeGroup
+    {
+        if (\strncmp($annotationValue, '::', \strlen('::')) === 0) {
+            $attributeClass = 'PHPUnit\\Framework\\Attributes\\CoversFunction';
+            $attributeValue = \trim($annotationValue, ':()');
+        } else {
+            $attributeClass = 'PHPUnit\\Framework\\Attributes\\CoversClass';
+            $attributeValue = \trim($annotationValue) . '::class';
+        }
+        return $this->phpAttributeGroupFactory->createFromClassWithItems($attributeClass, [$attributeValue]);
+    }
+    /**
+     * @return AttributeGroup[]
+     * @param \PhpParser\Node\Stmt\Class_|\PhpParser\Node\Stmt\ClassMethod $node
+     */
+    private function resolveCoversAttributeGroups($node) : array
+    {
+        // resolve covers class first
+        $phpDocInfo = $this->phpDocInfoFactory->createFromNode($node);
+        if (!$phpDocInfo instanceof PhpDocInfo) {
+            return [];
+        }
+        $attributeGroups = [];
         /** @var PhpDocTagNode[] $desiredTagValueNodes */
         $desiredTagValueNodes = $phpDocInfo->getTagsByName('covers');
         foreach ($desiredTagValueNodes as $desiredTagValueNode) {
             if (!$desiredTagValueNode->value instanceof GenericTagValueNode) {
                 continue;
             }
-            $annotationValue = $desiredTagValueNode->value->value;
-            if (\strncmp($annotationValue, '::', \strlen('::')) === 0) {
-                $attributeClass = 'PHPUnit\\Framework\\Attributes\\CoversFunction';
-                $attributeValue = \trim($annotationValue, ':()');
-            } else {
-                $attributeClass = 'PHPUnit\\Framework\\Attributes\\CoversClass';
-                $attributeValue = \trim($annotationValue) . '::class';
-            }
-            $hasChanged = \true;
-            $attributeGroup = $this->phpAttributeGroupFactory->createFromClassWithItems($attributeClass, [$attributeValue]);
-            $node->attrGroups[] = $attributeGroup;
+            $attributeGroups[] = $this->createAttributeGroup($desiredTagValueNode->value->value);
             // cleanup
             $this->phpDocTagRemover->removeTagValueFromNode($phpDocInfo, $desiredTagValueNode);
         }
-        if ($hasChanged) {
-            return $node;
-        }
-        return null;
+        return $attributeGroups;
     }
 }

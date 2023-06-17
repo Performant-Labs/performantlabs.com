@@ -3,7 +3,8 @@
 declare (strict_types=1);
 namespace Rector\CodingStyle\Application;
 
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\Strings;
+use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Declare_;
 use PhpParser\Node\Stmt\Namespace_;
@@ -57,10 +58,12 @@ final class UseImportsAdder
                     // add extra space, if there are no new use imports to be added
                     $nodesToAdd = \array_merge([new Nop()], $newUses);
                 }
+                $this->mirrorUseComments($stmts, $newUses, $key + 1);
                 \array_splice($stmts, $key + 1, 0, $nodesToAdd);
                 return $stmts;
             }
         }
+        $this->mirrorUseComments($stmts, $newUses);
         // make use stmts first
         return \array_merge($newUses, $stmts);
     }
@@ -77,14 +80,28 @@ final class UseImportsAdder
         $useImportTypes = $this->diffFullyQualifiedObjectTypes($useImportTypes, $existingUseImportTypes);
         $functionUseImportTypes = $this->diffFullyQualifiedObjectTypes($functionUseImportTypes, $existingFunctionUseImportTypes);
         $newUses = $this->createUses($useImportTypes, $functionUseImportTypes, $namespaceName);
-        if ($namespace->stmts[0] instanceof Use_ && $newUses !== []) {
-            $comments = (array) $namespace->stmts[0]->getAttribute(AttributeKey::COMMENTS);
+        if ($newUses === []) {
+            return;
+        }
+        $this->mirrorUseComments($namespace->stmts, $newUses);
+        $namespace->stmts = \array_merge($newUses, $namespace->stmts);
+    }
+    /**
+     * @param Stmt[] $stmts
+     * @param Use_[] $newUses
+     */
+    private function mirrorUseComments(array $stmts, array $newUses, int $indexStmt = 0) : void
+    {
+        if ($stmts === []) {
+            return;
+        }
+        if ($stmts[$indexStmt] instanceof Use_) {
+            $comments = (array) $stmts[$indexStmt]->getAttribute(AttributeKey::COMMENTS);
             if ($comments !== []) {
-                $newUses[0]->setAttribute(AttributeKey::COMMENTS, $namespace->stmts[0]->getAttribute(AttributeKey::COMMENTS));
-                $namespace->stmts[0]->setAttribute(AttributeKey::COMMENTS, null);
+                $newUses[0]->setAttribute(AttributeKey::COMMENTS, $stmts[$indexStmt]->getAttribute(AttributeKey::COMMENTS));
+                $stmts[$indexStmt]->setAttribute(AttributeKey::COMMENTS, null);
             }
         }
-        $namespace->stmts = \array_merge($newUses, $namespace->stmts);
     }
     /**
      * @param array<FullyQualifiedObjectType|AliasedObjectType> $mainTypes
@@ -128,7 +145,7 @@ final class UseImportsAdder
     }
     private function getNamespaceName(Namespace_ $namespace) : ?string
     {
-        if ($namespace->name === null) {
+        if (!$namespace->name instanceof Name) {
             return null;
         }
         return $namespace->name->toString();

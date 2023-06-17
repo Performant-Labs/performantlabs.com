@@ -90,6 +90,7 @@ class WidgetFormAlterEventTest extends KernelTestBase {
     $form = [];
     $formState = new FormState();
     $formState->set('test', TRUE);
+
     $this->entityFormDisplay->buildForm($this->entity, $form, $formState);
 
     $this->assertArrayHasKey(self::TEST_DISPLAY_CONFIGURABLE, $form);

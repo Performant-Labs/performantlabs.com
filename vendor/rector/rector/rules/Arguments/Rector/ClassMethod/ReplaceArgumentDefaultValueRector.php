@@ -13,7 +13,7 @@ use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Arguments\Rector\ClassMethod\ReplaceArgumentDefaultValueRector\ReplaceArgumentDefaultValueRectorTest
  */
@@ -59,10 +59,10 @@ CODE_SAMPLE
     {
         $hasChanged = \false;
         foreach ($this->replacedArguments as $replacedArgument) {
-            if (!$this->nodeTypeResolver->isMethodStaticCallOrClassMethodObjectType($node, $replacedArgument->getObjectType())) {
+            if (!$this->isName($node->name, $replacedArgument->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node->name, $replacedArgument->getMethod())) {
+            if (!$this->nodeTypeResolver->isMethodStaticCallOrClassMethodObjectType($node, $replacedArgument->getObjectType())) {
                 continue;
             }
             $replacedNode = $this->argumentDefaultValueReplacer->processReplaces($node, $replacedArgument);

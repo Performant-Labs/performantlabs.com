@@ -17,7 +17,7 @@ class ViewsPreViewEvent extends AbstractViewsEvent {
    *
    * @var array
    */
-  private $arguments;
+  private $arguments = [];
 
   /**
    * The machine name of the active display.

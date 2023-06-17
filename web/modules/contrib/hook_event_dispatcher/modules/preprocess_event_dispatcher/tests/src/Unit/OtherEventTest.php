@@ -21,9 +21,6 @@ use function str_replace;
  * Class OtherEventTest.
  *
  * @group preprocess_event_dispatcher
- *
- * Testing all variables gives expected PHPMD warnings.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class OtherEventTest extends TestCase {
 
@@ -49,12 +46,12 @@ final class OtherEventTest extends TestCase {
    * @var array
    *   Variables.
    */
-  private $variables;
+  private $variables = [];
 
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $loader = YamlDefinitionsLoader::getInstance();
     $this->dispatcher = new SpyEventDispatcher();
     $this->service = new PreprocessEventService($this->dispatcher, $loader->getMapper());

@@ -44,11 +44,7 @@ class ThemesInstalledEventTest extends KernelTestBase {
    *   The event.
    */
   public function onThemesInstalled(ThemesInstalledEvent $event): void {
-    $this->assertEquals([
-      'stable',
-      'classy',
-      'test_theme',
-    ], $event->getThemeList());
+    $this->assertContains('test_theme', $event->getThemeList());
   }
 
 }

@@ -3,7 +3,9 @@
 declare (strict_types=1);
 namespace Rector\BetterPhpDocParser\PhpDocInfo;
 
+use PHPStan\PhpDocParser\Ast\ConstExpr\ConstFetchNode;
 use PHPStan\PhpDocParser\Ast\Node;
+use PHPStan\PhpDocParser\Ast\PhpDoc\GenericTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\InvalidTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\MethodTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ParamTagValueNode;
@@ -15,6 +17,8 @@ use PHPStan\PhpDocParser\Ast\PhpDoc\PropertyTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ReturnTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\TemplateTagValueNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\VarTagValueNode;
+use PHPStan\PhpDocParser\Ast\Type\ConstTypeNode;
+use PHPStan\PhpDocParser\Ast\Type\IdentifierTypeNode;
 use PHPStan\PhpDocParser\Lexer\Lexer;
 use PHPStan\Type\MixedType;
 use PHPStan\Type\Type;
@@ -24,6 +28,7 @@ use Rector\BetterPhpDocParser\PhpDoc\SpacelessPhpDocTagNode;
 use Rector\BetterPhpDocParser\PhpDocNodeFinder\PhpDocNodeByTypeFinder;
 use Rector\BetterPhpDocParser\PhpDocNodeVisitor\ChangedPhpDocNodeVisitor;
 use Rector\BetterPhpDocParser\ValueObject\Parser\BetterTokenIterator;
+use Rector\BetterPhpDocParser\ValueObject\PhpDocAttributeKey;
 use Rector\BetterPhpDocParser\ValueObject\Type\ShortenedIdentifierTypeNode;
 use Rector\ChangesReporting\Collector\RectorChangeCollector;
 use Rector\Core\Configuration\CurrentNodeProvider;
@@ -240,7 +245,7 @@ final class PhpDocInfo
      */
     public function hasByAnnotationClasses(array $annotationsClasses) : bool
     {
-        return $this->getByAnnotationClasses($annotationsClasses) !== null;
+        return $this->getByAnnotationClasses($annotationsClasses) instanceof DoctrineAnnotationTagValueNode;
     }
     /**
      * @param string[] $desiredClasses
@@ -370,7 +375,7 @@ final class PhpDocInfo
     {
         $this->hasChanged = \true;
         $node = $this->currentNodeProvider->getNode();
-        if ($node !== null) {
+        if ($node instanceof \PhpParser\Node) {
             $this->rectorChangeCollector->notifyNodeFileInfo($node);
         }
     }
@@ -397,6 +402,51 @@ final class PhpDocInfo
     {
         return $this->node;
     }
+    /**
+     * @return string[]
+     */
+    public function getAnnotationClassNames() : array
+    {
+        /** @var IdentifierTypeNode[] $identifierTypeNodes */
+        $identifierTypeNodes = $this->phpDocNodeByTypeFinder->findByType($this->phpDocNode, IdentifierTypeNode::class);
+        $resolvedClasses = [];
+        foreach ($identifierTypeNodes as $identifierTypeNode) {
+            $resolvedClasses[] = \ltrim($identifierTypeNode->name, '@');
+        }
+        return $resolvedClasses;
+    }
+    /**
+     * @return string[]
+     */
+    public function getGenericTagClassNames() : array
+    {
+        /** @var GenericTagValueNode[] $genericTagValueNodes */
+        $genericTagValueNodes = $this->phpDocNodeByTypeFinder->findByType($this->phpDocNode, GenericTagValueNode::class);
+        $resolvedClasses = [];
+        foreach ($genericTagValueNodes as $genericTagValueNode) {
+            $resolvedClasses[] = $genericTagValueNode->value;
+        }
+        return $resolvedClasses;
+    }
+    /**
+     * @return string[]
+     */
+    public function getConstFetchNodeClassNames() : array
+    {
+        $phpDocNodeTraverser = new PhpDocNodeTraverser();
+        $classNames = [];
+        $phpDocNodeTraverser->traverseWithCallable($this->phpDocNode, '', static function (Node $node) use(&$classNames) : ?ConstTypeNode {
+            if (!$node instanceof ConstTypeNode) {
+                return null;
+            }
+            if (!$node->constExpr instanceof ConstFetchNode) {
+                return null;
+            }
+            $classNames[] = $node->constExpr->getAttribute(PhpDocAttributeKey::RESOLVED_CLASS);
+            return $node;
+        });
+        return $classNames;
+    }
     private function resolveNameForPhpDocTagValueNode(PhpDocTagValueNode $phpDocTagValueNode) : ?string
     {
         foreach (self::TAGS_TYPES_TO_NAMES as $tagValueNodeType => $name) {
@@ -420,7 +470,7 @@ final class PhpDocInfo
      */
     private function getTypeOrMixed(?PhpDocTagValueNode $phpDocTagValueNode)
     {
-        if ($phpDocTagValueNode === null) {
+        if (!$phpDocTagValueNode instanceof PhpDocTagValueNode) {
             return new MixedType();
         }
         return $this->staticTypeMapper->mapPHPStanPhpDocTypeToPHPStanType($phpDocTagValueNode, $this->node);

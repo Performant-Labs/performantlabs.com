@@ -721,12 +721,15 @@ ini_set('max_execution_time', 300);
 include __DIR__ . "/settings.pantheon.php";
 
 /**
- * If there is a local settings file, then include it
+ * If there is a local settings file, then include it. Might be replaced for Tugboat.
  */
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php') && !isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  // Running locally.
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
 else {
+  // Running on Pantheon.
+
   #
   # Set up environment indicator colors
   #

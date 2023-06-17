@@ -18,7 +18,7 @@ class ThemesInstalledEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $themeList;
+  private $themeList = [];
 
   /**
    * ThemesInstalledEvent constructor.

@@ -22,7 +22,7 @@ class OEmbedResourceUrlAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $parsedUrl;
+  private $parsedUrl = [];
 
   /**
    * The oEmbed provider for the resource to be retrieved.

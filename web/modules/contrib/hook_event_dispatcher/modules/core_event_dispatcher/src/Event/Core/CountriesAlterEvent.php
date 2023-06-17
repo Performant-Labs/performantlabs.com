@@ -21,7 +21,7 @@ class CountriesAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $countries;
+  protected $countries = [];
 
   /**
    * CountriesAlterEvent constructor.

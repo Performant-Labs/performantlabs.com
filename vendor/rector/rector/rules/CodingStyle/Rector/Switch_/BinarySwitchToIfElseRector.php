@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Rector\CodingStyle\Rector\Switch_;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\BooleanOr;
 use PhpParser\Node\Expr\BinaryOp\Equal;
 use PhpParser\Node\Stmt\Case_;
@@ -11,6 +12,7 @@ use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\ElseIf_;
 use PhpParser\Node\Stmt\If_;
 use PhpParser\Node\Stmt\Switch_;
+use Rector\Core\NodeAnalyzer\ExprAnalyzer;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Renaming\NodeManipulator\SwitchManipulator;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
@@ -25,9 +27,15 @@ final class BinarySwitchToIfElseRector extends AbstractRector
      * @var \Rector\Renaming\NodeManipulator\SwitchManipulator
      */
     private $switchManipulator;
-    public function __construct(SwitchManipulator $switchManipulator)
+    /**
+     * @readonly
+     * @var \Rector\Core\NodeAnalyzer\ExprAnalyzer
+     */
+    private $exprAnalyzer;
+    public function __construct(SwitchManipulator $switchManipulator, ExprAnalyzer $exprAnalyzer)
     {
         $this->switchManipulator = $switchManipulator;
+        $this->exprAnalyzer = $exprAnalyzer;
     }
     public function getRuleDefinition() : RuleDefinition
     {
@@ -65,15 +73,20 @@ CODE_SAMPLE
         if (\count($node->cases) > 2) {
             return null;
         }
+        // avoid removal of cases if it goes to be skipped next
+        $cases = $node->cases;
         /** @var Case_ $firstCase */
-        $firstCase = \array_shift($node->cases);
-        if ($firstCase->cond === null) {
+        $firstCase = \array_shift($cases);
+        if (!$firstCase->cond instanceof Expr) {
             return null;
         }
-        $secondCase = \array_shift($node->cases);
+        if ($this->exprAnalyzer->isDynamicExpr($firstCase->cond)) {
+            return null;
+        }
+        $secondCase = \array_shift($cases);
         // special case with empty first case → ||
         $isFirstCaseEmpty = $firstCase->stmts === [];
-        if ($isFirstCaseEmpty && $secondCase !== null && $secondCase->cond !== null) {
+        if ($isFirstCaseEmpty && $secondCase instanceof Case_ && $secondCase->cond instanceof Expr) {
             $else = new BooleanOr(new Equal($node->cond, $firstCase->cond), new Equal($node->cond, $secondCase->cond));
             $ifNode = new If_($else);
             $ifNode->stmts = $this->switchManipulator->removeBreakNodes($secondCase->stmts);
@@ -85,7 +98,7 @@ CODE_SAMPLE
         if (!$secondCase instanceof Case_) {
             return $ifNode;
         }
-        if ($secondCase->cond !== null) {
+        if ($secondCase->cond instanceof Expr) {
             // has condition
             $equal = new Equal($node->cond, $secondCase->cond);
             $ifNode->elseifs[] = new ElseIf_($equal, $this->switchManipulator->removeBreakNodes($secondCase->stmts));

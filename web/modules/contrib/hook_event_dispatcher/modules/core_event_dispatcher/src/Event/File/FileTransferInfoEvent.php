@@ -31,6 +31,7 @@ class FileTransferInfoEvent extends Event implements EventInterface, DiscoveryIn
     if (!$this->definitions) {
       $this->definitions = [];
     }
+
     return $this->definitions;
   }
 

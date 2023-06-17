@@ -18,7 +18,7 @@ class EntityExtraFieldInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $fieldInfo;
+  private $fieldInfo = [];
 
   /**
    * EntityExtraFieldInfoAlterEvent constructor.

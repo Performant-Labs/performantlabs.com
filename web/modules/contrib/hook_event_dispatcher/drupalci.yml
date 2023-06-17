@@ -9,9 +9,7 @@ build:
         sniff-all-files: true
         halt-on-fail: true
       container_command:
-        commands:
-          - '${SOURCE_DIR}/vendor/bin/phpmd --suffixes php,module,inc,install,profile,theme ${PROJECT_DIR} text ${PROJECT_DIR}/phpmd.xml'
-          - '${SOURCE_DIR}/vendor/bin/phpstan analyse --no-progress -c ${PROJECT_DIR}/phpstan.neon.dist ${PROJECT_DIR}'
+        commands: '${SOURCE_DIR}/vendor/bin/phpstan analyse --no-progress -c ${PROJECT_DIR}/phpstan.neon.dist ${PROJECT_DIR}'
         halt-on-fail: true
     testing:
       # run_tests.standard:

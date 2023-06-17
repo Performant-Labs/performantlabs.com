@@ -28,7 +28,7 @@ class WidgetCompleteFormAlterEvent extends Event implements EventInterface, Even
    *
    * @var array
    */
-  protected $widgetCompleteForm;
+  protected $widgetCompleteForm = [];
 
   /**
    * The form state.
@@ -42,7 +42,7 @@ class WidgetCompleteFormAlterEvent extends Event implements EventInterface, Even
    *
    * @var array
    */
-  protected $context;
+  protected $context = [];
 
   /**
    * WidgetCompleteFormAlterEvent constructor.

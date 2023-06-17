@@ -8,6 +8,7 @@ use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Rector\BetterPhpDocParser\PhpDoc\ArrayItemNode;
+use Rector\BetterPhpDocParser\PhpDoc\DoctrineAnnotationTagValueNode;
 use Rector\BetterPhpDocParser\PhpDocParser\StaticDoctrineAnnotationParser\ArrayParser;
 use Rector\BetterPhpDocParser\ValueObject\PhpDoc\DoctrineAnnotation\CurlyListNode;
 use Rector\Core\Rector\AbstractRector;
@@ -67,6 +68,9 @@ final class AddRouteAnnotationRector extends AbstractRector
             return null;
         }
         $controllerReference = $this->resolveControllerReference($class, $node);
+        if (!$controllerReference) {
+            return null;
+        }
         // is there a route for this annotation?
         $symfonyRouteMetadatas = $this->matchSymfonyRouteMetadataByControllerReference($controllerReference);
         if ($symfonyRouteMetadatas === []) {
@@ -75,7 +79,7 @@ final class AddRouteAnnotationRector extends AbstractRector
         // skip if already has an annotation
         $phpDocInfo = $this->phpDocInfoFactory->createFromNodeOrEmpty($node);
         $doctrineAnnotationTagValueNode = $phpDocInfo->getByAnnotationClass(SymfonyAnnotation::ROUTE);
-        if ($doctrineAnnotationTagValueNode !== null) {
+        if ($doctrineAnnotationTagValueNode instanceof DoctrineAnnotationTagValueNode) {
             return null;
         }
         foreach ($symfonyRouteMetadatas as $symfonyRouteMetadata) {
@@ -113,10 +117,13 @@ final class SomeController extends AbstractController
 CODE_SAMPLE
 )]);
     }
-    private function resolveControllerReference(Class_ $class, ClassMethod $classMethod) : string
+    private function resolveControllerReference(Class_ $class, ClassMethod $classMethod) : ?string
     {
         $className = $this->nodeNameResolver->getName($class);
         $methodName = $this->nodeNameResolver->getName($classMethod);
+        if ($methodName === '__invoke') {
+            return $className;
+        }
         return $className . '::' . $methodName;
     }
     /**

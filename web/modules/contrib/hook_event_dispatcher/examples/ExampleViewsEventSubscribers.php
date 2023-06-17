@@ -53,7 +53,7 @@ class ExampleViewsEventSubscribers implements EventSubscriberInterface {
    *   The event.
    */
   public function preView(ViewsPreViewEvent $event): void {
-    $args = &$event->getArgs();
+    $args = &$event->getArguments();
 
     // Do something with the arguments.
     $args[0] = 'custom value';

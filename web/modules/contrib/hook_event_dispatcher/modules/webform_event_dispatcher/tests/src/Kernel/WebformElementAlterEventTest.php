@@ -49,7 +49,7 @@ class WebformElementAlterEventTest extends KernelTestBase {
 
     $this->installEntitySchema('user');
     $this->installSchema('webform', 'webform');
-    $this->installConfig('webform_test_element');
+    $this->installConfig(['webform', 'webform_test_element']);
 
     $entityTypeManager = $this->container->get('entity_type.manager');
 

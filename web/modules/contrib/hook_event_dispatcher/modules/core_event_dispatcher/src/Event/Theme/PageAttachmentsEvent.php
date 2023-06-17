@@ -18,7 +18,7 @@ class PageAttachmentsEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $attachments;
+  private $attachments = [];
 
   /**
    * PageAttachmentsEvent constructor.

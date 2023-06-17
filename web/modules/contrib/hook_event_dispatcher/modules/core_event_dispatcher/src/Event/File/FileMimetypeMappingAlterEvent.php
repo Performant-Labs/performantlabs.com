@@ -18,7 +18,7 @@ class FileMimetypeMappingAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $mapping;
+  protected $mapping = [];
 
   /**
    * FileMimetypeMappingAlterEvent constructor.

@@ -72,7 +72,7 @@ final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
    */
   public function invokeAll($hook, array $args = []) {
     $return = [];
-    $this->invokeAllWith($hook, function (callable $hookInvoker, string $module) use ($args, &$return) {
+    $this->invokeAllWith($hook, static function (callable $hookInvoker, string $module) use ($args, &$return) {
       $result = $hookInvoker(...$args);
       if (isset($result) && is_array($result)) {
         $return = NestedArray::mergeDeep($return, $result);

@@ -17,7 +17,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Renaming\ValueObject\RenameProperty;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Renaming\Rector\PropertyFetch\RenamePropertyRector\RenamePropertyRectorTest
  */
@@ -93,11 +93,11 @@ final class RenamePropertyRector extends AbstractRector implements ConfigurableR
     {
         $class = $this->betterNodeFinder->findParentType($propertyFetch, Class_::class);
         foreach ($this->renamedProperties as $renamedProperty) {
-            if (!$this->isObjectType($propertyFetch->var, $renamedProperty->getObjectType())) {
-                continue;
-            }
             $oldProperty = $renamedProperty->getOldProperty();
             if (!$this->isName($propertyFetch, $oldProperty)) {
+                continue;
+            }
+            if (!$this->isObjectType($propertyFetch->var, $renamedProperty->getObjectType())) {
                 continue;
             }
             $nodeVarType = $this->nodeTypeResolver->getType($propertyFetch->var);

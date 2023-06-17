@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Rector\Core\PhpParser\Printer;
 
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\Strings;
 use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
@@ -123,24 +123,16 @@ final class BetterStandardPrinter extends Standard implements NodePrinterInterfa
         $newStmts = $this->resolveNewStmts($stmts);
         $content = parent::printFormatPreserving($newStmts, $origStmts, $origTokens);
         // add new line in case of added stmts
-        if (\count($stmts) !== \count($origStmts) && !StringUtils::isMatch($content, self::NEWLINE_END_REGEX)) {
+        if (\count($newStmts) !== \count($origStmts) && !StringUtils::isMatch($content, self::NEWLINE_END_REGEX)) {
             $content .= $this->nl;
         }
-        $currentFile = $this->currentFileProvider->getFile();
-        if ($currentFile instanceof File && !$currentFile->getFileDiff() instanceof FileDiff) {
+        if (!$this->mixPhpHtmlDecorator->isRequireReprintInlineHTML()) {
             return $content;
         }
-        $firstStmt = \current($newStmts);
-        $lastStmt = \end($newStmts);
-        if ($firstStmt === $lastStmt) {
-            return $content;
-        }
-        if (!$firstStmt instanceof InlineHTML && !$lastStmt instanceof InlineHTML) {
-            return $content;
-        }
-        $content = $this->cleanEndWithPHPOpenTag($lastStmt, $content);
-        $content = \str_replace('<?php <?php', '<?php', $content);
-        return $this->cleanSurplusTag($firstStmt, $content);
+        // ensure disable flag isRequireReprintInlineHTML on change file
+        $this->mixPhpHtmlDecorator->disableIsRequireReprintInlineHTML();
+        $content = $this->cleanSurplusTag($content);
+        return $this->cleanEndWithPHPOpenTag($content);
     }
     /**
      * @param \PhpParser\Node|mixed[]|null $node
@@ -276,13 +268,13 @@ final class BetterStandardPrinter extends Standard implements NodePrinterInterfa
      */
     protected function pExpr_Yield(Yield_ $yield) : string
     {
-        if ($yield->value === null) {
+        if (!$yield->value instanceof Expr) {
             return 'yield';
         }
         $parentNode = $yield->getAttribute(AttributeKey::PARENT_NODE);
         // brackets are needed only in case of assign, @see https://www.php.net/manual/en/language.generators.syntax.php
         $shouldAddBrackets = $parentNode instanceof Assign;
-        return \sprintf('%syield %s%s%s', $shouldAddBrackets ? '(' : '', $yield->key !== null ? $this->p($yield->key) . ' => ' : '', $this->p($yield->value), $shouldAddBrackets ? ')' : '');
+        return \sprintf('%syield %s%s%s', $shouldAddBrackets ? '(' : '', $yield->key instanceof Expr ? $this->p($yield->key) . ' => ' : '', $this->p($yield->value), $shouldAddBrackets ? ')' : '');
     }
     /**
      * Print arrays in short [] by default,
@@ -425,11 +417,8 @@ final class BetterStandardPrinter extends Standard implements NodePrinterInterfa
     {
         return $this->pAttrGroups($param->attrGroups) . $this->pModifiers($param->flags) . ($param->type instanceof Node ? $this->p($param->type) . ' ' : '') . ($param->byRef ? '&' : '') . ($param->variadic ? '...' : '') . $this->p($param->var) . ($param->default instanceof Expr ? ' = ' . $this->p($param->default) : '');
     }
-    private function cleanEndWithPHPOpenTag(Node $node, string $content) : string
+    private function cleanEndWithPHPOpenTag(string $content) : string
     {
-        if (!$node instanceof InlineHTML) {
-            return $content;
-        }
         if (\substr_compare($content, "<?php \n", -\strlen("<?php \n")) === 0) {
             return \substr($content, 0, -7);
         }
@@ -438,11 +427,10 @@ final class BetterStandardPrinter extends Standard implements NodePrinterInterfa
         }
         return $content;
     }
-    private function cleanSurplusTag(Node $node, string $content) : string
+    private function cleanSurplusTag(string $content) : string
     {
-        if (!$node instanceof InlineHTML) {
-            return $content;
-        }
+        $content = \str_replace('<?php <?php', '<?php', $content);
+        $content = \str_replace('?>?>', '?>', $content);
         if (\strncmp($content, "?>\n", \strlen("?>\n")) === 0) {
             return \substr($content, 3);
         }
@@ -487,6 +475,7 @@ final class BetterStandardPrinter extends Standard implements NodePrinterInterfa
      */
     private function resolveNewStmts(array $stmts) : array
     {
+        $stmts = \array_values($stmts);
         if (\count($stmts) === 1 && $stmts[0] instanceof FileWithoutNamespace) {
             return $this->resolveNewStmts($stmts[0]->stmts);
         }

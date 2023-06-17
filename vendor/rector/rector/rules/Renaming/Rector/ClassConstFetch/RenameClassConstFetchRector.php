@@ -14,7 +14,7 @@ use Rector\Renaming\ValueObject\RenameClassAndConstFetch;
 use Rector\Renaming\ValueObject\RenameClassConstFetch;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Renaming\Rector\ClassConstFetch\RenameClassConstFetchRector\RenameClassConstFetchRectorTest
  */
@@ -49,10 +49,10 @@ CODE_SAMPLE
     public function refactor(Node $node) : ?ClassConstFetch
     {
         foreach ($this->renameClassConstFetches as $renameClassConstFetch) {
-            if (!$this->isObjectType($node->class, $renameClassConstFetch->getOldObjectType())) {
+            if (!$this->isName($node->name, $renameClassConstFetch->getOldConstant())) {
                 continue;
             }
-            if (!$this->isName($node->name, $renameClassConstFetch->getOldConstant())) {
+            if (!$this->isObjectType($node->class, $renameClassConstFetch->getOldObjectType())) {
                 continue;
             }
             if ($renameClassConstFetch instanceof RenameClassAndConstFetch) {

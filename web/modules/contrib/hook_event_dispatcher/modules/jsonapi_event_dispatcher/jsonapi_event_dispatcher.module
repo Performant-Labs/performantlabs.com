@@ -16,7 +16,6 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\jsonapi_event_dispatcher\Event\JsonApiEntityFieldFilterAccessEvent;
 use Drupal\jsonapi_event_dispatcher\Event\JsonApiEntityFilterAccessEvent;
 
-
 /**
  * Implements hook_jsonapi_entity_filter_access().
  */

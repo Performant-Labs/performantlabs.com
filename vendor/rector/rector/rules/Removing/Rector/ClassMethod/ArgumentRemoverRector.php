@@ -14,7 +14,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Removing\ValueObject\ArgumentRemover;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Removing\Rector\ClassMethod\ArgumentRemoverRector\ArgumentRemoverRectorTest
  */
@@ -55,10 +55,10 @@ CODE_SAMPLE
     {
         $this->hasChanged = \false;
         foreach ($this->removedArguments as $removedArgument) {
-            if (!$this->nodeTypeResolver->isMethodStaticCallOrClassMethodObjectType($node, $removedArgument->getObjectType())) {
+            if (!$this->isName($node->name, $removedArgument->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node->name, $removedArgument->getMethod())) {
+            if (!$this->nodeTypeResolver->isMethodStaticCallOrClassMethodObjectType($node, $removedArgument->getObjectType())) {
                 continue;
             }
             $this->processPosition($node, $removedArgument);

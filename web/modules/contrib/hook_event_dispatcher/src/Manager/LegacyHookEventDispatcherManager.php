@@ -17,6 +17,7 @@ class LegacyHookEventDispatcherManager extends HookEventDispatcherManager {
     if (version_compare(\Drupal::VERSION, '9.4', '>=')) {
       return $event;
     }
+
     return parent::register($event);
   }
 

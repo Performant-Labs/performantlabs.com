@@ -3,8 +3,8 @@
 declare (strict_types=1);
 namespace Rector\Core\PhpParser\Parser;
 
-use RectorPrefix202302\Nette\Utils\FileSystem;
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\FileSystem;
+use RectorPrefix202304\Nette\Utils\Strings;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Expr\Variable;
@@ -15,7 +15,6 @@ use Rector\Core\Contract\PhpParser\NodePrinterInterface;
 use Rector\Core\PhpParser\Node\Value\ValueResolver;
 use Rector\Core\Util\StringUtils;
 use Rector\NodeTypeResolver\Node\AttributeKey;
-use Rector\NodeTypeResolver\NodeScopeAndMetadataDecorator;
 final class InlineCodeParser
 {
     /**
@@ -49,15 +48,15 @@ final class InlineCodeParser
      */
     private const BACKREFERENCE_NO_QUOTE_REGEX = '#(?<!")(?<backreference>\\\\\\d+)(?!")#';
     /**
+     * @var string
+     * @see https://regex101.com/r/nSO3Eq/1
+     */
+    private const BACKREFERENCE_NO_DOUBLE_QUOTE_START_REGEX = '#(?<!")(?<backreference>\\$\\d+)#';
+    /**
      * @readonly
      * @var \Rector\Core\Contract\PhpParser\NodePrinterInterface
      */
     private $nodePrinter;
-    /**
-     * @readonly
-     * @var \Rector\NodeTypeResolver\NodeScopeAndMetadataDecorator
-     */
-    private $nodeScopeAndMetadataDecorator;
     /**
      * @readonly
      * @var \Rector\Core\PhpParser\Parser\SimplePhpParser
@@ -68,10 +67,9 @@ final class InlineCodeParser
      * @var \Rector\Core\PhpParser\Node\Value\ValueResolver
      */
     private $valueResolver;
-    public function __construct(NodePrinterInterface $nodePrinter, NodeScopeAndMetadataDecorator $nodeScopeAndMetadataDecorator, \Rector\Core\PhpParser\Parser\SimplePhpParser $simplePhpParser, ValueResolver $valueResolver)
+    public function __construct(NodePrinterInterface $nodePrinter, \Rector\Core\PhpParser\Parser\SimplePhpParser $simplePhpParser, ValueResolver $valueResolver)
     {
         $this->nodePrinter = $nodePrinter;
-        $this->nodeScopeAndMetadataDecorator = $nodeScopeAndMetadataDecorator;
         $this->simplePhpParser = $simplePhpParser;
         $this->valueResolver = $valueResolver;
     }
@@ -87,38 +85,47 @@ final class InlineCodeParser
         // wrap code so php-parser can interpret it
         $content = StringUtils::isMatch($content, self::OPEN_PHP_TAG_REGEX) ? $content : '<?php ' . $content;
         $content = StringUtils::isMatch($content, self::ENDING_SEMI_COLON_REGEX) ? $content : $content . ';';
-        $stmts = $this->simplePhpParser->parseString($content);
-        return $this->nodeScopeAndMetadataDecorator->decorateStmtsFromString($stmts);
+        return $this->simplePhpParser->parseString($content);
     }
     public function stringify(Expr $expr) : string
     {
         if ($expr instanceof String_) {
             if (!StringUtils::isMatch($expr->value, self::BACKREFERENCE_NO_QUOTE_REGEX)) {
-                return $expr->value;
+                return Strings::replace($expr->value, self::BACKREFERENCE_NO_DOUBLE_QUOTE_START_REGEX, static function (array $match) : string {
+                    return '"' . $match['backreference'] . '"';
+                });
             }
             return Strings::replace($expr->value, self::BACKREFERENCE_NO_QUOTE_REGEX, static function (array $match) : string {
                 return '"\\' . $match['backreference'] . '"';
             });
         }
         if ($expr instanceof Encapsed) {
-            // remove "
-            $printedExpr = \trim($this->nodePrinter->print($expr), '""');
-            /**
-             * Encapsed "$eval_links" is printed as {$eval_links} → use its value when possible
-             */
-            if (\strncmp($printedExpr, '{', \strlen('{')) === 0 && \substr_compare($printedExpr, '}', -\strlen('}')) === 0 && \count($expr->parts) === 1) {
-                $currentPart = \current($expr->parts);
-                $printedExpr = (string) $this->valueResolver->getValue($currentPart);
-            }
-            // use \$ → $
-            $printedExpr = Strings::replace($printedExpr, self::PRESLASHED_DOLLAR_REGEX, '$');
-            // use \'{$...}\' → $...
-            return Strings::replace($printedExpr, self::CURLY_BRACKET_WRAPPER_REGEX, '$1');
+            return $this->resolveEncapsedValue($expr);
         }
         if ($expr instanceof Concat) {
             return $this->resolveConcatValue($expr);
         }
         return $this->nodePrinter->print($expr);
+    }
+    private function resolveEncapsedValue(Encapsed $encapsed) : string
+    {
+        $value = '';
+        $isRequirePrint = \false;
+        foreach ($encapsed->parts as $part) {
+            $partValue = (string) $this->valueResolver->getValue($part);
+            if (\substr_compare($partValue, "'", -\strlen("'")) === 0) {
+                $isRequirePrint = \true;
+                break;
+            }
+            $value .= $partValue;
+        }
+        $printedExpr = $isRequirePrint ? $this->nodePrinter->print($encapsed) : $value;
+        // remove "
+        $printedExpr = \trim($printedExpr, '""');
+        // use \$ → $
+        $printedExpr = Strings::replace($printedExpr, self::PRESLASHED_DOLLAR_REGEX, '$');
+        // use \'{$...}\' → $...
+        return Strings::replace($printedExpr, self::CURLY_BRACKET_WRAPPER_REGEX, '$1');
     }
     private function resolveConcatValue(Concat $concat) : string
     {

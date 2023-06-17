@@ -89,7 +89,7 @@ class EntityAccessEventTest extends KernelTestBase {
    */
   public function testEntityAccessEvent($accessResult, $isNeutral, $isAllowed, $isForbidden): void {
     $this->container->get('event_dispatcher')
-      ->addListener(EntityHookEvents::ENTITY_ACCESS, function (EntityAccessEvent $event) use ($accessResult) {
+      ->addListener(EntityHookEvents::ENTITY_ACCESS, static function (EntityAccessEvent $event) use ($accessResult) {
         $event->addAccessResult($accessResult);
       });
 
@@ -114,7 +114,7 @@ class EntityAccessEventTest extends KernelTestBase {
    */
   public function testEntityAccessEventCombinedResults(): void {
     $this->container->get('event_dispatcher')
-      ->addListener(EntityHookEvents::ENTITY_ACCESS, function (EntityAccessEvent $event) {
+      ->addListener(EntityHookEvents::ENTITY_ACCESS, static function (EntityAccessEvent $event) {
         $event->addAccessResult(new AccessResultNeutral());
         $event->addAccessResult(new AccessResultAllowed());
         $event->addAccessResult(new AccessResultForbidden());

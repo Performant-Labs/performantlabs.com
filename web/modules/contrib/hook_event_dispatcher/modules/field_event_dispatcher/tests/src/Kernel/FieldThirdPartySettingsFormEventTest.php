@@ -52,12 +52,12 @@ class FieldThirdPartySettingsFormEventTest extends KernelTestBase {
 
     $entityTypeManager = $this->container->get('entity_type.manager');
 
-    $class = $entityTypeManager->getDefinition("entity_${mode}_display")->getFormClass('edit');
+    $class = $entityTypeManager->getDefinition(sprintf('entity_%s_display', $mode))->getFormClass('edit');
     $formObject = $class::create($this->container);
     $this->assertInstanceOf(EntityFormInterface::class, $formObject);
     $formObject->setModuleHandler($this->container->get('module_handler'));
 
-    $entity = $entityTypeManager->getStorage("entity_${mode}_display")->create([
+    $entity = $entityTypeManager->getStorage(sprintf('entity_%s_display', $mode))->create([
       'targetEntityType' => 'entity_test_base_field_display',
       'bundle' => 'entity_test_base_field_display',
     ]);
@@ -68,13 +68,14 @@ class FieldThirdPartySettingsFormEventTest extends KernelTestBase {
 
     $formObject->setEntity($entity);
 
-    $entityTypeManager->getStorage("entity_${mode}_mode")->create([
+    $entityTypeManager->getStorage(sprintf('entity_%s_mode', $mode))->create([
       'id' => 'entity_test_base_field_display._custom',
       'targetEntityType' => 'entity_test_base_field_display',
     ])->save();
 
     $formState = new FormState();
     $formState->set('plugin_settings_edit', 'test_display_configurable');
+
     $form = $formObject->buildForm([], $formState);
 
     $settingsEditForm = $form['fields']['test_display_configurable']['plugin']['settings_edit_form'];

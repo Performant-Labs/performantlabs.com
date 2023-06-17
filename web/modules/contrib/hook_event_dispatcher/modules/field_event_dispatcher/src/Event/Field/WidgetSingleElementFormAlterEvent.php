@@ -22,7 +22,7 @@ class WidgetSingleElementFormAlterEvent extends Event implements EventInterface 
    *
    * @var array
    */
-  private $element;
+  private $element = [];
 
   /**
    * The form state.
@@ -36,7 +36,7 @@ class WidgetSingleElementFormAlterEvent extends Event implements EventInterface 
    *
    * @var array
    */
-  private $context;
+  private $context = [];
 
   /**
    * WidgetFormAlterEvent constructor.

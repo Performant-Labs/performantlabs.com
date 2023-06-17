@@ -48,7 +48,7 @@ class PathEventTest extends KernelTestBase {
     $this->pathAlias = $this->container->get('entity_type.manager')
       ->getStorage('path_alias')
       ->create([
-        'id' => rand(),
+        'id' => random_int(0, mt_getrandmax()),
         'path' => 'testPath',
         'alias' => 'testAlias',
       ]);

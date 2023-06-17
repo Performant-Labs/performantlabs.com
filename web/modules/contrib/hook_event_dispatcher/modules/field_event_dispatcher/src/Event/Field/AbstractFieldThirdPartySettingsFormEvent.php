@@ -26,7 +26,7 @@ abstract class AbstractFieldThirdPartySettingsFormEvent extends Event implements
    *
    * @var array
    */
-  protected $form;
+  protected $form = [];
 
   /**
    * The form state.

@@ -19,7 +19,7 @@ class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $fields;
+  private $fields = [];
 
   /**
    * The entity type.

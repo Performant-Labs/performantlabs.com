@@ -18,7 +18,7 @@ class LibraryInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $libraries;
+  private $libraries = [];
 
   /**
    * Extension machine name.

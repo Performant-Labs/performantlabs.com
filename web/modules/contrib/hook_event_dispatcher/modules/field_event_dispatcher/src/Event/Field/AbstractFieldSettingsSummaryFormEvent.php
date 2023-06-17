@@ -15,14 +15,14 @@ abstract class AbstractFieldSettingsSummaryFormEvent extends Event implements Ev
    *
    * @var array
    */
-  private $summary;
+  private $summary = [];
 
   /**
    * An associative array containing related context for this formatter/widget.
    *
    * @var array
    */
-  private $context;
+  private $context = [];
 
   /**
    * AbstractFieldSettingsSummaryFormEvent constructor.

@@ -6,7 +6,6 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\ThemeHookEvents;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
-use RuntimeException;
 
 /**
  * Class ThemeEvent.
@@ -20,7 +19,7 @@ final class ThemeEvent extends Event implements EventInterface, HookReturnInterf
    *
    * @var array
    */
-  private $existing;
+  private $existing = [];
 
   /**
    * Added themes.
@@ -89,10 +88,11 @@ final class ThemeEvent extends Event implements EventInterface, HookReturnInterf
    */
   public function addNewTheme(string $theme, array $information): void {
     if (empty($information['path'])) {
-      throw new RuntimeException(
+      throw new \RuntimeException(
         'Missing path in the information array. ThemeEvent needs the path to be set manually, to have a proper default theme implementation. See \hook_theme() for more information.'
       );
     }
+
     $this->newThemes[$theme] = $information;
   }
 

@@ -104,6 +104,7 @@ class TokenInfoEventTest extends KernelTestBase {
     foreach ($types as $type) {
       $event->addTokenType($type);
     }
+
     foreach ($tokens as $token) {
       $event->addToken($token);
     }

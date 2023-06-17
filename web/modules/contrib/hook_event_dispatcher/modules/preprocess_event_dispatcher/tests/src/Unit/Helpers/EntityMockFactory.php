@@ -3,7 +3,6 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers;
 
 use Drupal\Core\Entity\EntityInterface;
-use Mockery;
 
 /**
  * Class EntityMock.
@@ -26,7 +25,7 @@ final class EntityMockFactory {
    *   EntityMock.
    */
   public static function getMock(string $class, string $type, string $bundle, string $viewMode): EntityInterface {
-    $mock = Mockery::mock(
+    $mock = \Mockery::mock(
       $class,
       [
         'getEntityType' => $type,

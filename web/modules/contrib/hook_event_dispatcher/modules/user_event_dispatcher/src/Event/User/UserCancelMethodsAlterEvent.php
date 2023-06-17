@@ -21,7 +21,7 @@ final class UserCancelMethodsAlterEvent extends Event implements EventInterface 
    *
    * @var array
    */
-  private $methods;
+  private $methods = [];
 
   /**
    * UserCancelMethodsAlterEvent constructor.

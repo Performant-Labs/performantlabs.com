@@ -21,7 +21,7 @@ class EntityLoadEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $entities;
+  private $entities = [];
 
   /**
    * The entity type id.

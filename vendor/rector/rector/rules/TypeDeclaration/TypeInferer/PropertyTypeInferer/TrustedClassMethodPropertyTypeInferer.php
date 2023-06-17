@@ -35,8 +35,7 @@ use Rector\StaticTypeMapper\ValueObject\Type\AliasedObjectType;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
 use Rector\TypeDeclaration\TypeInferer\AssignToPropertyTypeInferer;
 /**
- * @deprecated
- * @todo split to more specialized rules with narrow focus
+ * @internal
  */
 final class TrustedClassMethodPropertyTypeInferer
 {
@@ -179,7 +178,7 @@ final class TrustedClassMethodPropertyTypeInferer
         // special case for alias
         if ($param->type instanceof FullyQualified) {
             $type = $this->resolveFullyQualifiedOrAliasedObjectType($param);
-            if ($type !== null) {
+            if ($type instanceof Type) {
                 return $type;
             }
         }
@@ -205,7 +204,7 @@ final class TrustedClassMethodPropertyTypeInferer
         if ($this->paramAnalyzer->isNullable($param)) {
             return \true;
         }
-        if ($param->default !== null) {
+        if ($param->default instanceof Expr) {
             $defaultValueStaticType = $this->nodeTypeResolver->getType($param->default);
             if ($defaultValueStaticType instanceof NullType) {
                 return \true;

@@ -30,7 +30,7 @@ final class EntityCreateAccessEvent extends Event implements EventInterface, Eve
    *
    * @var array
    */
-  protected $context;
+  protected $context = [];
 
   /**
    * The entity bundle name.

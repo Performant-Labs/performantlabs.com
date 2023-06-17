@@ -8,7 +8,6 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\core_event_dispatcher\TokenHookEvents;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
-use UnexpectedValueException;
 use function is_string;
 
 /**
@@ -44,21 +43,21 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    *
    * @var array
    */
-  private $tokens;
+  private $tokens = [];
 
   /**
    * Data.
    *
    * @var array
    */
-  private $data;
+  private $data = [];
 
   /**
    * Options.
    *
    * @var array
    */
-  private $options;
+  private $options = [];
 
   /**
    * Bubbleable meta data.
@@ -225,12 +224,14 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    */
   public function setReplacementValue(string $type, string $token, $replacement): void {
     if (!$this->forToken($type, $token)) {
-      throw new UnexpectedValueException('Requested replacement is not requested');
+      throw new \UnexpectedValueException('Requested replacement is not requested');
     }
+
     if (!is_string($replacement) && !$replacement instanceof MarkupInterface) {
-      throw new UnexpectedValueException('Replacement value should be a string or instanceof MarkupInterface');
+      throw new \UnexpectedValueException('Replacement value should be a string or instanceof MarkupInterface');
     }
-    $this->replacementValues["[$type:$token]"] = $replacement;
+
+    $this->replacementValues[sprintf('[%s:%s]', $type, $token)] = $replacement;
   }
 
   /**

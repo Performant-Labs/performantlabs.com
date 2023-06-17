@@ -19,7 +19,7 @@ class LanguageSwitchLinksAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $links;
+  private $links = [];
 
   /**
    * The language type.

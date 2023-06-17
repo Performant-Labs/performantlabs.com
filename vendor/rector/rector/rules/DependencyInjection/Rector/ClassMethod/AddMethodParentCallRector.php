@@ -15,7 +15,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\DependencyInjection\Rector\ClassMethod\AddMethodParentCallRector\AddMethodParentCallRectorTest
  */
@@ -67,14 +67,14 @@ CODE_SAMPLE
         }
         $className = (string) $this->nodeNameResolver->getName($classLike);
         foreach ($this->methodByParentTypes as $type => $method) {
-            if (!$this->isObjectType($classLike, new ObjectType($type))) {
-                continue;
-            }
             // not itself
             if ($className === $type) {
                 continue;
             }
             if ($this->shouldSkipMethod($node, $method)) {
+                continue;
+            }
+            if (!$this->isObjectType($classLike, new ObjectType($type))) {
                 continue;
             }
             $node->stmts[] = $this->createParentStaticCall($method);

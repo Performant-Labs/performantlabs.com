@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Rector\Symfony\Rector\ClassMethod;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -94,7 +95,7 @@ CODE_SAMPLE
             if (!$node instanceof Return_) {
                 return null;
             }
-            if ($node->expr === null) {
+            if (!$node->expr instanceof Expr) {
                 return null;
             }
             if (!$node->expr instanceof String_) {
@@ -111,11 +112,11 @@ CODE_SAMPLE
         if (!$class instanceof Class_) {
             return \false;
         }
-        if ($this->isObjectType($class, new ObjectType('Symfony\\Component\\Form\\AbstractType'))) {
-            return $this->isName($classMethod->name, 'getParent');
+        if ($this->isName($classMethod->name, 'getParent')) {
+            return $this->isObjectType($class, new ObjectType('Symfony\\Component\\Form\\AbstractType'));
         }
-        if ($this->isObjectType($classMethod, new ObjectType('Symfony\\Component\\Form\\AbstractTypeExtension'))) {
-            return $this->isName($classMethod->name, 'getExtendedType');
+        if ($this->isName($classMethod->name, 'getExtendedType')) {
+            return $this->isObjectType($classMethod, new ObjectType('Symfony\\Component\\Form\\AbstractTypeExtension'));
         }
         return \false;
     }

@@ -26,7 +26,7 @@ class FileDownloadEvent extends Event implements EventInterface, HookReturnInter
    *
    * @var array
    */
-  protected $headers;
+  protected $headers = [];
 
   /**
    * The URI of the file.

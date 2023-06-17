@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Rector\Naming\Naming;
 
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
@@ -22,7 +22,7 @@ use PHPStan\Type\Type;
 use Rector\Naming\Contract\AssignVariableNameResolverInterface;
 use Rector\NodeNameResolver\NodeNameResolver;
 use Rector\NodeTypeResolver\NodeTypeResolver;
-use RectorPrefix202302\Symfony\Component\String\UnicodeString;
+use RectorPrefix202304\Symfony\Component\String\UnicodeString;
 final class VariableNaming
 {
     /**
@@ -49,6 +49,9 @@ final class VariableNaming
         $this->nodeTypeResolver = $nodeTypeResolver;
         $this->assignVariableNameResolvers = $assignVariableNameResolvers;
     }
+    /**
+     * @api
+     */
     public function resolveFromNodeWithScopeCountAndFallbackName(Expr $expr, MutatingScope $mutatingScope, string $fallbackName) : string
     {
         $name = $this->resolveFromNode($expr);
@@ -63,7 +66,7 @@ final class VariableNaming
     }
     public function createCountedValueName(string $valueName, ?Scope $scope) : string
     {
-        if ($scope === null) {
+        if (!$scope instanceof Scope) {
             return $valueName;
         }
         // make sure variable name is unique
@@ -79,9 +82,6 @@ final class VariableNaming
         }
         return $valueName;
     }
-    /**
-     * @api
-     */
     public function resolveFromFuncCallFirstArgumentWithSuffix(FuncCall $funcCall, string $suffix, string $fallbackName, ?Scope $scope) : string
     {
         $bareName = $this->resolveBareFuncCallArgumentName($funcCall, $fallbackName, $suffix);

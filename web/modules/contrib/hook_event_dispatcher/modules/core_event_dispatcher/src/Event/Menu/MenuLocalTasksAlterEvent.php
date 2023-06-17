@@ -22,7 +22,7 @@ class MenuLocalTasksAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $data;
+  protected $data = [];
 
   /**
    * The route name of the page.

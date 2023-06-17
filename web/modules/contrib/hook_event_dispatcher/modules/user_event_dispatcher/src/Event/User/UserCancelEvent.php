@@ -22,7 +22,7 @@ final class UserCancelEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $edit;
+  private $edit = [];
 
   /**
    * Account.

@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt\InlineHTML;
 use PhpParser\Node\Stmt\Nop;
 use Rector\NodeRemoval\NodeRemover;
 use Rector\NodeTypeResolver\Node\AttributeKey;
-use RectorPrefix202302\Symfony\Contracts\Service\Attribute\Required;
+use RectorPrefix202304\Symfony\Contracts\Service\Attribute\Required;
 final class MixPhpHtmlDecorator
 {
     /**
@@ -19,11 +19,23 @@ final class MixPhpHtmlDecorator
      */
     private $nodeRemover;
     /**
+     * @var bool
+     */
+    private $isRequireReprintInlineHTML = \false;
+    /**
      * @required
      */
     public function autowire(NodeRemover $nodeRemover) : void
     {
         $this->nodeRemover = $nodeRemover;
+    }
+    public function isRequireReprintInlineHTML() : bool
+    {
+        return $this->isRequireReprintInlineHTML;
+    }
+    public function disableIsRequireReprintInlineHTML() : void
+    {
+        $this->isRequireReprintInlineHTML = \false;
     }
     /**
      * @param array<Node|null> $nodes
@@ -71,12 +83,29 @@ final class MixPhpHtmlDecorator
         $firstNodeAfterNop->setAttribute(AttributeKey::COMMENTS, $nodeComments);
         // remove Nop is marked  as comment of Next Node
         $this->nodeRemover->removeNode($nop);
+        $this->isRequireReprintInlineHTML = \true;
     }
     private function rePrintInlineHTML(InlineHTML $inlineHTML, Stmt $stmt) : void
     {
         // Token start = -1, just added
         if ($stmt->getStartTokenPos() < 0) {
             $inlineHTML->setAttribute(AttributeKey::ORIGINAL_NODE, null);
+            $this->isRequireReprintInlineHTML = \true;
+            return;
+        }
+        $originalNode = $stmt->getAttribute(AttributeKey::ORIGINAL_NODE);
+        if (!$originalNode instanceof Node) {
+            return;
+        }
+        $node = $originalNode->getAttribute(AttributeKey::PARENT_NODE);
+        if (!$node instanceof Stmt) {
+            return;
+        }
+        $parentInlineHTML = $inlineHTML->getAttribute(AttributeKey::PARENT_NODE);
+        // last Stmt that connected to InlineHTML just removed detected by different start token pos
+        if ($parentInlineHTML instanceof Stmt && $parentInlineHTML->getStartTokenPos() !== $node->getStartTokenPos()) {
+            $inlineHTML->setAttribute(AttributeKey::ORIGINAL_NODE, null);
+            $this->isRequireReprintInlineHTML = \true;
         }
     }
 }

@@ -12,6 +12,7 @@ use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ExtendedMethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\Type;
 use Rector\Core\Enum\ObjectReference;
 use Rector\Core\Exception\ShouldNotHappenException;
 use Rector\Core\PhpParser\Comparing\NodeComparator;
@@ -147,16 +148,16 @@ final class CurrentAndParentClassMethodComparator
     }
     private function areParameterDefaultsDifferent(ClassMethod $classMethod, ExtendedMethodReflection $extendedMethodReflection) : bool
     {
-        $parametersAcceptor = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
-        foreach ($parametersAcceptor->getParameters() as $key => $parameterReflection) {
+        $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
+        foreach ($parametersAcceptorWithPhpDocs->getParameters() as $key => $parameterReflectionWithPhpDoc) {
             if (!isset($classMethod->params[$key])) {
-                if ($parameterReflection->getDefaultValue() !== null) {
+                if ($parameterReflectionWithPhpDoc->getDefaultValue() instanceof Type) {
                     continue;
                 }
                 return \true;
             }
             $methodParam = $classMethod->params[$key];
-            if ($this->parameterDefaultsComparator->areDefaultValuesDifferent($parameterReflection, $methodParam)) {
+            if ($this->parameterDefaultsComparator->areDefaultValuesDifferent($parameterReflectionWithPhpDoc, $methodParam)) {
                 return \true;
             }
         }

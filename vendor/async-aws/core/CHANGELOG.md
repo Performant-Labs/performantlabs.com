@@ -2,6 +2,13 @@
 
 ## NOT RELEASED
 
+## 1.18.1
+
+### Changed
+
+- AWS enhancement: Documentation updates.
+- Fix deprecation by adding return type on reset methods
+
 ## 1.18.0
 
 ### Added

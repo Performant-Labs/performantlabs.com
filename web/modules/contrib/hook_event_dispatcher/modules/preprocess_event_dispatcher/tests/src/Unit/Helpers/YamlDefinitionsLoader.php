@@ -31,7 +31,7 @@ final class YamlDefinitionsLoader {
    *
    * @var array
    */
-  private $services;
+  private $services = [];
 
   /**
    * Factory definitions loaded from the YAML services file.
@@ -39,7 +39,7 @@ final class YamlDefinitionsLoader {
    * @var array
    */
 
-  private $factories;
+  private $factories = [];
 
   /**
    * YamlDefinitionsLoader constructor.
@@ -83,8 +83,9 @@ final class YamlDefinitionsLoader {
    */
   public static function getInstance(): YamlDefinitionsLoader {
     if (static::$instance === NULL) {
-      static::$instance = new static();
+      static::$instance = new self();
     }
+
     return static::$instance;
   }
 

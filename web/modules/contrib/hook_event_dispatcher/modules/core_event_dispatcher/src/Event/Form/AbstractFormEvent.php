@@ -16,13 +16,15 @@ abstract class AbstractFormEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $form;
+  private $form = [];
+
   /**
    * The form state.
    *
    * @var \Drupal\Core\Form\FormStateInterface
    */
   private $formState;
+
   /**
    * The form id.
    *

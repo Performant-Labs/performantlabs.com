@@ -9,8 +9,8 @@ use Rector\Core\Configuration\ValueObjectInliner;
 use Rector\Core\Contract\Rector\ConfigurableRectorInterface;
 use Rector\Core\Contract\Rector\RectorInterface;
 use Rector\Core\ValueObject\PhpVersion;
-use RectorPrefix202302\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @api
  * Same as Symfony container configurator, with patched return type for "set()" method for easier DX.
@@ -47,9 +47,19 @@ final class RectorConfig extends ContainerConfigurator
     {
         $parameters = $this->parameters();
         $parameters->set(Option::PARALLEL, \true);
-        $parameters->set(Option::PARALLEL_TIMEOUT_IN_SECONDS, $seconds);
+        $parameters->set(Option::PARALLEL_JOB_TIMEOUT_IN_SECONDS, $seconds);
         $parameters->set(Option::PARALLEL_MAX_NUMBER_OF_PROCESSES, $maxNumberOfProcess);
         $parameters->set(Option::PARALLEL_JOB_SIZE, $jobSize);
+    }
+    public function noDiffs() : void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::NO_DIFFS, \true);
+    }
+    public function memoryLimit(string $memoryLimit) : void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::MEMORY_LIMIT, $memoryLimit);
     }
     /**
      * @param array<int|string, mixed> $criteria
@@ -58,6 +68,11 @@ final class RectorConfig extends ContainerConfigurator
     {
         $parameters = $this->parameters();
         $parameters->set(Option::SKIP, $criteria);
+    }
+    public function removeUnusedImports(bool $removeUnusedImports = \true) : void
+    {
+        $parameters = $this->parameters();
+        $parameters->set(Option::REMOVE_UNUSED_IMPORTS, $removeUnusedImports);
     }
     public function importNames(bool $importNames = \true, bool $importDocBlockNames = \true) : void
     {
@@ -171,8 +186,17 @@ final class RectorConfig extends ContainerConfigurator
     }
     public function cacheDirectory(string $directoryPath) : void
     {
+        // cache directory path is created via mkdir in CacheFactory
+        // when not exists, so no need to validate $directoryPath is a directory
         $parameters = $this->parameters();
         $parameters->set(Option::CACHE_DIR, $directoryPath);
+    }
+    public function containerCacheDirectory(string $directoryPath) : void
+    {
+        // container cache directory path must be a directory on the first place
+        Assert::directory($directoryPath);
+        $parameters = $this->parameters();
+        $parameters->set(Option::CONTAINER_CACHE_DIRECTORY, $directoryPath);
     }
     /**
      * @param class-string<CacheStorageInterface> $cacheClass

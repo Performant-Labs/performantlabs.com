@@ -4,10 +4,6 @@
 const userAccount = require("../../../fixtures/createUserUsingDrush.json")
 
 describe('Spanish', () => {
-  before(function () {
-    cy.prepareForTestRun()
-  })
-
   //
   // Test will run once for English and once for Spanish because of the
   // languages tags and the presence of the 'localized' tag.

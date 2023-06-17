@@ -10,8 +10,6 @@ use PhpParser\Node\Scalar\String_;
 use PHPStan\Reflection\ParameterReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
 use PHPStan\Reflection\ReflectionProvider;
-use PHPStan\Type\BooleanType;
-use PHPStan\Type\IntegerType;
 use PHPStan\Type\TypeCombinator;
 use Rector\Core\PhpParser\Node\NodeFactory;
 use Rector\StaticTypeMapper\StaticTypeMapper;
@@ -56,9 +54,9 @@ final class ExprParameterReflectionTypeCorrector
             return $items;
         }
         $extendedMethodReflection = $attributeClassReflection->getConstructor();
-        $parametersAcceptor = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
+        $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
         foreach ($items as $name => $item) {
-            foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
+            foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflection) {
                 $correctedItem = $this->correctItemByParameterReflection($name, $item, $parameterReflection);
                 if (!$correctedItem instanceof Expr) {
                     continue;
@@ -89,10 +87,10 @@ final class ExprParameterReflectionTypeCorrector
         }
         $clearParameterType = TypeCombinator::removeNull($parameterType);
         // correct type
-        if ($clearParameterType instanceof IntegerType && $item instanceof String_) {
+        if ($clearParameterType->isInteger()->yes() && $item instanceof String_) {
             return new LNumber((int) $item->value);
         }
-        if ($clearParameterType instanceof BooleanType && $item instanceof String_) {
+        if ($clearParameterType->isBoolean()->yes() && $item instanceof String_) {
             if (\strtolower($item->value) === 'true') {
                 return $this->nodeFactory->createTrue();
             }

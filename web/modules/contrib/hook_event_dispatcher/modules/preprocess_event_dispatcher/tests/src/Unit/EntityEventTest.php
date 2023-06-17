@@ -27,9 +27,6 @@ use function reset;
  * @group preprocess_event_dispatcher
  *
  * @requires module eck
- *
- * Testing all lots of classes gives expected coupling warnings.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class EntityEventTest extends TestCase {
 
@@ -52,7 +49,7 @@ final class EntityEventTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $loader = YamlDefinitionsLoader::getInstance();
     $this->dispatcher = new SpyEventDispatcher();
     $this->service = new PreprocessEventService($this->dispatcher, $loader->getMapper());
@@ -71,6 +68,8 @@ final class EntityEventTest extends TestCase {
 
   /**
    * Test a EckEntityPreprocessEvent.
+   *
+   * @group legacy
    */
   public function testEckEntityEvent(): void {
     $variables = [
@@ -81,6 +80,7 @@ final class EntityEventTest extends TestCase {
       'theme_hook_original' => 'eck_entity',
       'bundle' => 'bundle',
     ];
+    // @phpstan-ignore-next-line
     $this->createAndAssertEntityEvent(EckEntityPreprocessEvent::class, $variables);
   }
 

@@ -19,7 +19,7 @@ final class JsAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $javascript;
+  private $javascript = [];
 
   /**
    * AttachedAssets.

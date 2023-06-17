@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Rector\TypeDeclaration\Rector\ClassMethod;
 
 use PhpParser\Node;
+use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassLike;
@@ -20,7 +21,7 @@ use Rector\PHPStanStaticTypeMapper\Enum\TypeKind;
 use Rector\TypeDeclaration\ValueObject\AddParamTypeDeclaration;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\TypeDeclaration\Rector\ClassMethod\AddParamTypeDeclarationRector\AddParamTypeDeclarationRectorTest
  */
@@ -87,10 +88,10 @@ CODE_SAMPLE
         /** @var ClassLike $classLike */
         $classLike = $this->betterNodeFinder->findParentType($node, ClassLike::class);
         foreach ($this->addParamTypeDeclarations as $addParamTypeDeclaration) {
-            if (!$this->isObjectType($classLike, $addParamTypeDeclaration->getObjectType())) {
+            if (!$this->isName($node, $addParamTypeDeclaration->getMethodName())) {
                 continue;
             }
-            if (!$this->isName($node, $addParamTypeDeclaration->getMethodName())) {
+            if (!$this->isObjectType($classLike, $addParamTypeDeclaration->getObjectType())) {
                 continue;
             }
             $this->refactorClassMethodWithTypehintByParameterPosition($node, $addParamTypeDeclaration);
@@ -123,7 +124,7 @@ CODE_SAMPLE
             if ($classLike->implements !== []) {
                 return \false;
             }
-            return $classLike->extends === null;
+            return !$classLike->extends instanceof Name;
         }
         // skip interface without parents
         /** @var Interface_ $classLike */

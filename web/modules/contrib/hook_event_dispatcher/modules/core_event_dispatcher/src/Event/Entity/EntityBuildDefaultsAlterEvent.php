@@ -20,7 +20,7 @@ class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
    *
    * @var array
    */
-  private $build;
+  private $build = [];
 
   /**
    * The view mode.

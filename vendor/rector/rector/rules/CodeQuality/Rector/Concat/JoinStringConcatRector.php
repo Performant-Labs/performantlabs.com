@@ -3,11 +3,12 @@
 declare (strict_types=1);
 namespace Rector\CodeQuality\Rector\Concat;
 
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
 use Rector\Core\Rector\AbstractRector;
+use Rector\Core\Util\StringUtils;
 use Rector\NodeTypeResolver\Node\AttributeKey;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
@@ -20,6 +21,12 @@ final class JoinStringConcatRector extends AbstractRector
      * @var int
      */
     private const LINE_BREAK_POINT = 100;
+    /**
+     * @var string
+     * @see https://regex101.com/r/VaXM1t/1
+     * @see https://stackoverflow.com/questions/4147646/determine-if-utf-8-text-is-all-ascii
+     */
+    private const ASCII_REGEX = '#[^\\x00-\\x7F]#';
     /**
      * @var bool
      */
@@ -105,6 +112,9 @@ CODE_SAMPLE
             return $node;
         }
         $resultString = new String_($leftValue . $rightValue);
+        if (StringUtils::isMatch($resultString->value, self::ASCII_REGEX)) {
+            return $node;
+        }
         if (Strings::length($resultString->value) >= self::LINE_BREAK_POINT) {
             $this->nodeReplacementIsRestricted = \true;
             return $node;

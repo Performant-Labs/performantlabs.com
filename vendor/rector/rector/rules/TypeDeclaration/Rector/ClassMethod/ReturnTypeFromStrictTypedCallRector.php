@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace Rector\TypeDeclaration\Rector\ClassMethod;
 
 use PhpParser\Node;
+use PhpParser\Node\ComplexType;
 use PhpParser\Node\Expr\ArrowFunction;
 use PhpParser\Node\Expr\Closure;
 use PhpParser\Node\FunctionLike;
@@ -18,7 +19,6 @@ use PhpParser\Node\UnionType as PhpParserUnionType;
 use PHPStan\Type\NullType;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\UnionType;
-use PHPStan\Type\VoidType;
 use Rector\Core\Php\PhpVersionProvider;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\PhpVersionFeature;
@@ -127,8 +127,8 @@ CODE_SAMPLE
             if (!$currentReturn instanceof Return_) {
                 return \false;
             }
-            $currentFunctionLike = $this->betterNodeFinder->findParentType($currentReturn, FunctionLike::class);
-            if ($currentFunctionLike !== $node) {
+            $currentReturnFunctionLike = $this->betterNodeFinder->findParentType($currentReturn, FunctionLike::class);
+            if ($currentReturnFunctionLike !== $currentFunctionLike) {
                 return \false;
             }
             return $subNode instanceof Return_;
@@ -152,7 +152,7 @@ CODE_SAMPLE
     {
         $resolvedType = $this->nodeTypeResolver->getType($arrowFunction->expr);
         // void type is not accepted for arrow functions - https://www.php.net/manual/en/functions.arrow.php#125673
-        if ($resolvedType instanceof VoidType) {
+        if ($resolvedType->isVoid()->yes()) {
             return null;
         }
         $returnType = $this->staticTypeMapper->mapPHPStanTypeToPhpParserNode($resolvedType, TypeKind::RETURN);
@@ -170,7 +170,7 @@ CODE_SAMPLE
         $inferReturnType = $this->returnTypeInferer->inferFunctionLike($node);
         if ($inferReturnType instanceof UnionType) {
             foreach ($inferReturnType->getTypes() as $type) {
-                if ($type instanceof VoidType) {
+                if ($type->isVoid()->yes()) {
                     return \true;
                 }
             }
@@ -214,7 +214,7 @@ CODE_SAMPLE
         return \true;
     }
     /**
-     * @param \PhpParser\Node\Identifier|\PhpParser\Node\Name|\PhpParser\Node\NullableType $returnedStrictTypeNode
+     * @param \PhpParser\Node\Identifier|\PhpParser\Node\Name|\PhpParser\Node\NullableType|\PhpParser\Node\ComplexType $returnedStrictTypeNode
      * @param \PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Function_|\PhpParser\Node\Expr\Closure $functionLike
      * @return \PhpParser\Node\Expr\Closure|\PhpParser\Node\Stmt\ClassMethod|\PhpParser\Node\Stmt\Function_
      */

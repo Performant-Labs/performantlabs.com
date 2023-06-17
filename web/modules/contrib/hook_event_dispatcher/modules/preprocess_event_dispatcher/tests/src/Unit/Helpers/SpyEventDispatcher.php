@@ -2,13 +2,11 @@
 
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers;
 
-use BadMethodCallException;
 use Drupal\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function count;
 use function end;
-use function key;
 
 /**
  * Class SpyEventDispatcher.
@@ -46,7 +44,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    */
   public function dispatch($event, string $eventName = NULL): void {
     if (count($this->events) === $this->count) {
-      throw new BadMethodCallException("SpyEventDispatcher got called more then {$this->count} time(s)");
+      throw new \BadMethodCallException(sprintf('SpyEventDispatcher got called more then %d time(s)', $this->count));
     }
 
     $this->events[$eventName] = $event;
@@ -59,14 +57,13 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    *   Last event name.
    */
   public function getLastEventName(): string {
-    end($this->events);
-    return key($this->events);
+    return array_key_last($this->events);
   }
 
   /**
    * Get the last event.
    *
-   * @return \Symfony\Component\EventDispatcher\Event
+   * @return \Drupal\Component\EventDispatcher\Event
    *   Last event.
    */
   public function getLastEvent(): Event {
@@ -89,7 +86,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function addListener($eventName, $listener, $priority = 0): void {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -98,7 +95,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function addSubscriber(EventSubscriberInterface $subscriber): void {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -107,7 +104,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function removeListener($eventName, $listener): void {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -116,7 +113,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function removeSubscriber(EventSubscriberInterface $subscriber): void {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -125,7 +122,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function getListeners($eventName = NULL): array {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -134,7 +131,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function getListenerPriority($eventName, $listener): ?int {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
   /**
@@ -143,7 +140,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    * @inheritdoc
    */
   public function hasListeners($eventName = NULL): bool {
-    throw new BadMethodCallException('This spy does not support this call');
+    throw new \BadMethodCallException('This spy does not support this call');
   }
 
 }

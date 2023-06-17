@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ruleset name="Drupal Coding Standards">
+  <description>Enforce Drupal coding standards with some exceptions</description>
+
+  <!-- Temporary fix until drupal.org testbot script is changed. This is also
+    compatible with running phpcs locally, and on Travis, so can be committed.
+    See https://www.drupal.org/project/drupalci_testbot/issues/3283978 -->
+  <config name="installed_paths"
+          value="../../drupal/coder/coder_sniffer/,../../sirbrillig/phpcs-variable-analysis/,../../slevomat/coding-standard/"/>
+
+  <rule ref="../../../core/phpcs.xml.dist">
+    <exclude name="Drupal.Commenting.ClassComment.Short"/>
+  </rule>
+
+  <rule ref="Drupal"/>
+
+  <rule ref="DrupalPractice">
+    <exclude name="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter"/>
+  </rule>
+</ruleset>

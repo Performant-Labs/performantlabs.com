@@ -19,7 +19,7 @@ class WebformElementAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $element;
+  private $element = [];
 
   /**
    * The form state.
@@ -33,7 +33,7 @@ class WebformElementAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $context;
+  private $context = [];
 
   /**
    * WebformElementAlterEvent constructor.

@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\field_event_dispatcher\Unit\Field;
 
-use Drupal;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Form\FormStateInterface;
@@ -35,12 +34,12 @@ abstract class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase extends
   /**
    * Sets up the test.
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $builder = new ContainerBuilder();
     $this->manager = new HookEventDispatcherManagerSpy();
     $builder->set('hook_event_dispatcher.manager', $this->manager);
     $builder->compile();
-    Drupal::setContainer($builder);
+    \Drupal::setContainer($builder);
   }
 
   /**

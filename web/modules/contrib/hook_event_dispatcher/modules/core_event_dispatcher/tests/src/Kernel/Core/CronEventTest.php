@@ -28,9 +28,10 @@ class CronEventTest extends KernelTestBase {
    */
   public function testCronEvent(): void {
     $called = FALSE;
-    $this->container->get('event_dispatcher')->addListener(CoreHookEvents::CRON, function () use (&$called) {
-      $called = TRUE;
-    });
+    $this->container->get('event_dispatcher')
+      ->addListener(CoreHookEvents::CRON, static function () use (&$called) {
+        $called = TRUE;
+      });
 
     $this->container->get('cron')->run();
     $this->assertTrue($called);

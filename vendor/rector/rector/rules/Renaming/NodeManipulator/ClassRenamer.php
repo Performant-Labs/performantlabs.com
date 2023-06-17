@@ -3,7 +3,7 @@
 declare (strict_types=1);
 namespace Rector\Renaming\NodeManipulator;
 
-use RectorPrefix202302\Nette\Utils\Strings;
+use RectorPrefix202304\Nette\Utils\Strings;
 use PhpParser\Node;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr\New_;
@@ -187,6 +187,10 @@ final class ClassRenamer
      */
     private function refactorName(Name $name, array $oldToNewClasses) : ?Name
     {
+        $parent = $name->getAttribute(AttributeKey::PARENT_NODE);
+        if ($parent instanceof Namespace_ && $parent->name === $name) {
+            return null;
+        }
         $stringName = $this->nodeNameResolver->getName($name);
         $newName = $oldToNewClasses[$stringName] ?? null;
         if ($newName === null) {
@@ -222,7 +226,7 @@ final class ClassRenamer
         if (!$uses instanceof UseUse) {
             return;
         }
-        if ($uses->alias !== null) {
+        if ($uses->alias instanceof Identifier) {
             return;
         }
         // ios the only one? Remove whole use instead to avoid "use ;" constructions
@@ -420,7 +424,13 @@ final class ClassRenamer
     private function createOldToNewTypes(Node $node, array $oldToNewClasses) : array
     {
         $oldToNewClasses = $this->resolveOldToNewClassCallbacks($node, $oldToNewClasses);
-        $cacheKey = \md5(\serialize($oldToNewClasses));
+        // md4 is faster then md5 https://php.watch/articles/php-hash-benchmark
+        $hashingAlgorithm = 'md4';
+        if (\PHP_VERSION_ID >= 80100) {
+            // if xxh128 is available use it, as it is way faster then md4 https://php.watch/articles/php-hash-benchmark
+            $hashingAlgorithm = 'xxh128';
+        }
+        $cacheKey = \hash($hashingAlgorithm, \serialize($oldToNewClasses));
         if (isset($this->oldToNewTypesByCacheKey[$cacheKey])) {
             return $this->oldToNewTypesByCacheKey[$cacheKey];
         }

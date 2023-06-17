@@ -47,6 +47,7 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
     if (!$this->factory) {
       $this->factory = new EventFactory($this, $this->pluginInterface);
     }
+
     return $this->factory;
   }
 

@@ -28,7 +28,7 @@ final class FactoryMapperTest extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp(): void {
+  protected function setUp(): void {
     $this->mapper = YamlDefinitionsLoader::getInstance()->getMapper();
   }
 
@@ -39,7 +39,7 @@ final class FactoryMapperTest extends TestCase {
     $factoriesYaml = YamlDefinitionsLoader::getInstance()->getFactories();
     $classNames = $this->getFactoryClassNamesFromFilesystem();
 
-    self::assertCount(count($factoriesYaml), $classNames);
+    self::assertCount(is_countable($factoriesYaml) ? count($factoriesYaml) : 0, $classNames);
 
     foreach ($factoriesYaml as $entry) {
       self::assertContains($entry['class'], $classNames);
@@ -72,6 +72,7 @@ final class FactoryMapperTest extends TestCase {
     foreach ($files as $file) {
       $classNames[] = 'Drupal\\preprocess_event_dispatcher\\Factory\\' . substr($file, 0, -4);
     }
+
     return $classNames;
   }
 

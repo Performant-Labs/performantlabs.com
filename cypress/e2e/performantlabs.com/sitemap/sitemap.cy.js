@@ -3,10 +3,6 @@
 const X2JS = require('x2js')
 
 describe('Sitemap tasks', () => {
-  before(function () {
-    cy.prepareForTestRun()
-  })
-
   it("(PER-0000) Check all URLs in the sitemap", () => {
 
     // Watch this:
@@ -23,7 +19,6 @@ describe('Sitemap tasks', () => {
           const parsed = new URL(url.loc)
           cy.log(parsed.pathname)
 
-
           // Check if the resource exists just getting the header (fastest)
           cy.request('HEAD', url.loc).its('status').should('eq', 200)
 
@@ -32,7 +27,9 @@ describe('Sitemap tasks', () => {
 
           // Visit the page to check if it loads in the browser; the
           // wait is to ensure the page loads completely for the video.
-          cy.visit(url.loc).wait(1000, { log: false })
+          let len = Cypress.config('baseUrl').length
+          let path = url.loc.substring(len + 1)
+          cy.visit(path).wait(1000, { log: false })
         })
     });
   })

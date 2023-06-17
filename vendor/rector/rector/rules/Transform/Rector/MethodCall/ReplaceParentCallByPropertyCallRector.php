@@ -10,7 +10,7 @@ use Rector\Core\Rector\AbstractRector;
 use Rector\Transform\ValueObject\ReplaceParentCallByPropertyCall;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\ConfiguredCodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
-use RectorPrefix202302\Webmozart\Assert\Assert;
+use RectorPrefix202304\Webmozart\Assert\Assert;
 /**
  * @see \Rector\Tests\Transform\Rector\MethodCall\ReplaceParentCallByPropertyCallRector\ReplaceParentCallByPropertyCallRectorTest
  */
@@ -55,10 +55,10 @@ CODE_SAMPLE
     public function refactor(Node $node) : ?Node
     {
         foreach ($this->parentCallToProperties as $parentCallToProperty) {
-            if (!$this->isObjectType($node->var, $parentCallToProperty->getObjectType())) {
+            if (!$this->isName($node->name, $parentCallToProperty->getMethod())) {
                 continue;
             }
-            if (!$this->isName($node->name, $parentCallToProperty->getMethod())) {
+            if (!$this->isObjectType($node->var, $parentCallToProperty->getObjectType())) {
                 continue;
             }
             $node->var = $this->nodeFactory->createPropertyFetch('this', $parentCallToProperty->getProperty());

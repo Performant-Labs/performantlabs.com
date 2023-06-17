@@ -119,10 +119,10 @@ final class ArrayCallableMethodMatcher
     }
     private function shouldSkipNullItems(Array_ $array) : bool
     {
-        if ($array->items[0] === null) {
+        if (!$array->items[0] instanceof ArrayItem) {
             return \true;
         }
-        return $array->items[1] === null;
+        return !$array->items[1] instanceof ArrayItem;
     }
     /**
      * @param mixed $values
@@ -180,9 +180,9 @@ final class ArrayCallableMethodMatcher
             return new ObjectType($classConstantReference, null, $classReflection);
         }
         $extendedMethodReflection = $classReflection->getMethod(MethodName::CONSTRUCT, $scope);
-        $parametersAcceptor = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
-        foreach ($parametersAcceptor->getParameters() as $parameterReflection) {
-            if ($parameterReflection->getDefaultValue() === null) {
+        $parametersAcceptorWithPhpDocs = ParametersAcceptorSelector::selectSingle($extendedMethodReflection->getVariants());
+        foreach ($parametersAcceptorWithPhpDocs->getParameters() as $parameterReflectionWithPhpDoc) {
+            if (!$parameterReflectionWithPhpDoc->getDefaultValue() instanceof Type) {
                 return new MixedType();
             }
         }
