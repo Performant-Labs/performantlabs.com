@@ -199,7 +199,7 @@ if (getcwd() == "/app/html") {
 }
 else {
   $databases['default']['default'] = array (
-    'database' => 'performant_labs',
+    'database' => 'performantlabs-com',
     'username' => 'root',
     'password' => 'root',
     'prefix' => '',
