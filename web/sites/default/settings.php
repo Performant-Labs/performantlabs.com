@@ -758,7 +758,7 @@ else {
     // Include the Redis services.yml file. Adjust the path if you installed to a contrib or other subdirectory.
 
     $settings['container_yamls'][] = 'modules/contrib/redis/example.services.yml';
-    
+
     $settings['cache']['default'] = 'cache.backend.redis'; // Use Redis as the default cache.
     $settings['cache_prefix']['default'] = 'pantheon-redis';
 
