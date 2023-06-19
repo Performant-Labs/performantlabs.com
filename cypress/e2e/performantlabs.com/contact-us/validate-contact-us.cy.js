@@ -1,7 +1,8 @@
 /// <reference types="Cypress" />
 /// <reference types="cypress-data-session" />
 
-import { createRandomString } from '../../../support/utils.js'
+// import { createRandomString } from '../../../support/utils.js'
+const createRandomString = require('../../../support/utils.js').createRandomString;
 
 describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, () => {
   before(function () {
