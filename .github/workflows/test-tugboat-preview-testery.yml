@@ -10,7 +10,7 @@ on:
   
 env:
   pantheon_site_name: 'performant-labs'
-  tugboat_repo_id: 648f9dc6bcfc04bcea7bb79e
+  tugboat_repo_id: 648f9dc7bcfc04bcea7bb7a1
   
 jobs:
   Run-Testery-On-Tugboat-Preview:
