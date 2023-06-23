@@ -39,7 +39,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: 'https://www.performantlabs.com',
     useRegions: false,
-    specPattern: 'cypress/e2e/performantlabs.com/*/.cy.{js,jsx,ts,tsx}',
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     setupNodeEvents(on, config) {
       // register the "cypress-log-to-term" plugin
       // https://github.com/bahmutov/cypress-log-to-term
