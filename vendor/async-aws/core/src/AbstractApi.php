@@ -256,11 +256,11 @@ abstract class AbstractApi
         }
 
         $endpoint .= $uri;
-        if (empty($query)) {
+        if ([] === $query) {
             return $endpoint;
         }
 
-        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query);
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query, '', '&', \PHP_QUERY_RFC3986);
     }
 
     protected function discoverEndpoints(?string $region): array
@@ -303,7 +303,12 @@ abstract class AbstractApi
             }
         }
 
-        return $endpoint;
+        $endpoint .= $uri;
+        if (empty($query)) {
+            return $endpoint;
+        }
+
+        return $endpoint . (false === strpos($endpoint, '?') ? '?' : '&') . http_build_query($query);
     }
 
     /**

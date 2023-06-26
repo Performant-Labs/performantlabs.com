@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AsyncAws\Core;
 
 use AsyncAws\AppSync\AppSyncClient;
+use AsyncAws\Athena\AthenaClient;
 use AsyncAws\CloudFormation\CloudFormationClient;
 use AsyncAws\CloudFront\CloudFrontClient;
 use AsyncAws\CloudWatch\CloudWatchClient;
@@ -31,6 +32,7 @@ use AsyncAws\IotData\IotDataClient;
 use AsyncAws\Kinesis\KinesisClient;
 use AsyncAws\Kms\KmsClient;
 use AsyncAws\Lambda\LambdaClient;
+use AsyncAws\MediaConvert\MediaConvertClient;
 use AsyncAws\RdsDataService\RdsDataServiceClient;
 use AsyncAws\Rekognition\RekognitionClient;
 use AsyncAws\Route53\Route53Client;
@@ -360,6 +362,19 @@ class AwsClientFactory
         return $this->serviceCache[__METHOD__];
     }
 
+    public function mediaConvert(): MediaConvertClient
+    {
+        if (!class_exists(MediaConvertClient::class)) {
+            throw MissingDependency::create('async-aws/media-convert', 'MediaConvert');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new MediaConvertClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
     public function rdsDataService(): RdsDataServiceClient
     {
         if (!class_exists(RdsDataServiceClient::class)) {
@@ -572,6 +587,19 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new CognitoIdentityProviderClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function athena(): AthenaClient
+    {
+        if (!class_exists(AthenaClient::class)) {
+            throw MissingDependency::create('async-aws/athena', 'Athena');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new AthenaClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];
