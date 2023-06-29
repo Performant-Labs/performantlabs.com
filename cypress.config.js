@@ -38,7 +38,7 @@ module.exports = defineConfig({
     commandDelay: 2000
   },
   e2e: {
-    baseUrl: 'https://www.performantlabs.com',
+    baseUrl: 'https://dev-performant-labs.pantheonsite.io/',
     isPantheon: true,
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     pantheonSite: 'performant-labs',

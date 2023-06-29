@@ -15,7 +15,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './atk_commands'
 import '@cypress/grep'
 
 // Use the lodash library to provide various utility functions for arrays,
