@@ -110,7 +110,6 @@ services:
           --git-ref "$TUGBOAT_PREVIEW_SHA"
           --project-key "performant-labs"
           --environment-key "tugboat"
-          --latest-deploy
           --parallelize-by-file
 
   mysql:
