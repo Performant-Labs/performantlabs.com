@@ -167,16 +167,16 @@ Cypress.Commands.add('execDrush', (cmd, args = [], options = []) => {
   const optionsString = options.join(' ')
   const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
 
-  cy.log('Drush: ' + command)
-
   // Pantheon needs special handling.
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
     return cy.execPantheonDrush(command) // Returns stdout (not wrapped).
   } else {
+    cy.log('execDrush: ' + command)
+
     cy.exec(command, { failOnNonZeroExit: false }).then((result) => {
       output = result.stdout
-      cy.log('cy.exec result: ' + output)
+      cy.log('execDrush result: ' + output)
       return cy.wrap(output, {log: false})
     })
   }
@@ -194,9 +194,10 @@ Cypress.Commands.add('execDrush', (cmd, args = [], options = []) => {
 Cypress.Commands.add('execPantheonDrush', (cmd) => {
   const connectCmd = `terminus connection:info ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} --format=json`
 
+  cy.log('execPantheonDrush result: ' + output)
+
   // Ask Terminus for SFTP command to send Drush to Pantheon.
   cy.exec(connectCmd, { failOnNonZeroExit: false }).then((result) => {
-    debugger
     const connections = JSON.parse(result.stdout)
     const sftpConnection = connections.sftp_command
     const envConnection = sftpConnection.replace('sftp -o Port=2222 ', '')
@@ -205,9 +206,11 @@ Cypress.Commands.add('execPantheonDrush', (cmd) => {
     // the cmd argument.
     const remoteCmd = `ssh -T ${envConnection} -p 2222 -o 'StrictHostKeyChecking=no' -o 'AddressFamily inet' '${cmd}'`
 
+    cy.log('execPantheonDrush: ' + command)
+
     cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result) => {
       let output = result.stdout
-      cy.log('cy.exec result: ' + output)
+      cy.log('execPantheonDrush result: ' + output)
 
       return cy.wrap(output, {log: false} )
     })
