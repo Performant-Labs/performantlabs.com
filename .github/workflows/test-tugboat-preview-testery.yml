@@ -10,7 +10,8 @@ on:
 
 env:
   pantheon_site_name: 'performant-labs'
-  tugboat_repo_id: 648f9dc7bcfc04bcea7bb7a1
+  # Repo ID comes from 'tugboat ls repos'
+  tugboat_repo_id: 63fe5557d5af549afd35a86a
 
 jobs:
   Run-Testery-On-Tugboat-Preview:
@@ -42,5 +43,5 @@ jobs:
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
           echo "Creating preview (this triggers Testery)."
           ./tugboat create preview "main" \
-            base=false repo=${{ env.tugboat_repo_id }} label="Branch:main $DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
+            base=false repo=${{ env.tugboat_repo_id }} label="Branch:main $RUN_DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
