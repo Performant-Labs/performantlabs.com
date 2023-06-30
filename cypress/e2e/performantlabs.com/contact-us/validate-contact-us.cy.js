@@ -9,7 +9,7 @@ describe('Validate Contact Us', {tags: ['contact-us', 'anonymous', 'smoke']}, ()
   //   cy.prepareForTestRun()
   // })
 
-  it("(PER-1100) Contact Us form accepts correct input", {defaultCommandTimeout: 1000, languages: ['en'],  regions: ['us'], tags: ['contact-us', 'anonymous', 'smoke']}, () => {
+  it.skip("(PER-1100) Contact Us form accepts correct input", {defaultCommandTimeout: 1000, languages: ['en'],  regions: ['us'], tags: ['contact-us', 'anonymous', 'smoke']}, () => {
   //   const randomString = createRandomString(10)
   //   cy.log("**Fill out contact form.**")
   //   cy.visit('contact-us').then(() => {
