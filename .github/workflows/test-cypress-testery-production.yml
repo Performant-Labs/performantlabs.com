@@ -2,12 +2,12 @@ name: (Test) Testery against Production
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is running Cypress.
 
-on: 
+on:
   push:
     paths:
       - .github/workflows/cypress_on_testery.yml
-  workflow_dispatch:    
-  
+  workflow_dispatch:
+
 env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
@@ -17,30 +17,30 @@ env:
   db_database: drupal
   db_user: root
   db_password: root
-  
+
 jobs:
   Run-Cypress-On-Testery-On-Production:
     runs-on: ubuntu-latest
     env:
-      TESTERY_TOKEN: ${{ secrets.TESTERY_API_TOKEN }}    
+      TESTERY_TOKEN: ${{ secrets.TESTERY_API_TOKEN }}
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $pantheon_site_name.$pantheon_env."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
+
       #- name: Unix tools setup.
       #  run: |
-      
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-          
+
       - name: Install pip then testery.
         run: |
           python -m pip install --upgrade pip
           pip install testery --upgrade
- 
+
       - name: Start mysql.
         run: |
           sudo /etc/init.d/mysql start
@@ -49,48 +49,48 @@ jobs:
 
       - name: Check out repository code.
         uses: actions/checkout@v3
-                  
+
       - name: Import database
         run: |
           gunzip project/database/performant-labs_dev.sql.gz
           mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} -e "CREATE DATABASE ${{ env.db_database }};"
-          mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} ${{ env.db_database }} < project/database/performant-labs_dev.sql      
-        
+          mysql -hlocalhost -u${{ env.db_user }} -p${{ env.db_password }} ${{ env.db_database }} < project/database/performant-labs_dev.sql
+
       - name: Set up PHP.
         uses: shivammathur/setup-php@v2
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
+        with:
           php-version: ${{ env.php_version }}
-          
+
       - name: Checkout.
         uses: actions/checkout@v3
-        
+
       - name: Set Composer cache directory.
         id: composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        
+
       - name: Cache Composer dependencies.
         uses: actions/cache@v3.2.4
         with:
           path: ${{ steps.composer-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-    
-            
+            ${{ runner.os }}-composer-
+
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
       #- name: List the directories in the project.
       #  run: |
       #    tree -d -L 3
-          
+
       - name: Copy settings.github.php to settings.local.php
         run: cp web/sites/default/settings.github.php web/sites/default/settings.local.php
-        
+
       - name: Test drush.
         run: |
           pwd
@@ -99,9 +99,9 @@ jobs:
       - name: Disable maintenance mode.
         run: |
           echo "Disabling maintenance mode for $pantheon_site_name.$pantheon_env."
-          vendor/bin/drush sset system.maintenance_mode 0    
+          vendor/bin/drush sset system.maintenance_mode 0
           vendor/bin/drush sget system.maintenance_mode
-        
+
       # See: https://www.drush.org/latest/commands/runserver/
       - name: Start Drush webserver.
         run: |
@@ -115,7 +115,7 @@ jobs:
             -w "%{http_code}" "$local_base_url" || true); \
             if [ "$RESPONSE_CODE" -gt "301" ] || [ "$RESPONSE_CODE" -lt "200" ]; \
             then sleep 2; fi; done
-            
+
       - name: Run Testery Tests
         run: |
           # Create test run.
@@ -123,14 +123,14 @@ jobs:
               --variable "TEST_URL=${TEST_URL}" \
               --git-ref "$GITHUB_SHA" --project "performant-labs" --environment "testery-on-gh" \
               --wait-for-results
-              
+
       - name: Save the screenshots and videos.
         uses: actions/upload-artifact@v3
         if: failure()
         with:
          name: cypress-screenshots
          path: ./cypress/screenshots
-         
+
       # The videos may be saved only if they fail. See the "after:spec" in the
       # configuration file.
       - name: Save the videos.
@@ -139,5 +139,5 @@ jobs:
         with:
           name: cypress-videos
           path: ./cypress/videos
-        
-        
+
+
