@@ -320,6 +320,7 @@
         "drupal/php": "^1.1",
         "drupal/publication_date": "~2.0",
         "drupal/qa_accounts": "^1",
+        "drupal/redirect": "^1.8",
         "drupal/responsive_menu": "~4.0",
         "drupal/scheduler": "~1.1",
         "drupal/simple_sitemap": "~4.0",
