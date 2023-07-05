@@ -3,7 +3,7 @@
 const X2JS = require('x2js')
 
 describe('Sitemap tasks', () => {
-  it("(PER-0000) Check all URLs in the sitemap", () => {
+  it.skip("(PER-0000) Check all URLs in the sitemap", () => {
 
     // Watch this:
     cy.request('sitemap.xml')

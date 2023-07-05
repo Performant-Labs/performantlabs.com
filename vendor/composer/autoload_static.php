@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2
+class ComposerStaticInitd69731768d0598088257af0d504f31ef
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -20,6 +20,7 @@ class ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
         '3e41e0554275033aae3e9e7e056c2d14' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/create_uploaded_file.php',
         'f4ee20bfdee1006b0970e8d951bea11e' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/marshal_headers_from_sapi.php',
         '039b4ca04402a921dc2af19c2e8c1f6e' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/marshal_method_from_sapi.php',
@@ -40,7 +41,6 @@ class ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2
         '2f69d3914119f042cca9e44442d5ce95' => __DIR__ . '/../..' . '/web/core/includes/bootstrap.inc',
         '6db5533840cb1ae1bc049452845aa88e' => __DIR__ . '/../..' . '/web/core/includes/guzzle_php81_shim.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
-        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
@@ -6775,11 +6775,11 @@ class ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit76a0c4773b2f8c1288e10ed8481005f2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitd69731768d0598088257af0d504f31ef::$classMap;
 
         }, null, ClassLoader::class);
     }
