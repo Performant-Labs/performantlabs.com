@@ -55,8 +55,8 @@ jobs:
           cd "$GITHUB_WORKING_DIR"
           pwd
           
-      - name: Check out repository code.
-        uses: actions/checkout@v3
+#       - name: Check out repository code.
+#         uses: actions/checkout@v3
         
       - name: List the directories in the project.
         run: |
