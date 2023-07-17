@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitd69731768d0598088257af0d504f31ef
+class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -6672,7 +6672,6 @@ class ComposerStaticInitd69731768d0598088257af0d504f31ef
         'libphonenumber\\AsYouTypeFormatter' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/AsYouTypeFormatter.php',
         'libphonenumber\\CountryCodeSource' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/CountryCodeSource.php',
         'libphonenumber\\CountryCodeToRegionCodeMap' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/CountryCodeToRegionCodeMap.php',
-        'libphonenumber\\CountryCodeToRegionCodeMapForTesting' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/CountryCodeToRegionCodeMapForTesting.php',
         'libphonenumber\\DefaultMetadataLoader' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/DefaultMetadataLoader.php',
         'libphonenumber\\Leniency' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/Leniency.php',
         'libphonenumber\\Leniency\\AbstractLeniency' => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src/Leniency/AbstractLeniency.php',
@@ -6775,11 +6774,11 @@ class ComposerStaticInitd69731768d0598088257af0d504f31ef
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInitd69731768d0598088257af0d504f31ef::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInitd69731768d0598088257af0d504f31ef::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$classMap;
 
         }, null, ClassLoader::class);
     }
