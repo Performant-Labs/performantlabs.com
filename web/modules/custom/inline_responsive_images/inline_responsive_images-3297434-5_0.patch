@@ -1,0 +1,56 @@
+diff --git a/inline_responsive_images.info.yml b/inline_responsive_images.info.yml
+index bd3f263..d7dbe27 100644
+--- a/inline_responsive_images.info.yml
++++ b/inline_responsive_images.info.yml
+@@ -3,7 +3,7 @@ type: module
+ description: 'Allows you to use responsive images in the WYSIWYG editor.'
+ package: Editor
+ core: 8.x
+-core_version_requirement: ^8 || ^9
++core_version_requirement: ^8 || ^9 || ^10
+ dependencies:
+   - drupal:responsive_image
+   - drupal:editor
+diff --git a/src/Form/ResponsiveEditorImageDialog.php b/src/Form/ResponsiveEditorImageDialog.php
+index 614ec49..1330578 100644
+--- a/src/Form/ResponsiveEditorImageDialog.php
++++ b/src/Form/ResponsiveEditorImageDialog.php
+@@ -25,10 +25,10 @@ class ResponsiveEditorImageDialog extends EditorImageDialog {
+     $fid = $form_state->getValue(['fid', 0]);
+     if (!empty($fid)) {
+       $file = $this->fileStorage->load($fid);
+-      $file_url = file_create_url($file->getFileUri());
++      $file_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+       // Transform absolute image URLs to relative image URLs: prevent problems
+       // on multisite set-ups and prevent mixed content errors.
+-      $file_url = file_url_transform_relative($file_url);
++      $file_url = \Drupal::service('file_url_generator')->transformRelative($file_url);
+       $form_state->setValue(['attributes', 'src'], $file_url);
+       $form_state->setValue(['attributes', 'data-entity-uuid'], $file->uuid());
+       $form_state->setValue(['attributes', 'data-entity-type'], 'file');
+diff --git a/src/Plugin/CKEditorPlugin/DrupalImageStyle.php b/src/Plugin/CKEditorPlugin/DrupalImageStyle.php
+index 0ebb20e..81ecaae 100644
+--- a/src/Plugin/CKEditorPlugin/DrupalImageStyle.php
++++ b/src/Plugin/CKEditorPlugin/DrupalImageStyle.php
+@@ -43,7 +43,7 @@ class DrupalImageStyle extends PluginBase implements CKEditorPluginInterface, CK
+    * {@inheritdoc}
+    */
+   public function getFile() {
+-    return drupal_get_path('module', 'inline_responsive_images') . '/js/plugins/drupalimagestyle/plugin.js';
++    return \Drupal::service('extension.list.module')->getPath('inline_responsive_images') . '/js/plugins/drupalimagestyle/plugin.js';
+   }
+ 
+   /**
+diff --git a/src/Plugin/CKEditorPlugin/DrupalResponsiveImageStyle.php b/src/Plugin/CKEditorPlugin/DrupalResponsiveImageStyle.php
+index c2eb0e8..5f64ce7 100644
+--- a/src/Plugin/CKEditorPlugin/DrupalResponsiveImageStyle.php
++++ b/src/Plugin/CKEditorPlugin/DrupalResponsiveImageStyle.php
+@@ -43,7 +43,7 @@ class DrupalResponsiveImageStyle extends PluginBase implements CKEditorPluginInt
+    * {@inheritdoc}
+    */
+   public function getFile() {
+-    return drupal_get_path('module', 'inline_responsive_images') . '/js/plugins/drupalresponsiveimagestyle/plugin.js';
++    return \Drupal::service('extension.list.module')->getPath('inline_responsive_images') . '/js/plugins/drupalresponsiveimagestyle/plugin.js';
+   }
+ 
+   /**
