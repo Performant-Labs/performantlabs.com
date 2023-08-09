@@ -81,12 +81,16 @@
   view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
 ]
 %}
+{% set image_url = file_url(content.field_image['#items'].entity.uri.value) %}
 {{ attach_library('classy/node') }}
 <article{{ attributes.addClass(classes) }}>
 
   <div{{ content_attributes.addClass('node__content') }}>
-    {{ content }}
-    <a href="{{ url }}">Read >></a>
+    <div class="image-background">
+      {{ content.field_image }}
+    </div>
+    {{ custom.title }}
+    {{ custom.body }}
   </div>
 
 </article>
