@@ -18,14 +18,23 @@ final class ResourceStream implements RequestStream
      */
     private $content;
 
+    /**
+     * @var int
+     */
     private $chunkSize;
 
+    /**
+     * @param resource $content
+     */
     private function __construct($content, int $chunkSize = 64 * 1024)
     {
         $this->content = $content;
         $this->chunkSize = $chunkSize;
     }
 
+    /**
+     * @param self|resource $content
+     */
     public static function create($content, int $chunkSize = 64 * 1024): ResourceStream
     {
         if ($content instanceof self) {

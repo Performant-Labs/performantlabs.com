@@ -26,11 +26,12 @@ class ResultMockFactory
      * ResultMockFactory::createFailing(SendEmailResponse::class, 400, 'invalid value');
      * </code>
      *
-     * @template T
+     * @template T of Result
      *
-     * @psalm-param class-string<T> $class
+     * @param class-string<T>      $class
+     * @param array<string, mixed> $additionalContent
      *
-     * @return Result|T
+     * @return T
      */
     public static function createFailing(
         string $class,
@@ -49,6 +50,7 @@ class ResultMockFactory
         $client = new MockHttpClient($httpResponse);
         $response = new Response($client->request('POST', 'http://localhost'), $client, new NullLogger());
 
+        /** @psalm-var \ReflectionClass<T> $reflectionClass */
         $reflectionClass = new \ReflectionClass($class);
 
         return $reflectionClass->newInstance($response);
@@ -61,11 +63,12 @@ class ResultMockFactory
      * ResultMockFactory::create(SendEmailResponse::class, ['MessageId'=>'foo123']);
      * </code>
      *
-     * @template T
+     * @template T of Result
      *
-     * @psalm-param class-string<T> $class
+     * @param class-string<T>      $class
+     * @param array<string, mixed> $data
      *
-     * @return Result|T
+     * @return T
      */
     public static function create(string $class, array $data = [])
     {
@@ -83,6 +86,7 @@ class ResultMockFactory
         $initializedProperty = $reflectionClass->getProperty('initialized');
         $initializedProperty->setAccessible(true);
 
+        /** @psalm-var \ReflectionClass<T> $reflectionClass */
         $reflectionClass = new \ReflectionClass($class);
         $object = $reflectionClass->newInstance($response);
         if (Result::class !== $class) {
@@ -124,15 +128,15 @@ class ResultMockFactory
     /**
      * Instantiate a Waiter class with a final state.
      *
-     * @template T
+     * @template T of Waiter
      *
      * @psalm-param class-string<T> $class
      *
-     * @return Result|T
+     * @return T
      */
     public static function waiter(string $class, string $finalState)
     {
-        if (Result::class !== $class) {
+        if (Waiter::class !== $class) {
             $parent = get_parent_class($class);
             if (false === $parent || Waiter::class !== $parent) {
                 throw new LogicException(sprintf('The "%s::%s" can only be used for classes that extend "%s"', __CLASS__, __METHOD__, Waiter::class));
@@ -152,6 +156,7 @@ class ResultMockFactory
         $propertyState = $reflectionClass->getProperty('finalState');
         $propertyState->setAccessible(true);
 
+        /** @psalm-var \ReflectionClass<T> $reflectionClass */
         $reflectionClass = new \ReflectionClass($class);
         $result = $reflectionClass->newInstanceWithoutConstructor();
         $propertyResponse->setValue($result, $response);
@@ -163,9 +168,12 @@ class ResultMockFactory
     /**
      * Try to add some values to the properties not defined in $data.
      *
+     * @param \ReflectionClass<object> $reflectionClass
+     * @param array<string, mixed>     $data
+     *
      * @throws \ReflectionException
      */
-    private static function addUndefinedProperties(\ReflectionClass $reflectionClass, $object, array $data): void
+    private static function addUndefinedProperties(\ReflectionClass $reflectionClass, object $object, array $data): void
     {
         foreach ($reflectionClass->getProperties(\ReflectionProperty::IS_PRIVATE) as $property) {
             if (\array_key_exists($property->getName(), $data) || \array_key_exists(ucfirst($property->getName()), $data)) {
@@ -217,6 +225,8 @@ class ResultMockFactory
 
     /**
      * Set input and aws client to handle pagination.
+     *
+     * @param \ReflectionClass<object> $reflectionClass
      */
     private static function addPropertiesOnResult(\ReflectionClass $reflectionClass, object $object, string $class): void
     {

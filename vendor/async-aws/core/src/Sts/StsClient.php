@@ -20,6 +20,7 @@ use AsyncAws\Core\Sts\Result\AssumeRoleResponse;
 use AsyncAws\Core\Sts\Result\AssumeRoleWithWebIdentityResponse;
 use AsyncAws\Core\Sts\Result\GetCallerIdentityResponse;
 use AsyncAws\Core\Sts\ValueObject\PolicyDescriptorType;
+use AsyncAws\Core\Sts\ValueObject\ProvidedContext;
 use AsyncAws\Core\Sts\ValueObject\Tag;
 
 class StsClient extends AbstractApi
@@ -112,17 +113,17 @@ class StsClient extends AbstractApi
      * @param array{
      *   RoleArn: string,
      *   RoleSessionName: string,
-     *   PolicyArns?: PolicyDescriptorType[],
+     *   PolicyArns?: array<PolicyDescriptorType|array>,
      *   Policy?: string,
      *   DurationSeconds?: int,
-     *   Tags?: Tag[],
+     *   Tags?: array<Tag|array>,
      *   TransitiveTagKeys?: string[],
      *   ExternalId?: string,
      *   SerialNumber?: string,
      *   TokenCode?: string,
      *   SourceIdentity?: string,
-     *
-     *   @region?: string,
+     *   ProvidedContexts?: array<ProvidedContext|array>,
+     *   '@region'?: string|null,
      * }|AssumeRoleRequest $input
      *
      * @throws MalformedPolicyDocumentException
@@ -274,11 +275,10 @@ class StsClient extends AbstractApi
      *   RoleSessionName: string,
      *   WebIdentityToken: string,
      *   ProviderId?: string,
-     *   PolicyArns?: PolicyDescriptorType[],
+     *   PolicyArns?: array<PolicyDescriptorType|array>,
      *   Policy?: string,
      *   DurationSeconds?: int,
-     *
-     *   @region?: string,
+     *   '@region'?: string|null,
      * }|AssumeRoleWithWebIdentityRequest $input
      *
      * @throws MalformedPolicyDocumentException
@@ -319,8 +319,7 @@ class StsClient extends AbstractApi
      * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sts-2011-06-15.html#getcalleridentity
      *
      * @param array{
-     *
-     *   @region?: string,
+     *   '@region'?: string|null,
      * }|GetCallerIdentityRequest $input
      */
     public function getCallerIdentity($input = []): GetCallerIdentityResponse

@@ -32,6 +32,7 @@ use AsyncAws\IotData\IotDataClient;
 use AsyncAws\Kinesis\KinesisClient;
 use AsyncAws\Kms\KmsClient;
 use AsyncAws\Lambda\LambdaClient;
+use AsyncAws\LocationService\LocationServiceClient;
 use AsyncAws\MediaConvert\MediaConvertClient;
 use AsyncAws\RdsDataService\RdsDataServiceClient;
 use AsyncAws\Rekognition\RekognitionClient;
@@ -43,6 +44,7 @@ use AsyncAws\Ses\SesClient;
 use AsyncAws\Sns\SnsClient;
 use AsyncAws\Sqs\SqsClient;
 use AsyncAws\Ssm\SsmClient;
+use AsyncAws\Sso\SsoClient;
 use AsyncAws\StepFunctions\StepFunctionsClient;
 use AsyncAws\TimestreamQuery\TimestreamQueryClient;
 use AsyncAws\TimestreamWrite\TimestreamWriteClient;
@@ -61,7 +63,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class AwsClientFactory
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private $serviceCache;
 
@@ -86,7 +88,7 @@ class AwsClientFactory
     private $logger;
 
     /**
-     * @param Configuration|array $configuration
+     * @param Configuration|array<Configuration::OPTION_*, string|null> $configuration
      */
     public function __construct($configuration = [], ?CredentialProvider $credentialProvider = null, ?HttpClientInterface $httpClient = null, ?LoggerInterface $logger = null)
     {
@@ -362,6 +364,19 @@ class AwsClientFactory
         return $this->serviceCache[__METHOD__];
     }
 
+    public function locationService(): LocationServiceClient
+    {
+        if (!class_exists(LocationServiceClient::class)) {
+            throw MissingDependency::create('async-aws/location-service', 'LocationService');
+        }
+
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new LocationServiceClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
     public function mediaConvert(): MediaConvertClient
     {
         if (!class_exists(MediaConvertClient::class)) {
@@ -500,6 +515,15 @@ class AwsClientFactory
 
         if (!isset($this->serviceCache[__METHOD__])) {
             $this->serviceCache[__METHOD__] = new SsmClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
+        }
+
+        return $this->serviceCache[__METHOD__];
+    }
+
+    public function sso(): SsoClient
+    {
+        if (!isset($this->serviceCache[__METHOD__])) {
+            $this->serviceCache[__METHOD__] = new SsoClient($this->configuration, $this->credentialProvider, $this->httpClient, $this->logger);
         }
 
         return $this->serviceCache[__METHOD__];

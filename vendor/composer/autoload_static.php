@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
+class ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -20,7 +20,6 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
         '3e41e0554275033aae3e9e7e056c2d14' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/create_uploaded_file.php',
         'f4ee20bfdee1006b0970e8d951bea11e' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/marshal_headers_from_sapi.php',
         '039b4ca04402a921dc2af19c2e8c1f6e' => __DIR__ . '/..' . '/longwave/laminas-diactoros/src/functions/marshal_method_from_sapi.php',
@@ -41,6 +40,7 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
         '2f69d3914119f042cca9e44442d5ce95' => __DIR__ . '/../..' . '/web/core/includes/bootstrap.inc',
         '6db5533840cb1ae1bc049452845aa88e' => __DIR__ . '/../..' . '/web/core/includes/guzzle_php81_shim.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
+        'c9d07b32a2e02bc0fc582d4f0c1b56cc' => __DIR__ . '/..' . '/laminas/laminas-servicemanager/src/autoload.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
@@ -656,6 +656,7 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
         'AsyncAws\\Core\\Credentials\\InstanceProvider' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/InstanceProvider.php',
         'AsyncAws\\Core\\Credentials\\NullProvider' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/NullProvider.php',
         'AsyncAws\\Core\\Credentials\\PsrCacheProvider' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/PsrCacheProvider.php',
+        'AsyncAws\\Core\\Credentials\\SsoCacheFileLoader' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/SsoCacheFileLoader.php',
         'AsyncAws\\Core\\Credentials\\SymfonyCacheProvider' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/SymfonyCacheProvider.php',
         'AsyncAws\\Core\\Credentials\\WebIdentityProvider' => __DIR__ . '/..' . '/async-aws/core/src/Credentials/WebIdentityProvider.php',
         'AsyncAws\\Core\\EndpointDiscovery\\EndpointCache' => __DIR__ . '/..' . '/async-aws/core/src/EndpointDiscovery/EndpointCache.php',
@@ -714,9 +715,9 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
         'AsyncAws\\Core\\Sts\\ValueObject\\AssumedRoleUser' => __DIR__ . '/..' . '/async-aws/core/src/Sts/ValueObject/AssumedRoleUser.php',
         'AsyncAws\\Core\\Sts\\ValueObject\\Credentials' => __DIR__ . '/..' . '/async-aws/core/src/Sts/ValueObject/Credentials.php',
         'AsyncAws\\Core\\Sts\\ValueObject\\PolicyDescriptorType' => __DIR__ . '/..' . '/async-aws/core/src/Sts/ValueObject/PolicyDescriptorType.php',
+        'AsyncAws\\Core\\Sts\\ValueObject\\ProvidedContext' => __DIR__ . '/..' . '/async-aws/core/src/Sts/ValueObject/ProvidedContext.php',
         'AsyncAws\\Core\\Sts\\ValueObject\\Tag' => __DIR__ . '/..' . '/async-aws/core/src/Sts/ValueObject/Tag.php',
         'AsyncAws\\Core\\Test\\Http\\SimpleMockedResponse' => __DIR__ . '/..' . '/async-aws/core/src/Test/Http/SimpleMockedResponse.php',
-        'AsyncAws\\Core\\Test\\InternalTestCase' => __DIR__ . '/..' . '/async-aws/core/src/Test/InternalTestCase.php',
         'AsyncAws\\Core\\Test\\ResultMockFactory' => __DIR__ . '/..' . '/async-aws/core/src/Test/ResultMockFactory.php',
         'AsyncAws\\Core\\Test\\SimpleResultStream' => __DIR__ . '/..' . '/async-aws/core/src/Test/SimpleResultStream.php',
         'AsyncAws\\Core\\Test\\TestCase' => __DIR__ . '/..' . '/async-aws/core/src/Test/TestCase.php',
@@ -4165,13 +4166,16 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
         'PEAR' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/PEAR.php',
         'PEAR_ErrorStack' => __DIR__ . '/..' . '/pear/pear-core-minimal/src/PEAR/ErrorStack.php',
         'PEAR_Exception' => __DIR__ . '/..' . '/pear/pear_exception/PEAR/Exception.php',
+        'PHPStan\\DependencyInjection\\LazyDeprecatedScopeResolverProvider' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/DependencyInjection/LazyDeprecatedScopeResolverProvider.php',
         'PHPStan\\Rules\\Deprecations\\AccessDeprecatedPropertyRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/AccessDeprecatedPropertyRule.php',
         'PHPStan\\Rules\\Deprecations\\AccessDeprecatedStaticPropertyRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/AccessDeprecatedStaticPropertyRule.php',
         'PHPStan\\Rules\\Deprecations\\CallToDeprecatedFunctionRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/CallToDeprecatedFunctionRule.php',
         'PHPStan\\Rules\\Deprecations\\CallToDeprecatedMethodRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/CallToDeprecatedMethodRule.php',
         'PHPStan\\Rules\\Deprecations\\CallToDeprecatedStaticMethodRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/CallToDeprecatedStaticMethodRule.php',
+        'PHPStan\\Rules\\Deprecations\\DefaultDeprecatedScopeResolver' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/DefaultDeprecatedScopeResolver.php',
         'PHPStan\\Rules\\Deprecations\\DeprecatedClassHelper' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/DeprecatedClassHelper.php',
         'PHPStan\\Rules\\Deprecations\\DeprecatedScopeHelper' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/DeprecatedScopeHelper.php',
+        'PHPStan\\Rules\\Deprecations\\DeprecatedScopeResolver' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/DeprecatedScopeResolver.php',
         'PHPStan\\Rules\\Deprecations\\FetchingClassConstOfDeprecatedClassRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/FetchingClassConstOfDeprecatedClassRule.php',
         'PHPStan\\Rules\\Deprecations\\FetchingDeprecatedConstRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/FetchingDeprecatedConstRule.php',
         'PHPStan\\Rules\\Deprecations\\ImplementationOfDeprecatedInterfaceRule' => __DIR__ . '/..' . '/phpstan/phpstan-deprecation-rules/src/Rules/Deprecations/ImplementationOfDeprecatedInterfaceRule.php',
@@ -6774,11 +6778,11 @@ class ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$fallbackDirsPsr0;
-            $loader->classMap = ComposerStaticInit869d05ad299c82f9d8f3aa13dbea9d4b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitc2b4304a06101c51f5ec8137a4d4b012::$classMap;
 
         }, null, ClassLoader::class);
     }

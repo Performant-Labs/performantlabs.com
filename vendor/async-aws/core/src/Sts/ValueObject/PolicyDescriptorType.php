@@ -14,6 +14,8 @@ final class PolicyDescriptorType
      * *Amazon Web Services General Reference*.
      *
      * [^1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+     *
+     * @var string|null
      */
     private $arn;
 
@@ -27,6 +29,11 @@ final class PolicyDescriptorType
         $this->arn = $input['arn'] ?? null;
     }
 
+    /**
+     * @param array{
+     *   arn?: null|string,
+     * }|PolicyDescriptorType $input
+     */
     public static function create($input): self
     {
         return $input instanceof self ? $input : new self($input);
