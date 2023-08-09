@@ -55,16 +55,13 @@ jobs:
           cd "$GITHUB_WORKING_DIR"
           pwd
           
-#       - name: Check out repository code.
-#         uses: actions/checkout@v3
-        
       - name: List the directories in the project.
         run: |
           tree -d -L 3
         
-#      - name: Validate composer.json and composer.lock.
-#        continue-on-error: true
-#        run: composer validate --strict        
+      - name: Validate composer.json and composer.lock.
+        continue-on-error: true
+        run: composer validate --strict        
         
       - name: Set Composer cache directory.
         id: composer-cache-dir
