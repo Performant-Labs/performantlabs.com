@@ -18,27 +18,6 @@ use Drupal\user_event_dispatcher\UserHookEvents;
 final class UserCancelEvent extends Event implements EventInterface {
 
   /**
-   * The array of form values submitted by the user.
-   *
-   * @var array
-   */
-  private $edit = [];
-
-  /**
-   * Account.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  private $account;
-
-  /**
-   * The account cancellation method.
-   *
-   * @var string
-   */
-  private $method;
-
-  /**
    * UserCancelEvent constructor.
    *
    * @param array $edit
@@ -48,10 +27,7 @@ final class UserCancelEvent extends Event implements EventInterface {
    * @param string $method
    *   The account cancellation method.
    */
-  public function __construct(array $edit, AccountInterface $account, string $method) {
-    $this->edit = $edit;
-    $this->account = $account;
-    $this->method = $method;
+  public function __construct(private array $edit, private AccountInterface $account, private string $method) {
   }
 
   /**

@@ -12,20 +12,12 @@ use Drupal\Component\EventDispatcher\Event;
 abstract class AbstractViewsEvent extends Event implements EventInterface {
 
   /**
-   * The view.
-   *
-   * @var \Drupal\views\ViewExecutable
-   */
-  private $view;
-
-  /**
    * AbstractViewsEvent constructor.
    *
    * @param \Drupal\views\ViewExecutable $view
    *   The view.
    */
-  public function __construct(ViewExecutable $view) {
-    $this->view = $view;
+  public function __construct(private ViewExecutable $view) {
   }
 
   /**

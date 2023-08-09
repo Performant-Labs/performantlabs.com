@@ -21,13 +21,6 @@ class JsonApiEntityFieldFilterAccessEvent extends Event implements EventInterfac
   use AccessEventTrait;
 
   /**
-   * The field definition of the field to be filtered upon.
-   *
-   * @var \Drupal\Core\Field\FieldDefinitionInterface
-   */
-  protected $fieldDefinition;
-
-  /**
    * JsonapiEntityFieldFilterAccessEvent constructor.
    *
    * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
@@ -35,8 +28,7 @@ class JsonApiEntityFieldFilterAccessEvent extends Event implements EventInterfac
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account for which to check access.
    */
-  public function __construct(FieldDefinitionInterface $fieldDefinition, AccountInterface $account) {
-    $this->fieldDefinition = $fieldDefinition;
+  public function __construct(protected FieldDefinitionInterface $fieldDefinition, AccountInterface $account) {
     $this->account = $account;
   }
 

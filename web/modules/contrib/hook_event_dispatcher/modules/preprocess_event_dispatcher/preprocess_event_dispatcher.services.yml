@@ -16,12 +16,6 @@ services:
     tags:
       - { name: preprocess_event_default_factory }
 
-  preprocess_event.factory.eck_entity:
-    class: Drupal\preprocess_event_dispatcher\Factory\EckEntityPreprocessEventFactory
-    deprecated: The "%service_id%" service is deprecated in hook_event_dispatcher:3.4.0 and is removed from hook_event_dispatcher:4.0.0. There is no replacement. See https://www.drupal.org/node/3308062
-    tags:
-      - { name: preprocess_event_default_factory }
-
   preprocess_event.factory.field:
     class: Drupal\preprocess_event_dispatcher\Factory\FieldPreprocessEventFactory
     tags:

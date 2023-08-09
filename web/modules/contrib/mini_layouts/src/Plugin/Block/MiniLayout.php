@@ -8,9 +8,9 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\layout_builder\SectionStorage\SectionStorageManager;
 use Drupal\layout_builder\SectionStorage\SectionStorageManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\Context\ContextRepositoryInterface;
 
 /**
  * Class MiniLayout
@@ -30,6 +30,13 @@ class MiniLayout extends BlockBase implements ContextAwarePluginInterface, Conta
   protected $sectionStorageManager;
 
   /**
+   * The context repository service.
+   *
+   * @var \Drupal\Core\Plugin\Context\ContextRepositoryInterface
+   */
+  protected $contextRepository;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -38,15 +45,17 @@ class MiniLayout extends BlockBase implements ContextAwarePluginInterface, Conta
       $plugin_id,
       $plugin_definition,
       $container->get('entity_type.manager'),
-      $container->get('plugin.manager.layout_builder.section_storage')
+      $container->get('plugin.manager.layout_builder.section_storage'),
+      $container->get('context.repository')
     );
   }
 
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, SectionStorageManagerInterface $section_storage_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, SectionStorageManagerInterface $section_storage_manager, ContextRepositoryInterface $context_repository) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->entityTypeManager = $entity_type_manager;
     $this->sectionStorageManager = $section_storage_manager;
+    $this->contextRepository = $context_repository;
   }
 
   /**
@@ -68,7 +77,7 @@ class MiniLayout extends BlockBase implements ContextAwarePluginInterface, Conta
       ->getStorage('mini_layout')
       ->load($this->getPluginDefinition()['mini_layout']);
 
-    $contexts = $this->getContexts();
+    $contexts = $this->getContexts() + $this->contextRepository->getAvailableContexts();
     $contexts['display'] = EntityContext::fromEntity($mini_layout);
     $contexts['layout_builder.entity'] = EntityContext::fromEntity($mini_layout);
 
@@ -86,13 +95,12 @@ class MiniLayout extends BlockBase implements ContextAwarePluginInterface, Conta
       $build[$delta] = $section->toRenderArray($contexts);
     }
 
-    return  $build;
+    // The render array is built based on decisions made by @SectionStorage
+    // plugins and therefore it needs to depend on the accumulated
+    // cacheability of those decisions.
+    $cacheability->applyTo($build);
+
+    return $build;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function getCacheMaxAge() {
-    return 0;
-  }
 }

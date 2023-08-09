@@ -18,7 +18,7 @@ class FieldFormatterInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $info = [];
+  private array $info = [];
 
   /**
    * FieldFormatterInfoAlterEvent constructor.

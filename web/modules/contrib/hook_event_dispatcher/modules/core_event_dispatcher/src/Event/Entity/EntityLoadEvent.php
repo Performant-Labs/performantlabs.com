@@ -17,20 +17,6 @@ use Drupal\hook_event_dispatcher\Event\EventInterface;
 class EntityLoadEvent extends Event implements EventInterface {
 
   /**
-   * The entities.
-   *
-   * @var array
-   */
-  private $entities = [];
-
-  /**
-   * The entity type id.
-   *
-   * @var string
-   */
-  private $entityTypeId;
-
-  /**
    * EntityLoadEvent constructor.
    *
    * @param array $entities
@@ -38,9 +24,7 @@ class EntityLoadEvent extends Event implements EventInterface {
    * @param string $entityTypeId
    *   The entity type id.
    */
-  public function __construct(array $entities, string $entityTypeId) {
-    $this->entities = $entities;
-    $this->entityTypeId = $entityTypeId;
+  public function __construct(private array $entities, private string $entityTypeId) {
   }
 
   /**

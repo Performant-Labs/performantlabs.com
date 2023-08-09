@@ -5,19 +5,17 @@ namespace Drupal\Tests\preprocess_event_dispatcher\Unit;
 use Drupal\comment\CommentInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\eck\EckEntityInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\preprocess_event_dispatcher\Event\AbstractPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\CommentPreprocessEvent;
-use Drupal\preprocess_event_dispatcher\Event\EckEntityPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\NodePreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\ParagraphPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\PreprocessEntityEventInterface;
 use Drupal\preprocess_event_dispatcher\Event\TaxonomyTermPreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper;
 use Drupal\preprocess_event_dispatcher\Variables\AbstractEntityEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\CommentEventVariables;
-use Drupal\preprocess_event_dispatcher\Variables\EckEntityEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\NodeEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\ParagraphEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\TaxonomyTermEventVariables;
@@ -31,7 +29,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @group preprocess_event_dispatcher
  *
- * @requires module eck
+ * Testing all variables gives expected PHPMD warnings.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class EntityEventVariablesTest extends TestCase {
 
@@ -40,7 +39,7 @@ final class EntityEventVariablesTest extends TestCase {
    *
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper
    */
-  private $mapper;
+  private PreprocessEventFactoryMapper $mapper;
 
   /**
    * {@inheritdoc}
@@ -66,31 +65,6 @@ final class EntityEventVariablesTest extends TestCase {
     $this->assertAbstractEntityEventVariables($variables, $comment);
     self::assertSame($comment, $variables->getComment());
     self::assertSame($commentedEntity, $variables->getCommentedEntity());
-  }
-
-  /**
-   * Test a EckEntityPreprocessEvent.
-   *
-   * @group legacy
-   */
-  public function testEckEntityEvent(): void {
-    $eckEntity = EntityMockFactory::getMock(EckEntityInterface::class, 'eck_entity', 'eck_entity_bundle', 'eck_entity_view_mode');
-    $variablesArray = $this->createVariablesArray();
-
-    $variablesArray['eck_entity'] = $eckEntity;
-    $variablesArray['elements'] = [
-      '#view_mode' => $eckEntity->getViewMode(),
-    ];
-    $variablesArray['theme_hook_original'] = $eckEntity->getEntityType();
-    $variablesArray['bundle'] = $eckEntity->bundle();
-
-    /** @var \Drupal\preprocess_event_dispatcher\Variables\EckEntityEventVariables $variables */
-    // @phpstan-ignore-next-line
-    $variables = $this->getVariablesFromCreatedEvent(EckEntityPreprocessEvent::class, $variablesArray);
-    // @phpstan-ignore-next-line
-    self::assertInstanceOf(EckEntityEventVariables::class, $variables);
-    $this->assertAbstractEntityEventVariables($variables, $eckEntity);
-    self::assertSame($eckEntity, $variables->getEckEntity());
   }
 
   /**

@@ -2,8 +2,6 @@
 
 namespace Drupal\phone_number\Exception;
 
-use Exception;
-
 /**
  * An exception thrown when testing finds the number to be an invalid type.
  */
@@ -31,7 +29,7 @@ class TypeException extends PhoneNumberException {
    * @param \Exception $previous
    *   (optional) The previous exception used for the exception chaining.
    */
-  public function __construct($message = "", $type = NULL, $code = 0, Exception $previous = NULL) {
+  public function __construct($message = "", $type = NULL, $code = 0, \Exception $previous = NULL) {
     parent::__construct($message, $code, $previous);
 
     $this->type = $type;

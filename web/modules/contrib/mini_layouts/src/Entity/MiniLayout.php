@@ -4,7 +4,7 @@ namespace Drupal\mini_layouts\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 use Drupal\layout_builder\SectionListInterface;
-use Drupal\layout_builder\SectionStorage\SectionStorageTrait;
+use Drupal\layout_builder\SectionListTrait;
 
 /**
  * Class MiniLayout
@@ -57,7 +57,7 @@ use Drupal\layout_builder\SectionStorage\SectionStorageTrait;
  * @package Drupal\mini_layouts\Entity
  */
 class MiniLayout extends ConfigEntityBase implements SectionListInterface {
-  use SectionStorageTrait;
+  use SectionListTrait;
 
   public $admin_label;
 

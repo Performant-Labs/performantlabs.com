@@ -19,14 +19,7 @@ final class JsAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $javascript = [];
-
-  /**
-   * AttachedAssets.
-   *
-   * @var \Drupal\Core\Asset\AttachedAssetsInterface
-   */
-  private $attachedAssets;
+  private array $javascript = [];
 
   /**
    * JsAlterEvent constructor.
@@ -38,10 +31,9 @@ final class JsAlterEvent extends Event implements EventInterface {
    */
   public function __construct(
     array &$javascript,
-    AttachedAssetsInterface $attachedAssets
+    private AttachedAssetsInterface $attachedAssets
   ) {
     $this->javascript = &$javascript;
-    $this->attachedAssets = $attachedAssets;
   }
 
   /**

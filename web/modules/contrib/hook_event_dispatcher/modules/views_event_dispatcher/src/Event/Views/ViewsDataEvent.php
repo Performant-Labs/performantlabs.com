@@ -20,7 +20,7 @@ final class ViewsDataEvent extends Event implements EventInterface, HookReturnIn
    *
    * @var array
    */
-  private $data = [];
+  private array $data = [];
 
   /**
    * Add data to the views data.

@@ -9,7 +9,7 @@ namespace Drupal\Tests\Core\Controller;
 
 use Drupal\Core\Controller\TitleResolver;
 use Drupal\Tests\UnitTestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -100,7 +100,7 @@ class TitleResolverTest extends UnitTestCase {
    * @dataProvider providerTestStaticTitleWithParameter
    */
   public function testStaticTitleWithParameter($title, $expected_title) {
-    $raw_variables = new ParameterBag(['test' => 'value', 'test2' => 'value2']);
+    $raw_variables = new InputBag(['test' => 'value', 'test2' => 'value2']);
     $request = new Request();
     $request->attributes->set('_raw_variables', $raw_variables);
 
@@ -122,7 +122,7 @@ class TitleResolverTest extends UnitTestCase {
    * @see \Drupal\Core\Controller\TitleResolver::getTitle()
    */
   public function testStaticTitleWithNullAndArrayValueParameter() {
-    $raw_variables = new ParameterBag(['test1' => NULL, 'test2' => ['foo' => 'bar'], 'test3' => 'value']);
+    $raw_variables = new InputBag(['test1' => NULL, 'test2' => ['foo' => 'bar'], 'test3' => 'value']);
     $request = new Request();
     $request->attributes->set('_raw_variables', $raw_variables);
 

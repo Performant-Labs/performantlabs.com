@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2022-11-18
+### Added
+- add official support of drupal 9.5 & 10.0
+
+### Changed
+- drop support of drupal below 9.3.x
+- bump major release number in order of using Drupal new semver system
+
+### Fixed
+- fix deprecated class name Twig_Extension for Drupal 10 compatibilities
+- fix deprecation drupal_get_path for Drupal 10 compatibilities
+- fix deprecation Symfony\Cmf\Component\Routing\RouteObjectInterface::ROUTE_OBJECT for Drupal 10 compatibilities
+- fix call to deprecated method assert() for Drupal 10 compatibilities
+- fix call to deprecated constant FILE_STATUS_PERMANENT for Drupal 10 compatibilities
+- fix call to deprecated function file_create_url() for Drupal 10 compatibilities
+- fix the function file_build_uri() has been deprecated for Drupal 10 compatibilities
+- fix Deprecated function: strtr(): Passing null to parameter #1 for PHP 8.1 compatibilities
+
 ## [5.1.0] - 2022-10-21
 ### Changed
 - drop support of drupal 8.8 & 8.9
@@ -87,7 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - init module
 - provides some Twig extensions with some useful functions and filters that can improve development experience.
 
-[Unreleased]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.1...HEAD
+[Unreleased]: https://github.com/antistatique/drupal-bamboo-twig/compare/6.0.0...HEAD
+[6.0.0]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.1...6.0.0
 [5.1.0]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.0...8.x-5.1
 [5.0.0]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.0-alpha...5.0.0
 [5.0.0-alpha]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-4.1...8.x-5.0-alpha

@@ -6,7 +6,7 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\symfony_mailer_test\MailerTestTrait;
 
 /**
- * Tests basic email sending.
+ * Tests Filter module filters individually.
  *
  * @group filter
  */
@@ -19,7 +19,7 @@ class SymfonyMailerKernelTest extends KernelTestBase {
    *
    * @var array
    */
-  protected static $modules = ['symfony_mailer', 'symfony_mailer_test', 'system', 'user', 'filter'];
+  protected static $modules = ['symfony_mailer', 'symfony_mailer_test', 'system', 'user'];
 
   /**
    * The email factory.
@@ -53,7 +53,7 @@ class SymfonyMailerKernelTest extends KernelTestBase {
 
     // Test email success.
     $to = 'to@example.com';
-    $this->emailFactory->sendTypedEmail('symfony_mailer', 'test', $to);
+    $this->emailFactory->newTypedEmail('symfony_mailer', 'test')->setTo($to)->send();
     $this->readMail();
     $this->assertNoError();
     $this->assertSubject("Test email from Example");

@@ -16,21 +16,7 @@ abstract class AbstractFormEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $form = [];
-
-  /**
-   * The form state.
-   *
-   * @var \Drupal\Core\Form\FormStateInterface
-   */
-  private $formState;
-
-  /**
-   * The form id.
-   *
-   * @var string
-   */
-  private $formId;
+  private array $form = [];
 
   /**
    * AbstractFormEvent constructor.
@@ -45,10 +31,8 @@ abstract class AbstractFormEvent extends Event implements EventInterface {
    *   String representing the name of the form itself. Typically this is the
    *   name of the function that generated the form.
    */
-  public function __construct(array &$form, FormStateInterface $formState, string $formId) {
+  public function __construct(array &$form, private FormStateInterface $formState, private string $formId) {
     $this->form = &$form;
-    $this->formState = $formState;
-    $this->formId = $formId;
   }
 
   /**

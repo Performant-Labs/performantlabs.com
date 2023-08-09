@@ -3,8 +3,8 @@
 namespace Drupal\phone_number\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\phone_number\PhoneNumberUtilInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;

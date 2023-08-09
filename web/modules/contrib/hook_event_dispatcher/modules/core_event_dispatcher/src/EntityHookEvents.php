@@ -62,6 +62,58 @@ final class EntityHookEvents {
   public const ENTITY_TYPE_ALTER = HookEventDispatcherInterface::PREFIX . 'entity_type.alter';
 
   /**
+   * Describe the bundles for entity types.
+   *
+   * @Event
+   *
+   * @see \Drupal\core_event_dispatcher\Event\Entity\EntityBundleInfoEvent
+   * @see hook_entity_bundle_info()
+   *
+   * @var string
+   */
+  public const ENTITY_BUNDLE_INFO = HookEventDispatcherInterface::PREFIX . 'entity_bundle_info';
+
+  /**
+   * Alter the bundles for entity types.
+   *
+   * @Event
+   *
+   * @see \Drupal\core_event_dispatcher\Event\Entity\EntityBundleInfoAlterEvent
+   * @see hook_entity_bundle_info_alter()
+   *
+   * @var string
+   */
+  public const ENTITY_BUNDLE_INFO_ALTER = HookEventDispatcherInterface::PREFIX . 'entity_bundle_info.alter';
+
+  /**
+   * Act on entity_bundle_create().
+   *
+   * This hook is invoked after the operation has been performed.
+   *
+   * @Event
+   *
+   * @see \Drupal\core_event_dispatcher\Event\Entity\EntityBundleCreateEvent
+   * @see hook_entity_bundle_create()
+   *
+   * @var string
+   */
+  public const ENTITY_BUNDLE_CREATE = HookEventDispatcherInterface::PREFIX . 'entity_bundle.create';
+
+  /**
+   * Act on entity_bundle_delete().
+   *
+   * This hook is invoked after the operation has been performed.
+   *
+   * @Event
+   *
+   * @see \Drupal\core_event_dispatcher\Event\Entity\EntityBundleDeleteEvent
+   * @see hook_entity_bundle_delete()
+   *
+   * @var string
+   */
+  public const ENTITY_BUNDLE_DELETE = HookEventDispatcherInterface::PREFIX . 'entity_bundle.delete';
+
+  /**
    * Acts when creating a new entity.
    *
    * @Event

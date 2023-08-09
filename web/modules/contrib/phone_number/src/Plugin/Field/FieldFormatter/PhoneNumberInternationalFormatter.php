@@ -3,8 +3,8 @@
 namespace Drupal\phone_number\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\phone_number\PhoneNumberUtilInterface;
@@ -25,6 +25,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class PhoneNumberInternationalFormatter extends FormatterBase {
 
+  /**
+   * The display format.
+   *
+   * @var int
+   */
   public $phoneDisplayFormat = PhoneNumberFormat::INTERNATIONAL;
 
   /**
@@ -112,7 +117,7 @@ class PhoneNumberInternationalFormatter extends FormatterBase {
           $element[$delta] = [
             '#type' => 'link',
             '#title' => $this->phoneNumberUtil->libUtil()->format($phone_number, $this->phoneDisplayFormat),
-            '#url' => Url::fromUri($this->phoneNumberUtil->getRFC3966uri($phone_number)),
+            '#url' => Url::fromUri($this->phoneNumberUtil->getRfc3966Uri($phone_number)),
           ];
         }
         else {

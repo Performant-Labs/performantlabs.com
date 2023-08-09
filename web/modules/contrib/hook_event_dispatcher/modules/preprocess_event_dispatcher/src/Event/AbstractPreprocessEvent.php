@@ -7,15 +7,10 @@ use Drupal\Component\EventDispatcher\Event;
 
 /**
  * Class AbstractPreprocessEvent.
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractPreprocessEvent extends Event implements PreprocessEventInterface {
-
-  /**
-   * Event variables.
-   *
-   * @var \Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables
-   */
-  protected $variables;
 
   /**
    * PreprocessEvent constructor.
@@ -23,8 +18,7 @@ abstract class AbstractPreprocessEvent extends Event implements PreprocessEventI
    * @param \Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables $variables
    *   The variables.
    */
-  public function __construct(AbstractEventVariables $variables) {
-    $this->variables = $variables;
+  public function __construct(protected AbstractEventVariables $variables) {
   }
 
   /**

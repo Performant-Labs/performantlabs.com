@@ -66,39 +66,22 @@ class EmailBuilder extends Plugin {
   public $has_entity = FALSE;
 
   /**
-   * Array of common adjuster IDs.
+   * Information about replacing (proxy) for another module.
    *
-   * @var string[]
-   */
-  public $common_adjusters = [];
-
-  /**
-   * Information about overriding emails for another module.
-   *
-   * The value is an array of email IDs to override. The annotation may set the
+   * The value is an array of email IDs to proxy. The annotation may set the
    * value TRUE which is automatically converted to an single-value array
    * containing the plugin ID.
    *
    * @var bool|string[]
    */
-  public $override = [];
+  public $proxy = [];
 
   /**
-   * Human-readable warning for overriding.
+   * Array of common adjuster IDs.
    *
-   * @var string
+   * @var string[]
    */
-  public $override_warning = '';
-
-  /**
-   * Array of config IDs to load when the override is enabled.
-   *
-   * Matching mailer policy is included automatically so should not be listed
-   * here.
-   *
-   * @var array
-   */
-  public $override_config = [];
+  public $common_adjusters = [];
 
   /**
    * Human-readable name of config to import.
@@ -113,30 +96,5 @@ class EmailBuilder extends Plugin {
    * @var string
    */
   public $import_warning = '';
-
-  /**
-   * Array of config overrides.
-   *
-   * As required by ConfigFactoryOverrideInterface::loadOverrides().
-   *
-   * @var array
-   */
-  public $config_overrides = [];
-
-  /**
-   * Array of form alter information.
-   *
-   * The array key is the form ID, or '*' for the add/edit form of the
-   * corresponding config entity. The value is an array with the following
-   * allowed keys.
-   * - remove: Array of fields to remove from the form.
-   * - default: Array with key as the field name, and value as the field
-   *   default value.
-   * - entity_sub_type: Show entity policy for the specified sub-type.
-   * - type: Show policy for the specified type.
-   *
-   * @var array
-   */
-  public $form_alter = [];
 
 }

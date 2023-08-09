@@ -18,14 +18,7 @@ class ViewsPostRenderEvent extends AbstractViewsEvent {
    *
    * @var array
    */
-  private $output = [];
-
-  /**
-   * The cache settings.
-   *
-   * @var \Drupal\views\Plugin\views\cache\CachePluginBase
-   */
-  private $cache;
+  private array $output = [];
 
   /**
    * ViewsPreExecuteEevent constructor.
@@ -37,10 +30,9 @@ class ViewsPostRenderEvent extends AbstractViewsEvent {
    * @param \Drupal\views\Plugin\views\cache\CachePluginBase $cache
    *   The cache settings.
    */
-  public function __construct(ViewExecutable $view, &$output, CachePluginBase $cache) {
+  public function __construct(ViewExecutable $view, &$output, private CachePluginBase $cache) {
     parent::__construct($view);
     $this->output = &$output;
-    $this->cache = $cache;
   }
 
   /**

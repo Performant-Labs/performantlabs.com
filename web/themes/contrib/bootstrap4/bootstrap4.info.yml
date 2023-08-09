@@ -1,23 +1,34 @@
 name: Bootstrap4
 type: theme
 description: 'Theme with Bootstrap 4 css library'
-core_version_requirement: ^9.4
-base theme: classy
+core_version_requirement: ^9.4 || ^10
+'base theme': stable9
+starterkit: true
+generator: 'starterkit_theme:10.0.5'
+
+libraries:
+  - bootstrap4/base
+  - bootstrap4/messages
+  - core/normalize
+  - bootstrap4/bootstrap4-js-latest
+  - bootstrap4/global-styling
+
+libraries-extend:
+  user/drupal.user:
+    - bootstrap4/user
+  core/drupal.dropbutton:
+    - bootstrap4/dropbutton
+  core/drupal.dialog:
+    - bootstrap4/dialog
+  file/drupal.file:
+    - bootstrap4/file
+  core/drupal.progress:
+    - bootstrap4/progress
 
 ckeditor_stylesheets:
   - css/style.css
 ckeditor5-stylesheets:
   - css/ck5style.css
-
-libraries:
-  - bootstrap4/bootstrap4-js-latest
-  - bootstrap4/global-styling
-
-libraries-override:
-  classy/base:
-    css:
-      component:
-        css/components/tabs.css: false
 
 regions:
   header: Header
@@ -31,6 +42,6 @@ regions:
   footer: Footer
 
 # Information added by Drupal.org packaging script on 2023-03-28
-version: '2.1.18'
+version: '3.0.5'
 project: 'bootstrap4'
-datestamp: 1679973205
+datestamp: 1679973275

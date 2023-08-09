@@ -19,27 +19,22 @@ class FileDownloadEvent extends Event implements EventInterface, HookReturnInter
    *
    * @var bool
    */
-  protected $forbidden = FALSE;
+  protected bool $forbidden = FALSE;
 
   /**
    * Response headers that will be set for the downloaded file.
    *
    * @var array
    */
-  protected $headers = [];
-
-  /**
-   * The URI of the file.
-   *
-   * @var string
-   */
-  protected $uri;
+  protected array $headers = [];
 
   /**
    * FileDownloadEvent constructor.
+   *
+   * @param string $uri
+   *   The URI of the file.
    */
-  public function __construct(string $uri) {
-    $this->uri = $uri;
+  public function __construct(protected string $uri) {
   }
 
   /**

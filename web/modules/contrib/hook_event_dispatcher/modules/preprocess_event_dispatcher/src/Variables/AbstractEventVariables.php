@@ -6,6 +6,8 @@ use function array_key_exists;
 
 /**
  * Class AbstractEventVariables.
+ *
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractEventVariables {
 

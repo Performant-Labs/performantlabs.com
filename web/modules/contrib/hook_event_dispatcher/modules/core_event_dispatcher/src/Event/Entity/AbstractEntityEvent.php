@@ -12,20 +12,12 @@ use Drupal\Component\EventDispatcher\Event;
 abstract class AbstractEntityEvent extends Event implements EventInterface {
 
   /**
-   * The Entity.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
-   */
-  protected $entity;
-
-  /**
    * AbstractEntityEvent constructor.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The Entity.
    */
-  public function __construct(EntityInterface $entity) {
-    $this->entity = $entity;
+  public function __construct(protected EntityInterface $entity) {
   }
 
   /**

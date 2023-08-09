@@ -29,42 +29,7 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    *
    * @var string[]|\Drupal\Component\Render\MarkupInterface[]
    */
-  private $replacementValues = [];
-
-  /**
-   * Type.
-   *
-   * @var string
-   */
-  private $type;
-
-  /**
-   * Tokens.
-   *
-   * @var array
-   */
-  private $tokens = [];
-
-  /**
-   * Data.
-   *
-   * @var array
-   */
-  private $data = [];
-
-  /**
-   * Options.
-   *
-   * @var array
-   */
-  private $options = [];
-
-  /**
-   * Bubbleable meta data.
-   *
-   * @var \Drupal\Core\Render\BubbleableMetadata
-   */
-  private $bubbleableMetadata;
+  private array $replacementValues = [];
 
   /**
    * Constructor.
@@ -93,18 +58,7 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    *   'system.site') and related objects (e.g., $node->getOwner()),
    *   implementations of this hook must add the corresponding metadata.
    */
-  public function __construct(
-    string $type,
-    array $tokens,
-    array $data,
-    array $options,
-    BubbleableMetadata $bubbleableMetadata
-  ) {
-    $this->type = $type;
-    $this->tokens = $tokens;
-    $this->data = $data;
-    $this->options = $options;
-    $this->bubbleableMetadata = $bubbleableMetadata;
+  public function __construct(private string $type, private array $tokens, private array $data, private array $options, private BubbleableMetadata $bubbleableMetadata) {
   }
 
   /**

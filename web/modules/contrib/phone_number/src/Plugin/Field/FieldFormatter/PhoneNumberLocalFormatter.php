@@ -18,6 +18,11 @@ use libphonenumber\PhoneNumberFormat;
  */
 class PhoneNumberLocalFormatter extends PhoneNumberInternationalFormatter {
 
+  /**
+   * The display format.
+   *
+   * @var int
+   */
   public $phoneDisplayFormat = PhoneNumberFormat::NATIONAL;
 
 }

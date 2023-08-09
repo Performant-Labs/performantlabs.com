@@ -2,15 +2,14 @@
 
 namespace Drupal\sms_phone_number;
 
-use libphonenumber\PhoneNumber;
-use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Locale\CountryManagerInterface;
 use Drupal\Core\Utility\Token;
 use Drupal\phone_number\PhoneNumberUtil;
-use Drupal\user\Entity\User;
+use libphonenumber\PhoneNumber;
 
 /**
  * The SMS Phone Number field utility class.
@@ -92,7 +91,6 @@ class SmsPhoneNumberUtil extends PhoneNumberUtil implements SmsPhoneNumberUtilIn
    * {@inheritdoc}
    */
   public function sendVerification(PhoneNumber $phone_number, $message, $code, array $token_data = []) {
-    $message = $this->t($message);
     $message = str_replace('!code', $code, $message);
     $message = str_replace('!site_name', $this->configFactory->get('system.site')
       ->get('name'), $message);

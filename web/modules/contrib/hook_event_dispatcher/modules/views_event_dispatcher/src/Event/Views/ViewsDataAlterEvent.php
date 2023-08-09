@@ -18,7 +18,7 @@ final class ViewsDataAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $data = [];
+  private array $data = [];
 
   /**
    * ViewsDataAlterEvent constructor.

@@ -23,20 +23,6 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
   use AccessEventTrait;
 
   /**
-   * The field definition.
-   *
-   * @var \Drupal\Core\Field\FieldDefinitionInterface
-   */
-  private $fieldDefinition;
-
-  /**
-   * The field item list.
-   *
-   * @var \Drupal\Core\Field\FieldItemListInterface
-   */
-  private $items;
-
-  /**
    * EntityFieldAccessEvent constructor.
    *
    * @param string $operation
@@ -50,14 +36,12 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
    */
   public function __construct(
     string $operation,
-    FieldDefinitionInterface $fieldDefinition,
+    private FieldDefinitionInterface $fieldDefinition,
     AccountInterface $account,
-    FieldItemListInterface $items = NULL
+    private ?FieldItemListInterface $items = NULL
   ) {
     $this->operation = $operation;
-    $this->fieldDefinition = $fieldDefinition;
     $this->account = $account;
-    $this->items = $items;
     $this->accessResult = AccessResultNeutral::neutral();
   }
 

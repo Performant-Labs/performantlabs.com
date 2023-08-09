@@ -61,6 +61,8 @@ class PhoneNumberWidget extends WidgetBase {
     return parent::defaultSettings() + [
       'default_country' => 'US',
       'placeholder' => NULL,
+      'phone_size' => 60,
+      'extension_size' => 5,
     ];
   }
 
@@ -89,8 +91,16 @@ class PhoneNumberWidget extends WidgetBase {
     $element['placeholder'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Number Placeholder'),
-      '#default_value' => $this->getSetting('placeholder') !== NULL ? $this->getSetting('placeholder') : 'Phone number',
+      '#default_value' => $this->getSetting('placeholder') ?? 'Phone number',
       '#description' => $this->t('Number field placeholder.'),
+      '#required' => FALSE,
+    ];
+
+    $element['phone_size'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Size'),
+      '#default_value' => $this->getSetting('phone_size'),
+      '#description' => $this->t('Size of the phone number input.'),
       '#required' => FALSE,
     ];
 
@@ -105,7 +115,9 @@ class PhoneNumberWidget extends WidgetBase {
 
     $result[] = $this->t('Default country: @country', ['@country' => $this->getSetting('default_country')]);
 
-    $result[] = $this->t('Number placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder') !== NULL ? $this->getSetting('placeholder') : 'Phone number']);
+    $result[] = $this->t('Number placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder') ?? 'Phone number']);
+
+    $result[] = $this->t('Size of the phone number input: @size', ['@size' => $this->getSetting('phone_size')]);
 
     return $result;
   }
@@ -135,11 +147,13 @@ class PhoneNumberWidget extends WidgetBase {
         'extension' => $item->extension,
       ],
       '#phone_number' => [
-        'allowed_countries' => !empty($settings['allowed_countries']) ? $settings['allowed_countries'] : NULL,
-        'allowed_types' => !empty($settings['allowed_types']) ? $settings['allowed_types'] : NULL,
+        'allowed_countries' => !empty($settings['allowed_countries']) ? $settings['allowed_countries'] : [],
+        'allowed_types' => !empty($settings['allowed_types']) ? $settings['allowed_types'] : [],
         'token_data' => !empty($entity) ? [$entity->getEntityTypeId() => $entity] : [],
-        'placeholder' => isset($settings['placeholder']) ? $settings['placeholder'] : NULL,
-        'extension_field' => isset($settings['extension_field']) ? $settings['extension_field'] : FALSE,
+        'placeholder' => $settings['placeholder'] ?? NULL,
+        'phone_size' => $settings['phone_size'],
+        'extension_size' => $settings['extension_size'],
+        'extension_field' => $settings['extension_field'] ?? FALSE,
       ],
     ];
 

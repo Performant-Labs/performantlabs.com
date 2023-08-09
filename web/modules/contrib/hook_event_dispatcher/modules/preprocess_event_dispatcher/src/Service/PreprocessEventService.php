@@ -3,7 +3,7 @@
 namespace Drupal\preprocess_event_dispatcher\Service;
 
 use Drupal\preprocess_event_dispatcher\Event\PreprocessEntityEventInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class PreprocessEventService.
@@ -11,30 +11,14 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 final class PreprocessEventService implements PreprocessEventServiceInterface {
 
   /**
-   * Event dispatcher.
-   *
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  private $dispatcher;
-
-  /**
-   * Factory mapper.
-   *
-   * @var PreprocessEventFactoryMapper
-   */
-  private $mapper;
-
-  /**
    * PreprocessEventService constructor.
    *
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+   * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $dispatcher
    *   Event dispatcher.
    * @param PreprocessEventFactoryMapper $mapper
    *   Factory mapper.
    */
-  public function __construct(EventDispatcherInterface $dispatcher, PreprocessEventFactoryMapper $mapper) {
-    $this->dispatcher = $dispatcher;
-    $this->mapper = $mapper;
+  public function __construct(private EventDispatcherInterface $dispatcher, private PreprocessEventFactoryMapper $mapper) {
   }
 
   /**

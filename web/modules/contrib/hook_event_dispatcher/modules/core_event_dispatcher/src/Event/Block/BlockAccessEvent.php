@@ -25,17 +25,16 @@ class BlockAccessEvent extends Event implements EventInterface, AccessEventInter
   use AccessEventTrait;
 
   /**
-   * The block instance.
-   *
-   * @var \Drupal\block\BlockInterface
-   */
-  protected $block;
-
-  /**
    * BlockBuildAlterEvent constructor.
+   *
+   * @param \Drupal\block\BlockInterface $block
+   *   The block instance.
+   * @param string $operation
+   *   The operation to be performed.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account for which to check access.
    */
-  public function __construct(BlockInterface $block, string $operation, AccountInterface $account) {
-    $this->block = $block;
+  public function __construct(protected BlockInterface $block, string $operation, AccountInterface $account) {
     $this->operation = $operation;
     $this->account = $account;
     $this->accessResult = AccessResultNeutral::neutral();

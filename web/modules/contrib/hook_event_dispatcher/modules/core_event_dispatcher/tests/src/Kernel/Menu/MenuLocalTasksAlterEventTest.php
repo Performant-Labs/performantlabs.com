@@ -14,7 +14,7 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  *
- * @see core_event_dispatcher_menu_local_tasks_alter()
+ * @see MenuLocalTasksAlterEvent
  */
 class MenuLocalTasksAlterEventTest extends KernelTestBase {
 

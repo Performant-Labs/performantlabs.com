@@ -19,21 +19,7 @@ class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $fields = [];
-
-  /**
-   * The entity type.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
-   */
-  private $entityType;
-
-  /**
-   * The bundle name.
-   *
-   * @var string
-   */
-  private $bundle;
+  private array $fields = [];
 
   /**
    * EntityExtraFieldInfoAlterEvent constructor.
@@ -45,10 +31,8 @@ class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
    * @param string $bundle
    *   The bundle name.
    */
-  public function __construct(array &$fields, EntityTypeInterface $entityType, string $bundle) {
+  public function __construct(array &$fields, private EntityTypeInterface $entityType, private string $bundle) {
     $this->fields = &$fields;
-    $this->entityType = $entityType;
-    $this->bundle = $bundle;
   }
 
   /**

@@ -14,7 +14,7 @@ final class PreprocessEventFactoryMapper {
    *
    * @var \Drupal\preprocess_event_dispatcher\Factory\PreprocessEventFactoryInterface[]
    */
-  private $hookToFactoryMap = [];
+  private array $hookToFactoryMap = [];
 
   /**
    * Add Factory to the mapper.

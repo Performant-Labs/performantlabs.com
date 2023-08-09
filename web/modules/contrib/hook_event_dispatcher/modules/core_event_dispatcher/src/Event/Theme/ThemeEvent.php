@@ -15,18 +15,11 @@ use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 final class ThemeEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**
-   * Existing implementations.
-   *
-   * @var array
-   */
-  private $existing = [];
-
-  /**
    * Added themes.
    *
    * @var array
    */
-  private $newThemes = [];
+  private array $newThemes = [];
 
   /**
    * ThemeEvent constructor.
@@ -39,8 +32,7 @@ final class ThemeEvent extends Event implements EventInterface, HookReturnInterf
    *
    * @see \hook_theme()
    */
-  public function __construct(array $existing) {
-    $this->existing = $existing;
+  public function __construct(private array $existing) {
   }
 
   /**

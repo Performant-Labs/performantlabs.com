@@ -17,7 +17,7 @@ final class ViewsQuerySubstitutionsEvent extends AbstractViewsEvent implements H
    *
    * @var array
    */
-  private $substitutions = [];
+  private array $substitutions = [];
 
   /**
    * Get the query substitutions.

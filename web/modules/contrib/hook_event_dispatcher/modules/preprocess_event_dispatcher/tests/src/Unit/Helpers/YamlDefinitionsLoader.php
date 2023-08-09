@@ -24,7 +24,7 @@ final class YamlDefinitionsLoader {
    *
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper
    */
-  private $mapper;
+  private PreprocessEventFactoryMapper $mapper;
 
   /**
    * Service definitions loaded from the YAML services file.
@@ -38,8 +38,7 @@ final class YamlDefinitionsLoader {
    *
    * @var array
    */
-
-  private $factories = [];
+  private array $factories = [];
 
   /**
    * YamlDefinitionsLoader constructor.

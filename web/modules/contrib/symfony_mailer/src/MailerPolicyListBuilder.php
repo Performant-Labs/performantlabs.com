@@ -91,7 +91,7 @@ class MailerPolicyListBuilder extends ConfigEntityListBuilder implements MailerP
    * {@inheritdoc}
    */
   protected function getEntityIds() {
-    $query = $this->getStorage()->getQuery()->accessCheck(FALSE);
+    $query = $this->getStorage()->getQuery();
 
     if ($this->filterType) {
       $query->condition('id', "$this->filterType.", 'STARTS_WITH');

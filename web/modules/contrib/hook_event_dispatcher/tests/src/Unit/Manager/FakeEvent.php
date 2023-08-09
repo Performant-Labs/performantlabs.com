@@ -13,20 +13,12 @@ use Drupal\Component\EventDispatcher\Event;
 class FakeEvent extends Event implements EventInterface {
 
   /**
-   * Dispatcher type.
-   *
-   * @var string
-   */
-  private $dispatcherType;
-
-  /**
    * FakeEvent constructor.
    *
    * @param string $dispatcherType
    *   Dispatcher type.
    */
-  public function __construct($dispatcherType) {
-    $this->dispatcherType = $dispatcherType;
+  public function __construct(private $dispatcherType) {
   }
 
   /**

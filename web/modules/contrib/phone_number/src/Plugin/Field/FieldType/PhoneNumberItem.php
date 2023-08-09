@@ -3,9 +3,9 @@
 namespace Drupal\phone_number\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\phone_number\PhoneNumberUtilInterface;
 
@@ -39,8 +39,8 @@ class PhoneNumberItem extends FieldItemBase {
    */
   public static function defaultFieldSettings() {
     return parent::defaultFieldSettings() + [
-      'allowed_countries' => NULL,
-      'allowed_types' => NULL,
+      'allowed_countries' => [],
+      'allowed_types' => [],
       'extension_field' => FALSE,
     ];
   }
@@ -171,13 +171,13 @@ class PhoneNumberItem extends FieldItemBase {
 
     $element['unique'] = [
       '#type' => 'radios',
-      '#title' => t('Unique'),
+      '#title' => $this->t('Unique'),
       '#options' => [
-        $util::PHONE_NUMBER_UNIQUE_NO => t('No'),
-        $util::PHONE_NUMBER_UNIQUE_YES => t('Yes'),
+        $util::PHONE_NUMBER_UNIQUE_NO => $this->t('No'),
+        $util::PHONE_NUMBER_UNIQUE_YES => $this->t('Yes'),
       ],
       '#default_value' => $settings['unique'],
-      '#description' => t('Should phone numbers be unique within this field.'),
+      '#description' => $this->t('Should phone numbers be unique within this field.'),
       '#required' => TRUE,
     ];
 
@@ -196,20 +196,20 @@ class PhoneNumberItem extends FieldItemBase {
 
     $element['allowed_countries'] = [
       '#type' => 'select',
-      '#title' => t('Allowed Countries'),
+      '#title' => $this->t('Allowed Countries'),
       '#options' => $util->getCountryOptions(NULL, TRUE),
       '#default_value' => $settings['allowed_countries'],
-      '#description' => t('Allowed counties for the phone number. If none selected, then all are allowed.'),
+      '#description' => $this->t('Allowed counties for the phone number. If none selected, then all are allowed.'),
       '#multiple' => TRUE,
       '#attached' => ['library' => ['phone_number/element']],
     ];
 
     $element['allowed_types'] = [
       '#type' => 'select',
-      '#title' => t('Allowed Types'),
+      '#title' => $this->t('Allowed Types'),
       '#options' => $util->getTypeOptions(),
       '#default_value' => $settings['allowed_types'],
-      '#description' => t('Restrict entry to certain types of phone numbers. If none are selected, then all types are allowed.  A description of each type can be found <a href="@url" target="_blank">here</a>.', [
+      '#description' => $this->t('Restrict entry to certain types of phone numbers. If none are selected, then all types are allowed.  A description of each type can be found <a href="@url" target="_blank">here</a>.', [
         '@url' => 'https://github.com/giggsey/libphonenumber-for-php/blob/master/src/PhoneNumberType.php',
       ]),
       '#multiple' => TRUE,
@@ -345,6 +345,7 @@ class PhoneNumberItem extends FieldItemBase {
     $query = \Drupal::entityQuery($entity_type_id)
       // The id could be NULL, so we cast it to 0 in that case.
       ->condition($id_key, (int) $entity->id(), '<>')
+      ->accessCheck(TRUE)
       ->condition($field_name, $util->getCallableNumber($phone_number))
       ->range(0, 1)
       ->count();

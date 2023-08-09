@@ -29,7 +29,7 @@ abstract class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase extends
    *
    * @var \Drupal\Tests\hook_event_dispatcher\Unit\HookEventDispatcherManagerSpy
    */
-  private $manager;
+  private HookEventDispatcherManagerSpy $manager;
 
   /**
    * Sets up the test.
@@ -38,7 +38,7 @@ abstract class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase extends
     $builder = new ContainerBuilder();
     $this->manager = new HookEventDispatcherManagerSpy();
     $builder->set('hook_event_dispatcher.manager', $this->manager);
-    $builder->compile();
+    $builder->compile(TRUE);
     \Drupal::setContainer($builder);
   }
 

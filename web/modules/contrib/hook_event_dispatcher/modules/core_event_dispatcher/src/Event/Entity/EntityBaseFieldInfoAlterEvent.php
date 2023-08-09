@@ -19,14 +19,7 @@ class EntityBaseFieldInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $fields = [];
-
-  /**
-   * The entity type.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
-   */
-  private $entityType;
+  private array $fields = [];
 
   /**
    * EntityExtraFieldInfoAlterEvent constructor.
@@ -36,8 +29,7 @@ class EntityBaseFieldInfoAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
    *   The entity type.
    */
-  public function __construct(array &$fields, EntityTypeInterface $entityType) {
-    $this->entityType = $entityType;
+  public function __construct(array &$fields, private EntityTypeInterface $entityType) {
     $this->fields = &$fields;
   }
 

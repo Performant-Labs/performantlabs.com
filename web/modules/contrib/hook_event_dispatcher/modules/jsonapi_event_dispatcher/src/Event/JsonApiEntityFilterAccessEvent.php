@@ -19,20 +19,6 @@ use Drupal\jsonapi_event_dispatcher\JsonApiHookEvents;
 class JsonApiEntityFilterAccessEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**
-   * The entity type of the entity to be filtered upon.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
-   */
-  protected $entityType;
-
-  /**
-   * The account for which to check access.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $account;
-
-  /**
    * An array keyed by a constant which identifies a subset of entities.
    *
    * @var \Drupal\Core\Access\AccessResultInterface[]
@@ -41,10 +27,13 @@ class JsonApiEntityFilterAccessEvent extends Event implements EventInterface, Ho
 
   /**
    * JsonapiEntityFilterAccessEvent constructor.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
+   *   The entity type of the entity to be filtered upon.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account for which to check access.
    */
-  public function __construct(EntityTypeInterface $entityType, AccountInterface $account) {
-    $this->entityType = $entityType;
-    $this->account = $account;
+  public function __construct(protected EntityTypeInterface $entityType, protected AccountInterface $account) {
   }
 
   /**

@@ -15,14 +15,7 @@ abstract class AbstractFieldSettingsSummaryFormEvent extends Event implements Ev
    *
    * @var array
    */
-  private $summary = [];
-
-  /**
-   * An associative array containing related context for this formatter/widget.
-   *
-   * @var array
-   */
-  private $context = [];
+  private array $summary = [];
 
   /**
    * AbstractFieldSettingsSummaryFormEvent constructor.
@@ -39,9 +32,8 @@ abstract class AbstractFieldSettingsSummaryFormEvent extends Event implements Ev
    *   - widget: The widget object.
    *   - form_mode: The form mode being configured.
    */
-  public function __construct(array &$summary, array $context) {
+  public function __construct(array &$summary, private array $context) {
     $this->summary = &$summary;
-    $this->context = $context;
   }
 
   /**

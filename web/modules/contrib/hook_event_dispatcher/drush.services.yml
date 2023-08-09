@@ -3,7 +3,3 @@ services:
     class: Drupal\hook_event_dispatcher\Generators\EventGenerator
     tags:
       - { name: drush.generator.v2 }
-  legacy.hook_event_dispatcher.generator:
-    class: Drupal\hook_event_dispatcher\Generators\LegacyEventGenerator
-    tags:
-      - { name: drush.generator }

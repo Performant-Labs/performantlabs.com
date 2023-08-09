@@ -3,6 +3,7 @@
 namespace Drupal\manage_display\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
@@ -10,7 +11,11 @@ use Drupal\user\Plugin\Field\FieldFormatter\AuthorFormatter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * A field formatter for entity titles.
+ * A field formatter that displays entity 'submitted' information.
+ *
+ * Formats a user reference as a sentence including the date, with an optional
+ * user picture. The sentence is determined by the 'submitted' template, with a
+ * default of "Submitted by <AUTHOR> on <DATE>".
  *
  * @FieldFormatter(
  *   id = "submitted",
@@ -30,7 +35,14 @@ class SubmittedFormatter extends AuthorFormatter {
   protected $entityDisplayRepository;
 
   /**
-   * Constructs a EntityReferenceEntityFormatter instance.
+   * The user view builder.
+   *
+   * @var \Drupal\Core\Entity\EntityViewBuilderInterface
+   */
+  protected $viewBuilder;
+
+  /**
+   * Constructs a SubmittedFormatter instance.
    *
    * @param string $plugin_id
    *   The plugin_id for the formatter.
@@ -48,10 +60,13 @@ class SubmittedFormatter extends AuthorFormatter {
    *   Any third party settings settings.
    * @param \Drupal\Core\Entity\EntityDisplayRepositoryInterface $entity_display_repository
    *   The entity display repository.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, EntityDisplayRepositoryInterface $entity_display_repository) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, EntityDisplayRepositoryInterface $entity_display_repository, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->entityDisplayRepository = $entity_display_repository;
+    $this->viewBuilder = $entity_type_manager->getViewBuilder('user');
   }
 
   /**
@@ -66,7 +81,8 @@ class SubmittedFormatter extends AuthorFormatter {
       $configuration['label'],
       $configuration['view_mode'],
       $configuration['third_party_settings'],
-      $container->get('entity_display.repository')
+      $container->get('entity_display.repository'),
+      $container->get('entity_type.manager'),
     );
   }
 
@@ -120,11 +136,11 @@ class SubmittedFormatter extends AuthorFormatter {
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = parent::viewElements($items, $langcode);
 
-    foreach ($elements as &$element) {
-      $element['#theme'] = 'submitted';
-      $element['#date'] = $items->getEntity()->get('created')->value ?? NULL;
+    foreach ($elements as $delta => $element) {
       if ($view_mode = $this->getSetting('user_picture')) {
-        $element['#user_picture'] = \Drupal::entityTypeManager()->getViewBuilder('user')->view($element['#account'], $view_mode, $langcode);
+        // Save the user picture ready to build the submitted render element.
+        // @see manage_display_entity_view_alter()
+        $elements['user_picture'] = $this->viewBuilder->view($element['#account'], $view_mode, $langcode);
       }
     }
 

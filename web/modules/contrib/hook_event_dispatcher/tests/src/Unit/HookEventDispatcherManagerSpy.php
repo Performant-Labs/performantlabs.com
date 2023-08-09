@@ -18,25 +18,25 @@ class HookEventDispatcherManagerSpy implements HookEventDispatcherManagerInterfa
    *
    * @var int
    */
-  private $maxEventCount = 1;
+  private int $maxEventCount = 1;
   /**
    * Event callbacks.
    *
    * @var array
    */
-  private $eventCallbacks = [];
+  private array $eventCallbacks = [];
   /**
    * The amount of event registered.
    *
    * @var int
    */
-  private $eventCount = 0;
+  private int $eventCount = 0;
   /**
    * Registered events.
    *
    * @var \Drupal\hook_event_dispatcher\Event\EventInterface[]
    */
-  private $registeredEvents = [];
+  private array $registeredEvents = [];
 
   /**
    * {@inheritdoc}

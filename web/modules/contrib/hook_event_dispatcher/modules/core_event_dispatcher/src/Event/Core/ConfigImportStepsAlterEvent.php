@@ -25,13 +25,6 @@ class ConfigImportStepsAlterEvent extends Event implements EventInterface {
   protected $syncSteps = [];
 
   /**
-   * The config importer.
-   *
-   * @var \Drupal\Core\Config\ConfigImporter
-   */
-  protected $configImporter;
-
-  /**
    * ConfigImportStepsAlterEvent constructor.
    *
    * @param array $syncSteps
@@ -43,9 +36,8 @@ class ConfigImportStepsAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Config\ConfigImporter $configImporter
    *   The config importer.
    */
-  public function __construct(array &$syncSteps, ConfigImporter $configImporter) {
+  public function __construct(array &$syncSteps, protected ConfigImporter $configImporter) {
     $this->syncSteps = &$syncSteps;
-    $this->configImporter = $configImporter;
   }
 
   /**

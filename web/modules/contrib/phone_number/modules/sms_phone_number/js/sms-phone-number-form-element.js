@@ -2,12 +2,12 @@
  * @file
  */
 
-(function ($) {
+(function ($, Drupal, once) {
   'use strict';
   Drupal.behaviors.smsPhoneNumberFormElement = {
     attach: function (context, settings) {
-      $('.sms-phone-number-field .local-number', context).once('field-setup').each(function () {
-        var $input = $(this);
+      once('field-setup', '.sms-phone-number-field .local-number', context).forEach(function (value) {
+        var $input = $(value);
         var val = $input.val();
         $input.keyup(function (e) {
           if (val !== $(this).val()) {
@@ -18,9 +18,9 @@
         });
       });
 
-      $('.sms-phone-number-field .country', context).once('field-setup').each(function () {
-        var val = $(this).val();
-        $(this).change(function (e) {
+      once('field-setup', '.sms-phone-number-field .country', context).forEach(function (value) {
+        var val = $(value).val();
+        $(value).change(function (e) {
           if (val !== $(this).val()) {
             val = $(this).val();
             $input.parents('.sms-phone-number-field').find('.send-button').addClass('show');
@@ -28,8 +28,8 @@
           }
         });
       });
-      $('.sms-phone-number-field .send-button', context).once('field-setup').click(function () {
-        var $button = $(this);
+      once('field-setup', '.sms-phone-number-field .send-button', context).click(function (value) {
+        var $button = $(value);
         $button.parent().find('[type="hidden"]').val('');
       });
 
@@ -48,4 +48,4 @@
       }
     }
   };
-})(jQuery);
+})(jQuery, Drupal, once);

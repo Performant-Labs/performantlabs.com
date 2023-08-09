@@ -3,7 +3,6 @@
 namespace Drupal\core_event_dispatcher\ValueObject;
 
 use Drupal\Component\Render\MarkupInterface;
-use function is_string;
 
 /**
  * Token ValueObject.
@@ -17,28 +16,28 @@ final class TokenType {
    *
    * @var string
    */
-  private $type;
+  private string $type;
 
   /**
    * Name.
    *
-   * @var string
+   * @var string|\Drupal\Component\Render\MarkupInterface
    */
-  private $name;
+  private string|MarkupInterface $name;
 
   /**
    * Description.
    *
-   * @var string|\Drupal\Component\Render\MarkupInterface
+   * @var string|\Drupal\Component\Render\MarkupInterface|null
    */
-  private $description;
+  private string|MarkupInterface|NULL $description = NULL;
 
   /**
    * Needs data.
    *
-   * @var string
+   * @var string|null
    */
-  private $needsData;
+  private ?string $needsData = NULL;
 
   /**
    * Use create function instead.
@@ -51,20 +50,14 @@ final class TokenType {
    *
    * @param string $type
    *   The group name, like 'node'.
-   * @param string|\Drupal\Component\Render\MarkupInterface $name
+   * @param \Drupal\Component\Render\MarkupInterface|string $name
    *   The print-able name of the type.
    *
    * @return self
    *   A new instance.
-   *
-   * @throws \UnexpectedValueException
    */
-  public static function create(string $type, $name): self {
+  public static function create(string $type, MarkupInterface|string $name): self {
     $instance = new self();
-    if (!is_string($name) && !$name instanceof MarkupInterface) {
-      throw new \UnexpectedValueException('Name should be a string or an instance of MarkupInterface');
-    }
-
     $instance->type = $type;
     $instance->name = $name;
     return $instance;
@@ -73,19 +66,13 @@ final class TokenType {
   /**
    * Set description and return a new instance.
    *
-   * @param string|\Drupal\Component\Render\MarkupInterface $description
+   * @param \Drupal\Component\Render\MarkupInterface|string $description
    *   The description of the token type.
    *
    * @return self
    *   A new instance with the description.
-   *
-   * @throws \UnexpectedValueException
    */
-  public function setDescription($description): self {
-    if (!is_string($description) && !$description instanceof MarkupInterface) {
-      throw new \UnexpectedValueException('Description should be a string or an instance of MarkupInterface');
-    }
-
+  public function setDescription(MarkupInterface|string $description): self {
     $clone = clone $this;
     $clone->description = $description;
     return $clone;

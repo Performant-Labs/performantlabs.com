@@ -17,7 +17,7 @@ and recompile css!)
 * Bootstrap 4 configuration within admin user interface
 * Interface for creating subtheme
 * Can be used as is (subtheme is required for template overrides)
-* Drupal 7, 8 and 9 compatible
+* Drupal 7, 9 and 10 compatible
 
 ## SASS compilation:
 
@@ -127,4 +127,33 @@ We call a macro which calls itself to render the full tree.
     {% endif %}
   </li>
 {% endmacro %}
+```
+
+## Upgrade to branch 3.0.x
+
+### drush 11
+
+- When running `drush updb`, make sure you are running drush 11 otherwise you 
+  might run into errors.
+- Run updates via drupal interface if using drush 10 or less.
+- If errors already appeared, use either `drush theme:uninstall claro stable` 
+  and/or `drush theme:install stable9` depending on what php error you'll get.
+
+### Configuration
+
+If using configuration synchronisation, make sure your core.extension.yml contains
+
+```
+theme:
+...
+stable9: 0
+```
+
+instead of
+
+```
+theme:
+...
+stable: 0
+classy: 0
 ```

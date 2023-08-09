@@ -22,21 +22,7 @@ class MenuLocalTasksAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  protected $data = [];
-
-  /**
-   * The route name of the page.
-   *
-   * @var string
-   */
-  protected $routeName;
-
-  /**
-   * The cacheability metadata for the current route's local tasks.
-   *
-   * @var \Drupal\Core\Cache\RefinableCacheableDependencyInterface
-   */
-  protected $cacheability;
+  protected array $data = [];
 
   /**
    * MenuLocalTaskAlterEvent constructor.
@@ -50,10 +36,8 @@ class MenuLocalTasksAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $cacheability
    *   The cacheability metadata for the current route's local tasks.
    */
-  public function __construct(array &$data, string $routeName, RefinableCacheableDependencyInterface $cacheability) {
-    $this->cacheability = $cacheability;
+  public function __construct(array &$data, protected string $routeName, protected RefinableCacheableDependencyInterface $cacheability) {
     $this->data = &$data;
-    $this->routeName = $routeName;
   }
 
   /**

@@ -15,7 +15,6 @@ final class MenuHookEvents {
    * @Event
    *
    * @see \Drupal\core_event_dispatcher\Event\Menu\MenuLocalTasksAlterEvent
-   * @see core_event_dispatcher_menu_local_tasks_alter()
    * @see hook_menu_local_tasks_alter()
    *
    * @var string

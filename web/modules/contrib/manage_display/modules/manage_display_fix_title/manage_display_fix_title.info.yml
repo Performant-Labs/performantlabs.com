@@ -3,8 +3,9 @@ type: module
 description: Workaround for core bugs in display of entity title
 core_version_requirement: ^8.8 || ^9
 package: Fields
-
-# Information added by Drupal.org packaging script on 2020-06-11
-version: '8.x-1.0-beta2'
+lifecycle: obsolete
+lifecycle_link: 'https://www.drupal.org/project/manage_display/issues/3291074'
+# Information added by Drupal.org packaging script on 2023-05-23
+version: '3.0.0'
 project: 'manage_display'
-datestamp: 1591887478
+datestamp: 1684858825

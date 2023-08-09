@@ -3,8 +3,8 @@
 namespace Drupal\sms_phone_number\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FormatterBase;
 use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

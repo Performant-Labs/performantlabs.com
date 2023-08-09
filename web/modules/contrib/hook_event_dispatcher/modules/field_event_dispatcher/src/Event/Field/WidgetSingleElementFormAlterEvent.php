@@ -22,21 +22,7 @@ class WidgetSingleElementFormAlterEvent extends Event implements EventInterface 
    *
    * @var array
    */
-  private $element = [];
-
-  /**
-   * The form state.
-   *
-   * @var \Drupal\Core\Form\FormStateInterface
-   */
-  private $formState;
-
-  /**
-   * The context.
-   *
-   * @var array
-   */
-  private $context = [];
+  private array $element = [];
 
   /**
    * WidgetFormAlterEvent constructor.
@@ -56,10 +42,8 @@ class WidgetSingleElementFormAlterEvent extends Event implements EventInterface 
    *   - default: A boolean indicating whether the form is being shown as a
    *     dummy form to set default values.
    */
-  public function __construct(array &$element, FormStateInterface $formState, array $context) {
+  public function __construct(array &$element, private FormStateInterface $formState, private array $context) {
     $this->element = &$element;
-    $this->formState = $formState;
-    $this->context = $context;
   }
 
   /**

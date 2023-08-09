@@ -18,7 +18,7 @@ class DataTypeInfoAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $dataTypes = [];
+  private array $dataTypes = [];
 
   /**
    * DataTypeInfoAlterEvent constructor.

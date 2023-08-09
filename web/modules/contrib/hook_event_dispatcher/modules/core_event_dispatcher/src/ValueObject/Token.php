@@ -3,7 +3,6 @@
 namespace Drupal\core_event_dispatcher\ValueObject;
 
 use Drupal\Component\Render\MarkupInterface;
-use function is_string;
 
 /**
  * Token ValueObject.
@@ -17,35 +16,35 @@ final class Token {
    *
    * @var string
    */
-  private $type;
+  private string $type;
 
   /**
    * Token.
    *
    * @var string
    */
-  private $token;
+  private string $token;
 
   /**
    * Description.
    *
-   * @var string
+   * @var \Drupal\Component\Render\MarkupInterface|string|null
    */
-  private $description;
+  private MarkupInterface|string|NULL $description = NULL;
 
   /**
    * Name.
    *
-   * @var string|\Drupal\Component\Render\MarkupInterface
+   * @var \Drupal\Component\Render\MarkupInterface|string
    */
-  private $name;
+  private MarkupInterface|string $name;
 
   /**
    * Is a dynamic field.
    *
    * @var bool
    */
-  private $dynamic = FALSE;
+  private bool $dynamic = FALSE;
 
   /**
    * Use create function instead.
@@ -60,20 +59,14 @@ final class Token {
    *   The group name, like 'node'.
    * @param string $token
    *   The token, like 'url' or 'id'.
-   * @param string|\Drupal\Component\Render\MarkupInterface $name
+   * @param \Drupal\Component\Render\MarkupInterface|string $name
    *   The print-able name of the type.
    *
    * @return \Drupal\core_event_dispatcher\ValueObject\Token
    *   Creates a new token.
-   *
-   * @throws \UnexpectedValueException
    */
-  public static function create(string $type, string $token, $name): self {
+  public static function create(string $type, string $token, MarkupInterface|string $name): self {
     $instance = new self();
-    if (!is_string($name) && !$name instanceof MarkupInterface) {
-      throw new \UnexpectedValueException('Name should be a string or an instance of MarkupInterface');
-    }
-
     $instance->type = $type;
     $instance->token = $token;
     $instance->name = $name;
@@ -83,19 +76,13 @@ final class Token {
   /**
    * Set description and return a new instance.
    *
-   * @param string|\Drupal\Component\Render\MarkupInterface $description
+   * @param \Drupal\Component\Render\MarkupInterface|string $description
    *   The description of the token type.
    *
    * @return \Drupal\core_event_dispatcher\ValueObject\Token
    *   New instance with the given description.
-   *
-   * @throws \UnexpectedValueException
    */
-  public function setDescription($description): self {
-    if (!is_string($description) && !$description instanceof MarkupInterface) {
-      throw new \UnexpectedValueException('Description should be a string or an instance of MarkupInterface');
-    }
-
+  public function setDescription(MarkupInterface|string $description): self {
     $clone = clone $this;
     $clone->description = $description;
     return $clone;
@@ -119,7 +106,7 @@ final class Token {
   /**
    * Getter.
    *
-   * @return string|\Drupal\Component\Render\MarkupInterface|null
+   * @return \Drupal\Component\Render\MarkupInterface|string|null
    *   The description.
    */
   public function getDescription() {
@@ -139,7 +126,7 @@ final class Token {
   /**
    * Getter.
    *
-   * @return string|\Drupal\Component\Render\MarkupInterface
+   * @return \Drupal\Component\Render\MarkupInterface|string
    *   The label of the token.
    */
   public function getName() {

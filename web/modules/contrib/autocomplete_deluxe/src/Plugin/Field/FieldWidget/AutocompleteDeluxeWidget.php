@@ -9,13 +9,14 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\Core\Url;
 use Drupal\user\EntityOwnerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Plugin implementation of the 'options_buttons' widget.
@@ -41,6 +42,20 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
   protected $moduleHandler;
 
   /**
+   * Current Account Interface.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $account;
+
+  /**
+   * Key value service.
+   *
+   * @var \Drupal\Core\KeyValueStore\KeyValueFactoryInterface
+   */
+  protected $keyValue;
+
+  /**
    * {@inheritdoc}
    *
    * @param string $plugin_id
@@ -55,11 +70,17 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
    *   Any third party settings.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   Current account.
+   * @param \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $key_value
+   *   Key value storage.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, ModuleHandlerInterface $module_handler) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, array $third_party_settings, ModuleHandlerInterface $module_handler, AccountInterface $account, KeyValueFactoryInterface $key_value) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
 
     $this->moduleHandler = $module_handler;
+    $this->account = $account;
+    $this->keyValue = $key_value;
   }
 
   /**
@@ -72,7 +93,9 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('current_user'),
+      $container->get('keyvalue')
     );
   }
 
@@ -99,6 +122,13 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
    * {@inheritdoc}
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
+    $element['match_operator'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Match operator'),
+      '#description' => $this->t('Specify the matcting operator.'),
+      '#default_value' => $this->getSetting('match_operator'),
+      '#options' => $this->getMatchOperatorOptions(),
+    ];
     $element['limit'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Limit of the output.'),
@@ -154,6 +184,7 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
   public function settingsSummary() {
     $summary = [];
 
+    $summary[] = $this->t('Match operator: @match_operator', ['@match_operator' => $this->getSetting('match_operator')]);
     $summary[] = $this->t('Limit: @limit', ['@limit' => $this->getSetting('limit')]);
     $summary[] = $this->t('Min length: @min_length', ['@min_length' => $this->getSetting('min_length')]);
     $summary[] = $this->t('Delimiter: @delimiter', ['@delimiter' => $this->getSetting('delimiter')]);
@@ -178,17 +209,8 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
 
     $selection_settings = $this->getFieldSetting('handler_settings') + ['match_operator' => $this->getSetting('match_operator')];
 
-    $new_terms = isset($settings['new_terms']) ? $settings['new_terms'] : FALSE;
-    $allow_message = isset($settings['not_found_message_allow']) ? $settings['not_found_message_allow'] : FALSE;
-    $not_found_message = isset($settings['not_found_message']) ? $settings['not_found_message'] : "The term '@term' will be added.";
-    if (!$new_terms) {
-      if ($allow_message) {
-        $not_found_message = "Cannot add '@term' because 'Allow new terms' is disabled on the widget settings.";
-      }
-      else {
-        $not_found_message = "";
-      }
-    }
+    $allow_message = $settings['not_found_message_allow'] ?? FALSE;
+    $not_found_message = $settings['not_found_message'] ?? "";
 
     $element += [
       '#type' => 'autocomplete_deluxe',
@@ -197,13 +219,13 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
       '#selection_handler' => $this->getFieldSetting('handler'),
       '#selection_settings' => $selection_settings,
       '#size' => 60,
-      '#limit' => isset($settings['limit']) ? $settings['limit'] : 10,
-      '#min_length' => isset($settings['min_length']) ? $settings['min_length'] : 0,
-      '#delimiter' => isset($settings['delimiter']) ? $settings['delimiter'] : '',
+      '#limit' => $settings['limit'] ?? 10,
+      '#min_length' => $settings['min_length'] ?? 0,
+      '#delimiter' => $settings['delimiter'] ?? '',
       '#not_found_message_allow' => $allow_message,
-      '#not_found_message' => $this->t($not_found_message),
-      '#new_terms' => isset($settings['new_terms']) ? $settings['new_terms'] : FALSE,
-      '#no_empty_message' => isset($settings['no_empty_message']) ? $this->t($settings['no_empty_message']) : '',
+      '#not_found_message' => $this->t('@not_found_message', ['@not_found_message' => $not_found_message]),
+      '#new_terms' => $settings['new_terms'] ?? FALSE,
+      '#no_empty_message' => isset($settings['no_empty_message']) ? $this->t('@no_empty_message', ['@no_empty_message' => $settings['no_empty_message']]) : '',
     ];
 
     $multiple = $cardinality > 1 || $cardinality == FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED;
@@ -213,7 +235,7 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
     if ($this->getSetting('new_terms') && $this->getSelectionHandlerSetting('auto_create') && ($bundle = $this->getAutocreateBundle())) {
       $element['#autocreate'] = [
         'bundle' => $bundle,
-        'uid' => ($entity instanceof EntityOwnerInterface) ? $entity->getOwnerId() : \Drupal::currentUser()->id(),
+        'uid' => ($entity instanceof EntityOwnerInterface) ? $entity->getOwnerId() : $this->account->id(),
       ];
     }
 
@@ -222,11 +244,11 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
       $entities[$item->id()] = $item;
     }
 
-    $selection_settings = isset($element['#selection_settings']) ? $element['#selection_settings'] : [];
+    $selection_settings = $element['#selection_settings'] ?? [];
     $data = serialize($selection_settings) . $element['#target_type'] . $element['#selection_handler'];
     $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
 
-    $key_value_storage = \Drupal::keyValue('entity_autocomplete');
+    $key_value_storage = $this->keyValue->get('entity_autocomplete');
     if (!$key_value_storage->has($selection_settings_key)) {
       $key_value_storage->set($selection_settings_key, $selection_settings);
     }
@@ -346,7 +368,7 @@ class AutocompleteDeluxeWidget extends WidgetBase implements ContainerFactoryPlu
    */
   protected function getSelectionHandlerSetting($setting_name) {
     $settings = $this->getFieldSetting('handler_settings');
-    return isset($settings[$setting_name]) ? $settings[$setting_name] : NULL;
+    return $settings[$setting_name] ?? NULL;
   }
 
   /**

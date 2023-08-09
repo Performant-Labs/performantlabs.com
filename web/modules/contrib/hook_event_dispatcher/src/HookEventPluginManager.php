@@ -57,9 +57,7 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
   public function getHookEventFactories(string $hook): \Generator {
     foreach ($this->getDefinitions() as $definition) {
       if (isset($definition['hook']) && $definition['hook'] === $hook) {
-        yield function (&...$args) use ($definition): Event {
-          return $this->createInstance($definition['id'], $args);
-        };
+        yield fn(&...$args): Event => $this->createInstance($definition['id'], $args);
       }
     }
   }
@@ -70,9 +68,7 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
   public function getAlterEventFactories(string $alter): \Generator {
     foreach ($this->getDefinitions() as $definition) {
       if (isset($definition['alter']) && $definition['alter'] === $alter) {
-        yield function (&...$args) use ($definition): Event {
-          return $this->createInstance($definition['id'], $args);
-        };
+        yield fn(&...$args): Event => $this->createInstance($definition['id'], $args);
       }
     }
   }

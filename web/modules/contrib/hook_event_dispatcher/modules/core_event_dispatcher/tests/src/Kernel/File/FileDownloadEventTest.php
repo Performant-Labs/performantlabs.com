@@ -36,14 +36,14 @@ class FileDownloadEventTest extends KernelTestBase {
    *
    * @var \Drupal\system\FileDownloadController
    */
-  protected $controller;
+  protected FileDownloadController $controller;
 
   /**
    * The generated file name.
    *
    * @var string
    */
-  protected $filename;
+  protected string $filename;
 
   /**
    * {@inheritdoc}

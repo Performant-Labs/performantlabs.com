@@ -128,7 +128,7 @@ class SmsPhoneNumberValidator extends ConstraintValidator implements ContainerIn
         '@value' => $values['local_number'],
         '@entity_type' => $entity_type,
         '@field_name' => mb_strtolower($field_label),
-        '@message' => t($e->getMessage()),
+        '@message' => $e->getMessage(),
       ]);
     }
   }

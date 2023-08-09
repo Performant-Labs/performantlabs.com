@@ -21,14 +21,7 @@ class EntityViewAlterEvent extends AbstractEntityEvent {
    *
    * @var array
    */
-  private $build = [];
-
-  /**
-   * The entity view display.
-   *
-   * @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface
-   */
-  private $display;
+  private array $build = [];
 
   /**
    * EntityViewAlterEventEvent constructor.
@@ -43,11 +36,10 @@ class EntityViewAlterEvent extends AbstractEntityEvent {
    *   The entity view display holding the display options configured for the
    *   entity components.
    */
-  public function __construct(array &$build, EntityInterface $entity, EntityViewDisplayInterface $display) {
+  public function __construct(array &$build, EntityInterface $entity, private EntityViewDisplayInterface $display) {
     parent::__construct($entity);
 
     $this->build = &$build;
-    $this->display = $display;
   }
 
   /**

@@ -10,10 +10,9 @@ use Drupal\webform_event_dispatcher\WebformHookEvents;
 /**
  * Class WebformElementInfoAlterEventTest.
  *
+ * @requires module webform
  * @group hook_event_dispatcher
  * @group webform_event_dispatcher
- *
- * @requires module webform
  */
 class WebformElementInfoAlterEventTest extends KernelTestBase {
 
@@ -28,6 +27,18 @@ class WebformElementInfoAlterEventTest extends KernelTestBase {
     'hook_event_dispatcher',
     'webform_event_dispatcher',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+    // The `checkRequirements` method in TestCase is private.
+    // Invoke our own check requirements.
+    // see https://www.drupal.org/project/drupal/issues/3261817
+    $this->checkRequirements();
+
+    parent::setUp();
+  }
 
   /**
    * Test WebformElementInfoAlterEvent.

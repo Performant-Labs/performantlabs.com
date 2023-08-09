@@ -7,7 +7,7 @@ use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 /**
  * Defines events for views hooks.
  */
-class ViewsHookEvents {
+final class ViewsHookEvents {
 
   /**
    * Describe data tables and fields (or the equivalent) to Views.

@@ -17,20 +17,6 @@ use Drupal\field_event_dispatcher\FieldHookEvents;
 class FieldWidgetThirdPartySettingsFormEvent extends AbstractFieldThirdPartySettingsFormEvent {
 
   /**
-   * The instantiated field widget plugin.
-   *
-   * @var \Drupal\Core\Field\WidgetInterface
-   */
-  private $plugin;
-
-  /**
-   * The entity form mode.
-   *
-   * @var string
-   */
-  private $formMode;
-
-  /**
    * FieldWidgetThirdPartySettingsFormEvent constructor.
    *
    * @param \Drupal\Core\Field\WidgetInterface $plugin
@@ -45,15 +31,13 @@ class FieldWidgetThirdPartySettingsFormEvent extends AbstractFieldThirdPartySett
    *   The form state.
    */
   public function __construct(
-    WidgetInterface $plugin,
+    private WidgetInterface $plugin,
     FieldDefinitionInterface $fieldDefinition,
-    string $formMode,
+    private string $formMode,
     array $form,
     FormStateInterface $formState
   ) {
-    $this->plugin = $plugin;
     $this->fieldDefinition = $fieldDefinition;
-    $this->formMode = $formMode;
     $this->form = $form;
     $this->formState = $formState;
   }

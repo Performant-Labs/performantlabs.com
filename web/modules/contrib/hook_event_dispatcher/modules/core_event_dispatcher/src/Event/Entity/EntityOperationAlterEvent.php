@@ -22,14 +22,7 @@ class EntityOperationAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $operations = [];
-
-  /**
-   * The entity.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
-   */
-  private $entity;
+  private array $operations = [];
 
   /**
    * EntityOperationAlterEvent constructor.
@@ -39,9 +32,8 @@ class EntityOperationAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function __construct(array &$operations, EntityInterface $entity) {
+  public function __construct(array &$operations, private EntityInterface $entity) {
     $this->operations = &$operations;
-    $this->entity = $entity;
   }
 
   /**

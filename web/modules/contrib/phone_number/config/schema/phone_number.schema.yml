@@ -41,6 +41,12 @@ field.widget.settings.phone_number_default:
     placeholder:
      type: string
      label: Placeholder
+    phone_size:
+     type: integer
+     label: Phone number input size
+    extension_size:
+     type: integer
+     label: Extension input size
 
 # Formatter settings schema.
 field.formatter.settings.phone_number_international:

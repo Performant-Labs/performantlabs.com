@@ -31,8 +31,6 @@ class PreprocessEventPassTest extends KernelTestBase {
    * Using the preprocess_event_dispatcher_factory tag.
    *
    * @throws \Exception
-   *
-   * @group legacy
    */
   public function testOverwritingDefaultFactory(): void {
     /** @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper $mapper */

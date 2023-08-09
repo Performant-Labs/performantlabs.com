@@ -18,7 +18,7 @@ class ToolbarAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $items = [];
+  private array $items = [];
 
   /**
    * ToolbarAlterEvent constructor.

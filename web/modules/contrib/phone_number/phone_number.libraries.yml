@@ -8,5 +8,5 @@ element:
       css/phone-number-flags.css: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
     - core/drupal
+    - core/once

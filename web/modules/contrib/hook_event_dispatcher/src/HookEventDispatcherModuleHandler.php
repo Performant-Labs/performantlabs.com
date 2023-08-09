@@ -17,39 +17,18 @@ final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
   use HookEventDispatcherModuleHandlerProxyTrait;
 
   /**
-   * The decorated module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  protected $inner;
-
-  /**
-   * The hook event dispatcher manager.
-   *
-   * @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManager
-   */
-  protected $dispatcherManager;
-
-  /**
-   * The hook event plugin manager.
-   *
-   * @var \Drupal\hook_event_dispatcher\HookEventPluginManagerInterface
-   */
-  protected $pluginManager;
-
-  /**
    * An array of hook event factories for a hook, keyed by hook name.
    *
    * @var callable[][]
    */
-  private $hookFactories = [];
+  private array $hookFactories = [];
 
   /**
    * An array of alter event factories for an alter, keyed by alter name.
    *
    * @var callable[][]
    */
-  private $alterFactories = [];
+  private array $alterFactories = [];
 
   /**
    * Constructs a new HookEventDispatcherModuleHandler.
@@ -61,10 +40,7 @@ final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
    * @param \Drupal\hook_event_dispatcher\HookEventPluginManagerInterface $pluginManager
    *   The hook event plugin manager.
    */
-  public function __construct(ModuleHandlerInterface $inner, HookEventDispatcherManager $dispatcherManager, HookEventPluginManagerInterface $pluginManager) {
-    $this->inner = $inner;
-    $this->dispatcherManager = $dispatcherManager;
-    $this->pluginManager = $pluginManager;
+  public function __construct(protected ModuleHandlerInterface $inner, protected HookEventDispatcherManager $dispatcherManager, protected HookEventPluginManagerInterface $pluginManager) {
   }
 
   /**
@@ -91,10 +67,7 @@ final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
     $this->inner->invokeAllWith($hook, $callback);
 
     if (!isset($this->hookFactories[$hook])) {
-      $this->hookFactories[$hook] = [];
-      foreach ($this->pluginManager->getHookEventFactories($hook) as $eventFactory) {
-        $this->hookFactories[$hook][] = $eventFactory;
-      }
+      $this->hookFactories[$hook] = iterator_to_array($this->pluginManager->getHookEventFactories($hook));
     }
 
     foreach ($this->hookFactories[$hook] as $eventFactory) {

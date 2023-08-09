@@ -26,14 +26,14 @@ final class TokensInfoEvent extends Event implements EventInterface, HookReturnI
    *
    * @var array
    */
-  private $tokenTypes = [];
+  private array $tokenTypes = [];
 
   /**
    * Tokens.
    *
    * @var array
    */
-  private $tokens = [];
+  private array $tokens = [];
 
   /**
    * Add token type.

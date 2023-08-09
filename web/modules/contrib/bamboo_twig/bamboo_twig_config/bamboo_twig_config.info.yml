@@ -2,12 +2,12 @@ name: Bamboo Twig - Config
 description: 'Several "Config" Twig extensions.'
 package: Bamboo Twig
 type: module
-core_version_requirement: ^8.8 || ^9
+core_version_requirement: ^9.3 || ^10
 
 dependencies:
  - bamboo_twig:bamboo_twig
 
-# Information added by Drupal.org packaging script on 2022-10-21
-version: '8.x-5.1'
+# Information added by Drupal.org packaging script on 2022-11-18
+version: '6.0.0'
 project: 'bamboo_twig'
-datestamp: 1666351550
+datestamp: 1668780604

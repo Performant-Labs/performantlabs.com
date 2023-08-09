@@ -21,6 +21,9 @@ use function str_replace;
  * Class OtherEventTest.
  *
  * @group preprocess_event_dispatcher
+ *
+ * Testing all variables gives expected PHPMD warnings.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class OtherEventTest extends TestCase {
 
@@ -30,7 +33,7 @@ final class OtherEventTest extends TestCase {
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventService
    *   PreprocessEventService.
    */
-  private $service;
+  private PreprocessEventService $service;
 
   /**
    * SpyEventDispatcher.
@@ -38,7 +41,7 @@ final class OtherEventTest extends TestCase {
    * @var \Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\SpyEventDispatcher
    *   SpyEventDispatcher
    */
-  private $dispatcher;
+  private SpyEventDispatcher $dispatcher;
 
   /**
    * Variables array.
@@ -46,7 +49,7 @@ final class OtherEventTest extends TestCase {
    * @var array
    *   Variables.
    */
-  private $variables = [];
+  private array $variables = [];
 
   /**
    * {@inheritdoc}

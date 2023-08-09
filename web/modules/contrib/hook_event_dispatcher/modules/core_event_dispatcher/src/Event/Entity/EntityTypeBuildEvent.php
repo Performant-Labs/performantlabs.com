@@ -18,7 +18,7 @@ class EntityTypeBuildEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $entityTypes = [];
+  private array $entityTypes = [];
 
   /**
    * EntityTypeBuildEvent constructor.

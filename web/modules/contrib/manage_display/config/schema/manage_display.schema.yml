@@ -1,10 +1,14 @@
 field.formatter.settings.title:
-  type: mapping
-  label: 'Title field formatter settings.'
+  type: field.formatter.settings.string
   mapping:
-    linked:
-      type: boolean
-      label: 'Linked'
     tag:
       type: string
       label: 'Tag'
+
+field.formatter.settings.submitted:
+  type: mapping
+  label: 'Submitted display format settings'
+  mapping:
+    user_picture:
+      type: string
+      label: 'View mode for user picture'

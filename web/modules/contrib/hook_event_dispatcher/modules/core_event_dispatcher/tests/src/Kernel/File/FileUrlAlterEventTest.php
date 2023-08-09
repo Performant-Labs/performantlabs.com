@@ -44,28 +44,6 @@ class FileUrlAlterEventTest extends KernelTestBase {
   }
 
   /**
-   * Test FileUrlAlterEvent for drupal core < 9.3.x.
-   *
-   * @group Legacy
-   *
-   * @throws \Exception
-   *
-   * @deprecated in hook_event_dispatcher:3.1.0 and is removed from
-   *   hook_event_dispatcher:4.0.0. Use
-   *   \Drupal\Tests\core_event_dispatcher\Kernel\File\FileUrlAlterEventTest::testFileUrlAlterEvent()
-   *   instead.
-   *
-   * @see https://www.drupal.org/node/2940031
-   * @see https://www.drupal.org/node/515192
-   */
-  public function testLegacyFileUrlAlterEvent(): void {
-    $this->listen(FileHookEvents::FILE_URL_ALTER, 'onFileUrlAlter');
-
-    $url = file_create_url(self::ORIGINAL_URI);
-    $this->assertEquals(self::ALTERED_URI, $url);
-  }
-
-  /**
    * Callback for FileUrlAlterEvent.
    *
    * @param \Drupal\core_event_dispatcher\Event\File\FileUrlAlterEvent $event

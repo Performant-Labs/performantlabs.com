@@ -2,12 +2,12 @@
  * @file
  */
 
-(function ($) {
+(function ($, Drupal, once) {
   'use strict';
   Drupal.behaviors.phoneNumberFormElement = {
     attach: function (context, settings) {
-      $('.phone-number-field .country', context).once('field-setup').each(function () {
-        var $input = $(this);
+      once('field-setup', '.phone-number-field .country', context).forEach(function (value) {
+        var $input = $(value);
         var val = $input.val();
         $input.data('value', val);
         $input.wrap('<div class="country-select"></div>').before('<div class="phone-number-flag"></div><span class="arrow"></span><div class="prefix"></div>');
@@ -36,4 +36,4 @@
       });
     }
   };
-})(jQuery);
+})(jQuery, Drupal, once);

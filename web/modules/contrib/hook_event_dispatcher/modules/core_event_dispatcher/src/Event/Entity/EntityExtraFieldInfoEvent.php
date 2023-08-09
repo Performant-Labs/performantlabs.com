@@ -19,7 +19,7 @@ class EntityExtraFieldInfoEvent extends Event implements EventInterface, HookRet
    *
    * @var array
    */
-  private $fieldInfo = [];
+  private array $fieldInfo = [];
 
   /**
    * Get the dispatcher type.

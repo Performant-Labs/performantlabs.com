@@ -2,14 +2,14 @@
 
 namespace Drupal\sms_phone_number\Element;
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
-use Drupal\phone_number\Exception\PhoneNumberException;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Ajax\SettingsCommand;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\phone_number\Element\PhoneNumber;
+use Drupal\phone_number\Exception\PhoneNumberException;
+use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
 
 /**
  * Provides a form input element for entering an email address.
@@ -27,12 +27,11 @@ use Drupal\phone_number\Element\PhoneNumber;
  *
  * Example usage:
  * @code
- * $form['phone_number'] = array(
+ * $form['phone_number'] = [
  *   '#type' => 'phone_number',
  *   '#title' => $this->t('Phone Number'),
- * );
- *
- * @end
+ * ];
+ * @endcode
  *
  * @FormElement("sms_phone_number")
  */
@@ -99,14 +98,14 @@ class SmsPhoneNumber extends PhoneNumber {
       $verified = ($settings['verify'] != SmsPhoneNumberUtilInterface::MOBILE_NUMBER_VERIFY_NONE) && static::isVerified($element);
     }
 
-    $element['phone']['#suffix'] = '<div class="form-item verified ' . ($verified ? 'show' : '') . '" title="' . t('Verified') . '"><span>' . t('Verified') . '</span></div>';
+    $element['phone']['#suffix'] = '<div class="form-item verified ' . ($verified ? 'show' : '') . '" title="' . $this->t('Verified') . '"><span>' . $this->t('Verified') . '</span></div>';
 
     $element['phone']['#attached']['library'][] = 'sms_phone_number/element';
 
     if ($settings['verify'] != SmsPhoneNumberUtilInterface::MOBILE_NUMBER_VERIFY_NONE) {
       $element['send_verification'] = [
         '#type' => 'button',
-        '#value' => t('Send verification code'),
+        '#value' => $this->t('Send verification code'),
         '#ajax' => [
           'callback' => 'Drupal\sms_phone_number\Element\SmsPhoneNumber::verifyAjax',
           'wrapper' => $id,
@@ -134,13 +133,13 @@ class SmsPhoneNumber extends PhoneNumber {
       $verify_prompt = (!$verified && $op && (!$errors || $op == 'verify'));
       $element['verification_code'] = [
         '#type' => 'textfield',
-        '#title' => t('Verification Code'),
-        '#prefix' => '<div class="verification ' . ($verify_prompt ? 'show' : '') . '"><div class="description">' . t('A verification code has been sent to your phone. Enter it here.') . '</div>',
+        '#title' => $this->t('Verification Code'),
+        '#prefix' => '<div class="verification ' . ($verify_prompt ? 'show' : '') . '"><div class="description">' . $this->t('A verification code has been sent to your phone. Enter it here.') . '</div>',
       ];
 
       $element['verify'] = [
         '#type' => 'button',
-        '#value' => t('Verify'),
+        '#value' => $this->t('Verify'),
         '#ajax' => [
           'callback' => 'Drupal\sms_phone_number\Element\SmsPhoneNumber::verifyAjax',
           'wrapper' => $id,
@@ -160,7 +159,7 @@ class SmsPhoneNumber extends PhoneNumber {
       if (!empty($settings['tfa'])) {
         $element['tfa'] = [
           '#type' => 'checkbox',
-          '#title' => t('Enable two-factor authentication'),
+          '#title' => $this->t('Enable two-factor authentication'),
           '#default_value' => !empty($value['tfa']) ? 1 : 0,
           '#prefix' => '<div class="sms-phone-number-tfa">',
           '#suffix' => '</div>',
@@ -217,17 +216,17 @@ class SmsPhoneNumber extends PhoneNumber {
         $verified = static::isVerified($element);
 
         if ($op == 'send_verification' && !$util->checkFlood($phone_number, 'sms')) {
-          $form_state->setError($element['phone'], t('Too many verification code requests for %field, please try again shortly.', [
+          $form_state->setError($element['phone'], $this->t('Too many verification code requests for %field, please try again shortly.', [
             '%field' => $field_label,
           ]));
         }
         elseif ($op == 'send_verification' && !$verified && !($util->sendVerification($phone_number, $settings['message'], $util->generateVerificationCode(), $settings['token_data']))) {
-          $form_state->setError($element['phone'], t('An error occurred while sending sms.'));
+          $form_state->setError($element['phone'], $this->t('An error occurred while sending sms.'));
         }
         elseif ($op == 'verify' && !$verified && $util->checkFlood($phone_number)) {
           $verification_parents = $element['#array_parents'];
           $verification_element = NestedArray::getValue($complete_form, $verification_parents);
-          $verification_element['verification_code']['#prefix'] = '<div class="verification show"><div class="description">' . t('A verification code has been sent to your phone. Enter it here.') . '</div>';
+          $verification_element['verification_code']['#prefix'] = '<div class="verification show"><div class="description">' . $this->t('A verification code has been sent to your phone. Enter it here.') . '</div>';
           NestedArray::setValue($complete_form, $verification_parents, $verification_element);
         }
       }

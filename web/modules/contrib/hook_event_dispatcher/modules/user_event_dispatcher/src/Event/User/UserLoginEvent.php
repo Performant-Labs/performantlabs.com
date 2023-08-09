@@ -18,20 +18,12 @@ use Drupal\user_event_dispatcher\UserHookEvents;
 final class UserLoginEvent extends Event implements EventInterface {
 
   /**
-   * Account.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  private $account;
-
-  /**
    * UserLoginEvent constructor.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
    *   Account.
    */
-  public function __construct(AccountInterface $account) {
-    $this->account = $account;
+  public function __construct(private AccountInterface $account) {
   }
 
   /**

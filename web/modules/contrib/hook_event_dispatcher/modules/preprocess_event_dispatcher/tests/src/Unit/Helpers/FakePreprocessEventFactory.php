@@ -11,20 +11,12 @@ use Drupal\preprocess_event_dispatcher\Factory\PreprocessEventFactoryInterface;
 final class FakePreprocessEventFactory implements PreprocessEventFactoryInterface {
 
   /**
-   * Fake hook.
-   *
-   * @var string
-   */
-  private $hook;
-
-  /**
    * FakePreprocessEventFactory constructor.
    *
    * @param string $hook
    *   Fake hook.
    */
-  public function __construct(string $hook) {
-    $this->hook = $hook;
+  public function __construct(private string $hook) {
   }
 
   /**

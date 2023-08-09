@@ -15,21 +15,7 @@ abstract class AbstractThemeSuggestionsEvent extends Event implements EventInter
    *
    * @var array
    */
-  private $suggestions = [];
-
-  /**
-   * Variables.
-   *
-   * @var array
-   */
-  private $variables = [];
-
-  /**
-   * Hook name.
-   *
-   * @var string
-   */
-  private $hook;
+  private array $suggestions = [];
 
   /**
    * AbstractThemeSuggestionsEvent constructor.
@@ -41,10 +27,8 @@ abstract class AbstractThemeSuggestionsEvent extends Event implements EventInter
    * @param string $hook
    *   Hook name.
    */
-  public function __construct(array &$suggestions, array $variables, string $hook) {
+  public function __construct(array &$suggestions, private array $variables, private string $hook) {
     $this->suggestions = &$suggestions;
-    $this->variables = $variables;
-    $this->hook = $hook;
   }
 
   /**

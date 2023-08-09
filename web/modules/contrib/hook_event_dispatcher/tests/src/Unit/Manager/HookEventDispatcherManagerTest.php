@@ -4,7 +4,7 @@ namespace Drupal\Tests\hook_event_dispatcher\Unit\Manager;
 
 use Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManager;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class HookEventDispatcherManagerTest.

@@ -36,7 +36,10 @@ class AutocompleteDeluxeElement extends FormElement {
     // its value is properly checked for access.
     $info['#process_default_value'] = TRUE;
 
-    $info['#element_validate'] = [['\Drupal\Core\Entity\Element\EntityAutocomplete', 'validateEntityAutocomplete']];
+    $info['#element_validate'] = [['\Drupal\Core\Entity\Element\EntityAutocomplete',
+      'validateEntityAutocomplete',
+    ],
+    ];
     $info['#process'][] = [$class, 'processElement'];
 
     return $info;
@@ -46,12 +49,28 @@ class AutocompleteDeluxeElement extends FormElement {
    * Autocomplete Deluxe element process callback.
    */
   public static function processElement($element) {
-    $element['#attached']['library'][] = 'autocomplete_deluxe/assets';
+    // Do not attach js library if the element is disabled.
+    $element_disabled = $element['#disabled'] ?? FALSE;
+    if (!$element_disabled) {
+      $element['#attached']['library'][] = 'autocomplete_deluxe/assets';
 
-    // Workaround for problems with jquery css in seven theme.
-    $active_theme = \Drupal::theme()->getActiveTheme();
-    if ($active_theme->getName() == 'seven') {
-      $element['#attached']['library'][] = 'autocomplete_deluxe/assets.seven';
+      $active_theme = \Drupal::theme()->getActiveTheme();
+      $base_themes = (array) $active_theme->getBaseThemeExtensions();
+
+      if ($active_theme->getName() === 'gin'|| array_key_exists('gin', $base_themes)) {
+        // Workaround for problems with jquery css in claro theme.
+        $element['#attached']['library'][] = 'autocomplete_deluxe/assets.claro';
+        // Overrides to support Gin's CSS3 variables for Darkmode, Accent etc.
+        $element['#attached']['library'][] = 'autocomplete_deluxe/assets.gin';
+      }
+      elseif ($active_theme->getName() === 'claro'|| array_key_exists('claro', $base_themes)) {
+        // Workaround for problems with jquery css in claro theme.
+        $element['#attached']['library'][] = 'autocomplete_deluxe/assets.claro';
+      }
+      elseif ($active_theme->getName() == 'seven'|| array_key_exists('seven', $base_themes)) {
+        // Workaround for problems with jquery css in seven theme.
+        $element['#attached']['library'][] = 'autocomplete_deluxe/assets.seven';
+      }
     }
 
     $html_id = Html::getUniqueId('autocomplete-deluxe-input');
@@ -59,7 +78,7 @@ class AutocompleteDeluxeElement extends FormElement {
     $element['#after_build'][] = [get_called_class(), 'afterBuild'];
 
     // Set default options for multiple values.
-    $element['#multiple'] = isset($element['#multiple']) ? $element['#multiple'] : FALSE;
+    $element['#multiple'] = $element['#multiple'] ?? FALSE;
 
     // Add label_display and label variables to template.
     $element['label'] = ['#theme' => 'form_element_label'];
@@ -76,30 +95,35 @@ class AutocompleteDeluxeElement extends FormElement {
     );
 
     $element['textfield'] = [
+      '#disabled' => $element_disabled,
       '#type' => 'textfield',
-      '#size' => isset($element['#size']) ? $element['#size'] : '',
+      '#size' => $element['#size'] ?? '',
       '#attributes' => [
         'class' => ['autocomplete-deluxe-form'],
         'id' => $html_id,
       ],
       '#default_value' => '',
-      '#prefix' => '<div class="autocomplete-deluxe-container">',
-      '#suffix' => '</div>',
-      '#description' => isset($element['#description']) ? $element['#description'] : '',
+      '#description' => $element['#description'] ?? '',
     ];
+
+    // Add autcomplete deluxe container only if element is enabled.
+    if (!$element_disabled) {
+      $element['textfield']['#prefix'] = '<div class="autocomplete-deluxe-container">';
+      $element['textfield']['#suffix'] = '</div>';
+    }
 
     $js_settings[$html_id] = [
       'input_id' => $html_id,
       'multiple' => $element['#multiple'],
       'required' => $element['#required'],
-      'limit' => isset($element['#limit']) ? $element['#limit'] : 10,
-      'min_length' => isset($element['#min_length']) ? $element['#min_length'] : 0,
-      'use_synonyms' => isset($element['#use_synonyms']) ? $element['#use_synonyms'] : 0,
-      'delimiter' => isset($element['#delimiter']) ? $element['#delimiter'] : '',
-      'not_found_message_allow' => isset($element['#not_found_message_allow']) ? $element['#not_found_message_allow'] : FALSE,
-      'not_found_message' => isset($element['#not_found_message']) ? $element['#not_found_message'] : "The term '@term' will be added.",
-      'new_terms' => isset($element['#new_terms']) ? $element['#new_terms'] : FALSE,
-      'no_empty_message' => isset($element['#no_empty_message']) ? $element['#no_empty_message'] : 'No terms could be found. Please type in order to add a new term.',
+      'limit' => $element['#limit'] ?? 10,
+      'min_length' => $element['#min_length'] ?? 0,
+      'use_synonyms' => $element['#use_synonyms'] ?? 0,
+      'delimiter' => $element['#delimiter'] ?? '',
+      'not_found_message_allow' => $element['#not_found_message_allow'] ?? FALSE,
+      'not_found_message' => $element['#not_found_message'] ?? "The term '@term' will be added.",
+      'new_terms' => $element['#new_terms'] ?? FALSE,
+      'no_empty_message' => $element['#no_empty_message'] ?? 'No terms could be found. Please type in order to add a new term.',
     ];
 
     if (isset($element['#autocomplete_deluxe_path'])) {
@@ -123,12 +147,12 @@ class AutocompleteDeluxeElement extends FormElement {
           '#default_value' => $default_value,
           '#prefix' => '<div class="autocomplete-deluxe-value-container">',
           '#suffix' => '</div>',
-          '#description' => isset($element['#description']) ? $element['#description'] : '',
+          '#description' => $element['#description'] ?? '',
         ];
         $element['textfield']['#attributes']['style'] = ['display: none'];
       }
       else {
-        $element['textfield']['#default_value'] = isset($element['#default_value']) ? $element['#default_value'] : '';
+        $element['textfield']['#default_value'] = $element['#default_value'] ?? '';
       }
 
       $js_settings[$html_id] += [
@@ -142,7 +166,10 @@ class AutocompleteDeluxeElement extends FormElement {
       return $element;
     }
 
-    $element['#attached']['drupalSettings']['autocomplete_deluxe'] = $js_settings;
+    // Do not attach js settings if element is disabled.
+    if (!$element_disabled) {
+      $element['#attached']['drupalSettings']['autocomplete_deluxe'] = $js_settings;
+    }
     $element['#tree'] = TRUE;
 
     return $element;

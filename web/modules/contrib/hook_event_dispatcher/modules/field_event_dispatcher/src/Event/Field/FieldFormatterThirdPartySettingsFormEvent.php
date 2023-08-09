@@ -15,20 +15,6 @@ use Drupal\field_event_dispatcher\FieldHookEvents;
 class FieldFormatterThirdPartySettingsFormEvent extends AbstractFieldThirdPartySettingsFormEvent {
 
   /**
-   * The instantiated field formatter plugin.
-   *
-   * @var \Drupal\Core\Field\FormatterInterface
-   */
-  private $plugin;
-
-  /**
-   * The entity view mode.
-   *
-   * @var string
-   */
-  private $viewMode;
-
-  /**
    * FieldFormatterThirdPartySettingsFormEvent constructor.
    *
    * @param \Drupal\Core\Field\FormatterInterface $plugin
@@ -43,15 +29,13 @@ class FieldFormatterThirdPartySettingsFormEvent extends AbstractFieldThirdPartyS
    *   The form state.
    */
   public function __construct(
-    FormatterInterface $plugin,
+    private FormatterInterface $plugin,
     FieldDefinitionInterface $fieldDefinition,
-    string $viewMode,
+    private string $viewMode,
     array $form,
     FormStateInterface $formState
   ) {
-    $this->plugin = $plugin;
     $this->fieldDefinition = $fieldDefinition;
-    $this->viewMode = $viewMode;
     $this->form = $form;
     $this->formState = $formState;
   }

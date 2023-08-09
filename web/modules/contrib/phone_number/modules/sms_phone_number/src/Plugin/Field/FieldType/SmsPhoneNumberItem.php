@@ -3,12 +3,12 @@
 namespace Drupal\sms_phone_number\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\user\Entity\User;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\phone_number\Plugin\Field\FieldType\PhoneNumberItem;
 use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
+use Drupal\user\Entity\User;
 
 /**
  * Plugin implementation of the 'sms_phone_number' field type.
@@ -128,7 +128,7 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
     $util = \Drupal::service('sms_phone_number.util');
 
     $element = parent::storageSettingsForm($form, $form_state, $has_data);
-    $element['unique']['#options'][$util::PHONE_NUMBER_UNIQUE_YES_VERIFIED] = t('Yes, only verified numbers');
+    $element['unique']['#options'][$util::PHONE_NUMBER_UNIQUE_YES_VERIFIED] = $this->t('Yes, only verified numbers');
 
     return $element;
   }
@@ -148,8 +148,8 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
     if ($form['#entity'] instanceof User && FALSE) {
       $element['tfa'] = [
         '#type' => 'checkbox',
-        '#title' => t('Use this field for two-factor authentication'),
-        '#description' => t("If enabled, users will be able to choose if to use the number for two factor authentication. Only one field can be set true for this value, verification must be enabled, and the field must be of cardinality 1. Users are required to verify their number when enabling their two-factor authenticaion. <a href='https://www.drupal.org/project/tfa' target='_blank'>Two Factor Authentication</a> must be installed, as well as a supported sms provider such as <a href='https://www.drupal.org/project/smsframework' target='_blank'>SMS Framework</a>."),
+        '#title' => $this->t('Use this field for two-factor authentication'),
+        '#description' => $this->t("If enabled, users will be able to choose if to use the number for two factor authentication. Only one field can be set true for this value, verification must be enabled, and the field must be of cardinality 1. Users are required to verify their number when enabling their two-factor authenticaion. <a href='https://www.drupal.org/project/tfa' target='_blank'>Two Factor Authentication</a> must be installed, as well as a supported sms provider such as <a href='https://www.drupal.org/project/smsframework' target='_blank'>SMS Framework</a>."),
         '#default_value' => $this->tfaAllowed() && $util->getTfaField() === $this->getFieldDefinition()
           ->getName(),
         '#disabled' => !$this->tfaAllowed(),
@@ -164,23 +164,23 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
 
     $element['verify'] = [
       '#type' => 'radios',
-      '#title' => t('Verification'),
+      '#title' => $this->t('Verification'),
       '#options' => [
-        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_NONE => t('None'),
-        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_OPTIONAL => t('Optional'),
-        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_REQUIRED => t('Required'),
+        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_NONE => $this->t('None'),
+        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_OPTIONAL => $this->t('Optional'),
+        SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_REQUIRED => $this->t('Required'),
       ],
       '#default_value' => $settings['verify'],
-      '#description' => (string) t('Verification requirement. Will send a verification code via SMS to the phone number when user requests to verify the number as their own. Requires <a href="https://www.drupal.org/project/smsframework" target="_blank">SMS Framework</a> or any other sms sending module that integrates with with the SMS Phone Number module.'),
+      '#description' => $this->t('Verification requirement. Will send a verification code via SMS to the phone number when user requests to verify the number as their own. Requires <a href="https://www.drupal.org/project/smsframework" target="_blank">SMS Framework</a> or any other sms sending module that integrates with with the SMS Phone Number module.'),
       '#required' => TRUE,
       '#disabled' => !$util->isSmsEnabled(),
     ];
 
     $element['message'] = [
       '#type' => 'textarea',
-      '#title' => t('Verification Message'),
+      '#title' => $this->t('Verification Message'),
       '#default_value' => $settings['message'],
-      '#description' => t('The SMS message to send during verification. Replacement parameters are available for verification code (!code) and site name (!site_name). Additionally, tokens are available if the token module is enabled, but be aware that entity values will not be available on entity creation forms as the entity was not created yet.'),
+      '#description' => $this->t('The SMS message to send during verification. Replacement parameters are available for verification code (!code) and site name (!site_name). Additionally, tokens are available if the token module is enabled, but be aware that entity values will not be available on entity creation forms as the entity was not created yet.'),
       '#required' => TRUE,
       '#token_types' => [$field->getTargetEntityTypeId()],
       '#disabled' => !$util->isSmsEnabled(),
@@ -235,7 +235,7 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
     $util = \Drupal::service('sms_phone_number.util');
     $settings = $this->getSettings();
     if (!empty(['message'])) {
-      t($settings['message']);
+      $settings['message'];
     }
 
     $tfa = !empty($this->getSetting('tfa'));
@@ -323,6 +323,7 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
     // @todo Replace with DI when https://www.drupal.org/node/2053415 is fixed.
     $verified = (bool) \Drupal::entityQuery($entity_type_id)
       ->condition($id_key, (int) $entity->id())
+      ->accessCheck(TRUE)
       ->condition($field_name, $util->getCallableNumber($sms_phone_number))
       ->range(0, 1)
       ->condition("$field_name.verified", "1")
@@ -399,6 +400,7 @@ class SmsPhoneNumberItem extends PhoneNumberItem {
     $query = \Drupal::entityQuery($entity_type_id)
       // The id could be NULL, so we cast it to 0 in that case.
       ->condition($id_key, (int) $entity->id(), '<>')
+      ->accessCheck(TRUE)
       ->condition($field_name, $util->getCallableNumber($sms_phone_number))
       ->range(0, 1)
       ->count();

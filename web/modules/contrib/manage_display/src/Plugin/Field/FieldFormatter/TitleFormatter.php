@@ -3,10 +3,8 @@
 namespace Drupal\manage_display\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Field\Plugin\Field\FieldFormatter\BasicStringFormatter;
+use Drupal\Core\Field\Plugin\Field\FieldFormatter\StringFormatter;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
-use Drupal\Core\Url;
 
 /**
  * A field formatter for entity titles.
@@ -19,30 +17,7 @@ use Drupal\Core\Url;
  *   }
  * )
  */
-class TitleFormatter extends BasicStringFormatter {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
-    $output = [];
-    $parent = $items->getParent()->getValue();
-    foreach ($items as $item) {
-      $text = $item->getValue()['value'];
-      if ($this->getSetting('linked') && $this->canLink()) {
-        // When previewing a new entity, there is no URL. It gives a better
-        // preview if we still show a link, so use <front>.
-        $url = $parent->isNew() ? Url::fromRoute('<front>') : $parent->toUrl();
-        $text = Link::fromTextAndUrl($text, $url)->toString();
-      }
-      $output[] = [
-        '#type' => 'html_tag',
-        '#tag' => $this->getSetting('tag'),
-        '#value' => $text,
-      ];
-    }
-    return $output;
-  }
+class TitleFormatter extends StringFormatter {
 
   /**
    * {@inheritdoc}
@@ -65,14 +40,6 @@ class TitleFormatter extends BasicStringFormatter {
       '#default_value' => $this->getSetting('tag'),
     ];
 
-    $form['linked'] = [
-      '#title' => $this->t('Link to the Content'),
-      '#type' => 'checkbox',
-      '#description' => $this->t('Wrap the title with a link to the content.'),
-      '#default_value' => $this->getSetting('linked'),
-      '#access' => $this->canLink(),
-    ];
-
     return $form;
   }
 
@@ -82,7 +49,7 @@ class TitleFormatter extends BasicStringFormatter {
   public static function defaultSettings() {
     return [
       'tag' => 'h2',
-      'linked' => TRUE,
+      'link_to_entity' => TRUE,
     ];
   }
 
@@ -90,27 +57,24 @@ class TitleFormatter extends BasicStringFormatter {
    * {@inheritdoc}
    */
   public function settingsSummary() {
-    $settings = $this->getSettings();
-    $replacements = ['@tag' => $settings['tag']];
-    if ($settings['linked'] && $this->canLink()) {
-      $summary[] = $this->t('Display as @tag, linked to content', $replacements);
-    }
-    else {
-      $summary[] = $this->t('Display as @tag', $replacements);
-    }
-
+    $summary = parent::settingsSummary();
+    $summary[] = $this->t('Display as @tag', ['@tag' => $this->getSetting('tag')]);
     return $summary;
   }
 
   /**
-   * Returns whether the entity type supports linking.
-   *
-   * @return bool
-   *   TRUE if the entity type supports linking.
+   * {@inheritdoc}
    */
-  public function canLink() {
-    $entity_type = \Drupal::entityTypeManager()->getDefinition($this->fieldDefinition->getTargetEntityTypeId());
-    return $entity_type->hasLinkTemplate('canonical');
+  public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
+    $items = parent::viewElements($items, $langcode);
+
+    foreach ($items as $delta => &$item) {
+      $tag = $this->getSetting('tag');
+      $item['#prefix'] = "<$tag>";
+      $item['#suffix'] = "</$tag>";
+    }
+
+    return $items;
   }
 
 }

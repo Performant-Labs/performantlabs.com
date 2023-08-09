@@ -72,13 +72,13 @@ interface MailerHelperInterface {
    *
    * @param \Drupal\Core\Config\Entity\ConfigEntityInterface $entity
    *   Config entity being edited.
-   * @param string $sub_type
+   * @param string $subtype
    *   Sub-type of the policies to show.
    *
    * @return array
    *   The render array.
    */
-  public function renderEntityPolicy(ConfigEntityInterface $entity, string $sub_type);
+  public function renderEntityPolicy(ConfigEntityInterface $entity, string $subtype);
 
   /**
    * Renders an element that lists policy for a specific type.

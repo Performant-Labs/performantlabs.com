@@ -14,7 +14,6 @@ use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
-use Drupal\facets\Exception\Exception;
 use Drupal\layout_builder\Entity\SampleEntityGeneratorInterface;
 use Drupal\layout_builder\Plugin\SectionStorage\SectionStorageBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -323,6 +322,7 @@ class MiniLayoutSectionStorage extends SectionStorageBase implements ContainerFa
    * @see \Drupal\Core\Cache\RefinableCacheableDependencyInterface
    */
   public function isApplicable(RefinableCacheableDependencyInterface $cacheability) {
+    $cacheability->addCacheableDependency($this);
     return TRUE;
   }
 

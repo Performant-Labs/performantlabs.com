@@ -3,7 +3,7 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers;
 
 use Drupal\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function count;
 use function end;
@@ -16,16 +16,16 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Events keyed by event name.
    *
-   * @var \Symfony\Component\EventDispatcher\Event[]
+   * @var \Drupal\Component\EventDispatcher\Event[]
    */
-  private $events = [];
+  private array $events = [];
 
   /**
    * Event count.
    *
    * @var int
    */
-  private $count = 1;
+  private int $count = 1;
 
   /**
    * Set the expected event count.
@@ -42,12 +42,14 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
    *
    * {@inheritdoc}
    */
-  public function dispatch($event, string $eventName = NULL): void {
+  public function dispatch(object $event, ?string $eventName = NULL): object {
     if (count($this->events) === $this->count) {
-      throw new \BadMethodCallException(sprintf('SpyEventDispatcher got called more then %d time(s)', $this->count));
+      throw new \BadMethodCallException(sprintf('SpyEventDispatcher got called more than %d time(s)', $this->count));
     }
 
     $this->events[$eventName] = $event;
+
+    return $event;
   }
 
   /**

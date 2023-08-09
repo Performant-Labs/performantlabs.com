@@ -67,31 +67,26 @@ class PhoneNumber extends WebformElementBase {
 
     $form['phone_number']['default_country'] = [
       '#type' => 'select',
-      '#title' => t('Default Country'),
+      '#title' => $this->t('Default Country'),
       '#options' => $this->phoneNumberUtil->getCountryOptions(NULL, TRUE),
-      '#description' => t('Default country for phone number input.'),
+      '#description' => $this->t('Default country for phone number input.'),
       '#required' => TRUE,
-      '#element_validate' => [[
-        $this,
-        'settingsFormValidate',
-      ],
-      ],
     ];
 
     $form['phone_number']['allowed_countries'] = [
       '#type' => 'select',
-      '#title' => t('Allowed Countries'),
+      '#title' => $this->t('Allowed Countries'),
       '#options' => $this->phoneNumberUtil->getCountryOptions(NULL, TRUE),
-      '#description' => t('Allowed counties for the phone number. If none selected, then all are allowed.'),
+      '#description' => $this->t('Allowed counties for the phone number. If none selected, then all are allowed.'),
       '#multiple' => TRUE,
       '#attached' => ['library' => ['phone_number/element']],
     ];
 
     $form['phone_number']['allowed_types'] = [
       '#type' => 'select',
-      '#title' => t('Allowed Types'),
+      '#title' => $this->t('Allowed Types'),
       '#options' => $this->phoneNumberUtil->getTypeOptions(),
-      '#description' => t('Restrict entry to certain types of phone numbers. If none are selected, then all types are allowed.  A description of each type can be found <a href="@url" target="_blank">here</a>.', [
+      '#description' => $this->t('Restrict entry to certain types of phone numbers. If none are selected, then all types are allowed.  A description of each type can be found <a href="@url" target="_blank">here</a>.', [
         '@url' => 'https://github.com/giggsey/libphonenumber-for-php/blob/master/src/PhoneNumberType.php',
       ]),
       '#multiple' => TRUE,
@@ -100,20 +95,20 @@ class PhoneNumber extends WebformElementBase {
     $form['extension_field'] = [
       '#type' => 'checkbox',
       '#title' => $this
-        ->t('Enable <em>Extension</em> field'),
+        ->$this->t('Enable <em>Extension</em> field'),
       '#description' => $this
-        ->t('Collect extension along with the phone number.'),
+        ->$this->t('Collect extension along with the phone number.'),
     ];
 
     $form['phone_number']['placeholder'] = [
       '#type' => 'textfield',
-      '#title' => t('Number Placeholder'),
-      '#description' => t('Number field placeholder.'),
+      '#title' => $this->t('Number Placeholder'),
+      '#description' => $this->t('Number field placeholder.'),
     ];
 
     $form['display']['as_link'] = [
       '#type' => 'checkbox',
-      '#title' => t('Show as TEL link'),
+      '#title' => $this->t('Show as TEL link'),
     ];
 
     return $form;
@@ -128,7 +123,7 @@ class PhoneNumber extends WebformElementBase {
     $default_country = $form_state->getValue('default_country');
     $allowed_countries = $form_state->getValue('allowed_countries');
     if (!empty($allowed_countries) && !in_array($default_country, $allowed_countries)) {
-      $form_state->setErrorByName('phone_number][default_country', t('Default country is not in one of the allowed countries.'));
+      $form_state->setErrorByName('phone_number][default_country', $this->t('Default country is not in one of the allowed countries.'));
     }
   }
 
@@ -160,7 +155,7 @@ class PhoneNumber extends WebformElementBase {
       'allowed_countries' => !empty($element['#allowed_countries']) ? $element['#allowed_countries'] : NULL,
       'allowed_types' => !empty($element['#allowed_types']) ? $element['#allowed_types'] : NULL,
       'extension_field' => !empty($element['#extension_field']) ? $element['#extension_field'] : FALSE,
-      'placeholder' => isset($element['#placeholder']) ? $element['#placeholder'] : 'Phone number',
+      'placeholder' => $element['#placeholder'] ?? 'Phone number',
     ];
 
     $element += [
@@ -206,7 +201,7 @@ class PhoneNumber extends WebformElementBase {
         $element = [
           '#type' => 'link',
           '#title' => $this->phoneNumberUtil->libUtil()->format($phone_number, $phoneDisplayFormat),
-          '#url' => Url::fromUri($this->phoneNumberUtil->getRFC3966uri($phone_number)),
+          '#url' => Url::fromUri($this->phoneNumberUtil->getRfc3966Uri($phone_number)),
         ];
       }
       else {

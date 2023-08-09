@@ -16,6 +16,7 @@ use Drupal\preprocess_event_dispatcher\Event\UsernamePreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\ViewFieldPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\ViewPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\ViewTablePreprocessEvent;
+use Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper;
 use Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\BlockEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\FieldEventVariables;
@@ -29,17 +30,21 @@ use Drupal\preprocess_event_dispatcher\Variables\ViewEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\ViewFieldEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\ViewTableEventVariables;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
-use PHPUnit\Framework\TestCase;
 use Drupal\user\UserInterface;
 use Drupal\views\Plugin\views\field\FieldHandlerInterface;
 use Drupal\views\Plugin\views\field\Markup;
 use Drupal\views\ResultRow;
 use Drupal\views\ViewExecutable;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class OtherEventVariablesTest.
  *
  * @group preprocess_event_dispatcher
+ *
+ * Testing the other events gives expected PHPMD warnings.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 final class OtherEventVariablesTest extends TestCase {
 
@@ -48,7 +53,7 @@ final class OtherEventVariablesTest extends TestCase {
    *
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper
    */
-  private $mapper;
+  private PreprocessEventFactoryMapper $mapper;
 
   /**
    * {@inheritdoc}
@@ -296,7 +301,7 @@ final class OtherEventVariablesTest extends TestCase {
     $factory = $this->mapper->getFactory($hook);
     self::assertSame($hook, $factory->getEventHook());
 
-    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $event*/
+    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $event */
     $event = $factory->createEvent($variablesArray);
     self::assertInstanceOf($class, $event);
 

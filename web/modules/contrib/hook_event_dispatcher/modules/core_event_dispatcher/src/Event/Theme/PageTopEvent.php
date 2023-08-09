@@ -18,7 +18,7 @@ class PageTopEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $build = [];
+  private array $build = [];
 
   /**
    * PageTopEvent constructor.

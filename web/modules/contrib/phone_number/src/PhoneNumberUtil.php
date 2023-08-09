@@ -2,20 +2,20 @@
 
 namespace Drupal\phone_number;
 
-use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumberUtil as LibPhoneNumberUtil;
-use libphonenumber\PhoneNumber;
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberType;
-use Drupal\phone_number\Exception\CountryException;
-use Drupal\phone_number\Exception\ParseException;
-use Drupal\phone_number\Exception\PhoneNumberException;
-use Drupal\phone_number\Exception\TypeException;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Locale\CountryManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\phone_number\Exception\CountryException;
+use Drupal\phone_number\Exception\ParseException;
+use Drupal\phone_number\Exception\PhoneNumberException;
+use Drupal\phone_number\Exception\TypeException;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
+use libphonenumber\PhoneNumberUtil as LibPhoneNumberUtil;
 
 /**
  * The Phone Number field utility class.
@@ -156,7 +156,7 @@ class PhoneNumberUtil implements PhoneNumberUtilInterface {
   /**
    * {@inheritdoc}
    */
-  public function getRFC3966uri(PhoneNumber $phone_number, $strip_extension = FALSE) {
+  public function getRfc3966Uri(PhoneNumber $phone_number, $strip_extension = FALSE) {
     if ($strip_extension) {
       $copy = clone $phone_number;
       $copy->clearExtension();
@@ -336,7 +336,7 @@ class PhoneNumberUtil implements PhoneNumberUtilInterface {
         default:
           // At the time of writing this is everyting, but let's make sure we're
           // covered if types are ever added/changed in the upstream library.
-          $options[$type] = $this->t($label);
+          $options[$type] = $label;
       }
     }
     return $options;

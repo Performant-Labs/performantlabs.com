@@ -3,11 +3,9 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit;
 
 use Drupal\comment\CommentInterface;
-use Drupal\eck\EckEntityInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 use Drupal\preprocess_event_dispatcher\Event\CommentPreprocessEvent;
-use Drupal\preprocess_event_dispatcher\Event\EckEntityPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\NodePreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\ParagraphPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\TaxonomyTermPreprocessEvent;
@@ -26,7 +24,8 @@ use function reset;
  *
  * @group preprocess_event_dispatcher
  *
- * @requires module eck
+ * Testing all lots of classes gives expected coupling warnings.
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class EntityEventTest extends TestCase {
 
@@ -36,7 +35,7 @@ final class EntityEventTest extends TestCase {
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventService
    *   PreprocessEventService.
    */
-  private $service;
+  private PreprocessEventService $service;
 
   /**
    * SpyEventDispatcher.
@@ -44,7 +43,7 @@ final class EntityEventTest extends TestCase {
    * @var \Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\SpyEventDispatcher
    *   SpyEventDispatcher
    */
-  private $dispatcher;
+  private SpyEventDispatcher $dispatcher;
 
   /**
    * {@inheritdoc}
@@ -64,24 +63,6 @@ final class EntityEventTest extends TestCase {
       'view_mode' => 'view_mode',
     ];
     $this->createAndAssertEntityEvent(CommentPreprocessEvent::class, $variables);
-  }
-
-  /**
-   * Test a EckEntityPreprocessEvent.
-   *
-   * @group legacy
-   */
-  public function testEckEntityEvent(): void {
-    $variables = [
-      'elements' => [
-        '#view_mode' => 'view_mode',
-      ],
-      'eck_entity' => EntityMockFactory::getMock(EckEntityInterface::class, 'eck_entity', 'bundle', 'view_mode'),
-      'theme_hook_original' => 'eck_entity',
-      'bundle' => 'bundle',
-    ];
-    // @phpstan-ignore-next-line
-    $this->createAndAssertEntityEvent(EckEntityPreprocessEvent::class, $variables);
   }
 
   /**

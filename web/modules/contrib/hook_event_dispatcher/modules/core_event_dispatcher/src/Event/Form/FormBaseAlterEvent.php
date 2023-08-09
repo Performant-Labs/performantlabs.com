@@ -16,7 +16,7 @@ class FormBaseAlterEvent extends AbstractFormEvent {
    *
    * @var string
    */
-  private $baseFormId;
+  private string $baseFormId;
 
   /**
    * FormBaseAlterEvent constructor.
@@ -30,6 +30,8 @@ class FormBaseAlterEvent extends AbstractFormEvent {
    * @param string $formId
    *   String representing the name of the form itself. Typically this is the
    *   name of the function that generated the form.
+   *
+   * @SuppressWarnings(PHPMD.ElseExpression)
    */
   public function __construct(
     array &$form,
@@ -38,11 +40,12 @@ class FormBaseAlterEvent extends AbstractFormEvent {
   ) {
     parent::__construct($form, $formState, $formId);
     $buildInfo = $formState->getBuildInfo();
-    $this->baseFormId = $buildInfo['base_form_id'] ?? NULL;
 
-    if (!$this->baseFormId) {
-      // @phpstan-ignore-next-line
+    if (empty($buildInfo['base_form_id'])) {
       $this->stopPropagation();
+    }
+    else {
+      $this->baseFormId = $buildInfo['base_form_id'];
     }
   }
 

@@ -31,8 +31,6 @@ class PreprocessModuleTest extends KernelTestBase {
    * Preprocess hook test.
    *
    * @throws \Exception
-   *
-   * @group legacy
    */
   public function testPreprocessHook(): void {
     $this->listen('preprocess_page', 'onPreprocess');

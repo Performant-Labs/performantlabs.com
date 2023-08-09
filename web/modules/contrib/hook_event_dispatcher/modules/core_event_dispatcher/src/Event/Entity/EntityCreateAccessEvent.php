@@ -26,26 +26,17 @@ final class EntityCreateAccessEvent extends Event implements EventInterface, Eve
   use AccessEventTrait;
 
   /**
-   * An associative array of additional context values.
-   *
-   * @var array
-   */
-  protected $context = [];
-
-  /**
-   * The entity bundle name.
-   *
-   * @var string|null
-   */
-  protected $entityBundle;
-
-  /**
    * EntityCreateAccessEvent constructor.
+   *
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The account for which to check access.
+   * @param array $context
+   *   An associative array of additional context values.
+   * @param string|null $entityBundle
+   *   The entity bundle name.
    */
-  public function __construct(AccountInterface $account, array $context, string $entityBundle = NULL) {
+  public function __construct(AccountInterface $account, protected array $context, protected ?string $entityBundle = NULL) {
     $this->account = $account;
-    $this->context = $context;
-    $this->entityBundle = $entityBundle;
   }
 
   /**

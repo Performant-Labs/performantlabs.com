@@ -108,6 +108,21 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
   protected $renderer;
 
   /**
+   * The last rendered value.
+   */
+  public string|MarkupInterface|NULL $last_render;
+
+  /**
+   * The last rendered text.
+   */
+  public string|MarkupInterface|NULL $last_render_text;
+
+  /**
+   * The last rendered tokens.
+   */
+  public array $last_tokens;
+
+  /**
    * Keeps track of the last render index.
    *
    * @var int|null
@@ -405,12 +420,35 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
    */
   public function getEntity(ResultRow $values) {
     $relationship_id = $this->options['relationship'];
+    $entity = NULL;
     if ($relationship_id == 'none') {
-      return $values->_entity;
+      $entity = $values->_entity;
     }
     elseif (isset($values->_relationship_entities[$relationship_id])) {
-      return $values->_relationship_entities[$relationship_id];
+      $entity = $values->_relationship_entities[$relationship_id];
     }
+
+    if ($entity === NULL) {
+      // Don't log an error if we're getting an entity for an optional
+      // relationship.
+      if ($relationship_id !== 'none') {
+        $relationship = $this->view->relationship[$relationship_id] ?? NULL;
+        if ($relationship && !$relationship->options['required']) {
+          return NULL;
+        }
+      }
+      \Drupal::logger('views')->error(
+        'The view %id failed to load an entity of type %entity_type at row %index for field %field',
+        [
+          '%id' => $this->view->id(),
+          '%entity_type' => $this->configuration['entity_type'],
+          '%index' => $values->index,
+          '%field' => $this->label() ?: $this->realField,
+        ]
+      );
+      return NULL;
+    }
+    return $entity;
   }
 
   /**
@@ -620,7 +658,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
     ];
     $form['element_label_type'] = [
       '#title' => $this->t('Label HTML element'),
-      '#options' => $this->getElements(FALSE),
+      '#options' => $this->getElements(),
       '#type' => 'select',
       '#default_value' => $this->options['element_label_type'],
       '#description' => $this->t('Choose the HTML element to wrap around this label, e.g. H1, H2, etc.'),
@@ -664,7 +702,7 @@ abstract class FieldPluginBase extends HandlerBase implements FieldHandlerInterf
     ];
     $form['element_wrapper_type'] = [
       '#title' => $this->t('Wrapper HTML element'),
-      '#options' => $this->getElements(FALSE),
+      '#options' => $this->getElements(),
       '#type' => 'select',
       '#default_value' => $this->options['element_wrapper_type'],
       '#description' => $this->t('Choose the HTML element to wrap around this field and label, e.g. H1, H2, etc. This may not be used if the field and label are not rendered together, such as with a table.'),

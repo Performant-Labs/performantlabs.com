@@ -18,7 +18,7 @@ final class TemplatePreprocessDefaultVariablesAlterEvent extends Event implement
    *
    * @var array
    */
-  private $variables = [];
+  private array $variables = [];
 
   /**
    * TemplatePreprocessDefaultVariablesAlterEvent constructor.

@@ -2,12 +2,12 @@
 
 namespace Drupal\phone_number\Element;
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element\FormElement;
 use Drupal\phone_number\Exception\CountryException;
 use Drupal\phone_number\Exception\ParseException;
 use Drupal\phone_number\Exception\TypeException;
-use Drupal\Core\Render\Element\FormElement;
-use Drupal\Component\Utility\NestedArray;
 use libphonenumber\PhoneNumberType;
 
 /**
@@ -19,15 +19,16 @@ use libphonenumber\PhoneNumberType;
  *   - allowed_types.
  *   - placeholder.
  *   - extension_field.
+ *   - phone_size.
+ *   - extension_size.
  *
  * Example usage:
  * @code
- * $form['phone_number'] = array(
+ * $form['phone_number'] = [
  *   '#type' => 'phone_number',
  *   '#title' => $this->t('Phone Number'),
- * );
- *
- * @end
+ * ];
+ * @endcode
  *
  * @FormElement("phone_number")
  */
@@ -159,7 +160,7 @@ class PhoneNumber extends FormElement {
       '#default_value' => $default_country,
       '#access' => !(count($countries) == 1),
       '#attributes' => ['class' => ['country']],
-      '#title' => t('Country Code'),
+      '#title' => $this->t('Country Code'),
       '#title_display' => 'invisible',
     ];
 
@@ -167,11 +168,12 @@ class PhoneNumber extends FormElement {
       '#type' => 'textfield',
       '#default_value' => $phone_number ? $util->libUtil()
         ->format($phone_number, 2) : NULL,
-      '#title' => t('Phone number'),
+      '#title' => $this->t('Phone number'),
       '#title_display' => 'invisible',
+      '#size' => $settings['phone_size'] ?? 60,
       '#attributes' => [
         'class' => ['local-number'],
-        'placeholder' => isset($settings['placeholder']) ? ($settings['placeholder'] ? t($settings['placeholder']) : '') : t('Phone number'),
+        'placeholder' => $settings['placeholder'] ?? $this->t('Phone number'),
       ],
       '#attached' => [
         'library' => [
@@ -187,9 +189,9 @@ class PhoneNumber extends FormElement {
       $element['extension'] = [
         '#type' => 'textfield',
         '#default_value' => !empty($value['extension']) ? $value['extension'] : NULL,
-        '#title' => t('Extension'),
+        '#title' => $this->t('Extension'),
         '#title_display' => 'invisible',
-        '#size' => 5,
+        '#size' => $settings['extension_size'] ?? 5,
         '#maxlength' => 40,
         '#attributes' => [
           'class' => ['extension'],
@@ -241,7 +243,7 @@ class PhoneNumber extends FormElement {
       }
       catch (ParseException $e) {
         // Number was not parse-able.
-        $form_state->setError($element['phone'], t('The phone number %number provided for %field is not a valid phone number for country %country.', [
+        $form_state->setError($element['phone'], $this->t('The phone number %number provided for %field is not a valid phone number for country %country.', [
           '%number' => $input['phone'],
           '%field' => $field_label,
           '%country' => $util->getCountryName($input['country-code']),
@@ -252,7 +254,7 @@ class PhoneNumber extends FormElement {
         if ($e->getType() == PhoneNumberType::UNKNOWN) {
           // Number is type-unknown.  Provide a simpler validation error
           // message.
-          $form_state->setError($element['phone'], t('The phone number %number provided for %field is not a valid phone number for country %country.', [
+          $form_state->setError($element['phone'], $this->t('The phone number %number provided for %field is not a valid phone number for country %country.', [
             '%number' => $input['phone'],
             '%field' => $field_label,
             '%country' => $util->getCountryName($input['country-code']),
@@ -322,7 +324,7 @@ class PhoneNumber extends FormElement {
       }
     }
     elseif (!empty($element['#required'])) {
-      $form_state->setError($element['phone'], t('Phone number in %field is required.', [
+      $form_state->setError($element['phone'], $this->t('Phone number in %field is required.', [
         '%field' => $field_label,
       ]));
     }

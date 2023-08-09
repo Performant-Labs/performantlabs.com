@@ -20,14 +20,7 @@ class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
    *
    * @var array
    */
-  private $build = [];
-
-  /**
-   * The view mode.
-   *
-   * @var string
-   */
-  private $viewMode;
+  private array $build = [];
 
   /**
    * EntityBuildDefaultsAlterEvent constructor.
@@ -44,12 +37,11 @@ class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
   public function __construct(
     array &$build,
     EntityInterface $entity,
-    string $viewMode
+    private string $viewMode
   ) {
     parent::__construct($entity);
 
     $this->build = &$build;
-    $this->viewMode = $viewMode;
   }
 
   /**

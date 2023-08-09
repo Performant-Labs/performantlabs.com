@@ -1,0 +1,9 @@
+name: 'Layout Builder Kit'
+type: module
+description: 'Contains components useful when building pages in Layout Builder.'
+core_version_requirement: ^10
+configure: layout_builder_kit.layout_builder_kit_settings
+package: 'Layout Builder Kit'
+dependencies:
+  - hook_event_dispatcher:core_event_dispatcher
+  - drupal:layout_builder

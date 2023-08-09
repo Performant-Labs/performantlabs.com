@@ -31,20 +31,6 @@ class WidgetCompleteFormAlterEvent extends Event implements EventInterface, Even
   protected $widgetCompleteForm = [];
 
   /**
-   * The form state.
-   *
-   * @var \Drupal\Core\Form\FormStateInterface
-   */
-  protected $formState;
-
-  /**
-   * The context.
-   *
-   * @var array
-   */
-  protected $context = [];
-
-  /**
    * WidgetCompleteFormAlterEvent constructor.
    *
    * @param array $widgetCompleteForm
@@ -64,10 +50,8 @@ class WidgetCompleteFormAlterEvent extends Event implements EventInterface, Even
    *   - default: A boolean indicating whether the form is being shown as a
    *     dummy form to set default values.
    */
-  public function __construct(array &$widgetCompleteForm, FormStateInterface $formState, array $context) {
+  public function __construct(array &$widgetCompleteForm, protected FormStateInterface $formState, protected array $context) {
     $this->widgetCompleteForm = &$widgetCompleteForm;
-    $this->formState = $formState;
-    $this->context = $context;
   }
 
   /**

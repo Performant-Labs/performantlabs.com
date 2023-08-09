@@ -18,7 +18,7 @@ class ThemeRegistryAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $themeRegistry = [];
+  private array $themeRegistry = [];
 
   /**
    * ThemeRegistryAlterEvent constructor.

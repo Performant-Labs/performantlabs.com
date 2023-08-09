@@ -30,20 +30,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ExampleViewsEventSubscribers implements EventSubscriberInterface {
 
   /**
-   * The time service.
-   *
-   * @var \Drupal\Component\Datetime\TimeInterface
-   */
-  protected $time;
-
-  /**
    * ExampleViewsEventSubscribers constructor.
    *
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
    */
-  public function __construct(TimeInterface $time) {
-    $this->time = $time;
+  public function __construct(protected TimeInterface $time) {
   }
 
   /**

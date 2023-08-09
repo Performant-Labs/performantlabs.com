@@ -17,14 +17,7 @@ class ViewsPreViewEvent extends AbstractViewsEvent {
    *
    * @var array
    */
-  private $arguments = [];
-
-  /**
-   * The machine name of the active display.
-   *
-   * @var string
-   */
-  private $displayId;
+  private array $arguments = [];
 
   /**
    * ViewsPreExecuteEevent constructor.
@@ -36,9 +29,8 @@ class ViewsPreViewEvent extends AbstractViewsEvent {
    * @param array $arguments
    *   An array of arguments passed into the view.
    */
-  public function __construct(ViewExecutable $view, $displayId, array &$arguments) {
+  public function __construct(ViewExecutable $view, private $displayId, array &$arguments) {
     parent::__construct($view);
-    $this->displayId = $displayId;
     $this->arguments = &$arguments;
   }
 

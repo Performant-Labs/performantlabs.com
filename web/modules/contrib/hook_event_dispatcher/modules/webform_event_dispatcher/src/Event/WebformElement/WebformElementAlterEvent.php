@@ -19,21 +19,7 @@ class WebformElementAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $element = [];
-
-  /**
-   * The form state.
-   *
-   * @var \Drupal\Core\Form\FormStateInterface
-   */
-  private $formState;
-
-  /**
-   * The context.
-   *
-   * @var array
-   */
-  private $context = [];
+  private array $element = [];
 
   /**
    * WebformElementAlterEvent constructor.
@@ -46,10 +32,8 @@ class WebformElementAlterEvent extends Event implements EventInterface {
    *   An associative array containing the following key-value pairs:
    *   - form: The form structure to which elements is being attached.
    */
-  public function __construct(array &$element, FormStateInterface $formState, array $context) {
+  public function __construct(array &$element, private FormStateInterface $formState, private array $context) {
     $this->element = &$element;
-    $this->formState = $formState;
-    $this->context = $context;
   }
 
   /**

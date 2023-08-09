@@ -23,18 +23,11 @@ final class EntityBaseFieldInfoEvent extends Event implements EventInterface, Ev
   use EventFactoryTrait;
 
   /**
-   * The entity type.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeInterface
-   */
-  private $entityType;
-
-  /**
    * The fields.
    *
    * @var array
    */
-  private $fields = [];
+  private array $fields = [];
 
   /**
    * EntityBaseFieldInfoEvent constructor.
@@ -42,8 +35,7 @@ final class EntityBaseFieldInfoEvent extends Event implements EventInterface, Ev
    * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
    *   The entity type.
    */
-  public function __construct(EntityTypeInterface $entityType) {
-    $this->entityType = $entityType;
+  public function __construct(private EntityTypeInterface $entityType) {
   }
 
   /**

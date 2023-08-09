@@ -27,14 +27,7 @@ final class EntityOperationEvent extends Event implements EventInterface, EventF
    *
    * @var array
    */
-  private $operations = [];
-
-  /**
-   * The entity.
-   *
-   * @var \Drupal\Core\Entity\EntityInterface
-   */
-  private $entity;
+  private array $operations = [];
 
   /**
    * EntityOperationEvent constructor.
@@ -42,8 +35,7 @@ final class EntityOperationEvent extends Event implements EventInterface, EventF
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function __construct(EntityInterface $entity) {
-    $this->entity = $entity;
+  public function __construct(private EntityInterface $entity) {
   }
 
   /**

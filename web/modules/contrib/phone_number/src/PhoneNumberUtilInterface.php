@@ -112,7 +112,7 @@ interface PhoneNumberUtilInterface {
    * @return string
    *   An RFC3966-formatted, international number URI.
    */
-  public function getRFC3966uri(PhoneNumber $phone_number, $strip_extension = FALSE);
+  public function getRfc3966Uri(PhoneNumber $phone_number, $strip_extension = FALSE);
 
   /**
    * Get national dialing prefix.

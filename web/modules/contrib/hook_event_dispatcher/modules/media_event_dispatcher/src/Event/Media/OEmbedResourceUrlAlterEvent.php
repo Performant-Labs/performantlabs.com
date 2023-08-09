@@ -22,14 +22,7 @@ class OEmbedResourceUrlAlterEvent extends Event implements EventInterface {
    *
    * @var array
    */
-  private $parsedUrl = [];
-
-  /**
-   * The oEmbed provider for the resource to be retrieved.
-   *
-   * @var \Drupal\media\OEmbed\Provider
-   */
-  private $provider;
+  private array $parsedUrl = [];
 
   /**
    * OEmbedResourceUrlAlterEvent constructor.
@@ -40,9 +33,8 @@ class OEmbedResourceUrlAlterEvent extends Event implements EventInterface {
    * @param \Drupal\media\OEmbed\Provider $provider
    *   The oEmbed provider for the resource to be retrieved.
    */
-  public function __construct(array &$parsedUrl, Provider $provider) {
+  public function __construct(array &$parsedUrl, private Provider $provider) {
     $this->parsedUrl = &$parsedUrl;
-    $this->provider = $provider;
   }
 
   /**

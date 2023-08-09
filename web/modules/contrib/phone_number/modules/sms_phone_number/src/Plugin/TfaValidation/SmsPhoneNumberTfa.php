@@ -9,16 +9,16 @@ namespace Drupal\sms_phone_number\Plugin\TfaValidation;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
-use Drupal\tfa\Plugin\TfaBasePlugin;
-use Drupal\tfa\Plugin\TfaValidationInterface;
-use Drupal\tfa\Plugin\TfaSendInterface;
-use Drupal\user\UserDataInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\encrypt\EncryptionProfileManagerInterface;
 use Drupal\encrypt\EncryptServiceInterface;
 use Drupal\phone_number\Exception\PhoneNumberException;
+use Drupal\sms_phone_number\SmsPhoneNumberUtilInterface;
+use Drupal\tfa\Plugin\TfaBasePlugin;
+use Drupal\tfa\Plugin\TfaSendInterface;
+use Drupal\tfa\Plugin\TfaValidationInterface;
+use Drupal\user\UserDataInterface;
 
 /**
  * Class SmsPhoneNumberTfa is a validation and sending plugin for TFA.
@@ -117,7 +117,7 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
   public function begin() {
     if (!$this->code) {
       if (!$this->sendCode()) {
-        $this->messenger->addError(t('Unable to deliver the code. Please contact support.'));
+        $this->messenger->addError($this->t('Unable to deliver the code. Please contact support.'));
       }
     }
   }
@@ -132,9 +132,9 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
 
     $form['code'] = [
       '#type' => 'textfield',
-      '#title' => t('Verification Code'),
+      '#title' => $this->t('Verification Code'),
       '#required' => TRUE,
-      '#description' => t('A verification code was sent to %clue. Enter the @length-character code sent to your device.', [
+      '#description' => $this->t('A verification code was sent to %clue. Enter the @length-character code sent to your device.', [
         '@length' => $this->codeLength,
         '%clue' => $numberClue,
       ]),
@@ -144,12 +144,12 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
 
     $form['actions']['login'] = [
       '#type' => 'submit',
-      '#value' => t('Verify'),
+      '#value' => $this->t('Verify'),
     ];
 
     $form['actions']['resend'] = [
       '#type' => 'submit',
-      '#value' => t('Resend'),
+      '#value' => $this->t('Resend'),
       '#submit' => ['tfa_form_submit'],
       '#limit_validation_errors' => [],
     ];
@@ -166,7 +166,7 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
       return TRUE;
     }
     elseif (!$this->verifyCode($form_state['values']['code'])) {
-      $this->errorMessages['code'] = t('Invalid code.');
+      $this->errorMessages['code'] = $this->t('Invalid code.');
       return FALSE;
     }
     else {
@@ -181,13 +181,13 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
     // Resend code if pushed.
     if ($form_state['values']['op'] === $form_state['values']['resend']) {
       if (!$this->smsPhoneNumberUtil->checkFlood($this->phoneNumber, 'sms')) {
-        $this->messenger->addError(t('Too many verification code requests, please try again shortly.'));
+        $this->messenger->addError($this->t('Too many verification code requests, please try again shortly.'));
       }
       elseif (!$this->sendCode()) {
-        $this->messenger->addError(t('Unable to deliver the code. Please contact support.'), 'error');
+        $this->messenger->addError($this->t('Unable to deliver the code. Please contact support.'), 'error');
       }
       else {
-        $this->messenger->addMessage(t('Code resent'));
+        $this->messenger->addMessage($this->t('Code resent'));
       }
 
       return FALSE;
@@ -201,7 +201,10 @@ class SmsPhoneNumberTfa extends TfaBasePlugin implements TfaValidationInterface,
    * Return context for this plugin.
    */
   public function getPluginContext() {
-    return ['code' => $this->code, 'verification_token' => !empty($this->verificationToken) ? $this->verificationToken : ''];
+    return [
+      'code' => $this->code,
+      'verification_token' => !empty($this->verificationToken) ? $this->verificationToken : '',
+    ];
   }
 
   /**

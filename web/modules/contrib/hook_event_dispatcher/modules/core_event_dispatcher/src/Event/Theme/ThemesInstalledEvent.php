@@ -14,20 +14,12 @@ use Drupal\hook_event_dispatcher\Event\EventInterface;
 class ThemesInstalledEvent extends Event implements EventInterface {
 
   /**
-   * Theme list.
-   *
-   * @var array
-   */
-  private $themeList = [];
-
-  /**
    * ThemesInstalledEvent constructor.
    *
    * @param array $themeList
    *   Array containing the names of the themes being installed.
    */
-  public function __construct(array $themeList) {
-    $this->themeList = $themeList;
+  public function __construct(private array $themeList) {
   }
 
   /**

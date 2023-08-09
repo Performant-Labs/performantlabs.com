@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit;
 
+use Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
 use PHPUnit\Framework\TestCase;
 use function array_filter;
@@ -23,7 +24,7 @@ final class FactoryMapperTest extends TestCase {
    *
    * @var \Drupal\preprocess_event_dispatcher\Service\PreprocessEventFactoryMapper
    */
-  private $mapper;
+  private PreprocessEventFactoryMapper $mapper;
 
   /**
    * {@inheritdoc}
@@ -39,7 +40,7 @@ final class FactoryMapperTest extends TestCase {
     $factoriesYaml = YamlDefinitionsLoader::getInstance()->getFactories();
     $classNames = $this->getFactoryClassNamesFromFilesystem();
 
-    self::assertCount(is_countable($factoriesYaml) ? count($factoriesYaml) : 0, $classNames);
+    self::assertCount(count($factoriesYaml), $classNames);
 
     foreach ($factoriesYaml as $entry) {
       self::assertContains($entry['class'], $classNames);
@@ -64,9 +65,7 @@ final class FactoryMapperTest extends TestCase {
       '..',
       'PreprocessEventFactoryInterface.php',
     ];
-    $files = array_filter($files, static function ($file) use ($invalidFactories) {
-      return !in_array($file, $invalidFactories, TRUE);
-    });
+    $files = array_filter($files, static fn($file) => !in_array($file, $invalidFactories, TRUE));
 
     $classNames = [];
     foreach ($files as $file) {
