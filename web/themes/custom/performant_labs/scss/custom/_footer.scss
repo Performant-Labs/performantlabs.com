@@ -6,10 +6,9 @@
  */
 footer.navbar {
   background: $dark-blue;
-  //margin-top: 40px !important;
+  margin-top: 40px !important;
   padding-top: 50px;
   padding-bottom: 50px;
-  //height: 200px;
   @include for-desktop-up {
     margin-top: 80px !important;
     padding-bottom: 30px;

@@ -74,6 +74,7 @@
 {%
   set classes = [
   'node',
+  'article-teaser--info',
   'node--type-' ~ node.bundle|clean_class,
   node.isPromoted() ? 'node--promoted',
   node.isSticky() ? 'node--sticky',
@@ -85,6 +86,8 @@
 <article{{ attributes.addClass(classes) }}>
 
   <div{{ content_attributes.addClass('node__content') }}>
+    {#{ date }#}
+    {{ title_suffix }}
     {{ content }}
     <a href="{{ url }}">Read >></a>
   </div>

@@ -3,71 +3,73 @@
 /*
  * Article.
  */
-// Page-level styling.
-// -- For /articles
-.articles-page main .container {
-  height: 3300px;
-}
-// -- For Full mode page.
-.page-node-type-article .container .region {
-  //height: 3300px;
-}
 
-.block-views-blockarticles-block-3 {
-  margin: 70px 0 120px;
-  .views-row:last-child {
-    .article-teaser--info {
-      border-bottom: 0;
-    }
+.bg-large--image {
+  height: 40rem;
+  margin-bottom: 70px;
+  position: relative;
+  @include for-tablet-landscape-down {
+    height: 23rem;
+    margin-bottom: 30px;
+  }
+}
+.bg-medium--image {
+  height: 25rem;
+  @include for-tablet-landscape-down {
+    height: 19rem;
   }
 }
 
-//
-// View Mode: Card Large
-//
-article.node--view-mode-card-large {
+.bg-card--image {
   background-size: cover;
-  height: 760px;
-  margin-bottom: 70px;
-
-  .node__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  .field--name-field-display-title {
+    color: $white-base;
+    font-family: $font-family-rubik;
+    font-size: 40px;
+    font-weight: 700;
     height: 100%;
+    position: relative;
+    text-align: center;
     width: 100%;
-
-    .field--name-title {
-      font-family: $font-family-rubik;
-      font-size: 40px;
-      font-weight: 700;
-      height: 40px;
-      text-align: center;
-      width: 100%;
-      z-index: 9;
+    z-index: 9;
+    @include for-tablet-landscape-down {
+      font-size: 32px;
+      line-height: 1.5;
+    }
+    .field__label {
+      display: none;
+    }
+    .field__item a {
+      color: $white-base;
+    }
+    .field__item {
+      bottom: 135px;
+      position: absolute;
       padding-left: 50px;
       padding-right: 50px;
       transition: all .2s ease-in-out;
+      width: 100%;
       &:hover {
         transform: scale(1.1);
       }
       @include for-tablet-landscape-down {
-        font-size: 32px;
-        line-height: 1.5;
         bottom: 25px;
         padding-left: 30px;
         padding-right: 30px;
+      }
+      h2 {
+        text-align: center;
       }
       h2 a {
         color: $white-base;
         font-size: 40px;
         @include for-tablet-landscape-down {
-          font-size: 32px;
+         font-size: 32px;
           line-height: 1.5;
         }
       }
     }
+
   }
   &:after {
     background: linear-gradient(180deg,transparent,rgba(0,0,0,.75));
@@ -82,11 +84,14 @@ article.node--view-mode-card-large {
     width: 100%;
     will-change: opacity;
   }
+  .node__content {
+    height: 100%;
+    position: relative;
+    width: 100%;
+  }
 }
 
-//
-// Side-by-side articles.
-//
+// Two articles
 .block-views-blockarticles-block-2 {
   .view-content {
     display: flex;
@@ -94,7 +99,6 @@ article.node--view-mode-card-large {
     justify-content: space-between;
     margin-bottom: 50px;
     width: 100%;
-
     @include for-phone-only {
       margin-bottom: 30px;
     }
@@ -108,122 +112,109 @@ article.node--view-mode-card-large {
     }
   }
 }
-
-//
-// View Mode: Card Medium
-//
-article.node--view-mode-card-medium {
-  background-size: cover;
-  height: 400px;
-
-  .node__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-
-    .field--name-title {
-      font-family: $font-family-rubik;
-      font-size: 36px;
-      font-weight: 700;
-      height: 80px;
-      text-align: center;
-      width: 100%;
-      z-index: 9;
-      padding-left: 50px;
-      padding-right: 50px;
-      transition: all .2s ease-in-out;
-      &:hover {
-        transform: scale(1.1);
-      }
+.bg-medium--image {
+  .field--name-field-display-title {
+    font-size: 36px;
+    @include for-tablet-landscape-down {
+      font-size: 26px;
+    }
+    .field__item {
+      bottom: 80px;
       @include for-tablet-landscape-down {
-        font-size: 26px;
+        bottom: 40px;
       }
+      h2 a,
       h2 {
-        margin: 0 0 0 0;
-        padding: 0 0 0 0;
-        a {
-          color: $white-base;
-          font-size: 36px;
-          @include for-tablet-landscape-down {
-            font-size: 22px;
-            line-height: 1.5;
-          }
+        font-size: 36px;
+        @include for-tablet-landscape-down {
+          font-size: 26px;
         }
       }
     }
   }
-  &:after {
-    background: linear-gradient(180deg,transparent,rgba(0,0,0,.75));
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    height: 100%;
-    opacity: .75;
-    transition: all .5s ease-in-out;
-    width: 100%;
-    will-change: opacity;
-  }
-
-}
-//
-// View Mode: Card Small
-//
-.node--view-mode-card-small {
-  padding-top: 20px;
 }
 
-//
 // Teaser
-//
-article.node--view-mode-teaser {
+.block-views-blockarticles-block-3 {
+  margin: 70px 0 130px;
+}
+.article-teaser--info {
   border-bottom: 2px solid $light-gray3;
   margin: 20px 0 20px;
   padding-bottom: 20px;
-  color: $light-gray2;
-  .field--name-created {
-    font-size: .87794rem;
+  h2 {
+    margin: 0.5rem 0 1rem !important;
   }
-  div.field--name-title {
+  div.field--name-field-display-title {
     margin-bottom: 0;
+  }
+  .block-field-blocknodearticlecreated {
+    color: $light-gray2;
+    font-size: .87794rem;
     h2 {
-      margin: 0.5rem 0 1rem;
+      margin: 10px 0 20px;
+    }
+  }
+}
+.block-views-blockarticles-block-3 {
+  .views-row:last-child {
+    .article-teaser--info {
+      border-bottom: 0;
     }
   }
 }
 
-//
-// View Mode: Full.
-//
-.articles-page .node--view-mode-full {
-  //height: 760px;
-  margin-bottom: 70px;
-
-  .node__content {
-    .image-background {
-      .field--name-field-image img {
-        width: 100%;
-        height: auto;
-      }
-    }
-
-    .field--name-title {
-      color: $dark-blue;
-      font-family: $font-family-rubik;
-      font-size: 36px;
-      font-weight: 700;
-      padding-top: 0em;
-      padding-bottom: .20em;
-      //padding-top: 1.5em;
-      //padding-bottom: 1em;
-      margin-left: 0;
-      text-align: left;
+// Full view mode.
+.node--type-article.node--view-mode-full {
+  position: relative;
+  .block-field-blocknodearticlefield-display-title {
+    color: $white-base;
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    position: absolute;
+    padding: 0 2em;
+    text-align: center;
+    top: 18rem;
+    width: 100%;
+    z-index: 2;
+  }
+  .field--name-field-display-title {
+    color: $white-base;
+    font-family: $font-family-rubik;
+    font-weight: 700;
+    font-size: 2.85088rem;
+    line-height: 4rem;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .field--name-field-image {
+    position: relative;
+    img {
+      height: 42.75rem;
+      object-fit: cover;
       width: 100%;
-      z-index: 2;
     }
+    &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg,transparent,rgba(0,0,0,.85));
+      top: 0;
+      display: block;
+      height: 100%;
+      transition: all .2s;
+      opacity: 1;
+    }
+  }
+  .block-field-blocknodearticlebody,
+  .block-field-blocknodearticlefield-summary {
+    max-width: 850px;
+    margin: 7.5rem auto;
+  }
+  .block-field-blocknodearticlefield-summary {
+    margin: 0 auto 7.5rem;
   }
 }

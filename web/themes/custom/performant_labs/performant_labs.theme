@@ -9,38 +9,10 @@
  * Implements hook_preprocess_html().
  */
 function performant_labs_preprocess_html(&$variables) {
+
   $current_path = \Drupal::service('path.current')->getPath();
   $path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
   $path_alias = ltrim($path_alias, '/');
   $variables['attributes']['class'][] = \Drupal\Component\Utility\Html::cleanCssIdentifier($path_alias). "-page";
-}
 
-/**
- * Implements hook_preprocess_node().
- */
-function performant_labs_preprocess_node(&$variables) {
-  $node = $variables['node'];
-  $contentType = $node->getType();
-
-  // Get the active theme name (machine name).
-  $themeName = Drupal::theme()->getActiveTheme()->getName();
-
-  // Dynamically call a hook based on the content type.
-  $function = "{$themeName}_preprocess_node__" . $contentType;
-  if (function_exists($function)) {
-    $function($variables);
-  }
-}
-
-/**
- * Implements hook_preprocess_node__article().
- */
-function performant_labs_preprocess_node__article(&$variables) {
-  $node = $variables['node'];
-
-  // View Mode: Full isn't displaying title or body for some reason.
-  $variables['custom']['title'] = $node->title->view();
-  $variables['custom']['title']['#label_display'] = 'hidden';
-  $variables['custom']['body'] = $node->body->view();
-  $variables['custom']['body']['#label_display'] = 'hidden';
 }
