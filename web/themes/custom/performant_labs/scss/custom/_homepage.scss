@@ -165,8 +165,6 @@
     padding-bottom: 30px;
   }
   .block-lbk-render {
-    padding-top: 10px;
-    padding-bottom: 10px;
     @include for-phone-only {
       padding-left: 15px;
       padding-right: 15px;

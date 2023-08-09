@@ -1,0 +1,5 @@
+name: 'Kint'
+description: 'description'
+type: module
+version: 'XXXX'
+core_version_requirement: ^8.8 || ^9

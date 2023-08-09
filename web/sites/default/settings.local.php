@@ -46,7 +46,7 @@ $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml'
  * In case the error level could not be fetched from the database, as for
  * example the database connection failed, we rely only on this value.
  */
-$config['system.logging']['error_level'] = 'show_all';
+$config['system.logging']['error_level'] = 'verbose';
 
 /**
  * Disable CSS and JS aggregation.
@@ -183,14 +183,6 @@ if (file_exists($dev_services_file)) {
 }
 
 /**
- * Prevent kint from running out of memory.
- */
-if (class_exists('Kint')) {
-  // Change the maximum depth to prevent out-of-memory errors.
-  \Kint::$depth_limit= 4;
-}
-
-/**
  * Running in Lando locally?
  */
 if (getcwd() == "/app/html") {
@@ -217,6 +209,3 @@ else {
     'driver' => 'mysql',
   );
 }
-
-// Allow update from the UI only locally.
-$settings['update_free_access'] = true;
