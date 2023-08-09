@@ -74,8 +74,6 @@
 {%
   set classes = [
   'node',
-  'bg-large--image',
-  'bg-card--image',
   'node--type-' ~ node.bundle|clean_class,
   node.isPromoted() ? 'node--promoted',
   node.isSticky() ? 'node--sticky',
@@ -85,20 +83,10 @@
 %}
 {% set image_url = file_url(content.field_image['#items'].entity.uri.value) %}
 {{ attach_library('classy/node') }}
-
 {{ ('<article' ~ attributes.addClass(classes) ~ 'style="background: url(' ~ image_url ~ ') no-repeat; background-size: cover;">') | raw }}
 
-  {#{ title_prefix }}
-  {% if label and not page %}
-    <h2{{ title_attributes }}>
-      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-    </h2>
-  {% endif %}
-  {{ title_suffix }#}
-
-  <div{{ content_attributes.addClass('node__content') }}>
-    {#{ content }#}
-    {{ content.field_display_title }}
+<div{{ content_attributes.addClass('node__content') }}>
+    {{ content.title }}
   </div>
 
 </article>
