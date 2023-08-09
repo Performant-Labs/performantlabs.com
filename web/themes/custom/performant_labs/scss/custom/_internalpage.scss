@@ -11,7 +11,7 @@
     margin-bottom: 55px;
     text-align: center;
   }
-  .field--name-field-display-title {
+  .field--name-title {
     @extend .main-page--title;
     .field__item {
       @include for-phone-only {
@@ -27,6 +27,20 @@
 // Lists
 .item-list ul {
   margin: 20px 0 40px 50px;
+}
+
+// Services page top.
+.PL-section-thin,
+{
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+}
+// All Services page bottom.
+.PL-section-default {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 // Jobs page
@@ -107,7 +121,7 @@
 }
 
 // About Us.
-.pl-section-medium {
+.PL-section-medium {
   .data-column {
     padding-left: 15px;
     padding-right: 15px;
@@ -118,8 +132,19 @@
   }
 }
 
-//How we do it page.
+// How we do it page.
 .how-we-do-it-page {
+  .PL-section-medium {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .data-column {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
   .lbk-rich-text-component h2 {
     font-size: 1.8rem;
   }
