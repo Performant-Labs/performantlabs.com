@@ -5,6 +5,9 @@
  * Automated Testing page.
  */
 .automated-testing-page {
+  //
+  // Main container.
+  //
   main .container {
     overflow: hidden;
     @include for-desktop-up {
@@ -13,6 +16,41 @@
       padding-right: 0 !important;
     }
   }
+  //
+  // The circled checkmarks.
+  //
+  .checkboxes-container {
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top: 60px;
+    ul {
+      list-style-type: none;
+      li {
+        display:inline-block;
+        margin-left: 2%;
+        line-height: 30px;
+        //text-align: left;
+        &::before {
+          content: '';
+          display: inline-block;
+          height: 100px;
+          width: 80px;
+          background-size: 60px auto;
+          background-image: url('/sites/default/files/layout_builder_kit/CircledCheckmark%402x_0.png');
+          background-repeat: no-repeat;
+          background-position: left center;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+  //
+  //
+  // Confirmed CSS to here.
+  //
+  //
+
+
   .layout--onecol .block-layout-builder-kit {
     margin-bottom: 0;
   }
@@ -74,10 +112,6 @@
   }
 }
 
-// The circled check marks.
-.automated-testing-page .pl-section-medium {
-  width: 901px;
-}
 
 .automated-testing-page {
   .automated-testing--not-sure-image {
@@ -176,11 +210,11 @@ $heading-color: #43BAC0;
   margin: 0 0 3em 0;
   padding: 0;
   box-shadow: 0 0 40px rgba(0,0,0,0.2);
-  
+
   .Rtable-row {
     width: 100%;
     display: flex;
-    
+
     .Rtable-cell {
       box-sizing: border-box;
       flex-grow: 1;
@@ -203,7 +237,7 @@ $heading-color: #43BAC0;
           font-size: 2em;
           color: #333;
         }
-        
+
         .webinar-date {
           font-weight: 700;
         }
@@ -218,13 +252,13 @@ $heading-color: #43BAC0;
   .is-striped {
     background-color: white;
   }
-  
+
   .Rtable--collapse  {
     display: block;
     width: 100%;
     padding: 1em;
     box-shadow: none;
-    
+
     .Rtable-row {
       box-sizing: border-box;
       width: 100%;
@@ -232,7 +266,7 @@ $heading-color: #43BAC0;
       flex-wrap: wrap;
       margin-bottom: 2em;
       box-shadow: 0 0 40px rgba(0,0,0,0.2);
-      
+
       .Rtable-cell {
         width: 100% !important;
         display: flex;
@@ -255,18 +289,18 @@ $heading-color: #43BAC0;
         }
       }
     }
-    
+
     .topic-cell {
       background-color: $heading-color;
       color: white;
       font-weight: 700;
       order: -1;
-      
+
       .Rtable-cell--content {
         padding-left: 0 !important;
       }
     }
-    
+
     .Rtable-row--head {
       display: none;
     }
@@ -276,7 +310,7 @@ $heading-color: #43BAC0;
 // Non-Flex modernizer fallback
 .no-flexbox .Rtable {
   display: block;
-  
+
   &.Rtable-cell {
     width: 100%;
   }
@@ -287,39 +321,7 @@ $heading-color: #43BAC0;
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.PL-section-thin {
   max-width: 96%;
 }
-.checkboxes-container {
-  text-align: center;
-}
-.checkboxes-container ul {
-  list-style-type:none;
-  width: 100%;
-  position: relative;
-}
-.checkboxes-container ul li{
- display:inline-block;
- width: 17%;
- /* text-indent: -80px;
-  */
- margin-left: 9%;
- line-height: normal;
- line-height: 22px;
- position: relative;
-  text-align:left;
-}
-.checkboxes-container ul li::before {
-  content: '';
-  display: inline-block;
-  height: 65px;
-  width: 65px;
-  background-size: cover;
-  background-image: url('/sites/default/files/layout_builder_kit/CircledCheckmark%402x_0.png');
-  background-repeat: no-repeat;
-  left: -80px;
-  background-position: center center;
-  vertical-align: middle;
-  position: absolute;
-  top: -12px;
-}
+
 .automated-testing--wwu {
   display: flex;
   align-items: center;
@@ -742,13 +744,6 @@ body .pl-table .column:first-child .cell {
 .automating-testing--header-title p {
   color: #f1eeee;
 }
-.lbk-rich-text-component.checkboxes-container {
-  margin-bottom: 120px;
-  margin-top: 120px;
-}
-.checkboxes-container ul li:first-child {
-  margin-left: 50px;
-}
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50 {
   padding: 30px 14% !important;
 }
@@ -953,7 +948,7 @@ ul.clients-list {
 @media only screen and (max-width: 600px){
   .automating-testing--header-title h1 {
       font-size: 29px;
- }
+  }
   .checkboxes-container ul li {
       display: block;
       width: 100%;
@@ -964,61 +959,64 @@ ul.clients-list {
       padding-left: 67px;
       text-align: center;
       text-align: left;
- }
+  }
   .checkboxes-container ul li::before {
       left: -26px;
- }
+  }
   .checkboxes-container ul li:first-child {
       margin: 0;
- }
+  }
   .lbk-rich-text-component.checkboxes-container {
       margin-bottom: 0px;
       margin-top: 0px;
- }
+  }
   .lbk-rich-text-component.automated-testing--wwu--title h2 {
       text-align: left;
       margin: 0px;
       padding: 0;
- }
+  }
   .lbk-rich-text-component.automated-testing--wwu--title {
       left: 10%;
       width: 73%;
- }
+  }
   h1.faq-page {
- }
+  }
   .faq-page {
       width: 100%;
- }
+  }
   hr.hr-line {
       width: 100%;
- }
+  }
   .automated-testing--trusted-by {
       padding-top: 0px;
       padding-bottom: 0px;
- }
+  }
   img {
- }
+  }
   .automated-testing--trusted-by ul.clients-list li a img {
       height: 40px;
       width: 100%;
- }
+  }
   li {
- }
+  }
   li {
- }
+  }
   .automated-testing--trusted-by ul.clients-list li {
       max-width: 32%;
- }
+  }
   .automated-testing--we-work-with {
       padding-top: 0px;
       padding-bottom: 0px;
       padding: 15px;
- }
+  }
   .automated-testing--we-work-with h2 {
       text-align: center;
       width: 100%;
- }
+  }
 }
+//
+// END OF @media only screen and (max-width: 600px){
+//
 section.faq-container>div, section.faq-container h1 {
   width: 100%;
 }
@@ -1411,6 +1409,8 @@ body.automated-testing-page .automated-testing--faq p {
       text-align: center;
  }
 }
+// END OF @media (min-width:600px) and (max-width:990px) {
+
 .automated-testing--trusted-by ul.clients-list li a img{
   max-width: 100%;
   height: auto;

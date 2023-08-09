@@ -155,21 +155,23 @@
       }
     }
   }
-  .block-lbk-render:first-child {
-    padding-top: 100px;
-    @include for-phone-only {
-      padding-top: 20px;
+  .layout__region--second {
+    .block-layout-builder-kit:first-child article {
+      padding-top: 100px;
+      @include for-phone-only {
+        padding-top: 20px;
+      }
     }
-  }
-  .block-lbk-render:last-child {
-    padding-bottom: 30px;
-  }
-  .block-lbk-render {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    @include for-phone-only {
-      padding-left: 15px;
-      padding-right: 15px;
+    .block-layout-builder-kit:last-child article {
+      padding-bottom: 30px;
+    }
+    .block-lbk-render {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      @include for-phone-only {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     }
   }
 }

@@ -4187,7 +4187,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-compressed {
+  .PL-section-compressed {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -4195,7 +4195,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-thin {
+  .PL-section-thin {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -4203,7 +4203,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-default {
+  .PL-section-default {
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -4211,7 +4211,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-medium {
+  .PL-section-medium {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -4508,23 +4508,23 @@ a.btn-primary.button:visited:active {
     display: block;
   }
 }
-.path-frontpage .block-lbk-render:first-child {
+.path-frontpage .layout__region--second .block-layout-builder-kit:first-child article {
   padding-top: 100px;
 }
 @media (max-width: 599px) {
-  .path-frontpage .block-lbk-render:first-child {
+  .path-frontpage .layout__region--second .block-layout-builder-kit:first-child article {
     padding-top: 20px;
   }
 }
-.path-frontpage .block-lbk-render:last-child {
+.path-frontpage .layout__region--second .block-layout-builder-kit:last-child article {
   padding-bottom: 30px;
 }
-.path-frontpage .block-lbk-render {
+.path-frontpage .layout__region--second .block-lbk-render {
   padding-top: 10px;
   padding-bottom: 10px;
 }
 @media (max-width: 599px) {
-  .path-frontpage .block-lbk-render {
+  .path-frontpage .layout__region--second .block-lbk-render {
     padding-left: 15px;
     padding-right: 15px;
   }
@@ -4864,7 +4864,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-compressed {
+  .PL-section-compressed {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -4872,7 +4872,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-thin {
+  .PL-section-thin {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -4880,7 +4880,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-default {
+  .PL-section-default {
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -4888,7 +4888,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-medium {
+  .PL-section-medium {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -5274,7 +5274,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-compressed {
+  .PL-section-compressed {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -5282,7 +5282,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-thin {
+  .PL-section-thin {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -5290,7 +5290,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-default {
+  .PL-section-default {
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -5298,7 +5298,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-medium {
+  .PL-section-medium {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -5648,7 +5648,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-compressed {
+  .PL-section-compressed {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -5656,7 +5656,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-thin {
+  .PL-section-thin {
     max-width: 850px;
     margin-left: auto;
     margin-right: auto;
@@ -5664,7 +5664,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-default {
+  .PL-section-default {
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -5672,7 +5672,7 @@ h2.lbk-block--title2 {
 }
 
 @media (min-width: 1200px) {
-  .pl-section-medium {
+  .PL-section-medium {
     max-width: 900px;
     margin-left: auto;
     margin-right: auto;
@@ -9260,6 +9260,30 @@ a.btn-primary.button:visited:active {
     padding-right: 0 !important;
   }
 }
+.automated-testing-page .checkboxes-container {
+  text-align: center;
+  margin-bottom: 60px;
+  margin-top: 60px;
+}
+.automated-testing-page .checkboxes-container ul {
+  list-style-type: none;
+}
+.automated-testing-page .checkboxes-container ul li {
+  display: inline-block;
+  margin-left: 2%;
+  line-height: 30px;
+}
+.automated-testing-page .checkboxes-container ul li::before {
+  content: "";
+  display: inline-block;
+  height: 100px;
+  width: 80px;
+  background-size: 60px auto;
+  background-image: url("/sites/default/files/layout_builder_kit/CircledCheckmark%402x_0.png");
+  background-repeat: no-repeat;
+  background-position: left center;
+  vertical-align: middle;
+}
 .automated-testing-page .layout--onecol .block-layout-builder-kit {
   margin-bottom: 0;
 }
@@ -9324,10 +9348,6 @@ a.btn-primary.button:visited:active {
 .automated-testing-page .automated-testing-logos .lbk-block--title {
   display: inline-block;
   width: 100%;
-}
-
-.automated-testing-page .pl-section-medium {
-  width: 901px;
 }
 
 .automated-testing-page .automated-testing--not-sure-image {
@@ -9531,43 +9551,6 @@ a.btn-primary.button:visited:active {
 
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.PL-section-thin {
   max-width: 96%;
-}
-
-.checkboxes-container {
-  text-align: center;
-}
-
-.checkboxes-container ul {
-  list-style-type: none;
-  width: 100%;
-  position: relative;
-}
-
-.checkboxes-container ul li {
-  display: inline-block;
-  width: 17%;
-  /* text-indent: -80px;
-   */
-  margin-left: 9%;
-  line-height: normal;
-  line-height: 22px;
-  position: relative;
-  text-align: left;
-}
-
-.checkboxes-container ul li::before {
-  content: "";
-  display: inline-block;
-  height: 65px;
-  width: 65px;
-  background-size: cover;
-  background-image: url("/sites/default/files/layout_builder_kit/CircledCheckmark%402x_0.png");
-  background-repeat: no-repeat;
-  left: -80px;
-  background-position: center center;
-  vertical-align: middle;
-  position: absolute;
-  top: -12px;
 }
 
 .automated-testing--wwu {
@@ -10050,15 +10033,6 @@ body .pl-table .column:first-child .cell {
 
 .automating-testing--header-title p {
   color: #f1eeee;
-}
-
-.lbk-rich-text-component.checkboxes-container {
-  margin-bottom: 120px;
-  margin-top: 120px;
-}
-
-.checkboxes-container ul li:first-child {
-  margin-left: 50px;
 }
 
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50 {

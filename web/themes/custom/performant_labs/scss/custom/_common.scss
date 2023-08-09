@@ -52,7 +52,7 @@ h2.lbk-block--title2 {
 }
 
 // Layout Builder styles.
-.pl-section-compressed {
+.PL-section-compressed {
   @include for-desktop-up {
     max-width: 850px;
     margin-left: auto;
@@ -60,7 +60,7 @@ h2.lbk-block--title2 {
   }
 }
 
-.pl-section-thin {
+.PL-section-thin {
   @include for-desktop-up {
     max-width: 850px;
     margin-left: auto;
@@ -68,7 +68,7 @@ h2.lbk-block--title2 {
   }
 }
 
-.pl-section-default {
+.PL-section-default {
   @include for-desktop-up {
     max-width: 80rem;
     margin-left: auto;
@@ -76,7 +76,7 @@ h2.lbk-block--title2 {
   }
 }
 
-.pl-section-medium {
+.PL-section-medium {
   @include for-desktop-up {
     max-width: 900px;
     margin-left: auto;
