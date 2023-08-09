@@ -183,8 +183,8 @@ jobs:
           # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
           
           echo "Running drush updb."
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
-          sleep 5
+   #       terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
+   #       sleep 5
           
           #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
           
