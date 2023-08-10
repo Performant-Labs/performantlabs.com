@@ -86,10 +86,10 @@
 <article{{ attributes.addClass(classes) }}>
 
   <div{{ content_attributes.addClass('node__content') }}>
-    <div class="image-background">
+    <div class="image-container">
       {{ content.field_image }}
+      {{ custom.title }}
     </div>
-    {{ custom.title }}
     {{ custom.body }}
   </div>
 
