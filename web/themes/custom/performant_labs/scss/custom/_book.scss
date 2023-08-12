@@ -38,8 +38,9 @@
     }
   }
 }
-
-// Sidebar Left
+//
+// Left Sidebar
+//
 .page-node-type-book {
   main .container {
     .col-lg-3 {
@@ -52,8 +53,11 @@
   .region-sidebar-first {
     padding: 60px 15px 50px;
   }
-  #block-booknavigation {
-    font-size: 1.1rem;
+  #block-booknavigation-2 {
+    font-size: 1.2rem;
+    ul {
+      list-style-type: none;
+    }
   }
 }
 .page-node-type-book,
@@ -61,8 +65,41 @@
   .pl-container {
     main {
       @include for-desktop-up {
-        padding-top: 122px;
+        padding-top: 150px;
       }
+    }
+  }
+}
+
+
+
+//
+// The navbar at the bottom.
+//
+.node--type-book nav {
+  h2 {
+    display: none;
+  }
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0.5em 0;
+    display: block;
+    li {
+      vertical-align: top;
+      display: inline-block;
+    }
+    li:first-child {
+      width: 45%;
+      text-align: left;
+    }
+    li:nth-child(2) {
+      text-align: center;
+    }
+    li:last-child {
+      float: right;
+      width: 45%;
+      text-align: right;
     }
   }
 }
