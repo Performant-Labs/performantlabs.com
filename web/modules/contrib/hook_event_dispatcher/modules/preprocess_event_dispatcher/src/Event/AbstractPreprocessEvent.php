@@ -2,8 +2,8 @@
 
 namespace Drupal\preprocess_event_dispatcher\Event;
 
-use Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables;
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables;
 
 /**
  * Class AbstractPreprocessEvent.

@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\hook_event_dispatcher\Unit;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface;
-use Drupal\Component\EventDispatcher\Event;
 
 /**
  * Class HookEventDispatcherManagerSpy.
@@ -19,18 +19,21 @@ class HookEventDispatcherManagerSpy implements HookEventDispatcherManagerInterfa
    * @var int
    */
   private int $maxEventCount = 1;
+
   /**
    * Event callbacks.
    *
    * @var array
    */
   private array $eventCallbacks = [];
+
   /**
    * The amount of event registered.
    *
    * @var int
    */
   private int $eventCount = 0;
+
   /**
    * Registered events.
    *

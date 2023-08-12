@@ -36,8 +36,8 @@ class QueueInfoAlterEventTest extends KernelTestBase {
   public function testQueueInfoAlterEvent(): void {
     $this->listen(CoreHookEvents::QUEUE_INFO_ALTER, 'onQueueInfoAlter');
     $queues = $this->container->get('plugin.manager.queue_worker')->getDefinitions();
-    $this->assertArrayHasKey('cron_queue_test_broken_queue', $queues);
-    $this->assertEquals('Test altered', $queues['cron_queue_test_broken_queue']['title']);
+    $this->assertArrayHasKey('cron_queue_test_exception', $queues);
+    $this->assertEquals('Test altered', $queues['cron_queue_test_exception']['title']);
   }
 
   /**
@@ -48,9 +48,9 @@ class QueueInfoAlterEventTest extends KernelTestBase {
    */
   public function onQueueInfoAlter(QueueInfoAlterEvent $event): void {
     $queues = &$event->getQueues();
-    $this->assertArrayHasKey('cron_queue_test_broken_queue', $queues);
-    $this->assertNotEquals('Test altered', $queues['cron_queue_test_broken_queue']['title']);
-    $queues['cron_queue_test_broken_queue']['title'] = 'Test altered';
+    $this->assertArrayHasKey('cron_queue_test_exception', $queues);
+    $this->assertNotEquals('Test altered', $queues['cron_queue_test_exception']['title']);
+    $queues['cron_queue_test_exception']['title'] = 'Test altered';
   }
 
 }

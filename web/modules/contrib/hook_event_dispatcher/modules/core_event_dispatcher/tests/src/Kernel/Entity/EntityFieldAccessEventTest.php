@@ -146,4 +146,28 @@ class EntityFieldAccessEventTest extends KernelTestBase {
     ];
   }
 
+  /**
+   * Field access event with no items.
+   *
+   * @throws \Exception
+   */
+  public function testEntityFieldAccessEventWithNoItems(): void {
+    $this->listen(EntityHookEvents::ENTITY_FIELD_ACCESS, 'onEntityFieldAccessEventWithNoItems');
+
+    $accessControlHandler = $this->container->get('entity_type.manager')
+      ->getAccessControlHandler('entity_test');
+    $accessControlHandler->fieldAccess($this->operation, $this->fieldDefinition, NULL, NULL, TRUE);
+
+  }
+
+  /**
+   * Callback for EntityFieldAccessEvent.
+   *
+   * @param \Drupal\core_event_dispatcher\Event\Entity\EntityFieldAccessEvent $event
+   *   The event.
+   */
+  public function onEntityFieldAccessEventWithNoItems(EntityFieldAccessEvent $event): void {
+    $this->assertNull($event->getItems());
+  }
+
 }

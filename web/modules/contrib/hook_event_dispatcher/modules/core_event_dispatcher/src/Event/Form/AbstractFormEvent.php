@@ -2,9 +2,9 @@
 
 namespace Drupal\core_event_dispatcher\Event\Form;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
-use Drupal\Component\EventDispatcher\Event;
 
 /**
  * Class AbstractFormEvent.

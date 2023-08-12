@@ -2,8 +2,8 @@
 
 namespace Drupal\hook_event_dispatcher\Manager;
 
-use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class HookEventDispatcherManager.

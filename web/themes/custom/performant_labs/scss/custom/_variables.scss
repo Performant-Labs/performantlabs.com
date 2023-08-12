@@ -14,8 +14,20 @@ $light-gray2:           #667786;
 $light-gray3:           #f4f6f7;
 $light-gray4:           #f9f9f9;
 $dark-gray:             #666;
+$extra-dark-gray:       #333;
 $yellow-base:           #FFFF70;
 $orange-base:           #fd610e;
 $orange-2:              #f56603;
 //$font-family-serif:     'Zilla Slab', serif; // Default
 $font-family-rubik:     'Rubik', sans-serif; // For titles
+
+//
+// CSS Variables
+// Use for new styles.
+//
+:root {
+  --font--size--medium: 14.4px;
+  --font--family--fixed: Consolas,Monaco,'Andale Mono',monospace;
+  --prism-element-background-color: #F2EFED;
+  --color--silver--darken10: rgb(219, 219, 219);
+}

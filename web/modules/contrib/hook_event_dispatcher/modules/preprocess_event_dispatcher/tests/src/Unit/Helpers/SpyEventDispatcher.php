@@ -3,7 +3,7 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers;
 
 use Drupal\Component\EventDispatcher\Event;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function count;
 use function end;
@@ -85,7 +85,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function addListener($eventName, $listener, $priority = 0): void {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -94,7 +94,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function addSubscriber(EventSubscriberInterface $subscriber): void {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -103,7 +103,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function removeListener($eventName, $listener): void {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -112,7 +112,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function removeSubscriber(EventSubscriberInterface $subscriber): void {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -121,7 +121,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function getListeners($eventName = NULL): array {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -130,7 +130,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function getListenerPriority($eventName, $listener): ?int {
     throw new \BadMethodCallException('This spy does not support this call');
@@ -139,7 +139,7 @@ final class SpyEventDispatcher implements EventDispatcherInterface {
   /**
    * Mock.
    *
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function hasListeners($eventName = NULL): bool {
     throw new \BadMethodCallException('This spy does not support this call');

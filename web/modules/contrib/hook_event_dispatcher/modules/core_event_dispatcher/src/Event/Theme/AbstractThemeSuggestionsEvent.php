@@ -2,8 +2,8 @@
 
 namespace Drupal\core_event_dispatcher\Event\Theme;
 
-use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class AbstractThemeSuggestionsEvent.

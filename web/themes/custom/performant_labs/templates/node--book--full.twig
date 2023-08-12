@@ -70,7 +70,6 @@
  *   in different view modes.
  */
 #}
-
 {%
   set classes = [
   'node',
@@ -86,11 +85,7 @@
 <article{{ attributes.addClass(classes) }}>
 
   <div{{ content_attributes.addClass('node__content') }}>
-    <div class="image-container">
-      {{ content.field_image }}
-      {{ custom.title }}
-    </div>
-    {{ custom.body }}
+    {{ content }}
   </div>
 
 </article>

@@ -65,10 +65,10 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
   /**
    * Get the items.
    *
-   * @return \Drupal\Core\Field\FieldItemListInterface
+   * @return null|\Drupal\Core\Field\FieldItemListInterface
    *   The items.
    */
-  public function getItems(): FieldItemListInterface {
+  public function getItems(): ?FieldItemListInterface {
     return $this->items;
   }
 

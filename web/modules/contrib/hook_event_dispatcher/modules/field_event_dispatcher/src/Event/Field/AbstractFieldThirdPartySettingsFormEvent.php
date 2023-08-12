@@ -2,11 +2,11 @@
 
 namespace Drupal\field_event_dispatcher\Event\Field;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
-use Drupal\Component\EventDispatcher\Event;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
@@ -91,8 +91,8 @@ abstract class AbstractFieldThirdPartySettingsFormEvent extends Event implements
    *   An array containing the third-party form elements to add.
    *
    * @see \Drupal\field_event_dispatcher\EventSubscriber\Form\FormEntityViewDisplayEditAlterEventSubscriber::formAlter()
-   *   Alters the form structure so that each module's third-party form elements
-   *   are correctly nested only under their module machine names.
+   *   Alters the form structure so that each module's third-party form
+   *   elements are correctly nested only under their module machine names.
    */
   public function addElements(string $moduleName, array $newElements): void {
     $this->elements = NestedArray::mergeDeep(

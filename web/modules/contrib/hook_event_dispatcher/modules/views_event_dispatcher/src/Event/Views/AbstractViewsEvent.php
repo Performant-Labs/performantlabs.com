@@ -2,9 +2,9 @@
 
 namespace Drupal\views_event_dispatcher\Event\Views;
 
+use Drupal\Component\EventDispatcher\Event;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\views\ViewExecutable;
-use Drupal\Component\EventDispatcher\Event;
 
 /**
  * Class AbstractViewsEvent.
