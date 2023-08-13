@@ -575,11 +575,19 @@ li.L8 {
   list-style-type: decimal !important;
 }
 
-pre,
-code {
-  color: #333;
+pre {
   padding: 1em;
   padding-left: 2em;
+  color: #333;
+  background-color: var(--prism-element-background-color);
+  width: 100ch;
+  font-size: var(--font--size--medium) !important;
+  font-family: var(--font--family--fixed) !important;
+  line-height: 1.6;
+}
+
+code {
+  color: #333;
   background-color: var(--prism-element-background-color);
   width: 80ch;
   font-size: var(--font--size--medium) !important;
@@ -5982,27 +5990,29 @@ a.btn-primary.button:visited:active {
   }
 }
 
-.node--type-book nav h2 {
-  display: none;
-}
-.node--type-book nav ul {
+.nav-book .nav-book-tree ul {
   list-style-type: none;
+}
+.nav-book .nav-bottom-links {
+  list-style-type: none;
+}
+.nav-book .nav-bottom-links ul {
   margin: 0;
   padding: 0.5em 0;
   display: block;
 }
-.node--type-book nav ul li {
+.nav-book .nav-bottom-links ul li {
   vertical-align: top;
   display: inline-block;
 }
-.node--type-book nav ul li:first-child {
+.nav-book .nav-bottom-links ul li:first-child {
   width: 45%;
   text-align: left;
 }
-.node--type-book nav ul li:nth-child(2) {
+.nav-book .nav-bottom-links ul li:nth-child(2) {
   text-align: center;
 }
-.node--type-book nav ul li:last-child {
+.nav-book .nav-bottom-links ul li:last-child {
   float: right;
   width: 45%;
   text-align: right;
