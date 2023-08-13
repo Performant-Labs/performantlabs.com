@@ -515,11 +515,19 @@ li.L8 {
   list-style-type: decimal !important;
 }
 
-pre,
-code {
-  color: $extra-dark-gray;
+pre {
   padding: 1em;
   padding-left: 2em;
+  color: $extra-dark-gray;
+  background-color:   var(--prism-element-background-color);
+  width: 100ch;
+  font-size: var(--font--size--medium) !important;
+  font-family: var(--font--family--fixed) !important;
+  line-height: 1.6;
+}
+
+code {
+  color: $extra-dark-gray;
   background-color:   var(--prism-element-background-color);
   width: 80ch;
   font-size: var(--font--size--medium) !important;

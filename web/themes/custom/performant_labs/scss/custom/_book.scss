@@ -72,34 +72,38 @@
 }
 
 
-
 //
-// The navbar at the bottom.
+// The book navigation..
 //
-.node--type-book nav {
-  h2 {
-    display: none;
+.nav-book {
+  .nav-book-tree {
+    ul {
+      list-style-type: none;
+    }
   }
-  ul {
+
+  .nav-bottom-links {
     list-style-type: none;
-    margin: 0;
-    padding: 0.5em 0;
-    display: block;
-    li {
-      vertical-align: top;
-      display: inline-block;
-    }
-    li:first-child {
-      width: 45%;
-      text-align: left;
-    }
-    li:nth-child(2) {
-      text-align: center;
-    }
-    li:last-child {
-      float: right;
-      width: 45%;
-      text-align: right;
+    ul {
+      margin: 0;
+      padding: 0.5em 0;
+      display: block;
+      li {
+        vertical-align: top;
+        display: inline-block;
+      }
+      li:first-child {
+        width: 45%;
+        text-align: left;
+      }
+      li:nth-child(2) {
+        text-align: center;
+      }
+      li:last-child {
+        float: right;
+        width: 45%;
+        text-align: right;
+      }
     }
   }
 }
