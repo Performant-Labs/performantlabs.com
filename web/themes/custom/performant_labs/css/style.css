@@ -9555,14 +9555,90 @@ a.btn-primary.button:visited:active {
 .automated-testing-page .automated-testing--build-quality-into p {
   padding: 0px 20px;
   text-align: left;
-  font-size: 24px;
+  font-size: 20px;
 }
 .automated-testing-page .automated-testing--build-quality-into h2.text-align-center {
   text-align: center;
-  padding: 0px 20px;
+  padding: 0px 20px 40px 0px;
 }
 .automated-testing-page .automated-testing--build-quality-into p {
   text-align: left;
+}
+.automated-testing-page .white-border-arrow {
+  background: url("https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/white-arrow.png");
+  background-repeat: no-repeat;
+  background-color: #0093b3;
+  background-size: 74%;
+  background-position: 99% -9%;
+}
+.automated-testing-page .white-border-arrow h2 {
+  border: none;
+  padding-top: 30px;
+}
+.automated-testing-page .automated-testing--faq {
+  border-bottom: #777;
+  padding: 20px 60px;
+  /* Contains the FAQ Q and A pairs */
+}
+.automated-testing-page .automated-testing--faq h2 {
+  text-align: center;
+}
+.automated-testing-page .automated-testing--faq .faq-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /* Style the buttons that are used to open and close the faq-body body */
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+  /* Style the faq-page panel. Note: hidden by default */
+}
+.automated-testing-page .automated-testing--faq .faq-container h1 {
+  font-size: 20px;
+  margin-bottom: 0px !important;
+  text-align: left !important;
+  padding: 15px 0px;
+  margin: 0px;
+  background: transparent;
+}
+.automated-testing-page .automated-testing--faq .faq-container .hr-line {
+  width: 60%;
+  margin: auto;
+}
+.automated-testing-page .automated-testing--faq .faq-container .faq-question {
+  color: #444;
+  cursor: pointer;
+  padding: 30px 20px;
+  width: 60%;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  margin: auto;
+}
+.automated-testing-page .automated-testing--faq .faq-container .active, .automated-testing-page .automated-testing--faq .faq-container .faq-page:hover {
+  background-color: #F9F9F9;
+}
+.automated-testing-page .automated-testing--faq .faq-container .faq-body {
+  margin: auto;
+  width: 50%;
+  padding: 0 18px;
+  background-color: white;
+  overflow: hidden;
+  /* Taking out expansion/contraction for now */
+}
+@media (min-width: 0px) and (max-width: 1190px) {
+  .automated-testing-page .automated-testing--faq {
+    padding: 30px 15px;
+  }
+}
+@media (min-width: 0px) and (max-width: 600px) {
+  .automated-testing-page .container h1 {
+    font-size: 14px;
+    text-indent: 10px;
+  }
+}
+.automated-testing-page body.automated-testing-page .automated-testing--faq p {
+  text-align: left !important;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .automated-testing-page .automated-testing--trusted-by {
   padding: 30px 15%;
@@ -10381,93 +10457,6 @@ body .automated-testing--level-up p {
   font-size: 18px;
 }
 
-/*FAQ CSS*/
-.faq-heading {
-  border-bottom: #777;
-  padding: 20px 60px;
-}
-
-.faq-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.hr-line {
-  width: 60%;
-  margin: auto;
-}
-
-/* Style the buttons that are used to open and close the faq-page body */
-.faq-page {
-  /* background-color: #eee;
-   */
-  color: #444;
-  cursor: pointer;
-  padding: 30px 20px;
-  width: 60%;
-  border: none;
-  outline: none;
-  transition: 0.4s;
-  margin: auto;
-}
-
-.faq-body {
-  margin: auto;
-  /* text-align: center;
-   */
-  width: 50%;
-  padding: auto;
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .faq-page:hover {
-  background-color: #F9F9F9;
-}
-
-/* Style the faq-page panel. Note: hidden by default */
-.faq-body {
-  padding: 0 18px;
-  background-color: white;
-  display: none;
-  overflow: hidden;
-}
-
-.faq-page:after {
-  content: "➕";
-  /* Unicode character for "plus" sign (+) */
-  font-size: 13px;
-  color: #777;
-  float: right;
-  margin-left: 5px;
-}
-
-.automated-testing--faq .active::after {
-  content: "➖";
-}
-
-.automated-testing--faq h1 {
-  font-size: 20px;
-  margin-bottom: 0px !important;
-  text-align: left !important;
-  padding: 15px 0px;
-  margin: 0px;
-  background: transparent;
-}
-
-.faq-body {
-  padding: 0px;
-  margin: 0px;
-}
-
-.automated-testing--faq {
-  padding: 30px 15%;
-}
-
-hr.hr-line {
-  margin: 0;
-}
-
 @media only screen and (max-width: 600px) {
   .automating-testing--header-title h1 {
     font-size: 29px;
@@ -10502,12 +10491,6 @@ hr.hr-line {
     left: 10%;
     width: 73%;
   }
-  .faq-page {
-    width: 100%;
-  }
-  hr.hr-line {
-    width: 100%;
-  }
   .automated-testing--trusted-by {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -10529,27 +10512,6 @@ hr.hr-line {
     width: 100%;
   }
 }
-section.faq-container > div, section.faq-container h1 {
-  width: 100%;
-}
-
-.hr-line {
-  width: 100%;
-}
-
-.white-border-arrow {
-  background: url("https://dev-performant-labs.pantheonsite.io/sites/default/files/2023-01/white-arrow.png");
-  background-repeat: no-repeat;
-  background-color: #0093b3;
-  background-size: 74%;
-  background-position: 99% -9%;
-}
-
-.white-border-arrow h2 {
-  border: none;
-  padding-top: 30px;
-}
-
 body .header.blue {
   background-color: #0093b3;
 }
@@ -10634,15 +10596,6 @@ body .header.blue {
   }
   .automated-testing--level-up {
     min-height: 400px;
-  }
-  .automated-testing--faq {
-    padding: 20px;
-  }
-  .lbk-rich-text-component.automated-testing--faq h2:first-child {
-    text-align: left;
-  }
-  .faq-body {
-    width: 100%;
   }
   .automated-testing--trusted-by {
     padding: 0 20px;
@@ -10877,35 +10830,6 @@ body .lbk-rich-text-component.automated-testing--level-up p {
 .automated-testing--trusted-by ul.clients-list {
   text-align: center;
   line-height: 50px;
-}
-
-@media (min-width: 0px) and (max-width: 1190px) {
-  .automated-testing--faq {
-    padding: 30px 15px;
-  }
-}
-.faq-body {
-  width: 96%;
-}
-
-.faq-page:after {
-  margin-right: 10px;
-}
-
-.automated-testing--faq h1 {
-  text-indent: 10px;
-}
-
-@media (min-width: 0px) and (max-width: 600px) {
-  .container h1 {
-    font-size: 14px;
-    text-indent: 10px;
-  }
-}
-body.automated-testing-page .automated-testing--faq p {
-  text-align: left !important;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 @media (min-width: 601px) and (max-width: 640px) {
