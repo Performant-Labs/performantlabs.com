@@ -9483,6 +9483,130 @@ a.btn-primary.button:visited:active {
   background-position: left center;
   vertical-align: middle;
 }
+.automated-testing-page .not-sure-image {
+  margin: 68px 0 20px;
+  float: right;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .not-sure-image {
+    margin-bottom: 15px;
+  }
+}
+.automated-testing-page .not-sure-image img {
+  max-width: 100%;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .not-sure-image img {
+    max-width: 220px;
+  }
+}
+.automated-testing-page .not-sure-image .image-component {
+  max-width: 100%;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .not-sure-image .image-component {
+    text-align: center;
+  }
+}
+.automated-testing-page .not-sure-text {
+  margin-top: 100px;
+  padding-left: 20px;
+  padding-right: 80px;
+  margin-bottom: 100px;
+}
+@media (max-width: 599px) {
+  .automated-testing-page .not-sure-text {
+    margin-bottom: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+@media (max-width: 599px) {
+  .automated-testing-page .not-sure-text h2.lbk-block--title {
+    margin: 10px 0 25px !important;
+  }
+}
+.automated-testing-page .automated-testing--wwu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: auto;
+  flex-direction: column;
+  align-content: stretch;
+  flex-wrap: nowrap;
+  width: 100%;
+  text-align: center;
+}
+.automated-testing-page .automated-testing--wwu h2 {
+  text-align: center;
+}
+.automated-testing-page .automated-testing--wwu .lbk-icon-text--content.has-image {
+  text-align: center;
+  margin: auto;
+}
+.automated-testing-page .automated-testing--wwu .lbk-icon-text--image img {
+  width: 80px;
+  text-align: center;
+  margin: auto;
+}
+.automated-testing-page .automated-testing--build-quality-into {
+  text-align: center;
+}
+.automated-testing-page .automated-testing--build-quality-into p {
+  padding: 0px 20px;
+  text-align: left;
+  font-size: 24px;
+}
+.automated-testing-page .automated-testing--build-quality-into h2.text-align-center {
+  text-align: center;
+  padding: 0px 20px;
+}
+.automated-testing-page .automated-testing--build-quality-into p {
+  text-align: left;
+}
+.automated-testing-page .automated-testing--trusted-by {
+  padding: 30px 15%;
+}
+.automated-testing-page .automated-testing--trusted-by h2.lbk-block--title {
+  text-align: center;
+}
+.automated-testing-page .automated-testing--trusted-by ul.clients-list {
+  list-style: none;
+  display: block;
+  padding: 0;
+}
+.automated-testing-page .automated-testing--trusted-by ul.clients-list li {
+  display: inline-block;
+  max-width: 20%;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+.automated-testing-page .automated-testing--trusted-by ul.clients-list li a img {
+  height: 30px;
+  margin: auto;
+  display: block;
+  width: 75%;
+  margin-right: 50px;
+}
+.automated-testing-page .automated-testing--we-work-with {
+  padding: 30px 15%;
+}
+.automated-testing-page .automated-testing--we-work-with h2 {
+  text-align: center;
+}
+.automated-testing-page .automated-testing--we-work-with ul.clients-list {
+  list-style: none;
+  display: block;
+  padding: 0;
+  text-align: center;
+}
+.automated-testing-page .automated-testing--we-work-with ul.clients-list li {
+  display: inline-block;
+  margin-right: 25px;
+}
+.automated-testing-page .automated-testing--we-work-with ul.clients-list li img {
+  width: 130px;
+}
 .automated-testing-page .layout--onecol .block-layout-builder-kit {
   margin-bottom: 0;
 }
@@ -9549,46 +9673,6 @@ a.btn-primary.button:visited:active {
   width: 100%;
 }
 
-.automated-testing-page .automated-testing--not-sure-image {
-  margin: 68px 0 100px;
-}
-@media (max-width: 599px) {
-  .automated-testing-page .automated-testing--not-sure-image {
-    margin-bottom: 15px;
-  }
-}
-.automated-testing-page .automated-testing--not-sure-image img {
-  max-width: 100%;
-}
-@media (max-width: 599px) {
-  .automated-testing-page .automated-testing--not-sure-image img {
-    max-width: 220px;
-  }
-}
-.automated-testing-page .automated-testing--not-sure-image .image-component {
-  max-width: 100%;
-}
-@media (max-width: 599px) {
-  .automated-testing-page .automated-testing--not-sure-image .image-component {
-    text-align: center;
-  }
-}
-.automated-testing-page .automated-testing--not-sure-text {
-  padding-left: 95px;
-  margin-bottom: 100px;
-}
-@media (max-width: 599px) {
-  .automated-testing-page .automated-testing--not-sure-text {
-    margin-bottom: 50px;
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-}
-@media (max-width: 599px) {
-  .automated-testing-page .automated-testing--not-sure-text h2.lbk-block--title {
-    margin: 10px 0 25px !important;
-  }
-}
 .automated-testing-page .automated-testing-subtitle .lbk-block--title,
 .automated-testing-page .automated-testing-list .lbk-block--title,
 .automated-testing-page .automated-testing-logos .lbk-block--title {
@@ -9750,33 +9834,6 @@ a.btn-primary.button:visited:active {
 
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.PL-section-thin {
   max-width: 96%;
-}
-
-.automated-testing--wwu {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin: auto;
-  flex-direction: column;
-  align-content: stretch;
-  flex-wrap: nowrap;
-  width: 100%;
-  text-align: center;
-}
-
-.automated-testing--wwu .lbk-icon-text--content.has-image {
-  text-align: center;
-  margin: auto;
-}
-
-.automated-testing--wwu--title h2 {
-  text-align: center;
-}
-
-.automated-testing--wwu .lbk-icon-text--image img {
-  width: 80px;
-  text-align: center;
-  margin: auto;
 }
 
 .pl-table .container {
@@ -10286,10 +10343,6 @@ body .pl-table .column:first-child .cell {
   color: white !important;
 }
 
-.automated-testing--build-quality-into {
-  text-align: center;
-}
-
 .automated-testing-page div#block-performant-labs-breadcrumbs {
   display: none;
 }
@@ -10413,63 +10466,6 @@ body .automated-testing--level-up p {
 
 hr.hr-line {
   margin: 0;
-}
-
-.lbk-rich-text-component.automated-testing--faq h2:first-child {
-  text-align: center;
-}
-
-.automated-testing--trusted-by {
-  padding: 30px 15%;
-}
-
-.automated-testing--trusted-by h2.lbk-block--title {
-  text-align: center;
-}
-
-.automated-testing--trusted-by ul.clients-list {
-  list-style: none;
-  display: block;
-  padding: 0;
-}
-
-.automated-testing--trusted-by ul.clients-list li {
-  display: inline-block;
-  max-width: 20%;
-  padding: 0px !important;
-  margin: 0px !important;
-}
-
-.automated-testing--trusted-by ul.clients-list li a img {
-  height: 30px;
-  margin: auto;
-  display: block;
-  width: 75%;
-  margin-right: 50px;
-}
-
-.automated-testing--we-work-with {
-  padding: 30px 15%;
-}
-
-.automated-testing--we-work-with h2 {
-  text-align: center;
-}
-
-.automated-testing--we-work-with ul.clients-list {
-  list-style: none;
-  display: block;
-  padding: 0;
-  text-align: center;
-}
-
-.automated-testing--we-work-with ul.clients-list li {
-  display: inline-block;
-  margin-right: 25px;
-}
-
-.automated-testing--we-work-with ul.clients-list li img {
-  width: 130px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -10617,14 +10613,6 @@ body .header.blue {
   }
   .lbk-icon-text-component.lbk-icon-text--left.automated-testing--wwu .lbk-icon-text--content.has-image {
     width: 100%;
-  }
-  .automated-testing--build-quality-into p {
-    padding: 0px 20px;
-    text-align: left;
-  }
-  .lbk-rich-text-component.automated-testing--build-quality-into h2.text-align-center {
-    text-align: left;
-    padding: 0px 20px;
   }
   .automated-testing--level-up h2, .automated-testing--level-up p {
     color: white;
@@ -10945,13 +10933,6 @@ body.automated-testing-page .automated-testing--faq p {
     text-align: center;
   }
 }
-.automated-testing--trusted-by ul.clients-list li a img {
-  max-width: 100%;
-  height: auto;
-  width: auto\9 ;
-  /* ie8 */
-}
-
 /*!
  * Bootstrap v4.6.2 (https://getbootstrap.com/)
  * Copyright 2011-2022 The Bootstrap Authors
