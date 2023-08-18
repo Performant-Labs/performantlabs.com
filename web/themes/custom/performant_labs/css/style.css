@@ -837,24 +837,6 @@ main .container {
   }
 }
 
-@media (max-width: 599px) {
-  .mm-wrapper_opening .mm-panels > .mm-panel {
-    padding-left: 0;
-    padding-right: 0;
-    width: 68.5%;
-  }
-}
-@media (max-width: 599px) {
-  .mm-wrapper_opening .mm-panels .mm-panel_opened .navbar-nav.mm-listview {
-    width: 91%;
-  }
-}
-@media (max-width: 599px) {
-  .mm-wrapper_opening .mm-panels .mm-panel_opened .navbar-nav.mm-listview .nav-item.mm-listitem a {
-    padding-left: 0;
-  }
-}
-
 /*
  * Variables.
  */
@@ -984,18 +966,15 @@ main .container {
   }
 }
 
-/* Mobile Main Menu */
 .mm-navbar {
   background: #1893b4;
   color: #fff;
 }
 
-@media (max-width: 599px) {
-  .mm-panels > .mm-panel {
-    background: #62bbcb;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+.mm-panels > .mm-panel {
+  background: #62bbcb;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .mm-panels > .mm-panel ul.mm-listview li {
   padding-left: 20px;

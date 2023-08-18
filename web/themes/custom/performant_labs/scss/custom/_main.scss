@@ -44,27 +44,3 @@ h2.title-large {
     font-size: 1.8rem;
   }
 }
-
-// Responsive menu
-.mm-wrapper_opening .mm-panels {
-  > .mm-panel {
-    @include for-phone-only {
-      padding-left: 0;
-      padding-right: 0;
-      width: 68.5%;
-
-    }
-  }
-  .mm-panel_opened {
-    .navbar-nav.mm-listview {
-      @include for-phone-only {
-        width: 91%;
-      }
-      .nav-item.mm-listitem a {
-        @include for-phone-only {
-          padding-left: 0;
-        }
-      }
-    }
-  }
-}
