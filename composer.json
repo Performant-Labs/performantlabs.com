@@ -272,6 +272,7 @@
     "require": {
         "composer/installers": "~1.2",
         "cweagans/composer-patches": "^1.7",
+        "drupal/access_unpublished": "^1.5",
         "drupal/admin_toolbar": "^3.0",
         "drupal/allowed_formats": "^2.0",
         "drupal/asset_injector": "^2.0",
@@ -279,6 +280,7 @@
         "drupal/backup_migrate": "^5.0",
         "drupal/bamboo_twig": "^6.0",
         "drupal/bootstrap4": "^3.0",
+        "drupal/classy": "1.0.2",
         "drupal/coffee": "^1.0",
         "drupal/contact_storage": "^1.0",
         "drupal/core": "~10.0.0",
@@ -312,10 +314,11 @@
         "drupal/publication_date": "~2.0",
         "drupal/qa_accounts": "^1",
         "drupal/redirect": "^1.8",
-        "drupal/responsive_menu": "~4.0",
+        "drupal/responsive_menu": "~4.4.2",
         "drupal/scheduler": "~1.1",
         "drupal/simple_sitemap": "~4.0",
         "drupal/sitemap": "~2.0",
+        "drupal/stable": "2.0.0",
         "drupal/svg_image": "~1.9",
         "drupal/symfony_mailer": "1.2.2",
         "drupal/token": "~1.0",
@@ -334,8 +337,6 @@
         "symfony/amazon-mailer": "^6.2",
         "tabby/tabby": "*",
         "tippyjs/6.x": "*",
-        "drupal/classy": "1.0.2",
-        "drupal/stable": "2.0.0",
         "twig/extra-bundle": "~3.7"
     },
     "conflict": {
