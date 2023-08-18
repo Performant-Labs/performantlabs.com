@@ -21,7 +21,10 @@ vendor
 web/autoload.php
 web/robots.txt
 web/core
-web/libraries
+web/libraries/*
+!web/libraries/hammerjs
+!web/libraries/mmenu
+!web/libraries/superfish
 web/modules/contrib
 web/themes/contrib
 

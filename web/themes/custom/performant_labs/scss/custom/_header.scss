@@ -4,7 +4,6 @@
 /*
  * Header.
  */
-
 header.navbar-expand-lg {
   @include for-desktop-up {
     left: 0;
@@ -119,17 +118,23 @@ header.navbar-expand-lg {
   }
 }
 
-/* Mobile Main Menu */
+//
+/// Mobile Main Menu
+//
+.off-canvas-wrapper {
+  //display: none;
+  //@include for-phone-only {
+  //  display: block;
+  //}
+}
 .mm-navbar {
   background: $dark-blue;
   color: $white-base;
 }
 .mm-panels>.mm-panel {
-  @include for-phone-only {
-    background: $light-blue;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+  background: $light-blue;
+  padding-left: 10px;
+  padding-right: 10px;
   ul.mm-listview li {
     padding-left: 20px;
   }
@@ -140,4 +145,28 @@ header.navbar-expand-lg {
       display: none;
     }
   }
+}
+
+.mm-wrapper--opened .mm-panels {
+//  > .mm-panel {
+//    @include for-phone-only {
+//      padding-left: 0;
+//      padding-right: 0;
+//      width: 68.5%;
+//
+//    }
+}
+
+.mm-panel_opened {
+//    .navbar-nav.mm-listview {
+//      @include for-phone-only {
+//        width: 91%;
+//      }
+//      .nav-item.mm-listitem a {
+//        @include for-phone-only {
+//          padding-left: 0;
+//        }
+//      }
+//    }
+//  }
 }
