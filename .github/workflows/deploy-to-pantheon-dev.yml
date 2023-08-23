@@ -109,6 +109,7 @@ jobs:
         
       - name: List the directories in the project.
         run: |
+          cd web
           tree -d -L 3
                 
       - name: Enable maintenance mode.
