@@ -36,17 +36,17 @@ field.widget.settings.phone_number_default:
   label: Widget settings
   mapping:
     default_country:
-     type: string
-     label: Default Country
+      type: string
+      label: Default Country
     placeholder:
-     type: string
-     label: Placeholder
+      type: string
+      label: Placeholder
     phone_size:
-     type: integer
-     label: Phone number input size
+      type: integer
+      label: Phone number input size
     extension_size:
-     type: integer
-     label: Extension input size
+      type: integer
+      label: Extension input size
 
 # Formatter settings schema.
 field.formatter.settings.phone_number_international:
@@ -54,8 +54,8 @@ field.formatter.settings.phone_number_international:
   label: International Number formatter settings
   mapping:
     as_link:
-     type: boolean
-     label: Show as TEL link
+      type: boolean
+      label: Show as TEL link
 
 field.formatter.settings.phone_number_local:
   type: field.formatter.settings.phone_number_international
@@ -66,5 +66,5 @@ field.formatter.settings.phone_number_country:
   label: Country formatter settings
   mapping:
     type:
-     type: string
-     label: Display type
+      type: string
+      label: Display type

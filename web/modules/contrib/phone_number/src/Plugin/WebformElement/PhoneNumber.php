@@ -94,10 +94,8 @@ class PhoneNumber extends WebformElementBase {
 
     $form['extension_field'] = [
       '#type' => 'checkbox',
-      '#title' => $this
-        ->$this->t('Enable <em>Extension</em> field'),
-      '#description' => $this
-        ->$this->t('Collect extension along with the phone number.'),
+      '#title' => $this->t('Enable <em>Extension</em> field'),
+      '#description' => $this->t('Collect extension along with the phone number.'),
     ];
 
     $form['phone_number']['placeholder'] = [
@@ -137,12 +135,39 @@ class PhoneNumber extends WebformElementBase {
       'default_country' => !empty($element['#default_country']) ? $element['#default_country'] : 'US',
     ];
 
-    $element += [
-      '#default_value' => [
-        'country' => $settings['default_country'],
-      ],
-    ];
+    // When multiple values are allow on the Webform element, the
+    // '#default_value' key can already be present with either the default
+    // value key as string or NULL.
+    // These situations arise because of
+    // \Drupal\webform\Element\WebformMultiple::setElementDefaultValue
+    // and
+    // \Drupal\webform\Element\WebformMultiple::setElementRowDefaultValueRecursive.
+    //
+    // Use the given default value.
+    if (isset($element['#default_value']) && is_string($element['#default_value'])) {
 
+      $element['#default_value'] = [
+        'country' => $element['#default_value'],
+      ];
+    }
+    // Force set with settings, as NULL + an array doesn't result in an array.
+    // If the value is an empty array, this is fine too.
+    elseif (empty($element['#default_value'])) {
+
+      $element['#default_value'] = [
+        'country' => $settings['default_country'],
+      ];
+    }
+    // The code doesn't seem to end up here, but keep this in case
+    // '#default_value' isset, is not a string and assume it will be an array.
+    else {
+
+      $element += [
+        '#default_value' => [
+          'country' => $settings['default_country'],
+        ],
+      ];
+    }
   }
 
   /**

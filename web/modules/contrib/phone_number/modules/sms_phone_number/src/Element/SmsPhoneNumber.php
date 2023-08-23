@@ -76,8 +76,8 @@ class SmsPhoneNumber extends PhoneNumber {
     $errors = $form_state->getErrors();
 
     $element['#phone_number'] += [
-      'verify' => SmsPhoneNumberUtilInterface::MOBILE_NUMBER_VERIFY_NONE,
-      'message' => SmsPhoneNumberUtilInterface::MOBILE_NUMBER_DEFAULT_SMS_MESSAGE,
+      'verify' => SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_NONE,
+      'message' => SmsPhoneNumberUtilInterface::PHONE_NUMBER_DEFAULT_SMS_MESSAGE,
       'tfa' => FALSE,
     ];
 
@@ -95,14 +95,14 @@ class SmsPhoneNumber extends PhoneNumber {
     $verified = FALSE;
 
     if (!empty($value['value']) && $util->getPhoneNumber($value['value'])) {
-      $verified = ($settings['verify'] != SmsPhoneNumberUtilInterface::MOBILE_NUMBER_VERIFY_NONE) && static::isVerified($element);
+      $verified = ($settings['verify'] != SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_NONE) && static::isVerified($element);
     }
 
     $element['phone']['#suffix'] = '<div class="form-item verified ' . ($verified ? 'show' : '') . '" title="' . $this->t('Verified') . '"><span>' . $this->t('Verified') . '</span></div>';
 
     $element['phone']['#attached']['library'][] = 'sms_phone_number/element';
 
-    if ($settings['verify'] != SmsPhoneNumberUtilInterface::MOBILE_NUMBER_VERIFY_NONE) {
+    if ($settings['verify'] != SmsPhoneNumberUtilInterface::PHONE_NUMBER_VERIFY_NONE) {
       $element['send_verification'] = [
         '#type' => 'button',
         '#value' => $this->t('Send verification code'),

@@ -93,7 +93,7 @@ class SmsPhoneNumberWidget extends PhoneNumberWidget {
     $op = SmsPhoneNumber::getOp($element, $form_state);
     $sms_phone_number = SmsPhoneNumber::getPhoneNumber($element);
 
-    if ($op == 'sms_phone_number_send_verification' && $sms_phone_number && ($this->smsPhoneNumberUtil->checkFlood($sms_phone_number) || $util->checkFlood($sms_phone_number, 'sms'))) {
+    if ($op == 'sms_phone_number_send_verification' && $sms_phone_number && ($this->smsPhoneNumberUtil->checkFlood($sms_phone_number) || $this->smsPhoneNumberUtil->checkFlood($sms_phone_number, 'sms'))) {
       return FALSE;
     }
 

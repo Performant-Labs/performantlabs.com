@@ -33,8 +33,8 @@ field.field_settings.sms_phone_number:
       type: string
       label: Verification
     message:
-     type: string
-     label: Verification message
+      type: string
+      label: Verification message
 
 # Widget settings schema.
 field.widget.settings.sms_phone_number_default:
@@ -42,22 +42,22 @@ field.widget.settings.sms_phone_number_default:
   label: Widget settings
   mapping:
     default_country:
-     type: string
-     label: Default Country
+      type: string
+      label: Default Country
     placeholder:
-     type: string
-     label: Placeholder
+      type: string
+      label: Placeholder
 
 # Custom settings schema.
 sms_phone_number.settings:
   type: config_object
-  label: 'SMS Phone Number settings'
+  label: "SMS Phone Number settings"
   mapping:
     tfa_field:
       type: string
-      label: 'TFA User Field'
+      label: "TFA User Field"
     verification_secret:
-      label: 'Verification Secret'
+      label: "Verification Secret"
       type: string
 
 # Formatter settings schema.

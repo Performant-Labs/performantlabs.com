@@ -7,7 +7,7 @@ dependencies:
   - drupal:field
   - phone_number:phone_number
 
-# Information added by Drupal.org packaging script on 2023-08-07
-version: '2.0.0-alpha3'
+# Information added by Drupal.org packaging script on 2023-08-22
+version: '2.0.0-alpha4'
 project: 'phone_number'
-datestamp: 1691417489
+datestamp: 1692706899
