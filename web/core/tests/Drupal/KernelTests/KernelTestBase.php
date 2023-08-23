@@ -24,6 +24,7 @@ use Drupal\Tests\TestRequirementsTrait;
 use Drupal\Tests\Traits\PhpUnitWarnings;
 use Drupal\TestTools\Comparator\MarkupInterfaceComparator;
 use Drupal\TestTools\Extension\SchemaInspector;
+use Drupal\TestTools\Random;
 use Drupal\TestTools\TestVarDumper;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
@@ -262,6 +263,15 @@ abstract class KernelTestBase extends TestCase implements ServiceProviderInterfa
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function __get(string $name) {
+    if ($name === 'randomGenerator') {
+      return Random::getGenerator();
+    }
+  }
+
+  /**
    * Bootstraps a basic test environment.
    *
    * Should not be called by tests. Only visible for DrupalKernel integration
@@ -358,7 +368,7 @@ abstract class KernelTestBase extends TestCase implements ServiceProviderInterfa
     $driver = $connection_info['default']['driver'];
     $namespace = $connection_info['default']['namespace'] ?? '';
     $autoload = $connection_info['default']['autoload'] ?? '';
-    if (strpos($autoload, 'src/Driver/Database/') !== FALSE) {
+    if (str_contains($autoload, 'src/Driver/Database/')) {
       [$first, $second] = explode('\\', $namespace, 3);
       if ($first === 'Drupal' && strtolower($second) === $second) {
         // Add the module that provides the database driver to the list of
@@ -582,9 +592,10 @@ abstract class KernelTestBase extends TestCase implements ServiceProviderInterfa
         ->clearTag('path_processor_outbound');
     }
 
+    // Relax the password hashing cost in tests to avoid performance issues.
     if ($container->hasDefinition('password')) {
       $container->getDefinition('password')
-        ->setArguments([1]);
+        ->setArguments([PASSWORD_BCRYPT, ['cost' => 4]]);
     }
 
     // Add the on demand rebuild route provider service.

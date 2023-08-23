@@ -48,7 +48,7 @@ class CacheClearCommand extends Command
         $this->filesystem = $filesystem ?? new Filesystem();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDefinition([
@@ -129,7 +129,7 @@ EOF
                 if ($output->isVerbose()) {
                     $io->comment('Warming up optional cache...');
                 }
-                $this->warmupOptionals($realCacheDir, $realBuildDir);
+                $this->warmupOptionals($realCacheDir, $realBuildDir, $io);
             }
         } else {
             $fs->mkdir($warmupDir);
@@ -144,7 +144,7 @@ EOF
                     if ($output->isVerbose()) {
                         $io->comment('Warming up optional cache...');
                     }
-                    $this->warmupOptionals($useBuildDir ? $realCacheDir : $warmupDir, $warmupDir);
+                    $this->warmupOptionals($useBuildDir ? $realCacheDir : $warmupDir, $warmupDir, $io);
                 }
             }
 
@@ -239,13 +239,13 @@ EOF
         }
     }
 
-    private function warmupOptionals(string $cacheDir, string $warmupDir): void
+    private function warmupOptionals(string $cacheDir, string $warmupDir, SymfonyStyle $io): void
     {
         $kernel = $this->getApplication()->getKernel();
         $warmer = $kernel->getContainer()->get('cache_warmer');
         // non optional warmers already ran during container compilation
         $warmer->enableOnlyOptionalWarmers();
-        $preload = (array) $warmer->warmUp($cacheDir);
+        $preload = (array) $warmer->warmUp($cacheDir, $io);
 
         if ($preload && file_exists($preloadFile = $warmupDir.'/'.$kernel->getContainer()->getParameter('kernel.container_class').'.preload.php')) {
             Preloader::append($preloadFile, $preload);

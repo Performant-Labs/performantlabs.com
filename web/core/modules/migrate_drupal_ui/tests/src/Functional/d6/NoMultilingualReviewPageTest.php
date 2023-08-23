@@ -24,11 +24,8 @@ class NoMultilingualReviewPageTest extends NoMultilingualReviewPageTestBase {
     'language',
     'telephone',
     'book',
-    'forum',
     'statistics',
     'syslog',
-    // @todo Remove tracker in https://www.drupal.org/project/drupal/issues/3261452
-    'tracker',
     'update',
     // Test migrations states.
     'migrate_state_finished_test',
@@ -83,7 +80,6 @@ class NoMultilingualReviewPageTest extends NoMultilingualReviewPageTestBase {
       'FileField',
       'FileField Meta',
       'Filter',
-      'Forum',
       'Help',
       'ImageAPI',
       'ImageAPI GD2',
@@ -150,6 +146,7 @@ class NoMultilingualReviewPageTest extends NoMultilingualReviewPageTestBase {
       'Devel',
       'Devel generate',
       'Devel node access',
+      'Forum',
       'Internationalization',
       'Menu translation',
       'migrate_status_active_test',
