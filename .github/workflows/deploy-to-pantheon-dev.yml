@@ -107,7 +107,7 @@ jobs:
       - name: Install Terminus Build Tools.
         run: terminus self:plugin:install terminus-build-tools-plugin
         
-      - name: List the directories in the project (x1).
+      - name: List the directories in the project (x2).
         run: |
           cd web
           tree -d -L 4
