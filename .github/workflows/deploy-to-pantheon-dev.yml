@@ -55,7 +55,7 @@ jobs:
           cd "$GITHUB_WORKING_DIR"
           pwd
           
-      - name: List the directories in the project.
+      - name: List the directories in the project (x1).
         run: |
           tree -d -L 3
         
@@ -107,7 +107,7 @@ jobs:
       - name: Install Terminus Build Tools.
         run: terminus self:plugin:install terminus-build-tools-plugin
         
-      - name: List the directories in the project.
+      - name: List the directories in the project (x1).
         run: |
           cd web
           tree -d -L 3
