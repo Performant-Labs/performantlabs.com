@@ -110,7 +110,7 @@ jobs:
       - name: List the directories in the project (x1).
         run: |
           cd web
-          tree -d -L 3
+          tree -d -L 4
                 
       - name: Enable maintenance mode.
         run: |
