@@ -49,6 +49,7 @@
         </xsd:choice>
 
         <xsd:attribute name="http-method-override" type="xsd:boolean" />
+        <xsd:attribute name="handle-all-throwables" type="xsd:boolean" />
         <xsd:attribute name="trust-x-sendfile-type-header" type="xsd:boolean" />
         <xsd:attribute name="ide" type="xsd:string" />
         <xsd:attribute name="secret" type="xsd:string" />
@@ -350,6 +351,7 @@
         <xsd:attribute name="default-redis-provider" type="xsd:string" />
         <xsd:attribute name="default-memcached-provider" type="xsd:string" />
         <xsd:attribute name="default-pdo-provider" type="xsd:string" />
+        <xsd:attribute name="default-doctrine-dbal-provider" type="xsd:string" />
         <xsd:attribute name="prefix-seed" type="xsd:string" />
     </xsd:complexType>
 
