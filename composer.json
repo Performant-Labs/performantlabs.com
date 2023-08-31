@@ -313,6 +313,7 @@
         "drupal/phone_number": "~2.0",
         "drupal/publication_date": "~2.0",
         "drupal/qa_accounts": "^1",
+        "drupal/rdf": "^2.1",
         "drupal/redirect": "^1.8",
         "drupal/responsive_menu": "~4.4.2",
         "drupal/scheduler": "~1.1",
@@ -325,7 +326,7 @@
         "drupal/ultimate_cron": "~2.0",
         "drupal/upgrade_status": "^4.0",
         "drupal/webform": "~6.2",
-        "drush/drush": "^11",
+        "drush/drush": "^12",
         "jquery/inputmask": "*",
         "jquery/intl-tel-input": "*",
         "jquery/rateit": "*",
@@ -366,6 +367,9 @@
     "extra": {
         "enable-patching": true,
         "patches": {
+            "drupal/asset_injector": {
+                "Provide upgrade path for the node_type condition": "https://www.drupal.org/files/issues/2023-07-17/asset_injector-3375026-upgrade_node_type_condition-3.diff"
+            },
             "drupal/claro": {
                 "Cannot delete or edit a block that is placed in a section of the layout_builder": "https://www.drupal.org/files/issues/2019-12-03/3005403-2-41.patch",
                 "Update dropbuttons in tables because of various table cell alignments": "https://www.drupal.org/files/issues/2019-11-21/3068840-33.patch"
@@ -373,8 +377,8 @@
             "drupal/userswitch": {
                 "The userswitch.user.user_list key is used twice in userswitch.links.action.yml": "https://www.drupal.org/files/issues/2020-10-16/userswitch.patch"
             },
-            "drupal/asset_injector": {
-                "Provide upgrade path for the node_type condition": "https://www.drupal.org/files/issues/2023-07-17/asset_injector-3375026-upgrade_node_type_condition-3.diff"
+            "drupal/core": {
+                "Views pager offset causes fatal error if empty": "project/patches/ViewsPagerOffset.patch"
             }
         },
         "drupal-scaffold": {
