@@ -36,10 +36,7 @@ jobs:
         run: |
           cd "$GITHUB_WORKING_DIR"
           pwd
-          
-      - name: Check out repository code.
-        uses: actions/checkout@v3
-      
+                
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
