@@ -2,7 +2,7 @@ name: (Test) Testery against Production
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is running Cypress.
 
-on: workflow_dispatch
+#on: workflow_dispatch
 #  push:
 #    paths:
 #      - .github/workflows/cypress_on_testery.yml
