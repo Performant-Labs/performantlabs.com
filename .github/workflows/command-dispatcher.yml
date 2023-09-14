@@ -10,6 +10,6 @@ jobs:
     - uses: peter-evans/slash-command-dispatch@v3
       with:
         token: ${{ secrets.GH_PAT }}
-        commands: run-a-task
+        commands: add-pr-comment
         permission: none
         issue-type: both
