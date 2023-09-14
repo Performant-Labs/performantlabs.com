@@ -11,5 +11,3 @@ jobs:
       with:
         token: ${{ secrets.GH_PAT }}
         commands: add-pr-comment
-        permission: none
-        issue-type: both
