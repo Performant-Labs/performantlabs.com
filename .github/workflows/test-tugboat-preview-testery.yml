@@ -2,11 +2,10 @@ name: (Test) App on Tugboat Cypress on Testery
 # See: https://docs.testery.io/integrations/ci-cd-integration-guide/github-actions
 run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger Testery.
 
-on:
-  push:
-    paths:
-      - .github/workflows/tugboat-preview-testery.yml
-  workflow_dispatch:
+on: workflow_dispatch
+#  push:
+#    paths:
+#      - .github/workflows/tugboat-preview-testery.yml
 
 env:
   pantheon_site_name: 'performant-labs'
