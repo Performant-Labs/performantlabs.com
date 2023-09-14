@@ -1,7 +1,7 @@
 name: (Test) App on GHA + Cypress on GHA
 run-name: ${{ github.actor }} is running Cypress on GitHub Actions.
 
-on: workflow_dispatch
+#on: workflow_dispatch
 #  push:
 #    paths:
 #      - .github/workflows/cypress-gh-gh.yml
