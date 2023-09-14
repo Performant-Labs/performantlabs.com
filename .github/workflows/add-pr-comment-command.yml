@@ -12,6 +12,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Add reaction to comment with command
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray  
+
     - name: Create comment
         uses: peter-evans/create-or-update-comment@v3
         with:
