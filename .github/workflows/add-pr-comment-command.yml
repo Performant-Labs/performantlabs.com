@@ -8,13 +8,24 @@ jobs:
   add_comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if PR is created by Dependabot.
+      - name: Get PR details.
+        id: pr_creator
+        with:
+          script: |
+            const pr = await github.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            return pr.data.user.login;
+
+      - name: Check if PR was created by dependabot
         run: |
-          if [[ "${{ github.event.pull_request.user.login }}" != "dependabot[bot]" ]]; then
-            echo "This was not made by dependabot."
+          if [[ "${{ steps.pr_creator.outputs.result }}" == "dependabot[bot]" ]]; then
+            echo "This PR was created by Dependabot"
             exit 1
           else
-            echo "This was made by dependabot."
+            echo "This PR was created by ${{ steps.pr_creator.outputs.result }}"
             exit 1
           fi
           
