@@ -1,0 +1,19 @@
+name: Add Solo Comment
+
+on:
+  repository_dispatch:
+    types: [add-solo-comment-command]
+
+jobs:
+  add_comment:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Add reaction to comment with command
+      uses: peter-evans/create-or-update-comment@v3
+      with:
+        comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+        reactions: hooray
