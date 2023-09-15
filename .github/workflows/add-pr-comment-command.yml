@@ -14,6 +14,7 @@ jobs:
       - name: Show some object values.
         run: |
           echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
+          echo "User: ${{ github.event.client_payload.pull_request.user.login }}"
           exit 1
         
       - name: Check if PR was created by dependabot
