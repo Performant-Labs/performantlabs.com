@@ -9,24 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     
-      - name : Print Title of PR
-        env:
-            TITLE: ${{ github.event.pull_request.title }}
-        run: |
-          echo "PR number: ${{ github.event.number }}"
-          echo "The Title of your PR is $TITLE."
-
-      - uses: jwalton/gh-find-current-pr@v1
-        id: findPr
-        with:
-          state: open
-          
-      # This will echo "Your PR is 7", or be skipped if there is no current PR.
-      - run: echo "Your PR is ${PR}"
-        if: success() && steps.findPr.outputs.number
-        env:
-          PR: ${{ steps.findPr.outputs.pr }}
-          
+      - name: Check if branch starts with "dependabot"
+        if: startsWith(github.ref, 'refs/heads/dependabot/')
+        run: echo "This is a dependabot branch"
+        
       - name: Check if PR was created by dependabot
         run: |
           echo "Exiting."
