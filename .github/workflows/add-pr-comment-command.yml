@@ -7,34 +7,43 @@ on:
 jobs:
   add_comment:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Check if PR is created by Dependabot.
+        run: |
+          if [[ "${{ github.actor }}" != "dependabot[bot]" && "${{ github.actor }}" ]]; then
+            echo "This was made by dependabot."
+            exit 1
+          else
+            echo "This was made by dependabot."
+            exit 1
+          fi
+          
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Add reaction to comment with command
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-        reactions: hooray  
-
-    - name: Create comment 1
-      uses: peter-evans/create-or-update-comment@v3
-      with:
-        issue-number: 1
-        body: |
-          This is an automated comment.
-        reactions: '+1'
-
-    - name: Create URL to the run output
-      id: vars
-      run: echo "run-url=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
-
-    - name: Create comment 2
-      uses: peter-evans/create-or-update-comment@v2
-      with:
-        token: ${{ secrets.GH_PAT }}
-        repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-        issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
-        body: |
-          /add-solo-comment
+      - name: Add reaction to comment with command
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reactions: hooray  
+    
+      - name: Create comment 1
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          issue-number: 1
+          body: |
+            This is an automated comment.
+          reactions: '+1'
+  
+      - name: Create URL to the run output
+        id: vars
+        run: echo "run-url=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
+  
+      - name: Create comment 2
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
+          body: |
+            /add-solo-comment
