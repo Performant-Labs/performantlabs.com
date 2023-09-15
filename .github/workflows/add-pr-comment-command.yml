@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Check if PR is created by Dependabot.
         run: |
-          if [[ "${{ github.actor }}" != "dependabot[bot]" ]]; then
+          if [[ "${{ github.event.pull_request.user.login }}" != "dependabot[bot]" ]]; then
             echo "This was not made by dependabot."
             exit 1
           else
