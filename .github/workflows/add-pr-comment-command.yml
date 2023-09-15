@@ -12,7 +12,9 @@ jobs:
       - name : Print Title of PR
         env:
             TITLE: ${{ github.event.pull_request.title }}
-        run: echo The Title of your PR is $TITLE       
+        run: |
+          echo "First: ${{ github.event.pull_request.title }}"
+          echo "The Title of your PR is $TITLE."
 
       - name: Show all of request
         run: echo '${{ toJSON(github.event.pull_request) }}'
