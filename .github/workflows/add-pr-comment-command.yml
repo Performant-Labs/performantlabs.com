@@ -8,17 +8,18 @@ jobs:
   add_comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Get PR details.
-        id: pr_creator
-        uses: actions/github-script@v6
+    
+      - uses: actions/github-script@v6
+        id: set-result
         with:
-          script: |
-            const pr = await github.pulls.get({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-            });
-            return pr.data.user.login;
+          script: return "Hello!"
+          result-encoding: string
+      
+      - name: Get result
+        run: |
+          echo "${{steps.set-result.outputs.result}}"
+          exit 1
+            
 
       - name: Check if PR was created by dependabot
         run: |
