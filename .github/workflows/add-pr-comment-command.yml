@@ -7,50 +7,10 @@ on:
 jobs:
   add_comment:
     runs-on: ubuntu-latest
+    # Do this only if the PR was created by dependabot
+    if: github.event.client_payload.pull_request.user.login == 'dependabot[bot]'
     steps:
-      - name: Install jq
-        run: sudo apt-get install -y jq
-        
-      - name: Show some object values.
-        run: |
-          echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
-          echo "User: ${{ github.event.client_payload.pull_request.user.login }}"
-          exit 1
-        
-      - name: Check if PR was created by dependabot
-        run: |
-          echo "Exiting."
-          exit 1
-          if [[ "${{ steps.pr_creator.outputs.result }}" == "dependabot[bot]" ]]; then
-            echo "This PR was created by Dependabot"
-            exit 1
-          else
-            echo "This PR was created by ${{ steps.pr_creator.outputs.result }}"
-            exit 1
-          fi
-          
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Add reaction to comment with command
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-          reactions: hooray  
-    
-      - name: Create comment 1
-        uses: peter-evans/create-or-update-comment@v3
-        with:
-          issue-number: 1
-          body: |
-            This is an automated comment.
-          reactions: '+1'
-  
-      - name: Create URL to the run output
-        id: vars
-        run: echo "run-url=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
-  
-      - name: Create comment 2
+      - name: Trigger the visual testing
         uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.GH_PAT }}
