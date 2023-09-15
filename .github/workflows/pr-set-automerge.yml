@@ -14,6 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
+      - name: Just an echo.
+        run: echo "Inside automerge."
+
       - name: Set automerge when condition met
         uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
