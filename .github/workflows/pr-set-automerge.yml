@@ -2,7 +2,7 @@ name: Set Auto-Merge for Dependabot PRs.
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, synchronize, reopened]
 
 jobs:
   enable_auto_merge:
