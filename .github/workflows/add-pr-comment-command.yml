@@ -10,6 +10,7 @@ jobs:
     steps:
       - name: Get PR details.
         id: pr_creator
+        uses: actions/github-script@v6
         with:
           script: |
             const pr = await github.pulls.get({
