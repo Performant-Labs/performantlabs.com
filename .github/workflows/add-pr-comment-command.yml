@@ -16,7 +16,7 @@ jobs:
       uses: peter-evans/create-or-update-comment@v3
       with:
         comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-        reaction-type: hooray  
+        reactions: hooray  
 
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v3
