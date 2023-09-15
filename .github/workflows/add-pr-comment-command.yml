@@ -18,10 +18,10 @@ jobs:
         comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
         reactions: hooray  
 
-    - name: Create comment
+    - name: Create comment 1
       uses: peter-evans/create-or-update-comment@v3
       with:
-        issue-number: ${{ github.event.pull_request.number }}
+        issue-number: 1
         body: |
           This is an automated comment.
         reactions: '+1'
@@ -30,7 +30,7 @@ jobs:
       id: vars
       run: echo "run-url=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_OUTPUT
 
-    - name: Create comment
+    - name: Create comment 2
       uses: peter-evans/create-or-update-comment@v2
       with:
         token: ${{ secrets.GH_PAT }}
