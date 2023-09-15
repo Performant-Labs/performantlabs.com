@@ -11,7 +11,7 @@ jobs:
       - name: Check if PR is created by Dependabot.
         run: |
           if [[ "${{ github.actor }}" != "dependabot[bot]" && "${{ github.actor }}" ]]; then
-            echo "This was made by dependabot."
+            echo "This was not made by dependabot."
             exit 1
           else
             echo "This was made by dependabot."
