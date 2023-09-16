@@ -28,7 +28,7 @@ jobs:
             USER_LOGIN=${{ github.event.client_payload.pull_request.user.login }}
           fi
           echo "Event_name: ${{ github.event_name }}"
-          echo "User login: $USER_LOGIN"
+          #echo "User login: $USER_LOGIN"
           exit 1
         
       - name: Must be triggered by a command or is a PR created by Dependabot.
