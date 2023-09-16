@@ -18,8 +18,10 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
+          PULL_REQUEST: ${{ toJson(github.event.client_payload.pull_request) }}
+          
         run: |
-          echo "$GITHUB_CONTEXT"
+          echo "$PULL_REQUEST"
           exit 1
         
       - name: Client_payload when coming from repository dispatch.
