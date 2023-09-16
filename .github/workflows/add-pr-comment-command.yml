@@ -39,9 +39,9 @@ jobs:
           elif [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.event.pull_request.user.login }}" == "aangelinsf" ]; then
             echo "Event is a pull_request from dependabot, proceeding..."
             PULL_REQUEST=${{ github.event.pull_request }}
-            echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
-            echo "REPO_FULLNAME=${{ github.repository }}" >> $GITHUB_ENV
-            echo "ISSUE_NBR=${{ github.event.number }}" >> $GITHUB_ENV
+            echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> "$GITHUB_ENV"
+            echo "REPO_FULLNAME=${{ github.repository }}" >> "$GITHUB_ENV"
+            echo "ISSUE_NBR=${{ github.event.number }}" >> "$GITHUB_ENV"
             echo "${{ github.repository }}"
             echo "${{ github.event.pull_request.user.login }}" 
             echo "${{ github.event.number }}" 
