@@ -19,7 +19,7 @@ jobs:
         run: |
           PULL_REQUEST=${{ github.event.client_payload.pull_request }}
           if [ "$PULL_REQUEST" != "" ]; then
-            PULL_REQUEST=toJson($PULL_REQUEST)
+            PULL_REQUEST=${{ toJson(github.event.client_payload.pull_request) }}
             echo "$PULL_REQUEST" | jq
           else
             echo "Pull request is empty."
