@@ -15,6 +15,13 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo "$GITHUB_CONTEXT"
+          exit 1
+        
       - name: Client_payload when coming from repository dispatch.
         run: |
           EVENT_NAME=${{ github.event_name }}
