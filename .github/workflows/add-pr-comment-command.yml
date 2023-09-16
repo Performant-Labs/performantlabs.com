@@ -23,20 +23,23 @@ jobs:
           #echo "$PULL_REQUEST"
         
       - name: Client_payload when coming from repository dispatch.
-        run: |
-          EVENT_NAME=${{ github.event_name }}
-          EVENT_ACTION=${{ github.event.action }}
-          
+        run: |          
           # Will be "pull_request" or "reposity_dispatch".
           if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
             echo "Event is repository_dispatch, proceeding..."
             PULL_REQUEST=${{ github.event.client_payload.pull_request }}
-            USER_LOGIN=${{ github.event.client_payload.pull_request.user.login }}
+            echo "USER_LOGIN=${{ github.event.client_payload.pull_request.user.login }}" >> $GITHUB_ENV
+            echo "REPO_FULLNAME=${{ github.event.client_payload.github.payload.repository.full_name }}" >> $GITHUB_ENV
+            echo "ISSUE_NBR=${{ github.event.client_payload.github.payload.issue.number }}" >> $GITHUB_ENV
+            
             
           elif [ "${{ github.event_name }}" == "pull_request" ] && [ "${{ github.event.pull_request.user.login }}" == "aangelinsf" ]; then
             echo "Event is a pull_request from dependabot, proceeding..."
             PULL_REQUEST=${{ github.event.pull_request }}
             USER_LOGIN=${{ github.event.pull_request.user.login }}  
+            echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
+            echo "REPO_FULLNAME=${{ github.event.github.payload.repository.full_name }}" >> $GITHUB_ENV
+            echo "ISSUE_NBR=${{ github.event.github.payload.issue.number }}" >> $GITHUB_ENV
             
           else
             echo "Test criteria failed. Exiting..."
@@ -44,13 +47,15 @@ jobs:
           fi
 
           echo "Event_name: ${{ github.event_name }}"
+          echo "Repo: ${REPO_FULNAME}" 
           echo "User login: ${USER_LOGIN}" 
+          echo "Issue: ${ISSUE_NBR}" 
       
       - name: Trigger the visual testing
         uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.GH_PAT }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          issue-number: ${{ github.event.client_payload.github.payload.issue.number }}
+          repository: $REPO_FULLNAME
+          issue-number: $ISSUE_NBR
           body: |
             The test criteria passed.
