@@ -17,12 +17,27 @@ jobs:
 
       - name: Client_payload when coming from repository dispatch.
         run: |
-          echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
-          echo "User.login: ${{ github.event.client_payload.pull_request.user.login }}"
+          USER_LOGIN=${{ fromJson(github.event.client_payload.pull_request).user.login }}
+          if [ "$USER_LOGIN" != "" ]; then
+            echo "User.login: $USER_LOGIN"
+          else
+            echo "User.login path is not valid or the field is empty"
+          fi
+          PULL_REQUEST=${{ toJson(github.event.client_payload.pull_request) }}
+          if [ "$PULL_REQUEST" != "" ]; then
+            echo "$PULL_REQUEST" | jq
+          else
+            echo "Pull request is empty."
+          fi
 
       - name: github.event.pull_request when coming from open, reopen, synchronize.
         run: |
-          echo "Pull request: ${{ toJson(github.event.pull_request) }} " | jq
+          PULL_REQUEST=${{ toJson(github.event.client_payload.pull_request) }}
+          if [ "$PULL_REQUEST" != "" ]; then
+            echo "$PULL_REQUEST" | jq
+          else
+            echo "Pull request is empty."
+          fi
           exit 1
         
       - name: Must be triggered by a command or is a PR created by Dependabot.
