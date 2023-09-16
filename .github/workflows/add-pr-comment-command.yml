@@ -65,4 +65,4 @@ jobs:
           repository: ${{ env.REPO_FULLNAME }}
           issue-number: ${{ env.ISSUE_NBR}} 
           body: |
-            Issue is ${{ env.ISSUE_NBR }}.
+            /add-solo-comment
