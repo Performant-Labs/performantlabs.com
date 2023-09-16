@@ -19,6 +19,8 @@ jobs:
         run: |
           echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
           echo "User: ${{ github.event.client_payload.pull_request.user.login }}"
+          echo "User: ${{ github.event_name }}"
+          echo "User: ${{ github.event.action }}"
         
       - name: Must be triggered by a command or is a PR created by Dependabot.
         run: |
