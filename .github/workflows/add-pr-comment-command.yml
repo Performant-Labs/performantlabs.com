@@ -40,8 +40,8 @@ jobs:
             echo "Event is a pull_request from dependabot, proceeding..."
             PULL_REQUEST=${{ github.event.pull_request }}
             echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
-            echo "REPO_FULLNAME=${{ github.event.github.payload.repository.full_name }}" >> $GITHUB_ENV
-            echo "ISSUE_NBR=${{ github.event.github.payload.issue.number }}" >> $GITHUB_ENV
+            echo "REPO_FULLNAME=${{ github.repository.full_name }}" >> $GITHUB_ENV
+            echo "ISSUE_NBR=${{ github.event.number }}" >> $GITHUB_ENV
             
           else
             echo "Test criteria failed. Exiting..."
