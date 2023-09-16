@@ -21,7 +21,7 @@ jobs:
           #echo "User: ${{ github.event.client_payload.pull_request.user.login }}"
           #echo "Event: ${{ toJson(github.event) }}"
 
-      - name: Show client_payload.
+      - name: Show github.event.pull_request.
         run: |
           echo "Pull request: ${{ toJson(github.event.pull_request) }} " | jq
         
