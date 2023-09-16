@@ -15,15 +15,15 @@ jobs:
       - name: Install jq
         run: sudo apt-get install -y jq
 
-      #- name: Show client_payload.
-      #  run: |
-          #echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
-          #echo "User: ${{ github.event.client_payload.pull_request.user.login }}"
-          #echo "Event: ${{ toJson(github.event) }}"
+      - name: Client_payload when coming from repository dispatch.
+        run: |
+          echo "Pull request: ${{ toJson(github.event.client_payload.pull_request) }} " | jq
+          echo "User.login: ${{ github.event.client_payload.pull_request.user.login }}"
 
-     # - name: Show github.event.pull_request.
-     #   run: |
-     #     echo "Pull request: ${{ toJson(github.event.pull_request) }} " | jq
+      - name: github.event.pull_request when coming from open, reopen, synchronize.
+        run: |
+          echo "Pull request: ${{ toJson(github.event.pull_request) }} " | jq
+          exit 1
         
       - name: Must be triggered by a command or is a PR created by Dependabot.
         run: |
