@@ -49,9 +49,9 @@ jobs:
           fi
 
           echo "Event_name: ${{ github.event_name }}"
-          echo "Repo: ${REPO_FULLNAME}" 
-          echo "User login: $USER_LOGIN" 
-          echo "Issue: $ISSUE_NBR" 
+          echo "Repo: ${{ env.REPO_FULLNAME }}" 
+          echo "User login: ${{ env.USER_LOGIN }}" 
+          echo "Issue: ${{ env.ISSUE_NBR}} " 
       
       - name: Trigger the visual testing
         uses: peter-evans/create-or-update-comment@v2
