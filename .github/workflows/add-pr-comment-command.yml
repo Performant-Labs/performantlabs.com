@@ -19,10 +19,8 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           PULL_REQUEST: ${{ toJson(github.event.client_payload.pull_request) }}
-          
         run: |
-          echo "$PULL_REQUEST"
-          exit 1
+          #echo "$PULL_REQUEST"
         
       - name: Client_payload when coming from repository dispatch.
         run: |
