@@ -58,4 +58,4 @@ jobs:
           repository: $REPO_FULLNAME
           issue-number: $ISSUE_NBR
           body: |
-            The test criteria passed.
+            Issue is ${{ env.ISSUE_NBR }}.
