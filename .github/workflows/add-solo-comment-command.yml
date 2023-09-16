@@ -17,3 +17,6 @@ jobs:
       with:
         comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
         reactions: hooray
+
+    - name: Forced failure.
+      run: exit 1
