@@ -42,6 +42,9 @@ jobs:
             echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> $GITHUB_ENV
             echo "REPO_FULLNAME=${{ github.repository.full_name }}" >> $GITHUB_ENV
             echo "ISSUE_NBR=${{ github.event.number }}" >> $GITHUB_ENV
+            echo "${{ github.event.pull_request.user.login }}" 
+            echo "${{ github.repository.full_name }}"
+            echo "${{ github.event.number }}" 
             
           else
             echo "Test criteria failed. Exiting..."
