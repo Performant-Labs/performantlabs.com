@@ -62,7 +62,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v2
         with:
           token: ${{ secrets.GH_PAT }}
-          repository: $REPO_FULLNAME
-          issue-number: $ISSUE_NBR
+          repository: ${{ env.REPO_FULLNAME }}
+          issue-number: ${{ env.ISSUE_NBR}} 
           body: |
             Issue is ${{ env.ISSUE_NBR }}.
