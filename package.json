@@ -2,7 +2,7 @@
   "dependencies": {
     "@cypress/grep": "^4.0",
     "axios": "^1.5.0",
-    "cy-verify-downloads": "^0.2.0",
+    "cy-verify-downloads": "^0.2.2",
     "cypress": "^12",
     "cypress-drupal": "^1.1.0",
     "cypress-file-upload": "^5.0",
