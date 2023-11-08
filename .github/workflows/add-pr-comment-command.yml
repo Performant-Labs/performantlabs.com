@@ -3,12 +3,6 @@ name: Add PR Comment
 on:
   repository_dispatch:
     types: [add-pr-comment-command]
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: 'Pull Request Number'
-        required: true
-        default: '1'
   pull_request:
     types: [opened, synchronize, reopened]
 
