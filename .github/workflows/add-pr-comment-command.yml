@@ -17,7 +17,7 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           #PULL_REQUEST: ${{ toJson(github.event.pull_request) }}
         run: |
-          echo "$GITHUB_CONTEXT"
+          #echo "$GITHUB_CONTEXT"
           #echo "$PULL_REQUEST"
           echo "Canceling the workflow."
           gh workflow run cancel -R ${{ github.repository }} ${{ github.event.workflow_run.workflow.name }}   
