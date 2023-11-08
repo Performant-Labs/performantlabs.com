@@ -25,9 +25,13 @@ jobs:
         run: |
           echo "$GITHUB_CONTEXT"
           #echo "$PULL_REQUEST"
-
+          echo "Canceling the workflow."
+          gh workflow run cancel -R ${{ github.repository }} ${{ github.event.workflow_run.workflow.name }}   
+          echo "Shouldn't see this."
+          
       - name: Client_payload when coming from repository dispatch.
         run: |
+          echo "Made it to the next action."
           # Will be either:
           # "reposity_dispatch" from the command
           # "pull_request" from a new PR made by Dependabot.
