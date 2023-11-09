@@ -7,6 +7,15 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  dump_context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Job just for dumping the context.
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: |
+            echo "$GITHUB_CONTEXT"
+            
   add_comment:
     runs-on: ubuntu-latest
     # Do this only if the PR was created by dependabot
@@ -16,7 +25,6 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          #PULL_REQUEST: ${{ toJson(github.event.pull_request) }}
         run: |
           #echo "$GITHUB_CONTEXT"
           #echo "$PULL_REQUEST"
