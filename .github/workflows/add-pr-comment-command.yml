@@ -13,8 +13,8 @@ jobs:
       - name: Job just for dumping the context.
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-          run: |
-            echo "$GITHUB_CONTEXT"
+        run: |
+          echo "$GITHUB_CONTEXT"
             
   add_comment:
     runs-on: ubuntu-latest
