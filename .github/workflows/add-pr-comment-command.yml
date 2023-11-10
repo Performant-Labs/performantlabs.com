@@ -7,31 +7,12 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  dump_context:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Job just for dumping the context.
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          echo "$GITHUB_CONTEXT"
-            
   add_comment:
     runs-on: ubuntu-latest
     # Do this only if the PR was created by dependabot
 
     if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
-    steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: |
-          #echo "$GITHUB_CONTEXT"
-          #echo "$PULL_REQUEST"
-          echo "Canceling the workflow."
-          gh workflow run cancel -R ${{ github.repository }} ${{ github.event.workflow_run.workflow.name }}   
-          echo "Shouldn't see this."
-          
+    steps:          
       - name: Client_payload when coming from repository dispatch.
         run: |
           echo "Made it to the next action."
