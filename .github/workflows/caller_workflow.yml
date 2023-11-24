@@ -1,0 +1,9 @@
+name: Call child workflow
+
+on:
+  repository_dispatch:
+    types: [call-child-command]
+
+jobs:
+  call_child:
+    uses: ./.github/workflows/call_workflow.yml
