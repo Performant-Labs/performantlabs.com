@@ -1,0 +1,18 @@
+name: Called Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  add_comment:
+    runs-on: ubuntu-latest
+
+    steps:          
+      - name: Make comment on original PR
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: ${{ env.REPO_FULLNAME }}
+          issue-number: ${{ env.ISSUE_NBR}}
+          body: |
+            This was called from another workflow.
