@@ -9,12 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Make comment on original PR
-        uses: peter-evans/create-or-update-comment@v2
-        with:
-          token: ${{ secrets.GH_PAT }}
-#          issue-number: ${{ env.ISSUE_NBR}}
-          issue-number: 43
-
-          body: |
-            This was called from another workflow.
+      - name: Display a message
+        run: echo "Hello, GitHub Actions!"
