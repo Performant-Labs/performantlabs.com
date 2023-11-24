@@ -3,7 +3,8 @@ name: Call child workflow
 on:
   repository_dispatch:
     types: [call-child-command]
-
+    workflow_dispatch:
+    
 jobs:
   call_child:
     uses: ./.github/workflows/called_workflow.yml
