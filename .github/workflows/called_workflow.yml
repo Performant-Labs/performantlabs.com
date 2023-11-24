@@ -6,8 +6,9 @@ on:
 jobs:
   add_comment:
     runs-on: ubuntu-latest
-
-    steps:          
+    steps:
+      - uses: actions/checkout@v2
+      
       - name: Make comment on original PR
         uses: peter-evans/create-or-update-comment@v2
         with:
