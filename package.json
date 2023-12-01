@@ -15,7 +15,7 @@
     "x2js": "^3.4.4"
   },
   "devDependencies": {
-    "cypress-data-session": "^2.3.1",
+    "cypress-data-session": "^2.8.0",
     "cypress-log-to-term": "^1.5.2",
     "cypress-recurse": "^1.35.2"
   },
