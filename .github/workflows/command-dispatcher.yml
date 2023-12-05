@@ -9,4 +9,4 @@ jobs:
     - uses: peter-evans/slash-command-dispatch@v3
       with:
         token: ${{ secrets.GH_PAT }}
-        commands: add-pr-comment, add-solo-comment, call-child
+        commands: update-package, add-solo-comment, call-child
