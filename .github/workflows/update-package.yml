@@ -1,0 +1,33 @@
+name: Add PR Comment
+
+on:
+  repository_dispatch:
+    types: [update-package-command]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  update_package:
+    runs-on: ubuntu-latest
+    # Do this only if the PR was created by dependabot
+
+    # if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Client_payload when coming from repository dispatch.
+        run: |
+          set -e  # Exit immediately if any command fails.
+
+          PR_TITLE=${{ github.event.client_payload.pull_request.title }}
+          PACKAGE_NAME=$(echo "${PR_TITLE}" | awk '{print $2}')
+          echo "Updating package ${PACKAGE_NAME}."
+
+          git config --global user.email "dependabot@dxpr.com"
+          git config --global user.name "Dependabot"
+
+          npm update ${PACKAGE_NAME}
+          git add package.json package-lock.json
+          git commit -m "Update ${PACKAGE_NAME} to the latest version."
