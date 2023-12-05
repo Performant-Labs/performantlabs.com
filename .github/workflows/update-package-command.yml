@@ -43,7 +43,7 @@ jobs:
 
             echo "IS_DXPR_BUILDER=true" >> $GITHUB_ENV
           else
-            echo "IS_DXPR_BUILDER=false" >> $GITHUB_ENV
+            echo "IS_DXPR_BUILDER=true" >> $GITHUB_ENV
           fi
 
       - name: Push changes to GitHub repo.
