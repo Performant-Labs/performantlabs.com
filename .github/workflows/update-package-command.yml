@@ -31,3 +31,12 @@ jobs:
           npm update ${PACKAGE_NAME}
           git add package.json package-lock.json
           git commit -m "Update ${PACKAGE_NAME} to the latest version."
+
+          echo "Current branch is: ${GITHUB_REF#refs/heads/}"
+    
+
+      # Already on a branch.
+      #- name: Push changes to GitHub repo.
+      #  uses: ad-m/github-push-action
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
