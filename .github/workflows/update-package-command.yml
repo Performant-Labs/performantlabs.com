@@ -21,7 +21,7 @@ jobs:
           echo "About to update package."
           set -e  # Exit immediately if any command fails.
 
-          PR_TITLE=${{ github.event.client_payload.pull_request.title }}
+          PR_TITLE="${{ github.event.client_payload.pull_request.title }}"
           PACKAGE_NAME=$(echo "${PR_TITLE}" | awk '{print $2}')
           echo "Updating package ${PACKAGE_NAME}."
 
