@@ -200,7 +200,7 @@ EOF
 
         if (null === $mounts) {
             $mounts = [];
-            if ('/' === \DIRECTORY_SEPARATOR && $files = @file('/proc/mounts')) {
+            if ('/' === \DIRECTORY_SEPARATOR && is_readable('/proc/mounts') && $files = @file('/proc/mounts')) {
                 foreach ($files as $mount) {
                     $mount = \array_slice(explode(' ', $mount), 1, -3);
                     if (!\in_array(array_pop($mount), ['vboxsf', 'nfs'])) {
@@ -245,7 +245,7 @@ EOF
         $warmer = $kernel->getContainer()->get('cache_warmer');
         // non optional warmers already ran during container compilation
         $warmer->enableOnlyOptionalWarmers();
-        $preload = (array) $warmer->warmUp($cacheDir, $io);
+        $preload = (array) $warmer->warmUp($cacheDir, $warmupDir, $io);
 
         if ($preload && file_exists($preloadFile = $warmupDir.'/'.$kernel->getContainer()->getParameter('kernel.container_class').'.preload.php')) {
             Preloader::append($preloadFile, $preload);
