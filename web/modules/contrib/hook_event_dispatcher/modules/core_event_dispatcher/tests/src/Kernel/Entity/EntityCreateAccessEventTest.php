@@ -12,13 +12,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class EntityCreateAccessEvent.
  *
- * @group hook_event_dispatcher
- * @group core_event_dispatcher
- *
- * @covers core_event_dispatcher_entity_create_access()
  * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityCreateAccessEvent
  *
- * @see core_event_dispatcher_entity_create_access()
+ * @group hook_event_dispatcher
+ * @group core_event_dispatcher
  */
 class EntityCreateAccessEventTest extends KernelTestBase {
 

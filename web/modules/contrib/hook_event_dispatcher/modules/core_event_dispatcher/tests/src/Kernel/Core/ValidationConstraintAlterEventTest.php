@@ -12,10 +12,10 @@ use Symfony\Component\Validator\Constraints\IsNull;
 /**
  * Class ValidationConstraintAlterEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\ValidationConstraintAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_validation_constraint_alter()
  */
 class ValidationConstraintAlterEventTest extends KernelTestBase {
 

@@ -110,13 +110,6 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function getImplementations($hook) {
-    return $this->inner->getImplementations($hook);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function writeCache() {
     $this->inner->writeCache();
   }
@@ -133,13 +126,6 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
    */
   public function hasImplementations(string $hook, $modules = NULL): bool {
     return $this->inner->hasImplementations($hook, $modules);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function implementsHook($module, $hook) {
-    return $this->inner->implementsHook($module, $hook);
   }
 
   /**

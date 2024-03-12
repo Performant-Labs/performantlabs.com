@@ -7,3 +7,8 @@ dependencies:
   - drupal:system (>=8.8)
 type: module
 core_version_requirement: ^9.3 || ^10
+
+# Information added by Drupal.org packaging script on 2023-11-01
+version: '4.4.3'
+project: 'responsive_menu'
+datestamp: 1698854984

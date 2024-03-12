@@ -11,10 +11,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FormEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Form\AbstractFormEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_form_alter()
  */
 class FormEventTest extends KernelTestBase {
 
@@ -30,6 +30,9 @@ class FormEventTest extends KernelTestBase {
 
   /**
    * Test form alter events.
+   *
+   * @covers \Drupal\core_event_dispatcher\Event\Form\FormAlterEvent
+   * @covers \Drupal\core_event_dispatcher\Event\Form\FormIdAlterEvent
    *
    * @throws \Exception
    */
@@ -53,6 +56,8 @@ class FormEventTest extends KernelTestBase {
   /**
    * Test form base alter event.
    *
+   * @covers \Drupal\core_event_dispatcher\Event\Form\FormBaseAlterEvent
+   *
    * @throws \Exception
    */
   public function testFormBaseAlterEvent(): void {
@@ -68,6 +73,20 @@ class FormEventTest extends KernelTestBase {
 
     $this->container->get('form_builder')->prepareForm('test_form', $form, $formState);
     $this->assertEquals('test_altered', $form['test']);
+  }
+
+  /**
+   * @covers \Drupal\core_event_dispatcher\Event\Form\FormBaseAlterEvent
+   *
+   * @throws \Exception
+   */
+  public function testFormBaseAlterEventWithoutBaseId(): void {
+    $this->listen('hook_event_dispatcher.form_base_test_base_form.alter', 'onFormAlter', $this->exactly(0));
+
+    $form = [];
+    $formState = new FormState();
+
+    $this->container->get('form_builder')->prepareForm('test_form', $form, $formState);
   }
 
   /**

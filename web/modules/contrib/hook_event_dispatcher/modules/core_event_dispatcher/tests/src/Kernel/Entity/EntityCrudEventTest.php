@@ -3,9 +3,11 @@
 namespace Drupal\Tests\core_event_dispatcher\Kernel\Entity;
 
 use Drupal\core_event_dispatcher\EntityHookEvents;
-use Drupal\core_event_dispatcher\Event\Entity\AbstractEntityEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityCreateEvent;
+use Drupal\core_event_dispatcher\Event\Entity\EntityDeleteEvent;
+use Drupal\core_event_dispatcher\Event\Entity\EntityInsertEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityLoadEvent;
+use Drupal\core_event_dispatcher\Event\Entity\EntityPredeleteEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityUpdateEvent;
 use Drupal\entity_test\Entity\EntityTest;
@@ -14,6 +16,15 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 
 /**
  * Class EntityCrudEventTest.
+ *
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\AbstractEntityEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityCreateEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityDeleteEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityInsertEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityLoadEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityPredeleteEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityPresaveEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityUpdateEvent
  *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
@@ -89,10 +100,10 @@ class EntityCrudEventTest extends KernelTestBase {
   /**
    * Test EntityInsertEvent & EntityTranslationInsertEvent.
    *
-   * @param \Drupal\core_event_dispatcher\Event\Entity\AbstractEntityEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Entity\EntityInsertEvent $event
    *   The event.
    */
-  public function onEntityInsert(AbstractEntityEvent $event): void {
+  public function onEntityInsert(EntityInsertEvent $event): void {
     $entity = $event->getEntity();
     $this->assertEquals('Created', $entity->label());
   }
@@ -145,10 +156,10 @@ class EntityCrudEventTest extends KernelTestBase {
   /**
    * Test EntityDeleteEvent.
    *
-   * @param \Drupal\core_event_dispatcher\Event\Entity\AbstractEntityEvent $event
+   * @param \Drupal\core_event_dispatcher\Event\Entity\EntityDeleteEvent|\Drupal\core_event_dispatcher\Event\Entity\EntityPredeleteEvent $event
    *   The event.
    */
-  public function onEntityDelete(AbstractEntityEvent $event): void {
+  public function onEntityDelete(EntityDeleteEvent|EntityPredeleteEvent $event): void {
     $this->assertEquals('Updated', $event->getEntity()->label());
   }
 

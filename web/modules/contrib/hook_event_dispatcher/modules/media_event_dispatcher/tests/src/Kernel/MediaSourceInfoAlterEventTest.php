@@ -10,6 +10,8 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class MediaSourceInfoAlterEventTest.
  *
+ * @covers \Drupal\media_event_dispatcher\Event\Media\MediaSourceInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group media_event_dispatcher
  */

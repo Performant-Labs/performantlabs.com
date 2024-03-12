@@ -49,7 +49,6 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
 // @todo hook_page_attachments_alter()
 //
 // Token.
-// @todo hook_tokens_alter()
 // @todo hook_token_info_alter()
 
 /**

@@ -2,6 +2,9 @@
 
 namespace Drupal\field_event_dispatcher\Event\Field;
 
+use Drupal\Core\Field\WidgetInterface;
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Class WidgetSingleElementTypeFormAlterEvent.
  *
@@ -13,13 +16,25 @@ namespace Drupal\field_event_dispatcher\Event\Field;
 class WidgetSingleElementTypeFormAlterEvent extends WidgetSingleElementFormAlterEvent {
 
   /**
+   * The field widget instance.
+   *
+   * @var \Drupal\Core\Field\WidgetInterface
+   */
+  private WidgetInterface $widget;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(array &$element, FormStateInterface $formState, array $context) {
+    parent::__construct($element, $formState, $context);
+    $this->widget = $context['widget'];
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getDispatcherType(): string {
-    /** @var \Drupal\Core\Field\FieldItemListInterface $items */
-    $items = $this->getContext()['items'];
-    $fieldDefinition = $items->getFieldDefinition();
-    return 'hook_event_dispatcher.widget_single_element_' . $fieldDefinition->getType() . '.alter';
+    return 'hook_event_dispatcher.widget_single_element_' . $this->widget->getPluginId() . '.alter';
   }
 
 }

@@ -26,7 +26,7 @@ function asset_injector_post_update_update_node_type_conditions() {
       }
       $asset_injector_config
         ->set('conditions', $conditions)
-        ->save();
+        ->save(TRUE);
       $updated_configs[] = $asset_injector_config_name;
     }
   }

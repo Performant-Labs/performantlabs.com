@@ -14,6 +14,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FieldSettingsSummaryAlterEventTest.
  *
+ * @covers \Drupal\field_event_dispatcher\Event\Field\AbstractFieldSettingsSummaryFormEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\FieldFormatterSettingsSummaryAlterEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\FieldWidgetSettingsSummaryAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group field_event_dispatcher
  *

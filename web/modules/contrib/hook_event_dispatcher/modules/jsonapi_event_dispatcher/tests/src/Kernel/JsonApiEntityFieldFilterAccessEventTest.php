@@ -12,10 +12,10 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * Class JsonApiEntityFieldFilterAccessEvent.
  *
+ * @covers \Drupal\jsonapi_event_dispatcher\Event\JsonApiEntityFieldFilterAccessEvent
+ *
  * @group hook_event_dispatcher
  * @group jsonapi_event_dispatcher
- *
- * @see jsonapi_event_dispatcher_jsonapi_entity_field_filter_access()
  */
 class JsonApiEntityFieldFilterAccessEventTest extends KernelTestBase {
 
@@ -27,6 +27,7 @@ class JsonApiEntityFieldFilterAccessEventTest extends KernelTestBase {
   protected static $modules = [
     'serialization',
     'jsonapi',
+    'file',
     'user',
     'text',
     'entity_test',

@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class LayoutAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\LayoutAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_layout_alter()
  */
 class LayoutAlterEventTest extends KernelTestBase {
 

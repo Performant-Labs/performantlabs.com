@@ -11,11 +11,11 @@ use Drupal\toolbar_event_dispatcher\ToolbarHookEvents;
 /**
  * Class ToolbarAlterEventTest.
  *
+ * @covers \Drupal\toolbar_event_dispatcher\Event\Toolbar\ToolbarAlterEvent
+ * @covers \Drupal\toolbar_event_dispatcher\Event\Toolbar\ToolbarEvent
+ *
  * @group hook_event_dispatcher
  * @group toolbar_event_dispatcher
- *
- * @see \toolbar_event_dispatcher_toolbar()
- * @see \toolbar_event_dispatcher_toolbar_alter()
  */
 class ToolbarEventTest extends KernelTestBase {
 

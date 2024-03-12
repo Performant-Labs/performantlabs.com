@@ -38,7 +38,7 @@
         (value) => {
           const $input = $(value);
           let val = $(value).val();
-          $(value).change(() => {
+          $(value).change( function() {
             if (val !== $(this).val()) {
               val = $(this).val();
               $input

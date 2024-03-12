@@ -12,6 +12,8 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class OEmbedResourceUrlAlterEventTest.
  *
+ * @covers \Drupal\media_event_dispatcher\Event\Media\OEmbedResourceUrlAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group media_event_dispatcher
  */

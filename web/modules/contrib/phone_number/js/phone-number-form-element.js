@@ -47,7 +47,7 @@
 
           setCountry(val);
 
-          $input.change(() => {
+          $input.change( function() {
             if (val !== $(this).val()) {
               val = $(this).val();
             }

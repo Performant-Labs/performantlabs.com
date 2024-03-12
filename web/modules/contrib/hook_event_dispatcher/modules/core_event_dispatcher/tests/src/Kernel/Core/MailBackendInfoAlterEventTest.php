@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class MailBackendInfoAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\MailBackendInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_mail_backend_info_alter()
  */
 class MailBackendInfoAlterEventTest extends KernelTestBase {
 

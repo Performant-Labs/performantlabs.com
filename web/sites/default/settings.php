@@ -818,3 +818,9 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
 }
 
 $settings['skip_permissions_hardening'] = TRUE;
+
+// Automatically generated include for settings managed by ddev.
+$ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
+if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
+  require $ddev_settings;
+}

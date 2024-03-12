@@ -4,6 +4,8 @@ namespace Drupal\hook_event_dispatcher;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Extension\Exception\UnknownExtensionException;
+use Drupal\Core\Extension\Extension;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\hook_event_dispatcher\Annotation\HookEvent;
@@ -13,7 +15,7 @@ use Drupal\hook_event_dispatcher\Plugin\Factory\EventFactory;
 /**
  * HookEvent plugin manager.
  *
- * @method Event createInstance($plugin_id, array $configuration = [])
+ * @method Event createInstance($plugin_id, array &$configuration = [])
  */
 class HookEventPluginManager extends DefaultPluginManager implements HookEventPluginManagerInterface {
 
@@ -25,18 +27,19 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
    *   keyed by the corresponding namespace to look for plugin implementations.
    * @param \Drupal\Core\Cache\CacheBackendInterface $cacheBackend
    *   Cache backend instance to use.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   The module handler to invoke the alter hook with.
+   * @param \Drupal\Core\Extension\Extension[] $moduleList
+   *   An associative array whose keys are the names of installed modules and
+   *   whose values are Extension class parameters. This is normally the
+   *   %container.modules% parameter being set up by DrupalKernel.
    */
-  public function __construct(\Traversable $namespaces, CacheBackendInterface $cacheBackend, ModuleHandlerInterface $moduleHandler) {
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cacheBackend, protected array $moduleList) {
     parent::__construct(
       'Event',
       $namespaces,
-      $moduleHandler,
+      $this->getModuleHandler($this->moduleList),
       EventInterface::class,
       HookEvent::class
     );
-    $this->alterInfo('hook_event_info');
     $this->setCacheBackend($cacheBackend, 'hook_event_plugins');
   }
 
@@ -71,6 +74,178 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
         yield fn(&...$args): Event => $this->createInstance($definition['id'], $args);
       }
     }
+  }
+
+  /**
+   * Gets a lightweight module handler.
+   */
+  protected function getModuleHandler(array $moduleList): ModuleHandlerInterface {
+    return new class ($moduleList) implements ModuleHandlerInterface {
+
+      /**
+       * @param \Drupal\Core\Extension\Extension[] $moduleList
+       *   An associative array whose keys are the names of installed modules
+       *   and whose values are Extension class parameters. This is normally the
+       *   %container.modules% parameter being set up by DrupalKernel.
+       */
+      public function __construct(protected array $moduleList) {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function load($name): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function loadAll(): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function isLoaded(): bool {
+        return FALSE;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function reload(): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getModuleList(): array {
+        return $this->moduleList;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getModule($name): Extension {
+        if (isset($this->moduleList[$name])) {
+          return $this->moduleList[$name];
+        }
+        throw new UnknownExtensionException(sprintf('The module %s does not exist.', $name));
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function setModuleList(array $module_list = []): void {
+        $this->moduleList = $module_list;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function addModule($name, $path): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function addProfile($name, $path): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function buildModuleDependencies(array $modules): array {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function moduleExists($module): bool {
+        return isset($this->moduleList[$module]);
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function loadAllIncludes($type, $name = NULL): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function loadInclude($module, $type, $name = NULL): bool {
+        return FALSE;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getHookInfo(): array {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function writeCache(): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function resetImplementations(): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function hasImplementations(string $hook, $modules = NULL): bool {
+        return FALSE;
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function invokeAllWith(string $hook, callable $callback): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function invoke($module, $hook, array $args = []): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function invokeAll($hook, array $args = []): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function invokeDeprecated($description, $module, $hook, array $args = []): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function invokeAllDeprecated($description, $hook, array $args = []): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function alter($type, &$data, &$context1 = NULL, &$context2 = NULL): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function alterDeprecated($description, $type, &$data, &$context1 = NULL, &$context2 = NULL): void {}
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getModuleDirectories(): array {
+        return [];
+      }
+
+      /**
+       * {@inheritdoc}
+       */
+      public function getName($module): void {
+        throw new UnknownExtensionException(sprintf('The module %s does not exist.', $module));
+      }
+
+    };
   }
 
 }

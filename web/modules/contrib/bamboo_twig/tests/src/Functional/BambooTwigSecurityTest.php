@@ -12,6 +12,13 @@ namespace Drupal\Tests\bamboo_twig\Functional;
 class BambooTwigSecurityTest extends BambooTwigTestBase {
 
   /**
+   * A user with administration access.
+   *
+   * @var \Drupal\user\UserInterface
+   */
+  protected $adminUser;
+
+  /**
    * {@inheritdoc}
    */
   protected static $modules = [
@@ -30,7 +37,7 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
     /** @var \Drupal\Core\Entity\EntityTypeManager $entityTypeManager */
     $this->entityTypeManager = $this->container->get('entity_type.manager');
 
-    $this->admin_user = $this->drupalCreateUser([
+    $this->adminUser = $this->drupalCreateUser([
       'access content',
       'administer content types',
       'bypass node access',
@@ -39,8 +46,8 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
       'administer menu',
       'access administration pages',
     ]);
-    $this->admin_user->addRole('administrator');
-    $this->admin_user->save();
+    $this->adminUser->addRole('administrator');
+    $this->adminUser->save();
 
     // Add the administrator roles to the default user 1.
     $admin = $this->entityTypeManager->getStorage('user')->load(1);
@@ -55,25 +62,25 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-current');
-    $this->assertElementContains('.test-security div.security-permission-current', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-current', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-admin');
-    $this->assertElementContains('.test-security div.security-permission-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-nobody');
-    $this->assertElementContains('.test-security div.security-permission-nobody', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-nobody', 'FALSE');
 
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-current');
-    $this->assertElementContains('.test-security div.security-permission-current', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-current', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-admin');
-    $this->assertElementContains('.test-security div.security-permission-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permission-nobody');
-    $this->assertElementContains('.test-security div.security-permission-nobody', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permission-nobody', 'FALSE');
   }
 
   /**
@@ -83,25 +90,25 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-current');
-    $this->assertElementContains('.test-security div.security-role-current', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-current', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-admin');
-    $this->assertElementContains('.test-security div.security-role-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-nobody');
-    $this->assertElementContains('.test-security div.security-role-nobody', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-nobody', 'FALSE');
 
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-current');
-    $this->assertElementContains('.test-security div.security-role-current', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-current', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-admin');
-    $this->assertElementContains('.test-security div.security-role-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-role-nobody');
-    $this->assertElementContains('.test-security div.security-role-nobody', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-role-nobody', 'FALSE');
   }
 
   /**
@@ -111,43 +118,43 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-current');
-    $this->assertElementContains('.test-security div.security-permissions-current', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-current', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-admin');
-    $this->assertElementContains('.test-security div.security-permissions-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-user-none-or');
-    $this->assertElementContains('.test-security div.security-permissions-user-none-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-user-none-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-user-none-and');
-    $this->assertElementContains('.test-security div.security-permissions-user-none-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-user-none-and', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-nobody-or');
-    $this->assertElementContains('.test-security div.security-permissions-nobody-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-nobody-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-nobody-and');
-    $this->assertElementContains('.test-security div.security-permissions-nobody-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-nobody-and', 'FALSE');
 
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-current');
-    $this->assertElementContains('.test-security div.security-permissions-current', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-current', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-admin');
-    $this->assertElementContains('.test-security div.security-permissions-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-user-none-or');
-    $this->assertElementContains('.test-security div.security-permissions-user-none-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-user-none-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-user-none-and');
-    $this->assertElementContains('.test-security div.security-permissions-user-none-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-user-none-and', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-nobody-or');
-    $this->assertElementContains('.test-security div.security-permissions-nobody-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-nobody-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-permissions-nobody-and');
-    $this->assertElementContains('.test-security div.security-permissions-nobody-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-permissions-nobody-and', 'FALSE');
   }
 
   /**
@@ -157,46 +164,46 @@ class BambooTwigSecurityTest extends BambooTwigTestBase {
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-current');
-    $this->assertElementContains('.test-security div.security-roles-current', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-current', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-admin');
-    $this->assertElementContains('.test-security div.security-roles-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-user-none-or');
-    $this->assertElementContains('.test-security div.security-roles-user-none-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-user-none-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-user-none-and');
-    $this->assertElementContains('.test-security div.security-roles-user-none-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-user-none-and', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-nobody-or');
-    $this->assertElementContains('.test-security div.security-roles-nobody-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-nobody-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-nobody-and');
-    $this->assertElementContains('.test-security div.security-roles-nobody-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-nobody-and', 'FALSE');
 
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet('/bamboo-twig-security');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-current');
-    $this->assertElementContains('.test-security div.security-roles-current', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-current', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-admin');
-    $this->assertElementContains('.test-security div.security-roles-admin', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-admin', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-admin-or');
-    $this->assertElementContains('.test-security div.security-roles-admin-or', 'TRUE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-admin-or', 'TRUE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-user-none-or');
-    $this->assertElementContains('.test-security div.security-roles-user-none-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-user-none-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-user-none-and');
-    $this->assertElementContains('.test-security div.security-roles-user-none-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-user-none-and', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-nobody-or');
-    $this->assertElementContains('.test-security div.security-roles-nobody-or', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-nobody-or', 'FALSE');
 
     $this->assertSession()->elementExists('css', '.test-security div.security-roles-nobody-and');
-    $this->assertElementContains('.test-security div.security-roles-nobody-and', 'FALSE');
+    $this->assertSession()->elementContains('css', '.test-security div.security-roles-nobody-and', 'FALSE');
   }
 
 }

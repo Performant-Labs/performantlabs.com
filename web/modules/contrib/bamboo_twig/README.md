@@ -4,9 +4,9 @@ All the Twig features you missed until now.
 
 A Drupal powered module.
 
-|       Tests-CI        |        Style-CI         |        Downloads        |         Releases         |
-|:----------------------:|:-----------------------:|:-----------------------:|:------------------------:|
-| [![Build Status](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/ci.yml/badge.svg)](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/ci.yml) | [![Code styles](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/styles.yml/badge.svg)](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/styles.yml) | [![Downloads](https://img.shields.io/badge/downloads-8.x--5.0-green.svg?style=flat-square)](https://ftp.drupal.org/files/projects/bamboo_twig-8.x-5.0.tar.gz) | [![Latest Stable Version](https://img.shields.io/badge/release-v5.0-blue.svg?style=flat-square)](https://www.drupal.org/project/bamboo_twig/releases) |
+|       Tests-CI        |        Style-CI         |                                                                        Downloads                                                                         |                                                                        Releases                                                                        |
+|:----------------------:|:-----------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| [![Build Status](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/ci.yml/badge.svg)](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/ci.yml) | [![Code styles](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/styles.yml/badge.svg)](https://github.com/antistatique/drupal-bamboo-twig/actions/workflows/styles.yml) | [![Downloads](https://img.shields.io/badge/downloads-6.0.1-green.svg?style=flat-square)](https://ftp.drupal.org/files/projects/bamboo_twig-6.0.1.tar.gz) | [![Latest Stable Version](https://img.shields.io/badge/release-v6.0.1-blue.svg?style=flat-square)](https://www.drupal.org/project/bamboo_twig/releases) |
 
 The Bamboo Twig module provides some Twig extensions with some useful functions
 and filters aimed to improve the development experience.
@@ -46,8 +46,9 @@ for each topic he provides Twigs.
 
 ## Bamboo Twig versions
 
-Bamboo Twig is available for Drupal 8, Drupal 9 & Drupal 10!
+Bamboo Twig is available for Drupal 8, Drupal 9, Drupal 10 & Drupal 11 (dev)!
 
+- If you are running Drupal `11.x`, use Bamboo Twig `6.0.x`.
 - If you are running Drupal `10.x`, use Bamboo Twig `6.0.x`.
 - If you are running Drupal `9.x`, use Bamboo Twig `5.x`.
 - If you are running Drupal `8.8.x`, use Bamboo Twig `5.0`.
@@ -79,10 +80,11 @@ must upgrade to `8.x-3.x` version of **Bamboo Twig**.
 |    8.9.x    |     5.0     |
 |     9.x     |     5.x     |
 |    10.x     |    6.0.x    |
+|  11.x-dev   |    6.0.x    |
 
 ## Dependencies
 
-The Drupal 8, Drupal 9 & Drupal 10 version of Bamboo Twig requires nothing !
+The Drupal 8, Drupal 9, Drupal 10 & Drupal 11 version of Bamboo Twig requires nothing !
 Feel free to use it.
 
 ## Similar modules
@@ -94,8 +96,8 @@ thus reducing the need to install a bunch of extra modules.
 Plus, it adds a lots of functionality, ensures stability with tests, includes automated
 quality control and is totally open to contribution via [Github](https://github.com/antistatique/drupal-bamboo-twig) or [Drupal Issue Queue](https://www.drupal.org/project/issues/bamboo_twig).
 
-Finally, Bamboo Twig follows all the best practices of Drupal 8 to ensure
-compatibility with Drupal 9.
+Finally, Bamboo Twig follows all the best practices of Drupal & Symfony to ensure
+compatibility with next Drupal releases.
 
   - Only expose a set of Renderer functions & filters [Twig Tweak](https://www.drupal.org/project/twig_tweak).
   - Output clean Twig debug [Twig Clean Debug](https://www.drupal.org/project/twig_clean_debug).
@@ -123,18 +125,6 @@ We highly recommend you to install the module using `composer`.
 ```bash
 $ composer require drupal/bamboo_twig
 ```
-
-You can also install it using the `drush` or `drupal console` cli.
-
-```bash
-$ drush dl bamboo_twig
-```
-
-```bash
-$ drupal module:install bamboo_twig
- ```
-
-Don't forget to enable the  modules you need from Bamboo Twig.
 
 ## Bamboo Twig Extensions
 
@@ -258,6 +248,36 @@ entity displayed in another language.
 {{ node.field_referenced_tags.entity|bamboo_i18n_get_translation.name.value }}
 ```
 
+`bamboo_load_entity_revision(entity_type, revision_id, langcode)` returns a EntityInterface object
+of the requested entity revision.
+
+- `entity_type` string
+- `revision_id` int (optional)
+- `langcode` string (optional) - defaults to current context language
+
+```twig
+{# Load the entity revision node with revision ID 1 #}
+{% set node = bamboo_load_entity_revision('node', 1) %}
+```
+
+Keep in mind, when loading an entity it will fetch it in the current context language.
+When you access it directly through a *EntityReferenceField* or a *Paragraph*
+(e.g. `node.field_referenced_tags.entity`), the entity is always loaded in its original language.
+(it won't be loaded in the current context language or in the entity language)
+You should then use the `|bamboo_i18n_get_translation` filter to make sure you have the
+entity displayed in another language.
+
+```twig
+{# Load the entity revision node with revision ID 1 #}
+{% set node = bamboo_load_entity_revision('node', 1) %}
+{# Display the entity title in the current context lang (page language) #}
+{{ node.title.value }}
+{# Display the referenced entity name in its original lang #}
+{{ node.field_referenced_tags.entity.name.value }}
+{# Display the referenced entity name in the current context lang (page language) #}
+{{ node.field_referenced_tags.entity|bamboo_i18n_get_translation.name.value }}
+```
+
 `bamboo_load_field(field, entity_type, id)` returns a FieldItemListInterface object of the requested field.
 
 - `field` string
@@ -301,11 +321,12 @@ of the requested image.
 
 **Render**
 
-`bamboo_render_block(block_name, params)` returns a render array of the
+`bamboo_render_block(block_name, params, wrapper)` returns a render array of the
 specified block (works only for Plugin Block).
 
 - `block_name` string
 - `params` array (optional)
+- `wrapper` bool (optional) Whether it use block template for rendering. Defaults: FALSE.
 
 ```twig
 {# Render the `system_powered_by_block` block #}
@@ -334,11 +355,27 @@ entity type. Can be rendered a specific `view_mode`.
 {{ bamboo_render_entity('block', 'stark_messages') }}
 ```
 
+`bamboo_render_entity_revision(entity_type, revision_id, view_mode, langcode)` returns a render array of the specified
+entity revision type. Can be rendered a specific `view_mode`.
+
+- `entity_type` string
+- `revision_id` int (optional)
+- `view_mode` string (optional) - machine name of the view mode
+- `langcode` string (optional) - defaults to current language
+
+```twig
+{# Render node with revision id 1 #}
+{{ bamboo_render_entity_revision('node', 1) }}
+
+{# Render the teaser of node with revision id 2 #}
+{{ bamboo_render_entity_revision('node', 2, 'teaser') }}
+```
+
 `bamboo_render_form(module, formName)` returns a render array of the specified Form.
 
 - `module` string
 - `formName` string
-- `params` array (optional)
+- `params` mixed (optional)
 
 ```twig
 {# Render a the CronForm #}
@@ -385,10 +422,11 @@ entity type. Can be rendered a specific `view_mode`.
 
 - `fid` int
 - `style` string
+- `alt` string (optional) - the image alternative text
 
 ```twig
 {# Get thumbnail from image with fid 12. #}
-{{ bamboo_render_image(1, 'thumbnail') }}
+{{ bamboo_render_image(1, 'thumbnail', 'Alternative text.') }}
 ```
 
 `bamboo_render_image_style(path, style, preprocess)` returns the URL string of the

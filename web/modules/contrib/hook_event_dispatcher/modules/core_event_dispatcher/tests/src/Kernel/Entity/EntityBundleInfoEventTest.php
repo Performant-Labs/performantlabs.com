@@ -11,6 +11,9 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class EntityBundleInfoEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBundleInfoAlterEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBundleInfoEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  */

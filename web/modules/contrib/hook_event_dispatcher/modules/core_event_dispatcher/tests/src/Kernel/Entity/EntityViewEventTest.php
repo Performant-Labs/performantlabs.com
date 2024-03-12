@@ -69,6 +69,9 @@ class EntityViewEventTest extends KernelTestBase {
   /**
    * Test EntityViewEvent.
    *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityViewAlterEvent
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityViewEvent
+   *
    * @throws \Exception
    */
   public function testEntityViewEventByReference(): void {
@@ -118,6 +121,8 @@ class EntityViewEventTest extends KernelTestBase {
 
   /**
    * Test EntityBuildDefaultsAlter.
+   *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBuildDefaultsAlterEvent
    *
    * @throws \Exception
    */

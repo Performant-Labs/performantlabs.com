@@ -12,10 +12,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class BlockAccessEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Block\BlockAccessEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_block_access()
  */
 class BlockAccessEventTest extends KernelTestBase {
 

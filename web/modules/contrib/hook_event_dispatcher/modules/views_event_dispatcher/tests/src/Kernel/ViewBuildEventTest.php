@@ -12,6 +12,12 @@ use Drupal\views_event_dispatcher\ViewsHookEvents;
 /**
  * Class ViewEventTest.
  *
+ * @covers \Drupal\views_event_dispatcher\Event\Views\AbstractViewsEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsPostBuildEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsPreBuildEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsQueryAlterEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsQuerySubstitutionsEvent
+ *
  * @group hook_event_dispatcher
  * @group views_event_dispatcher
  */
@@ -33,9 +39,6 @@ class ViewBuildEventTest extends ViewsEventKernelTestBase {
    * Build events.
    *
    * @throws \Exception
-   *
-   * @see \views_event_dispatcher_views_post_build()
-   * @see \views_event_dispatcher_views_pre_build()
    */
   public function testBuildEvent(): void {
     $this->listen([

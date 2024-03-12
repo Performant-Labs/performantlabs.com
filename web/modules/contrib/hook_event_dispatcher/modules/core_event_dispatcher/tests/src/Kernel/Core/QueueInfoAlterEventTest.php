@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class QueueInfoAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\QueueInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_queue_info_alter()
  */
 class QueueInfoAlterEventTest extends KernelTestBase {
 

@@ -237,6 +237,7 @@
         <xsd:attribute name="logging" type="xsd:boolean" />
         <xsd:attribute name="formatter" type="xsd:string" />
         <xsd:attribute name="cache-dir" type="xsd:string" />
+        <xsd:attribute name="default-path" type="xsd:string" />
     </xsd:complexType>
 
     <xsd:complexType name="pseudo_localization">
@@ -975,6 +976,7 @@
             <xsd:element name="service" type="xsd:string" minOccurs="0" maxOccurs="1" />
             <xsd:element name="secret" type="xsd:string" minOccurs="0" maxOccurs="1" />
         </xsd:sequence>
+        <xsd:attribute name="type" type="xsd:string" use="required" />
     </xsd:complexType>
 
     <xsd:complexType name="remote-event">

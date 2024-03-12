@@ -9,6 +9,9 @@ use Drupal\views_event_dispatcher\ViewsHookEvents;
 /**
  * Class ViewEventTest.
  *
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsPostExecuteEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsPreExecuteEvent
+ *
  * @group hook_event_dispatcher
  * @group views_event_dispatcher
  */

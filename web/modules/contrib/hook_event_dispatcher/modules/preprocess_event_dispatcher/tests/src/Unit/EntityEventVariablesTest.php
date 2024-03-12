@@ -22,6 +22,7 @@ use Drupal\preprocess_event_dispatcher\Variables\TaxonomyTermEventVariables;
 use Drupal\taxonomy\TermInterface;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\EntityMockFactory;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
+use Drupal\Tests\RandomGeneratorTrait;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,6 +35,8 @@ use PHPUnit\Framework\TestCase;
  */
 final class EntityEventVariablesTest extends TestCase {
 
+  use RandomGeneratorTrait;
+
   /**
    * Factory mapper.
    *
@@ -41,23 +44,26 @@ final class EntityEventVariablesTest extends TestCase {
    */
   private PreprocessEventFactoryMapper $mapper;
 
+  private string $viewMode;
+
   /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
     $this->mapper = YamlDefinitionsLoader::getInstance()->getMapper();
+    $this->viewMode = $this->randomMachineName();
   }
 
   /**
    * Test a CommentPreprocessEvent.
    */
   public function testCommentEvent(): void {
-    $comment = EntityMockFactory::getMock(CommentInterface::class, 'comment', 'comment_bundle', 'comment_view_mode');
+    $comment = EntityMockFactory::getMock(CommentInterface::class, 'comment', 'comment_bundle');
     $commentedEntity = \Mockery::mock(ContentEntityInterface::class);
     $variablesArray = $this->createVariablesArray();
     $variablesArray['comment'] = $comment;
     $variablesArray['commented_entity'] = $commentedEntity;
-    $variablesArray['view_mode'] = $comment->getViewMode();
+    $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\CommentEventVariables $variables */
     $variables = $this->getVariablesFromCreatedEvent(CommentPreprocessEvent::class, $variablesArray);
@@ -71,11 +77,11 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a NodePreprocessEvent.
    */
   public function testNodeEvent(): void {
-    $node = EntityMockFactory::getMock(NodeInterface::class, 'node', 'node_bundle', 'node_view_mode');
+    $node = EntityMockFactory::getMock(NodeInterface::class, 'node', 'node_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['node'] = $node;
     $variablesArray['theme_hook_original'] = $node->getEntityType();
-    $variablesArray['view_mode'] = $node->getViewMode();
+    $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\NodeEventVariables $variables */
     $variables = $this->getVariablesFromCreatedEvent(NodePreprocessEvent::class, $variablesArray);
@@ -88,11 +94,11 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a ParagraphPreprocessEvent.
    */
   public function testParagraphEvent(): void {
-    $paragraph = EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'paragraph_bundle', 'paragraph_view_mode');
+    $paragraph = EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'paragraph_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['paragraph'] = $paragraph;
     $variablesArray['theme_hook_original'] = $paragraph->getEntityType();
-    $variablesArray['view_mode'] = $paragraph->getViewMode();
+    $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ParagraphEventVariables $variables */
     $variables = $this->getVariablesFromCreatedEvent(ParagraphPreprocessEvent::class, $variablesArray);
@@ -105,11 +111,11 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a TaxonomyTermPreprocessEvent.
    */
   public function testTaxonomyTermEvent(): void {
-    $term = EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'term_bundle', 'term_view_mode');
+    $term = EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'term_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['term'] = $term;
     $variablesArray['theme_hook_original'] = $term->getEntityType();
-    $variablesArray['view_mode'] = $term->getViewMode();
+    $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\TaxonomyTermEventVariables $variables */
     $variables = $this->getVariablesFromCreatedEvent(TaxonomyTermPreprocessEvent::class, $variablesArray);
@@ -132,7 +138,7 @@ final class EntityEventVariablesTest extends TestCase {
     self::assertSame($entity, $variables->getEntity());
     self::assertSame($entity->getEntityType(), $variables->getEntityType());
     self::assertSame($entity->bundle(), $variables->getEntityBundle());
-    self::assertSame($entity->getViewMode(), $variables->getViewMode());
+    self::assertSame($this->viewMode, $variables->getViewMode());
   }
 
   /**

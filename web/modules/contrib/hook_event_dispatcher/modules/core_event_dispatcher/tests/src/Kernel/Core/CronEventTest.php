@@ -8,6 +8,8 @@ use Drupal\KernelTests\KernelTestBase;
 /**
  * Class CronEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\CronEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  */

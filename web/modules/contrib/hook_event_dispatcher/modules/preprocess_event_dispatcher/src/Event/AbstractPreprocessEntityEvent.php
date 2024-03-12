@@ -7,6 +7,8 @@ use function implode;
 
 /**
  * Class AbstractPreprocessEntityEvent.
+ *
+ * @method \Drupal\preprocess_event_dispatcher\Variables\AbstractEntityEventVariables getVariables()
  */
 abstract class AbstractPreprocessEntityEvent extends AbstractPreprocessEvent implements PreprocessEntityEventInterface {
 

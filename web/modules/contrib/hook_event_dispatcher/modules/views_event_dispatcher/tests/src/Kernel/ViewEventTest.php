@@ -9,6 +9,8 @@ use Drupal\views_event_dispatcher\ViewsHookEvents;
 /**
  * Class ViewEventTest.
  *
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsPreViewEvent
+ *
  * @group hook_event_dispatcher
  * @group views_event_dispatcher
  */
@@ -29,8 +31,6 @@ class ViewEventTest extends ViewsEventKernelTestBase {
    * Pre view event.
    *
    * @throws \Exception
-   *
-   * @see \views_event_dispatcher_views_pre_view()
    */
   public function testPreViewEvent(): void {
     $this->listen(ViewsHookEvents::VIEWS_PRE_VIEW, 'onPreView');

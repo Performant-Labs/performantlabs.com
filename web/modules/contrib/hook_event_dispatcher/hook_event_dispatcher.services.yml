@@ -14,5 +14,5 @@ services:
 
   plugin.manager.hook_event:
     class: Drupal\hook_event_dispatcher\HookEventPluginManager
-    parent: default_plugin_manager
+    arguments: ['@container.namespaces', '@cache.discovery', '%container.modules%']
     lazy: true

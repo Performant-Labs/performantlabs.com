@@ -13,6 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase.
  *
+ * @covers \Drupal\field_event_dispatcher\EventSubscriber\Form\FormEntityDisplayEditAlterEventSubscriber
+ *
+ * @group hook_event_dispatcher
  * @group field_event_dispatcher
  */
 abstract class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase extends TestCase {

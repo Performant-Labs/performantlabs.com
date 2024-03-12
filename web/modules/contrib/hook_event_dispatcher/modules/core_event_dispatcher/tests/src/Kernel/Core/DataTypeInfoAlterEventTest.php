@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class DataTypeInfoAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\DataTypeInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_data_type_info_alter()
  */
 class DataTypeInfoAlterEventTest extends KernelTestBase {
 

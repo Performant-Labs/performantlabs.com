@@ -11,10 +11,11 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FileTransferInfoEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\File\FileTransferInfoAlterEvent
+ * @covers \Drupal\core_event_dispatcher\Event\File\FileTransferInfoEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_filetransfer_info()
  */
 class FileTransferInfoEventTest extends KernelTestBase {
 

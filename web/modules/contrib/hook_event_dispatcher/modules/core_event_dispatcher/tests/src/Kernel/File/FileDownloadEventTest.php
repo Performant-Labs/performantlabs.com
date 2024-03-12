@@ -13,10 +13,10 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 /**
  * Class FileDownloadEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\File\FileDownloadEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_file_download()
  */
 class FileDownloadEventTest extends KernelTestBase {
 

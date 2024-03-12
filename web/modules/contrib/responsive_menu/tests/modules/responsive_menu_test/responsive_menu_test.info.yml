@@ -11,3 +11,8 @@ dependencies:
   - drupal:menu_link_content
   - responsive_menu:responsive_menu
   - drupal:language
+
+# Information added by Drupal.org packaging script on 2023-11-01
+version: '4.4.3'
+project: 'responsive_menu'
+datestamp: 1698854984

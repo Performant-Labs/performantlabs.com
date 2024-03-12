@@ -70,6 +70,8 @@ class EntityOperationEventTest extends KernelTestBase {
   /**
    * EntityOperationEvent test.
    *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityOperationEvent
+   *
    * @throws \Exception
    */
   public function testEntityOperationEvent(): void {
@@ -95,6 +97,8 @@ class EntityOperationEventTest extends KernelTestBase {
 
   /**
    * EntityOperationAlterEvent test.
+   *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityOperationAlterEvent
    *
    * @throws \Exception
    */

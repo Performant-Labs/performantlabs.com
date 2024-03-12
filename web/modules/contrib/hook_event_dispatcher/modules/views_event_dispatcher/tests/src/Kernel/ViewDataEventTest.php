@@ -11,6 +11,9 @@ use Drupal\views_event_dispatcher\ViewsHookEvents;
 /**
  * Class ViewDataEventTest.
  *
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsDataAlterEvent
+ * @covers \Drupal\views_event_dispatcher\Event\Views\ViewsDataEvent
+ *
  * @group hook_event_dispatcher
  * @group views_event_dispatcher
  */

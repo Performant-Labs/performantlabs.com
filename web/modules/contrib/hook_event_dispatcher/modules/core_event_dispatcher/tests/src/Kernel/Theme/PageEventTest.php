@@ -13,12 +13,12 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\PageAttachmentsEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\PageBottomEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\PageTopEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_page_attachments()
- * @see \core_event_dispatcher_page_top()
- * @see \core_event_dispatcher_page_bottom()
  */
 class PageEventTest extends KernelTestBase {
 

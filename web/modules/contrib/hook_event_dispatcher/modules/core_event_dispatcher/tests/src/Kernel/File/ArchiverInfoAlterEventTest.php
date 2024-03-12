@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class ArchiverInfoAlterEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\File\ArchiverInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_archiver_info_alter()
  */
 class ArchiverInfoAlterEventTest extends KernelTestBase {
 

@@ -39,16 +39,16 @@ class SesClient extends AbstractApi
      * @see https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-email-2019-09-27.html#sendemail
      *
      * @param array{
-     *   FromEmailAddress?: string,
-     *   FromEmailAddressIdentityArn?: string,
-     *   Destination?: Destination|array,
-     *   ReplyToAddresses?: string[],
-     *   FeedbackForwardingEmailAddress?: string,
-     *   FeedbackForwardingEmailAddressIdentityArn?: string,
+     *   FromEmailAddress?: null|string,
+     *   FromEmailAddressIdentityArn?: null|string,
+     *   Destination?: null|Destination|array,
+     *   ReplyToAddresses?: null|string[],
+     *   FeedbackForwardingEmailAddress?: null|string,
+     *   FeedbackForwardingEmailAddressIdentityArn?: null|string,
      *   Content: EmailContent|array,
-     *   EmailTags?: array<MessageTag|array>,
-     *   ConfigurationSetName?: string,
-     *   ListManagementOptions?: ListManagementOptions|array,
+     *   EmailTags?: null|array<MessageTag|array>,
+     *   ConfigurationSetName?: null|string,
+     *   ListManagementOptions?: null|ListManagementOptions|array,
      *   '@region'?: string|null,
      * }|SendEmailRequest $input
      *
@@ -90,10 +90,31 @@ class SesClient extends AbstractApi
         }
 
         switch ($region) {
+            case 'fips-ca-central-1':
+                return [
+                    'endpoint' => 'https://email-fips.ca-central-1.amazonaws.com',
+                    'signRegion' => 'ca-central-1',
+                    'signService' => 'ses',
+                    'signVersions' => ['v4'],
+                ];
             case 'fips-us-east-1':
                 return [
                     'endpoint' => 'https://email-fips.us-east-1.amazonaws.com',
                     'signRegion' => 'us-east-1',
+                    'signService' => 'ses',
+                    'signVersions' => ['v4'],
+                ];
+            case 'fips-us-east-2':
+                return [
+                    'endpoint' => 'https://email-fips.us-east-2.amazonaws.com',
+                    'signRegion' => 'us-east-2',
+                    'signService' => 'ses',
+                    'signVersions' => ['v4'],
+                ];
+            case 'fips-us-west-1':
+                return [
+                    'endpoint' => 'https://email-fips.us-west-1.amazonaws.com',
+                    'signRegion' => 'us-west-1',
                     'signService' => 'ses',
                     'signVersions' => ['v4'],
                 ];

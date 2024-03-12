@@ -16,6 +16,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FieldFormatterThirdPartySettingsFormEventTest.
  *
+ * @covers \Drupal\field_event_dispatcher\Event\Field\AbstractFieldThirdPartySettingsFormEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\FieldFormatterThirdPartySettingsFormEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\FieldWidgetThirdPartySettingsFormEvent
+ *
  * @group hook_event_dispatcher
  * @group field_event_dispatcher
  *

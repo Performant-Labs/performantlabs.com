@@ -60,7 +60,7 @@ class PhoneNumberWidget extends WidgetBase {
   public static function defaultSettings() {
     return parent::defaultSettings() + [
       'default_country' => 'US',
-      'placeholder' => NULL,
+      'placeholder' => t('Phone number'),
       'phone_size' => 60,
       'extension_size' => 5,
     ];
@@ -91,7 +91,7 @@ class PhoneNumberWidget extends WidgetBase {
     $element['placeholder'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Number Placeholder'),
-      '#default_value' => $this->getSetting('placeholder') ?? 'Phone number',
+      '#default_value' => $this->getSetting('placeholder'),
       '#description' => $this->t('Number field placeholder.'),
       '#required' => FALSE,
     ];
@@ -115,7 +115,7 @@ class PhoneNumberWidget extends WidgetBase {
 
     $result[] = $this->t('Default country: @country', ['@country' => $this->getSetting('default_country')]);
 
-    $result[] = $this->t('Number placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder') ?? 'Phone number']);
+    $result[] = $this->t('Number placeholder: @placeholder', ['@placeholder' => $this->getSetting('placeholder')]);
 
     $result[] = $this->t('Size of the phone number input: @size', ['@size' => $this->getSetting('phone_size')]);
 
@@ -127,7 +127,7 @@ class PhoneNumberWidget extends WidgetBase {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $item = $items[$delta];
-    /** @var ContentEntityInterface $entity */
+    /** @var \Drupal\Core\Entity\ContentEntityInterface $entity */
     $entity = $items->getEntity();
     $settings = $this->getFieldSettings();
     $settings += $this->getSettings() + static::defaultSettings();

@@ -12,6 +12,11 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\path_event_dispatcher\Event\Path\AbstractPathEvent
+ * @covers \Drupal\path_event_dispatcher\Event\Path\PathDeleteEvent
+ * @covers \Drupal\path_event_dispatcher\Event\Path\PathInsertEvent
+ * @covers \Drupal\path_event_dispatcher\Event\Path\PathUpdateEvent
+ *
  * @group hook_event_dispatcher
  * @group path_event_dispatcher
  */

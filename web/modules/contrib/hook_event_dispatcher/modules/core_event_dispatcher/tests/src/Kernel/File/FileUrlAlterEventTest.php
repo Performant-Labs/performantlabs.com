@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FileUrlAlterEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\File\FileUrlAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_file_url_alter()
  */
 class FileUrlAlterEventTest extends KernelTestBase {
 

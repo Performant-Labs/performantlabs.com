@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class CountriesAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\CountriesAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_countries_alter()
  */
 class CountriesAlterEventTest extends KernelTestBase {
 

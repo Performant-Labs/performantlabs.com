@@ -71,6 +71,8 @@ class EntityExtraFieldInfoEventTest extends KernelTestBase {
   /**
    * Test EntityExtraFieldInfoEvent.
    *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityExtraFieldInfoEvent
+   *
    * @dataProvider entityExtraFieldInfoEventProvider
    *
    * @throws \Exception
@@ -132,6 +134,8 @@ class EntityExtraFieldInfoEventTest extends KernelTestBase {
 
   /**
    * Test EntityExtraFieldInfoAlterEvent.
+   *
+   * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityExtraFieldInfoAlterEvent
    *
    * @throws \Exception
    */

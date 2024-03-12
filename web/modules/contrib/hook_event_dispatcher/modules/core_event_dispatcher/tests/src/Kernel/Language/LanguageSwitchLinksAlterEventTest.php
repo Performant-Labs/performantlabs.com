@@ -13,10 +13,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class LanguageSwitchLinksAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Language\LanguageSwitchLinksAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_language_switch_links_alter()
  */
 class LanguageSwitchLinksAlterEventTest extends KernelTestBase {
 

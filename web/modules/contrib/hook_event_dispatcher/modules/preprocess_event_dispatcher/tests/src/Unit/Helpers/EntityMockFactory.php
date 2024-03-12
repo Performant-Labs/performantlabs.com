@@ -3,6 +3,7 @@
 namespace Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers;
 
 use Drupal\Core\Entity\EntityInterface;
+use Mockery\MockInterface;
 
 /**
  * Class EntityMock.
@@ -12,28 +13,25 @@ final class EntityMockFactory {
   /**
    * Get a full Entity mock.
    *
-   * @param string $class
+   * @template T of \Drupal\Core\Entity\EntityInterface
+   *
+   * @param class-string<T> $class
    *   Class of mocked entity.
    * @param string $type
    *   Entity type.
    * @param string $bundle
    *   Entity bundle.
-   * @param string $viewMode
-   *   View mode.
    *
-   * @return \Drupal\Core\Entity\EntityInterface
+   * @return \Mockery\MockInterface&T
    *   EntityMock.
    */
-  public static function getMock(string $class, string $type, string $bundle, string $viewMode): EntityInterface {
-    $mock = \Mockery::mock(
-      $class,
-      [
-        'getEntityType' => $type,
-        'bundle' => $bundle,
-        'getViewMode' => $viewMode,
-      ]
-    );
-    assert($mock instanceof EntityInterface);
+  public static function getMock(string $class, string $type, string $bundle): MockInterface&EntityInterface {
+    /** @var \Mockery\MockInterface&T $mock */
+    $mock = \Mockery::mock($class);
+    $mock->allows([
+      'getEntityType' => $type,
+      'bundle' => $bundle,
+    ]);
     return $mock;
   }
 

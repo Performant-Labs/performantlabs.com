@@ -10,10 +10,11 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class BlockBuildAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Block\BlockViewBuilderAlterEventBase
+ * @covers \Drupal\core_event_dispatcher\Event\Block\BlockBuildAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_block_build_alter()
  */
 class BlockBuildAlterEventTest extends KernelTestBase {
 

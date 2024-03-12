@@ -11,10 +11,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class ConfigSchemaInfoAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\ConfigSchemaInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_config_schema_info_alter()
  */
 class ConfigSchemaInfoAlterEventTest extends KernelTestBase {
 

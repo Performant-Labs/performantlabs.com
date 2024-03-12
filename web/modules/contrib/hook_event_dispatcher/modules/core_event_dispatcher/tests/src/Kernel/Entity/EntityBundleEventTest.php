@@ -10,6 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class EntityBundleEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBundleEventBase
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBundleCreateEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBundleDeleteEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  */

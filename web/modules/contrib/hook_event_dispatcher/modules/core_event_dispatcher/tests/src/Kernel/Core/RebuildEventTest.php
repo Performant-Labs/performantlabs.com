@@ -9,10 +9,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class RebuildEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\RebuildEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_rebuild()
  */
 class RebuildEventTest extends KernelTestBase {
 

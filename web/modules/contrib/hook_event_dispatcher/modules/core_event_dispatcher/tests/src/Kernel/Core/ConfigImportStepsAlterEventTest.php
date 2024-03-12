@@ -11,10 +11,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class ConfigImportStepsAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\ConfigImportStepsAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_config_import_steps_alter()
  */
 class ConfigImportStepsAlterEventTest extends KernelTestBase {
 

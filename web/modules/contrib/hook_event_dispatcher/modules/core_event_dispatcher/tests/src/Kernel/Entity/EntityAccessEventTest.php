@@ -12,6 +12,8 @@ use Drupal\KernelTests\KernelTestBase;
 /**
  * Class EntityAccessEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityAccessEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  */

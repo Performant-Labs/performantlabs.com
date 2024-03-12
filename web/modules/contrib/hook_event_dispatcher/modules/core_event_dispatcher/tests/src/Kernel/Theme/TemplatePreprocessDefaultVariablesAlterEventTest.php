@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\TemplatePreprocessDefaultVariablesAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_template_preprocess_default_variables_alter()
  */
 class TemplatePreprocessDefaultVariablesAlterEventTest extends KernelTestBase {
 

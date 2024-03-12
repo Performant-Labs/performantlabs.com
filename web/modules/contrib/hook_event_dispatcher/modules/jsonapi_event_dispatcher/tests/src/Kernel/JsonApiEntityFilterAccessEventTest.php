@@ -18,10 +18,10 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class JsonapiEntityFilterAccessEvent.
  *
+ * @covers \Drupal\jsonapi_event_dispatcher\Event\JsonApiEntityFilterAccessEvent
+ *
  * @group hook_event_dispatcher
  * @group jsonapi_event_dispatcher
- *
- * @see jsonapi_event_dispatcher_jsonapi_entity_filter_access()
  */
 class JsonApiEntityFilterAccessEventTest extends KernelTestBase {
 
@@ -36,6 +36,7 @@ class JsonApiEntityFilterAccessEventTest extends KernelTestBase {
     'system',
     'text',
     'user',
+    'file',
     'entity_test',
     'serialization',
     'jsonapi',

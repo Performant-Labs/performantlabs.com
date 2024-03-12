@@ -230,7 +230,13 @@ final class AssumeRoleRequest extends Input
     private $sourceIdentity;
 
     /**
-     * Reserved for future use.
+     * A list of previously acquired trusted context assertions in the format of a JSON array. The trusted context assertion
+     * is signed and encrypted by Amazon Web Services STS.
+     *
+     * The following is an example of a `ProvidedContext` value that includes a single trusted context assertion and the ARN
+     * of the context provider from which the trusted context assertion was generated.
+     *
+     * `[{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]`
      *
      * @var ProvidedContext[]|null
      */
@@ -240,16 +246,16 @@ final class AssumeRoleRequest extends Input
      * @param array{
      *   RoleArn?: string,
      *   RoleSessionName?: string,
-     *   PolicyArns?: array<PolicyDescriptorType|array>,
-     *   Policy?: string,
-     *   DurationSeconds?: int,
-     *   Tags?: array<Tag|array>,
-     *   TransitiveTagKeys?: string[],
-     *   ExternalId?: string,
-     *   SerialNumber?: string,
-     *   TokenCode?: string,
-     *   SourceIdentity?: string,
-     *   ProvidedContexts?: array<ProvidedContext|array>,
+     *   PolicyArns?: null|array<PolicyDescriptorType|array>,
+     *   Policy?: null|string,
+     *   DurationSeconds?: null|int,
+     *   Tags?: null|array<Tag|array>,
+     *   TransitiveTagKeys?: null|string[],
+     *   ExternalId?: null|string,
+     *   SerialNumber?: null|string,
+     *   TokenCode?: null|string,
+     *   SourceIdentity?: null|string,
+     *   ProvidedContexts?: null|array<ProvidedContext|array>,
      *   '@region'?: string|null,
      * } $input
      */
@@ -274,16 +280,16 @@ final class AssumeRoleRequest extends Input
      * @param array{
      *   RoleArn?: string,
      *   RoleSessionName?: string,
-     *   PolicyArns?: array<PolicyDescriptorType|array>,
-     *   Policy?: string,
-     *   DurationSeconds?: int,
-     *   Tags?: array<Tag|array>,
-     *   TransitiveTagKeys?: string[],
-     *   ExternalId?: string,
-     *   SerialNumber?: string,
-     *   TokenCode?: string,
-     *   SourceIdentity?: string,
-     *   ProvidedContexts?: array<ProvidedContext|array>,
+     *   PolicyArns?: null|array<PolicyDescriptorType|array>,
+     *   Policy?: null|string,
+     *   DurationSeconds?: null|int,
+     *   Tags?: null|array<Tag|array>,
+     *   TransitiveTagKeys?: null|string[],
+     *   ExternalId?: null|string,
+     *   SerialNumber?: null|string,
+     *   TokenCode?: null|string,
+     *   SourceIdentity?: null|string,
+     *   ProvidedContexts?: null|array<ProvidedContext|array>,
      *   '@region'?: string|null,
      * }|AssumeRoleRequest $input
      */

@@ -10,6 +10,8 @@ use Drupal\webform_event_dispatcher\WebformHookEvents;
 /**
  * Class WebformElementInfoAlterEventTest.
  *
+ * @covers \Drupal\webform_event_dispatcher\Event\WebformElement\WebformElementInfoAlterEvent
+ *
  * @requires module webform
  * @group hook_event_dispatcher
  * @group webform_event_dispatcher

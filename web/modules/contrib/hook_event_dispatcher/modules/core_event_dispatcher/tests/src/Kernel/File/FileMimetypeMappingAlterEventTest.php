@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FileMimetypeMappingAlterEvent.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\File\FileMimetypeMappingAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_file_mimetype_mapping_alter()
  */
 class FileMimetypeMappingAlterEventTest extends KernelTestBase {
 

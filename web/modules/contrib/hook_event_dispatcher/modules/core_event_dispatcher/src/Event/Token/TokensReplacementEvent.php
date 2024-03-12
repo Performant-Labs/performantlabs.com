@@ -34,7 +34,7 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
   /**
    * Constructor.
    *
-   * @param string $type
+   * @param string|int $type
    *   The machine-readable name of the type (group) of token being replaced,
    *   such as 'node', 'user', or another type defined by a hook_token_info()
    *   implementation.
@@ -58,7 +58,7 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    *   'system.site') and related objects (e.g., $node->getOwner()),
    *   implementations of this hook must add the corresponding metadata.
    */
-  public function __construct(private string $type, private array $tokens, private array $data, private array $options, private BubbleableMetadata $bubbleableMetadata) {
+  public function __construct(private string|int $type, private array $tokens, private array $data, private array $options, private BubbleableMetadata $bubbleableMetadata) {
   }
 
   /**

@@ -10,6 +10,8 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class EntityBaseFieldInfoAlterEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Entity\EntityBaseFieldInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
  */

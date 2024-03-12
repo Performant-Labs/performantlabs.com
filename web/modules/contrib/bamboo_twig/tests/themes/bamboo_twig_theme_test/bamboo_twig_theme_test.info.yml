@@ -1,0 +1,10 @@
+name: Bamboo Twig Theme Test
+type: theme
+description: The Official Theme for Bamboo Twig Tests
+base theme: false
+package: Testing
+
+# Information added by Drupal.org packaging script on 2024-03-01
+version: '6.0.1'
+project: 'bamboo_twig'
+datestamp: 1709279325

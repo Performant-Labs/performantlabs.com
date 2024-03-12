@@ -56,6 +56,8 @@ class UserEventTest extends KernelTestBase {
   /**
    * User cancel event test.
    *
+   * @covers \Drupal\user_event_dispatcher\Event\User\UserCancelEvent
+   *
    * @throws \Exception
    */
   public function testUserCancelEvent(): void {
@@ -81,6 +83,8 @@ class UserEventTest extends KernelTestBase {
 
   /**
    * User cancel methods alter event test.
+   *
+   * @covers \Drupal\user_event_dispatcher\Event\User\UserCancelMethodsAlterEvent
    *
    * @throws \Exception
    */
@@ -108,6 +112,8 @@ class UserEventTest extends KernelTestBase {
   /**
    * User login event test.
    *
+   * @covers \Drupal\user_event_dispatcher\Event\User\UserLoginEvent
+   *
    * @throws \Exception
    */
   public function testUserLoginEvent(): void {
@@ -129,6 +135,8 @@ class UserEventTest extends KernelTestBase {
   /**
    * User logout event test.
    *
+   * @covers \Drupal\user_event_dispatcher\Event\User\UserLogoutEvent
+   *
    * @throws \Exception
    */
   public function testUserLogoutEvent(): void {
@@ -148,6 +156,8 @@ class UserEventTest extends KernelTestBase {
 
   /**
    * User format name alter event test.
+   *
+   * @covers \Drupal\user_event_dispatcher\Event\User\UserFormatNameAlterEvent
    *
    * @throws \Exception
    */

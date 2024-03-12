@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\hook_event_dispatcher\Plugin\Factory;
 
 use Drupal\Component\Plugin\Factory\DefaultFactory;

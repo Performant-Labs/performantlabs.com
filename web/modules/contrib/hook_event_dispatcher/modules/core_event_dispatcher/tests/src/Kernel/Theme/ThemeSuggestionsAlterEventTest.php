@@ -10,10 +10,12 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\AbstractThemeSuggestionsEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\ThemeSuggestionsAlterEvent
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\ThemeSuggestionsAlterIdEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_theme_suggestions_alter()
  */
 class ThemeSuggestionsAlterEventTest extends KernelTestBase {
 

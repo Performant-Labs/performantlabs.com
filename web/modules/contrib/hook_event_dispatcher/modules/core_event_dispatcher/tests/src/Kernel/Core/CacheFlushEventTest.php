@@ -9,10 +9,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class CacheFlushEventTest.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Core\CacheFlushEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see core_event_dispatcher_cache_flush()
  */
 class CacheFlushEventTest extends KernelTestBase {
 

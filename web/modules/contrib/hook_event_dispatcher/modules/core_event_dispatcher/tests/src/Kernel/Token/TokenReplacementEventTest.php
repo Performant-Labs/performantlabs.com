@@ -11,10 +11,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Token\TokensReplacementEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_tokens()
  */
 class TokenReplacementEventTest extends KernelTestBase {
 
@@ -31,6 +31,8 @@ class TokenReplacementEventTest extends KernelTestBase {
   protected const DATA = [
     'test_data' => 'test!',
   ];
+
+  protected const MARKUP = '[test_type:token1], [test_type:token2], [test_type:token3]';
 
   protected const OPTIONS = [
     'test_options' => 'Option value',
@@ -79,12 +81,9 @@ class TokenReplacementEventTest extends KernelTestBase {
   public function testTokenReplacementEvent(): void {
     $this->listen(TokenHookEvents::TOKEN_REPLACEMENT, 'onTokenReplacement');
 
-    $expectedReplacements = [
-      '[test_type:token1]' => 'Replacement value 1',
-      '[test_type:token2]' => 'Replacement value 2',
-    ];
+    $expectedReplacements = 'Replacement value 1, Replacement value 2, [test_type:token3]';
 
-    $replacements = $this->token->generate(self::TYPE, self::TOKENS, self::DATA, self::OPTIONS, $this->metadata);
+    $replacements = $this->token->replace(self::MARKUP, self::DATA, self::OPTIONS, $this->metadata);
     $this->assertEquals($expectedReplacements, $replacements);
   }
 
@@ -116,7 +115,7 @@ class TokenReplacementEventTest extends KernelTestBase {
       $event->setReplacementValue('', '', '');
     });
 
-    $this->token->generate('', [], [], [], $this->metadata);
+    $this->token->replace(self::MARKUP, [], [], $this->metadata);
   }
 
   /**
@@ -129,7 +128,13 @@ class TokenReplacementEventTest extends KernelTestBase {
       $event->setReplacementValue('test', 'token', NULL);
     });
 
-    $this->token->generate('test', ['token' => '[test:token]'], [], [], $this->metadata);
+    $this->token->replace(self::MARKUP, [], [], $this->metadata);
+  }
+
+  public function testTokenReplacementEventWithNonStringTokenType(): void {
+    $markup = self::MARKUP . ', [1:1], [0.5:0.5]';
+    $replacements = $this->token->replace($markup, self::DATA, self::OPTIONS, $this->metadata);
+    $this->assertEquals($markup, $replacements);
   }
 
 }

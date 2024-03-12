@@ -66,6 +66,7 @@ final class Configuration
         ],
         [self::OPTION_SHARED_CREDENTIALS_FILE => 'AWS_SHARED_CREDENTIALS_FILE'],
         [self::OPTION_SHARED_CONFIG_FILE => 'AWS_CONFIG_FILE'],
+        [self::OPTION_ENDPOINT => 'AWS_ENDPOINT_URL'],
         [
             self::OPTION_ROLE_ARN => 'AWS_ROLE_ARN',
             self::OPTION_WEB_IDENTITY_TOKEN_FILE => 'AWS_WEB_IDENTITY_TOKEN_FILE',
@@ -195,7 +196,8 @@ final class Configuration
                 // Read environment files
                 $envVariableNames = (array) $envVariableNames;
                 foreach ($envVariableNames as $envVariableName) {
-                    if (null !== $envVariableValue = EnvVar::get($envVariableName)) {
+                    $envVariableValue = EnvVar::get($envVariableName);
+                    if (null !== $envVariableValue && '' !== $envVariableValue) {
                         $options[$option] = $envVariableValue;
 
                         break;

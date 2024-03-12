@@ -13,13 +13,12 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class WidgetFormAlterEventTest.
  *
+ * @covers \Drupal\field_event_dispatcher\Event\Field\WidgetCompleteFormAlterEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\WidgetSingleElementFormAlterEvent
+ * @covers \Drupal\field_event_dispatcher\Event\Field\WidgetSingleElementTypeFormAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group field_event_dispatcher
- *
- * @see field_event_dispatcher_field_widget_form_alter()
- * @see field_event_dispatcher_field_widget_single_element_form_alter()
- * @see field_event_dispatcher_field_widget_multivalue_form_alter()
- * @see field_event_dispatcher_field_widget_complete_form_alter()
  */
 class WidgetFormAlterEventTest extends KernelTestBase {
 
@@ -83,7 +82,7 @@ class WidgetFormAlterEventTest extends KernelTestBase {
   public function testWidgetSingleElementFormAlterEvent(): void {
     $this->listen([
       FieldHookEvents::WIDGET_SINGLE_ELEMENT_FORM_ALTER,
-      'hook_event_dispatcher.widget_single_element_text.alter',
+      'hook_event_dispatcher.widget_single_element_text_textfield.alter',
     ], 'onWidgetSingleElementFormAlter', $this->exactly(2));
     $this->listen(FieldHookEvents::WIDGET_COMPLETE_FORM_ALTER, 'onWidgetCompleteFormAlter');
 

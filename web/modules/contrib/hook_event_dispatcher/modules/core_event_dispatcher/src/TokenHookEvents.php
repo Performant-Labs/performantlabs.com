@@ -23,6 +23,19 @@ final class TokenHookEvents {
   public const TOKEN_REPLACEMENT = HookEventDispatcherInterface::PREFIX . 'token.replacement';
 
   /**
+   * Alter replacement values for tokens.
+   *
+   * @Event
+   *
+   * @see \Drupal\core_event_dispatcher\Event\Token\TokensReplacementAlterEvent
+   * @see core_event_dispatcher_tokens_alter()
+   * @see hook_tokens_alter()
+   *
+   * @var string
+   */
+  public const TOKEN_REPLACEMENT_ALTER = HookEventDispatcherInterface::PREFIX . 'token.replacement.alter';
+
+  /**
    * Provide information about available placeholder tokens and token types.
    *
    * @Event

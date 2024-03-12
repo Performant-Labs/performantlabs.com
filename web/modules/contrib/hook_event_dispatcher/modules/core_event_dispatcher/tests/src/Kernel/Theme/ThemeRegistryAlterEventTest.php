@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Test description.
  *
+ * @covers \Drupal\core_event_dispatcher\Event\Theme\ThemeRegistryAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group core_event_dispatcher
- *
- * @see \core_event_dispatcher_theme_registry_alter()
  */
 class ThemeRegistryAlterEventTest extends KernelTestBase {
 

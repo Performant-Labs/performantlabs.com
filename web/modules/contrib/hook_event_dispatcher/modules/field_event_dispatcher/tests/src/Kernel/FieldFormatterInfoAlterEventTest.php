@@ -10,10 +10,10 @@ use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 /**
  * Class FieldFormatterInfoAlterEventTest.
  *
+ * @covers \Drupal\field_event_dispatcher\Event\Field\FieldFormatterInfoAlterEvent
+ *
  * @group hook_event_dispatcher
  * @group field_event_dispatcher
- *
- * @see \field_event_dispatcher_field_formatter_info_alter()
  */
 class FieldFormatterInfoAlterEventTest extends KernelTestBase {
 

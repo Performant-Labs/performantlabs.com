@@ -56,7 +56,7 @@ final class SiteInstallCommands extends DrushCommands
      * Install Drupal along with modules/themes/configuration/profile.
      */
     #[CLI\Command(name: self::INSTALL, aliases: ['si', 'sin', 'site-install'])]
-    #[CLI\Argument(name: 'profile', description: 'An install profile name. Defaults to <info>standard</info> unless an install profile is marked as a distribution. Additional info for the install profile may also be provided with additional arguments. The key is in the form <info>[form name].[parameter name]</info>')]
+    #[CLI\Argument(name: 'profile', description: 'An install profile name. Defaults to <info>standard</info> unless an install profile is marked as a distribution. Use <info>minimal</info> for a bare minimum installation. Additional info for the install profile may also be provided with additional arguments. The key is in the form <info>[form name].[parameter name]</info>')]
     #[CLI\Option(name: 'db-url', description: 'A Drupal 6 style database URL. Required for initial install, not re-install. If omitted and required, Drush prompts for this item.')]
     #[CLI\Option(name: 'db-prefix', description: 'An optional table prefix to use for initial install.')]
     #[CLI\Option(name: 'db-su', description: 'Account to use when creating a new database. Must have Grant permission (mysql only). Optional.')]
@@ -193,9 +193,10 @@ final class SiteInstallCommands extends DrushCommands
         // @todo Arguably Drupal core [$boot->getKernel()->getInstallProfile()] could do this - https://github.com/drupal/drupal/blob/8.6.x/core/lib/Drupal/Core/DrupalKernel.php#L1606 reads from DB storage but not file storage.
         if (empty($profile) && $options['existing-config']) {
             FileCacheFactory::setConfiguration([FileCacheFactory::DISABLE_CACHE => true]);
-            $source_storage = new FileStorage(Settings::get('config_sync_directory'));
+            $config_directory = Settings::get('config_sync_directory');
+            $source_storage = new FileStorage($config_directory);
             if (!$source_storage->exists('core.extension')) {
-                throw new \Exception('Existing configuration directory not found or does not contain a core.extension.yml file.".');
+                throw new \Exception(dt('Existing configuration directory @config does not contain a core.extension.yml file.', ['@config' => $config_directory]));
             }
             $config = $source_storage->read('core.extension');
             $profile = $config['profile'];

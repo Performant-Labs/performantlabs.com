@@ -2,11 +2,11 @@
 
 namespace Drupal\bamboo_twig_test\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 use Drupal\Component\Datetime\DateTimePlus;
+use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleExtensionList;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Returns renderer-responses for testing Twig functions/filters on templates.
@@ -29,7 +29,7 @@ class TestsController extends ControllerBase {
    *   The module extension list.
    */
   public function __construct(ModuleExtensionList $module_list) {
-    $this->moduleList = $module_list;
+    $this->moduleExtensionList = $module_list;
   }
 
   /**
@@ -52,9 +52,18 @@ class TestsController extends ControllerBase {
   public function testLoader() {
     return [
       '#variables' => [
-        'image_path' => $this->moduleList->getPath('bamboo_twig_test') . '/files/antistatique.jpg',
+        'image_path' => $this->moduleExtensionList->getPath('bamboo_twig_test') . '/files/antistatique.jpg',
       ],
       '#theme' => 'bamboo_twig_test_loader',
+    ];
+  }
+
+  /**
+   * Loader Revision page.
+   */
+  public function testLoaderRevision() {
+    return [
+      '#theme' => 'bamboo_twig_test_loader_revision',
     ];
   }
 
@@ -63,6 +72,15 @@ class TestsController extends ControllerBase {
    */
   public function testRender() {
     return ['#theme' => 'bamboo_twig_test_render'];
+  }
+
+  /**
+   * Render Revision page.
+   */
+  public function testRenderRevision() {
+    return [
+      '#theme' => 'bamboo_twig_test_render_revision',
+    ];
   }
 
   /**

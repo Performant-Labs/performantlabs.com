@@ -2,11 +2,12 @@
 
 namespace Drupal\bamboo_twig_loader\TwigExtension;
 
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Twig\TwigFunction;
 use Drupal\bamboo_twig\TwigExtension\TwigExtensionBase;
 use Drupal\Core\Block\TitleBlockPluginInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Routing\RouteObjectInterface;
+use Twig\TwigFunction;
 
 /**
  * Provides some renderer as Twig Extensions.
@@ -21,6 +22,9 @@ class Render extends TwigExtensionBase {
       new TwigFunction('bamboo_render_block', [$this, 'renderBlock'], ['is_safe' => ['html']]),
       new TwigFunction('bamboo_render_form', [$this, 'renderForm'], ['is_safe' => ['html']]),
       new TwigFunction('bamboo_render_entity', [$this, 'renderEntity'], ['is_safe' => ['html']]),
+      new TwigFunction('bamboo_render_entity_revision', [
+        $this, 'renderEntityRevision',
+      ], ['is_safe' => ['html']]),
       new TwigFunction('bamboo_render_region', [$this, 'renderRegion'], ['is_safe' => ['html']]),
       new TwigFunction('bamboo_render_field', [$this, 'renderField'], ['is_safe' => ['html']]),
       new TwigFunction('bamboo_render_image', [$this, 'renderImage'], ['is_safe' => ['html']]),
@@ -44,11 +48,13 @@ class Render extends TwigExtensionBase {
    *   The ID of the block to render.
    * @param array $params
    *   (optional) An array of parameters passed to the block.
+   * @param bool $wrapper
+   *   (Optional) Whether it use block template for rendering.
    *
    * @return null|array
    *   A render array for the block or NULL if the block does not exist.
    */
-  public function renderBlock($block_id, array $params = []) {
+  public function renderBlock($block_id, array $params = [], $wrapper = FALSE) {
     /** @var \Drupal\Core\Block\BlockPluginInterface $plugin */
     $plugin = $this->getPluginManagerBlock()->createInstance($block_id, $params);
 
@@ -58,7 +64,20 @@ class Render extends TwigExtensionBase {
       $this->getContextHandler()->applyContextMapping($plugin, $contexts);
     }
 
-    return $plugin->build($params);
+    if (!$wrapper) {
+      return $plugin->build($params);
+    }
+
+    return [
+      '#theme' => 'block',
+      '#attributes' => [],
+      '#contextual_links' => [],
+      '#configuration' => $plugin->getConfiguration(),
+      '#plugin_id' => $plugin->getPluginId(),
+      '#base_plugin_id' => $plugin->getBaseId(),
+      '#derivative_plugin_id' => $plugin->getDerivativeId(),
+      'content' => $plugin->build($params),
+    ];
   }
 
   /**
@@ -68,13 +87,13 @@ class Render extends TwigExtensionBase {
    *   The module name where the form below.
    * @param string $form
    *   The form class name.
-   * @param array $params
-   *   (optional) An array of parameters passed to the form.
+   * @param mixed $params
+   *   (optional) Parameters passed to the form.
    *
    * @return null|array
    *   A render array for the form or NULL if the form does not exist.
    */
-  public function renderForm($module, $form, array $params = []) {
+  public function renderForm($module, $form, $params = NULL) {
     return $this->getFormBuilder()->getForm('Drupal\\' . $module . '\\Form\\' . $form, $params);
   }
 
@@ -116,28 +135,67 @@ class Render extends TwigExtensionBase {
   }
 
   /**
+   * Returns the render array for an entity revision.
+   *
+   * @param string $entity_type
+   *   The entity type.
+   * @param mixed $revision_id
+   *   (optional) The revision ID of the entity to render.
+   * @param string $view_mode
+   *   (optional) The view mode that should be used to render the entity.
+   * @param string $langcode
+   *   (optional) For which language the entity should be rendered, defaults to
+   *   the current content language.
+   *
+   * @return null|array
+   *   A render array for the entity revision or NULL if the revision does not
+   *   exists.
+   */
+  public function renderEntityRevision($entity_type, $revision_id = NULL, $view_mode = '', $langcode = NULL) {
+    $revision = $revision_id ?
+      $this->getEntityTypeManager()->getStorage($entity_type)->loadRevision($revision_id) :
+      $this->getCurrentRouteMatch()->getParameter($entity_type . '_revision');
+
+    if (!$revision instanceof EntityInterface) {
+      return NULL;
+    }
+
+    // Load the entity view using the current content language.
+    if (!$langcode) {
+      $langcode = $this->getLanguageManager()->getCurrentLanguage()->getId();
+    }
+
+    $render_controller = $this->getEntityTypeManager()->getViewBuilder($entity_type);
+    return $render_controller->view($revision, $view_mode, $langcode);
+  }
+
+  /**
    * Returns the render array for an image style.
    *
    * @param int $id
    *   The image File ID of the entity to render.
    * @param string $style
    *   The image style.
+   * @param string|null $alt
+   *   An optional image alternative text to be used.
    *
    * @return string
    *   A render array for the image style or NULL if the image does not exist.
    */
-  public function renderImage($id, $style) {
+  public function renderImage($id, $style, $alt = NULL) {
     $file = $this->getFileStorage()->load($id);
 
     // Check the entity exist.
-    if ($file) {
-      return [
-        '#theme'      => 'image_style',
-        '#style_name' => $style,
-        '#uri'        => $file->getFileUri(),
-      ];
+    if (!$file) {
+      return NULL;
     }
-    return NULL;
+
+    return [
+      '#theme' => 'image_style',
+      '#style_name' => $style,
+      '#uri' => $file->getFileUri(),
+      '#alt' => $alt,
+    ];
   }
 
   /**
@@ -272,6 +330,10 @@ class Render extends TwigExtensionBase {
     $entity = $id ?
         $this->getEntityTypeManager()->getStorage($entity_type)->load($id) :
         $this->getCurrentRouteMatch()->getParameter($entity_type);
+
+    if (!$entity instanceof EntityInterface) {
+      return NULL;
+    }
 
     // Ensure the entity has the requested field.
     if (!$entity->hasField($field_name)) {

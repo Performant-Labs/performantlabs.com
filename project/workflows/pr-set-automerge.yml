@@ -1,0 +1,25 @@
+name: Set Auto-Merge for Dependabot PRs.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  enable_auto_merge:
+    runs-on: ubuntu-latest
+    # Do this only if the PR was created by dependabot
+    # if: github.event.client_payload.pull_request.user.login == 'dependabot[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Just an echo.
+        run: echo "Inside automerge."
+
+      - name: Set automerge when condition met
+        uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          

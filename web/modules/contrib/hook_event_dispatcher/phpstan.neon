@@ -1,0 +1,10 @@
+parameters:
+  level: 1
+  excludePaths:
+    analyseAndScan:
+      - src/Generators
+      - src/ProxyClass
+  ignoreErrors:
+      -
+        message: '#Plugin definitions cannot be altered\.#'
+        path: src/HookEventPluginManager.php

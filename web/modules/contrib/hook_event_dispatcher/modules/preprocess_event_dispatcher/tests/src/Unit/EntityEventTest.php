@@ -59,7 +59,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testCommentEvent(): void {
     $variables = [
-      'comment' => EntityMockFactory::getMock(CommentInterface::class, 'comment', 'bundle', 'view_mode'),
+      'comment' => EntityMockFactory::getMock(CommentInterface::class, 'comment', 'bundle'),
       'view_mode' => 'view_mode',
     ];
     $this->createAndAssertEntityEvent(CommentPreprocessEvent::class, $variables);
@@ -70,7 +70,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testNodeEvent(): void {
     $variables = [
-      'node' => EntityMockFactory::getMock(NodeInterface::class, 'node', 'bundle', 'view_mode'),
+      'node' => EntityMockFactory::getMock(NodeInterface::class, 'node', 'bundle'),
       'theme_hook_original' => 'node',
       'view_mode' => 'view_mode',
     ];
@@ -82,7 +82,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testParagraphEvent(): void {
     $variables = [
-      'paragraph' => EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'bundle', 'view_mode'),
+      'paragraph' => EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'bundle'),
       'theme_hook_original' => 'paragraph',
       'view_mode' => 'view_mode',
     ];
@@ -94,7 +94,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testTaxonomyTermEvent(): void {
     $variables = [
-      'term' => EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'bundle', 'view_mode'),
+      'term' => EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'bundle'),
       'theme_hook_original' => 'taxonomy_term',
       'view_mode' => 'view_mode',
     ];

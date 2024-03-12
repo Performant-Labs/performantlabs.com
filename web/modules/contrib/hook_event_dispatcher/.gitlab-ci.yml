@@ -47,16 +47,5 @@ include:
 # Docs at https://git.drupalcode.org/project/gitlab_templates/-/blob/1.0.x/includes/include.drupalci.variables.yml
 ################
 variables:
+  _TARGET_CORE: "$CORE_STABLE"
   SKIP_ESLINT: '1'
-
-phpstan:
-  stage: validate
-  script: vendor/bin/phpstan analyse --no-progress --error-format gitlab $_WEB_ROOT/modules/custom > phpstan.json
-  allow_failure: true
-  artifacts:
-    expire_in: 6 mos
-    when: always
-    paths:
-      - phpstan.json
-    reports:
-      codequality: phpstan.json
