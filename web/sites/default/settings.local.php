@@ -191,32 +191,32 @@ if (class_exists('Kint')) {
 }
 
 /**
- * Running in Lando locally?
+ * Running in Lando or MAMP?
  */
-if (getcwd() == "/app/html") {
-  $databases['default']['default'] = [
-    'database' => 'drupal8',
-    'username' => 'drupal8',
-    'password' => 'drupal8',
-    'prefix' => '',
-    'host' => 'database',
-    'port' => '3306',
-    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'driver' => 'mysql',
-  ];
-}
-else {
-  $databases['default']['default'] = array (
-    'database' => 'performantlabs-com',
-    'username' => 'root',
-    'password' => 'root',
-    'prefix' => '',
-    'host' => 'localhost',
-    'port' => '3306',
-    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-    'driver' => 'mysql',
-  );
-}
+// if (getcwd() == "/app/html") {
+//   $databases['default']['default'] = [
+//     'database' => 'db',
+//     'username' => 'db',
+//     'password' => 'db',
+//     'prefix' => '',
+//     'host' => 'db',
+//     'port' => '3306',
+//     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+//     'driver' => 'mysql',
+//   ];
+// }
+// else {
+//   $databases['default']['default'] = array (
+//     'database' => 'performantlabs-com',
+//     'username' => 'root',
+//     'password' => 'root',
+//     'prefix' => '',
+//     'host' => 'localhost',
+//     'port' => '3306',
+//     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+//     'driver' => 'mysql',
+//   );
+// }
 
 // Allow update from the UI only locally.
 $settings['update_free_access'] = true;
