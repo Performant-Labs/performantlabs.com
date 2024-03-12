@@ -321,7 +321,7 @@
         "drupal/sitemap": "~2.0",
         "drupal/stable": "2.0.0",
         "drupal/svg_image": "~1.9",
-        "drupal/symfony_mailer": "1.2.2",
+        "drupal/symfony_mailer": "~1",
         "drupal/token": "~1.0",
         "drupal/ultimate_cron": "~2.0",
         "drupal/upgrade_status": "^4.0",
