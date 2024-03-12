@@ -8,9 +8,9 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Theme\ThemeManagerInterface;
 use Drupal\user\Entity\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Mime\Email as SymfonyEmail;
@@ -499,6 +499,7 @@ class Email implements InternalEmailInterface {
   public function initDone() {
     $this->valid(self::PHASE_INIT, self::PHASE_INIT);
     $this->phase = self::PHASE_BUILD;
+    return $this;
   }
 
   /**
@@ -509,6 +510,7 @@ class Email implements InternalEmailInterface {
     $this->langcode = $langcode;
     $this->account = $account;
     $this->phase = self::PHASE_PRE_RENDER;
+    return $this;
   }
 
   /**
@@ -567,7 +569,8 @@ class Email implements InternalEmailInterface {
         $value[] = $address->getSymfony();
       }
       if ($value) {
-        $headers->addMailboxListHeader($name, $value);
+        // Convert headers to camel case.
+        $headers->addMailboxListHeader(ucwords($name, '-'), $value);
       }
     }
 

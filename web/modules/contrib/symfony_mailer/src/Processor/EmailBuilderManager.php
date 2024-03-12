@@ -2,12 +2,12 @@
 
 namespace Drupal\symfony_mailer\Processor;
 
-use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\symfony_mailer\Annotation\EmailBuilder;
 
 /**
  * Provides the email builder plugin manager.
@@ -24,27 +24,34 @@ class EmailBuilderManager extends DefaultPluginManager implements EmailBuilderMa
   protected $entityTypeManager;
 
   /**
-   * The key value storage.
+   * The override manager.
    *
-   * @var \Drupal\Core\KeyValueStore\KeyValueStoreInterface
+   * @var \Drupal\symfony_mailer\Processor\OverrideManagerInterface
    */
-  protected $keyValue;
+  protected $overrideManager;
 
   /**
-   * Mapping from state code to human-readable string.
+   * Whether cache has been built.
+   *
+   * @var bool
+   */
+  protected $builtCache = FALSE;
+
+  /**
+   * Array of registered override plugin settings.
+   *
+   * The key is the email ID to override and the value is the plugin ID.
    *
    * @var string[]
    */
-  protected $stateName;
+  protected $overrideMapping = [];
 
   /**
-   * Array of registered proxy plugin settings.
+   * Cached original definitions, ignoring those disabled in configuration.
    *
-   * The key is the email ID to proxy and the value is the plugin ID.
-   *
-   * @var string[]
+   * @var array
    */
-  protected $proxyMapping;
+  protected $originalDefinitions;
 
   /**
    * Constructs the EmailBuilderManager object.
@@ -58,21 +65,12 @@ class EmailBuilderManager extends DefaultPluginManager implements EmailBuilderMa
    *   The module handler to invoke the alter hook with.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $key_value_factory
-   *   The key value store.
    */
-  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager, KeyValueFactoryInterface $key_value_factory) {
+  public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler, EntityTypeManagerInterface $entity_type_manager) {
     parent::__construct('Plugin/EmailBuilder', $namespaces, $module_handler, 'Drupal\symfony_mailer\Processor\EmailBuilderInterface', 'Drupal\symfony_mailer\Annotation\EmailBuilder');
     $this->entityTypeManager = $entity_type_manager;
-    $this->keyValue = $key_value_factory->get('mailer');
     $this->setCacheBackend($cache_backend, 'symfony_mailer_builder_plugins');
     $this->alterInfo('mailer_builder_info');
-
-    $this->stateName = [
-      self::IMPORT_READY => $this->t('Ready'),
-      self::IMPORT_COMPLETE => $this->t('Complete'),
-      self::IMPORT_SKIPPED => $this->t('Skipped'),
-    ];
   }
 
   /**
@@ -88,22 +86,22 @@ class EmailBuilderManager extends DefaultPluginManager implements EmailBuilderMa
     if ($definition['has_entity']) {
       if ($entity_type = $this->entityTypeManager->getDefinition($type, FALSE)) {
         $default_label = $entity_type->getLabel();
-        $proxy_provider = $entity_type->getProvider();
+        $override_provider = $entity_type->getProvider();
       }
     }
     elseif ($this->moduleHandler->moduleExists($type)) {
       $default_label = $this->moduleHandler->getName($type);
-      $proxy_provider = $type;
+      $override_provider = $type;
     }
 
-    if ($definition['proxy']) {
+    if ($definition['override']) {
       // Default the provider, or fallback to a dummy provider that will cause
       // the definition to be removed if the related module is not installed.
       // @see DefaultPluginManager::findDefinitions()
-      $definition['provider'] = $proxy_provider ?? '_';
+      $definition['provider'] = $override_provider ?? '_';
 
-      if ($definition['proxy'] === TRUE) {
-        $definition['proxy'] = [$plugin_id];
+      if ($definition['override'] === TRUE) {
+        $definition['override'] = [$plugin_id];
       }
     }
 
@@ -117,36 +115,15 @@ class EmailBuilderManager extends DefaultPluginManager implements EmailBuilderMa
    * {@inheritdoc}
    */
   public function getImportInfo() {
-    $state_all = $this->keyValue->get('import', []);
-
-    foreach ($this->getDefinitions() as $id => $definition) {
-      if ($definition['import']) {
-        $state = $state_all[$id] ?? self::IMPORT_READY;
-
-        $info[$id] = [
-          'name' => "$definition[import] ($id)",
-          'state' => $state,
-          'state_name' => $this->stateName[$state],
-          'warning' => $definition['import_warning'] ?? NULL,
-        ];
-      }
-    }
-
-    return $info ?? [];
+    @trigger_error('EmailBuilderManagerInterface::getImportInfo() is deprecated in symfony_mailer:1.3.0 and is removed from symfony_mailer:2.0.0. Instead you should use OverrideManagerInterface::getInfo(). See https://www.drupal.org/node/3354665', E_USER_DEPRECATED);
+    return \Drupal::service('symfony_mailer.override_manager')->getInfo();
   }
 
   /**
    * {@inheritdoc}
    */
   public function importRequired() {
-    $state_all = $this->keyValue->get('import', []);
-
-    foreach ($this->getDefinitions() as $id => $definition) {
-      if ($definition['import'] && (($state_all[$id] ?? self::IMPORT_READY) == self::IMPORT_READY)) {
-        return TRUE;
-      }
-    }
-
+    @trigger_error('EmailBuilderManagerInterface::importRequired() is deprecated in symfony_mailer:1.3.0 and is removed from symfony_mailer:2.0.0. The concept has been removed and you can assume a value of FALSE. See https://www.drupal.org/node/3354665', E_USER_DEPRECATED);
     return FALSE;
   }
 
@@ -154,63 +131,127 @@ class EmailBuilderManager extends DefaultPluginManager implements EmailBuilderMa
    * {@inheritdoc}
    */
   public function import(string $id) {
-    $this->createInstance($id)->import();
-    $this->setImportState($id, self::IMPORT_COMPLETE);
+    @trigger_error('EmailBuilderManagerInterface::import() is deprecated in symfony_mailer:1.3.0 and is removed from symfony_mailer:2.0.0. Instead you should use OverrideManagerInterface::action(). See https://www.drupal.org/node/3354665 See https://www.drupal.org/node/3354665', E_USER_DEPRECATED);
+    \Drupal::service('symfony_mailer.override_manager')->action($id, 'import');
   }
 
   /**
    * {@inheritdoc}
    */
   public function importAll() {
-    foreach ($this->getImportInfo() as $id => $info) {
-      if ($info['state'] == self::IMPORT_READY) {
-        $this->import($id);
-      }
-    }
+    @trigger_error('EmailBuilderManagerInterface::import() is deprecated in symfony_mailer:1.3.0 and is removed from symfony_mailer:2.0.0. Instead you should use OverrideManagerInterface::action() See https://www.drupal.org/node/3354665', E_USER_DEPRECATED);
+    \Drupal::service('symfony_mailer.override_manager')->action('_', 'import');
   }
 
   /**
    * {@inheritdoc}
    */
   public function setImportState(string $id, int $state) {
-    $state_all = $this->keyValue->get('import');
-    $state_all[$id] = $state;
-    $this->keyValue->set('import', $state_all);
+    @trigger_error('EmailBuilderManagerInterface::setImportState() is deprecated in symfony_mailer:1.3.0 and is removed from symfony_mailer:2.0.0. Instead you should use OverrideManagerInterface::action(). See https://www.drupal.org/node/3354665', E_USER_DEPRECATED);
   }
 
   /**
    * {@inheritdoc}
    */
   public function createInstanceFromMessage(array $message) {
+    $this->buildCache();
     $suggestions = [
       "$message[module].$message[key]",
       $message['module'],
     ];
 
-    $proxy_mapping = $this->getProxyMapping();
-
     foreach ($suggestions as $plugin_id) {
       if ($this->hasDefinition($plugin_id)) {
         return $this->createInstance($plugin_id);
       }
-      if ($proxy_id = $proxy_mapping[$plugin_id] ?? NULL) {
-        return $this->createInstance($proxy_id);
+      if ($override_id = $this->overrideMapping[$plugin_id] ?? NULL) {
+        return $this->createInstance($override_id);
       }
     }
   }
 
-  protected function getProxyMapping() {
-    if (is_null($this->proxyMapping)) {
-      $this->proxy = [];
+  /**
+   * {@inheritdoc}
+   */
+  public function clearCachedDefinitions() {
+    parent::clearCachedDefinitions();
+    $this->originalDefinitions = NULL;
+  }
+
+  /**
+   * Gets the original definition of all plugins for this type.
+   *
+   * This includes override definitions that are disabled in configuration.
+   * Only for use in internal code that manages enable/disable of overrides.
+   *
+   * @return mixed[]
+   *   An array of plugin definitions (empty array if no definitions were
+   *   found). Keys are plugin IDs.
+   *
+   * @internal
+   */
+  public function getOriginalDefinitions() {
+    if (!isset($this->originalDefinitions)) {
+      $this->originalDefinitions = $this->findDefinitions(FALSE);
+    }
+    return $this->originalDefinitions;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function findDefinitions(bool $filter_overrides = TRUE) {
+    $definitions = parent::findDefinitions();
+
+    if ($filter_overrides) {
+      // Disable overrides based on configuration.
+      if (!$this->overrideManager) {
+        // We can't set the override manager in the constructor as it would
+        // create a circular dependency.
+        $this->overrideManager = \Drupal::service('symfony_mailer.override_manager');
+      }
+
+      $definitions = array_filter($definitions, function ($definition) {
+        return !$definition['override'] || $this->overrideManager->isEnabled($definition['id']);
+      });
+    }
+
+    // Add definitions for any implementations of hook_mail() that don't
+    // already have one, using LegacyEmailBuilder.
+    $mail_hooks = [];
+    $this->moduleHandler->invokeAllWith('mail', function (callable $hook, string $module) use (&$mail_hooks) {
+      $mail_hooks[] = $module;
+    });
+    $missing = array_diff($mail_hooks, array_keys($definitions));
+
+    foreach ($missing as $type) {
+      $params = [
+        'id' => $type,
+        'label' => $this->moduleHandler->getName($type),
+        'class' => "Drupal\symfony_mailer\Plugin\EmailBuilder\LegacyEmailBuilder",
+        'provider' => $type,
+      ];
+
+      $definition = (new EmailBuilder($params))->get();
+      $this->processDefinition($definition, $definition['id']);
+      $definitions[$type] = $definition;
+    }
+
+    return $definitions;
+  }
+
+  /**
+   * Build cache of information based on definitions.
+   */
+  protected function buildCache() {
+    if (!$this->builtCache) {
       foreach ($this->getDefinitions() as $id => $definition) {
-        foreach ($definition['proxy'] as $proxy_id) {
-          $this->proxyMapping[$proxy_id] = $id;
+        foreach ($definition['override'] as $override_id) {
+          $this->overrideMapping[$override_id] = $id;
         }
       }
+      $this->builtCache = TRUE;
     }
-
-    return $this->proxyMapping;
   }
-
 
 }

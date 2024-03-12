@@ -40,6 +40,32 @@ function symfony_mailer_requirements($phase) {
 }
 
 /**
+ * Implements hook_install().
+ */
+function symfony_mailer_install($is_syncing) {
+  if (!$is_syncing && \Drupal::moduleHandler()->moduleExists('swiftmailer')) {
+    // Import transport settings.
+    $settings = \Drupal::config('swiftmailer.transport')->get();
+
+    if ($settings['transport'] == SWIFTMAILER_TRANSPORT_SMTP) {
+      $config = [
+        'user' => $settings['smtp_credentials']['swiftmailer']['username'],
+        'pass' => $settings['smtp_credentials']['swiftmailer']['password'],
+        'host' => $settings['smtp_host'],
+        'port' => $settings['smtp_port'],
+      ];
+
+      $transport = MailerTransport::load('swiftmailer') ?? MailerTransport::create(['id' => 'swiftmailer']);
+      $transport->setPluginId('smtp')
+        ->set('label', 'Imported from swiftmailer')
+        ->set('configuration', $config)
+        ->setAsDefault()
+        ->save();
+    }
+  }
+}
+
+/**
  * Update policy for multiple addresses.
  */
 function symfony_mailer_update_10001() {
@@ -70,6 +96,7 @@ function symfony_mailer_update_10002() {
   $values = [
     'format' => 'email_html',
     'name' => 'Email HTML',
+    'weight' => 10,
   ];
 
   FilterFormat::create($values)->save();
@@ -141,7 +168,7 @@ function symfony_mailer_update_10006() {
 }
 
 /**
- * "Default headers" email policy element is now automatic.
+ * The "Default headers" email policy element is now automatic.
  */
 function symfony_mailer_update_10007() {
   foreach (MailerPolicy::loadMultiple() as $policy) {
@@ -150,5 +177,50 @@ function symfony_mailer_update_10007() {
       unset($config['mailer_default_headers']);
       $policy->setConfiguration($config)->save();
     }
+  }
+}
+
+/**
+ * Set initial values for override configuration.
+ */
+function symfony_mailer_update_10008() {
+  $key_value = \Drupal::keyValue('mailer');
+  $settings = [];
+  foreach ($key_value->get('import', []) as $id => $state) {
+    // Map IMPORT_COMPLETE (1) to STATE_IMPORTED (1) and everything else to
+    // STATE_ENABLED (2).
+    $settings[$id] = ($state == 1) ? 1 : 2;
+  }
+
+  // Entries will be missing from the list if they were ignored (never imported
+  // or skipped). We can't know if other modules provided them, but that's
+  // probably unlikely. We can know for the overrides in symfony_mailer_bc.
+  if (\Drupal::service('module_handler')->moduleExists('symfony_mailer_bc')) {
+    $previously_available = ['contact', 'contact_form', 'simplenews_newsletter', 'simplenews', 'update', 'user', 'user_registrationpassword'];
+    $current_overrides = array_keys(\Drupal::service('symfony_mailer.override_manager')->getInfo());
+    foreach (array_intersect($previously_available, $current_overrides) as $id) {
+      // Was enabled.
+      if (!array_key_exists($id, $settings)) {
+        $settings[$id] = 2;
+      }
+    }
+  }
+
+  if (isset($settings)) {
+    \Drupal::configFactory()->getEditable('symfony_mailer.settings')
+      ->set('override', $settings)
+      ->save();
+    $key_value->deleteAll();
+  }
+}
+
+/**
+ * Disable the obsolete module symfony_mailer_bc.
+ */
+function symfony_mailer_update_10009() {
+  $module_installer = \Drupal::service('module_installer');
+  $module_handler = \Drupal::service('module_handler');
+  if ($module_handler->moduleExists('symfony_mailer_bc')) {
+    $module_installer->uninstall(['symfony_mailer_bc'], FALSE);
   }
 }
