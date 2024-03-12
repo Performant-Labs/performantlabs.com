@@ -1,0 +1,62 @@
+name: Add PR Comment
+
+on:
+  repository_dispatch:
+    types: [add-pr-comment-command]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  add_comment:
+    runs-on: ubuntu-latest
+    # Do this only if the PR was created by dependabot
+
+    # if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:          
+      - name: Client_payload when coming from repository dispatch.
+        run: |
+          echo "Made it to the next action."
+          # Will be either:
+          # "reposity_dispatch" from the command
+          # "pull_request" from a new PR made by Dependabot.
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "Event is repository_dispatch, proceeding..."
+            PULL_REQUEST=${{ github.event.client_payload.pull_request }}
+            echo "USER_LOGIN=${{ github.event.client_payload.pull_request.user.login }}" >> $GITHUB_ENV
+            echo "REPO_FULLNAME=${{ github.event.client_payload.github.payload.repository.full_name }}" >> $GITHUB_ENV
+            echo "ISSUE_NBR=${{ github.event.client_payload.github.payload.issue.number }}" >> $GITHUB_ENV
+
+
+          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Event is a pull_request from dependabot, proceeding..."
+            PULL_REQUEST=${{ github.event.pull_request }}
+            echo "USER_LOGIN=${{ github.event.pull_request.user.login }}" >> "$GITHUB_ENV"
+            echo "REPO_FULLNAME=${{ github.repository }}" >> "$GITHUB_ENV"
+            echo "ISSUE_NBR=${{ github.event.number }}" >> "$GITHUB_ENV"
+            echo "PAYLOAD_USER_LOGIN=${{ github.event.client_payload.pull_request.user.login }}" >> $GITHUB_ENV
+            echo "${{ github.repository }}"
+            echo "${{ github.event.pull_request.user.login }}"
+            echo "${{ github.event.client_payload.pull_request.user.login }}"
+            echo "${{ github.event.number }}"
+
+          else
+            echo "Test criteria failed. Exiting..."
+            exit 1
+          fi
+
+      - name: Show vars
+        run: |
+          echo "Event_name: ${{ github.event_name }}"
+          echo "Repo: ${{ env.REPO_FULLNAME }}"
+          echo "User login: ${{ env.USER_LOGIN }}"
+          echo "Issue: ${{ env.ISSUE_NBR}} "
+          echo "User login from Payload: ${{ env.PAYLOAD_USER_LOGIN }}"
+
+      - name: Trigger the visual testing
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: ${{ env.REPO_FULLNAME }}
+          issue-number: ${{ env.ISSUE_NBR}}
+          body: |
+            /add-solo-comment
