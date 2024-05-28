@@ -35,7 +35,7 @@ class ExampleViewsEventSubscribers implements EventSubscriberInterface {
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
    */
-  public function __construct(protected TimeInterface $time) {
+  public function __construct(protected readonly TimeInterface $time) {
   }
 
   /**

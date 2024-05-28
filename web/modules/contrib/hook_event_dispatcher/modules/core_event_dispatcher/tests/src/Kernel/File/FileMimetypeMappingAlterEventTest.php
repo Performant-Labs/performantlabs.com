@@ -36,10 +36,10 @@ class FileMimetypeMappingAlterEventTest extends KernelTestBase {
     $this->listen(FileHookEvents::FILE_MIMETYPE_MAPPING_ALTER, 'onFileMimetypeMappingAlter');
 
     $testCase = [
-      'foo.file_test_1' => 'madeup/file_test_1',
-      'foo.file_test_2' => 'madeup/file_test_2',
-      'foo.file_test_3' => 'madeup/file_test_2',
-      'foo.doc' => 'madeup/doc',
+      'foo.file_test_1' => 'bar/file_test_1',
+      'foo.file_test_2' => 'bar/file_test_2',
+      'foo.file_test_3' => 'bar/file_test_2',
+      'foo.doc' => 'bar/doc',
       'test.ogg' => 'application/octet-stream',
     ];
 
@@ -59,9 +59,9 @@ class FileMimetypeMappingAlterEventTest extends KernelTestBase {
    */
   public function onFileMimetypeMappingAlter(FileMimetypeMappingAlterEvent $event): void {
     // Add new mappings.
-    $event->setMimetypeMapping('file_test_mimetype_1', 'madeup/file_test_1');
-    $event->setMimetypeMapping('file_test_mimetype_2', 'madeup/file_test_2');
-    $event->setMimetypeMapping('file_test_mimetype_3', 'madeup/doc');
+    $event->setMimetypeMapping('file_test_mimetype_1', 'bar/file_test_1');
+    $event->setMimetypeMapping('file_test_mimetype_2', 'bar/file_test_2');
+    $event->setMimetypeMapping('file_test_mimetype_3', 'bar/doc');
     $event->setExtensionMapping('file_test_1', 'file_test_mimetype_1');
     $event->setExtensionMapping('file_test_2', 'file_test_mimetype_2');
     $event->setExtensionMapping('file_test_3', 'file_test_mimetype_2');

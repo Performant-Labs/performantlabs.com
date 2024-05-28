@@ -50,7 +50,7 @@ class WidgetCompleteFormAlterEvent extends Event implements EventInterface, Even
    *   - default: A boolean indicating whether the form is being shown as a
    *     dummy form to set default values.
    */
-  public function __construct(array &$widgetCompleteForm, protected FormStateInterface $formState, protected array $context) {
+  public function __construct(array &$widgetCompleteForm, protected readonly FormStateInterface $formState, protected readonly array $context) {
     $this->widgetCompleteForm = &$widgetCompleteForm;
   }
 

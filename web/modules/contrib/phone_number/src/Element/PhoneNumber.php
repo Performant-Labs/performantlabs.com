@@ -18,6 +18,7 @@ use libphonenumber\PhoneNumberType;
  *   - allowed_countries.
  *   - allowed_types.
  *   - placeholder.
+ *   - country_selection.
  *   - extension_field.
  *   - phone_size.
  *   - extension_size.
@@ -159,9 +160,10 @@ class PhoneNumber extends FormElement {
       '#options' => $countries,
       '#default_value' => $default_country,
       '#access' => !(count($countries) == 1),
-      '#attributes' => ['class' => ['country']],
+      '#attributes' => ['class' => ['country', 'with-' . $settings['country_selection']]],
       '#title' => $this->t('Country Code'),
       '#title_display' => 'invisible',
+      '#required' => $element['#required'],
     ];
 
     $element['phone'] = [
@@ -170,6 +172,7 @@ class PhoneNumber extends FormElement {
         ->format($phone_number, 2) : NULL,
       '#title' => $this->t('Phone number'),
       '#title_display' => 'invisible',
+      '#required' => $element['#required'],
       '#size' => $settings['phone_size'] ?? 60,
       '#attributes' => [
         'class' => ['local-number'],

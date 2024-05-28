@@ -3,8 +3,8 @@ services:
     class: Drupal\phone_number\PhoneNumberUtil
     arguments:
       [
-        "@config.factory",
-        "@entity_field.manager",
-        "@module_handler",
-        "@country_manager",
+        '@config.factory',
+        '@entity_field.manager',
+        '@module_handler',
+        '@country_manager',
       ]

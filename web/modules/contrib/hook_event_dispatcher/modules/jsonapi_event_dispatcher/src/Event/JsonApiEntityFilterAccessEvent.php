@@ -33,7 +33,7 @@ class JsonApiEntityFilterAccessEvent extends Event implements EventInterface, Ho
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account for which to check access.
    */
-  public function __construct(protected EntityTypeInterface $entityType, protected AccountInterface $account) {
+  public function __construct(protected readonly EntityTypeInterface $entityType, protected readonly AccountInterface $account) {
   }
 
   /**

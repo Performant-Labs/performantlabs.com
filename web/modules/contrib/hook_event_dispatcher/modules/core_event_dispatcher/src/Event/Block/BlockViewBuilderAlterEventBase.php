@@ -26,7 +26,7 @@ abstract class BlockViewBuilderAlterEventBase extends Event implements EventInte
    * @param \Drupal\Core\Block\BlockPluginInterface $block
    *   The block plugin instance.
    */
-  public function __construct(array &$build, protected BlockPluginInterface $block) {
+  public function __construct(array &$build, protected readonly BlockPluginInterface $block) {
     $this->build = &$build;
   }
 

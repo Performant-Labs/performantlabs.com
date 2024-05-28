@@ -20,7 +20,7 @@ class WidgetSingleElementTypeFormAlterEvent extends WidgetSingleElementFormAlter
    *
    * @var \Drupal\Core\Field\WidgetInterface
    */
-  private WidgetInterface $widget;
+  private readonly WidgetInterface $widget;
 
   /**
    * {@inheritdoc}

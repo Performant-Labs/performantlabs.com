@@ -58,7 +58,7 @@ final class TokensReplacementEvent extends Event implements EventInterface, Hook
    *   'system.site') and related objects (e.g., $node->getOwner()),
    *   implementations of this hook must add the corresponding metadata.
    */
-  public function __construct(private string|int $type, private array $tokens, private array $data, private array $options, private BubbleableMetadata $bubbleableMetadata) {
+  public function __construct(private readonly string|int $type, private array $tokens, private array $data, private readonly array $options, private readonly BubbleableMetadata $bubbleableMetadata) {
   }
 
   /**

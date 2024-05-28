@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Drupal\hook_event_dispatcher\Event;
 
 /**
- * Defines an interface events which can contructs instances of themselves.
+ * Defines an interface events which can constructs instances of themselves.
  *
  * @todo merge this into EventInterface once every event extends
  * HookEventDispatcherEventBase or implements this interface.

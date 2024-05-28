@@ -41,7 +41,7 @@ final class TokensReplacementAlterEvent extends Event implements EventInterface 
    *   a data source that isn't in $context['data'], you must add that
    *   dependency to $bubbleableMetadata.
    */
-  public function __construct(array &$replacements, private array $context, private BubbleableMetadata $bubbleableMetadata) {
+  public function __construct(array &$replacements, private readonly array $context, private readonly BubbleableMetadata $bubbleableMetadata) {
     $this->replacements = &$replacements;
   }
 

@@ -60,6 +60,7 @@ class PhoneNumberWidget extends WidgetBase {
   public static function defaultSettings() {
     return parent::defaultSettings() + [
       'default_country' => 'US',
+      'country_selection' => 'flag',
       'placeholder' => t('Phone number'),
       'phone_size' => 60,
       'extension_size' => 5,
@@ -78,6 +79,14 @@ class PhoneNumberWidget extends WidgetBase {
     }
 
     $form_state->set('field_item', $this);
+
+    $element['country_selection'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Country selection'),
+      '#options' => $this->getCountrySelectionOptions(),
+      '#default_value' => $this->getSetting('country_selection'),
+      '#required' => TRUE,
+    ];
 
     $element['default_country'] = [
       '#type' => 'select',
@@ -112,6 +121,8 @@ class PhoneNumberWidget extends WidgetBase {
    */
   public function settingsSummary() {
     $result = [];
+
+    $result[] = $this->t('Country selection: @selection', ['@selection' => $this->getCountrySelectionOptions()[$this->getSetting('country_selection')]]);
 
     $result[] = $this->t('Default country: @country', ['@country' => $this->getSetting('default_country')]);
 
@@ -149,15 +160,29 @@ class PhoneNumberWidget extends WidgetBase {
       '#phone_number' => [
         'allowed_countries' => !empty($settings['allowed_countries']) ? $settings['allowed_countries'] : [],
         'allowed_types' => !empty($settings['allowed_types']) ? $settings['allowed_types'] : [],
-        'token_data' => !empty($entity) ? [$entity->getEntityTypeId() => $entity] : [],
+        'token_data' => [$entity->getEntityTypeId() => $entity],
         'placeholder' => $settings['placeholder'] ?? NULL,
         'phone_size' => $settings['phone_size'],
+        'country_selection' => $settings['country_selection'],
         'extension_size' => $settings['extension_size'],
         'extension_field' => $settings['extension_field'] ?? FALSE,
       ],
     ];
 
     return $element;
+  }
+
+  /**
+   * Gets the options for the "Country selection" setting.
+   *
+   * @return string[]
+   *   The available options.
+   */
+  protected function getCountrySelectionOptions() {
+    return [
+      'code' => $this->t('Two-letter ISO country code'),
+      'flag' => $this->t('Flag'),
+    ];
   }
 
 }

@@ -5,7 +5,7 @@ core_version_requirement: ^9.3 || ^10
 package: Example
 hidden: true
 
-# Information added by Drupal.org packaging script on 2024-03-01
-version: '4.0.0'
+# Information added by Drupal.org packaging script on 2024-03-14
+version: '4.0.1'
 project: 'hook_event_dispatcher'
-datestamp: 1709272508
+datestamp: 1710429584

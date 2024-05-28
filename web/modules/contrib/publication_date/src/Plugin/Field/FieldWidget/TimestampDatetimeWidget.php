@@ -3,8 +3,6 @@
 namespace Drupal\publication_date\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Datetime\Element\Datetime;
-use Drupal\Core\Datetime\Entity\DateFormat;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -26,8 +24,6 @@ class TimestampDatetimeWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $date_format = DateFormat::load('html_date')->getPattern();
-    $time_format = DateFormat::load('html_time')->getPattern();
     if (isset($items[$delta]->value)) {
       $default_value = DrupalDateTime::createFromTimestamp($items[$delta]->value);
     }
@@ -39,7 +35,7 @@ class TimestampDatetimeWidget extends WidgetBase {
       '#default_value' => $default_value,
       '#date_year_range' => '1902:2037',
     ];
-    $element['value']['#description'] = $this->t('Format: %format. Leave blank to use the time of form submission.', ['%format' => Datetime::formatExample($date_format . ' ' . $time_format)]);
+    $element['value']['#description'] = $this->t('Leave blank to use the time of form submission.');
 
     return $element;
   }
@@ -48,6 +44,9 @@ class TimestampDatetimeWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
+    $values = array_filter($values, function ($item) {
+      return isset($item['value']);
+    });
     foreach ($values as &$item) {
       $date = NULL;
       // @todo The structure is different whether access is denied or not, to

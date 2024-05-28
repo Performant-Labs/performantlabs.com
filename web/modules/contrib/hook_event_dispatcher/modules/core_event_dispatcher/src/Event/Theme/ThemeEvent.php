@@ -32,7 +32,7 @@ final class ThemeEvent extends Event implements EventInterface, HookReturnInterf
    *
    * @see \hook_theme()
    */
-  public function __construct(private array $existing) {
+  public function __construct(private readonly array $existing) {
   }
 
   /**

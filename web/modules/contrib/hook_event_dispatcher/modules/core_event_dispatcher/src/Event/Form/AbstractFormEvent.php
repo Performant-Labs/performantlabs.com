@@ -31,7 +31,7 @@ abstract class AbstractFormEvent extends Event implements EventInterface {
    *   String representing the name of the form itself. Typically this is the
    *   name of the function that generated the form.
    */
-  public function __construct(array &$form, private FormStateInterface $formState, private string $formId) {
+  public function __construct(array &$form, private readonly FormStateInterface $formState, private readonly string $formId) {
     $this->form = &$form;
   }
 

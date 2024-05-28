@@ -11,7 +11,9 @@
  */
 
 return array (
+  4060 => 'Telekom',
   4062 => 'Vodafone',
+  4063 => 'Digi Mobil',
   4064 => 'Orange',
   407000 => 'Enigma-System',
   407013 => 'Lycamobile',

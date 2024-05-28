@@ -96,7 +96,7 @@ class PhoneNumberItem extends FieldItemBase {
   public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition) {
 
     $properties['value'] = DataDefinition::create('string')
-      ->setLabel(t('E.165 Number'))
+      ->setLabel(t('E.164 Number'))
       ->addConstraint('Length', ['max' => 19]);
 
     $properties['country'] = DataDefinition::create('string')
@@ -112,49 +112,6 @@ class PhoneNumberItem extends FieldItemBase {
       ->addConstraint('Length', ['max' => 40]);
 
     return $properties;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function preSave() {
-    // @todo Replace with DI when https://www.drupal.org/node/2053415 is fixed.
-    /** @var \Drupal\phone_number\PhoneNumberUtilInterface $util */
-    $util = \Drupal::service('phone_number.util');
-    $values = $this->getValue();
-
-    $number = NULL;
-    $country = NULL;
-    $extension = NULL;
-
-    if (!empty($values['country'])) {
-      if (!empty($values['local_number'])) {
-        $number = $values['local_number'];
-      }
-      $country = $values['country'];
-    }
-
-    if (!$number) {
-      $number = $values['value'];
-    }
-
-    if (!empty($values['extension'])) {
-      $extension = $values['extension'];
-    }
-
-    if ($phone_number = $util->getPhoneNumber($number, $country)) {
-      $this->value = $util->getCallableNumber($phone_number);
-      $this->country = $util->getCountry($phone_number);
-      $this->local_number = $util->getLocalNumber($phone_number, TRUE);
-      $this->extension = $extension;
-    }
-    else {
-      $this->value = NULL;
-      $this->local_number = NULL;
-      $this->extension = NULL;
-    }
-
-    parent::preSave();
   }
 
   /**

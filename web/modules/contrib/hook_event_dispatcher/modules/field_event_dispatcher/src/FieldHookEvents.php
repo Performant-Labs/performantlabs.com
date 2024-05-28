@@ -100,4 +100,17 @@ final class FieldHookEvents {
    */
   public const FIELD_WIDGET_SETTINGS_SUMMARY_ALTER = HookEventDispatcherInterface::PREFIX . 'field_widget.settings_summary.alter';
 
+  /**
+   * Alters the field plugin type.
+   *
+   * @Event
+   *
+   * @see \Drupal\field_event_dispatcher\Event\Field\FieldHookEvents
+   * @see field_event_dispatcher_field_info_alter()
+   * @see hook_field_info_alter()
+   *
+   * @var string
+   */
+  public const FIELD_INFO_ALTER = HookEventDispatcherInterface::PREFIX . 'field.info.alter';
+
 }

@@ -23,7 +23,7 @@ final class UserLogoutEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Session\AccountInterface $account
    *   Account.
    */
-  public function __construct(private AccountInterface $account) {
+  public function __construct(private readonly AccountInterface $account) {
   }
 
   /**

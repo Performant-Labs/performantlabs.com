@@ -33,7 +33,7 @@ class OEmbedResourceUrlAlterEvent extends Event implements EventInterface {
    * @param \Drupal\media\OEmbed\Provider $provider
    *   The oEmbed provider for the resource to be retrieved.
    */
-  public function __construct(array &$parsedUrl, private Provider $provider) {
+  public function __construct(array &$parsedUrl, private readonly Provider $provider) {
     $this->parsedUrl = &$parsedUrl;
   }
 

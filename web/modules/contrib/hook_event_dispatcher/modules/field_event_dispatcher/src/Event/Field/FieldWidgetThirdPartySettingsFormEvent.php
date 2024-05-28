@@ -31,9 +31,9 @@ class FieldWidgetThirdPartySettingsFormEvent extends AbstractFieldThirdPartySett
    *   The form state.
    */
   public function __construct(
-    private WidgetInterface $plugin,
+    private readonly WidgetInterface $plugin,
     FieldDefinitionInterface $fieldDefinition,
-    private string $formMode,
+    private readonly string $formMode,
     array $form,
     FormStateInterface $formState
   ) {

@@ -11,9 +11,16 @@
             "role": "Maintainer"
         }
     ],
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "minimum-stability": "dev",
     "require": {
+        "drupal/core": "^9.2 || ^10",
         "giggsey/libphonenumber-for-php": "^8.0"
+    },
+    "require-dev": {
+        "drupal/feeds": "^3.0@beta",
+        "drupal/smsframework": "^2.2@RC",
+        "drupal/tfa": "^1.5",
+        "drupal/webform": "^6.2"
     }
 }

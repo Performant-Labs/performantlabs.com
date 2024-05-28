@@ -47,6 +47,9 @@ field.widget.settings.phone_number_default:
     extension_size:
       type: integer
       label: Extension input size
+    country_selection:
+      type: string
+      label: Country selection
 
 # Formatter settings schema.
 field.formatter.settings.phone_number_international:

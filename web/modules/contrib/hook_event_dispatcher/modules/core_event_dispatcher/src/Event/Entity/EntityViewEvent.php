@@ -41,8 +41,8 @@ class EntityViewEvent extends AbstractEntityEvent {
   public function __construct(
     array &$build,
     EntityInterface $entity,
-    private EntityViewDisplayInterface $display,
-    private string $viewMode
+    private readonly EntityViewDisplayInterface $display,
+    private readonly string $viewMode
   ) {
     parent::__construct($entity);
 

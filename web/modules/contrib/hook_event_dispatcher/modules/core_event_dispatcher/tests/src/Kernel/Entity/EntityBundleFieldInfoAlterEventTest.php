@@ -6,6 +6,7 @@ use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityBundleFieldInfoAlterEvent;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
+use Drupal\TestTools\Random;
 
 /**
  * Class EntityBundleFieldInfoAlterEventTest.
@@ -31,17 +32,19 @@ class EntityBundleFieldInfoAlterEventTest extends KernelTestBase {
   /**
    * The bundle machine name.
    *
-   * @var string
+   * @var string|int
    */
-  protected $bundle;
+  protected string|int $bundle;
 
   /**
    * Test the EntityBundleFieldInfoAlterEvent.
    *
+   * @dataProvider entityBundleFieldInfoAlterProvider
+   *
    * @throws \Exception
    */
-  public function testEntityBundleFieldInfoAlterEvent(): void {
-    $this->bundle = $this->randomMachineName();
+  public function testEntityBundleFieldInfoAlterEvent(string|int $bundle): void {
+    $this->bundle = $bundle;
     $this->listen(EntityHookEvents::ENTITY_BUNDLE_FIELD_INFO_ALTER, 'onEntityBundleFieldInfoAlter');
 
     $definitions = $this->container
@@ -64,6 +67,14 @@ class EntityBundleFieldInfoAlterEventTest extends KernelTestBase {
 
     $this->assertEquals('entity_test', $event->getEntityType()->id());
     $this->assertEquals($this->bundle, $event->getBundle());
+  }
+
+  /**
+   * Data provider for testEntityBundleFieldInfoAlterEvent().
+   */
+  public static function entityBundleFieldInfoAlterProvider(): \Generator {
+    yield 'Random machine name' => [Random::machineName()];
+    yield 'Integer bundle' => [mt_rand()];
   }
 
 }

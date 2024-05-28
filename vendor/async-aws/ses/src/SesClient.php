@@ -25,7 +25,7 @@ use AsyncAws\Ses\ValueObject\MessageTag;
 class SesClient extends AbstractApi
 {
     /**
-     * Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:.
+     * Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:
      *
      * - **Simple** – A standard email message. When you create this type of message, you specify the sender, the
      *   recipient, and the message body, and Amazon SES assembles the message for you.
@@ -122,6 +122,13 @@ class SesClient extends AbstractApi
                 return [
                     'endpoint' => 'https://email-fips.us-west-2.amazonaws.com',
                     'signRegion' => 'us-west-2',
+                    'signService' => 'ses',
+                    'signVersions' => ['v4'],
+                ];
+            case 'fips-us-gov-east-1':
+                return [
+                    'endpoint' => 'https://email-fips.us-gov-east-1.amazonaws.com',
+                    'signRegion' => 'us-gov-east-1',
                     'signService' => 'ses',
                     'signVersions' => ['v4'],
                 ];

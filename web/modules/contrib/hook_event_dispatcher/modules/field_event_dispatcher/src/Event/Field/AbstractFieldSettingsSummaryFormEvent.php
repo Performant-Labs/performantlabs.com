@@ -32,7 +32,7 @@ abstract class AbstractFieldSettingsSummaryFormEvent extends Event implements Ev
    *   - widget: The widget object.
    *   - form_mode: The form mode being configured.
    */
-  public function __construct(array &$summary, private array $context) {
+  public function __construct(array &$summary, private readonly array $context) {
     $this->summary = &$summary;
   }
 

@@ -36,9 +36,9 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
    */
   public function __construct(
     string $operation,
-    private FieldDefinitionInterface $fieldDefinition,
+    private readonly FieldDefinitionInterface $fieldDefinition,
     AccountInterface $account,
-    private ?FieldItemListInterface $items = NULL
+    private readonly ?FieldItemListInterface $items = NULL
   ) {
     $this->operation = $operation;
     $this->account = $account;

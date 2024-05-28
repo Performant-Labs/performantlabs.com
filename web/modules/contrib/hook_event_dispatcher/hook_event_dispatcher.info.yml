@@ -4,7 +4,7 @@ description: Dispatches events for several drupal hooks
 core_version_requirement: ^10
 package: Hook events
 
-# Information added by Drupal.org packaging script on 2024-03-01
-version: '4.0.0'
+# Information added by Drupal.org packaging script on 2024-03-14
+version: '4.0.1'
 project: 'hook_event_dispatcher'
-datestamp: 1709272508
+datestamp: 1710429584

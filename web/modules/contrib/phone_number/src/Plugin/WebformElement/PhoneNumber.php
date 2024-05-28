@@ -4,9 +4,11 @@ namespace Drupal\phone_number\Plugin\WebformElement;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\webform\Plugin\WebformElementBase;
+use Drupal\webform\Plugin\WebformElement\WebformCompositeBase;
+use Drupal\webform\WebformInterface;
 use Drupal\webform\WebformSubmissionInterface;
 use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -15,12 +17,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @WebformElement(
  *   id = "phone_number",
  *   label = @Translation("Phone Number"),
- *   description = @Translation("Provides a form element for input of a phone number."),
- *   category = @Translation("Advanced elements"),
+ *   description = @Translation("Provides a form element to display a phone number with country code and extension. Supports validation of international phone numbers."),
+ *   category = @Translation("Composite elements"),
  *   composite = TRUE,
  * )
  */
-class PhoneNumber extends WebformElementBase {
+class PhoneNumber extends WebformCompositeBase {
 
   /**
    * The Phone Number field utility.
@@ -30,11 +32,19 @@ class PhoneNumber extends WebformElementBase {
   protected $phoneNumberUtil;
 
   /**
+   * The renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = parent::create($container, $configuration, $plugin_id, $plugin_definition);
     $instance->phoneNumberUtil = $container->get('phone_number.util');
+    $instance->renderer = $container->get('renderer');
     return $instance;
   }
 
@@ -49,8 +59,46 @@ class PhoneNumber extends WebformElementBase {
       'allowed_countries' => NULL,
       'allowed_types' => NULL,
       'extension_field' => FALSE,
-      'placeholder' => 'Phone number',
+      'placeholder' => $this->t('Phone number'),
       'as_link' => FALSE,
+      'country_selection' => 'flag',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCompositeElements() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @see \Drupal\phone_number\Plugin\Field\FieldType\PhoneNumberItem::schema
+   */
+  public function initializeCompositeElements(array &$element) {
+    $element['#webform_composite_elements'] = [
+      'value' => [
+        '#title' => $this->t('Value'),
+        '#type' => 'textfield',
+        '#maxlength' => 19,
+      ],
+      'country' => [
+        '#title' => $this->t('Country'),
+        '#type' => 'textfield',
+        '#maxlength' => 3,
+      ],
+      'local_number' => [
+        '#title' => $this->t('Local number'),
+        '#type' => 'textfield',
+        '#maxlength' => 15,
+      ],
+      'extension' => [
+        '#title' => $this->t('Extension'),
+        '#type' => 'textfield',
+        '#maxlength' => 40,
+      ],
     ];
   }
 
@@ -60,31 +108,37 @@ class PhoneNumber extends WebformElementBase {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    $form['phone_number'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Phone Number Settings'),
+    $settings['country_selection'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Country selection'),
+      '#options' => [
+        'code' => $this->t('Two-letter ISO country code'),
+        'flag' => $this->t('Flag'),
+      ],
+      '#default_value' => 'flag',
+      '#required' => TRUE,
     ];
 
-    $form['phone_number']['default_country'] = [
+    $settings['default_country'] = [
       '#type' => 'select',
-      '#title' => $this->t('Default Country'),
+      '#title' => $this->t('Default country'),
       '#options' => $this->phoneNumberUtil->getCountryOptions(NULL, TRUE),
       '#description' => $this->t('Default country for phone number input.'),
       '#required' => TRUE,
     ];
 
-    $form['phone_number']['allowed_countries'] = [
+    $settings['allowed_countries'] = [
       '#type' => 'select',
-      '#title' => $this->t('Allowed Countries'),
+      '#title' => $this->t('Allowed countries'),
       '#options' => $this->phoneNumberUtil->getCountryOptions(NULL, TRUE),
       '#description' => $this->t('Allowed counties for the phone number. If none selected, then all are allowed.'),
       '#multiple' => TRUE,
       '#attached' => ['library' => ['phone_number/element']],
     ];
 
-    $form['phone_number']['allowed_types'] = [
+    $settings['allowed_types'] = [
       '#type' => 'select',
-      '#title' => $this->t('Allowed Types'),
+      '#title' => $this->t('Allowed types'),
       '#options' => $this->phoneNumberUtil->getTypeOptions(),
       '#description' => $this->t('Restrict entry to certain types of phone numbers. If none are selected, then all types are allowed.  A description of each type can be found <a href="@url" target="_blank">here</a>.', [
         '@url' => 'https://github.com/giggsey/libphonenumber-for-php/blob/master/src/PhoneNumberType.php',
@@ -92,17 +146,13 @@ class PhoneNumber extends WebformElementBase {
       '#multiple' => TRUE,
     ];
 
-    $form['extension_field'] = [
+    $settings['extension_field'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable <em>Extension</em> field'),
       '#description' => $this->t('Collect extension along with the phone number.'),
     ];
 
-    $form['phone_number']['placeholder'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Number Placeholder'),
-      '#description' => $this->t('Number field placeholder.'),
-    ];
+    $form['composite'] = $settings + $form['composite'];
 
     $form['display']['as_link'] = [
       '#type' => 'checkbox',
@@ -176,19 +226,15 @@ class PhoneNumber extends WebformElementBase {
   public function prepare(array &$element, WebformSubmissionInterface $webform_submission = NULL) {
     parent::prepare($element, $webform_submission);
 
-    $settings = [
-      'allowed_countries' => !empty($element['#allowed_countries']) ? $element['#allowed_countries'] : NULL,
-      'allowed_types' => !empty($element['#allowed_types']) ? $element['#allowed_types'] : NULL,
-      'extension_field' => !empty($element['#extension_field']) ? $element['#extension_field'] : FALSE,
-      'placeholder' => $element['#placeholder'] ?? 'Phone number',
-    ];
+    $element['#description'] = $this->renderer->render($element['#description']);
 
     $element += [
       '#phone_number' => [
-        'allowed_countries' => $settings['allowed_countries'],
-        'allowed_types' => $settings['allowed_types'],
-        'extension_field' => $settings['extension_field'],
-        'placeholder' => $settings['placeholder'],
+        'allowed_countries' => $element['#allowed_countries'] ?? NULL,
+        'allowed_types' => $element['#allowed_types'] ?? NULL,
+        'extension_field' => $element['#extension_field'] ?? FALSE,
+        'country_selection' => $element['#country_selection'] ?? 'flag',
+        'placeholder' => $element['#placeholder'] ?? '',
       ],
     ];
   }
@@ -259,9 +305,47 @@ class PhoneNumber extends WebformElementBase {
   /**
    * {@inheritdoc}
    */
-  public function formatText(array $element, WebformSubmissionInterface $webform_submission, array $options = []) {
-    $data = $webform_submission->getData($element['#webform_key']);
-    return !empty($data['value']) ? $webform_submission->getData($element['#webform_key'])['value'] : '';
+  public function getTestValues(array $element, WebformInterface $webform, array $options = []) {
+    $values = [];
+
+    $allowed_countries = $this->getElementProperty($element, 'allowed_countries');
+    if (empty($allowed_countries)) {
+      $allowed_countries = array_keys($this->phoneNumberUtil->getCountryOptions());
+    }
+
+    $allowed_types = $this->getElementProperty($element, 'allowed_types');
+    if (empty($allowed_types)) {
+      $allowed_types = [
+        PhoneNumberType::FIXED_LINE,
+        PhoneNumberType::MOBILE,
+        PhoneNumberType::FIXED_LINE_OR_MOBILE,
+      ];
+    }
+
+    $use_ext = $this->getElementProperty($element, 'extension_field');
+
+    for ($i = 1; $i <= 5; $i++) {
+      $country_index = array_rand($allowed_countries);
+      $country = $allowed_countries[$country_index];
+      $type_index = array_rand($allowed_types);
+      $type = $allowed_types[$type_index];
+
+      /** @var \libphonenumber\PhoneNumber $number */
+      $number = $this->phoneNumberUtil->libUtil()->getExampleNumberForType($country, $type);
+      if (is_null($number)) {
+        continue;
+      }
+
+      $value = [
+        'value' => $this->phoneNumberUtil->getCallableNumber($number),
+      ];
+      if ($use_ext) {
+        $value['extension'] = random_int(1, 99);
+      }
+      $values[] = $value;
+    }
+
+    return $values;
   }
 
 }

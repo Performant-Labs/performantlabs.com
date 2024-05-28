@@ -34,7 +34,7 @@ class BlockAccessEvent extends Event implements EventInterface, AccessEventInter
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account for which to check access.
    */
-  public function __construct(protected BlockInterface $block, string $operation, AccountInterface $account) {
+  public function __construct(protected readonly BlockInterface $block, string $operation, AccountInterface $account) {
     $this->operation = $operation;
     $this->account = $account;
     $this->accessResult = AccessResultNeutral::neutral();

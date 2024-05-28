@@ -34,6 +34,7 @@ class CommentManageDisplayTest extends CommentTestBase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
+    parent::setUp();
     BrowserTestBase::setUp();
     $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
     $this->addDefaultCommentField('node', 'article');

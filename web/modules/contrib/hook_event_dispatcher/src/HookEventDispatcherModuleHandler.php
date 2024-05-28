@@ -40,7 +40,7 @@ final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
    * @param \Drupal\hook_event_dispatcher\HookEventPluginManagerInterface $pluginManager
    *   The hook event plugin manager.
    */
-  public function __construct(protected ModuleHandlerInterface $inner, protected HookEventDispatcherManager $dispatcherManager, protected HookEventPluginManagerInterface $pluginManager) {
+  public function __construct(protected readonly ModuleHandlerInterface $inner, protected readonly HookEventDispatcherManager $dispatcherManager, protected readonly HookEventPluginManagerInterface $pluginManager) {
   }
 
   /**

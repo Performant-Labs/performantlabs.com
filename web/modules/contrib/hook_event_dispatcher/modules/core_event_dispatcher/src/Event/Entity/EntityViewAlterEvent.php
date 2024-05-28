@@ -36,7 +36,7 @@ class EntityViewAlterEvent extends AbstractEntityEvent {
    *   The entity view display holding the display options configured for the
    *   entity components.
    */
-  public function __construct(array &$build, EntityInterface $entity, private EntityViewDisplayInterface $display) {
+  public function __construct(array &$build, EntityInterface $entity, private readonly EntityViewDisplayInterface $display) {
     parent::__construct($entity);
 
     $this->build = &$build;

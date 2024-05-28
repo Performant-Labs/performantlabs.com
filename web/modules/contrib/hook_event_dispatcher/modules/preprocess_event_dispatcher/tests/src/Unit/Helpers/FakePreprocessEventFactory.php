@@ -16,7 +16,7 @@ final class FakePreprocessEventFactory implements PreprocessEventFactoryInterfac
    * @param string $hook
    *   Fake hook.
    */
-  public function __construct(private string $hook) {
+  public function __construct(private readonly string $hook) {
   }
 
   /**

@@ -32,7 +32,7 @@ class WebformElementAlterEvent extends Event implements EventInterface {
    *   An associative array containing the following key-value pairs:
    *   - form: The form structure to which elements is being attached.
    */
-  public function __construct(array &$element, private FormStateInterface $formState, private array $context) {
+  public function __construct(array &$element, private readonly FormStateInterface $formState, private readonly array $context) {
     $this->element = &$element;
   }
 

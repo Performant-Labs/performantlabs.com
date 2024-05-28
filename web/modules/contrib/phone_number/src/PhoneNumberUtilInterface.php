@@ -47,7 +47,7 @@ interface PhoneNumberUtilInterface {
    * @param null|array $types
    *   (Optional) An array of allowed PhoneNumberType constants.
    *   Only consider number valid if it is one of these types.
-   *   See \libphonenumber\PhoneNumberType for available type contants.
+   *   See \libphonenumber\PhoneNumberType for available type constants.
    *
    * @throws \Drupal\phone_number\Exception\CountryException
    *   Thrown if phone number is not valid because its country and the country
@@ -92,7 +92,7 @@ interface PhoneNumberUtilInterface {
    * @param \libphonenumber\PhoneNumber $phone_number
    *   Phone number object.
    * @param bool $strip_non_digits
-   *   Strip non-digits from the callable number.  Optioinal, defaults to FALSE.
+   *   Strip non-digits from the callable number.  Optional, defaults to FALSE.
    *
    * @return string
    *   An E.164-formatted, international number.
@@ -107,7 +107,7 @@ interface PhoneNumberUtilInterface {
    * @param \libphonenumber\PhoneNumber $phone_number
    *   Phone number object.
    * @param bool $strip_extension
-   *   Strip extension from the callable number.  Optioinal, defaults to FALSE.
+   *   Strip extension from the callable number.  Optional, defaults to FALSE.
    *
    * @return string
    *   An RFC3966-formatted, international number URI.
@@ -123,7 +123,7 @@ interface PhoneNumberUtilInterface {
    * @param \libphonenumber\PhoneNumber $phone_number
    *   Phone number object.
    * @param bool $strip_non_digits
-   *   Strip non-digits from the national dialing prefix.  Optioinal, defaults
+   *   Strip non-digits from the national dialing prefix.  Optional, defaults
    *   to FALSE.
    *
    * @return string|null
@@ -140,9 +140,9 @@ interface PhoneNumberUtilInterface {
    * @param \libphonenumber\PhoneNumber $phone_number
    *   Phone number object.
    * @param bool $strip_non_digits
-   *   Strip non-digits from the national number.  Optioinal, defaults to FALSE.
+   *   Strip non-digits from the national number.  Optional, defaults to FALSE.
    * @param bool $strip_extension
-   *   Strip extension from the national number.  Optioinal, defaults to TRUE.
+   *   Strip extension from the national number.  Optional, defaults to TRUE.
    *
    * @return string
    *   National number.
@@ -158,9 +158,9 @@ interface PhoneNumberUtilInterface {
    * @param \libphonenumber\PhoneNumber $phone_number
    *   Phone number object.
    * @param bool $strip_non_digits
-   *   Strip non-digits from the local number.  Optioinal, defaults to FALSE.
+   *   Strip non-digits from the local number.  Optional, defaults to FALSE.
    * @param bool $strip_extension
-   *   Strip extension from the local number.  Optioinal, defaults to TRUE.
+   *   Strip extension from the local number.  Optional, defaults to TRUE.
    *
    * @return string
    *   Local number.

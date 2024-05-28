@@ -17,7 +17,7 @@ abstract class AbstractViewsEvent extends Event implements EventInterface {
    * @param \Drupal\views\ViewExecutable $view
    *   The view.
    */
-  public function __construct(private ViewExecutable $view) {
+  public function __construct(private readonly ViewExecutable $view) {
   }
 
   /**

@@ -1,6 +1,6 @@
 /**
  * @file
- * Provides widget behaviours.
+ * Provides widget behaviors.
  */
 
 (($, Drupal, once) => {
@@ -19,9 +19,10 @@
         const $input = $(value);
         let val = $input.val();
 
-        $input.keyup(() => {
-          if (val !== $(this).val()) {
-            val = $(this).val();
+        $input.keyup((event) => {
+          const newVal = $(event.target).val();
+          if (val !== newVal) {
+            val = newVal;
             $input
               .parents('.sms-phone-number-field')
               .find('.send-button')
@@ -38,9 +39,10 @@
         (value) => {
           const $input = $(value);
           let val = $(value).val();
-          $(value).change( function() {
-            if (val !== $(this).val()) {
-              val = $(this).val();
+          $(value).change((event) => {
+            const newVal = $(event.target).val();
+            if (val !== newVal) {
+              val = newVal;
               $input
                 .parents('.sms-phone-number-field')
                 .find('.send-button')

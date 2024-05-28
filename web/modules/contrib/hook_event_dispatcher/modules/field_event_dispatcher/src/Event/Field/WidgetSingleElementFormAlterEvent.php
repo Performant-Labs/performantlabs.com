@@ -42,7 +42,7 @@ class WidgetSingleElementFormAlterEvent extends Event implements EventInterface 
    *   - default: A boolean indicating whether the form is being shown as a
    *     dummy form to set default values.
    */
-  public function __construct(array &$element, private FormStateInterface $formState, private array $context) {
+  public function __construct(array &$element, private readonly FormStateInterface $formState, private readonly array $context) {
     $this->element = &$element;
   }
 

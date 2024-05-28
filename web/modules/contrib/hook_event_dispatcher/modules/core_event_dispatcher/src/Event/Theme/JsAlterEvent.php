@@ -31,7 +31,7 @@ final class JsAlterEvent extends Event implements EventInterface {
    */
   public function __construct(
     array &$javascript,
-    private AttachedAssetsInterface $attachedAssets
+    private readonly AttachedAssetsInterface $attachedAssets
   ) {
     $this->javascript = &$javascript;
   }

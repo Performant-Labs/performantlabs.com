@@ -37,7 +37,7 @@ class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
   public function __construct(
     array &$build,
     EntityInterface $entity,
-    private string $viewMode
+    private readonly string $viewMode
   ) {
     parent::__construct($entity);
 

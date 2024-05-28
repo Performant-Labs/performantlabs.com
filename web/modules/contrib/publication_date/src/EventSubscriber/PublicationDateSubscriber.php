@@ -23,7 +23,7 @@ class PublicationDateSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     $events = [];
     if (class_exists('\Drupal\workbench_moderation\Event\WorkbenchModerationEvents')) {
       $events[WorkbenchModerationEvents::STATE_TRANSITION] = ['onWorkbenchModerationStateTransition'];

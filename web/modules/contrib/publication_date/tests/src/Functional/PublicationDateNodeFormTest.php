@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\publication_date\Functional;
 
-use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\Url;
 use Drupal\node\Entity\NodeType;
@@ -14,8 +13,6 @@ use Drupal\Tests\BrowserTestBase;
  * @group publication_date
  */
 class PublicationDateNodeFormTest extends BrowserTestBase {
-
-  use ContentTypeCreationTrait;
 
   /**
    * Modules to enable.
@@ -64,6 +61,13 @@ class PublicationDateNodeFormTest extends BrowserTestBase {
     ]);
     $entity->setDefaultValue(TRUE)->save();
 
+    /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $entityDisplay */
+    $entityDisplay = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'test1');
+    $entityDisplay->setComponent('published_at', [
+      'type' => 'timestamp',
+    ]);
+    $entityDisplay->save();
+
     $account = $this->drupalCreateUser([
       'create test1 content',
       'create test2 content',
@@ -99,6 +103,12 @@ class PublicationDateNodeFormTest extends BrowserTestBase {
     $this->getSession()->getPage()->findButton('Save')->submit();
     $node = $this->getNodeByTitle($title);
     $this->assertNotEmpty($node->published_at->value);
+
+    // Test node preview (unpublished)
+    $this->drupalGet(Url::fromRoute('node.add', ['node_type' => 'test1']));
+    $this->getSession()->getPage()->fillField('title[0][value]', $title);
+    $this->getSession()->getPage()->findButton('Preview')->submit();
+    $this->assertSame(200, $this->getSession()->getStatusCode());
   }
 
 }

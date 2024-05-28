@@ -31,7 +31,7 @@ final class ViewsDataAlterEvent extends Event implements EventInterface {
   }
 
   /**
-   * Get data by refence.
+   * Get data by reference.
    *
    * @return array
    *   Data.

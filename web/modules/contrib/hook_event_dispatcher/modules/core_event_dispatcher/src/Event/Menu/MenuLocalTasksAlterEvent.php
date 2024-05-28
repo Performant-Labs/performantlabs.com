@@ -36,7 +36,7 @@ class MenuLocalTasksAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $cacheability
    *   The cacheability metadata for the current route's local tasks.
    */
-  public function __construct(array &$data, protected string $routeName, protected RefinableCacheableDependencyInterface $cacheability) {
+  public function __construct(array &$data, protected readonly string $routeName, protected readonly RefinableCacheableDependencyInterface $cacheability) {
     $this->data = &$data;
   }
 

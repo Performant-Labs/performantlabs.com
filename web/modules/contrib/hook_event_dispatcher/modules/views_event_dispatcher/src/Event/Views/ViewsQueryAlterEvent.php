@@ -14,14 +14,14 @@ use Drupal\views_event_dispatcher\ViewsHookEvents;
 final class ViewsQueryAlterEvent extends AbstractViewsEvent {
 
   /**
-   * ViewsPreExecuteEevent constructor.
+   * ViewsPreExecuteEvent constructor.
    *
    * @param \Drupal\views\ViewExecutable $view
    *   The view.
    * @param \Drupal\views\Plugin\views\query\QueryPluginBase $query
    *   The query.
    */
-  public function __construct(ViewExecutable $view, private QueryPluginBase $query) {
+  public function __construct(ViewExecutable $view, private readonly QueryPluginBase $query) {
     parent::__construct($view);
   }
 

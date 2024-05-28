@@ -16,7 +16,7 @@ abstract class AbstractPreprocessEvent extends Event implements PreprocessEventI
    * @param \Drupal\preprocess_event_dispatcher\Variables\AbstractEventVariables $variables
    *   The variables.
    */
-  public function __construct(protected AbstractEventVariables $variables) {
+  public function __construct(protected readonly AbstractEventVariables $variables) {
   }
 
   /**

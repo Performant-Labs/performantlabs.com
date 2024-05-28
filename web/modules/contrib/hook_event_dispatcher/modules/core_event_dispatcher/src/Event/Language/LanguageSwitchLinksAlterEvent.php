@@ -31,7 +31,7 @@ class LanguageSwitchLinksAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Url $path
    *   The request path.
    */
-  public function __construct(array &$links, private string $type, private Url $path) {
+  public function __construct(array &$links, private readonly string $type, private readonly Url $path) {
     $this->links = &$links;
   }
 

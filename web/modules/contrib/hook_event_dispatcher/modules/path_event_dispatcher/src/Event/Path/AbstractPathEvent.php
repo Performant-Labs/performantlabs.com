@@ -2,21 +2,15 @@
 
 namespace Drupal\path_event_dispatcher\Event\Path;
 
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\Event\Entity\AbstractEntityEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class AbstractPathEvent.
+ *
+ * @property \Drupal\path_alias\PathAliasInterface $entity
  */
 abstract class AbstractPathEvent extends AbstractEntityEvent implements EventInterface {
-
-  /**
-   * The path alias entity.
-   *
-   * @var \Drupal\path_alias\PathAliasInterface
-   */
-  protected EntityInterface $entity;
 
   /**
    * Getter.

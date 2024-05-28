@@ -20,7 +20,7 @@ class HookEventDispatcherManager implements HookEventDispatcherManagerInterface 
    * @param \Symfony\Contracts\EventDispatcher\EventDispatcherInterface $eventDispatcher
    *   The event dispatcher.
    */
-  public function __construct(protected EventDispatcherInterface $eventDispatcher) {
+  public function __construct(protected readonly EventDispatcherInterface $eventDispatcher) {
   }
 
   /**

@@ -29,9 +29,9 @@ class FieldFormatterThirdPartySettingsFormEvent extends AbstractFieldThirdPartyS
    *   The form state.
    */
   public function __construct(
-    private FormatterInterface $plugin,
+    private readonly FormatterInterface $plugin,
     FieldDefinitionInterface $fieldDefinition,
-    private string $viewMode,
+    private readonly string $viewMode,
     array $form,
     FormStateInterface $formState
   ) {

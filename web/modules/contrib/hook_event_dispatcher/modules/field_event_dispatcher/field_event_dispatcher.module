@@ -14,7 +14,6 @@ use Drupal\field_event_dispatcher\Event\Field\FieldFormatterThirdPartySettingsFo
 use Drupal\field_event_dispatcher\Event\Field\FieldWidgetSettingsSummaryAlterEvent;
 use Drupal\field_event_dispatcher\Event\Field\FieldWidgetThirdPartySettingsFormEvent;
 
-// @todo hook_field_info_alter()
 // @todo hook_field_ui_preconfigured_options_alter()
 // @todo hook_field_storage_config_update_forbid()
 // @todo hook_field_widget_info_alter()

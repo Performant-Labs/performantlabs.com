@@ -34,7 +34,7 @@ class FileDownloadEvent extends Event implements EventInterface, HookReturnInter
    * @param string $uri
    *   The URI of the file.
    */
-  public function __construct(protected string $uri) {
+  public function __construct(protected readonly string $uri) {
   }
 
   /**

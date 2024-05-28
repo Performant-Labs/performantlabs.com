@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Component\EventDispatcher\Event;
@@ -28,10 +30,10 @@ class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
    *   Extra field info.
    * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
    *   The entity type.
-   * @param string $bundle
+   * @param string|int $bundle
    *   The bundle name.
    */
-  public function __construct(array &$fields, private EntityTypeInterface $entityType, private string $bundle) {
+  public function __construct(array &$fields, private readonly EntityTypeInterface $entityType, private readonly string|int $bundle) {
     $this->fields = &$fields;
   }
 
@@ -69,7 +71,7 @@ class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
    *   The Bundle.
    */
   public function getBundle(): string {
-    return $this->bundle;
+    return (string) $this->bundle;
   }
 
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Component\EventDispatcher\Event;
@@ -35,7 +37,7 @@ final class EntityCreateAccessEvent extends Event implements EventInterface, Eve
    * @param string|null $entityBundle
    *   The entity bundle name.
    */
-  public function __construct(AccountInterface $account, protected array $context, protected ?string $entityBundle = NULL) {
+  public function __construct(AccountInterface $account, protected readonly array $context, protected readonly string|int|null $entityBundle = NULL) {
     $this->account = $account;
   }
 
@@ -56,7 +58,7 @@ final class EntityCreateAccessEvent extends Event implements EventInterface, Eve
    *   The entity bundle name.
    */
   public function getEntityBundle(): ?string {
-    return $this->entityBundle;
+    return $this->entityBundle ? (string) $this->entityBundle : NULL;
   }
 
   /**

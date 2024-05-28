@@ -30,6 +30,10 @@ class InReplyToFormatter extends FormatterBase {
     $elements = [];
 
     foreach ($items->referencedEntities() as $delta => $comment) {
+      if ($comment->isNew()) {
+        continue;
+      }
+
       $all_options = [
         'subject' => [
           'type' => 'string',

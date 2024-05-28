@@ -235,7 +235,7 @@ class SmsPhoneNumberUtil extends PhoneNumberUtil implements SmsPhoneNumberUtilIn
   public function getTfaField() {
     $tfa_field = $this->configFactory->get('phone_number.settings')
       ->get('tfa_field');
-    $user_fields = $this->fieldMananger->getFieldDefinitions('user', 'user');
+    $user_fields = $this->fieldManager->getFieldDefinitions('user', 'user');
     return $this->isTfaEnabled() && !empty($user_fields[$tfa_field]) ? $tfa_field : '';
   }
 

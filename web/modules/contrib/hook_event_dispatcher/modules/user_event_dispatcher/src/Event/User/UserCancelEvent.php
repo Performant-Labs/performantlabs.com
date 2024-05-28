@@ -27,7 +27,7 @@ final class UserCancelEvent extends Event implements EventInterface {
    * @param string $method
    *   The account cancellation method.
    */
-  public function __construct(private array $edit, private AccountInterface $account, private string $method) {
+  public function __construct(private readonly array $edit, private readonly AccountInterface $account, private readonly string $method) {
   }
 
   /**

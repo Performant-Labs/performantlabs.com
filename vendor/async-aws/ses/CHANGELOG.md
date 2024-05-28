@@ -2,6 +2,17 @@
 
 ## NOT RELEASED
 
+## 1.8.0
+
+### Added
+
+- AWS api-change: Adds support for providing custom headers within SendEmail and SendBulkEmail for SESv2.
+- AWS api-change: Added `fips-us-gov-east-1` region
+
+### Changed
+
+- AWS enhancement: Documentation updates.
+
 ## 1.7.0
 
 ### Added

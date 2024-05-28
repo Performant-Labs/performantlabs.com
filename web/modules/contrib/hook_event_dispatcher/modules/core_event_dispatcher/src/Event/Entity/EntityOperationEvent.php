@@ -35,7 +35,7 @@ final class EntityOperationEvent extends Event implements EventInterface, EventF
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function __construct(private EntityInterface $entity) {
+  public function __construct(private readonly EntityInterface $entity) {
   }
 
   /**

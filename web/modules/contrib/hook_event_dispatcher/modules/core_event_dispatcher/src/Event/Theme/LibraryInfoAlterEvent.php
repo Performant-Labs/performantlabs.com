@@ -30,7 +30,7 @@ class LibraryInfoAlterEvent extends Event implements EventInterface {
    *   Can either be 'core' or the machine name of the extension
    *   that registered the libraries.
    */
-  public function __construct(array &$libraries, private string $extension) {
+  public function __construct(array &$libraries, private readonly string $extension) {
     $this->libraries = &$libraries;
   }
 

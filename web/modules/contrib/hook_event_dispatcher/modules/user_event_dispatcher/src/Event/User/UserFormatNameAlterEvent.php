@@ -32,7 +32,7 @@ final class UserFormatNameAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Session\AccountInterface $account
    *   Account.
    */
-  public function __construct(&$name, private AccountInterface $account) {
+  public function __construct(&$name, private readonly AccountInterface $account) {
     $this->name = &$name;
   }
 

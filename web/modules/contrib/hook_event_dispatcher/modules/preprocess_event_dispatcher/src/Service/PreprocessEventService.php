@@ -18,7 +18,7 @@ final class PreprocessEventService implements PreprocessEventServiceInterface {
    * @param PreprocessEventFactoryMapper $mapper
    *   Factory mapper.
    */
-  public function __construct(private EventDispatcherInterface $dispatcher, private PreprocessEventFactoryMapper $mapper) {
+  public function __construct(private readonly EventDispatcherInterface $dispatcher, private readonly PreprocessEventFactoryMapper $mapper) {
   }
 
   /**

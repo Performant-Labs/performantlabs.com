@@ -49,7 +49,7 @@ class PhoneNumberUtil implements PhoneNumberUtilInterface {
    *
    * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
-  public $fieldMananger;
+  public $fieldManager;
 
   /**
    * The country manager service.
@@ -75,7 +75,7 @@ class PhoneNumberUtil implements PhoneNumberUtilInterface {
     $this->moduleHandler = $module_handler;
     $this->configFactory = $config_factory;
     $this->countryManager = $country_manager;
-    $this->fieldMananger = $field_manager;
+    $this->fieldManager = $field_manager;
   }
 
   /**
@@ -334,8 +334,9 @@ class PhoneNumberUtil implements PhoneNumberUtilInterface {
           break;
 
         default:
-          // At the time of writing this is everyting, but let's make sure we're
-          // covered if types are ever added/changed in the upstream library.
+          // At the time of writing this is everything, but let's make sure
+          // we're covered if types are ever added/changed in the upstream
+          // library.
           $options[$type] = $label;
       }
     }

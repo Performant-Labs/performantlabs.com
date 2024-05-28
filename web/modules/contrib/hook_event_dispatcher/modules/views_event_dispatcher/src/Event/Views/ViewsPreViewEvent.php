@@ -20,7 +20,7 @@ class ViewsPreViewEvent extends AbstractViewsEvent {
   private array $arguments = [];
 
   /**
-   * ViewsPreExecuteEevent constructor.
+   * ViewsPreViewEvent constructor.
    *
    * @param \Drupal\views\ViewExecutable $view
    *   The view object about to be processed.

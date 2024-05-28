@@ -24,7 +24,7 @@ class FormEntityDisplayEditAlterEventSubscriber implements EventSubscriberInterf
   /**
    * Alter the entity edit form third-party elements structure.
    *
-   * This works around the problem that Drupal core nests each invokation of
+   * This works around the problem that Drupal core nests each invocation of
    * 'field_formatter_third_party_settings_form' and
    * 'field_widget_third_party_settings_form' under the machine name of the
    * module that implements it, which would be the name of this module and not
@@ -34,12 +34,12 @@ class FormEntityDisplayEditAlterEventSubscriber implements EventSubscriberInterf
    *   The event object.
    *
    * @see \Drupal\field_ui\Form\EntityViewDisplayEditForm::thirdPartySettingsForm()
-   *   This is where Drupal core nests each invokation of
+   *   This is where Drupal core nests each invocation of
    *   'field_formatter_third_party_settings_form' under the machine name
    *   of the module that implements it.
    *
    * @see \Drupal\field_ui\Form\EntityFormDisplayEditForm::thirdPartySettingsForm()
-   *   This is where Drupal core nests each invokation of
+   *   This is where Drupal core nests each invocation of
    *   'field_widget_third_party_settings_form' under the machine name of
    *   the module that implements it.
    *

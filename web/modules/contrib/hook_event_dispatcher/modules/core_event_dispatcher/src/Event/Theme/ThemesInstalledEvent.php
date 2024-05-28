@@ -19,7 +19,7 @@ class ThemesInstalledEvent extends Event implements EventInterface {
    * @param array $themeList
    *   Array containing the names of the themes being installed.
    */
-  public function __construct(private array $themeList) {
+  public function __construct(private readonly array $themeList) {
   }
 
   /**

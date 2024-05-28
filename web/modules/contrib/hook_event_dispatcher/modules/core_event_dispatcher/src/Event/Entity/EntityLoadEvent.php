@@ -24,7 +24,7 @@ class EntityLoadEvent extends Event implements EventInterface {
    * @param string $entityTypeId
    *   The entity type id.
    */
-  public function __construct(private array $entities, private string $entityTypeId) {
+  public function __construct(private readonly array $entities, private readonly string $entityTypeId) {
   }
 
   /**

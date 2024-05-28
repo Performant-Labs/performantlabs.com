@@ -1,6 +1,6 @@
 /**
  * @file
- * Provides widget behaviours.
+ * Provides widget behaviors.
  */
 
 (($, Drupal, once) => {
@@ -14,45 +14,48 @@
       once('field-setup', '.phone-number-field .country', context).forEach(
         (value) => {
           const $input = $(value);
-          let val = $input.val();
+          const val = $input.val();
           $input.data('value', val);
-          $input
-            .wrap('<div class="country-select"></div>')
-            .before(
-              '<div class="phone-number-flag"></div><span class="arrow"></span><div class="prefix"></div>',
-            );
+
+          const addFlag = $input.hasClass('with-flag');
+          const addCountryCode = $input.hasClass('with-code');
+
+          let prefix = '<div class="prefix"></div><span class="arrow"></span>';
+          if (addFlag) {
+            prefix = `<div class="phone-number-flag"></div>${prefix}`;
+          }
+
+          $input.wrap('<div class="country-select"></div>').before(prefix);
 
           function setCountry(country) {
-            $input
-              .parents('.country-select')
-              .find('.phone-number-flag')
-              .removeClass($input.data('value'));
-            $input
-              .parents('.country-select')
-              .find('.phone-number-flag')
-              .addClass(country.toLowerCase());
+            if (addFlag) {
+              $input
+                .parents('.country-select')
+                .find('.phone-number-flag')
+                .removeClass($input.data('value'))
+                .addClass(country.toLowerCase());
+            }
+
             $input.data('value', country.toLowerCase());
 
-            const { options } = $input.get(0);
-            for (let i = 0; i < options.length; i++) {
-              if (options[i].value === country) {
-                const prefix = options[i].label.match(/(\d+)/)[0];
-                $input
-                  .parents('.country-select')
-                  .find('.prefix')
-                  .text(`(+${prefix})`);
-              }
-            }
+            const callingCode = $input
+              .find('option:selected')
+              .text()
+              .match(/\(\+\d+\)/)[0];
+            const countryCode = addCountryCode ? `${country} ` : '';
+            $input
+              .parents('.country-select')
+              .find('.prefix')
+              .text(`${countryCode}${callingCode}`);
           }
 
           setCountry(val);
 
-          $input.change( function() {
-            if (val !== $(this).val()) {
-              val = $(this).val();
+          $input.change((event) => {
+            const newVal = $(event.target).val();
+            if (val !== newVal) {
+              setCountry(newVal);
             }
-
-            setCountry(val);
           });
         },
       );

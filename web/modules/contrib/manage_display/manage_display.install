@@ -21,17 +21,25 @@ function manage_display_update_9201() {
  */
 function manage_display_update_9301() {
   $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
+
   foreach ($storage->loadMultiple() as $id => $display) {
+    $need_to_save = FALSE;
+
     /** @var \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display */
     foreach ($display->getComponents() as $name => $options) {
-      $type = $options['type'] ?? '';
       $linked = $options['settings']['linked'] ?? NULL;
-      if ($type == 'title' && !is_null($linked)) {
+
+      if (isset($options['type']) && $options['type'] == 'title' && !is_null($linked)) {
         unset($options['settings']['linked']);
         $options['settings']['link_to_entity'] = $linked;
         $display->setComponent($name, $options);
-        $display->save();
+
+        $need_to_save = TRUE;
       }
+    }
+
+    if ($need_to_save) {
+      $display->save();
     }
   }
 }

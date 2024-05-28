@@ -32,7 +32,7 @@ class EntityOperationAlterEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The entity.
    */
-  public function __construct(array &$operations, private EntityInterface $entity) {
+  public function __construct(array &$operations, private readonly EntityInterface $entity) {
     $this->operations = &$operations;
   }
 

@@ -3,10 +3,10 @@ services:
     class: Drupal\sms_phone_number\SmsPhoneNumberUtil
     arguments:
       [
-        "@config.factory",
-        "@entity_field.manager",
-        "@module_handler",
-        "@country_manager",
-        "@token",
-        "@flood",
+        '@config.factory',
+        '@entity_field.manager',
+        '@module_handler',
+        '@country_manager',
+        '@token',
+        '@flood',
       ]

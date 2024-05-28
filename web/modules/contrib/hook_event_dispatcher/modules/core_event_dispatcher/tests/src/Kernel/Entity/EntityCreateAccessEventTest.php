@@ -36,7 +36,7 @@ class EntityCreateAccessEventTest extends KernelTestBase {
    *
    * @var \Drupal\Core\Access\AccessResultInterface
    */
-  protected $accessResult;
+  protected AccessResultInterface $accessResult;
 
   /**
    * Test EntityCreateAccessEvent.
@@ -81,6 +81,22 @@ class EntityCreateAccessEventTest extends KernelTestBase {
       [AccessResult::forbidden(), FALSE],
       [AccessResult::neutral(), FALSE],
     ];
+  }
+
+  /**
+   * Test EntityCreateAccessEvent for integer bundle.
+   *
+   * @throws \Exception
+   */
+  public function testEntityCreateAccessEventIntegerBundle(): void {
+    $bundle = mt_rand();
+    entity_test_create_bundle($bundle);
+
+    $accessControlHandler = $this->container->get('entity_type.manager')->getAccessControlHandler('entity_test');
+    $context = [
+      'test' => TRUE,
+    ];
+    $this->assertFalse($accessControlHandler->createAccess($bundle, NULL, $context));
   }
 
 }

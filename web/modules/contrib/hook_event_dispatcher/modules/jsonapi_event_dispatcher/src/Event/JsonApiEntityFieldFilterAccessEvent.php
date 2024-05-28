@@ -28,7 +28,7 @@ class JsonApiEntityFieldFilterAccessEvent extends Event implements EventInterfac
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account for which to check access.
    */
-  public function __construct(protected FieldDefinitionInterface $fieldDefinition, AccountInterface $account) {
+  public function __construct(protected readonly FieldDefinitionInterface $fieldDefinition, AccountInterface $account) {
     $this->account = $account;
   }
 

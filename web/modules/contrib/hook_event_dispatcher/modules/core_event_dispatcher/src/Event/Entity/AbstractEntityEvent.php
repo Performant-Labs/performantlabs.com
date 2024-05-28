@@ -17,7 +17,7 @@ abstract class AbstractEntityEvent extends Event implements EventInterface {
    * @param \Drupal\Core\Entity\EntityInterface $entity
    *   The Entity.
    */
-  public function __construct(protected EntityInterface $entity) {
+  public function __construct(protected readonly EntityInterface $entity) {
   }
 
   /**

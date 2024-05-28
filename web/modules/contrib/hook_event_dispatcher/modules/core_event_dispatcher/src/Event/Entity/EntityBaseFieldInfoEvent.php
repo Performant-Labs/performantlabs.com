@@ -35,7 +35,7 @@ final class EntityBaseFieldInfoEvent extends Event implements EventInterface, Ev
    * @param \Drupal\Core\Entity\EntityTypeInterface $entityType
    *   The entity type.
    */
-  public function __construct(private EntityTypeInterface $entityType) {
+  public function __construct(private readonly EntityTypeInterface $entityType) {
   }
 
   /**
