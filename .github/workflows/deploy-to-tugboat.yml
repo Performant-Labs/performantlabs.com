@@ -41,7 +41,8 @@ jobs:
         run: |
           set -x
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
+          BRANCH=$(echo $GITHUB_REF | sed -e "s/refs\/heads\///")
           echo "Creating preview (this triggers GitHub Actions tests)."
-          ./tugboat create preview "$GITHUB_REF" \
-            base=false repo=${{ env.tugboat_repo_id }} label="Branch:$GITHUB_REF $RUN_DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          ./tugboat create preview "$BRANCH" \
+            base=false repo=${{ env.tugboat_repo_id }} label="Branch:$BRANCH $RUN_DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
