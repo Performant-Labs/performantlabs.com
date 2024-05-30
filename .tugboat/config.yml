@@ -95,15 +95,15 @@ services:
         - echo "===== Apache/PHP Build ====="
 
         # Check for upgrades to the Testery command line interface.
-        - pip3 install testery --upgrade
+#        - pip3 install testery --upgrade
 
         # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
-        - testery update-environment
-          --create-if-not-exists
-          --token "$TESTERY_TOKEN"
-          --key "tugboat"
-          --name "Testery on Tugboat"
-          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
+#        - testery update-environment
+#          --create-if-not-exists
+#          --token "$TESTERY_TOKEN"
+#          --key "tugboat"
+#          --name "Testery on Tugboat"
+#          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
 
       # Runs once all services are running, runs on rebuild.
       online:
