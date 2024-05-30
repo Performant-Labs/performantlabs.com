@@ -11,7 +11,7 @@ env:
   tugboat_repo_id: 63fe5557d5af549afd35a86a
 
 jobs:
-  Run-Testery-On-Tugboat-Preview:
+  create-preview:
     name: Trigger Tugboat Preview that triggers GitHub actions.
     runs-on: ubuntu-latest
     steps:
@@ -38,7 +38,7 @@ jobs:
       - name: Create the preview (this triggers Testery).
         run: |
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          echo "Creating preview (this triggers Testery)."
-          ./tugboat create preview "main" \
-            base=false repo=${{ env.tugboat_repo_id }} label="Branch:main $RUN_DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
+          echo "Creating preview (this triggers GitHub Actions tests)."
+          ./tugboat create preview "$GITHUB_REF" \
+            base=false repo=${{ env.tugboat_repo_id }} label="Branch:$GITHUB_REF $RUN_DATE" output=json --api-token ${{ secrets.TUGBOAT_TOKEN }}
 
