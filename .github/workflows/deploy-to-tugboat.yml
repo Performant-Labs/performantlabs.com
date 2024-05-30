@@ -21,11 +21,13 @@ jobs:
 
       - name: Install Tugboat.
         run: |
+          set -x
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
 
       - name: Delete prior preview.
         run: |
+          set -x
           ./tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}
           ./tugboat ls previews --json --api-token ${{ secrets.TUGBOAT_TOKEN }}  > previews.json
           PREVIEW_ID=`jq -r '.[0].preview' previews.json`
@@ -37,6 +39,7 @@ jobs:
 
       - name: Create the preview (this triggers Testery).
         run: |
+          set -x
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
           echo "Creating preview (this triggers GitHub Actions tests)."
           ./tugboat create preview "$GITHUB_REF" \
