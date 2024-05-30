@@ -80,7 +80,7 @@ services:
         #- ${TUGBOAT_ROOT}/scripts/promote-admins.sh
 
         # Update database
-        - vendor/bin/drush updb -y --no-post-updates
+        - vendor/bin/drush updb -y
         - vendor/bin/drush cr
 
         # Set up error capture.
