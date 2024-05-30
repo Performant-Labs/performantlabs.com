@@ -3,8 +3,7 @@ run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger 
 
 on:
   workflow_dispatch:
-# TODO uncomment once workflow is ready
-#  push:
+  push:
 
 env:
   pantheon_site_name: 'performant-labs'
