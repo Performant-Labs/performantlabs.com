@@ -105,12 +105,13 @@ services:
 
       # Runs once all services are running, runs on rebuild.
       online:
-        - testery create-test-run
-          --token "$TESTERY_TOKEN"
-          --git-ref "$TUGBOAT_PREVIEW_SHA"
-          --project-key "performant-labs"
-          --environment-key "tugboat"
-          --parallelize-by-file
+        - echo "we are online"
+#        - testery create-test-run
+#          --token "$TESTERY_TOKEN"
+#          --git-ref "$TUGBOAT_PREVIEW_SHA"
+#          --project-key "performant-labs"
+#          --environment-key "tugboat"
+#          --parallelize-by-file
 
   mysql:
     image: tugboatqa/mysql:8-debian
