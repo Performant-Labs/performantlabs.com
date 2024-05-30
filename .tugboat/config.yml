@@ -80,6 +80,7 @@ services:
         #- ${TUGBOAT_ROOT}/scripts/promote-admins.sh
 
         # Update database
+        - vendor/bin/drush theme:install stable9
         - vendor/bin/drush updb -y
         - vendor/bin/drush cr
 
