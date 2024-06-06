@@ -1,25 +1,8 @@
 {
-  "dependencies": {
-    "@cypress/grep": "^4.0",
-    "cy-verify-downloads": "^0.2.0",
-    "cypress": "^12",
-    "cypress-drupal": "^1.1.0",
-    "cypress-file-upload": "^5.0",
-    "cypress-iframe": "^1.0.1",
-    "cypress-slow-down": "github:bahmutov/cypress-slow-down",
-    "date-fns": "^2.28.0",
-    "date-fns-tz": "^2.0.0",
-    "execa": "^8.0.1",
-    "node-xlsx": "^0.23.0",
-    "x2js": "^3.4.4"
-  },
   "devDependencies": {
     "@playwright/test": "^1.44.1",
     "@types/node": "^20.14.2",
     "axios": "^1.7.2",
-    "cypress-data-session": "^2.3.1",
-    "cypress-log-to-term": "^1.5.2",
-    "cypress-recurse": "^1.35.2",
     "dotenv": "^16.4.5",
     "fast-xml-parser": "^4.4.0"
   },
