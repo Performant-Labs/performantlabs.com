@@ -15,11 +15,14 @@
     "x2js": "^3.4.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.44.1",
+    "@types/node": "^20.14.2",
     "cypress-data-session": "^2.3.1",
     "cypress-log-to-term": "^1.5.2",
     "cypress-recurse": "^1.35.2"
   },
   "browser": {
     "[module-name]": false
-  }
+  },
+  "scripts": {}
 }
