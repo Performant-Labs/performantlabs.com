@@ -13,7 +13,7 @@ env:
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
 jobs:
-  Deploy-to-Dev:
+  Test-on-Dev:
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
