@@ -1,5 +1,5 @@
 name: (Test) Run Playwright tests against  Pantheon Dev.
-run-name: ${{ github.actor }} is deploying to Pantheon Dev.
+run-name: ${{ github.actor }} is running tests on Pantheon Dev.
 on:
   #  - add push trigger for easier testing, replace with proper trigger after this action is ready
   - push
@@ -9,7 +9,6 @@ env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: 'dev'
-  PANTHEON_SITE_URL: 'https://dev-performant-labs.pantheonsite.io/'
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
 jobs:
@@ -97,6 +96,7 @@ jobs:
 
       - name: Change playwright.atk.config.js
         run: |
+          set -x
           sed -i 's/operatingMode: "native"/operatingMode: "pantheon"/g' playwright.atk.config.js
           sed -i 's/isTarget: false/isTarget: true/g' playwright.atk.config.js
           sed -i 's/site: "aSite"/site: "'$PANTHEON_SITE_NAME'"/g' playwright.atk.config.js
@@ -106,7 +106,8 @@ jobs:
 
       - name: Change playwright.config.js
         run: |
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $PANTHEON_SITE_URL)"'/g" playwright.config.js
+          set -x
+          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $DEV_SITE_URL)"'/g" playwright.config.js
           echo "----playwright.config.js----"
           cat playwright.config.js
 
