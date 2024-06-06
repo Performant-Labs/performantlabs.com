@@ -100,7 +100,7 @@ jobs:
           sed -i 's/operatingMode: "native"/operatingMode: "pantheon"/g' playwright.atk.config.js
           sed -i 's/isTarget: false/isTarget: true/g' playwright.atk.config.js
           sed -i 's/site: "aSite"/site: "'$PANTHEON_SITE_NAME'"/g' playwright.atk.config.js
-          sed -i 's/environment: "dev"/environment:"'$PANTHEON_ENV'"/g"' playwright.atk.config.js
+          sed -i 's/environment: "dev"/environment: "'$PANTHEON_ENV'"/g' playwright.atk.config.js
           echo "----playwright.atk.config.js----"
           cat playwright.atk.config.js
 
