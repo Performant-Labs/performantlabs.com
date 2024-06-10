@@ -1,8 +1,6 @@
 name: (Test) Run Playwright tests against  Pantheon Dev.
 run-name: ${{ github.actor }} is running tests on Pantheon Dev.
 on:
-  #  - add push trigger for easier testing, replace with proper trigger after this action is ready
-  - push
   - workflow_dispatch
 
 env:
