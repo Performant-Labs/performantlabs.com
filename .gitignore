@@ -72,3 +72,7 @@ Thumbs.db
 # Cypress.
 cypress/videos
 .sass-cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
