@@ -338,7 +338,15 @@
         "symfony/amazon-mailer": "^6.2",
         "tabby/tabby": "*",
         "tippyjs/6.x": "*",
-        "twig/extra-bundle": "~3.7"
+        "twig/extra-bundle": "~3.7",
+        "drupal/automated_testing_kit": "^1.0",
+        "drupal/default_content": "^2.0",
+        "drupal/qa_accounts": "^1.0",
+        "drupal/routes_list": "^6.2",
+        "drupal/symfony_mailer": "^1.0",
+        "drupal/webform": "^6.0",
+        "drupal/xmlsitemap": "^1.0",
+        "drush/drush": "^12"
     },
     "conflict": {
         "drupal/drupal": "*"
