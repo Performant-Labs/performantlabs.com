@@ -212,6 +212,8 @@ function execDrush (cmd, args = [], options = []) {
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
     return execPantheonDrush(command) // Returns stdout (not wrapped).
+  } else if (atkConfig.tugboat.isTarget) {
+    return execTugboatDrush(command)
   } else {
     try {
       // output = execSync(command, { shell: 'bin/bash'}).toString()
@@ -250,6 +252,21 @@ function execPantheonDrush (cmd) {
   return result
 }
 
+function execTugboatDrush(cmd) {
+  const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${cmd}"`
+
+  let result;
+  result = ''
+  try {
+    result = execSync(remoteCmd)
+    console.log('execTugboatDrush result: ' + result)
+  } catch (e) {
+    console.log('execTugboatDrush error: ' + e)
+  }
+
+  return result
+}
+
 /**
  * Returns Drush alias per environment.
  * Adapt this to the mechanism that communicates to the remote server.
@@ -261,10 +278,12 @@ function getDrushAlias () {
 
   // Drush to Pantheon requires Terminus.
   if (atkConfig.pantheon.isTarget) {
-    cmd = 'drush '
+    cmd = 'drush'
+  } else if (atkConfig.tugboat.isTarget) {
+    cmd = 'vendor/drush/drush/drush'
   } else {
     // Fetch the Drush command appropriate to the operating mode.
-    cmd = atkConfig.drushCmd + ' '
+    cmd = atkConfig.drushCmd
   }
   return cmd
 }
