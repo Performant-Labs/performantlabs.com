@@ -29,5 +29,9 @@ module.exports = {
     isTarget: false,
     site: "aSite",
     environment: "dev"
+  },
+  tugboat: {
+    isTarget: false,
+    service: "<id>"
   }
 }
