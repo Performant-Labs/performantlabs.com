@@ -6,9 +6,9 @@ on:
   push:
 
 env:
-  pantheon_site_name: 'performant-labs'
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Repo ID comes from 'tugboat ls repos'
-  tugboat_repo_id: 63fe5557d5af549afd35a86a
+  TUGBOAT_REPO_ID: 63fe5557d5af549afd35a86a
 
 jobs:
   create-preview:
@@ -49,7 +49,7 @@ jobs:
           echo "LABEL=$LABEL" >> $GITHUB_ENV
           echo "Creating preview (this triggers GitHub Actions tests)."
           tugboat create preview "$BRANCH" \
-            base=false repo=${{ env.tugboat_repo_id }} label="$LABEL" output=json
+            base=false repo=${{ env.TUGBOAT_REPO_ID }} label="$LABEL" output=json
 
       - name: Trigger tests
         run: |
