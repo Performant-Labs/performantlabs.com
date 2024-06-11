@@ -24,7 +24,7 @@ jobs:
           set -x
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
-          echo $GITHUB_WORKING_DIR >> $GITHUB_PATH
+          echo $(pwd) >> $GITHUB_PATH
           echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
 
       - name: Delete prior preview.
