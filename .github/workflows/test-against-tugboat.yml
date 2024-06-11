@@ -9,7 +9,6 @@ on:
       url:
         description: Website URL of the Preview environment
         required: false
-  pull_request: 
 
 env:
   PHP_VERSION: '8.1'
@@ -62,8 +61,8 @@ jobs:
           tar -zxf tugboat.tar.gz
           echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
 
-      - name: Verify that test runner can communicate with Pantheon
-        run: terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- status
+      - name: Verify that test runner can communicate with Tugboat via shell
+        run: tugboat shell ${{ github.event.inputs.service }} command="vendor/drush/drush/drush status"
 
       - name: Change playwright.atk.config.js
         run: |
