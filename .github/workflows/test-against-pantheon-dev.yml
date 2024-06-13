@@ -1,12 +1,20 @@
 name: (Test) Run Playwright tests against  Pantheon Dev.
 run-name: ${{ github.actor }} is running tests on Pantheon Dev.
 on:
-  - workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Environment to run tests on
+        options:
+          - dev
+          - test
+          - live
+        default: dev
 
 env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
-  PANTHEON_ENV: 'dev'
+  PANTHEON_ENV: ${{ github.event.inputs.env }}
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
 jobs:
@@ -105,7 +113,8 @@ jobs:
       - name: Change playwright.config.js
         run: |
           set -x
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $DEV_SITE_URL)"'/g" playwright.config.js
+          VAR=$(echo $PANTHEON_ENV | tr "[:lower:]" "[:upper:]")_SITE_URL
+          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< ${!VAR})"'/g" playwright.config.js
           echo "----playwright.config.js----"
           cat playwright.config.js
 
