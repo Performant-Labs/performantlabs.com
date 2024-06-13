@@ -4,6 +4,7 @@ run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger 
 on:
   workflow_dispatch:
   push:
+  pull_request:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
