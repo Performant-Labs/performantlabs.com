@@ -46,7 +46,7 @@ jobs:
         run: |
           set -x
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          BRANCH=$(echo $GITHUB_REF | sed -e "s/refs\/heads\///")
+          BRANCH=${{ github.event.pull_request.base.ref }}
           LABEL="Branch:$BRANCH $RUN_DATE"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "LABEL=$LABEL" >> $GITHUB_ENV
