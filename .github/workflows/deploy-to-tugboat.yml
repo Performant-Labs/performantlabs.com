@@ -1,0 +1,64 @@
+name: (Test) Deploy app on Tugboat and run Playwright tests against it from GitHib Actions
+run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger tests from GitHub Actions.
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Repo ID comes from 'tugboat ls repos'
+  TUGBOAT_REPO_ID: 63fe5557d5af549afd35a86a
+
+jobs:
+  create-preview:
+    name: Trigger Tugboat Preview that triggers GitHub actions.
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $pantheon_site_name.$pantheon_env."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Install Tugboat.
+        run: |
+          set -x
+          curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
+          tar -zxf tugboat.tar.gz
+          echo $(pwd) >> $GITHUB_PATH
+          echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
+
+      - name: Delete prior preview.
+        run: |
+          set -x
+          tugboat ls previews --json
+          tugboat ls previews --json > previews.json
+          PREVIEW_ID=`jq -r '.[0].preview' previews.json`
+
+          if [ ${PREVIEW_ID} != "null" ]; then
+            echo "Deleting preview ${PREVIEW_ID}."
+            tugboat delete ${PREVIEW_ID}
+          fi
+
+      - name: Create the preview.
+        run: |
+          set -x
+          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
+          BRANCH=${{ github.event.pull_request.head.ref }}
+          LABEL="Branch:$BRANCH $RUN_DATE"
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+          echo "LABEL=$LABEL" >> $GITHUB_ENV
+          echo "Creating preview (this triggers GitHub Actions tests)."
+          tugboat create preview "$BRANCH" \
+            base=false repo=${{ env.TUGBOAT_REPO_ID }} label="$LABEL" output=json
+
+      - name: Trigger tests
+        run: |
+          set -x
+          PREVIEW=$(tugboat list previews --json | jq -r 'map(select(.label="'"$LABEL"'"))[0].preview')
+          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name="php"))[0].service')
+          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name="php"))[0].urls[0]')
+          gh workflow run test-against-tugboat.yml --ref $BRANCH -f service=$SERVICE -f url=$URL
+
