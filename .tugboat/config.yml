@@ -59,8 +59,9 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
-        - vendor/bin/drush pm:enable --yes stage_file_proxy
-        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
+#        - composer require drupal/stage_file_proxy
+#        - vendor/bin/drush pm:enable --yes stage_file_proxy
+#        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
 
         # Take out of maintenance mode.
         - vendor/bin/drush state:set system.maintenance_mode 0
@@ -79,7 +80,8 @@ services:
         #- ${TUGBOAT_ROOT}/scripts/promote-admins.sh
 
         # Update database
-        - vendor/bin/drush updb -y --no-post-updates
+        - vendor/bin/drush theme:install stable9
+        - vendor/bin/drush updb -y
         - vendor/bin/drush cr
 
         # Set up error capture.
@@ -93,24 +95,25 @@ services:
         - echo "===== Apache/PHP Build ====="
 
         # Check for upgrades to the Testery command line interface.
-        - pip3 install testery --upgrade
+#        - pip3 install testery --upgrade
 
         # Set up Testery to run tests against the Tugboat environment, using Tugboat environment variables.
-        - testery update-environment
-          --create-if-not-exists
-          --token "$TESTERY_TOKEN"
-          --key "tugboat"
-          --name "Testery on Tugboat"
-          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
+#        - testery update-environment
+#          --create-if-not-exists
+#          --token "$TESTERY_TOKEN"
+#          --key "tugboat"
+#          --name "Testery on Tugboat"
+#          --variable "TUGBOAT_DEFAULT_SERVICE_URL=${TUGBOAT_DEFAULT_SERVICE_URL}"
 
       # Runs once all services are running, runs on rebuild.
       online:
-        - testery create-test-run
-          --token "$TESTERY_TOKEN"
-          --git-ref "$TUGBOAT_PREVIEW_SHA"
-          --project-key "performant-labs"
-          --environment-key "tugboat"
-          --parallelize-by-file
+        - echo "we are online"
+#        - testery create-test-run
+#          --token "$TESTERY_TOKEN"
+#          --git-ref "$TUGBOAT_PREVIEW_SHA"
+#          --project-key "performant-labs"
+#          --environment-key "tugboat"
+#          --parallelize-by-file
 
   mysql:
     image: tugboatqa/mysql:8-debian

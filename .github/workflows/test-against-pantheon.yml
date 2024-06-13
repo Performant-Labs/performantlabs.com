@@ -1,0 +1,132 @@
+name: (Test) Run Playwright tests against Pantheon.
+run-name: ${{ github.actor }} is running tests on Pantheon.
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: Environment to run tests on
+        type: choice
+        options:
+          - dev
+          - test
+          - live
+        default: dev
+
+env:
+  PHP_VERSION: '8.1'
+  PANTHEON_SITE_NAME: 'performant-labs'
+  PANTHEON_ENV: ${{ github.event.inputs.env }}
+  GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
+
+jobs:
+  Test-on-Dev:
+    env:
+      GIT_EMAIL: 'ci-bot@pantheon.io'
+      GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_PROJECT_USERNAME: ${{ github.repository_owner }}
+      GH_PROJECT_REPONAME: ${{ github.repository }}
+      PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
+      DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+      TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+      LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Change to Github working directory.
+        run: |
+          cd "$GITHUB_WORKING_DIR"
+          pwd
+
+      # Install node after checking out repo to get access to package.json.
+      - name: 'Set up Node.'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: 'Install NPM dependencies'
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: List the directories in the project (x1).
+        run: |
+          tree -d -L 3
+
+      - name: Validate composer.json and composer.lock.
+        continue-on-error: true
+        run: composer validate --strict
+
+      - name: Set Composer cache directory.
+        id: composer-cache-dir
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies.
+        uses: actions/cache@v3.2.4
+        with:
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install SSH Key.
+        uses: shimataro/ssh-key-action@v2.5.0
+        with:
+          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          name: id_rsa_pantheon
+          config: |
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa_pantheon
+              IdentitiesOnly yes
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              StrictHostKeyChecking no
+          known_hosts: ' '
+          if_key_exists: replace
+
+      - name: Install Terminus as standalone command to avoid dependency interference.
+        uses: pantheon-systems/terminus-github-actions@main
+        with:
+          pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+
+      - name: Verify that test runner can communicate with Pantheon
+        run: terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- status
+
+      - name: Change playwright.atk.config.js
+        run: |
+          set -x
+          sed -i 's/operatingMode: "native"/operatingMode: "pantheon"/g' playwright.atk.config.js
+          sed -i 's/isTarget: false/isTarget: true/g' playwright.atk.config.js
+          sed -i 's/site: "aSite"/site: "'$PANTHEON_SITE_NAME'"/g' playwright.atk.config.js
+          sed -i 's/environment: "dev"/environment: "'$PANTHEON_ENV'"/g' playwright.atk.config.js
+          echo "----playwright.atk.config.js----"
+          cat playwright.atk.config.js
+
+      - name: Change playwright.config.js
+        run: |
+          set -x
+          VAR=$(echo $PANTHEON_ENV | tr "[:lower:]" "[:upper:]")_SITE_URL
+          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< ${!VAR})"'/g" playwright.config.js
+          echo "----playwright.config.js----"
+          cat playwright.config.js
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - run: echo "🍏 Job's status ${{ job.status }}."
