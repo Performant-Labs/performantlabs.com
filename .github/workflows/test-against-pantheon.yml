@@ -1,10 +1,11 @@
-name: (Test) Run Playwright tests against  Pantheon Dev.
-run-name: ${{ github.actor }} is running tests on Pantheon Dev.
+name: (Test) Run Playwright tests against Pantheon.
+run-name: ${{ github.actor }} is running tests on Pantheon.
 on:
   workflow_dispatch:
     inputs:
       env:
         description: Environment to run tests on
+        type: choice
         options:
           - dev
           - test
