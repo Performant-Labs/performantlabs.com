@@ -1,0 +1,26 @@
+{
+    "name": "drupal/routes_list",
+    "description": "Overview of all registered routes.",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/routes_list",
+    "authors": [
+        {
+            "name": "George Anderson (geoanders)",
+            "homepage": "https://www.drupal.org/u/geoanders",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Ruslan Isay (IRuslan)",
+            "homepage": "https://www.drupal.org/u/iruslan"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/routes_list",
+        "source": "https://git.drupalcode.org/project/routes_list"
+    },
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/core": "^8 || ^9 || ^10"
+    }
+}
+

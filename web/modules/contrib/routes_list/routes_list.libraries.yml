@@ -1,0 +1,4 @@
+routes_list.report:
+  css:
+    theme:
+      css/routes_list.css: { }

@@ -1,0 +1,11 @@
+name: 'Automated Testing Kit'
+type: module
+description: 'Provides tests and functions useful for automated testing.'
+core_version_requirement: ^9 || ^10
+package: 'Automated Testing Kit'
+# version: 1.2
+
+# Information added by Drupal.org packaging script on 2023-12-02
+version: '1.2.0'
+project: 'automated_testing_kit'
+datestamp: 1701559200

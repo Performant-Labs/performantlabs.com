@@ -1,0 +1,65 @@
+Automated Testing Kit 1.2.0, 2023-12-02
+---------------------------------------------
+Changes since 1.1.0:
+- Added composer.json.
+- Removed Default Content (moving to a recipe).
+
+Automated Testing Kit 1.1.0, 2023-11-20
+---------------------------------------------
+Changes since 1.0.0:
+- Added article test and documentation:
+  - Node (ATK-CY-1111, ATK-PW-1111)
+- Changed "page-type" to "node-type" in hook.
+- Thoroughly linted the JS and PHP files.
+
+Automated Testing Kit 1.0.0, 2023-11-10
+---------------------------------------------
+Changes since 1.0.0-beta6:
+- Added entity tests and documentation:
+  - Node (ATK-CY-1110, ATK-PW-1110)
+  - Taxonomy (ATK-CY-1120, ATK-PW-1120)
+  - Media (ATK-CY-1130, ATK-PW-1130)
+- Moved user tests (ATK-CY-1020, ATK-CY-1021, ATK-PW-1020, ATK-PW-1021) to atk_user in the atk_entity directory.
+- Added deleteNodeViaUiWithNid() convenience function.
+- Added automated_testing_kit_preprocess_html() to inject nids, vids and tids into the page HTML.
+- Added automated_testing_kit_preprocess_image() to inject the media object ID.
+- Renamed ATK config files to playwright.atk.config.js and cypress.atk.config.js.
+- Correct bug with atk_setup:
+  Bug: Running 'atk_setup` for Playwright copies the Cypress atk.config.js
+  https://www.drupal.org/project/automated_testing_kit/issues/3375704.
+
+Automated Testing Kit 1.0.0-beta6, 2023-08-09
+---------------------------------------------
+Changes since 1.0.0-beta5:
+- Added xmlsitemap tests (ATK-CY-1070, ATK-PW-1070, ATK-CY-1071, ATK-PW-1071) and documentation.
+
+Automated Testing Kit 1.0.0-beta5, 2023-07-18
+---------------------------------------------
+Changes since 1.0.0-beta4:
+- Added 403 error page test (ATK-CY-1060, ATK-PW-1060) and documentation.
+
+Automated Testing Kit 1.0.0-beta4, 2023-07-14
+---------------------------------------------
+Changes since 1.0.0-beta3:
+- Added 404 error page test (ATK-CY-1061, ATK-PW-1061) and documentation.
+- Added @ to Cypress tags; added @alters-db where needed.
+
+Automated Testing Kit 1.0.0-beta3, 2023-07-06
+---------------------------------------------
+Changes since 1.0.0-beta2:
+- Added contact us tests (ATK-CY-1050, ATK-PW-1050) and documentation.
+- Added contactUsURL to atkConfig.
+- Added @cypress/grep to cypress.config.js file.
+
+Automated Testing Kit 1.0.0-beta2, 2023-06-29
+---------------------------------------------
+Changes since 1.0.0-beta1:
+- Added reset password tests (ATK-CY-1030, ATK-PW-1030) and documentation.
+- Added test codes to tags.
+- Added resetPasswordUrl to atkConfig.
+- In Cypress, switched from execPantheonDrush:remote:drush to ssh tunnel.
+- In Cypress, switched to cy.log.
+
+Automated Testing Kit 1.0.0-beta1, 2023-06-18
+---------------------------------------------
+- Initial release.
