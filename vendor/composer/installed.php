@@ -3,7 +3,7 @@
         'name' => 'drupal/recommended-project',
         'pretty_version' => 'dev-IL/test-playwright',
         'version' => 'dev-IL/test-playwright',
-        'reference' => '7b23a5683688206263d7a5c80d54bcb974e18acf',
+        'reference' => 'df80e2e436b54cad842b966c73314bbd0a65975a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -805,7 +805,7 @@
         'drupal/recommended-project' => array(
             'pretty_version' => 'dev-IL/test-playwright',
             'version' => 'dev-IL/test-playwright',
-            'reference' => '7b23a5683688206263d7a5c80d54bcb974e18acf',
+            'reference' => 'df80e2e436b54cad842b966c73314bbd0a65975a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
