@@ -23111,7 +23111,11 @@ code {
     font-size: 2.5rem !important;
 }
 }
-
+@media screen and (max-width: 710px) and (min-width:425px) {
+  .path-frontpage .layout.layout--threecol-section.PL-section-medium {
+    display: grid !important;
+}
+}
 @media screen and (max-width: 680px) and (min-width:590px) {
   .contact-us-page .layout--twocol-section {
    flex-wrap:nowrap;
