@@ -15,72 +15,62 @@ jobs:
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
       DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
       TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
       LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      
+
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
+
       - name: Check out repository code.
         uses: actions/checkout@v3
-        
+
       - name: Change to Github working directory.
         run: |
           cd "$GITHUB_WORKING_DIR"
           pwd
-                
-      # Install node after checking out repo to get access to package.json.
-      - name: 'Set up Node.'
-        uses: actions/setup-node@v3
-        with:
-          node-version: '19' 
-          cache: 'npm'
-          
-      #- name: 'Install NPM dependencies'
-      #  run: npm ci          
-        
+
       - name: Change to Github working directory.
         run: |
           cd "$GITHUB_WORKING_DIR"
           pwd
-          
+
       - name: List the directories in the project (x1).
         run: |
           tree -d -L 3
-        
+
       - name: Validate composer.json and composer.lock.
         continue-on-error: true
-        run: composer validate --strict        
-        
+        run: composer validate --strict
+
       - name: Set Composer cache directory.
         id: composer-cache-dir
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-        
+
       - name: Cache Composer dependencies.
         uses: actions/cache@v3.2.4
         with:
           path: ${{ steps.composer-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-        
+            ${{ runner.os }}-composer-
 
       - name: Avoid GitHub rate limit for Composer.
         run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Remove composer.lock.
         run: rm composer.lock
-        
+
       - name: Install Composer.
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
-                
+
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
         with:
@@ -93,22 +83,22 @@ jobs:
               HostKeyAlgorithms +ssh-rsa
               PubkeyAcceptedAlgorithms +ssh-rsa
               StrictHostKeyChecking no
-          known_hosts: ' '   
+          known_hosts: ' '
           if_key_exists: replace
-                    
+
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
         with:
           pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
-          
+
       - name: Install Terminus Build Tools.
         run: terminus self:plugin:install terminus-build-tools-plugin
-        
+
       - name: List the directories in the project (x2).
         run: |
           cd web
           tree -d -L 4
-                
+
       - name: Enable maintenance mode.
         run: |
           echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
@@ -125,17 +115,17 @@ jobs:
           git config core.fileMode false
           echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
           git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
-          
+
           # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
           git remote add origin "$GITHUB_REPOSITORY_URL"
-          
+
           # List remotes (for debugging)
           git remote -v
-          
+
           echo "Performing fetch."
           git checkout -b master
           git pull pantheon master
-          
+
       - name: Copy code to the local clone of the Pantheon repository.
         run: |
           cd "$GITHUB_WORKING_DIR"
@@ -145,22 +135,22 @@ jobs:
           cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
           rm -rf web/core/*.txt
-          
+
           # Cleans extra .git directories otherwise the module will be interpreted by git
           # as a submodule and will not be added to the repo.
           echo "Deleting all occurrences of .git and .DS_Store in modules."
           find ./web -type d -name ".git" | xargs rm -fr
           find . -type d -name ".DS_Store" | xargs rm -fr
-          
+
           # Remove because files are handled separately by Pantheon.
           rm -Rf web/sites/default/files
-          
+
           # Copy files to Pantheon repo dir.
           cp -R * "$PANTHEON_REPO_DIR"
-                    
+
           # For easier debugging, show what files have changed.
           git -C "$PANTHEON_REPO_DIR" status
-          
+
       - name: Add and commit then deploy to Pantheon.
         run: |
           cd "$PANTHEON_REPO_DIR"
@@ -170,23 +160,15 @@ jobs:
           echo "Pushing build to Pantheon."
           git push --force pantheon master
           echo "Push complete."
- 
-      - name: Terminus Drush updates.
+
+      - name: Wait the deploy to complete
         run: |
-          
-          # Don't use drush deploy until the configuration is being imported.
-          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy -y
-          
-          #echo "Running drush updb."
-          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updb --no-cache-clear
-          #sleep 5
-          
-          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
-          
-          # deploy:hook currently has an error
-          # terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- deploy:hook
-          
-          echo "Rebuilding cache."
-          # terminus env:clear-cache $PANTHEON_SITE_NAME.$PANTHEON_ENV
-          
+          terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
+
+      - name: Trigger tests
+        run: |
+          set -x
+          BRANCH=${{ github.ref_name }}
+          gh workflow run test-against-pantheon.yml --ref $BRANCH -f env=dev
+
       - run: echo "🍏 Job's status ${{ job.status }}."
