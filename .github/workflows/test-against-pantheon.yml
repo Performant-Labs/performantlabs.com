@@ -17,6 +17,7 @@ env:
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.env }}
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
+  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 jobs:
   Test-on-Dev:
@@ -128,5 +129,10 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+
+      - name: Send results to Slack
+        if: ${{ !cancelled() }}
+        run: |
+          npx slack-ctrf results ctrf/ctrf-report.json
 
       - run: echo "🍏 Job's status ${{ job.status }}."
