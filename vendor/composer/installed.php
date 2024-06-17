@@ -1243,9 +1243,9 @@
             'dev_requirement' => false,
         ),
         'phpstan/phpstan' => array(
-            'pretty_version' => '1.11.4',
-            'version' => '1.11.4.0',
-            'reference' => '9100a76ce8015b9aa7125b9171ae3a76887b6c82',
+            'pretty_version' => '1.11.5',
+            'version' => '1.11.5.0',
+            'reference' => '490f0ae1c92b082f154681d7849aee776a7c1443',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpstan/phpstan',
             'aliases' => array(),
