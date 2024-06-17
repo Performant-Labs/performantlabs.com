@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'drupal/recommended-project',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '3adc1fd3f44fbd14d5f318a57c64fd2e745258bb',
+        'pretty_version' => 'dev-IL/test-playwright',
+        'version' => 'dev-IL/test-playwright',
+        'reference' => 'b59d45de383d61df7ead287a4d76a2b3452ca73a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -803,9 +803,9 @@
             'dev_requirement' => false,
         ),
         'drupal/recommended-project' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '3adc1fd3f44fbd14d5f318a57c64fd2e745258bb',
+            'pretty_version' => 'dev-IL/test-playwright',
+            'version' => 'dev-IL/test-playwright',
+            'reference' => 'b59d45de383d61df7ead287a4d76a2b3452ca73a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
