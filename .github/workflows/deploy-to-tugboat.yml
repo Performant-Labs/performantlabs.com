@@ -47,6 +47,9 @@ jobs:
           set -x
           RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
           BRANCH=${{ github.event.pull_request.head.ref }}
+          if [ -z $BRANCH ]; then
+            BRANCH=${{ github.ref_name }}
+          fi
           LABEL="Branch:$BRANCH $RUN_DATE"
           echo "BRANCH=$BRANCH" >> $GITHUB_ENV
           echo "LABEL=$LABEL" >> $GITHUB_ENV
