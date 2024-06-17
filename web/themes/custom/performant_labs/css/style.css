@@ -4649,8 +4649,8 @@ a.btn-primary.button:visited:active {
 .path-frontpage .layout--twocol-section.layout--twocol-section--25-75 {
   background: #e9f5f7;
   justify-content: center;
+  padding-top: 60px;
 }
-
 @media (min-width: 1200px) {
   .path-frontpage .layout--twocol-section.layout--twocol-section--25-75 .layout__region--first {
     flex: 0 1 20rem;
@@ -4697,7 +4697,8 @@ a.btn-primary.button:visited:active {
   .path-frontpage .render-row .render-content h2 {
     font-size: 1.6rem !important;
     margin: 20px 0 10px !important;
-  }
+    padding: 0 .5rem;
+}
 }
 
 .path-frontpage .render-row .render-content h2 a {
@@ -4736,9 +4737,6 @@ a.btn-primary.button:visited:active {
   }
 }
 
-.path-frontpage .layout__region--second .block-layout-builder-kit:first-child article {
-  padding-top: 100px;
-}
 
 @media (max-width: 599px) {
   .path-frontpage .layout__region--second .block-layout-builder-kit:first-child article {
@@ -4857,14 +4855,19 @@ a.btn-primary.button:visited:active {
     padding: 0 1.2em;
   }
 }
-
 .path-frontpage h2.lbk-block--title {
   color: #444;
   display: block;
   font-size: 2.2rem;
-  text-align: center;
   margin-bottom: 70px !important;
+  max-width: 90%;
+  margin: auto;
 }
+
+/* .path-frontpage .layout--twocol-section  .layout__region.layout__region--first{
+display: flex !important;
+justify-content: center !important;
+} */
 
 @media (max-width: 599px) {
   .path-frontpage h2.lbk-block--title {
@@ -5305,9 +5308,6 @@ a.btn-primary.button:visited:active {
 /*
  * For /article.
  */
-.articles-page main .container {
-  height: 3300px;
-}
 
 .articles-page main .container .block-views-blockarticles-block-3 {
   margin: 70px 0 120px;
@@ -5489,10 +5489,12 @@ a.btn-primary.button:visited:active {
 .articles-page main .container .node--view-mode-card-small {
   padding-top: 20px;
 }
-
+.articles-page main .container {
+  /* height: 3300px; */
+}
 .articles-page main .container article.node--view-mode-teaser {
   border-bottom: 2px solid #f4f6f7;
-  margin: 20px 0 20px;
+  /* margin: 20px 0 20px; */
   padding-bottom: 20px;
   color: #667786;
 }
@@ -5530,8 +5532,8 @@ a.btn-primary.button:visited:active {
 
 .page-node-type-article .node--view-mode-full .node__content .image-container .field--name-field-image img {
   display: block;
-  height: 700px;
-  width: auto;
+  height: auto;
+  width: 100%;
 }
 
 .page-node-type-article .node--view-mode-full .node__content .image-container:after {
@@ -5565,7 +5567,15 @@ a.btn-primary.button:visited:active {
 }
 
 .page-node-type-article .node--view-mode-full .node__content .field--name-body {
-  padding-top: 100px;
+  padding-top: 30px;
+}
+.articles-version-10-automated-testing-kit-ready-page.page-node-type-article  :is(.node--view-mode-full .node__content .field--name-body,pre,strong) {
+  width: 100%;
+}
+
+.page-node-type-article .node--view-mode-full .node__content .field--name-body img {
+  width: 100%;
+  height: auto;
 }
 
 /*
@@ -23045,6 +23055,12 @@ code {
   overflow-y: auto;
 }
 
+/* ***************** note-download-logs-from-pantheon-page *********************/
+.note-download-logs-from-pantheon-page :is(pre,strong) {
+  width: 100%;
+  display: block;
+}
+
 /* ************ HOMEPAGE ************************* */
 
 .path-frontpage .pl-banner .pl-banner--title {
@@ -23063,7 +23079,9 @@ code {
 .articles-page .block-layout-builder-kit {
   margin-bottom: 0 !important;
 }
-
+.page-node-type-article .node--view-mode-full .node__content .field--name-body ul {
+  padding-left: 2rem;
+}
 .automated-testing-page .layout__region.layout__region--first {
 
   display: flex !important;
@@ -23074,6 +23092,74 @@ code {
   margin-bottom: 0 !important;
 }
 
+.contact-us-page .lbk-rich-text-component.sidebar-contact>p:nth-child(2) {
+  display: none;
+}
+.contact-us-page form#webform-submission-contact-node-13-add-form {
+  max-width: 90%;
+}
+.contact-us-page .block-layout-builder-kit {
+  max-width: 85%;
+}
+.path-frontpage .layout__region.layout__region--first {
+  display: flex;
+  justify-content: center;
+}
+@media screen and (max-width: 680px) and (min-width:590px) {
+  .contact-us-page .layout--twocol-section {
+   flex-wrap:nowrap;
+  }
+}
+@media screen and (max-width: 590px) and (min-width:425px){
+  .contact-us-page .lbk-rich-text-component p:has(img) {
+width: 100vw;
+}
+}
+@media screen and (max-width: 800px) and (min-width:425px){
+
+  .path-frontpage ul.clients-list {
+    display: grid !important;
+    grid-template-columns: 31% 44%;
+}
+.path-frontpage .highlighted-colors--text .highlighted-text {
+  max-width: 90%;
+  margin: auto;
+}
+.path-frontpage .clients-block ul.clients-list li {
+  padding: 20px 5px !important;
+  width: 50% !important;
+}
+
+.path-frontpage .layout.layout--threecol-section.layout--threecol-section--33-34-33.PL-section-default {
+  display: grid;
+}
+
+  .path-frontpage .highlighted-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.path-frontpage .pl-banner .pl-banner--title {
+  font-size: 2.5rem;
+  max-width: 32rem !important;
+}
+  .path-frontpage .highlighted-section .section-button {
+    position: absolute;
+    bottom: 35px;
+}
+}
+
+@media screen and (max-width: 430px){
+  .path-frontpage .pl-banner .pl-banner--title {
+    max-width: 23rem !important;
+ font-size: 1.9rem !important;
+  }
+  .path-frontpage .clients-block ul.clients-list li {
+
+    width: 90% !important;
+}
+}
 @media screen and (max-width: 767px) {
 
   /* ************ HOMEPAGE MOBILE************************* */
@@ -23084,40 +23170,70 @@ code {
     transform: translate(-50%, -50%);
   }
 
-  .path-frontpage .pl-banner .pl-banner--title {
-    max-width: 23rem !important;
-  }
+
+
+  
 
   /* *************** HOW WE DO IT PAGE MOBILE ******************* */
   .page-node-type-landing-page .lbk-rich-text-component img {
     width: 100%;
+    height: auto;
   }
 
   /* ************** Contact - us Page MOBILE *********************/
-  .contact-us-page .lbk-rich-text-component.sidebar-contact>p:nth-child(2) {
-    display: none;
-  }
+
+  .contact-us-page .lbk-rich-text-component p:has(img) {
+    width: 100%;
+}
 
   .contact-us-page .sidebar-contact {
     padding-right: unset !important;
   }
 
   .contact-us-page .lbk-rich-text-component img {
-    width: unset !important;
-  }
-
+    width: 90% !important;
+}
   .contact-us-page .lbk-rich-text-component p:has(img) {
     display: flex;
     justify-content: center;
-  }
+
+}
+.contact-us-page .block-layout-builder-kit {
+  max-width: unset !important;
+}
+
+.contact-us-page form#webform-submission-contact-node-13-add-form {
+  max-width: unset !important;
+  padding: 0 1rem !important;
+}
+
 
   .contact-us-page h2.lbk-block--title {
-    margin-bottom: 1rem;
+    margin: 0;
+    margin-bottom: 1rem !important;
 }
 
 .articles-page main .container .block-views-blockarticles-block-2 .view-content {
   margin-bottom: unset !important;
 }
+.articles-page .sendfox-form {
+  width: unset !important;
+ }
+
+
+.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
+  height: unset !important;
+  font-size: 30px;
+  line-height: 1.5;
+  min-width: 90%;
+} 
+.articles-badcamp-2020-talk-page.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
+  font-size: 28px;
+}
+.articles-drupalcon-2020-talk-page.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title{
+  font-size: 27px; 
+}
+
 /* **************** Automated testing Page Mobile ******************* */
 
 .automated-testing-page .layout__region.layout__region--first{
@@ -23148,8 +23264,25 @@ text-align: center !important;
   }
 }
 
+
+@media screen and (max-width: 1024px) and (min-width:767px) {
+  .articles-drupalcon-2020-talk-page.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
+min-width: 90% !important;  }
+  }
 @media screen and (max-width: 325px) {
   .contact-us-page .highlighted-blue-text {
     height: 5rem;
   }
+
 }
+@media screen and (max-width: 420px) {
+.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
+  font-size: 27px !important;
+}
+}
+
+@media screen and (max-width: 370px) {
+  .page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
+    font-size: 22px !important;
+  }
+  }
