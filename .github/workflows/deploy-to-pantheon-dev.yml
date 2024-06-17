@@ -9,6 +9,7 @@ env:
   PANTHEON_ENV: 'dev'
   PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   Deploy-to-Dev:
@@ -168,6 +169,7 @@ jobs:
       - name: Trigger tests
         run: |
           set -x
+          cd $GITHUB_WORKING_DIR
           BRANCH=${{ github.ref_name }}
           gh workflow run test-against-pantheon.yml --ref $BRANCH -f env=dev
 
