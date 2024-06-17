@@ -166,6 +166,9 @@ jobs:
         run: |
           terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
 
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
       - name: Trigger tests
         run: |
           set -x
