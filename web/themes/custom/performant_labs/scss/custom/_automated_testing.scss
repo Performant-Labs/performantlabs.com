@@ -16,6 +16,13 @@
       padding-right: 0 !important;
     }
   }
+
+
+  .automated-testing-page .checkboxes-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
   //
   // The circled checkmarks.
   //
@@ -86,6 +93,8 @@
       }
     }
   }
+
+
   //
   // By working with us.
   //
@@ -917,7 +926,22 @@ body .pl-table .column:first-child .cell {
   color: #f1eeee;
 }
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50 {
-  padding: 30px 14% !important;
+  padding: 40px 17% !important;
+}
+.automated-testing-page main .container {
+  padding: 0 !important;
+}
+
+.automated-testing-page .layout__region.layout__region--second .block.block-layout-builder-kit.block- {
+  display: flex;
+  justify-content: end;
+}
+
+.automated-testing-page .layout__region.layout__region--first {
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .not-sure-image {
   max-width: 75%;
@@ -943,6 +967,9 @@ body .pl-table .column:first-child .cell {
   padding-top: 12px;
   display: block;
 }
+.automated-testing-page .layout--twocol-section .block-layout-builder-kit {
+  margin-bottom: 0 !important;
+}
 .lbk-rich-text-component.automated-testing--wwu--title {
   position: absolute;
   margin: auto;
@@ -961,8 +988,7 @@ body .pl-table .column:first-child .cell {
 .automated-testing-page div#block-performant-labs-breadcrumbs {
   display: none;
 }
-.automated-testing-page .container {
-}
+
 .automated-testing-page header.navbar-expand-lg {
   margin-bottom: 0px !important;
   padding-bottom: 0px;
@@ -1387,3 +1413,77 @@ body .lbk-rich-text-component.automated-testing--level-up p {
  }
 }
 // END OF @media (min-width:600px) and (max-width:990px) {
+
+
+
+@media screen and (max-width:767px) {
+  /* **************** Automated testing Page Mobile ******************* */
+  .automated-testing-page .layout__region.layout__region--first{
+    display: unset !important;
+  }
+  .automated-testing-page .lbk-rich-text-component.automated-testing--wwu--title h2 {
+    padding: 30px 35px !important;
+  }
+  .automated-testing-page .automated-testing--faq .faq-container :is(.faq-body,.faq-question) {
+    width: 100% !important;
+  }
+  .automated-testing-page .automated-testing--faq .faq-container .faq-question {
+  text-align: center !important;
+  }
+  .automated-testing-page .automated-testing--faq .faq-container .faq-body ul{
+    margin: 0 !important;
+    padding-left: 1rem !important;
+  }
+  .automated-testing-page .automated-testing--faq .faq-container .faq-body ul li{
+    text-align: left !important;
+  }
+  
+}
+
+@media screen and (max-width:1442px) and (min-width:430px) {
+  .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.pl-section-bg-img {
+    flex-wrap: nowrap;
+    padding: 40px 6% !important;
+}
+.automating-testing--header-title h1 {
+  width: 24rem;
+  font-size: 40px;
+  margin-bottom: 1.4rem !important;
+}
+.automated-testing-page .not-sure-text{
+  padding: 0;
+  margin: 0;
+}
+.automated-testing-page .checkboxes-container ul {
+  display: flex;
+  margin: 0 !important;
+  margin-bottom: 6rem !important;
+  padding: 0;
+  justify-content: center;
+}
+.automated-testing-page .checkboxes-container ul li{
+  margin-top: 22px !important;
+}
+.automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50{
+  padding: 0 1rem !important;
+}
+
+}
+@media screen and (max-width:700px) and (min-width:430px) {
+  .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.pl-section-bg-img {
+    flex-wrap: nowrap;
+    padding: 40px 6% !important;
+}
+  .automating-testing--header-title h1 {
+    width: 17rem;
+    font-size: 40px;
+    margin-bottom: 1.2rem !important;
+  }
+}
+
+
+@media screen and (max-width: 750px) and (min-width:590px){
+  .automated-testing-page .lbk-rich-text-component.automated-testing--wwu--title h2 {
+    margin: 0 !important;
+}
+}

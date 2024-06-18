@@ -170,3 +170,24 @@ header.navbar-expand-lg {
 //    }
 //  }
 }
+
+
+header{
+  nav{
+  .navbar-nav{
+    @include for-tablet-landscape-between{
+      flex-direction: row !important;
+    }
+  }
+}
+}
+
+footer{
+  nav{
+  .navbar-nav{
+    @include for-tablet-landscape-between{
+      margin-bottom: 2rem;
+    }
+  }
+}
+}
