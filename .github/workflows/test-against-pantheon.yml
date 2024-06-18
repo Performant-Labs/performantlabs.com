@@ -20,7 +20,7 @@ env:
 
   # for reporting
   BUILD_NAME: ${{ github.workflow }}
-  BUILD_ID: ${{ github.run_number }}
+  BUILD_NUMBER: ${{ github.run_number }}
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
