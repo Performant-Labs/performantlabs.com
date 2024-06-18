@@ -23,7 +23,11 @@ module.exports = defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'],
-    ['playwright-ctrf-json-reporter', {}]
+    ['playwright-ctrf-json-reporter', {
+      buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
+      buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
+      buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
+    }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
