@@ -19,7 +19,9 @@
 @mixin for-big-desktop-up {
   @media (min-width: 1800px) { @content; }
 }
-
+@mixin for-tablet-landscape-between {
+  @media (max-width: 1010px) and (min-width:430px) { @content; }
+}
 @mixin for-retina-2 {
   @media screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) { @content; }
 }

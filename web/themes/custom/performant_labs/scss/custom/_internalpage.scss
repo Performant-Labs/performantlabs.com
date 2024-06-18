@@ -149,3 +149,23 @@
     font-size: 1.8rem;
   }
 }
+@media screen and (max-width: 767px) {
+.page-node-type-landing-page {
+  .lbk-rich-text-component {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+}
+
+
+
+/* ***************** note-download-logs-from-pantheon-page *********************/
+.note-download-logs-from-pantheon-page {
+  :is(pre, strong) {
+    width: 100%;
+    display: block;
+  }
+}
