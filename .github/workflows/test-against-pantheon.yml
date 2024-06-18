@@ -136,8 +136,30 @@ jobs:
           retention-days: 30
 
       - name: Send results to Slack
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && vars.SLACK_ENABLED }}
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json
+
+      - name: Send results by email
+        if: ${{ !cancelled() && vars.MAIL_ENABLED }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.MAIL_SERVER_ADDRESS }}
+          server_port: ${{ secrets.MAIL_SERVER_PORT }}
+          secure: ${{ secrets.MAIL_TLS_ENABLE }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          to: ${{ vars.MAIL_TO }}
+          from: ${{ vars.MAIL_FROM }}
+          subject: "Run ${{ job.status }}: ${{ env.BUILD_NAME }}"
+          body: |
+            ${{ env.BUILD_NAME }} #${{ env.BUILD_NUMBER }}: Job status ${{ job.status }}
+            View workflow run: ${{ env.BUILD_URL }}
+          html_body: |
+            ${{ env.BUILD_NAME }} #${{ env.BUILD_NUMBER }}: Job status ${{ job.status }}
+
+            [View workflow run](${{ env.BUILD_URL }})
+          ignore_cert: true
+          convert_markdown: true
 
       - run: echo "🍏 Job's status ${{ job.status }}."
