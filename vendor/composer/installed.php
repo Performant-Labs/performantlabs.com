@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'drupal/recommended-project',
-        'pretty_version' => 'dev-IL/test-playwright',
-        'version' => 'dev-IL/test-playwright',
-        'reference' => 'df80e2e436b54cad842b966c73314bbd0a65975a',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'e7e093b6d0ed9aac3677dec625babe3a6400ebd6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -803,9 +803,9 @@
             'dev_requirement' => false,
         ),
         'drupal/recommended-project' => array(
-            'pretty_version' => 'dev-IL/test-playwright',
-            'version' => 'dev-IL/test-playwright',
-            'reference' => 'df80e2e436b54cad842b966c73314bbd0a65975a',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'e7e093b6d0ed9aac3677dec625babe3a6400ebd6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -967,9 +967,9 @@
             'dev_requirement' => false,
         ),
         'enshrined/svg-sanitize' => array(
-            'pretty_version' => '0.18.0',
-            'version' => '0.18.0.0',
-            'reference' => '6a2c069dab3843ca4d887ff09c972fc7033888d0',
+            'pretty_version' => '0.19.0',
+            'version' => '0.19.0.0',
+            'reference' => 'e95cd17be68e45f523cbfb0fe50cdd891b0cf20e',
             'type' => 'library',
             'install_path' => __DIR__ . '/../enshrined/svg-sanitize',
             'aliases' => array(),
