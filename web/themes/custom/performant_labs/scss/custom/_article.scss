@@ -4,7 +4,7 @@
  * For /article.
  */
 .articles-page main .container {
-  height: 3300px;
+
 
   .block-views-blockarticles-block-3 {
     margin: 70px 0 120px;
@@ -177,7 +177,6 @@
   //
   article.node--view-mode-teaser {
     border-bottom: 2px solid $light-gray3;
-    margin: 20px 0 20px;
     padding-bottom: 20px;
     color: $light-gray2;
     .field--name-created {
@@ -191,7 +190,10 @@
     }
   }
 }
-
+.article-above-fold {
+	background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
+	padding: 10px;
+}
 //
 // View Mode: Full.
 // One /articles/xxx.
@@ -216,8 +218,8 @@
         left: 0;
         img {
           display: block;
-          height: 700px;
-          width: auto;
+          height: auto;
+          width: 100%;
         }
       }
       &:after {
@@ -251,7 +253,178 @@
       }
     }
     .field--name-body {
-      padding-top: 100px;
+      padding-top: 30px;
+      width: 100%;
+      p{
+        a{
+          display: block;
+          overflow-wrap: break-word;
+        }
+      }
     }
   }
 }
+.articles-why-drupal-page{
+  &.page-node-type-article {
+    .field--name-title {
+      font-size: 23px !important;
+    }
+}
+}
+.articles-version-10-automated-testing-kit-ready-page {
+  &.page-node-type-article {
+    :is(.node--view-mode-full .node__content .field--name-body, pre, strong) {
+      width: 100%;
+    }
+  }
+
+  
+}
+.page-node-type-article {
+  .node--view-mode-full{
+    .node__content{
+      .field--name-body{
+        img{
+          width: 100%;
+          height: auto;
+        }
+        ul {
+          padding-left: 2rem;
+        }
+      }
+    }
+  }
+}
+
+
+
+.articles-page {
+  main{
+    .container{
+      .block-views-blockarticles-block-2{
+        .view-content{
+          margin-bottom: unset !important;
+        }
+      }
+    }
+  }
+  :is(.layout--twocol-section.layout--twocol-section--50-50 > .layout__region--first, .layout--twocol-section.layout--twocol-section--50-50 > .layout__region--second) {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+
+
+@media screen and (max-width:767px) {
+  .page-node-type-article  {
+    .node--view-mode-full{
+      .node__content {
+        .image-container {
+          .field--name-title{
+            height: unset !important;
+            font-size: 30px;
+            line-height: 1.5;
+            min-width: 90%;
+            
+          }
+        }
+      }
+    }
+  } 
+  .articles-badcamp-2020-talk-page.page-node-type-article{
+    .node--view-mode-full{
+      .node__content{
+        .image-container{
+          .field--name-title {
+            font-size: 28px;
+          }
+        }
+      }
+    }
+  }
+
+  .articles-drupalcon-2020-talk-page {
+    &.page-node-type-article {
+      .node--view-mode-full {
+        .node__content {
+          .image-container {
+            .field--name-title {
+              font-size: 27px;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+
+  .articles-page {
+    .sendfox-form {
+      width: unset !important;
+     }
+  }
+}
+
+@media screen and (max-width: 950px) and (min-width: 425px) {
+  .articles-badcamp-2020-talk-page.page-node-type-article{
+    .node--view-mode-full{
+      .node__content{
+        .image-container{
+          .field--name-title {
+            height: unset !important;
+          }
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 1024px) and (min-width:767px) {
+  .articles-drupalcon-2020-talk-page {
+    &.page-node-type-article {
+      .node--view-mode-full {
+        .node__content {
+          .image-container {
+            .field--name-title {
+              min-width: 90% !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+
+}
+
+
+@media screen and (max-width: 420px) {
+  .page-node-type-article {
+    .node--view-mode-full {
+      .node__content {
+        .image-container {
+          .field--name-title {
+            font-size: 27px !important;
+          }
+        }
+      }
+    }
+  }
+  
+}
+
+@media screen and (max-width: 370px) {
+  .page-node-type-article {
+    .node--view-mode-full {
+      .node__content {
+        .image-container {
+          .field--name-title {
+            font-size: 22px !important;
+          }
+        }
+      }
+    }
+  }  
+  }
