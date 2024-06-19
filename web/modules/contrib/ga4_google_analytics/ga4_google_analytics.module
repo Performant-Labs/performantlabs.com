@@ -5,6 +5,7 @@
  * The ga4_google_analytics module.
  */
 
+use Drupal\Component\Utility\Xss;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
 
@@ -64,12 +65,17 @@ function ga4_google_analytics_page_attachments(array &$attachments) {
       }
 
       if ($visibility["negate"] xor $condition->evaluate()) {
+        $script_attributes = $config->get("scripts_custom_attributes") ?? "";
+        //Sanitize the script attributes
+        $script_attributes = Xss::filter($script_attributes);
+        
         $attachments["#attached"]["html_head"][] = [
           [
             "#type" => "inline_template",
             "#template" => "",
             "#theme" => "ga4_google_analytics",
             "#measurement_id" => $measurement_id,
+            "#script_attributes" => $script_attributes,
           ],
           "ga4_google_analytics",
         ];
@@ -86,6 +92,7 @@ function ga4_google_analytics_theme() {
     "ga4_google_analytics" => [
       "variables" => [
         "measurement_id" => "",
+        "script_attributes" => "",
       ],
     ],
   ];

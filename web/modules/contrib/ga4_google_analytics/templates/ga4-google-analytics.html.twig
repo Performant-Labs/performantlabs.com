@@ -1,12 +1,14 @@
 {#
-/**
- * @file
  * GA4 Google Analytics HTML code.
- */
- #}
+ *
+ * Available variables:
+ *   - measurement_id: GA4 Measurement ID.
+ *   - script_attributes: Raw script attributes.
+#}
+
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ measurement_id }}"></script>
-<script>
+<script async {{ script_attributes|raw }} src="https://www.googletagmanager.com/gtag/js?id={{ measurement_id }}"></script>
+<script {{ script_attributes|raw }}>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());

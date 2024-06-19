@@ -5193,19 +5193,6 @@ a.btn-primary.button:visited:active {
   height: 100%;
   width: 100%;
 }
-.articles-page main .container .node--view-mode-card-large .node__content:after {
-  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  height: 100%;
-  opacity: 0.75;
-  transition: all 0.5s ease-in-out;
-  width: 100%;
-  will-change: opacity;
-}
 .articles-page main .container .node--view-mode-card-large .node__content .field--name-title {
   font-family: "Rubik", sans-serif;
   font-size: 40px;
@@ -5319,7 +5306,7 @@ a.btn-primary.button:visited:active {
 }
 @media (max-width: 899px) {
   .articles-page main .container article.node--view-mode-card-medium .node__content .field--name-title h2 a {
-    font-size: 22px;
+    font-size: 32px;
     line-height: 1.5;
   }
 }
@@ -5408,6 +5395,11 @@ a.btn-primary.button:visited:active {
   font-size: 23px !important;
 }
 
+.articles-we-all-benefit-open-source-page.page-node-type-article .field--name-title {
+  font-size: 22px !important;
+  height: unset !important;
+}
+
 .articles-version-10-automated-testing-kit-ready-page.page-node-type-article :is(.node--view-mode-full .node__content .field--name-body, pre, strong) {
   width: 100%;
 }
@@ -5429,17 +5421,14 @@ a.btn-primary.button:visited:active {
 }
 
 @media screen and (max-width: 767px) {
+  article.node--view-mode-teaser div.field--name-title h2 {
+    font-size: 1.7rem;
+  }
   .page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
     height: unset !important;
-    font-size: 30px;
+    font-size: 28px;
     line-height: 1.5;
     min-width: 90%;
-  }
-  .articles-badcamp-2020-talk-page.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
-    font-size: 28px;
-  }
-  .articles-drupalcon-2020-talk-page.page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
-    font-size: 27px;
   }
   .articles-page .sendfox-form {
     width: unset !important;
@@ -5458,6 +5447,14 @@ a.btn-primary.button:visited:active {
 @media screen and (max-width: 420px) {
   .page-node-type-article .node--view-mode-full .node__content .image-container .field--name-title {
     font-size: 27px !important;
+  }
+}
+@media screen and (max-width: 340px) {
+  .articles-page main .node--view-mode-card-medium .node__content .field--name-title h2 a {
+    font-size: 27px !important;
+  }
+  article.node--view-mode-teaser div.field--name-title h2 {
+    font-size: 1.5rem;
   }
 }
 @media screen and (max-width: 370px) {

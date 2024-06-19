@@ -91,6 +91,22 @@ class Ga4GoogleAnalyticsSettings extends ConfigFormBase {
       "#required" => TRUE,
     ];
 
+    $form["ga4_google_analytics_api_scripts_configuration"] = [
+      "#type" => "details",
+      "#title" => $this->t("GA4 Google Analytics Scripts Configuration"),
+      "#id" => "ga4_google_analytics_api_scripts_configuration",
+      "#open" => TRUE,
+    ];
+
+    $form["ga4_google_analytics_api_scripts_configuration"]["scripts_custom_attributes"] = [
+      "#id" => "scripts_custom_attributes",
+      "#type" => "textfield",
+      "#title" => $this->t("GA4 Scripts Custom Attributes"),
+      "#default_value" => $config->get("scripts_custom_attributes") ? $config->get("scripts_custom_attributes") : "",
+      "#description" =>
+      $this->t('Provide inline script attributes. For example: <em>type=text/plain data-category=analytics</em>'),
+    ];
+
     $form["settings"] = [
       "#type" => "vertical_tabs",
       "#weight" => 50,
@@ -156,6 +172,7 @@ class Ga4GoogleAnalyticsSettings extends ConfigFormBase {
 
     $this->condition->submitConfigurationForm($form, $form_state);
     $config->set("measurement_id", $form_state->getValue("measurement_id"));
+    $config->set("scripts_custom_attributes", $form_state->getValue("scripts_custom_attributes"));
     $config->set("ga4_access_roles", $form_state->getValue("ga4_access_roles"));
     $config->set("ga4_access_pages", $this->condition->getConfiguration());
 
