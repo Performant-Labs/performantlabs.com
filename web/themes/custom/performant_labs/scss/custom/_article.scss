@@ -324,14 +324,13 @@
     }
   }
 
-
   .page-node-type-article  {
     .node--view-mode-full{
       .node__content {
         .image-container {
           .field--name-title{
             height: unset !important;
-            font-size: 30px;
+            font-size: 28px;
             line-height: 1.5;
             min-width: 90%;
             
@@ -340,33 +339,6 @@
       }
     }
   } 
-  .articles-badcamp-2020-talk-page.page-node-type-article{
-    .node--view-mode-full{
-      .node__content{
-        .image-container{
-          .field--name-title {
-            font-size: 28px;
-          }
-        }
-      }
-    }
-  }
-
-  .articles-drupalcon-2020-talk-page {
-    &.page-node-type-article {
-      .node--view-mode-full {
-        .node__content {
-          .image-container {
-            .field--name-title {
-              font-size: 27px;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-
 
   .articles-page {
     .sendfox-form {
