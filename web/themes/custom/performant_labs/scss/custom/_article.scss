@@ -30,19 +30,6 @@
       text-align: center;
       height: 100%;
       width: 100%;
-      &:after {
-        background: linear-gradient(180deg,transparent,rgba(0,0,0,.75));
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: block;
-        height: 100%;
-        opacity: .75;
-        transition: all .5s ease-in-out;
-        width: 100%;
-        will-change: opacity;
-      }
 
       .field--name-title {
         font-family: $font-family-rubik;
@@ -156,7 +143,7 @@
             color: $white-base;
             font-size: 36px;
             @include for-tablet-landscape-down {
-              font-size: 22px;
+              font-size: 32px;
               line-height: 1.5;
             }
           }
@@ -271,6 +258,16 @@
     }
 }
 }
+
+.articles-we-all-benefit-open-source-page{
+  &.page-node-type-article {
+    .field--name-title {
+      font-size: 22px !important;
+      height: unset !important;
+    }
+}
+}
+
 .articles-version-10-automated-testing-kit-ready-page {
   &.page-node-type-article {
     :is(.node--view-mode-full .node__content .field--name-body, pre, strong) {
@@ -318,13 +315,22 @@
 
 
 @media screen and (max-width:767px) {
+
+  article.node--view-mode-teaser {
+    div.field--name-title {
+      h2 {
+        font-size: 1.7rem;
+      }
+    }
+  }
+
   .page-node-type-article  {
     .node--view-mode-full{
       .node__content {
         .image-container {
           .field--name-title{
             height: unset !important;
-            font-size: 30px;
+            font-size: 28px;
             line-height: 1.5;
             min-width: 90%;
             
@@ -333,33 +339,6 @@
       }
     }
   } 
-  .articles-badcamp-2020-talk-page.page-node-type-article{
-    .node--view-mode-full{
-      .node__content{
-        .image-container{
-          .field--name-title {
-            font-size: 28px;
-          }
-        }
-      }
-    }
-  }
-
-  .articles-drupalcon-2020-talk-page {
-    &.page-node-type-article {
-      .node--view-mode-full {
-        .node__content {
-          .image-container {
-            .field--name-title {
-              font-size: 27px;
-            }
-          }
-        }
-      }
-    }
-  }
-  
-
 
   .articles-page {
     .sendfox-form {
@@ -414,6 +393,34 @@
   }
   
 }
+
+@media screen and (max-width: 340px) {
+  .articles-page {
+    main {
+      .node--view-mode-card-medium{
+      .node__content {
+    
+          .field--name-title {
+            h2{
+              a{
+            font-size: 27px !important;
+              }
+            }
+          }
+        
+      }
+      }
+    }
+  }  
+
+  article.node--view-mode-teaser {
+    div.field--name-title {
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  }
 
 @media screen and (max-width: 370px) {
   .page-node-type-article {
