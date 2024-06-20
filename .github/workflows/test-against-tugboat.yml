@@ -12,7 +12,6 @@ on:
 
 env:
   PHP_VERSION: '8.1'
-  GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
 jobs:
   Test-on-Preview:
@@ -31,11 +30,6 @@ jobs:
 
       - name: Check out repository code.
         uses: actions/checkout@v3
-
-      - name: Change to Github working directory.
-        run: |
-          cd "$GITHUB_WORKING_DIR"
-          pwd
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
@@ -59,7 +53,7 @@ jobs:
           set -x
           curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
           tar -zxf tugboat.tar.gz
-          echo $GITHUB_WORKING_DIR >> $GITHUB_PATH
+          echo $GITHUB_WORKSPACE >> $GITHUB_PATH
           echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
 
       - name: Verify that test runner can communicate with Tugboat via shell
