@@ -14,12 +14,18 @@ on:
       multienv:
         description: Other environment (for multi-environment setup)
         required: false
+      threads:
+        description: Thread count
+        default: 2
 
 env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
+
+  # for parallelization
+  THREADS: ${{ github.event.inputs.threads }}
 
   # for reporting
   BUILD_NAME: ${{ github.workflow }}
