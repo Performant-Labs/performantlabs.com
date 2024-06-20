@@ -25,7 +25,15 @@ env:
   BUILD_NAME: ${{ github.workflow }}
   BUILD_NUMBER: ${{ github.run_number }}
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
+  MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
+  MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
+  MAIL_USER: ${{ secrets.ATK_MAIL_USER }}
+  MAIL_PASSWORD: ${{ secrets.ATK_MAIL_PASSWORD }}
+  MAIL_TLS_ENABLE: ${{ secrets.ATK_MAIL_TLS_ENABLE }}
+  MAIL_FROM: ${{ vars.ATK_MAIL_FROM }}
+  MAIL_TO: ${{ vars.ATK_MAIL_TO }}
+  MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
 
 jobs:
   Test-on-Dev:
@@ -135,31 +143,15 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Send results by email
+        if: ${{ !cancelled() && vars.ATK_MAIL_ENABLED }}
+        run: |
+          export BUILD_STATUS=${{ job.status }} && node send-mail-ctrf.js
+
       - name: Send results to Slack
-        if: ${{ !cancelled() && vars.SLACK_ENABLED }}
+        if: ${{ !cancelled() && vars.ATK_SLACK_ENABLED }}
+        shell: bash
         run: |
           npx slack-ctrf results ctrf/ctrf-report.json
-
-      - name: Send results by email
-        if: ${{ !cancelled() && vars.MAIL_ENABLED }}
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: ${{ secrets.MAIL_SERVER_ADDRESS }}
-          server_port: ${{ secrets.MAIL_SERVER_PORT }}
-          secure: ${{ secrets.MAIL_TLS_ENABLE }}
-          username: ${{ secrets.MAIL_USERNAME }}
-          password: ${{ secrets.MAIL_PASSWORD }}
-          to: ${{ vars.MAIL_TO }}
-          from: ${{ vars.MAIL_FROM }}
-          subject: "Run ${{ job.status }}: ${{ env.BUILD_NAME }}"
-          body: |
-            ${{ env.BUILD_NAME }} #${{ env.BUILD_NUMBER }}: Job status ${{ job.status }}
-            View workflow run: ${{ env.BUILD_URL }}
-          html_body: |
-            ${{ env.BUILD_NAME }} #${{ env.BUILD_NUMBER }}: Job status ${{ job.status }}
-
-            [View workflow run](${{ env.BUILD_URL }})
-          ignore_cert: true
-          convert_markdown: true
 
       - run: echo "🍏 Job's status ${{ job.status }}."
