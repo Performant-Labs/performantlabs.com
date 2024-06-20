@@ -11,11 +11,14 @@ on:
           - test
           - live
         default: dev
+      multienv:
+        description: Other environment (for multi-environment setup)
+        required: false
 
 env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
-  PANTHEON_ENV: ${{ github.event.inputs.env }}
+  PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
   GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
 
   # for reporting
@@ -33,9 +36,6 @@ jobs:
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
-      DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
 
     runs-on: ubuntu-latest
     steps:
@@ -120,8 +120,8 @@ jobs:
       - name: Change playwright.config.js
         run: |
           set -x
-          VAR=$(echo $PANTHEON_ENV | tr "[:lower:]" "[:upper:]")_SITE_URL
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< ${!VAR})"'/g" playwright.config.js
+          SITE_URL=${{ format('https://{1}-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME, env.PANTHEON_ENV) }}
+          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $SITE_URL)"'/g" playwright.config.js
           echo "----playwright.config.js----"
           cat playwright.config.js
 

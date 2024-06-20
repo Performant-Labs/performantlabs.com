@@ -20,9 +20,6 @@ jobs:
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
-      DEV_SITE_URL: ${{ format('https://dev-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      TEST_SITE_URL: ${{ format('https://test-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
-      LIVE_SITE_URL: ${{ format('https://live-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME) }}
 
     runs-on: ubuntu-latest
     steps:
