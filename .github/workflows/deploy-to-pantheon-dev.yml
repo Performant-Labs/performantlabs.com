@@ -8,7 +8,6 @@ env:
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: 'dev'
   PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
-  GITHUB_WORKING_DIR: '/home/runner/work/performantlabs.com/performantlabs.com'
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -29,16 +28,6 @@ jobs:
 
       - name: Check out repository code.
         uses: actions/checkout@v3
-
-      - name: Change to Github working directory.
-        run: |
-          cd "$GITHUB_WORKING_DIR"
-          pwd
-
-      - name: Change to Github working directory.
-        run: |
-          cd "$GITHUB_WORKING_DIR"
-          pwd
 
       - name: List the directories in the project (x1).
         run: |
@@ -126,7 +115,7 @@ jobs:
 
       - name: Copy code to the local clone of the Pantheon repository.
         run: |
-          cd "$GITHUB_WORKING_DIR"
+          cd "$GITHUB_WORKSPACE"
           pwd
 
           # Pantheon needs special .gitignore
@@ -169,7 +158,7 @@ jobs:
       - name: Trigger tests
         run: |
           set -x
-          cd $GITHUB_WORKING_DIR
+          cd $GITHUB_WORKSPACE
           BRANCH=${{ github.ref_name }}
           gh workflow run test-against-pantheon.yml --ref $BRANCH -f env=dev
 

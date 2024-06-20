@@ -19,9 +19,9 @@ module.exports = defineConfig({
   /* Retry on CI only */
   retries: 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? parseInt(process.env.THREADS) || 1 : undefined,
+  workers: process.env.CI ? parseInt(process.env.CI_THREADS) || 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
+  reporter: process.env.CI_SHARDING ? 'blob' : [
     ['html'],
     ['playwright-ctrf-json-reporter', {
       buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
