@@ -169,3 +169,44 @@
     display: block;
   }
 }
+
+
+/* ***************** About-us-page  ********************************************/
+.about-us-page{
+  .lbk-block--title{
+margin:unset !important;
+padding-top: 2rem;
+  }
+  .PL-section-medium {
+    .data-column {
+      img{
+        min-height: 14rem;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width:768px) and (min-width:845px) {
+  .about-us-page{
+    .node__content{
+  .layout--threecol-section {
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    justify-content: center;
+}
+    }
+  }
+}
+
+@media screen and (max-width:746px) and (min-width:470px) {
+  .about-us-page{
+    .node__content{
+  .layout--threecol-section {
+    display: grid;
+    grid-template-columns: 45% 45%;
+    justify-content: center;
+}
+    }
+  }
+}
