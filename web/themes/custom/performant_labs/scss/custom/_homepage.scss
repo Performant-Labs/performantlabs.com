@@ -119,12 +119,13 @@ p{
   }
   .render-row {
     display: flex;
+    column-gap: 1.2rem;
     @include for-phone-only {
       flex-direction: column;
       text-align: center;
     }
     .render-image {
-      margin: 7px 40px 0 0;
+      // margin: 7px 40px 0 0;
       .field--name-field-image  img {
         height: auto;
         width: 165px;
@@ -492,9 +493,35 @@ p{
 @media screen and (max-width: 800px) and (min-width: 425px) {
   
   .path-frontpage {
+    .render-row {
+      display: flex;
+      margin-bottom: 1.5rem;
+      .render-content{
+        h2{
+          padding: 0 !important;
+        }
+      }
+  }
+  h2.lbk-block--title{
+    max-width:unset !important;
+    display: block !important;
+  }
+  .layout--twocol-section.layout--twocol-section--25-75{
+    display:flex;
+    flex-direction: column;
+    .recent-articles--left{
+      text-align: center;
+      padding: 0;
+    }
+    .block-layout-builder-kit {
+      margin-bottom: 40px !important;
+  }
+  }
     ul.clients-list {
       display: grid !important;
-      grid-template-columns: 31% 44%;
+      grid-template-columns: 32% 44%;
+      grid-column-gap: 4rem;
+      width: 100% !important;
     }
 
     .highlighted-colors--text .highlighted-text {
@@ -504,7 +531,7 @@ p{
 
     .clients-block ul.clients-list li {
       padding: 20px 5px !important;
-      width: 50% !important;
+      width: 100% !important;
     }
 
     .layout.layout--threecol-section.layout--threecol-section--33-34-33.PL-section-default {

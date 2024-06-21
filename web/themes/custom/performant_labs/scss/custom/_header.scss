@@ -80,6 +80,7 @@ header.navbar-expand-lg {
       padding-left: 0;
       padding-right: 0;
       text-transform: uppercase;
+      width: max-content;
       &:hover {
         color: rgba(255,255,255,0.7);
       }
@@ -177,6 +178,8 @@ header{
   .navbar-nav{
     @include for-tablet-landscape-between{
       flex-direction: row !important;
+      flex-wrap: wrap;
+      padding-top: 1rem;
     }
   }
 }
