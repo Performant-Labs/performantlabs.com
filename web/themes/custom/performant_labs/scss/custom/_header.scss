@@ -108,7 +108,8 @@ header.navbar-expand-lg {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    padding: 25px 0;
+    padding: 25px 0 25px 25px;
+    padding-right: 0 !important;
     @include for-phone-only {
       padding: 25px 12px 25px 20px;
     }
@@ -185,6 +186,17 @@ header{
 }
 }
 
+@media screen and (max-width:670px) and (min-width:425px) {
+  header{
+   .region-header{
+    .menu--main{
+      ul.navbar-nav > li > a{
+        margin-right: 12px !important;
+      }
+    }
+   }
+}
+
 footer{
   nav{
   .navbar-nav{
@@ -193,4 +205,18 @@ footer{
     }
   }
 }
+}
+}
+
+@media screen and (max-width:616px) and (min-width:425px) {
+  header{
+    .region-header{
+     .menu--main{
+       ul.navbar-nav > li > a{
+         margin-right: 9px !important;
+       }
+     }
+    }
+ }
+
 }

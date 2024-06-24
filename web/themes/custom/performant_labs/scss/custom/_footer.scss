@@ -58,6 +58,21 @@ footer.navbar {
     padding-left: 0;
     padding-right: 0;
     width: 100%;
+
+    @include for-tablet-landscape-between{
+      flex-direction: column;
+      align-items: center;
+      row-gap: 1.5rem;
+      text-align: center;
+      #block-footer >ul >li{
+        padding-top: 3px;
+        padding-bottom: 4px;
+      }
+      #block-sociallinks ul.navbar-nav{
+        display: flex !important;
+        flex-direction: row;
+      }
+    }
     @include for-phone-only {
       align-items: center;
       flex-direction: column;
