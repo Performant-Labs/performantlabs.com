@@ -108,8 +108,12 @@ header.navbar-expand-lg {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
-    padding: 25px 0 25px 25px;
-    padding-right: 0 !important;
+    padding: 25px;
+    @include for-tablet-landscape-down{
+      padding: 25px 0 25px 25px;
+      padding-right: 0 !important;
+    }
+    // padding-right: 0 !important;
     @include for-phone-only {
       padding: 25px 12px 25px 20px;
     }

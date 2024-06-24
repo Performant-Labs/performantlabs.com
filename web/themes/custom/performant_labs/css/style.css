@@ -953,8 +953,13 @@ main .container {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 25px 0 25px 25px;
-  padding-right: 0 !important;
+  padding: 25px;
+}
+@media (max-width: 899px) {
+  .region-header .container {
+    padding: 25px 0 25px 25px;
+    padding-right: 0 !important;
+  }
 }
 @media (max-width: 599px) {
   .region-header .container {
