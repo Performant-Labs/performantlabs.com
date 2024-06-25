@@ -57,7 +57,7 @@ p{
       flex-flow: row wrap;
       justify-content: center;
       margin: 40px auto 15px;
-      // width: 900px;
+      width: 900px;
       @include for-phone-only {
         width: 100%;
         li{

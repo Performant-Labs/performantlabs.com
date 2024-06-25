@@ -4512,6 +4512,7 @@ a.btn-primary.button:visited:active {
   flex-flow: row wrap;
   justify-content: center;
   margin: 40px auto 15px;
+  width: 900px;
 }
 @media (max-width: 599px) {
   .path-frontpage .clients-block ul.clients-list {
