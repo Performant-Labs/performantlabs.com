@@ -30,7 +30,7 @@ trait AccessEventTrait {
    *
    * @var \Drupal\Core\Access\AccessResultInterface
    */
-  protected $accessResult;
+  protected AccessResultInterface $accessResult;
 
   /**
    * {@inheritdoc}

@@ -5,6 +5,7 @@ namespace Drupal\field_event_dispatcher\Event\Field;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_event_dispatcher\FieldHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventFactoryInterface;
 use Drupal\hook_event_dispatcher\Event\EventFactoryTrait;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
@@ -12,13 +13,10 @@ use Drupal\hook_event_dispatcher\Event\EventInterface;
 /**
  * Class WidgetCompleteFormAlterEvent.
  *
- * @HookEvent(
- *   id = "widget_complete_form_alter",
- *   alter = "field_widget_complete_form"
- * )
  *
  * @phpstan-consistent-constructor
  */
+#[HookEvent(id: 'widget_complete_form_alter', alter: 'field_widget_complete_form')]
 class WidgetCompleteFormAlterEvent extends Event implements EventInterface, EventFactoryInterface {
 
   use EventFactoryTrait;

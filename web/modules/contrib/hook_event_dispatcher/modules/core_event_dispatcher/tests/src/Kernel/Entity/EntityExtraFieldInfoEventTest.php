@@ -77,7 +77,7 @@ class EntityExtraFieldInfoEventTest extends KernelTestBase {
    *
    * @throws \Exception
    */
-  public function testEntityExtraFieldInfoEvent($method): void {
+  public function testEntityExtraFieldInfoEvent(string $method): void {
     $this->listen(EntityHookEvents::ENTITY_EXTRA_FIELD_INFO, $method);
     $this->assertExtraFields();
   }

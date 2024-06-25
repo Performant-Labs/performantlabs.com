@@ -5,15 +5,12 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityViewEvent.
- *
- * @HookEvent(
- *   id = "entity_view",
- *   hook = "entity_view"
- * )
  */
+#[HookEvent(id: 'entity_view', hook: 'entity_view')]
 class EntityViewEvent extends AbstractEntityEvent {
 
   /**
@@ -42,7 +39,7 @@ class EntityViewEvent extends AbstractEntityEvent {
     array &$build,
     EntityInterface $entity,
     private readonly EntityViewDisplayInterface $display,
-    private readonly string $viewMode
+    private readonly string $viewMode,
   ) {
     parent::__construct($entity);
 

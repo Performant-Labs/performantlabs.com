@@ -3,6 +3,7 @@
 namespace Drupal\views_event_dispatcher\Event\Views;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
@@ -10,9 +11,8 @@ use function array_merge_recursive;
 
 /**
  * Class ViewsDataEvent.
- *
- * @HookEvent(id="views_data", hook="views_data")
  */
+#[HookEvent(id: 'views_data', hook: 'views_data')]
 final class ViewsDataEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**
@@ -30,7 +30,7 @@ final class ViewsDataEvent extends Event implements EventInterface, HookReturnIn
    *
    * @see \hook_views_data()
    */
-  public function addData(array $data) {
+  public function addData(array $data): void {
     $this->data = array_merge_recursive($this->data, $data);
   }
 

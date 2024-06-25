@@ -59,7 +59,7 @@ class BlockAccessEventTest extends KernelTestBase {
    *
    * @throws \Exception
    */
-  public function testBlockAccessEvent(AccessResultInterface $accessResult, $expected): void {
+  public function testBlockAccessEvent(AccessResultInterface $accessResult, bool $expected): void {
     $this->listen(BlockHookEvents::BLOCK_ACCESS, 'onBlockAccess');
 
     $this->accessResult = $accessResult;

@@ -3,6 +3,7 @@
 namespace Drupal\hook_event_dispatcher\Event;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\Component\Plugin\Definition\PluginDefinitionInterface;
 use Drupal\Component\Plugin\Discovery\DiscoveryCachedTrait;
 use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 
@@ -33,7 +34,7 @@ abstract class PluginDefinitionAlterEventBase extends Event implements EventInte
   /**
    * Sets a plugin definition.
    */
-  public function setDefinition(string $plugin, $definition): void {
+  public function setDefinition(string $plugin, array|PluginDefinitionInterface $definition): void {
     $this->definitions[$plugin] = $definition;
   }
 

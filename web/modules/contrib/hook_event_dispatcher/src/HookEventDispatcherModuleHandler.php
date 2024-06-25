@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\hook_event_dispatcher;
 
 use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\DestructableInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 use Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManager;
@@ -12,7 +13,7 @@ use Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManager;
 /**
  * Hook event dispatcher module handler decorator.
  */
-final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface {
+final class HookEventDispatcherModuleHandler implements ModuleHandlerInterface, DestructableInterface {
 
   use HookEventDispatcherModuleHandlerProxyTrait;
 

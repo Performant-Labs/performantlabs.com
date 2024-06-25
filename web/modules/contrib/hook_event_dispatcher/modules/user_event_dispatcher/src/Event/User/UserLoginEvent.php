@@ -4,17 +4,14 @@ namespace Drupal\user_event_dispatcher\Event\User;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\user_event_dispatcher\UserHookEvents;
 
 /**
  * Class UserLoginEvent.
- *
- * @HookEvent(
- *   id  = "user_login",
- *   hook = "user_login"
- * )
  */
+#[HookEvent(id: 'user_login', hook: 'user_login')]
 final class UserLoginEvent extends Event implements EventInterface {
 
   /**

@@ -44,6 +44,7 @@ class HookEventPluginManagerTest extends TestCase {
     $factories = match ($type) {
       'hook' => $manager->getHookEventFactories('test'),
       'alter' => $manager->getAlterEventFactories('test'),
+      default => throw new \UnhandledMatchError(),
     };
     $this->assertTrue($factories->valid());
 

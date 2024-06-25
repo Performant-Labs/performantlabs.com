@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\File;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\FileHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class FileMimetypeMappingAlterEvent.
- *
- * @HookEvent(id="file_mimetype_mapping_alter", alter="file_mimetype_mapping")
  */
+#[HookEvent(id: 'file_mimetype_mapping_alter', alter: 'file_mimetype_mapping')]
 class FileMimetypeMappingAlterEvent extends Event implements EventInterface {
 
   /**

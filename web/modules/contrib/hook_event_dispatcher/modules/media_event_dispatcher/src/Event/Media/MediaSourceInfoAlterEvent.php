@@ -2,14 +2,14 @@
 
 namespace Drupal\media_event_dispatcher\Event\Media;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\PluginDefinitionAlterEventBase;
 use Drupal\media_event_dispatcher\MediaHookEvents;
 
 /**
  * Class MediaSourceInfoAlterEvent.
- *
- * @HookEvent(id="media_source_info_alter", alter="media_source_info")
  */
+#[HookEvent(id: 'media_source_info_alter', alter: 'media_source_info')]
 class MediaSourceInfoAlterEvent extends PluginDefinitionAlterEventBase {
 
   /**

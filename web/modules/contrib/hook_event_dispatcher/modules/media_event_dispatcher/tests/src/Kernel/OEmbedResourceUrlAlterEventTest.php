@@ -65,7 +65,7 @@ class OEmbedResourceUrlAlterEventTest extends KernelTestBase {
     $providerRepository->setProvider($this->getMockProvider());
 
     $url = $this->container->get('media.oembed.url_resolver')->getResourceUrl('https://vimeo.com/7073899');
-    $this->assertEquals('https://vimeo.com/api/oembed.json?url=https://vimeo.com/7073899&altered=1&width=1280', $url);
+    $this->assertEquals('https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/7073899&altered=1&width=1280', $url);
   }
 
   /**

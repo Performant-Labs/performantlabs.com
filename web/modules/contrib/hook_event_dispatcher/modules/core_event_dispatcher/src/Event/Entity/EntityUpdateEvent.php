@@ -4,15 +4,12 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityUpdateEvent.
- *
- * @HookEvent(
- *   id = "entity_update",
- *   hook = "entity_update"
- * )
  */
+#[HookEvent(id: 'entity_update', hook: 'entity_update')]
 class EntityUpdateEvent extends AbstractEntityEvent {
 
   /**

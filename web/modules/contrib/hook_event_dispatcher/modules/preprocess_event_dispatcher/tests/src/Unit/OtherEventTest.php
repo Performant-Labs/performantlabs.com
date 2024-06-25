@@ -135,14 +135,12 @@ final class OtherEventTest extends TestCase {
   /**
    * Create and assert the given event class.
    *
-   * @param string $class
+   * @param class-string<\Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface> $class
    *   Event class name.
    */
   private function createAndAssertEvent(string $class): void {
-    /** @var \Drupal\preprocess_event_dispatcher\Event\AbstractPreprocessEvent $class */
     $this->service->createAndDispatchKnownEvents($class::getHook(), $this->variables);
     self::assertSame($class::name(), $this->dispatcher->getLastEventName());
-    /** @var \Drupal\preprocess_event_dispatcher\Event\AbstractPreprocessEvent $event */
     $event = $this->dispatcher->getLastEvent();
     self::assertInstanceOf($class, $event);
     $variablesClass = str_replace(

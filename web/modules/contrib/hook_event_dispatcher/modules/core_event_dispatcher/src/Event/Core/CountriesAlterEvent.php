@@ -4,16 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Core;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\CoreHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class CountriesAlterEvent.
- *
- * @HookEvent(
- *   id = "countries_alter",
- *   alter = "countries"
- * )
  */
+#[HookEvent(id: 'countries_alter', alter: 'countries')]
 class CountriesAlterEvent extends Event implements EventInterface {
 
   /**

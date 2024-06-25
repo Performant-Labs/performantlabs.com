@@ -6,19 +6,17 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\TokenHookEvents;
 use Drupal\core_event_dispatcher\ValueObject\Token;
 use Drupal\core_event_dispatcher\ValueObject\TokenType;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class TokensInfoEvent.
  *
- * @HookEvent(
- *   id = "token_info",
- *   hook = "token_info"
- * )
  *
  * @see hook_token_info
  */
+#[HookEvent(id: 'token_info', hook: 'token_info')]
 final class TokensInfoEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**

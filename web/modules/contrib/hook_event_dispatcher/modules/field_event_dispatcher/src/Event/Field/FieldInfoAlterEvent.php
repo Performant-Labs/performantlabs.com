@@ -4,16 +4,13 @@ namespace Drupal\field_event_dispatcher\Event\Field;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\field_event_dispatcher\FieldHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Provides event to alter field info.
- *
- * @HookEvent(
- *   id="field_info_alter",
- *   alter="field_info"
- * )
  */
+#[HookEvent(id: 'field_info_alter', alter: 'field_info')]
 class FieldInfoAlterEvent extends Event implements EventInterface {
 
   /**

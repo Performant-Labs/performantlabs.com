@@ -5,15 +5,12 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityViewAlterEventEvent.
- *
- * @HookEvent(
- *   id = "entity_view_alter",
- *   alter = "entity_view"
- * )
  */
+#[HookEvent(id: 'entity_view_alter', alter: 'entity_view')]
 class EntityViewAlterEvent extends AbstractEntityEvent {
 
   /**

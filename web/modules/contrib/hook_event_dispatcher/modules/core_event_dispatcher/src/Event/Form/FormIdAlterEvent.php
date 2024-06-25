@@ -2,11 +2,12 @@
 
 namespace Drupal\core_event_dispatcher\Event\Form;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
+
 /**
  * Class FormIdAlterEvent.
- *
- * @HookEvent(id="form_id_alter", alter="form")
  */
+#[HookEvent(id: 'form_id_alter', alter: 'form')]
 class FormIdAlterEvent extends AbstractFormEvent {
 
   /**

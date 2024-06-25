@@ -3,13 +3,13 @@
 namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\PluginDefinitionAlterEventBase;
 
 /**
  * Class EntityTypeBuildEvent.
- *
- * @HookEvent(id="entity_type_alter", alter="entity_type")
  */
+#[HookEvent(id: 'entity_type_alter', alter: 'entity_type')]
 class EntityTypeAlterEvent extends PluginDefinitionAlterEventBase {
 
   /**

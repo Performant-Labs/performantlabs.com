@@ -4,14 +4,14 @@ namespace Drupal\webform_event_dispatcher\Event\WebformElement;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\webform_event_dispatcher\WebformHookEvents;
 
 /**
  * Class WebformElementAlterEvent.
- *
- * @HookEvent(id="webform_element_alter", alter="webform_element")
  */
+#[HookEvent(id: 'webform_element_alter', alter: 'webform_element')]
 class WebformElementAlterEvent extends Event implements EventInterface {
 
   /**

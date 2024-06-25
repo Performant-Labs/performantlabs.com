@@ -3,17 +3,14 @@
 namespace Drupal\user_event_dispatcher\Event\User;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\user_event_dispatcher\UserHookEvents;
 
 /**
  * Class UserCancelMethodsAlterEvent.
- *
- * @HookEvent(
- *   id = "user_cancel_methods_alter",
- *   alter = "user_cancel_methods"
- * )
  */
+#[HookEvent(id: 'user_cancel_methods_alter', alter: 'user_cancel_methods')]
 final class UserCancelMethodsAlterEvent extends Event implements EventInterface {
 
   /**

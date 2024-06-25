@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\field_event_dispatcher\Kernel;
 
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\field_event_dispatcher\Event\Field\WidgetCompleteFormAlterEvent;
@@ -90,6 +91,7 @@ class WidgetFormAlterEventTest extends KernelTestBase {
     $formState = new FormState();
     $formState->set('test', TRUE);
 
+    $this->assertInstanceOf(FieldableEntityInterface::class, $this->entity);
     $this->entityFormDisplay->buildForm($this->entity, $form, $formState);
 
     $this->assertArrayHasKey(self::TEST_DISPLAY_CONFIGURABLE, $form);

@@ -3,15 +3,12 @@
 namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityBundleCreateEvent.
- *
- * @HookEvent(
- *   id = "entity_bundle_create",
- *   hook = "entity_bundle_create"
- * )
  */
+#[HookEvent(id: 'entity_bundle_create', hook: 'entity_bundle_create')]
 class EntityBundleCreateEvent extends EntityBundleEventBase {
 
   /**

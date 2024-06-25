@@ -6,14 +6,14 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\Component\Plugin\Discovery\DiscoveryCachedTrait;
 use Drupal\Component\Plugin\Discovery\DiscoveryInterface;
 use Drupal\core_event_dispatcher\FileHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class FileTransferInfoEvent.
- *
- * @HookEvent(id="file_transfer_info", hook="filetransfer_info")
  */
+#[HookEvent(id: 'file_transfer_info', hook: 'filetransfer_info')]
 class FileTransferInfoEvent extends Event implements EventInterface, DiscoveryInterface, HookReturnInterface {
 
   use DiscoveryCachedTrait;

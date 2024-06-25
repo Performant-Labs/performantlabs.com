@@ -2,14 +2,14 @@
 
 namespace Drupal\views_event_dispatcher\Event\Views;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
 
 /**
  * Class ViewsQuerySubstitutionEvent.
- *
- * @HookEvent(id="views_query_substitutions", hook="views_query_substitutions")
  */
+#[HookEvent(id: 'views_query_substitutions', hook: 'views_query_substitutions')]
 final class ViewsQuerySubstitutionsEvent extends AbstractViewsEvent implements HookReturnInterface {
 
   /**

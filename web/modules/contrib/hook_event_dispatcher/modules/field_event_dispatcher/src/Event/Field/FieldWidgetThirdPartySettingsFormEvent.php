@@ -6,14 +6,12 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field_event_dispatcher\FieldHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class FieldWidgetThirdPartySettingsFormEvent.
- *
- * @HookEvent(
- *   id="field_widget_third_party_settings_form"
- * )
  */
+#[HookEvent(id: 'field_widget_third_party_settings_form')]
 class FieldWidgetThirdPartySettingsFormEvent extends AbstractFieldThirdPartySettingsFormEvent {
 
   /**
@@ -35,7 +33,7 @@ class FieldWidgetThirdPartySettingsFormEvent extends AbstractFieldThirdPartySett
     FieldDefinitionInterface $fieldDefinition,
     private readonly string $formMode,
     array $form,
-    FormStateInterface $formState
+    FormStateInterface $formState,
   ) {
     $this->fieldDefinition = $fieldDefinition;
     $this->form = $form;

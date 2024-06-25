@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class EntityExtraFieldInfoAlterEvent.
- *
- * @HookEvent(id="entity_extra_field_info_alter", alter="entity_extra_field_info")
  */
+#[HookEvent(id: 'entity_extra_field_info_alter', alter: 'entity_extra_field_info')]
 class EntityExtraFieldInfoAlterEvent extends Event implements EventInterface {
 
   /**

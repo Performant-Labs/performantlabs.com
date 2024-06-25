@@ -5,16 +5,13 @@ namespace Drupal\core_event_dispatcher\Event\Core;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Config\ConfigImporter;
 use Drupal\core_event_dispatcher\CoreHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class ConfigImportStepsAlterEvent.
- *
- * @HookEvent(
- *   id = "config_import_steps_alter",
- *   alter = "config_import_steps"
- * )
  */
+#[HookEvent(id: 'config_import_steps_alter', alter: 'config_import_steps')]
 class ConfigImportStepsAlterEvent extends Event implements EventInterface {
 
   /**

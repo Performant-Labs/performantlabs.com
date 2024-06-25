@@ -3,15 +3,15 @@
 namespace Drupal\media_event_dispatcher\Event\Media;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\media\OEmbed\Provider;
 use Drupal\media_event_dispatcher\MediaHookEvents;
 
 /**
  * Class OEmbedResourceUrlAlterEvent.
- *
- * @HookEvent(id="o_embed_resource_url_alter", alter="oembed_resource_url")
  */
+#[HookEvent(id: 'o_embed_resource_url_alter', alter: 'oembed_resource_url')]
 class OEmbedResourceUrlAlterEvent extends Event implements EventInterface {
 
   /**

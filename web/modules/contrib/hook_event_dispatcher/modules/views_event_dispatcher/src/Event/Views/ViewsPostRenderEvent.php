@@ -2,15 +2,15 @@
 
 namespace Drupal\views_event_dispatcher\Event\Views;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\views\Plugin\views\cache\CachePluginBase;
 use Drupal\views\ViewExecutable;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
 
 /**
  * Class ViewsPostRenderEvent.
- *
- * @HookEvent(id="views_post_render", hook="views_post_render")
  */
+#[HookEvent(id: 'views_post_render', hook: 'views_post_render')]
 class ViewsPostRenderEvent extends AbstractViewsEvent {
 
   /**
@@ -25,12 +25,14 @@ class ViewsPostRenderEvent extends AbstractViewsEvent {
    *
    * @param \Drupal\views\ViewExecutable $view
    *   The view object about to be processed.
-   * @param string $output
-   *   A flat string with the rendered output of the view.
+   * @param array $output
+   *   A structured content array representing the view output. The given array
+   *   depends on the style plugin and can be either a render array or an array
+   *   of render arrays.
    * @param \Drupal\views\Plugin\views\cache\CachePluginBase $cache
    *   The cache settings.
    */
-  public function __construct(ViewExecutable $view, &$output, private readonly CachePluginBase $cache) {
+  public function __construct(ViewExecutable $view, array &$output, private readonly CachePluginBase $cache) {
     parent::__construct($view);
     $this->output = &$output;
   }

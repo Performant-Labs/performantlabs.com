@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Core;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\CoreHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class DataTypeInfoAlterEvent.
- *
- * @HookEvent(id="data_type_info_alter", alter="data_type_info")
  */
+#[HookEvent(id: 'data_type_info_alter', alter: 'data_type_info')]
 class DataTypeInfoAlterEvent extends Event implements EventInterface {
 
   /**

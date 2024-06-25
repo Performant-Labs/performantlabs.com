@@ -2,6 +2,9 @@
 
 namespace Drupal\Tests\core_event_dispatcher\Kernel\Entity;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
 use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityBuildDefaultsAlterEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityViewAlterEvent;
@@ -34,21 +37,21 @@ class EntityViewEventTest extends KernelTestBase {
    *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityTypeManager;
+  protected EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * The entity view builder handler.
    *
    * @var \Drupal\Core\Entity\EntityViewBuilder
    */
-  protected $viewBuilder;
+  protected EntityViewBuilder $viewBuilder;
 
   /**
    * The entity test.
    *
    * @var \Drupal\Core\Entity\EntityInterface
    */
-  protected $entity;
+  protected EntityInterface $entity;
 
   /**
    * {@inheritdoc}
@@ -61,7 +64,7 @@ class EntityViewEventTest extends KernelTestBase {
       ->create();
 
     $entityType = $this->entityTypeManager->getDefinition('entity_test');
-    /** @var \Drupal\Core\Entity\EntityHandlerInterface $handlerClass */
+    /** @var class-string<\Drupal\Core\Entity\EntityViewBuilder> $handlerClass */
     $handlerClass = $entityType->getHandlerClass('view_builder');
     $this->viewBuilder = $handlerClass::createInstance($this->container, $entityType);
   }

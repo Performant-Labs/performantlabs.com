@@ -5,6 +5,7 @@ namespace Drupal\jsonapi_event_dispatcher\Event;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\AccessEventInterface;
 use Drupal\hook_event_dispatcher\Event\AccessEventTrait;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
@@ -13,9 +14,8 @@ use Drupal\jsonapi_event_dispatcher\JsonApiHookEvents;
 
 /**
  * Class JsonApiEntityFieldFilterAccessEvent.
- *
- * @HookEvent(id="json_api_entity_field_filter_access", hook="jsonapi_entity_field_filter_access")
  */
+#[HookEvent(id: 'json_api_entity_field_filter_access', hook: 'jsonapi_entity_field_filter_access')]
 class JsonApiEntityFieldFilterAccessEvent extends Event implements EventInterface, AccessEventInterface, HookReturnInterface {
 
   use AccessEventTrait;

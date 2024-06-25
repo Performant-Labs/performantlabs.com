@@ -8,7 +8,8 @@ use Drupal\Core\Extension\Exception\UnknownExtensionException;
 use Drupal\Core\Extension\Extension;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\hook_event_dispatcher\Annotation\HookEvent;
+use Drupal\hook_event_dispatcher\Annotation\HookEvent as HookEventAnnotation;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent as HookEventAttribute;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Plugin\Factory\EventFactory;
 
@@ -38,20 +39,11 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
       $namespaces,
       $this->getModuleHandler($this->moduleList),
       EventInterface::class,
-      HookEvent::class
+      HookEventAttribute::class,
+      HookEventAnnotation::class
     );
+    $this->factory = new EventFactory($this, $this->pluginInterface);
     $this->setCacheBackend($cacheBackend, 'hook_event_plugins');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getFactory() {
-    if (!$this->factory) {
-      $this->factory = new EventFactory($this, $this->pluginInterface);
-    }
-
-    return $this->factory;
   }
 
   /**
@@ -93,7 +85,9 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
       /**
        * {@inheritdoc}
        */
-      public function load($name): void {}
+      public function load($name): bool {
+        return FALSE;
+      }
 
       /**
        * {@inheritdoc}
@@ -209,7 +203,9 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
       /**
        * {@inheritdoc}
        */
-      public function invokeAll($hook, array $args = []): void {}
+      public function invokeAll($hook, array $args = []): array {
+        return [];
+      }
 
       /**
        * {@inheritdoc}
@@ -219,7 +215,9 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
       /**
        * {@inheritdoc}
        */
-      public function invokeAllDeprecated($description, $hook, array $args = []): void {}
+      public function invokeAllDeprecated($description, $hook, array $args = []): array {
+        return [];
+      }
 
       /**
        * {@inheritdoc}
@@ -241,7 +239,7 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
       /**
        * {@inheritdoc}
        */
-      public function getName($module): void {
+      public function getName($module): string {
         throw new UnknownExtensionException(sprintf('The module %s does not exist.', $module));
       }
 

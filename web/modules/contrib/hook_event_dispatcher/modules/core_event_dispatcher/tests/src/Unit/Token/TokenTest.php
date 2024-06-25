@@ -20,26 +20,6 @@ class TokenTest extends TestCase {
   use RandomGeneratorTrait;
 
   /**
-   * Test Token invalid token exception.
-   *
-   * @covers ::create
-   */
-  public function testTokenInvalidNameException(): void {
-    $this->expectException(\TypeError::class);
-    Token::create('', '', NULL);
-  }
-
-  /**
-   * Test Token invalid description exception.
-   *
-   * @covers ::create
-   */
-  public function testTokenInvalidDescriptionException(): void {
-    $this->expectException(\TypeError::class);
-    Token::create('', '', '')->setDescription(NULL);
-  }
-
-  /**
    * @covers ::getType
    */
   public function testTokenType(): void {

@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Core;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\CoreHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class MailAlterEvent.
- *
- * @HookEvent(id="mail_alter", alter="mail")
  */
+#[HookEvent(id: 'mail_alter', alter: 'mail')]
 class MailAlterEvent extends Event implements EventInterface {
 
   /**

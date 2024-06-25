@@ -3,15 +3,12 @@
 namespace Drupal\core_event_dispatcher\Event\Theme;
 
 use Drupal\core_event_dispatcher\ThemeHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class ThemeSuggestionsAlterEvent.
- *
- * @HookEvent(
- *   id = "theme_suggestions_alter",
- *   alter = "theme_suggestions"
- * )
  */
+#[HookEvent(id: 'theme_suggestions_alter', alter: 'theme_suggestions')]
 class ThemeSuggestionsAlterEvent extends AbstractThemeSuggestionsEvent {
 
   /**

@@ -12,7 +12,7 @@ use Drupal\jsonapi_event_dispatcher\JsonApiHookEvents;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\Tests\hook_event_dispatcher\Kernel\ListenerTrait;
 use Drupal\Tests\user\Traits\UserCreationTrait;
-use Symfony\Component\HttpFoundation\ParameterBag;
+use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -93,7 +93,7 @@ class JsonApiEntityFilterAccessEventTest extends KernelTestBase {
    */
   private function createRequest(string $label): Request {
     $request = Request::create('/jsonapi/entity_test/entity_test');
-    $request->query = new ParameterBag([
+    $request->query = new InputBag([
       'filter' => [
         'name' => $label,
       ],

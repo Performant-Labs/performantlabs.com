@@ -7,13 +7,13 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class EntityBundleFieldInfoAlterEvent.
- *
- * @HookEvent(id="entity_bundle_field_info_alter", alter="entity_bundle_field_info")
  */
+#[HookEvent(id: 'entity_bundle_field_info_alter', alter: 'entity_bundle_field_info')]
 class EntityBundleFieldInfoAlterEvent extends Event implements EventInterface {
 
   /**

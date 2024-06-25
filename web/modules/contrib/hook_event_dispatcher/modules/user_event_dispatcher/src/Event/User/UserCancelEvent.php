@@ -4,17 +4,14 @@ namespace Drupal\user_event_dispatcher\Event\User;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\user_event_dispatcher\UserHookEvents;
 
 /**
  * Class UserCancelEvent.
- *
- * @HookEvent(
- *   id = "user_cancel",
- *   hook = "user_cancel"
- * )
  */
+#[HookEvent(id: 'user_cancel', hook: 'user_cancel')]
 final class UserCancelEvent extends Event implements EventInterface {
 
   /**

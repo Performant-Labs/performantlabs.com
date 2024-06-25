@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Theme;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\PageHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class PageTopEvent.
- *
- * @HookEvent(id="page_top", hook="page_top")
  */
+#[HookEvent(id: 'page_top', hook: 'page_top')]
 class PageTopEvent extends Event implements EventInterface {
 
   /**

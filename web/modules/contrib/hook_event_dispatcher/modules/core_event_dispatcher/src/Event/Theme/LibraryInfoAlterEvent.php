@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Theme;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\ThemeHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class LibraryInfoAlterEvent.
- *
- * @HookEvent(id="library_info_alter", alter="library_info")
  */
+#[HookEvent(id: 'library_info_alter', alter: 'library_info')]
 class LibraryInfoAlterEvent extends Event implements EventInterface {
 
   /**

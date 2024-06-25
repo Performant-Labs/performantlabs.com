@@ -11,7 +11,6 @@ use Drupal\preprocess_event_dispatcher\Event\ParagraphPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Event\TaxonomyTermPreprocessEvent;
 use Drupal\preprocess_event_dispatcher\Service\PreprocessEventService;
 use Drupal\taxonomy\TermInterface;
-use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\EntityMockFactory;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\SpyEventDispatcher;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
 use PHPUnit\Framework\TestCase;
@@ -23,11 +22,10 @@ use function reset;
  * Class EntityEventTest.
  *
  * @group preprocess_event_dispatcher
- *
- * Testing all lots of classes gives expected coupling warnings.
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 final class EntityEventTest extends TestCase {
+
+  use EntityMockTrait;
 
   /**
    * PreprocessEventService.
@@ -59,7 +57,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testCommentEvent(): void {
     $variables = [
-      'comment' => EntityMockFactory::getMock(CommentInterface::class, 'comment', 'bundle'),
+      'comment' => $this->getMock(CommentInterface::class, 'comment', 'bundle'),
       'view_mode' => 'view_mode',
     ];
     $this->createAndAssertEntityEvent(CommentPreprocessEvent::class, $variables);
@@ -70,7 +68,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testNodeEvent(): void {
     $variables = [
-      'node' => EntityMockFactory::getMock(NodeInterface::class, 'node', 'bundle'),
+      'node' => $this->getMock(NodeInterface::class, 'node', 'bundle'),
       'theme_hook_original' => 'node',
       'view_mode' => 'view_mode',
     ];
@@ -82,7 +80,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testParagraphEvent(): void {
     $variables = [
-      'paragraph' => EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'bundle'),
+      'paragraph' => $this->getMock(ParagraphInterface::class, 'paragraph', 'bundle'),
       'theme_hook_original' => 'paragraph',
       'view_mode' => 'view_mode',
     ];
@@ -94,7 +92,7 @@ final class EntityEventTest extends TestCase {
    */
   public function testTaxonomyTermEvent(): void {
     $variables = [
-      'term' => EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'bundle'),
+      'term' => $this->getMock(TermInterface::class, 'taxonomy_term', 'bundle'),
       'theme_hook_original' => 'taxonomy_term',
       'view_mode' => 'view_mode',
     ];
@@ -104,14 +102,13 @@ final class EntityEventTest extends TestCase {
   /**
    * Create and assert the given entity event class.
    *
-   * @param string $class
+   * @param class-string<\Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface> $class
    *   Event class name.
    * @param array $variables
    *   Variables.
    */
   private function createAndAssertEntityEvent(string $class, array $variables): void {
     $this->dispatcher->setExpectedEventCount(3);
-    /** @var \Drupal\preprocess_event_dispatcher\Event\AbstractPreprocessEntityEvent $class */
     $this->service->createAndDispatchKnownEvents($class::getHook(), $variables);
     /** @var \Drupal\preprocess_event_dispatcher\Event\AbstractPreprocessEntityEvent[] $events */
     $events = $this->dispatcher->getEvents();
@@ -125,7 +122,6 @@ final class EntityEventTest extends TestCase {
 
     $secondEvent = next($events);
     $secondName = key($events);
-    /** @var \Drupal\preprocess_event_dispatcher\Variables\AbstractEntityEventVariables $secondVariables */
     $secondVariables = $secondEvent->getVariables();
     $bundle = $secondVariables->getEntityBundle();
     $expectedName .= '.' . $bundle;
@@ -134,7 +130,6 @@ final class EntityEventTest extends TestCase {
 
     $thirdEvent = next($events);
     $thirdName = key($events);
-    /** @var \Drupal\preprocess_event_dispatcher\Variables\AbstractEntityEventVariables $thirdVariables */
     $thirdVariables = $thirdEvent->getVariables();
     $viewMode = $thirdVariables->getViewMode();
     $expectedName .= '.' . $viewMode;

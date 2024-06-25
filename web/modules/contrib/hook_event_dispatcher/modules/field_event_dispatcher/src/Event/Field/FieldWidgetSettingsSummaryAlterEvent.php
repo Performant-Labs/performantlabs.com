@@ -3,14 +3,12 @@
 namespace Drupal\field_event_dispatcher\Event\Field;
 
 use Drupal\field_event_dispatcher\FieldHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class FieldWidgetSettingsSummaryAlterEvent.
- *
- * @HookEvent(
- *   id="field_widget_settings_summary_alter"
- * )
  */
+#[HookEvent(id: 'field_widget_settings_summary_alter')]
 class FieldWidgetSettingsSummaryAlterEvent extends AbstractFieldSettingsSummaryFormEvent {
 
   /**

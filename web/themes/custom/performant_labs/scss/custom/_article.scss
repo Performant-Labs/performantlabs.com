@@ -89,6 +89,12 @@
           width: 100%;
         }
       }
+
+      .views-row:last-child{
+        @include for-tablet-landscape-down {
+          padding-bottom:unset !important;
+        }
+      }
     }
   }
 
@@ -177,10 +183,22 @@
     }
   }
 }
+
+.articles-page{
 .article-above-fold {
-	background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
-	padding: 10px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
+  padding: 10px;
+  margin-bottom: 20px;
 }
+
+.layout__region--content{
+  .field--name-body> p {
+    font-size: 1.5rem;
+    margin: 2rem 0 0 0;
+  }
+}
+}
+
 //
 // View Mode: Full.
 // One /articles/xxx.
@@ -239,16 +257,6 @@
         z-index: 9;
       }
     }
-    .field--name-body {
-      padding-top: 30px;
-      width: 100%;
-      p{
-        a{
-          display: block;
-          overflow-wrap: break-word;
-        }
-      }
-    }
   }
 }
 .articles-why-drupal-page{
@@ -281,6 +289,7 @@
   .node--view-mode-full{
     .node__content{
       .field--name-body{
+        padding-top:1rem;
         img{
           width: 100%;
           height: auto;
@@ -379,7 +388,7 @@
 }
 
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 426px) {
   .page-node-type-article {
     .node--view-mode-full {
       .node__content {
@@ -391,6 +400,21 @@
       }
     }
   }
+  .articles-page{
+    .article-above-fold {
+      background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
+      padding: 10px;
+      padding-bottom: 23px;
+      margin-bottom: 20px;
+    }
+    
+    .layout__region--content{
+      .field--name-body> p {
+        font-size: 1.2rem;
+        margin: 1.5rem 0 0 0;
+      }
+    }
+    }
   
 }
 
@@ -399,7 +423,6 @@
     main {
       .node--view-mode-card-medium{
       .node__content {
-    
           .field--name-title {
             h2{
               a{

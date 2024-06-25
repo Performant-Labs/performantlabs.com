@@ -15,7 +15,7 @@ trait ListenerTrait {
    *
    * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
    */
-  protected $eventDispatcher;
+  protected EventDispatcherInterface $eventDispatcher;
 
   /**
    * Listens to event name with callable method.
@@ -29,7 +29,7 @@ trait ListenerTrait {
    *
    * @throws \Exception
    */
-  protected function listen($events, string $method, InvocationOrder $expects = NULL) {
+  protected function listen($events, string $method, InvocationOrder $expects = NULL): void {
     if (!$expects) {
       $expects = $this->once();
     }
@@ -58,7 +58,7 @@ trait ListenerTrait {
    *
    * @throws \Exception
    */
-  private function doListen(string $eventName, callable $callback) {
+  private function doListen(string $eventName, callable $callback): void {
     $this->getEventDispatcher()->addListener($eventName, $callback);
   }
 
@@ -71,7 +71,7 @@ trait ListenerTrait {
    * @throws \Exception
    */
   public function getEventDispatcher(): EventDispatcherInterface {
-    if (!$this->eventDispatcher) {
+    if (!isset($this->eventDispatcher)) {
       $this->eventDispatcher = $this->container->get('event_dispatcher');
     }
 

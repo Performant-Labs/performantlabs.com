@@ -60,6 +60,10 @@ class HookEventDispatcherManagerSpy implements HookEventDispatcherManagerInterfa
       $this->eventCallbacks[$type]($event);
     }
 
+    if (!$event instanceof Event) {
+      throw new \TypeError();
+    }
+
     return $event;
   }
 

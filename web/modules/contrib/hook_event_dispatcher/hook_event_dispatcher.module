@@ -10,7 +10,7 @@
  *
  * {@inheritdoc}
  */
-function hook_event_dispatcher_help(string $routeName) {
+function hook_event_dispatcher_help(string $routeName): string {
   if ($routeName === 'help.page.hook_event_dispatcher') {
     /** @var \Drupal\Core\Extension\ExtensionPathResolver $resolver */
     $resolver = \Drupal::service('extension.path.resolver');

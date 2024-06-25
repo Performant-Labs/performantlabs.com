@@ -4,16 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class EntityLoadEvent.
- *
- * @HookEvent(
- *   id = "entity_load",
- *   hook = "entity_load"
- * )
  */
+#[HookEvent(id: 'entity_load', hook: 'entity_load')]
 class EntityLoadEvent extends Event implements EventInterface {
 
   /**

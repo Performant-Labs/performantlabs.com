@@ -1,5 +1,9 @@
+includes:
+  - phpstan-baseline.neon
+
 parameters:
-  level: 1
+  level: 6
+  checkMissingIterableValueType: false
   excludePaths:
     analyseAndScan:
       - src/Generators

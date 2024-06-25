@@ -4,16 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class EntityBundleInfoAlterEvent.
- *
- * @HookEvent(
- *   id = "entity_bundle_info_alter",
- *   alter = "entity_bundle_info"
- * )
  */
+#[HookEvent(id: 'entity_bundle_info_alter', alter: 'entity_bundle_info')]
 class EntityBundleInfoAlterEvent extends Event implements EventInterface {
 
   /**

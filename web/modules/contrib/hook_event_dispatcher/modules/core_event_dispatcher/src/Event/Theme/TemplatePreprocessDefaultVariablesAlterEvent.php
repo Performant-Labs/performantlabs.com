@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\Theme;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\ThemeHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class TemplatePreprocessDefaultVariablesAlterEvent.
- *
- * @HookEvent(id="template_preprocess_default_variables_alter", alter="template_preprocess_default_variables")
  */
+#[HookEvent(id: 'template_preprocess_default_variables_alter', alter: 'template_preprocess_default_variables')]
 final class TemplatePreprocessDefaultVariablesAlterEvent extends Event implements EventInterface {
 
   /**

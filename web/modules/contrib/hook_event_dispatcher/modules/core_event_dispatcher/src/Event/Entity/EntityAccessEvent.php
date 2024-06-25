@@ -6,18 +6,15 @@ use Drupal\Core\Access\AccessResultNeutral;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\AccessEventInterface;
 use Drupal\hook_event_dispatcher\Event\AccessEventTrait;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class EntityAccessEvent.
- *
- * @HookEvent(
- *   id = "entity_access",
- *   hook = "entity_access"
- * )
  */
+#[HookEvent(id: 'entity_access', hook: 'entity_access')]
 class EntityAccessEvent extends AbstractEntityEvent implements AccessEventInterface, HookReturnInterface {
 
   use AccessEventTrait;

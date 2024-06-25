@@ -2,13 +2,13 @@
 
 namespace Drupal\path_event_dispatcher\Event\Path;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\path_event_dispatcher\PathHookEvents;
 
 /**
  * Class PathDeleteEvent.
- *
- * @HookEvent(id="path_delete", hook="path_alias_delete")
  */
+#[HookEvent(id: 'path_delete', hook: 'path_alias_delete')]
 final class PathDeleteEvent extends AbstractPathEvent {
 
   /**

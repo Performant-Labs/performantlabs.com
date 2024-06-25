@@ -3,13 +3,13 @@
 namespace Drupal\core_event_dispatcher\Event\Core;
 
 use Drupal\core_event_dispatcher\CoreHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\PluginDefinitionAlterEventBase;
 
 /**
  * Class MailBackendInfoAlterEvent.
- *
- * @HookEvent(id="mail_backend_info_alter", alter="mail_backend_info")
  */
+#[HookEvent(id: 'mail_backend_info_alter', alter: 'mail_backend_info')]
 class MailBackendInfoAlterEvent extends PluginDefinitionAlterEventBase {
 
   /**

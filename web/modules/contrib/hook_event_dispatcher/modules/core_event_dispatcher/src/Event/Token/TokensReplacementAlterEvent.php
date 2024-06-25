@@ -5,15 +5,15 @@ namespace Drupal\core_event_dispatcher\Event\Token;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\core_event_dispatcher\TokenHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Provides event to alter token replacements.
  *
  * @see hook_tokens_alter
- *
- * @HookEvent(id="tokens_replacement_alter", alter="tokens")
  */
+#[HookEvent(id: 'tokens_replacement_alter', alter: 'tokens')]
 final class TokensReplacementAlterEvent extends Event implements EventInterface {
 
   /**

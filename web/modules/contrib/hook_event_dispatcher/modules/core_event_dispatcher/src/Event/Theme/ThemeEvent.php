@@ -4,14 +4,14 @@ namespace Drupal\core_event_dispatcher\Event\Theme;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\ThemeHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class ThemeEvent.
- *
- * @HookEvent(id="theme", hook="theme")
  */
+#[HookEvent(id: 'theme', hook: 'theme')]
 final class ThemeEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**

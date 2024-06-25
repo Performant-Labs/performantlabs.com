@@ -49,7 +49,7 @@ class EntityFieldAccessEventTest extends KernelTestBase {
   /**
    * The field item list.
    *
-   * @var \Drupal\Core\Field\FieldItemListInterface|\PHPUnit\Framework\MockObject\MockObject
+   * @var \Drupal\Core\Field\FieldItemListInterface<\Drupal\Core\Field\FieldItemInterface>|\PHPUnit\Framework\MockObject\MockObject
    */
   protected $fieldItemList;
 

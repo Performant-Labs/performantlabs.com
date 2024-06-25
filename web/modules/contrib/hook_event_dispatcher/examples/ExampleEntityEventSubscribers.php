@@ -2,6 +2,7 @@
 
 namespace Drupal\hook_event_dispatcher;
 
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityDeleteEvent;
 use Drupal\core_event_dispatcher\Event\Entity\EntityInsertEvent;
@@ -52,7 +53,9 @@ class ExampleEntityEventSubscribers implements EventSubscriberInterface {
    */
   public function entityPreSave(EntityPresaveEvent $event): void {
     $entity = $event->getEntity();
-    $entity->special_field->value = 'PreSave!';
+    if ($entity instanceof FieldableEntityInterface) {
+      $entity->set('special_field', 'PreSave!');
+    }
   }
 
   /**
@@ -64,7 +67,9 @@ class ExampleEntityEventSubscribers implements EventSubscriberInterface {
   public function entityInsert(EntityInsertEvent $event): void {
     // Do some fancy stuff with new entity.
     $entity = $event->getEntity();
-    $entity->special_field->value = 'Insert!';
+    if ($entity instanceof FieldableEntityInterface) {
+      $entity->set('special_field', 'Insert!');
+    }
   }
 
   /**
@@ -76,7 +81,9 @@ class ExampleEntityEventSubscribers implements EventSubscriberInterface {
   public function entityUpdate(EntityUpdateEvent $event): void {
     // Do some fancy stuff, when entity is updated.
     $entity = $event->getEntity();
-    $entity->special_field->value = 'Update!';
+    if ($entity instanceof FieldableEntityInterface) {
+      $entity->set('special_field', 'Update!');
+    }
   }
 
   /**
@@ -88,7 +95,9 @@ class ExampleEntityEventSubscribers implements EventSubscriberInterface {
   public function entityPreDelete(EntityPredeleteEvent $event): void {
     // Do something before entity is deleted.
     $entity = $event->getEntity();
-    $entity->special_field->value = 'PreDelete!';
+    if ($entity instanceof FieldableEntityInterface) {
+      $entity->set('special_field', 'PreDelete!');
+    }
   }
 
   /**
@@ -100,7 +109,9 @@ class ExampleEntityEventSubscribers implements EventSubscriberInterface {
   public function entityDelete(EntityDeleteEvent $event): void {
     // Do some fancy stuff, after entity is deleted.
     $entity = $event->getEntity();
-    $entity->special_field->value = 'Deleted!';
+    if ($entity instanceof FieldableEntityInterface) {
+      $entity->set('special_field', 'Deleted!');
+    }
   }
 
   /**

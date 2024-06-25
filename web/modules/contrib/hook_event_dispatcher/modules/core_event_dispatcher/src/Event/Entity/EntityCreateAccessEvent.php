@@ -7,6 +7,7 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\AccessEventInterface;
 use Drupal\hook_event_dispatcher\Event\AccessEventTrait;
 use Drupal\hook_event_dispatcher\Event\EventFactoryInterface;
@@ -16,12 +17,8 @@ use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class EntityCreateAccessEvent.
- *
- * @HookEvent(
- *   id = "entity_create_access",
- *   hook = "entity_create_access"
- * )
  */
+#[HookEvent(id: 'entity_create_access', hook: 'entity_create_access')]
 final class EntityCreateAccessEvent extends Event implements EventInterface, EventFactoryInterface, AccessEventInterface, HookReturnInterface {
 
   use EventFactoryTrait;

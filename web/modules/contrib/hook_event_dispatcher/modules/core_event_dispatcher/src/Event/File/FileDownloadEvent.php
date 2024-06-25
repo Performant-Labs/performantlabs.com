@@ -4,14 +4,14 @@ namespace Drupal\core_event_dispatcher\Event\File;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\FileHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class FileDownloadEvent.
- *
- * @HookEvent(id="file_download", hook="file_download")
  */
+#[HookEvent(id: 'file_download', hook: 'file_download')]
 class FileDownloadEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**

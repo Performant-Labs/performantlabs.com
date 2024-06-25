@@ -5,13 +5,13 @@ namespace Drupal\core_event_dispatcher\Event\Language;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Url;
 use Drupal\core_event_dispatcher\LanguageHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class LanguageSwitchLinksAlterEvent.
- *
- * @HookEvent(id="language_switch_links_alter", alter="language_switch_links")
  */
+#[HookEvent(id: 'language_switch_links_alter', alter: 'language_switch_links')]
 class LanguageSwitchLinksAlterEvent extends Event implements EventInterface {
 
   /**
@@ -53,7 +53,7 @@ class LanguageSwitchLinksAlterEvent extends Event implements EventInterface {
    * @param array $link
    *   The link path.
    */
-  public function setLinkForLanguage($langcode, array $link) {
+  public function setLinkForLanguage($langcode, array $link): void {
     $this->links[$langcode] = $link;
   }
 

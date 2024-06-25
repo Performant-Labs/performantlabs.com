@@ -4,15 +4,12 @@ namespace Drupal\field_event_dispatcher\Event\Field;
 
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class WidgetSingleElementTypeFormAlterEvent.
- *
- * @HookEvent(
- *   id = "widget_single_element_type_form_alter",
- *   alter = "field_widget_single_element_form"
- * )
  */
+#[HookEvent(id: 'widget_single_element_type_form_alter', alter: 'field_widget_single_element_form')]
 class WidgetSingleElementTypeFormAlterEvent extends WidgetSingleElementFormAlterEvent {
 
   /**

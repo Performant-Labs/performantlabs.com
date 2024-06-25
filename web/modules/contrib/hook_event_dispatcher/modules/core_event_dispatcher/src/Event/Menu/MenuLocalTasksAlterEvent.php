@@ -5,16 +5,13 @@ namespace Drupal\core_event_dispatcher\Event\Menu;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\core_event_dispatcher\MenuHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class MenuLocalTasksAlterEvent.
- *
- * @HookEvent(
- *   id = "menu_local_tasks_alter",
- *   alter = "menu_local_tasks"
- * )
  */
+#[HookEvent(id: 'menu_local_tasks_alter', alter: 'menu_local_tasks')]
 class MenuLocalTasksAlterEvent extends Event implements EventInterface {
 
   /**

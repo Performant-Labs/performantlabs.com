@@ -7,15 +7,15 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 use Drupal\jsonapi_event_dispatcher\JsonApiHookEvents;
 
 /**
  * Class JsonapiEntityFilterAccessEvent.
- *
- * @HookEvent(id="json_api_entity_filter_access", hook="jsonapi_entity_filter_access")
  */
+#[HookEvent(id: 'json_api_entity_filter_access', hook: 'jsonapi_entity_filter_access')]
 class JsonApiEntityFilterAccessEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**

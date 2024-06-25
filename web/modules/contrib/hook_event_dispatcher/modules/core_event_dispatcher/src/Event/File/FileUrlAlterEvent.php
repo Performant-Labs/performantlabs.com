@@ -4,13 +4,13 @@ namespace Drupal\core_event_dispatcher\Event\File;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\core_event_dispatcher\FileHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class FileUrlAlterEvent.
- *
- * @HookEvent(id="file_url_alter", alter="file_url")
  */
+#[HookEvent(id: 'file_url_alter', alter: 'file_url')]
 class FileUrlAlterEvent extends Event implements EventInterface {
 
   /**

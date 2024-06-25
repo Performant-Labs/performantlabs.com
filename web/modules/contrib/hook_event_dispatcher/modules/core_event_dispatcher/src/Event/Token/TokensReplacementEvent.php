@@ -6,6 +6,7 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\core_event_dispatcher\TokenHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 use function is_string;
@@ -14,9 +15,8 @@ use function is_string;
  * Class TokensProvideEvent.
  *
  * @see hook_tokens
- *
- * @HookEvent(id="tokens_replacement", hook="tokens")
  */
+#[HookEvent(id: 'tokens_replacement', hook: 'tokens')]
 final class TokensReplacementEvent extends Event implements EventInterface, HookReturnInterface {
 
   /**

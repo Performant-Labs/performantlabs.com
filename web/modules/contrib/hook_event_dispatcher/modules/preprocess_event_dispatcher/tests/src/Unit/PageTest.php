@@ -67,7 +67,7 @@ final class PageTest extends TestCase {
     self::assertFalse($page->isNodePage());
     $vars['node'] = new \stdClass();
     self::assertFalse($page->isNodePage());
-    $vars['node'] = \Mockery::mock(NodeInterface::class);
+    $vars['node'] = $this->createMock(NodeInterface::class);
     self::assertTrue($page->isNodePage());
   }
 
@@ -80,8 +80,9 @@ final class PageTest extends TestCase {
     self::assertNull($page->getNode());
     $page->set('node', new \stdClass());
     self::assertNull($page->getNode());
-    $vars['node'] = \Mockery::mock(NodeInterface::class);
-    self::assertInstanceOf(NodeInterface::class, $page->getNode());
+    $vars['node'] = $this->createMock(NodeInterface::class);
+    self::assertNotNull($page->getNode());
+    self::assertSame($vars['node'], $page->getNode());
   }
 
   /**

@@ -30,7 +30,7 @@ class HookEventDispatcherManagerTest extends TestCase {
   public function testEventDispatcher(bool $isPropagationStopped): void {
     $event = new class('test') extends Event implements EventInterface {
 
-      public function __construct(private $dispatcherType) {}
+      public function __construct(private readonly string $dispatcherType) {}
 
       public function getDispatcherType(): string {
         return $this->dispatcherType;

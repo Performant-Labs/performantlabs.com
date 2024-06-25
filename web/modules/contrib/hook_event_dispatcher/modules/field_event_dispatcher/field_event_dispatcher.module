@@ -28,8 +28,8 @@ use Drupal\field_event_dispatcher\Event\Field\FieldWidgetThirdPartySettingsFormE
  */
 function field_event_dispatcher_field_formatter_settings_summary_alter(
   array &$summary,
-  array $context
-) {
+  array $context,
+): void {
   /** @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
   $manager = Drupal::service('hook_event_dispatcher.manager');
   $event = new FieldFormatterSettingsSummaryAlterEvent($summary, $context);
@@ -46,8 +46,8 @@ function field_event_dispatcher_field_formatter_third_party_settings_form(
   FieldDefinitionInterface $fieldDefinition,
   string $viewMode,
   array $form,
-  FormStateInterface $formState
-) {
+  FormStateInterface $formState,
+): array {
   /** @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
   $manager = Drupal::service('hook_event_dispatcher.manager');
   $event = new FieldFormatterThirdPartySettingsFormEvent($plugin, $fieldDefinition, $viewMode, $form, $formState);
@@ -63,8 +63,8 @@ function field_event_dispatcher_field_formatter_third_party_settings_form(
  */
 function field_event_dispatcher_field_widget_settings_summary_alter(
   array &$summary,
-  array $context
-) {
+  array $context,
+): void {
   /** @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
   $manager = Drupal::service('hook_event_dispatcher.manager');
   $event = new FieldWidgetSettingsSummaryAlterEvent($summary, $context);
@@ -81,8 +81,8 @@ function field_event_dispatcher_field_widget_third_party_settings_form(
   FieldDefinitionInterface $fieldDefinition,
   string $formMode,
   array $form,
-  FormStateInterface $formState
-) {
+  FormStateInterface $formState,
+): array {
   /** @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
   $manager = Drupal::service('hook_event_dispatcher.manager');
   $event = new FieldWidgetThirdPartySettingsFormEvent($plugin, $fieldDefinition, $formMode, $form, $formState);

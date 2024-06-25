@@ -4,15 +4,12 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityBuildDefaultsAlterEvent.
- *
- * @HookEvent(
- *   id = "entity_build_defaults_alter",
- *   alter = "entity_build_defaults"
- * )
  */
+#[HookEvent(id: 'entity_build_defaults_alter', alter: 'entity_build_defaults')]
 class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
 
   /**
@@ -37,7 +34,7 @@ class EntityBuildDefaultsAlterEvent extends AbstractEntityEvent {
   public function __construct(
     array &$build,
     EntityInterface $entity,
-    private readonly string $viewMode
+    private readonly string $viewMode,
   ) {
     parent::__construct($entity);
 

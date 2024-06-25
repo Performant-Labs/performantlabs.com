@@ -4,6 +4,7 @@ namespace Drupal\Tests\core_event_dispatcher\Kernel\Entity;
 
 use Drupal\Core\Access\AccessResultAllowed;
 use Drupal\Core\Access\AccessResultForbidden;
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Access\AccessResultNeutral;
 use Drupal\core_event_dispatcher\EntityHookEvents;
 use Drupal\core_event_dispatcher\Event\Entity\EntityAccessEvent;
@@ -89,7 +90,7 @@ class EntityAccessEventTest extends KernelTestBase {
    *
    * @throws \Exception
    */
-  public function testEntityAccessEvent($accessResult, $isNeutral, $isAllowed, $isForbidden): void {
+  public function testEntityAccessEvent(AccessResultInterface $accessResult, bool $isNeutral, bool $isAllowed, bool $isForbidden): void {
     $this->container->get('event_dispatcher')
       ->addListener(EntityHookEvents::ENTITY_ACCESS, static function (EntityAccessEvent $event) use ($accessResult) {
         $event->addAccessResult($accessResult);

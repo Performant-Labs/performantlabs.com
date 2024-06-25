@@ -47,7 +47,7 @@ class PreprocessModuleTest extends KernelTestBase {
    * @param \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $event
    *   The event.
    */
-  public function onPreprocess(PreprocessEventInterface $event) {
+  public function onPreprocess(PreprocessEventInterface $event): void {
     $this->assertTrue($event->getVariables()->get('test'));
   }
 

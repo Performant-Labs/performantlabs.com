@@ -84,7 +84,7 @@ class ExampleViewsEventSubscribers implements EventSubscriberInterface {
    *   The event.
    */
   public function querySubstitutions(ViewsQuerySubstitutionsEvent $event): void {
-    $event->addSubstitution('***CURRENT_TIME***', $this->time->getRequestTime());
+    $event->addSubstitution('***CURRENT_TIME***', (string) $this->time->getRequestTime());
   }
 
   /**
@@ -97,7 +97,7 @@ class ExampleViewsEventSubscribers implements EventSubscriberInterface {
     $view = $event->getView();
 
     // Do something with the view.
-    $view->build_info;
+    $view->setArguments(['test']);
   }
 
   /**
@@ -123,7 +123,7 @@ class ExampleViewsEventSubscribers implements EventSubscriberInterface {
     $view = $event->getView();
 
     // Do something with the view.
-    $view->build_info;
+    $view->setArguments(['test']);
   }
 
   /**

@@ -2,14 +2,14 @@
 
 namespace Drupal\views_event_dispatcher\Event\Views;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\views\ViewExecutable;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
 
 /**
  * Class ViewsPreRenderEvent.
- *
- * @HookEvent(id="views_pre_view", hook="views_pre_view")
  */
+#[HookEvent(id: 'views_pre_view', hook: 'views_pre_view')]
 class ViewsPreViewEvent extends AbstractViewsEvent {
 
   /**

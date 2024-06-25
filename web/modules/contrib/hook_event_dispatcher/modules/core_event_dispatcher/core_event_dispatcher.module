@@ -56,7 +56,7 @@ use Drupal\core_event_dispatcher\Event\Theme\ThemeEvent;
  *
  * {@inheritdoc}
  */
-function core_event_dispatcher_theme(array $existing) {
+function core_event_dispatcher_theme(array $existing): array {
   /** @var \Drupal\hook_event_dispatcher\Manager\HookEventDispatcherManagerInterface $manager */
   $manager = Drupal::service('hook_event_dispatcher.manager');
   $event = new ThemeEvent($existing);

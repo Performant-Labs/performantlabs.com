@@ -5,13 +5,13 @@ namespace Drupal\core_event_dispatcher\Event\Theme;
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\core_event_dispatcher\ThemeHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 
 /**
  * Class JsAlterEvent.
- *
- * @HookEvent(id="js_alter", alter="js")
  */
+#[HookEvent(id: 'js_alter', alter: 'js')]
 final class JsAlterEvent extends Event implements EventInterface {
 
   /**
@@ -31,7 +31,7 @@ final class JsAlterEvent extends Event implements EventInterface {
    */
   public function __construct(
     array &$javascript,
-    private readonly AttachedAssetsInterface $attachedAssets
+    private readonly AttachedAssetsInterface $attachedAssets,
   ) {
     $this->javascript = &$javascript;
   }

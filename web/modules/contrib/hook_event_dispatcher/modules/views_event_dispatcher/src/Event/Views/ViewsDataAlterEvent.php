@@ -3,14 +3,14 @@
 namespace Drupal\views_event_dispatcher\Event\Views;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
 
 /**
  * Class ViewsDataAlterEvent.
- *
- * @HookEvent(id="views_data_alter", alter="views_data")
  */
+#[HookEvent(id: 'views_data_alter', alter: 'views_data')]
 final class ViewsDataAlterEvent extends Event implements EventInterface {
 
   /**

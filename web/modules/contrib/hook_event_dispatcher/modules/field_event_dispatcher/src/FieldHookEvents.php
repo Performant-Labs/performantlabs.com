@@ -105,7 +105,7 @@ final class FieldHookEvents {
    *
    * @Event
    *
-   * @see \Drupal\field_event_dispatcher\Event\Field\FieldHookEvents
+   * @see \Drupal\field_event_dispatcher\Event\Field\FieldInfoAlterEvent
    * @see field_event_dispatcher_field_info_alter()
    * @see hook_field_info_alter()
    *

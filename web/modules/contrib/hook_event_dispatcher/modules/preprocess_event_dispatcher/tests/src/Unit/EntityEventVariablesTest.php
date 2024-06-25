@@ -20,7 +20,6 @@ use Drupal\preprocess_event_dispatcher\Variables\NodeEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\ParagraphEventVariables;
 use Drupal\preprocess_event_dispatcher\Variables\TaxonomyTermEventVariables;
 use Drupal\taxonomy\TermInterface;
-use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\EntityMockFactory;
 use Drupal\Tests\preprocess_event_dispatcher\Unit\Helpers\YamlDefinitionsLoader;
 use Drupal\Tests\RandomGeneratorTrait;
 use PHPUnit\Framework\TestCase;
@@ -35,6 +34,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class EntityEventVariablesTest extends TestCase {
 
+  use EntityMockTrait;
   use RandomGeneratorTrait;
 
   /**
@@ -58,8 +58,8 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a CommentPreprocessEvent.
    */
   public function testCommentEvent(): void {
-    $comment = EntityMockFactory::getMock(CommentInterface::class, 'comment', 'comment_bundle');
-    $commentedEntity = \Mockery::mock(ContentEntityInterface::class);
+    $comment = $this->getMock(CommentInterface::class, 'comment', 'comment_bundle');
+    $commentedEntity = $this->createMock(ContentEntityInterface::class);
     $variablesArray = $this->createVariablesArray();
     $variablesArray['comment'] = $comment;
     $variablesArray['commented_entity'] = $commentedEntity;
@@ -77,10 +77,10 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a NodePreprocessEvent.
    */
   public function testNodeEvent(): void {
-    $node = EntityMockFactory::getMock(NodeInterface::class, 'node', 'node_bundle');
+    $node = $this->getMock(NodeInterface::class, 'node', 'node_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['node'] = $node;
-    $variablesArray['theme_hook_original'] = $node->getEntityType();
+    $variablesArray['theme_hook_original'] = $node->getEntityTypeId();
     $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\NodeEventVariables $variables */
@@ -94,10 +94,10 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a ParagraphPreprocessEvent.
    */
   public function testParagraphEvent(): void {
-    $paragraph = EntityMockFactory::getMock(ParagraphInterface::class, 'paragraph', 'paragraph_bundle');
+    $paragraph = $this->getMock(ParagraphInterface::class, 'paragraph', 'paragraph_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['paragraph'] = $paragraph;
-    $variablesArray['theme_hook_original'] = $paragraph->getEntityType();
+    $variablesArray['theme_hook_original'] = $paragraph->getEntityTypeId();
     $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ParagraphEventVariables $variables */
@@ -111,10 +111,10 @@ final class EntityEventVariablesTest extends TestCase {
    * Test a TaxonomyTermPreprocessEvent.
    */
   public function testTaxonomyTermEvent(): void {
-    $term = EntityMockFactory::getMock(TermInterface::class, 'taxonomy_term', 'term_bundle');
+    $term = $this->getMock(TermInterface::class, 'taxonomy_term', 'term_bundle');
     $variablesArray = $this->createVariablesArray();
     $variablesArray['term'] = $term;
-    $variablesArray['theme_hook_original'] = $term->getEntityType();
+    $variablesArray['theme_hook_original'] = $term->getEntityTypeId();
     $variablesArray['view_mode'] = $this->viewMode;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\TaxonomyTermEventVariables $variables */
@@ -136,7 +136,7 @@ final class EntityEventVariablesTest extends TestCase {
     $this->assertAbstractEventVariables($variables);
 
     self::assertSame($entity, $variables->getEntity());
-    self::assertSame($entity->getEntityType(), $variables->getEntityType());
+    self::assertSame($entity->getEntityTypeId(), $variables->getEntityType());
     self::assertSame($entity->bundle(), $variables->getEntityBundle());
     self::assertSame($this->viewMode, $variables->getViewMode());
   }
@@ -166,7 +166,7 @@ final class EntityEventVariablesTest extends TestCase {
   /**
    * Get the variables from the created event.
    *
-   * @param string $class
+   * @param class-string<\Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface> $class
    *   Event class name.
    * @param array $variablesArray
    *   Variables array.
@@ -175,19 +175,16 @@ final class EntityEventVariablesTest extends TestCase {
    *   Variables object.
    */
   private function getVariablesFromCreatedEvent(string $class, array $variablesArray): AbstractEntityEventVariables {
-    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $class */
     $hook = $class::getHook();
     self::assertSame(AbstractPreprocessEvent::DISPATCH_NAME_PREFIX . $hook, $class::name());
 
     $factory = $this->mapper->getFactory($hook);
     self::assertSame($hook, $factory->getEventHook());
 
-    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEntityEventInterface $event*/
     $event = $factory->createEvent($variablesArray);
     self::assertInstanceOf(PreprocessEntityEventInterface::class, $event);
     self::assertInstanceOf($class, $event);
 
-    /** @var \Drupal\preprocess_event_dispatcher\Variables\AbstractEntityEventVariables $variables */
     $variables = $event->getVariables();
     self::assertInstanceOf(AbstractEntityEventVariables::class, $variables);
 

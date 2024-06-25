@@ -3,12 +3,12 @@
 namespace Drupal\core_event_dispatcher\Event\Form;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class FormBaserAlterEvent.
- *
- * @HookEvent(id="form_base_alter", alter="form")
  */
+#[HookEvent(id: 'form_base_alter', alter: 'form')]
 class FormBaseAlterEvent extends AbstractFormEvent {
 
   /**
@@ -36,7 +36,7 @@ class FormBaseAlterEvent extends AbstractFormEvent {
   public function __construct(
     array &$form,
     FormStateInterface $formState,
-    string $formId
+    string $formId,
   ) {
     parent::__construct($form, $formState, $formId);
     $buildInfo = $formState->getBuildInfo();

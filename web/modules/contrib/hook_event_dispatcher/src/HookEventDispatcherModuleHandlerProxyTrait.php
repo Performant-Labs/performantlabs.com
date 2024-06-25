@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\hook_event_dispatcher;
 
+use Drupal\Core\DestructableInterface;
+
 /**
  * Implements all methods from the interface via a proxy.
  */
@@ -19,14 +21,14 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function loadAll() {
+  public function loadAll(): void {
     $this->inner->loadAll();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function reload() {
+  public function reload(): void {
     $this->inner->reload();
   }
 
@@ -54,21 +56,21 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function setModuleList(array $moduleList = []) {
+  public function setModuleList(array $moduleList = []): void {
     $this->inner->setModuleList($moduleList);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function addModule($name, $path) {
+  public function addModule($name, $path): void {
     $this->inner->addModule($name, $path);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function addProfile($name, $path) {
+  public function addProfile($name, $path): void {
     $this->inner->addProfile($name, $path);
   }
 
@@ -89,7 +91,7 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function loadAllIncludes($type, $name = NULL) {
+  public function loadAllIncludes($type, $name = NULL): void {
     $this->inner->loadAllIncludes($type, $name);
   }
 
@@ -110,14 +112,14 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function writeCache() {
+  public function writeCache(): void {
     $this->inner->writeCache();
   }
 
   /**
    * {@inheritdoc}
    */
-  public function resetImplementations() {
+  public function resetImplementations(): void {
     $this->inner->resetImplementations();
   }
 
@@ -173,7 +175,7 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function alterDeprecated($description, $type, &$data, &$context1 = NULL, &$context2 = NULL) {
+  public function alterDeprecated($description, $type, &$data, &$context1 = NULL, &$context2 = NULL): void {
     $this->inner->alterDeprecated($description, $type, $data, $context1, $context2);
   }
 
@@ -189,6 +191,15 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
    */
   public function getName($module) {
     return $this->inner->getName($module);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function destruct() {
+    if ($this->inner instanceof DestructableInterface) {
+      $this->inner->destruct();
+    }
   }
 
 }

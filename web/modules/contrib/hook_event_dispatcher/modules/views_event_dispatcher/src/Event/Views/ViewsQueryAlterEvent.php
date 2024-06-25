@@ -2,15 +2,15 @@
 
 namespace Drupal\views_event_dispatcher\Event\Views;
 
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\views\Plugin\views\query\QueryPluginBase;
 use Drupal\views\ViewExecutable;
 use Drupal\views_event_dispatcher\ViewsHookEvents;
 
 /**
  * Class ViewsQueryAlterEvent.
- *
- * @HookEvent(id="views_query_alter", hook="views_query_alter")
  */
+#[HookEvent(id: 'views_query_alter', hook: 'views_query_alter')]
 final class ViewsQueryAlterEvent extends AbstractViewsEvent {
 
   /**

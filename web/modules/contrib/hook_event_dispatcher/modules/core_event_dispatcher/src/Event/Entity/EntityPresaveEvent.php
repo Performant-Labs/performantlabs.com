@@ -4,15 +4,12 @@ namespace Drupal\core_event_dispatcher\Event\Entity;
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 
 /**
  * Class EntityPresaveEvent.
- *
- * @HookEvent(
- *   id = "entity_presave",
- *   hook = "entity_presave"
- * )
  */
+#[HookEvent(id: 'entity_presave', hook: 'entity_presave')]
 class EntityPresaveEvent extends AbstractEntityEvent {
 
   /**

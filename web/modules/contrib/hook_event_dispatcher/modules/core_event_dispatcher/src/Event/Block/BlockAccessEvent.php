@@ -7,6 +7,7 @@ use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Access\AccessResultNeutral;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\core_event_dispatcher\BlockHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\AccessEventInterface;
 use Drupal\hook_event_dispatcher\Event\AccessEventTrait;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
@@ -14,12 +15,8 @@ use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class BlockAccessEvent.
- *
- * @HookEvent(
- *   id = "block_access",
- *   hook = "block_access"
- * )
  */
+#[HookEvent(id: 'block_access', hook: 'block_access')]
 class BlockAccessEvent extends Event implements EventInterface, AccessEventInterface, HookReturnInterface {
 
   use AccessEventTrait;

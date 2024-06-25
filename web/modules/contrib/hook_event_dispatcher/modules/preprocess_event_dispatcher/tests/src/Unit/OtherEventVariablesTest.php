@@ -67,7 +67,7 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testBlockEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $block = \Mockery::mock(BlockInterface::class);
+    $block = $this->createMock(BlockInterface::class);
     $variablesArray['block'] = $block;
     $variablesArray['elements']['#id'] = '22';
     $variablesArray['content']['test'] = ['success2'];
@@ -88,7 +88,7 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testBlockEventWithBlockContent(): void {
     $variablesArray = $this->createVariablesArray();
-    $blockContent = \Mockery::mock(BlockContentInterface::class);
+    $blockContent = $this->createMock(BlockContentInterface::class);
     $variablesArray['content']['#block_content'] = $blockContent;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\BlockEventVariables $variables */
@@ -171,11 +171,8 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testUsernameEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $accountMock = \Mockery::mock(UserInterface::class);
-    $accountMock->expects('isAnonymous')
-      ->with()
-      ->once()
-      ->andReturnTrue();
+    $accountMock = $this->createMock(UserInterface::class);
+    $accountMock->expects($this->once())->method('isAnonymous')->willReturn(TRUE);
     $variablesArray['account'] = $accountMock;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\UsernameEventVariables $variables */
@@ -191,13 +188,13 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testViewFieldEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $field = \Mockery::mock(FieldHandlerInterface::class);
+    $field = $this->createMock(FieldHandlerInterface::class);
     $variablesArray['field'] = $field;
-    $output = \Mockery::mock(Markup::class);
+    $output = $this->createMock(Markup::class);
     $variablesArray['output'] = $output;
-    $row = \Mockery::mock(ResultRow::class);
+    $row = $this->createMock(ResultRow::class);
     $variablesArray['row'] = $row;
-    $view = \Mockery::mock(ViewExecutable::class);
+    $view = $this->createMock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewFieldEventVariables $variables */
@@ -216,9 +213,9 @@ final class OtherEventVariablesTest extends TestCase {
    */
   public function testViewTableEvent(): void {
     $variablesArray = $this->createVariablesArray();
-    $rows = \Mockery::mock(ResultRow::class);
+    $rows = $this->createMock(ResultRow::class);
     $variablesArray['rows'] = $rows;
-    $view = \Mockery::mock(ViewExecutable::class);
+    $view = $this->createMock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewTableEventVariables $variables */
@@ -236,7 +233,7 @@ final class OtherEventVariablesTest extends TestCase {
   public function testViewEvent(): void {
     $variablesArray = $this->createVariablesArray();
     $variablesArray['rows'] = [['#rows' => ['rows']]];
-    $view = \Mockery::mock(ViewExecutable::class);
+    $view = $this->createMock(ViewExecutable::class);
     $variablesArray['view'] = $view;
 
     /** @var \Drupal\preprocess_event_dispatcher\Variables\ViewEventVariables $variables */
@@ -285,7 +282,7 @@ final class OtherEventVariablesTest extends TestCase {
   /**
    * Get the variables from the created event.
    *
-   * @param string $class
+   * @param class-string<\Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface> $class
    *   Event class name.
    * @param array $variablesArray
    *   Variables array.
@@ -294,14 +291,12 @@ final class OtherEventVariablesTest extends TestCase {
    *   Variables object.
    */
   private function getVariablesFromCreatedEvent(string $class, array $variablesArray): AbstractEventVariables {
-    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $class */
     $hook = $class::getHook();
     self::assertSame(AbstractPreprocessEvent::DISPATCH_NAME_PREFIX . $hook, $class::name());
 
     $factory = $this->mapper->getFactory($hook);
     self::assertSame($hook, $factory->getEventHook());
 
-    /** @var \Drupal\preprocess_event_dispatcher\Event\PreprocessEventInterface $event */
     $event = $factory->createEvent($variablesArray);
     self::assertInstanceOf($class, $event);
 

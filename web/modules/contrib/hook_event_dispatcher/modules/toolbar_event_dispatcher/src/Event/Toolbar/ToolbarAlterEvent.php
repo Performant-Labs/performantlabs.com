@@ -3,14 +3,14 @@
 namespace Drupal\toolbar_event_dispatcher\Event\Toolbar;
 
 use Drupal\Component\EventDispatcher\Event;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\toolbar_event_dispatcher\ToolbarHookEvents;
 
 /**
  * Class ToolbarAlterEvent.
- *
- * @HookEvent(id="toolbar_alter", alter="toolbar")
  */
+#[HookEvent(id: 'toolbar_alter', alter: 'toolbar')]
 class ToolbarAlterEvent extends Event implements EventInterface {
 
   /**

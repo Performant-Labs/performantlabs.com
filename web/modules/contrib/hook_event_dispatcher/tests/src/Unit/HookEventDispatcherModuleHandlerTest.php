@@ -24,7 +24,7 @@ class HookEventDispatcherModuleHandlerTest extends TestCase {
    *
    * @dataProvider invokeProvider
    */
-  public function testInvoke($arg): void {
+  public function testInvoke(bool|array $arg): void {
     $inner = $this->createMock(ModuleHandlerInterface::class);
     $inner->expects($this->once())->method('invokeAllWith');
 
@@ -37,7 +37,7 @@ class HookEventDispatcherModuleHandlerTest extends TestCase {
       yield static function ($arg) {
         return new class($arg) implements EventInterface, HookReturnInterface {
 
-          public function __construct(protected $arg) {}
+          public function __construct(protected bool|array $arg) {}
 
           public function getDispatcherType(): string {
             return '';
@@ -69,7 +69,7 @@ class HookEventDispatcherModuleHandlerTest extends TestCase {
    *
    * @dataProvider alterProvider
    */
-  public function testAlter(...$args): void {
+  public function testAlter(bool ...$args): void {
     $inner = $this->createMock(ModuleHandlerInterface::class);
     $inner->expects($this->once())->method('alter');
 
@@ -82,7 +82,7 @@ class HookEventDispatcherModuleHandlerTest extends TestCase {
       yield static function (&$data, &$context1 = NULL, &$context2 = NULL) {
         return new class($data, $context1, $context2) implements EventInterface {
 
-          public function __construct(&$data, &$context1, &$context2) {
+          public function __construct(mixed &$data, mixed &$context1, mixed &$context2) {
             $data = !$data;
             $context1 = !$context1;
             $context2 = !$context2;

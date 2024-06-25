@@ -8,6 +8,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\core_event_dispatcher\EntityHookEvents;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\AccessEventInterface;
 use Drupal\hook_event_dispatcher\Event\AccessEventTrait;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
@@ -15,9 +16,8 @@ use Drupal\hook_event_dispatcher\Event\HookReturnInterface;
 
 /**
  * Class EntityInsertEvent.
- *
- * @HookEvent(id="entity_field_access", hook="entity_field_access")
  */
+#[HookEvent(id: 'entity_field_access', hook: 'entity_field_access')]
 class EntityFieldAccessEvent extends Event implements EventInterface, AccessEventInterface, HookReturnInterface {
 
   use AccessEventTrait;
@@ -31,14 +31,14 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
    *   The field definition.
    * @param \Drupal\Core\Session\AccountInterface $account
    *   The account interface.
-   * @param \Drupal\Core\Field\FieldItemListInterface|null $items
+   * @param \Drupal\Core\Field\FieldItemListInterface<\Drupal\Core\Field\FieldItemInterface>|null $items
    *   The field item list interface.
    */
   public function __construct(
     string $operation,
     private readonly FieldDefinitionInterface $fieldDefinition,
     AccountInterface $account,
-    private readonly ?FieldItemListInterface $items = NULL
+    private readonly ?FieldItemListInterface $items = NULL,
   ) {
     $this->operation = $operation;
     $this->account = $account;
@@ -65,7 +65,7 @@ class EntityFieldAccessEvent extends Event implements EventInterface, AccessEven
   /**
    * Get the items.
    *
-   * @return null|\Drupal\Core\Field\FieldItemListInterface
+   * @return null|\Drupal\Core\Field\FieldItemListInterface<\Drupal\Core\Field\FieldItemInterface>
    *   The items.
    */
   public function getItems(): ?FieldItemListInterface {

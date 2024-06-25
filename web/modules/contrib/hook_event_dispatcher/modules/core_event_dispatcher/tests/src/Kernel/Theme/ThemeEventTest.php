@@ -42,7 +42,7 @@ class ThemeEventTest extends KernelTestBase {
    *
    * @throws \Exception
    */
-  public function testThemeEvent($path): void {
+  public function testThemeEvent(?string $path): void {
     if (!$path) {
       $this->expectException(\RuntimeException::class);
       $this->expectExceptionMessage('Missing path in the information array. ThemeEvent needs the path to be set manually, to have a proper default theme implementation. See \hook_theme() for more information.');

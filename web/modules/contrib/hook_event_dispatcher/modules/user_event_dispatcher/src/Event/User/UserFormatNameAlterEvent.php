@@ -4,17 +4,14 @@ namespace Drupal\user_event_dispatcher\Event\User;
 
 use Drupal\Component\EventDispatcher\Event;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\hook_event_dispatcher\Attribute\HookEvent;
 use Drupal\hook_event_dispatcher\Event\EventInterface;
 use Drupal\user_event_dispatcher\UserHookEvents;
 
 /**
  * Class UserFormatNameAlterEvent.
- *
- * @HookEvent(
- *   id = "user_format_name_alter",
- *   alter = "user_format_name"
- * )
  */
+#[HookEvent(id: 'user_format_name_alter', alter: 'user_format_name')]
 final class UserFormatNameAlterEvent extends Event implements EventInterface {
 
   /**
