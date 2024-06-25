@@ -5926,9 +5926,13 @@ a.btn-primary.button:visited:active {
 }
 
 @media screen and (max-width: 800px) {
+  .path-frontpage .pl-projects--logo img {
+    width: 100%;
+    height: 6rem !important;
+  }
   .page-node-type-landing-page .lbk-rich-text-component img {
     width: 100%;
-    height: 6rem;
+    height: auto;
   }
 }
 /* ***************** note-download-logs-from-pantheon-page *********************/
