@@ -47,11 +47,13 @@ jobs:
   Define-Matrix:
     runs-on: ubuntu-latest
     outputs:
+      startTime: ${{ steps.get-output.outputs.startTime }}
       shardIndex: ${{ steps.get-output.outputs.shardIndex }}
     steps:
       - id: get-output
         run: |
           set -x
+          echo startTime=$(date '+%s') >> GITHUB_OUTPUT
           echo shardIndex=[$(seq 1 ${{ github.event.inputs.shards }} | tr '\n' ',' | sed 's/.$//')] >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
 
@@ -169,6 +171,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:
+      - Define-Matrix
       - Test-on-Pantheon
     steps:
 
@@ -203,9 +206,13 @@ jobs:
 
       - name: Set environment for messaging results
         run: |
-          echo JOB_STATUS=${{ job.status }} >> $GITHUB_ENV
+          set -x
+          echo JOB_STATUS=${{ needs.Test-on-Pantheon.result }} >> $GITHUB_ENV
           echo JOB_ENV=$PANTHEON_ENV >> $GITHUB_ENV
           echo JOB_BRANCH=${{ github.ref_name }} >> $GITHUB_ENV
+          START=${{ needs.Define-Matrix.outputs.startTime }}
+          STOP=$(date '+%s')
+          echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
       - name: Send results by email
         if: ${{ vars.ATK_MAIL_ENABLED }}
