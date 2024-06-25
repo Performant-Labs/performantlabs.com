@@ -133,7 +133,7 @@ jobs:
     if: ${{ !cancelled() }}
     needs:
       - Define-Matrix
-      - Test-on-Pantheon
+      - Test-on-Preview
     steps:
 
       - name: Check out repository code.
