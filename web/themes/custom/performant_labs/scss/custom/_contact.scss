@@ -61,15 +61,26 @@
   }
 }
 
-@media screen and (max-width: 590px) and (min-width: 425px) {
+@media screen and (max-width: 767px) and (min-width: 426px) {
   .contact-us-page {
-    .lbk-rich-text-component {
-      p:has(img) {
-        width: 100vw;
-      }
+    .PL-section-thin {
+      display: grid;
+  }
+  .block-layout-builder-kit{
+    max-width: 100% !important;
+    margin: 0;
+    .sidebar-contact{
+      padding-bottom: 1rem !important;
     }
   }
+
+  }
 }
+@media screen and (max-width: 426px) {
+  .block-layout-builder-kit {
+    max-width: unset !important;
+  }
+  }
 
 @media screen and (max-width: 767px) {
   .contact-us-page {
@@ -80,9 +91,7 @@
       margin: 0;
       margin-bottom: 1rem !important;
   }
-    .block-layout-builder-kit {
-      max-width: unset !important;
-    }
+
     form#webform-submission-contact-node-13-add-form {
       max-width: 100% !important;
  
