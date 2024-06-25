@@ -1398,19 +1398,23 @@ body .lbk-rich-text-component.automated-testing--level-up p {
       font-size:15px !important;
  }
 }
-@media (min-width:600px) and (max-width:990px) {
-  body .checkboxes-container ul li {
-      display: block !important;
-      margin-top: 33px !important;
-      margin: auto !important;
-      margin-top: 92px !important;
-      width: 160px;
+@media screen and (max-width:990px){
+  .automated-testing-page {
+  .checkboxes-container{ 
+    ul {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 0 auto !important;
+    width: fit-content;
+    padding: 0 !important;
+    li {
+      margin-left:unset !important;
+      padding: 0 !important;
+     }
  }
-  body .checkboxes-container ul {
-      width: 100%;
-      display: block;
-      text-align: center;
- }
+}
+}
 }
 // END OF @media (min-width:600px) and (max-width:990px) {
 
@@ -1454,21 +1458,12 @@ body .lbk-rich-text-component.automated-testing--level-up p {
   padding: 0;
   margin: 0;
 }
-.automated-testing-page .checkboxes-container ul {
-  display: flex;
-  margin: 0 !important;
-  margin-bottom: 6rem !important;
-  padding: 0;
-  justify-content: center;
-}
-.automated-testing-page .checkboxes-container ul li{
-  margin-top: 22px !important;
-}
+
 .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50{
   padding: 0 1rem !important;
 }
-
 }
+
 @media screen and (max-width:700px) and (min-width:430px) {
   .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.pl-section-bg-img {
     flex-wrap: nowrap;
@@ -1486,4 +1481,39 @@ body .lbk-rich-text-component.automated-testing--level-up p {
   .automated-testing-page .lbk-rich-text-component.automated-testing--wwu--title h2 {
     margin: 0 !important;
 }
+}
+
+@media screen and (max-width:325px){
+  .automated-testing-page {
+    .not-sure-text{
+      padding-left: unset !important;
+      padding-right: unset !important;
+      margin-top: 2.5rem;
+         }
+    .checkboxes-container{ 
+      ul {
+        padding-left: 1.5rem !important;
+      li {
+        display: flex;
+        align-items: center;
+        column-gap: 1rem;
+        strong {
+        display: inline-block;
+        width: 72%;
+    }
+        &::before{
+          width:64px !important;
+        }
+       }
+   }
+
+  }
+  .automated-testing--build-quality-into{
+    h2{
+      padding: 0 1.5rem !important;
+      font-size: 1.9rem;
+      margin-bottom: 2rem;
+    }
+  }
+  }
 }

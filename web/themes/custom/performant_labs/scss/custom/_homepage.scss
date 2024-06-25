@@ -7,10 +7,15 @@
  */
 .path-frontpage {
   font-family: $font-family-rubik;
-
+  .layout--threecol-section--33-34-33.PL-section-default {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
   .layout__region.layout__region--first {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 
   .layout--twocol-section.layout--twocol-section--25-75 {
@@ -55,6 +60,11 @@ p{
       width: 900px;
       @include for-phone-only {
         width: 100%;
+        li{
+          &:first-child{
+            padding-top: 0 !important;
+          }
+        }
       }
       li {
         align-items: center;
@@ -119,7 +129,7 @@ p{
   }
   .render-row {
     display: flex;
-    column-gap: 1.2rem;
+    column-gap: 1.4rem;
     @include for-phone-only {
       flex-direction: column;
       text-align: center;
@@ -137,7 +147,7 @@ p{
         color: $gray-base-2;
         font-size: 1.7rem;
         margin: 0 0 10px!important;
-        padding: 0 .5rem;
+
         @include for-phone-only {
           font-size: 1.6rem !important;
           margin: 20px 0 10px!important;
@@ -265,7 +275,7 @@ p{
       font-family: $font-family-rubik;
       font-weight: 400;
       line-height: 1.3;
-      max-width: 80rem;
+      max-width: 74rem;
       margin-left: auto;
       margin-right: auto;
       padding: 0 2em;
@@ -505,6 +515,7 @@ p{
   h2.lbk-block--title{
     max-width:unset !important;
     display: block !important;
+    padding: 0 1rem;
   }
   .layout--twocol-section.layout--twocol-section--25-75{
     display:flex;
@@ -514,7 +525,10 @@ p{
       padding: 0;
     }
     .block-layout-builder-kit {
-      margin-bottom: 40px !important;
+      margin-bottom: 40px;
+      display: grid;
+      width: 100%;
+      align-items: center;
   }
   }
     ul.clients-list {
@@ -558,8 +572,11 @@ p{
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 768px) {
   .path-frontpage {
+    .layout--threecol-section--33-34-33.PL-section-medium {
+      flex-direction: column;
+  }
     .render-image{
       margin:unset !important;
     }
@@ -569,29 +586,63 @@ p{
     .block-layout-builder-kit {
       margin-bottom: unset !important;
   }
+  .clients-block{
+    ul.clients-list{
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      li{
+        width:30% !important;
+      img{
+        height: 5rem;
+      }
+      img[alt='Docu Sign'] {
+        height: 3rem !important;
+      }
+      }
+    
+    }
+  }
   }
 }
 
 
 @media screen and (max-width: 430px) {
   .path-frontpage {
+    .clients-block{
+      ul.clients-list{
+        li{
+          width:50% !important;
+        }
+      
+      }
+    }
     .pl-banner {
       .pl-banner--title {
         max-width: 23rem !important;
         font-size: 1.9rem !important;
       }
     }
-
-    .clients-block {
-      ul.clients-list {
-        li {
-          width: 90% !important;
-        }
-      }
-    }
   }
 }
 
+
+@media screen and (max-width: 1290px) and (min-width:426px){
+  .path-frontpage {
+    .layout--twocol-section.layout--twocol-section--25-75{
+    display: grid;
+    grid-template-columns: 80%;
+    }
+    .recent-articles--left{
+      padding:0 !important;
+    h2.lbk-block--title {
+      max-width: unset !important;
+      display: block !important;
+      
+  }
+}
+  }
+}
 
 
 @media screen and (max-width: 1024px) and (min-width:630px){
@@ -606,8 +657,19 @@ p{
   
 }
 
-@media screen and (max-width: 710px) and (min-width:425px) {
+
+
+
+@media screen and (max-width: 710px) and (min-width:426px) {
   .path-frontpage {
+    .clients-block{
+      ul.clients-list{
+        li{
+          width:35% !important;
+        }
+      
+      }
+    }
     .layout.layout--threecol-section.PL-section-medium {
       display: grid !important;
     }
