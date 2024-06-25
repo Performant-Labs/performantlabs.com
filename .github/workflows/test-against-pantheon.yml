@@ -30,9 +30,9 @@ env:
   CI_THREADS: ${{ github.event.inputs.threads }}
 
   # for reporting
-  BUILD_NAME: ${{ github.workflow }}
-  BUILD_NUMBER: ${{ github.run_number }}
-  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  JOB_NAME: ${{ github.workflow }}
+  JOB_NUMBER: ${{ github.run_number }}
+  JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
   MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
   MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
@@ -201,13 +201,19 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Set environment for messaging results
+        run: |
+          echo JOB_STATUS=${{ job.status }} >> $GITHUB_ENV
+          echo JOB_ENV=$PANTHEON_ENV >> $GITHUB_ENV
+          echo JOB_BRANCH=${{ github.ref_name }} >> $GITHUB_ENV
+
       - name: Send results by email
         if: ${{ vars.ATK_MAIL_ENABLED }}
         run: |
-          export BUILD_STATUS=${{ job.status }} && node send-mail-ctrf.js
+          node message-email.js
 
       - name: Send results to Slack
         if: ${{ vars.ATK_SLACK_ENABLED }}
         shell: bash
         run: |
-          npx slack-ctrf results ctrf/ctrf-report.json
+          node message-slack.js

@@ -1,6 +1,3 @@
-// Parse report
-const report = require('./ctrf/ctrf-report.json');
-
 // Check that environment is set
 const missingVars =
   ['MAIL_TLS_ENABLE', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USER', 'MAIL_PASSWORD',
@@ -12,6 +9,9 @@ if (missingVars.length) {
 
 // Use at least Nodemailer v4.1.0
 const nodemailer = require('nodemailer');
+
+// Import message formatter
+const messageFormat = require('./message-format');
 
 // Create a SMTP transporter object
 let tlsEnable = process.env.MAIL_TLS_ENABLE === 'true';
@@ -29,19 +29,13 @@ let transporter = nodemailer.createTransport({
 });
 
 // Message object
-let subject = process.env.MAIL_SUBJECT.replaceAll(/\$\w+/g, match => process.env[match.substring(1)]);
+let subject = messageFormat({ type: 'subject' });
 let message = {
   from: process.env.MAIL_FROM,
   to: process.env.MAIL_TO,
   subject: subject,
-  text: `${report.results.summary.passed === report.results.summary.tests ?
-    'All tests passed' :
-    `${report.results.summary.failed} tests failed.`}\n
-    View workflow run: ${process.env.BUILD_URL}`,
-  html: `<p>${report.results.summary.passed === report.results.summary.tests ?
-    'All tests passed.' :
-    `<strong>${report.results.summary.failed}</strong> tests failed.`}</p>
-    <p><a href="${process.env.BUILD_URL}">View workflow run</a></p>`
+  text: messageFormat({ type: 'text' }),
+  html: messageFormat({ type: 'html' })
 };
 
 transporter.sendMail(message, (err, info) => {
