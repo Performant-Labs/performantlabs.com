@@ -53,8 +53,8 @@ jobs:
       - id: get-output
         run: |
           set -x
-          echo startTime=$(date '+%s') >> GITHUB_OUTPUT
-          echo shardIndex=[$(seq 1 ${{ github.event.inputs.shards }} | tr '\n' ',' | sed 's/.$//')] >> $GITHUB_OUTPUT
+          echo "::set-output name=startTime::$(date '+%s')"
+          echo "::set-output name=shardIndex::[$(seq 1 ${{ github.event.inputs.shards }} | tr '\n' ',' | sed 's/.$//')]"
           cat $GITHUB_OUTPUT
 
   Test-on-Pantheon:
