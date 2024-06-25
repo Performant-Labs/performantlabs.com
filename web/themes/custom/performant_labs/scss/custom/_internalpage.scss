@@ -149,12 +149,12 @@
     font-size: 1.8rem;
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
 .page-node-type-landing-page {
   .lbk-rich-text-component {
     img {
       width: 100%;
-      height: auto;
+      height: 6rem;
     }
   }
 }

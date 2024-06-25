@@ -4459,9 +4459,15 @@ a.btn-primary.button:visited:active {
 .path-frontpage {
   font-family: "Rubik", sans-serif;
 }
+.path-frontpage .layout--threecol-section--33-34-33.PL-section-default {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
 .path-frontpage .layout__region.layout__region--first {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .path-frontpage .layout--twocol-section.layout--twocol-section--25-75 {
   background: #e9f5f7;
@@ -4506,7 +4512,6 @@ a.btn-primary.button:visited:active {
   flex-flow: row wrap;
   justify-content: center;
   margin: 40px auto 15px;
-  width: 900px;
 }
 @media (max-width: 599px) {
   .path-frontpage .clients-block ul.clients-list {
@@ -4947,6 +4952,7 @@ a.btn-primary.button:visited:active {
   .path-frontpage h2.lbk-block--title {
     max-width: unset !important;
     display: block !important;
+    padding: 0 1rem;
   }
   .path-frontpage .layout--twocol-section.layout--twocol-section--25-75 {
     display: flex;
@@ -4957,7 +4963,10 @@ a.btn-primary.button:visited:active {
     padding: 0;
   }
   .path-frontpage .layout--twocol-section.layout--twocol-section--25-75 .block-layout-builder-kit {
-    margin-bottom: 40px !important;
+    margin-bottom: 40px;
+    display: grid;
+    width: 100%;
+    align-items: center;
   }
   .path-frontpage ul.clients-list {
     display: grid !important;
@@ -4993,6 +5002,9 @@ a.btn-primary.button:visited:active {
   }
 }
 @media screen and (max-width: 768px) {
+  .path-frontpage .layout--threecol-section--33-34-33.PL-section-medium {
+    flex-direction: column;
+  }
   .path-frontpage .render-image {
     margin: unset !important;
   }
@@ -5424,7 +5436,6 @@ a.btn-primary.button:visited:active {
 .articles-page .article-above-fold {
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.75));
   padding: 10px;
-  padding-bottom: 23px;
   margin-bottom: 20px;
 }
 .articles-page .layout__region--content .field--name-body > p {
@@ -5913,10 +5924,10 @@ a.btn-primary.button:visited:active {
   font-size: 1.8rem;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 800px) {
   .page-node-type-landing-page .lbk-rich-text-component img {
     width: 100%;
-    height: auto;
+    height: 6rem;
   }
 }
 /* ***************** note-download-logs-from-pantheon-page *********************/
@@ -6004,9 +6015,21 @@ a.btn-primary.button:visited:active {
     flex-wrap: nowrap;
   }
 }
-@media screen and (max-width: 590px) and (min-width: 425px) {
-  .contact-us-page .lbk-rich-text-component p:has(img) {
-    width: 100vw;
+@media screen and (max-width: 767px) and (min-width: 426px) {
+  .contact-us-page .PL-section-thin {
+    display: grid;
+  }
+  .contact-us-page .block-layout-builder-kit {
+    max-width: 100% !important;
+    margin: 0;
+  }
+  .contact-us-page .block-layout-builder-kit .sidebar-contact {
+    padding-bottom: 1rem !important;
+  }
+}
+@media screen and (max-width: 426px) {
+  .block-layout-builder-kit {
+    max-width: unset !important;
   }
 }
 @media screen and (max-width: 767px) {
@@ -6016,9 +6039,6 @@ a.btn-primary.button:visited:active {
   .contact-us-page h2.lbk-block--title {
     margin: 0;
     margin-bottom: 1rem !important;
-  }
-  .contact-us-page .block-layout-builder-kit {
-    max-width: unset !important;
   }
   .contact-us-page form#webform-submission-contact-node-13-add-form {
     max-width: 100% !important;
