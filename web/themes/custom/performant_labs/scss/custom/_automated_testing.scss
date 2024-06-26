@@ -242,26 +242,30 @@
   // Trusted By section.
   //
   .automated-testing--trusted-by {
-    padding: 30px 15%;
+    padding: 30px auto;
     h2.lbk-block--title {
       text-align: center;
     }
     ul.clients-list {
-      list-style: none;
-      display: block;
       padding: 0;
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      margin: auto;
+      width: 900px;
       li {
-        display: inline-block;
-        max-width: 20%;
-        padding: 0px !important;
-        margin: 0px !important;
-
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 5px;
+        width: 25.33%;
         a img {
-          height: 30px;
-          margin: auto;
-          display: block;
-          width: 75%;
-          margin-right: 50px;
+          // height: 30px;
+          // margin: auto;
+          // display: block;
+          // width: 75%;
+          // margin-right: 50px;
         }
       }
     }
@@ -284,6 +288,7 @@
         margin-right: 25px;
         img {
           width: 130px;
+          margin-bottom: 1rem;
         }
       }
     }
@@ -1061,9 +1066,9 @@ body .automated-testing--level-up p {
       height: 40px;
       width: 100%;
   }
-  .automated-testing--trusted-by ul.clients-list li {
-      max-width: 32%;
-  }
+  // .automated-testing--trusted-by ul.clients-list li {
+  //     max-width: 32%;
+  // }
   .automated-testing--we-work-with {
       padding-top: 0px;
       padding-bottom: 0px;
@@ -1163,9 +1168,9 @@ body .header.blue {
   .automated-testing--trusted-by h2.lbk-block--title {
       text-align: left;
  }
-  .automated-testing--trusted-by ul.clients-list li a img {
-      margin-bottom: 25px;
- }
+//   .automated-testing--trusted-by ul.clients-list li a img {
+//       margin-bottom: 25px;
+//  }
   .automated-testing--we-work-with {
       padding: 0 20px;
  }
@@ -1399,7 +1404,9 @@ body .lbk-rich-text-component.automated-testing--level-up p {
  }
 }
 @media screen and (max-width:990px){
+
   .automated-testing-page {
+    
   .checkboxes-container{ 
     ul {
     display: flex;
@@ -1416,18 +1423,17 @@ body .lbk-rich-text-component.automated-testing--level-up p {
 }
 }
 }
-// END OF @media (min-width:600px) and (max-width:990px) {
+
+
+
 
 
 
 @media screen and (max-width:767px) {
-  /* **************** Automated testing Page Mobile ******************* */
   .automated-testing-page .layout__region.layout__region--first{
     display: unset !important;
   }
-  .automated-testing-page .lbk-rich-text-component.automated-testing--wwu--title h2 {
-    padding: 30px 35px !important;
-  }
+
   .automated-testing-page .automated-testing--faq .faq-container :is(.faq-body,.faq-question) {
     width: 100% !important;
   }
@@ -1464,6 +1470,7 @@ body .lbk-rich-text-component.automated-testing--level-up p {
 }
 }
 
+
 @media screen and (max-width:700px) and (min-width:430px) {
   .automated-testing-page .layout.layout--twocol-section.layout--twocol-section--50-50.pl-section-bg-img {
     flex-wrap: nowrap;
@@ -1474,17 +1481,78 @@ body .lbk-rich-text-component.automated-testing--level-up p {
     font-size: 40px;
     margin-bottom: 1.2rem !important;
   }
+
+}
+@media screen and (max-width:900px){
+  .automated-testing-page{
+    .automated-testing--trusted-by{
+      ul.clients-list{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        li{
+          width: 29%;
+          img{
+            width: 100% !important;
+            height: 5rem !important;
+          }
+          img[alt="Docu Sign"]{
+            height: 3rem !important;
+          }
+        }
+      }
+    }
+  }
 }
 
 
-@media screen and (max-width: 750px) and (min-width:590px){
+
+@media screen and (max-width: 750px) {
   .automated-testing-page .lbk-rich-text-component.automated-testing--wwu--title h2 {
     margin: 0 !important;
+    padding: 30px 35px !important;
+}
+
+}
+
+@media screen and (max-width:600px){
+  .automated-testing-page{
+    .layout--threecol-section{
+      align-items: center !important;
+    }
+    .lbk-rich-text-component{
+      .automated-testing--wwu--title{
+    h2{
+      padding: 30px 35px !important;
+    }
+      }
+    }
+  .automated-testing--trusted-by{
+    ul.clients-list{
+      li{
+        width: 50% !important;
+      }
+    }
+  }
 }
 }
 
 @media screen and (max-width:325px){
   .automated-testing-page {
+    .automated-testing--trusted-by{
+      ul.clients-list{
+        li{
+          width: 62% !important;
+          img{
+        
+          }
+          img[alt="Docu Sign"]{
+            
+          }
+        }
+      }
+    }
     .not-sure-text{
       padding-left: unset !important;
       padding-right: unset !important;
