@@ -45,7 +45,7 @@ test.describe('Media tests.', () => {
     //
     // Add an image.
     //
-    await page.goto(baseUrl + atkConfig.imageAddUrl);
+    await page.goto(atkConfig.imageAddUrl);
 
     // Upload image.
     await page.setInputFiles('#edit-field-media-image-0-upload', image1Filepath);
@@ -79,7 +79,7 @@ test.describe('Media tests.', () => {
     // Update the media.
     //
     const mediaEditUrl = atkConfig.mediaEditUrl.replace('{mid}', mid);
-    await page.goto(baseUrl + mediaEditUrl);
+    await page.goto(mediaEditUrl);
     await page.getByRole('button', { name: 'Remove' }).click();
     await page.setInputFiles('input[name="files[field_media_image_0]"]', image2Filepath);
     await altField.fill(`${testId}: ${uniqueToken2}`);
@@ -102,7 +102,7 @@ test.describe('Media tests.', () => {
     // Delete the media entity.
     //
     const mediaDeleteUrl = atkConfig.mediaDeleteUrl.replace('{mid}', mid);
-    await page.goto(baseUrl + mediaDeleteUrl);
+    await page.goto(mediaDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
   });
 });

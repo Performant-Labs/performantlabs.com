@@ -44,7 +44,7 @@ test.describe('Entity tests.', () => {
     //
     // Add a taxonomy node to the tags vocabulary.
     //
-    await page.goto(baseUrl + atkConfig.termAddUrl);
+    await page.goto(atkConfig.termAddUrl);
 
     // Fill in as many fields as you need here.
     // Below we provide a name and body.
@@ -76,7 +76,7 @@ test.describe('Entity tests.', () => {
     const termDeleteUrl = atkConfig.termDeleteUrl.replace('{tid}', tid);
 
     // Validate the body.
-    await page.goto(baseUrl + termViewUrl);
+    await page.goto(termViewUrl);
     await expect(bodyText).toContain(bodyText);
 
     // Extract the tid placed in the body class by this hook:
@@ -88,7 +88,7 @@ test.describe('Entity tests.', () => {
     //
     bodyText = 'Ut eget ex vitae nibh dapibllus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + termEditUrl);
+    await page.goto(termEditUrl);
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     const button = await page.locator('#edit-save'); // eslint-disable-line no-unused-vars
@@ -98,7 +98,7 @@ test.describe('Entity tests.', () => {
     //
     // Delete the term.
     //
-    await page.goto(baseUrl + termDeleteUrl);
+    await page.goto(termDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
 
     // Adjust this confirmation to your needs.

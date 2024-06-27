@@ -102,7 +102,7 @@ async function deleteNodeViaUiWithNid (page, context, nid) {
   const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace("{nid}", nid)
 
   // Delete a node page.
-  await page.goto(baseUrl + nodeDeleteUrl)
+  await page.goto(nodeDeleteUrl)
   await page.getByRole('button', { name: 'Delete' }).click()
 
   // Adjust this confirmation to your needs.
@@ -346,7 +346,7 @@ function getUsernameWithEmail (email) {
  */
 async function logInViaForm (page, context, account) {
   await context.clearCookies()
-  await page.goto(baseUrl + atkConfig.logInUrl)
+  await page.goto(atkConfig.logInUrl)
   await page.getByLabel('Username').fill(account.userName)
   await page.getByLabel('Password').fill(account.userPassword)
   await page.getByRole('button', { name: 'Log in' }).click()
@@ -388,7 +388,7 @@ async function logInViaUli (page, context, uid) {
  * @param {object} context Context object.
  */
 async function logOutViaUi (page, context) {
-  const cmd = baseUrl + atkConfig.logOutUrl
+  const cmd = atkConfig.logOutUrl
 
   await page.goto(cmd)
 }

@@ -40,7 +40,7 @@ test.describe('Contact Us tests.', () => {
     let textContent = '';
 
     // Begin registration.
-    await page.goto(baseUrl + atkConfig.contactUsUrl);
+    await page.goto(atkConfig.contactUsUrl);
 
     await page.getByLabel('Your name').fill(userEtherealAccount.userName);
     await page.getByLabel('Your email').fill(userEtherealAccount.userEmail);

@@ -45,7 +45,7 @@ test.describe('Sitemap tests.', () => {
 
     // Fetch file.
     await page.goto(baseUrl);
-    const targetUrl = baseUrl + fileName;
+    const targetUrl = new URL(fileName, baseUrl).toString();
 
     // If there isn't at least one sitemap, this will fail.
     const response = await axios.get(targetUrl);
