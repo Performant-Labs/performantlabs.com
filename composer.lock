@@ -3086,26 +3086,26 @@
         },
         {
             "name": "drupal/easy_breadcrumb",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/easy_breadcrumb.git",
-                "reference": "2.0.6"
+                "reference": "2.0.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-2.0.6.zip",
-                "reference": "2.0.6",
-                "shasum": "622f31fb071dea25735cfc4eaab4cf96bde917ab"
+                "url": "https://ftp.drupal.org/files/projects/easy_breadcrumb-2.0.7.zip",
+                "reference": "2.0.7",
+                "shasum": "a17524ffc2c76bc0aedb04116c3647dc2025e762"
             },
             "require": {
-                "drupal/core": "^9.2 || ^10"
+                "drupal/core": "^9.2 || ^10 || ^11"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.0.6",
-                    "datestamp": "1707084295",
+                    "version": "2.0.7",
+                    "datestamp": "1719427042",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -5694,7 +5694,7 @@
             "extra": {
                 "drupal": {
                     "version": "6.2.3",
-                    "datestamp": "1719330022",
+                    "datestamp": "1719431562",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"

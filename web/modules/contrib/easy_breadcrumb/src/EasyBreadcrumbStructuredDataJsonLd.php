@@ -120,17 +120,27 @@ class EasyBreadcrumbStructuredDataJsonLd implements ContainerInjectionInterface 
           // Only add item if link's not empty.
           if (!empty($item)) {
             $value .= '{
-            "@type": "ListItem",
-            "position": "' . $position . '",
-            "name": "' . $name . '",
-            "item": "' . $item . '"
-          }';
+              "@type": "ListItem",
+              "position": "' . $position . '",
+              "name": "' . $name . '",
+              "item": "' . $item . '"
+            }';
           }
           else {
+            $lastAvailableItem = NULL;
+
+            foreach (array_reverse($links) as $previousLink) {
+              if (!empty($previousLink->getUrl()->setAbsolute(TRUE)->toString())) {
+                $lastAvailableItem = $previousLink->getUrl()->setAbsolute(TRUE)->toString();
+                break;
+              }
+            }
+
             $value .= '{
               "@type": "ListItem",
               "position": "' . $position . '",
-              "name": "' . $name . '"
+              "name": "' . $name . '",
+              "item": "' . $lastAvailableItem . '"
             }';
           }
 
