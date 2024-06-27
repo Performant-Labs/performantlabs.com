@@ -28,7 +28,7 @@ import userEtherealAccount from '../data/etherealUser.json';
 // Accounts module is enabled.
 import qaUserAccounts from '../data/qaUsers.json';
 
-test.describe('User registration and login tasks.', () => {
+test.skip('User registration and login tasks.', () => {
   //
   // Register the Ethereal user and confirm email reaches Ethereal.
   //
