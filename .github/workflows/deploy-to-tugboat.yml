@@ -60,8 +60,8 @@ jobs:
       - name: Trigger tests
         run: |
           set -x
-          PREVIEW=$(tugboat list previews --json | jq -r 'map(select(.label="'"$LABEL"'"))[0].preview')
-          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name="php"))[0].service')
-          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name="php"))[0].urls[0]')
+          PREVIEW=$(tugboat list previews --json | jq -r 'map(select(.label=="'"$LABEL"'"))[0].preview')
+          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
+          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
           gh workflow run test-against-tugboat.yml --ref $BRANCH -f service=$SERVICE -f url=$URL
 
