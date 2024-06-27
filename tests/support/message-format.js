@@ -85,7 +85,7 @@ module.exports = function ({ type }) {
       return mailsubjectPattern.replaceAll(/\$\w+/g, match => process.env[match.substring(1)]);
 
     case 'text':
-      return `${testMessage}\n${jobURL}`;
+      return `${testMessage}\non branch ${jobBranch} against ${jobEnv}.\nTest duration: ${testDuration}.\n${jobURL}`;
 
     case 'html':
       return `
