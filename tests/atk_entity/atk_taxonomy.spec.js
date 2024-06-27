@@ -59,8 +59,7 @@ test.describe('Entity tests.', () => {
     // Fetch tag id from the list. The new term should be at
     // or near the top.
     //
-    await page.goto(`${baseUrl}admin/structure/taxonomy/manage/tags/overview`);
-    const termLocator = await page.getByText(termName); // eslint-disable-line no-unused-vars
+    await page.goto(`admin/structure/taxonomy/manage/tags/overview`);
 
     // Get the tid from the edit button.
     const link = await page.locator("//a[contains(text(),'Edit') and  starts-with(@href, '/taxonomy/term')]").first();
