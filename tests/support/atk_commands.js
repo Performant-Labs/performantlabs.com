@@ -11,6 +11,7 @@
 
 module.exports = {
   createUserWithUserObject,
+  deleteCurrentNodeViaUi,
   deleteNodeViaUiWithNid,
   deleteUserWithEmail,
   deleteUserWithUid,
@@ -89,6 +90,16 @@ function createUserWithUserObject (user, roles = [], args = [], options = []) {
     execDrush(cmd)
     console.log(`${role}: If role exists, role assigned to the user ${user.userName}`)
   })
+}
+
+/**
+ * Delete currently opened node.
+ * @param page {object} Page object.
+ * @returns {Promise<void>}
+ */
+async function deleteCurrentNodeViaUi(page) {
+  await page.getByRole('link', { name: 'Delete' }).click();
+  await page.getByRole('button', { name: 'Delete' }).click();
 }
 
 /**
