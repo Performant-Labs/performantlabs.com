@@ -19,9 +19,9 @@ module.exports = function ({ type }) {
   try {
     report = require('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
-    testMessage = `✅${passed} passed`;
+    testMessage = `✅ ${passed} passed`;
     if (passed < tests) {
-      testMessage = `❌${failed} failed | ${testMessage} | 🚫${skipped} skipped`;
+      testMessage = `❌ ${failed} failed | ${testMessage} | 🚫 ${skipped} skipped`;
     }
   } catch (_) {
     testMessage = "🔴CTRF Report missing. Check workflow steps."
