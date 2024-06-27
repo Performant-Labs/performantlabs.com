@@ -71,14 +71,14 @@ test.describe('Media tests.', () => {
     // and NaturalHeight properties.
     let isImageDownloaded = await imageLocator.evaluate((img) => img.naturalWidth > 0 && img.naturalHeight > 0);
 
-    // Extract the media id that was added by
-    // automated_testing_kit_preprocess_image().
-    const mid = await imageLocator.getAttribute('data-media-id');
+    // Extract the edit and delete hrefs.
+    const rowLocator = page.locator('tr', { has: imageLocator });
+    const mediaEditUrl = await rowLocator.locator('a[href*="edit"]').first().getAttribute('href');
+    const mediaDeleteUrl = await rowLocator.locator('a[href*="delete"]').getAttribute('href');
 
     //
     // Update the media.
     //
-    const mediaEditUrl = atkConfig.mediaEditUrl.replace('{mid}', mid);
     await page.goto(mediaEditUrl);
     await page.getByRole('button', { name: 'Remove' }).click();
     await page.setInputFiles('input[name="files[field_media_image_0]"]', image2Filepath);
@@ -101,7 +101,6 @@ test.describe('Media tests.', () => {
     //
     // Delete the media entity.
     //
-    const mediaDeleteUrl = atkConfig.mediaDeleteUrl.replace('{mid}', mid);
     await page.goto(mediaDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
   });
