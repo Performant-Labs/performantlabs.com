@@ -42,7 +42,7 @@ test.describe('Node tests.', () => {
     //
     // Add a page.
     //
-    await page.goto(baseUrl + atkConfig.pageAddUrl);
+    await page.goto(atkConfig.pageAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -74,7 +74,7 @@ test.describe('Node tests.', () => {
 
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + nodeEditUrl);
+    await page.goto(nodeEditUrl);
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
@@ -112,7 +112,7 @@ test.describe('Node tests.', () => {
     //
     // Add an article.
     //
-    await page.goto(baseUrl + atkConfig.articleAddUrl);
+    await page.goto(atkConfig.articleAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -151,7 +151,7 @@ test.describe('Node tests.', () => {
 
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + nodeEditUrl);
+    await page.goto(nodeEditUrl);
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.

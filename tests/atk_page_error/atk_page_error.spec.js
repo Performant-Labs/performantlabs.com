@@ -41,7 +41,7 @@ test.describe('Page error tests.', () => {
     const badAnonymousUrl = 'admin';
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(baseUrl + badAnonymousUrl);
+    await page.goto(badAnonymousUrl);
 
     // Should see the 403 message.
     let textContent = '';
@@ -62,7 +62,7 @@ test.describe('Page error tests.', () => {
     const badAuthenticatedUrl = `${testId}-BadAuthenticatedPage-${randomString}`;
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(baseUrl + `${badAnonymousUrl}`);
+    await page.goto(`${badAnonymousUrl}`);
 
     // Should see the 404 message.
     let textContent = '';
@@ -70,7 +70,7 @@ test.describe('Page error tests.', () => {
     expect(textContent).toContain('404 error page');
 
     await atkCommands.logInViaForm(page, context, qaUserAccounts.authenticated);
-    await page.goto(baseUrl + badAuthenticatedUrl);
+    await page.goto(badAuthenticatedUrl);
 
     // Should see the 404 message.
     textContent = await page.content();
