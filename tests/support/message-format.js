@@ -17,7 +17,7 @@ module.exports = function ({ type }) {
   let testMessage;
   let report;
   try {
-    report = require('./ctrf/ctrf-report.json');
+    report = require('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
     testMessage = `✅${passed} passed`;
     if (passed < tests) {
