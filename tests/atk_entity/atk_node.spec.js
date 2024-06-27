@@ -42,7 +42,7 @@ test.describe('Node tests.', () => {
     //
     // Add a page.
     //
-    await page.goto(baseUrl + atkConfig.pageAddUrl);
+    await page.goto(atkConfig.pageAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -54,27 +54,15 @@ test.describe('Node tests.', () => {
     //
     // Confirm content appears.
     //
-    let divContainer = await page.textContent('.text-content');
+    let divContainer = await page.textContent('.node__content');
     await expect(divContainer).toContain(bodyText);
-
-    // Extract the nid placed in the body class by this hook:
-    // automated_testing_kit.module:automated_testing_kit_preprocess_html().
-    // Wait for the page to load
-    await page.waitForLoadState('domcontentloaded');
-    const bodyClass = await page.evaluate(() => document.body.className);
-    const match = bodyClass.match(/node-nid-(\d+)/);
-
-    // Get the nid.
-    const nid = parseInt(match[1], 10);
 
     //
     // Update the node.
     //
-    const nodeEditUrl = atkConfig.nodeEditUrl.replace('{nid}', nid);
-
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + nodeEditUrl);
+    await page.getByRole('link', { name: 'Edit' }).click();
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
@@ -85,14 +73,14 @@ test.describe('Node tests.', () => {
     //
     // Confirm content has changed.
     //
-    divContainer = await page.locator('.text-content');
+    divContainer = await page.locator('.node__content');
     const text = await divContainer.textContent();
     await expect(text).toContain(bodyText);
 
     //
     // Delete the node.
     //
-    await atkCommands.deleteNodeViaUiWithNid(page, context, nid);
+    await atkCommands.deleteCurrentNodeViaUi(page);
   });
 
   //
@@ -112,7 +100,7 @@ test.describe('Node tests.', () => {
     //
     // Add an article.
     //
-    await page.goto(baseUrl + atkConfig.articleAddUrl);
+    await page.goto(atkConfig.articleAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -131,7 +119,7 @@ test.describe('Node tests.', () => {
     //
     // Confirm content appears.
     //
-    let divContainer = await page.textContent('.text-content');
+    let divContainer = await page.textContent('.node__content');
     await expect(divContainer).toContain(bodyText);
 
     // Extract the nid placed in the body class by this hook:
@@ -141,17 +129,12 @@ test.describe('Node tests.', () => {
     const bodyClass = await page.evaluate(() => document.body.className);
     const match = bodyClass.match(/node-nid-(\d+)/);
 
-    // Get the nid.
-    const nid = parseInt(match[1], 10);
-
     //
     // Update the node.
     //
-    const nodeEditUrl = atkConfig.nodeEditUrl.replace('{nid}', nid);
-
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + nodeEditUrl);
+    await page.getByRole('link', { name: 'Edit' }).click();
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
@@ -162,13 +145,13 @@ test.describe('Node tests.', () => {
     //
     // Confirm content has changed.
     //
-    divContainer = await page.locator('.text-content');
+    divContainer = await page.locator('.node__content');
     const text = await divContainer.textContent();
     await expect(text).toContain(bodyText);
 
     //
     // Delete the node.
     //
-    await atkCommands.deleteNodeViaUiWithNid(page, context, nid);
+    await atkCommands.deleteCurrentNodeViaUi(page);
   });
 });

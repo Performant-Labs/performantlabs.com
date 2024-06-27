@@ -44,7 +44,7 @@ test.describe('Entity tests.', () => {
     //
     // Add a taxonomy node to the tags vocabulary.
     //
-    await page.goto(baseUrl + atkConfig.termAddUrl);
+    await page.goto(atkConfig.termAddUrl);
 
     // Fill in as many fields as you need here.
     // Below we provide a name and body.
@@ -59,8 +59,7 @@ test.describe('Entity tests.', () => {
     // Fetch tag id from the list. The new term should be at
     // or near the top.
     //
-    await page.goto(`${baseUrl}admin/structure/taxonomy/manage/tags/overview`);
-    const termLocator = await page.getByText(termName); // eslint-disable-line no-unused-vars
+    await page.goto(`admin/structure/taxonomy/manage/tags/overview`);
 
     // Get the tid from the edit button.
     const link = await page.locator("//a[contains(text(),'Edit') and  starts-with(@href, '/taxonomy/term')]").first();
@@ -76,7 +75,7 @@ test.describe('Entity tests.', () => {
     const termDeleteUrl = atkConfig.termDeleteUrl.replace('{tid}', tid);
 
     // Validate the body.
-    await page.goto(baseUrl + termViewUrl);
+    await page.goto(termViewUrl);
     await expect(bodyText).toContain(bodyText);
 
     // Extract the tid placed in the body class by this hook:
@@ -88,7 +87,7 @@ test.describe('Entity tests.', () => {
     //
     bodyText = 'Ut eget ex vitae nibh dapibllus vulputate ut id lacus.';
 
-    await page.goto(baseUrl + termEditUrl);
+    await page.goto(termEditUrl);
     ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     const button = await page.locator('#edit-save'); // eslint-disable-line no-unused-vars
@@ -98,7 +97,7 @@ test.describe('Entity tests.', () => {
     //
     // Delete the term.
     //
-    await page.goto(baseUrl + termDeleteUrl);
+    await page.goto(termDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
 
     // Adjust this confirmation to your needs.

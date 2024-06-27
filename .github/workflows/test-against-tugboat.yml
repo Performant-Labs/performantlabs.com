@@ -178,10 +178,10 @@ jobs:
       - name: Send results by email
         if: ${{ vars.ATK_MAIL_ENABLED }}
         run: |
-          node message-email.js
+          node tests/support/message-email.js
 
       - name: Send results to Slack
         if: ${{ vars.ATK_SLACK_ENABLED }}
         shell: bash
         run: |
-          node message-slack.js
+          node tests/support/message-slack.js

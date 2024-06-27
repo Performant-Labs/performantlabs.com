@@ -17,11 +17,11 @@ module.exports = function ({ type }) {
   let testMessage;
   let report;
   try {
-    report = require('./ctrf/ctrf-report.json');
+    report = require('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
-    testMessage = `✅${passed} passed`;
+    testMessage = `✅ ${passed} passed`;
     if (passed < tests) {
-      testMessage = `❌${failed} failed | ${testMessage} | 🚫${skipped} skipped`;
+      testMessage = `❌ ${failed} failed | ${testMessage} | 🚫 ${skipped} skipped`;
     }
   } catch (_) {
     testMessage = "🔴CTRF Report missing. Check workflow steps."
@@ -85,7 +85,7 @@ module.exports = function ({ type }) {
       return mailsubjectPattern.replaceAll(/\$\w+/g, match => process.env[match.substring(1)]);
 
     case 'text':
-      return `${testMessage}\n${jobURL}`;
+      return `${testMessage}\non branch ${jobBranch} against ${jobEnv}.\nTest duration: ${testDuration}.\n${jobURL}`;
 
     case 'html':
       return `

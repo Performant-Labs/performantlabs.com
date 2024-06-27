@@ -41,19 +41,18 @@ test.describe('Page error tests.', () => {
     const badAnonymousUrl = 'admin';
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(baseUrl + badAnonymousUrl);
+    await page.goto(badAnonymousUrl);
 
     // Should see the 403 message.
     let textContent = '';
     textContent = await page.content();
-    expect(textContent).toContain('403 error page');
+    expect(textContent).toContain('You are not authorized');
   });
 
-  // Validate that 403 page appears.
+  // Validate that 404 page appears.
   // Assumes:
-  // Create a basic page with the title of "403 error page" that has the
-  // text "403 error page".
-  // In admin/config/system/site-information, set Default 403 (access denied) page = /node/x
+  // Create a basic page that has text content below.
+  // In admin/config/system/site-information, set Default 404 (not found) page = /node/x
   // where x is the new node ID.
   test('(ATK-PW-1061) Validate that 404 page appears. @ATK-PW-1061 @page-error @smoke', async ({ page, context }) => {
     const testId = 'ATK-PW-1061';
@@ -62,18 +61,18 @@ test.describe('Page error tests.', () => {
     const badAuthenticatedUrl = `${testId}-BadAuthenticatedPage-${randomString}`;
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(baseUrl + `${badAnonymousUrl}`);
+    await page.goto(`${badAnonymousUrl}`);
 
     // Should see the 404 message.
     let textContent = '';
     textContent = await page.content();
-    expect(textContent).toContain('404 error page');
+    expect(textContent).toContain('The requested page could not be found');
 
     await atkCommands.logInViaForm(page, context, qaUserAccounts.authenticated);
-    await page.goto(baseUrl + badAuthenticatedUrl);
+    await page.goto(badAuthenticatedUrl);
 
     // Should see the 404 message.
     textContent = await page.content();
-    expect(textContent).toContain('404 error page');
+    expect(textContent).toContain('The requested page could not be found');
   });
 });
