@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('Visually compare screenshots. @visual', async ({ page }) => {
+test('(ATK-1500) Visually compare screenshots. @visual @ATK-1500', async ({ page }) => {
   // Update list of locations you want to check.
   const locations = [
     '/',
