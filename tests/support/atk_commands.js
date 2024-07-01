@@ -9,6 +9,8 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable import/first */
 
+import * as fs from 'fs';
+
 module.exports = {
   createUserWithUserObject,
   deleteCurrentNodeViaUi,
@@ -24,18 +26,22 @@ module.exports = {
   logInViaForm,
   logInViaUli,
   logOutViaUi,
-  setDrupalConfiguration
+  setDrupalConfiguration,
+  getLocationsFromFile
 }
 
 // Set up Playwright.
 import { expect } from '@playwright/test'
 import playwrightConfig from '../../playwright.config.js'
+
 const baseUrl = playwrightConfig.use.baseURL;
 
 import { execSync } from 'child_process'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
 import atkConfig from '../../playwright.atk.config.js'
+import axios from 'axios';
+import { XMLParser } from 'fast-xml-parser';
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -50,7 +56,7 @@ import atkConfig from '../../playwright.atk.config.js'
  * @param {array} args Array of string arguments to pass to Drush.
  * @param {array} options Array of string options to pass to Drush.
  */
-function createUserWithUserObject (user, roles = [], args = [], options = []) {
+function createUserWithUserObject(user, roles = [], args = [], options = []) {
   let cmd = 'user:create '
 
   if ((args === undefined) || !Array.isArray(args)) {
@@ -109,7 +115,7 @@ async function deleteCurrentNodeViaUi(page) {
  * @param {object} context Context object.
  * @param {int} nid Node ID of item to delete.
  */
-async function deleteNodeViaUiWithNid (page, context, nid) {
+async function deleteNodeViaUiWithNid(page, context, nid) {
   const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace("{nid}", nid)
 
   // Delete a node page.
@@ -130,7 +136,7 @@ async function deleteNodeViaUiWithNid (page, context, nid) {
  * @param {string} email Email of account to delete.
  * @param {[string]} options Array of string options.
  */
-function deleteUserWithEmail (email, options = []) {
+function deleteUserWithEmail(email, options = []) {
   if ((options === undefined) || !Array.isArray(options)) {
     console.log('deleteUserWithEmail: Pass an array for options.')
   }
@@ -154,7 +160,7 @@ function deleteUserWithEmail (email, options = []) {
  *
  * @param {integer} uid Drupal uid of user to delete.
  */
-function deleteUserWithUid (uid, options = []) {
+function deleteUserWithUid(uid, options = []) {
   if ((options === undefined) || !Array.isArray(options)) {
     console.log('deleteUserWithUid: Pass an array for options.')
   }
@@ -174,7 +180,7 @@ function deleteUserWithUid (uid, options = []) {
  * @param {array} args Array of string arguments to pass to Drush.
  * @param {array} options Array of string options to pass to Drush.
  */
-function deleteUserWithUserName (userName, args = [], options = []) {
+function deleteUserWithUserName(userName, args = [], options = []) {
   const cmd = `user:cancel -y  '${userName}' `
 
   if ((args === undefined) || !Array.isArray(args)) {
@@ -202,7 +208,7 @@ function deleteUserWithUserName (userName, args = [], options = []) {
  * @param {array} options Array of string options to pass to Drush.
  * @returns {string} The output from executing the command in a shell.
  */
-function execDrush (cmd, args = [], options = []) {
+function execDrush(cmd, args = [], options = []) {
   let output = ''
 
   if ((args === undefined) || !Array.isArray(args)) {
@@ -246,7 +252,7 @@ function execDrush (cmd, args = [], options = []) {
  * @param {string} cmd Drush command; execDrush() contructs this with args and options.
  * @returns {string} The output from executing the command in a shell.
  */
-function execPantheonDrush (cmd) {
+function execPantheonDrush(cmd) {
   let result
 
   // Construct the Terminus command. Remove "drush" from argument.
@@ -284,7 +290,7 @@ function execTugboatDrush(cmd) {
  *
  * @returns {string} The Drush command i.e 'lando drush ', etc.
  */
-function getDrushAlias () {
+function getDrushAlias() {
   let cmd = ''
 
   // Drush to Pantheon requires Terminus.
@@ -305,7 +311,7 @@ function getDrushAlias () {
  * @param {string} email Email of the account.
  * @returns {integer} UID of user.
  */
-function getUidWithEmail (email) {
+function getUidWithEmail(email) {
   const cmd = `user:info --mail=${email} --format=json`
 
   const result = execDrush(cmd)
@@ -328,7 +334,7 @@ function getUidWithEmail (email) {
  * @param {string} email Email of the account.
  * @returns {string} Username of user.
  */
-function getUsernameWithEmail (email) {
+function getUsernameWithEmail(email) {
   const cmd = `user:info --mail=${email} --format=json`
   const result = execDrush(cmd)
 
@@ -355,7 +361,7 @@ function getUsernameWithEmail (email) {
  * @param {object} context Context object.
  * @param {object} account JSON object see structure of qaUserAccounts.json.
  */
-async function logInViaForm (page, context, account) {
+async function logInViaForm(page, context, account) {
   await context.clearCookies()
   await page.goto(atkConfig.logInUrl)
   await page.getByLabel('Username').fill(account.userName)
@@ -378,7 +384,7 @@ async function logInViaForm (page, context, account) {
  * @param {object} context Context object.
  * @param {integer} uid Drupal user id.
  */
-async function logInViaUli (page, context, uid) {
+async function logInViaUli(page, context, uid) {
   let cmd = ''
   let url = ''
 
@@ -398,7 +404,7 @@ async function logInViaUli (page, context, uid) {
  * @param {object} page Page object.
  * @param {object} context Context object.
  */
-async function logOutViaUi (page, context) {
+async function logOutViaUi(page, context) {
   const cmd = atkConfig.logOutUrl
 
   await page.goto(cmd)
@@ -411,8 +417,86 @@ async function logOutViaUi (page, context) {
  * @param {string} key Name of configuration setting.
  * @param {*} value Value of configuration setting.
  */
-function setDrupalConfiguration (objectName, key, value) {
+function setDrupalConfiguration(objectName, key, value) {
   const cmd = `cset -y ${objectName} ${key} ${value}`
 
   execDrush(cmd)
+}
+
+
+function makeRelativeURL(url) {
+  return new URL(url).pathname;
+}
+
+/**
+ * Parse an `urlset` block from the sitemap file.
+ *
+ * @param urlset
+ * @return {string[]} Array of URLs.
+ */
+function parseUrlSet(urlset) {
+  if (!(urlset.url instanceof Array)) {
+    return [makeRelativeURL(urlset.url.loc)];
+  }
+  return urlset.url.map((url) => makeRelativeURL(url.loc));
+}
+
+/**
+ * Parse a sitemap file.
+ *
+ * @param fileName URL (absolute or relative) of the file.
+ * @return {Promise<string[]>} Array of URLs.
+ */
+async function parseXmlSitemap(fileName) {
+  // Construct an absolute URL of the sitemap.
+  const targetUrl = new URL(fileName, baseUrl).toString();
+
+  // Get sitemap.xml.
+  const response = await axios.get(targetUrl);
+
+  const parser = new XMLParser();
+  const jsonObj = parser.parse(response.data);
+
+  if (jsonObj.urlset) {
+    // sitemap.xml is itself a sitemap file.
+    return parseUrlSet(jsonObj.urlset);
+  } else {
+    const sitemap = jsonObj.sitemapindex.sitemap;
+    if (!(sitemap instanceof Array)) {
+      return parseXmlSitemap(sitemap.loc);
+    } else {
+      return [].concat(sitemap.map((sitemap) => parseXmlSitemap(sitemap.loc)))
+    }
+  }
+}
+
+/**
+ * Get a list of the locations from the file. The file is normally
+ * located in the same directory as the file with tests, with
+ * postfix "-locations".
+ * Each line of this file maybe
+ * - site location;
+ * - "@<sitemap>" where <sitemap> is a location of the XML sitemap file.
+ * In this case all URLs from this sitemap will be included.
+ *
+ * @param testInfo Test info passed from the test.
+ * @param filePath File path which can be masked with testInfo's
+ * attributes.
+ * @return {Promise<string[]>} A list of the locations.
+ */
+async function getLocationsFromFile(testInfo, filePath = '{file}-locations') {
+  filePath = filePath.replaceAll(/\{(\w+)}/g, (m, m1) => testInfo[m1]);
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const loc1 = fileContent.split('\n');
+  const loc2 = [];
+  for (let loc of loc1) {
+    if (!(loc[0] === '@')) {
+      loc2.push(loc);
+    } else {
+      const loc3 = await parseXmlSitemap(loc.substring(1));
+      for (let loc of loc3) loc2.push(loc);
+    }
+  }
+
+  return loc2;
 }
