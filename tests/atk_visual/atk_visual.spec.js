@@ -2,6 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 import * as atk_commands from '../support/atk_commands';
 
+let title = '(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500';
 /**
  * Test all pages of the website by comparing them with the
  * target screenshots.
@@ -13,11 +14,11 @@ import * as atk_commands from '../support/atk_commands';
  *  - commit generated screenshots from the folder atk_visual.spec.js-snapshots
  *  to the repo.
  */
-test.describe('(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500', async () => {
+test.describe(title, async () => {
   const locations = await atk_commands.getLocationsFromFile({ file: __filename });
 
   for (let location of locations) {
-    test(location, async ({ page }) => {
+    test(`${title}: ${location}`, async ({ page }) => {
       await page.goto(location);
       await expect(page).toHaveScreenshot(
         location.split('/'),
