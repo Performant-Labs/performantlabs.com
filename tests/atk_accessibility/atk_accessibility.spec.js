@@ -3,11 +3,12 @@ const { test, expect } = require('@playwright/test');
 const atk_commands = require('../support/atk_commands');
 const AxeBuilder = require('@axe-core/playwright');
 
-test.describe('(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600', async () => {
+let title = '(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600';
+test.describe(title, async () => {
   const locations = await atk_commands.getLocationsFromFile({ file: __filename });
 
   for (let location of locations) {
-    test(location, async ({ page }, testInfo) => {
+    test(`${title}: ${location}`, async ({ page }, testInfo) => {
       await page.goto(location);
 
       const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
