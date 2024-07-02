@@ -13,15 +13,17 @@ import * as atk_commands from '../support/atk_commands';
  *  - commit generated screenshots from the folder atk_visual.spec.js-snapshots
  *  to the repo.
  */
-test('(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500', async ({ page }, testInfo) => {
-  const locations = await atk_commands.getLocationsFromFile(testInfo);
+test.describe('(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500', async () => {
+  const locations = await atk_commands.getLocationsFromFile({ file: __filename });
 
   for (let location of locations) {
-    await page.goto(location);
-    await expect(page).toHaveScreenshot(
-      location.split('/'),
-      { maxDiffPixels: 10 }
-    );
+    test(location, async ({ page }) => {
+      await page.goto(location);
+      await expect(page).toHaveScreenshot(
+        location.split('/'),
+        { maxDiffPixels: 10 }
+      );
+    })
   }
 
 });

@@ -487,7 +487,7 @@ async function parseXmlSitemap(fileName) {
 async function getLocationsFromFile(testInfo, filePath = '{file}-locations') {
   filePath = filePath.replaceAll(/\{(\w+)}/g, (m, m1) => testInfo[m1]);
   const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const loc1 = fileContent.split('\n');
+  const loc1 = fileContent.split('\n').filter(s => s !== '');
   const loc2 = [];
   for (let loc of loc1) {
     if (!(loc[0] === '@')) {
