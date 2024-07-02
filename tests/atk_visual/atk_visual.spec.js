@@ -13,7 +13,7 @@ import * as atk_commands from '../support/atk_commands';
  *  - commit generated screenshots from the folder atk_visual.spec.js-snapshots
  *  to the repo.
  */
-test('(ATK-1500) Visually compare screenshots. @visual @ATK-1500', async ({ page }, testInfo) => {
+test('(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500', async ({ page }, testInfo) => {
   const locations = await atk_commands.getLocationsFromFile(testInfo);
 
   for (let location of locations) {
