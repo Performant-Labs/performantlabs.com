@@ -8,14 +8,14 @@ let title = '(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500';
  * target screenshots.
  *
  * How to use the first time:
- *  - update file atk_visual.spec.js-locations (specify literal locations,
+ *  - update file tests/data/atk_visual-locations (specify literal locations,
  *  or reference to sitemap for example @sitemap.xml);
  *  - run the test first time;
  *  - commit generated screenshots from the folder atk_visual.spec.js-snapshots
  *  to the repo.
  */
 test.describe(title, async () => {
-  const locations = await atk_commands.getLocationsFromFile({ file: __filename });
+  const locations = await atk_commands.getLocationsFromFile('atk_visual-locations');
 
   for (let location of locations) {
     test(`${title}: ${location}`, async ({ page }) => {
