@@ -5,7 +5,7 @@ const AxeBuilder = require('@axe-core/playwright');
 
 let title = '(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600';
 test.describe(title, async () => {
-  const locations = await atk_commands.getLocationsFromFile({ file: __filename });
+  const locations = await atk_commands.getLocationsFromFile('atk_accessibility-locations');
 
   for (let location of locations) {
     test(`${title}: ${location}`, async ({ page }, testInfo) => {
