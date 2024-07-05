@@ -471,21 +471,17 @@ async function parseXmlSitemap(fileName) {
 }
 
 /**
- * Get a list of the locations from the file. The file is normally
- * located in the same directory as the file with tests, with
- * postfix "-locations".
+ * Get a list of the locations from the file located in 'data' directory.
  * Each line of this file maybe
  * - site location;
  * - "@<sitemap>" where <sitemap> is a location of the XML sitemap file.
  * In this case all URLs from this sitemap will be included.
  *
- * @param testInfo Test info passed from the test.
- * @param filePath File path which can be masked with testInfo's
- * attributes.
+ * @param fileName File name.
  * @return {Promise<string[]>} A list of the locations.
  */
-async function getLocationsFromFile(testInfo, filePath = '{file}-locations') {
-  filePath = filePath.replaceAll(/\{(\w+)}/g, (m, m1) => testInfo[m1]);
+async function getLocationsFromFile(fileName) {
+  const filePath = `${atkConfig.dataDir}/${fileName}`;
   const fileContent = fs.readFileSync(filePath, 'utf-8');
   const loc1 = fileContent.split('\n').filter(s => s !== '');
   const loc2 = [];
