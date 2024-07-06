@@ -1,5 +1,4 @@
-const { test, expect } = require('@playwright/test');
-
+import { expect, test } from '@playwright/test';
 import * as atk_commands from '../support/atk_commands';
 
 let title = '(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500';

@@ -11,7 +11,7 @@
 
 import * as fs from 'fs';
 
-module.exports = {
+export default {
   createUserWithUserObject,
   deleteCurrentNodeViaUi,
   deleteNodeViaUiWithNid,

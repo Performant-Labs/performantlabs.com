@@ -11,9 +11,6 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
 
-// Set up Playwright.
-const { test } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
 
 const baseUrl = playwrightConfig.use.baseURL; // eslint-disable-line no-unused-vars
@@ -28,6 +25,10 @@ import userEtherealAccount from '../data/etherealUser.json';
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
 import qaUserAccounts from '../data/qaUsers.json'; // eslint-disable-line no-unused-vars
+
+
+// Set up Playwright.
+import { test } from '@playwright/test';
 
 test.describe('User tests.', () => {
   //
