@@ -12,7 +12,7 @@
  * 'html': email HTML message;
  * 'slack': Slack message object;
  */
-module.exports = function ({ type }) {
+export default function ({ type }) {
 
   let testMessage;
   let report;

@@ -1,11 +1,8 @@
-import atkPlaywrightConfig from '../../playwright.atk.config';
-
-const { test, expect } = require('@playwright/test');
-
-const atk_commands = require('../support/atk_commands');
-const AxeBuilder = require('@axe-core/playwright');
-const { createHtmlReport } = require('axe-html-reporter');
-const fs = require('fs');
+import { expect, test } from '@playwright/test';
+import atk_commands from '../support/atk_commands';
+import AxeBuilder from '@axe-core/playwright';
+import { createHtmlReport } from 'axe-html-reporter';
+import fs from 'fs';
 
 let title = '(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600';
 test.describe(title, async () => {

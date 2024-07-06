@@ -11,9 +11,6 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
 
 const baseUrl = playwrightConfig.use.baseURL;
@@ -25,6 +22,10 @@ import atkConfig from '../../playwright.atk.config';
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
 import qaUserAccounts from '../data/qaUsers.json';
+
+
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.describe('Media tests.', () => {
   //
