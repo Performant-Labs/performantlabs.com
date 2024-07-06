@@ -1,3 +1,7 @@
+// Use at least Nodemailer v4.1.0
+import nodemailer from 'nodemailer';
+import messageFormat from './message-format.js';
+
 // Check that environment is set
 const missingVars =
   ['MAIL_TLS_ENABLE', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USER', 'MAIL_PASSWORD',
@@ -6,12 +10,6 @@ if (missingVars.length) {
   console.error("Environment variables are missing: " + missingVars.join(', '));
   process.exit(1);
 }
-
-// Use at least Nodemailer v4.1.0
-const nodemailer = require('nodemailer');
-
-// Import message formatter
-const messageFormat = require('./message-format');
 
 // Create a SMTP transporter object
 let tlsEnable = process.env.MAIL_TLS_ENABLE === 'true';
