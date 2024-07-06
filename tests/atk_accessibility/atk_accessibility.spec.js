@@ -24,7 +24,7 @@ test.describe(title, async () => {
         }
       });
 
-      let htmlReportFile = `./axereport.html`;
+      let htmlReportFile = `./axereport-${testInfo.parallelIndex}.html`;
       fs.writeFileSync(htmlReportFile, htmlReport);
 
       await testInfo.attach('accessibility-scan-results', {
