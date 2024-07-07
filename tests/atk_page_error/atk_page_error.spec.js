@@ -13,18 +13,8 @@ import * as atkUtilities from '../support/atk_utilities';
 
 import playwrightConfig from '../../playwright.config';
 
-const baseUrl = playwrightConfig.use.baseURL;
-
-// Import ATK Configuration.
-import atkConfig from '../../playwright.atk.config'; // eslint-disable-line no-unused-vars
-
-// Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../data/etherealUser.json'; // eslint-disable-line no-unused-vars
-
-// Standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
 
 
 // Set up Playwright.
@@ -69,7 +59,7 @@ test.describe('Page error tests.', () => {
     textContent = await page.content();
     expect(textContent).toContain('The requested page could not be found');
 
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.authenticated);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.authenticated);
     await page.goto(badAuthenticatedUrl);
 
     // Should see the 404 message.
