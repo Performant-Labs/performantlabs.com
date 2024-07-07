@@ -1,3 +1,5 @@
+import { getJsonFile } from './atk_data.js';
+
 /**
  * Format a message, using environment variables (must be set in a job).
  * - JOB_URL        URL of the job in the CI/CD engine
@@ -17,7 +19,7 @@ export default function ({ type }) {
   let testMessage;
   let report;
   try {
-    report = require('../../ctrf/ctrf-report.json');
+    report = getJsonFile('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
     testMessage = `✅ ${passed} passed`;
     if (passed < tests) {
