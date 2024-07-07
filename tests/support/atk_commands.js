@@ -9,7 +9,14 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable import/first */
 
-import * as fs from 'fs';
+// Set up Playwright.
+import { expect } from '@playwright/test'
+
+import { execSync } from 'child_process'
+
+// Fetch the Automated Testing Kit config, which is in the project root.
+import atkConfig from '../../playwright.atk.config.js'
+import { baseUrl } from './atk_data.js';
 
 export {
   createUserWithUserObject,
@@ -26,22 +33,8 @@ export {
   logInViaForm,
   logInViaUli,
   logOutViaUi,
-  setDrupalConfiguration,
-  getLocationsFromFile
+  setDrupalConfiguration
 }
-
-// Set up Playwright.
-import { expect } from '@playwright/test'
-import playwrightConfig from '../../playwright.config.js'
-
-const baseUrl = playwrightConfig.use.baseURL;
-
-import { execSync } from 'child_process'
-
-// Fetch the Automated Testing Kit config, which is in the project root.
-import atkConfig from '../../playwright.atk.config.js'
-import axios from 'axios';
-import { XMLParser } from 'fast-xml-parser';
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -424,75 +417,3 @@ function setDrupalConfiguration(objectName, key, value) {
 }
 
 
-function makeRelativeURL(url) {
-  return new URL(url).pathname;
-}
-
-/**
- * Parse an `urlset` block from the sitemap file.
- *
- * @param urlset
- * @return {string[]} Array of URLs.
- */
-function parseUrlSet(urlset) {
-  if (!(urlset.url instanceof Array)) {
-    return [makeRelativeURL(urlset.url.loc)];
-  }
-  return urlset.url.map((url) => makeRelativeURL(url.loc));
-}
-
-/**
- * Parse a sitemap file.
- *
- * @param fileName URL (absolute or relative) of the file.
- * @return {Promise<string[]>} Array of URLs.
- */
-async function parseXmlSitemap(fileName) {
-  // Construct an absolute URL of the sitemap.
-  const targetUrl = new URL(fileName, baseUrl).toString();
-
-  // Get sitemap.xml.
-  const response = await axios.get(targetUrl);
-
-  const parser = new XMLParser();
-  const jsonObj = parser.parse(response.data);
-
-  if (jsonObj.urlset) {
-    // sitemap.xml is itself a sitemap file.
-    return parseUrlSet(jsonObj.urlset);
-  } else {
-    const sitemap = jsonObj.sitemapindex.sitemap;
-    if (!(sitemap instanceof Array)) {
-      return parseXmlSitemap(sitemap.loc);
-    } else {
-      return [].concat(sitemap.map((sitemap) => parseXmlSitemap(sitemap.loc)))
-    }
-  }
-}
-
-/**
- * Get a list of the locations from the file located in 'data' directory.
- * Each line of this file maybe
- * - site location;
- * - "@<sitemap>" where <sitemap> is a location of the XML sitemap file.
- * In this case all URLs from this sitemap will be included.
- *
- * @param fileName File name.
- * @return {Promise<string[]>} A list of the locations.
- */
-async function getLocationsFromFile(fileName) {
-  const filePath = `${atkConfig.dataDir}/${fileName}`;
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const loc1 = fileContent.split('\n').filter(s => s !== '');
-  const loc2 = [];
-  for (let loc of loc1) {
-    if (!(loc[0] === '@')) {
-      loc2.push(loc);
-    } else {
-      const loc3 = await parseXmlSitemap(loc.substring(1));
-      for (let loc of loc3) loc2.push(loc);
-    }
-  }
-
-  return loc2;
-}

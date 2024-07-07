@@ -1,7 +1,7 @@
 import getPort from 'get-port';
 import { playAudit } from 'playwright-lighthouse';
 import { chromium, test } from '@playwright/test';
-import * as atk_commands from '../support/atk_commands.js';
+import { getLocationsFromFile } from '../support/atk_data.js';
 
 const lighthouseTest = test.extend({
   port: [
@@ -28,7 +28,7 @@ const lighthouseTest = test.extend({
 
 let title = '(ATK-PW-1700) Audit of the pages with Google Lighthouse @atk-pw-1700 @lighthouse @audit';
 lighthouseTest.describe(title, async () => {
-  const locations = await atk_commands.getLocationsFromFile('atk_audit-locations');
+  const locations = await getLocationsFromFile('atk_audit-locations');
 
   lighthouseTest.afterEach(async ({}, testInfo) => {
     await testInfo.attach('lighthouse-report', {

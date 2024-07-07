@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import * as atk_commands from '../support/atk_commands';
+import { getLocationsFromFile } from '../support/atk_data.js';
 
 let title = '(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500';
 /**
@@ -14,7 +14,7 @@ let title = '(ATK-PW-1500) Visually compare screenshots. @visual @ATK-PW-1500';
  *  to the repo.
  */
 test.describe(title, async () => {
-  const locations = await atk_commands.getLocationsFromFile('atk_visual-locations');
+  const locations = await getLocationsFromFile('atk_visual-locations');
 
   for (let location of locations) {
     test(`${title}: ${location}`, async ({ page }) => {

@@ -13,15 +13,11 @@ import * as atkUtilities from '../support/atk_utilities';
 
 import playwrightConfig from '../../playwright.config';
 
-const baseUrl = playwrightConfig.use.baseURL;
-
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Holds standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
 
 
 // Set up Playwright.
@@ -38,7 +34,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add a page.
@@ -96,7 +92,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add an article.
