@@ -1,7 +1,7 @@
 import getPort from 'get-port';
 import { playAudit } from 'playwright-lighthouse';
 import { chromium, test } from '@playwright/test';
-import atk_commands from '../support/atk_commands';
+import * as atk_commands from '../support/atk_commands.js';
 
 const lighthouseTest = test.extend({
   port: [
@@ -43,6 +43,13 @@ lighthouseTest.describe(title, async () => {
       await playAudit({
         page,
         port,
+        thresholds: {
+          performance: 70,
+          accessibility: 90,
+          seo: 70,
+          pwa: 70,
+          'best-practices': 70
+        },
         reports: {
           formats: {
             html: true
