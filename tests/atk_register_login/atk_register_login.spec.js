@@ -18,12 +18,12 @@ const baseUrl = playwrightConfig.use.baseURL;
 import atkConfig from '../../playwright.atk.config';
 
 // Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../data/etherealUser.json';
+import userEtherealAccount from '../data/etherealUser.json' assert { type: 'json' };
 
 // Standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+import qaUserAccounts from '../data/qaUsers.json' assert { type: 'json' };
 
 
 // Set up Playwright.

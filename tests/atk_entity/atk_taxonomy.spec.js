@@ -18,7 +18,7 @@ import atkConfig from '../../playwright.atk.config';
 // Holds standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+import qaUserAccounts from '../data/qaUsers.json' assert { type: 'json' };
 
 
 // Set up Playwright.
