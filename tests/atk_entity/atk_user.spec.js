@@ -19,12 +19,12 @@ const baseUrl = playwrightConfig.use.baseURL; // eslint-disable-line no-unused-v
 import atkConfig from '../../playwright.atk.config'; // eslint-disable-line no-unused-vars
 
 // Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../data/etherealUser.json' assert { type: 'json' };
+import userEtherealAccount from '../data/etherealUser.json';
 
 // Holds standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json' assert { type: 'json' }; // eslint-disable-line no-unused-vars
+import qaUserAccounts from '../data/qaUsers.json'; // eslint-disable-line no-unused-vars
 
 
 // Set up Playwright.
