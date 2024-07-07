@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import atk_commands from '../support/atk_commands';
 import AxeBuilder from '@axe-core/playwright';
 import { createHtmlReport } from 'axe-html-reporter';
 import fs from 'fs';
+import * as atk_commands from '../support/atk_commands.js';
 
 let title = '(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600';
 test.describe(title, async () => {
