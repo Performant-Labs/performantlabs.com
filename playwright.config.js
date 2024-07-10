@@ -30,7 +30,7 @@ export default defineConfig({
       buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
     }]
   ],
-  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}-{platform}.png',
+  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -58,14 +58,18 @@ export default defineConfig({
     // },
 
     /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
+    },
+    {
+      name: 'Mobile Safari',
+      use: { ...devices['iPhone 12'] },
+    },
+    {
+      name: 'Tablet Safari',
+      use: { ...devices['iPad Pro 11 landscape'] }
+    },
 
     /* Test against branded browsers. */
     // {
