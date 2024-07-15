@@ -33,7 +33,9 @@ export {
   logInViaForm,
   logInViaUli,
   logOutViaUi,
-  setDrupalConfiguration
+  setDrupalConfiguration,
+  enableModule,
+  disableModule
 }
 
 /**
@@ -242,7 +244,7 @@ function execDrush(cmd, args = [], options = []) {
  * Run a Pantheon Drush command via Terminus.
  * Called by execDrush().
  *
- * @param {string} cmd Drush command; execDrush() contructs this with args and options.
+ * @param {string} cmd Drush command; execDrush() constructs this with args and options.
  * @returns {string} The output from executing the command in a shell.
  */
 function execPantheonDrush(cmd) {
@@ -416,4 +418,18 @@ function setDrupalConfiguration(objectName, key, value) {
   execDrush(cmd)
 }
 
+/**
+ * Enable drupal module
+ * @param module {string} module name
+ */
+function enableModule(module) {
+  return execDrush(`pm:install ${module}`)
+}
 
+/**
+ * Disable drupal module
+ * @param module
+ */
+function disableModule(module) {
+  return execDrush(`pm:uninstall ${module}`)
+}
