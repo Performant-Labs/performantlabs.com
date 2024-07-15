@@ -43,8 +43,18 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
+      name: 'setup',
+      testMatch: /atk_setup/,
+      teardown: 'teardown',
+    },
+    {
+      name: 'teardown',
+      testMatch: /atk_teardown/,
+    },
+    {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+      dependencies: ['setup'],
     },
     //
     // {
@@ -61,10 +71,12 @@ export default defineConfig({
     {
       name: 'Mobile Safari',
       use: { ...devices['iPhone 12'] },
+      dependencies: ['setup'],
     },
     {
       name: 'Tablet Safari',
-      use: { ...devices['iPad Pro 11 landscape'] }
+      use: { ...devices['iPad Pro 11 landscape'] },
+      dependencies: ['setup'],
     },
 
     /* Test against branded browsers. */
