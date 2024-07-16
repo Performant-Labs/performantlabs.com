@@ -239,6 +239,8 @@ $databases = [];
  */
 $settings['config_sync_directory'] = dirname(dirname(dirname(__DIR__))) . "/config/default/sync";
 
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 /**
  * Settings:
  *
@@ -619,6 +621,7 @@ $settings['file_temp_path'] = '/tmp';
  */
 # $config['system.site']['name'] = 'My Drupal site';
 # $config['user.settings']['anonymous'] = 'Visitor';
+
 
 /**
  * Fast 404 pages:
