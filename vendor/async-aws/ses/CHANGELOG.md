@@ -2,6 +2,12 @@
 
 ## NOT RELEASED
 
+## 1.8.1
+
+### Changed
+
+- Add `Accept: application/json` header in request to fix incompatibility with 3rd party providers
+
 ## 1.8.0
 
 ### Added

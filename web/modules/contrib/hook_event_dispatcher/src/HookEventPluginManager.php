@@ -243,6 +243,11 @@ class HookEventPluginManager extends DefaultPluginManager implements HookEventPl
         throw new UnknownExtensionException(sprintf('The module %s does not exist.', $module));
       }
 
+      /**
+       * {@inheritdoc}
+       */
+      public function destruct(): void {}
+
     };
   }
 
