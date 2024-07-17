@@ -328,7 +328,7 @@
         "drupal/ultimate_cron": "~2.0",
         "drupal/upgrade_status": "^4.0",
         "drupal/webform": "~6.2",
-        "drush/drush": "^12",
+        "drush/drush": "^13",
         "jquery/inputmask": "*",
         "jquery/intl-tel-input": "*",
         "jquery/rateit": "*",
