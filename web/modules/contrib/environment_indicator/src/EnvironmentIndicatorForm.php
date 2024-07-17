@@ -37,6 +37,13 @@ class EnvironmentIndicatorForm extends EntityForm {
       '#description' => $this->t('The hostname you want to switch to.'),
       '#default_value' => $environment_switcher->getUrl(),
     ];
+
+    $form['weight'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Weight'),
+      '#default_value' => $environment_switcher->getWeight(),
+    ];
+
     $form['bg_color'] = [
       '#type' => 'color',
       '#title' => $this->t('Background Color'),
@@ -54,6 +61,8 @@ class EnvironmentIndicatorForm extends EntityForm {
   }
 
   /**
+   * {@inheritdoc}
+   *
    * Save your config entity.
    *
    * There will eventually be default code to rely on here, but it doesn't exist

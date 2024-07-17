@@ -1,15 +1,13 @@
-name: Inline Responsive Images
+name: Inline Styled Images
 type: module
-description: 'Allows you to use responsive images in the WYSIWYG editor.'
+description: 'Allows you to apply image styles and responsive image styles in the WYSIWYG editor.'
 package: Editor
-core: 8.x
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^9.3 || ^10
 dependencies:
-  - drupal:responsive_image
   - drupal:editor
   - drupal:image
 
-# Information added by Drupal.org packaging script on 2022-06-12
-version: '8.x-2.3'
+# Information added by Drupal.org packaging script on 2024-04-05
+version: '3.0.0-beta1'
 project: 'inline_responsive_images'
-datestamp: 1655034040
+datestamp: 1712326546

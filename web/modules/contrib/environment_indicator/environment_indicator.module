@@ -8,7 +8,7 @@
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
-use Drupal\environment_indicator\Entity\EnvironmentIndicator;
+use Drupal\environment_indicator\ToolbarHandler;
 
 /**
  * Implements hook_help().
@@ -22,12 +22,12 @@ function environment_indicator_help($route_name, RouteMatchInterface $route_matc
       $output .= '<p>' . t('The Environment Indicator\'s visibility depends upon the permissions of the viewer. The <a href=":permissions">access environment indicator</a> permission must be enabled for a user role in order for users of that role to see the indicator.', [
         ':permissions' => $permissions_url,
       ]) . '</p>';
-      $output .= '<p>' . t('The recommended way to add information about your release is to set the \'environment_indicator.current_release\' state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
+      $output .= '<p>' . t('The recommended way to add information about your release is to set the "environment_indicator.current_release" state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
       return $output;
 
     case 'entity.environment_indicator.collection':
       $output = '<p>' . t('The environment indicator switcher allows you to create a menu to switch between your environments easily.') . '</p>';
-      $output .= '<p>' . t('You will need to declare all the environments you want to switch. It is advisable that you set your environments in the switcher with the same colors that you use in every environment\'s settings.php.') . '</p>';
+      $output .= '<p>' . t("You will need to declare all the environments you want to switch. It is advisable that you set your environments in the switcher with the same colors that you use in every environment's settings.php.") . '</p>';
       return $output;
 
     case 'help.page.environment_indicator':
@@ -36,16 +36,38 @@ function environment_indicator_help($route_name, RouteMatchInterface $route_matc
       $output .= '<p>' . t('The Environment Indicator\'s visibility depends upon the permissions of the viewer. The <a href=":permissions">access environment indicator</a> permission must be enabled for a user role in order for users of that role to see the indicator.', [':permissions' => $permissions_url]) . '</p>';
       $output .= '<p>' . t('Modify the "environment_indicator.indicator" configuration object to control how the environment indicator is presented:') . '</p>';
       $output .= '<dl>';
-      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'bg_color\']</em></dt><dd>' . t('A valid CSS color for the background of the indicator.') . '<br/>$config[\'environment_indicator.indicator\'][\'bg_color\'];<br /></dd></dt>';
-      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'fg_color\']</em></dt><dd>' . t('A valid CSS color for the text of the indicator.') . '<br/>$config[\'environment_indicator.indicator\'][\'fg_color\'] = \'#555533\';<br /></dd></dt>';
-      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'name\']</em></dt><dd>' . t('The text that will be displayed on the indicator.') . '<br/>$config[\'environment_indicator.indicator\'][\'name\'] = \'Staging\';<br /></dd></dt>';
+      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'bg_color\']</em></dt><dd>';
+      $output .= t('A valid CSS color for the background of the indicator.') . '<br/>';
+      $output .= '$config[\'environment_indicator.indicator\'][\'bg_color\'];<br /></dd></dt>';
+      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'fg_color\']</em></dt><dd>';
+      $output .= t('A valid CSS color for the text of the indicator.') . '<br/>';
+      $output .= '$config[\'environment_indicator.indicator\'][\'fg_color\'] = \'#555533\';<br /></dd></dt>';
+      $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'name\']</em></dt><dd>';
+      $output .= t('The text that will be displayed on the indicator.') . '<br/>';
+      $output .= '$config[\'environment_indicator.indicator\'][\'name\'] = \'Staging\';<br /></dd></dt>';
       $output .= '</dl>';
-      $output .= '<p>' . t('The recommended way to add information about your release is to set the \'environment_indicator.current_release\' state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
+      $output .= '<p>' . t('The recommended way to add information about your release is to set the "environment_indicator.current_release" state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
 
       return $output;
   }
 
   return NULL;
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function environment_indicator_preprocess_html(&$variables) {
+  if (_environment_indicator_external_integration_is_enabled('toolbar')) {
+    return;
+  }
+  $active_environment = \Drupal::config('environment_indicator.indicator');
+  $title = $active_environment->get('name');
+  if (empty($title) || !\Drupal::currentUser()->hasPermission('access environment indicator')) {
+    return;
+  }
+  $variables['attributes']['class'][] = 'environment-indicator';
+
 }
 
 /**
@@ -82,6 +104,7 @@ function environment_indicator_page_top(array &$page_top) {
   // Only add the environment indicator switcher if there are environments to
   // switch to.
   if ($items = _environment_indicator_switcher_links()) {
+    uasort($items, 'Drupal\Component\Utility\SortArray::sortByWeightElement');
     $page_top['indicator']['switcher'] = [
       '#theme' => 'links',
       '#links' => $items,
@@ -106,7 +129,7 @@ function environment_indicator_page_top(array &$page_top) {
 /**
  * Implements hook_theme().
  */
-function environment_indicator_theme($existing, $type, $theme, $path) {
+function environment_indicator_theme($existing, $type, $theme, $path): array {
   return [
     'environment_indicator' => [
       'render element' => 'element',
@@ -160,15 +183,13 @@ function template_preprocess_environment_indicator(array &$variables) {
  *   An structured array with key value pairs with the CSS properties and their
  *   values.
  */
-function _environment_indicator_parse_style($style) {
+function _environment_indicator_parse_style(string $style): array {
   $structured_styles = [];
   // Get every individual style.
   $styles = array_filter(explode(';', $style));
   foreach ($styles as $item) {
-    list($item_name, $item_value) = explode(':', $item);
-    trim($item_name);
-    trim($item_value);
-    $structured_styles[$item_name] = $item_value;
+    [$item_name, $item_value] = explode(':', $item);
+    $structured_styles[trim($item_name)] = trim($item_value);
   }
   return $structured_styles;
 }
@@ -177,100 +198,8 @@ function _environment_indicator_parse_style($style) {
  * Implements hook_toolbar().
  */
 function environment_indicator_toolbar() {
-  $active_environment = \Drupal::config('environment_indicator.indicator');
-  $title = $active_environment->get('name');
-  $currentUser = Drupal::currentUser();
-  $permission = $currentUser->hasPermission('access environment indicator');
-  $items['environment_indicator'] = [
-    '#attached' => [
-      'library' => ['environment_indicator/drupal.environment_indicator'],
-      'drupalSettings' => [
-        'environmentIndicator' => [
-          'name' => $title ? $title : ' ',
-          'fgColor' => $active_environment->get('fg_color'),
-          'bgColor' => $active_environment->get('bg_color'),
-          'addFavicon' => \Drupal::config('environment_indicator.settings')
-            ->get('favicon'),
-        ],
-      ],
-    ],
-  ];
-  if (!_environment_indicator_external_integration_is_enabled('toolbar')) {
-    return $items;
-  }
-  $release_info = \Drupal::state()->get('environment_indicator.current_release');
-  if (strlen($release_info)) {
-    $release_info = '(' . $release_info . ')';
-  }
-  $title = implode(' ', array_filter([$release_info, $title]));
-  if (!strlen($title)) {
-    return $items;
-  }
-  $items['environment_indicator'] += [
-    // Include the toolbar_tab_wrapper to style the link like a toolbar tab.
-    // Exclude the theme wrapper if custom styling is desired.
-    '#type' => 'toolbar_item',
-    '#access' => $permission,
-    '#cache' => [
-      'tags' => Cache::mergeTags(['config:environment_indicator.settings'], _environment_indicator_switcher_cache_tags()),
-    ],
-    '#weight' => 125,
-    'tab' => [
-      '#type' => 'link',
-      '#access' => $permission,
-      '#title' => $title,
-      '#url' => Url::fromRoute('environment_indicator.settings'),
-      '#attributes' => [
-        'title' => t('Environments'),
-        'class' => [
-          'toolbar-icon',
-          'toolbar-item',
-          'toolbar-icon-environment',
-        ],
-      ],
-    ],
-    'tray' => [
-      '#heading' => t('Environment switcher'),
-      '#wrapper_attributes' => [],
-      '#access' => $permission,
-      'configure' => [
-        '#type' => 'link',
-        '#access' => $currentUser->hasPermission('administer environment indicator settings'),
-        '#title' => t('Configure'),
-        '#url' => Url::fromRoute('environment_indicator.settings'),
-        '#weight' => 100,
-        '#attributes' => [
-          'title' => t('Environment switcher configuration'),
-          'class' => ['edit-environments'],
-        ],
-      ],
-    ],
-  ];
-
-  if ($links = _environment_indicator_switcher_toolbar_links()) {
-    $items['environment_indicator']['tray']['links'] = $links;
-  }
-  return $items;
-}
-
-/**
- * Helper function to get the links for the toolbar.
- *
- * @return array
- *   A renderable array for the toolbar tray.
- */
-function _environment_indicator_switcher_toolbar_links() {
-  if (!$items = _environment_indicator_switcher_links()) {
-    return [];
-  };
-  $menu = [
-    '#theme' => 'links__toolbar_shortcuts',
-    '#links' => $items,
-    '#attributes' => [
-      'class' => ['toolbar-menu'],
-    ],
-  ];
-  return $menu;
+  return \Drupal::service('environment_indicator.toolbar_handler')
+    ->toolbar();
 }
 
 /**
@@ -279,29 +208,9 @@ function _environment_indicator_switcher_toolbar_links() {
  * @return array
  *   A renderable array with the links.
  */
-function _environment_indicator_switcher_links() {
-  if (!$environment_entities = EnvironmentIndicator::loadMultiple()) {
-    return [];
-  }
-  $current = Url::fromRoute('<current>');
-  $current_path = $current->toString();
-  $environment_entities = array_filter(
-    $environment_entities,
-    function (EnvironmentIndicator $entity) {
-      return $entity->status();
-    }
-  );
-  return array_map(function (EnvironmentIndicator $entity) use ($current_path) {
-    return [
-      'attributes' => [
-        'style' => 'color: ' . $entity->getFgColor() . '; background-color: ' . $entity->getBgColor() . ';',
-        'title' => t('Opens the current page in the selected environment.'),
-      ],
-      'title' => t('Open in: @label', ['@label' => $entity->label()]),
-      'url' => Url::fromUri($entity->getUrl() . $current_path),
-      'type' => 'link',
-    ];
-  }, $environment_entities);
+function _environment_indicator_switcher_links(): array {
+  return \Drupal::service('environment_indicator.toolbar_handler')
+    ->getLinks();
 }
 
 /**
@@ -313,16 +222,9 @@ function _environment_indicator_switcher_links() {
  * @return bool
  *   TRUE if integration is enabled. FALSE otherwise.
  */
-function _environment_indicator_external_integration_is_enabled($integration) {
-  if ($integration == 'toolbar') {
-    $access = \Drupal::moduleHandler()->moduleExists('toolbar');
-    $toolbar_integration = \Drupal::config('environment_indicator.settings')->get('toolbar_integration') ?? [];
-    $access = $access && in_array('toolbar', $toolbar_integration);
-    $access = $access && \Drupal::currentUser()
-      ->hasPermission('access toolbar');
-    return $access;
-  }
-  return FALSE;
+function _environment_indicator_external_integration_is_enabled(string $integration): bool {
+  return \Drupal::service('environment_indicator.toolbar_handler')
+    ->externalIntegration($integration);
 }
 
 /**
@@ -331,18 +233,9 @@ function _environment_indicator_external_integration_is_enabled($integration) {
  * @return string[]
  *   The cache tags.
  */
-function _environment_indicator_switcher_cache_tags() {
-  /* @var EnvironmentIndicator[] $environment_entities */
-  if (!$environment_entities = EnvironmentIndicator::loadMultiple()) {
-    return [];
-  }
-
-  $cache_tags = [];
-  foreach ($environment_entities as $entity) {
-    $cache_tags = Cache::mergeTags($cache_tags, $entity->getCacheTags());
-  }
-
-  return $cache_tags;
+function _environment_indicator_switcher_cache_tags(): array {
+  return \Drupal::service('environment_indicator.toolbar_handler')
+    ->getCacheTags();
 }
 
 /**
@@ -354,7 +247,7 @@ function _environment_indicator_switcher_cache_tags() {
  * @return \Drupal\Core\Entity\EntityInterface|null
  *   The loaded entity or null otherwise.
  */
-function environment_indicator_load($environment_id) {
+function environment_indicator_load(string $environment_id) {
   return \Drupal::entityTypeManager()
     ->getStorage('environment_indicator')
     ->load($environment_id);

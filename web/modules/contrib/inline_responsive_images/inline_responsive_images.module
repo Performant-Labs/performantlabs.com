@@ -23,7 +23,7 @@ function inline_responsive_images_help($route_name, RouteMatchInterface $route_m
       $output .= '<h4>' . t('Configuration') . '</h4>';
       $output .= '<ul>';
       $output .= '<li>' . t("Enable the text format filter <em>Display responsive images</em> or <em>Display image styles</em> and select the images styles/responsive styles that you want to be available to the user.") . '</li>';
-      $output .= '<li>' . t('Create new content. In the editor, click on the image icon in the toolbar. A popup will open where the user can upload an image and assign an image style or responsive style by selecting style from the dropdown menu.') . '</li>';
+      $output .= '<li>' . t('Create new content. In the editor, click on the image icon in the toolbar. A popup will open where the user can upload an image then assign an image style or responsive style by selecting style from a dropdown menu.') . '</li>';
       $output .= '</ul>';
       return $output;
   }
@@ -32,8 +32,8 @@ function inline_responsive_images_help($route_name, RouteMatchInterface $route_m
 /**
  * Implements hook_form_FORM_ID_alter() for EditorImageDialog.
  *
- * Alters the image dialog form for text editor, to allow the user to select an
- * image style.
+ * Alters the CKE4 image dialog form for text editor, to allow the user to
+ * select an image style.
  *
  * @see \Drupal\editor\Form\EditorImageDialog::buildForm()
  */
@@ -207,7 +207,7 @@ function inline_responsive_images_form_editor_image_dialog_alter(&$form, FormSta
 }
 
 /**
- * Form validation handler for EditorImageDialog.
+ * Form validation handler for CKE4 EditorImageDialog.
  *
  * Ensures the image shown in the text editor matches the chosen image style.
  *
@@ -256,7 +256,7 @@ function inline_responsive_images_form_editor_image_dialog_imagestyle_validate(a
 }
 
 /**
- * Validates the image dialog for responsive styles.
+ * Validates the CKE4 image dialog for responsive styles.
  *
  * @param array $form
  *   The form.

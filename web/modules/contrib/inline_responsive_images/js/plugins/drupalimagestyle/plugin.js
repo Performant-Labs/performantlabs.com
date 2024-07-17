@@ -1,6 +1,6 @@
 /**
  * @file
- * Drupal Image Style plugin.
+ * Drupal Image Style CKE4 plugin.
  *
  * This alters the existing CKEditor image2 widget plugin, which is already
  * altered by the Drupal Image plugin, to allow for the data-image-style

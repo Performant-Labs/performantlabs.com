@@ -8,7 +8,7 @@ use Drupal\ckeditor\CKEditorPluginInterface;
 use Drupal\ckeditor\CKEditorPluginContextualInterface;
 
 /**
- * Defines the "drupalresponsiveimagestyle" plugin.
+ * Defines the "drupalresponsiveimagestyle" CKE4 plugin.
  *
  * @CKEditorPlugin(
  *   id = "drupalresponsiveimagestyle",
@@ -43,7 +43,7 @@ class DrupalResponsiveImageStyle extends PluginBase implements CKEditorPluginInt
    * {@inheritdoc}
    */
   public function getFile() {
-    return drupal_get_path('module', 'inline_responsive_images') . '/js/plugins/drupalresponsiveimagestyle/plugin.js';
+    return \Drupal::service('extension.list.module')->getPath('inline_responsive_images') . '/js/plugins/drupalresponsiveimagestyle/plugin.js';
   }
 
   /**

@@ -1,6 +1,6 @@
 /**
  * @file
- * Drupal Responsive Image Style plugin.
+ * Drupal Responsive Image Style CKE4 plugin.
  *
  * This alters the existing CKEditor image2 widget plugin, which is already
  * altered by the Drupal Image plugin, to data-responsive-image-style attribute
