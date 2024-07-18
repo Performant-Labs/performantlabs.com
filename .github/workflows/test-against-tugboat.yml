@@ -3,9 +3,13 @@ run-name: ${{ github.actor }} is running tests on ${{ github.event.inputs.url }}
 on:
   workflow_dispatch:
     inputs:
+      preview_per_shard:
+        type: boolean
+        description: Create a new preview for each shard, "service" and "URL" will be ignored then
+        default: true
       service:
         description: Service ID of php-service of the Tugboat Preview environment
-        required: true
+        required: false
       url:
         description: Website URL of the Preview environment
         required: false
@@ -15,6 +19,7 @@ on:
       shards:
         description: Shard count
         default: 3
+  pull_request:
 
 env:
   PHP_VERSION: '8.1'
@@ -37,12 +42,21 @@ env:
   MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
 
 jobs:
-  Define-Matrix:
+  Test-Setup:
+    env:
+      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
+
     runs-on: ubuntu-latest
     outputs:
       startTime: ${{ steps.get-output.outputs.startTime }}
       shardIndex: ${{ steps.get-output.outputs.shardIndex }}
     steps:
+      - name: Delete prior previews
+        if: ${{ github.event.inputs.preview_per_shard }}
+        run:
+          ./scripts/tests.sh preview:delete --repo $TUGBOAT_REPO_ID
+
       - id: get-output
         run: |
           set -x
@@ -52,17 +66,22 @@ jobs:
 
   Test-on-Preview:
     needs:
-      - Define-Matrix
+      - Test-Setup
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: ${{ fromJSON(needs.Define-Matrix.outputs.shardIndex) }}
+        shardIndex: ${{ fromJSON(needs.Test-Setup.outputs.shardIndex) }}
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
+      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
+      SERVICE: ${{ github.event.inputs.service }}
+      URL: ${{ github.event.inputs.url }}
 
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +91,18 @@ jobs:
 
       - name: Check out repository code.
         uses: actions/checkout@v3
+
+      # Create new preview if requested
+      - name: Create a preview
+        if: ${{ github.event.inputs.preview_per_shard }}
+        run: |
+          set -x
+          ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID > preview.json
+          cat preview.json
+          SERVICE=$(cat preview.json | jq -r 'map(select(.name=="php"))[0].service')
+          URL=$(cat preview.json | jq -r 'map(select(.name=="php"))[0].urls[0]')
+          echo SERVICE=$SERVICE >> $GITHUB_ENV
+          echo URL=$URL >> $GITHUB_ENV
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
@@ -128,11 +159,11 @@ jobs:
 
       - run: echo "🍏 Job's status ${{ job.status }}."
 
-  Merge-Blob-Reports:
+  Test-Teardown:
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:
-      - Define-Matrix
+      - Test-Setup
       - Test-on-Preview
     steps:
 
