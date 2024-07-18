@@ -22,40 +22,13 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
 
-      - name: Install Tugboat.
-        run: |
-          set -x
-          curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
-          tar -zxf tugboat.tar.gz
-          echo $(pwd) >> $GITHUB_PATH
-          echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
-
       - name: Delete prior preview.
         run: |
-          set -x
-          tugboat ls previews --json
-          tugboat ls previews --json > previews.json
-          PREVIEW_ID=`jq -r '.[0].preview' previews.json`
-
-          if [ ${PREVIEW_ID} != "null" ]; then
-            echo "Deleting preview ${PREVIEW_ID}."
-            tugboat delete ${PREVIEW_ID}
-          fi
+          ./scripts/test.sh tugboat:delete --repo $TUGBOAT_REPO_ID
 
       - name: Create the preview.
         run: |
-          set -x
-          RUN_DATE=`date "+%Y-%m-%d %H:%M:%S"`
-          BRANCH=${{ github.event.pull_request.head.ref }}
-          if [ -z $BRANCH ]; then
-            BRANCH=${{ github.ref_name }}
-          fi
-          LABEL="Branch:$BRANCH $RUN_DATE"
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-          echo "LABEL=$LABEL" >> $GITHUB_ENV
-          echo "Creating preview (this triggers GitHub Actions tests)."
-          tugboat create preview "$BRANCH" \
-            base=false repo=${{ env.TUGBOAT_REPO_ID }} label="$LABEL" output=json
+          ./scripts/test.sh tugboat:create --repo $TUGBOAT_REPO_ID
 
       - name: Trigger tests
         run: |
