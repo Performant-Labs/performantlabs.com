@@ -179,7 +179,7 @@ jobs:
           echo JOB_STATUS=${{ needs.Test-on-Preview.result }} >> $GITHUB_ENV
           echo JOB_ENV=Tugboat preview per shard >> $GITHUB_ENV
           echo JOB_BRANCH=$GITHUB_BRANCH >> $GITHUB_ENV
-          START=${{ needs.Define-Matrix.outputs.startTime }}
+          START=${{ needs.Test-Setup.outputs.startTime }}
           STOP=$(date '+%s')
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
