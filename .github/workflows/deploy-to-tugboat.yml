@@ -7,6 +7,7 @@ on:
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
   TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
   # Repo ID comes from 'tugboat ls repos'
   TUGBOAT_REPO_ID: 63fe5557d5af549afd35a86a
