@@ -17,8 +17,12 @@ function init_tugboat() {
     curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
     tar -zxf tugboat.tar.gz
     #  update PATH to execute tugboat without ./
-    export PATH=$PATH:$(cwd)
+    export PATH=$PATH:$(pwd)
     echo token: $TUGBOAT_TOKEN > ~/.tugboat.yml
+    #  if we're in the context of GutHub Actions, save PATH for the further steps
+    if [ ! -z $GITHUB_PATH ]; then
+      echo $(pwd) >> $GITHUB_PATH
+    fi
   fi
 }
 
