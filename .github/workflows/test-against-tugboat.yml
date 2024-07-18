@@ -82,8 +82,13 @@ jobs:
           set -x
           ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID > preview.json
           cat preview.json
-          SERVICE=$(cat preview.json | jq -r 'map(select(.name=="php"))[0].service')
-          URL=$(cat preview.json | jq -r 'map(select(.name=="php"))[0].urls[0]')
+
+      - name: Parse preview json
+        run: |
+          set -x
+          PREVIEW=$(cat preview.json | jq -r .preview)
+          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
+          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
           echo SERVICE=$SERVICE >> $GITHUB_ENV
           echo URL=$URL >> $GITHUB_ENV
 
