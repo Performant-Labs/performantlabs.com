@@ -24,11 +24,11 @@ jobs:
 
       - name: Delete prior preview.
         run: |
-          ./scripts/tests.sh tugboat:delete --repo $TUGBOAT_REPO_ID
+          ./scripts/tests.sh preview:delete --repo $TUGBOAT_REPO_ID
 
       - name: Create the preview.
         run: |
-          ./scripts/tests.sh tugboat:create --repo $TUGBOAT_REPO_ID
+          ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID
 
       - name: Trigger tests
         run: |
