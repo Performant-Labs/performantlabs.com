@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
@@ -51,7 +49,7 @@ class EntityTypedDataDefinitionTest extends KernelTestBase {
   /**
    * Tests deriving metadata about fields.
    */
-  public function testFields(): void {
+  public function testFields() {
     $field_definition = BaseFieldDefinition::create('integer');
     // Fields are lists of complex data.
     $this->assertInstanceOf(ListDataDefinitionInterface::class, $field_definition);
@@ -90,7 +88,7 @@ class EntityTypedDataDefinitionTest extends KernelTestBase {
   /**
    * Tests deriving metadata about entities.
    */
-  public function testEntities(): void {
+  public function testEntities() {
     NodeType::create([
       'type' => 'article',
       'name' => 'Article',
@@ -132,7 +130,7 @@ class EntityTypedDataDefinitionTest extends KernelTestBase {
   /**
    * Tests deriving metadata from entity references.
    */
-  public function testEntityReferences(): void {
+  public function testEntityReferences() {
     $reference_definition = DataReferenceDefinition::create('entity');
     $this->assertInstanceOf(DataReferenceDefinitionInterface::class, $reference_definition);
 
@@ -151,7 +149,7 @@ class EntityTypedDataDefinitionTest extends KernelTestBase {
    *
    * @dataProvider entityDefinitionIsInternalProvider
    */
-  public function testEntityDefinitionIsInternal($internal, $expected): void {
+  public function testEntityDefinitionIsInternal($internal, $expected) {
     $entity_type_id = $this->randomMachineName();
 
     $entity_type = $this->prophesize(EntityTypeInterface::class);
@@ -173,7 +171,7 @@ class EntityTypedDataDefinitionTest extends KernelTestBase {
   /**
    * Provides test cases for testEntityDefinitionIsInternal.
    */
-  public static function entityDefinitionIsInternalProvider() {
+  public function entityDefinitionIsInternalProvider() {
     return [
       'internal' => [TRUE, TRUE],
       'external' => [FALSE, FALSE],

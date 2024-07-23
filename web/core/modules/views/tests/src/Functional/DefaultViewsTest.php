@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional;
 
 use Drupal\comment\CommentInterface;
@@ -91,7 +89,7 @@ class DefaultViewsTest extends ViewTestBase {
     $this->createEntityReferenceField('node', 'page', $field_name, NULL, 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
     // Create a time in the past for the archive.
-    $time = \Drupal::time()->getRequestTime() - 3600;
+    $time = REQUEST_TIME - 3600;
 
     $this->addDefaultCommentField('node', 'page');
 
@@ -138,7 +136,7 @@ class DefaultViewsTest extends ViewTestBase {
   /**
    * Tests that all Default views work as expected.
    */
-  public function testDefaultViews(): void {
+  public function testDefaultViews() {
     // Get all default views.
     $controller = $this->container->get('entity_type.manager')->getStorage('view');
     $views = $controller->loadMultiple();
@@ -185,7 +183,7 @@ class DefaultViewsTest extends ViewTestBase {
   /**
    * Tests the archive view.
    */
-  public function testArchiveView(): void {
+  public function testArchiveView() {
     // Create additional nodes compared to the one in the setup method.
     // Create two nodes in the same month, and one in each following month.
     $node = [
@@ -211,7 +209,7 @@ class DefaultViewsTest extends ViewTestBase {
     $columns = ['nid', 'created_year_month', 'num_records'];
     $column_map = array_combine($columns, $columns);
     // Create time of additional nodes created in the setup method.
-    $created_year_month = date('Ym', \Drupal::time()->getRequestTime() - 3600);
+    $created_year_month = date('Ym', REQUEST_TIME - 3600);
     $expected_result = [
       [
         'nid' => 1,

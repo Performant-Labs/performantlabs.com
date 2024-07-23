@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Kernel;
 
 use Drupal\Tests\SchemaCheckTestTrait;
@@ -27,7 +25,7 @@ class UserActionConfigSchemaTest extends KernelTestBase {
   /**
    * Tests whether the user action config schema are valid.
    */
-  public function testValidUserActionConfigSchema(): void {
+  public function testValidUserActionConfigSchema() {
     $rid = $this->randomMachineName(8);
     Role::create(['id' => $rid, 'label' => $rid])->save();
 

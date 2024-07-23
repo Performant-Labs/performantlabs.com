@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\Tests\BrowserTestBase;
@@ -107,7 +105,7 @@ class HtaccessTest extends BrowserTestBase {
   /**
    * Iterates over protected files and calls assertNoFileAccess().
    */
-  public function testFileAccess(): void {
+  public function testFileAccess() {
     foreach ($this->getProtectedFiles() as $file => $response_code) {
       $this->assertFileAccess($file, $response_code);
     }
@@ -157,7 +155,7 @@ class HtaccessTest extends BrowserTestBase {
   /**
    * Tests that SVGZ files are served with Content-Encoding: gzip.
    */
-  public function testSvgzContentEncoding(): void {
+  public function testSvgzContentEncoding() {
     $this->drupalGet('core/modules/system/tests/logo.svgz');
     $this->assertSession()->statusCodeEquals(200);
 

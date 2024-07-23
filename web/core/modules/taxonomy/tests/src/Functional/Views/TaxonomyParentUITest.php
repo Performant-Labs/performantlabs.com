@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\taxonomy\Functional\Views;
 
 use Drupal\Tests\views_ui\Functional\UITestBase;
@@ -43,7 +41,7 @@ class TaxonomyParentUITest extends UITestBase {
   /**
    * Tests the taxonomy parent plugin UI.
    */
-  public function testTaxonomyParentUI(): void {
+  public function testTaxonomyParentUI() {
     $this->drupalGet('admin/structure/views/nojs/handler/test_taxonomy_parent/default/relationship/parent');
     $this->assertSession()->pageTextNotContains('The handler for this item is broken or missing.');
   }

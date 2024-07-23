@@ -1,13 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
+use PHPUnit\Util\Test;
 
 /**
  * Base class for tests of Migrate source plugins.
@@ -84,9 +83,13 @@ abstract class MigrateSourceTestBase extends KernelTestBase {
    * @return string
    */
   protected function getPluginClass() {
-    $covers = $this->getTestClassCovers();
-    if (!empty($covers)) {
-      return $covers[0];
+    $annotations = Test::parseTestMethodAnnotations(
+      static::class,
+      $this->getName()
+    );
+
+    if (isset($annotations['class']['covers'])) {
+      return $annotations['class']['covers'][0];
     }
     else {
       $this->fail('No plugin class was specified');
@@ -146,7 +149,7 @@ abstract class MigrateSourceTestBase extends KernelTestBase {
    *
    * @dataProvider providerSource
    */
-  public function testSource(array $source_data, array $expected_data, $expected_count = NULL, array $configuration = [], $high_water = NULL): void {
+  public function testSource(array $source_data, array $expected_data, $expected_count = NULL, array $configuration = [], $high_water = NULL) {
     $plugin = $this->getPlugin($configuration);
     $clone_plugin = clone $plugin;
 

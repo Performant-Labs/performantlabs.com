@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\Form;
 
 use Drupal\Tests\BrowserTestBase;
 
 /**
- * Tests the menu_linkset_settings form.
+ * Tests the the menu_linkset_settings form.
  *
  * @group Form
  */
@@ -40,7 +38,7 @@ class MenuLinksetSettingsFormTest extends BrowserTestBase {
   /**
    * Tests the menu_linkset_settings form.
    */
-  public function testMenuLinksetSettingsForm(): void {
+  public function testMenuLinksetSettingsForm() {
     // Users without the appropriate permissions should not be able to access.
     $this->drupalGet('admin/config/services/linkset');
     $this->assertSession()->pageTextContains('Access denied');

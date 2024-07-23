@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Entity;
 
 use Drupal\Component\Render\FormattableMarkup;
@@ -38,7 +36,7 @@ class FieldWidgetConstraintValidatorTest extends KernelTestBase {
   /**
    * Tests widget constraint validation.
    */
-  public function testValidation(): void {
+  public function testValidation() {
     $entity_type = 'entity_test_constraint_violation';
     $entity = $this->container->get('entity_type.manager')
       ->getStorage($entity_type)
@@ -106,7 +104,7 @@ class FieldWidgetConstraintValidatorTest extends KernelTestBase {
   /**
    * Tests widget constraint validation with composite constraints.
    */
-  public function testValidationWithCompositeConstraint(): void {
+  public function testValidationWithCompositeConstraint() {
     // First provide a valid value, this should cause no validation.
     $entity = EntityTestCompositeConstraint::create([
       'name' => 'valid-value',
@@ -149,7 +147,7 @@ class FieldWidgetConstraintValidatorTest extends KernelTestBase {
   /**
    * Tests entity level constraint validation.
    */
-  public function testEntityLevelConstraintValidation(): void {
+  public function testEntityLevelConstraintValidation() {
     $entity = EntityTestCompositeConstraint::create([
       'name' => 'entity-level-violation',
     ]);

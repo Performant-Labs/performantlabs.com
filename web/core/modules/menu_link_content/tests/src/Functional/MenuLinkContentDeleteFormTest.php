@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\menu_link_content\Functional;
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
@@ -39,7 +37,7 @@ class MenuLinkContentDeleteFormTest extends BrowserTestBase {
   /**
    * Tests the MenuLinkContentDeleteForm class.
    */
-  public function testMenuLinkContentDeleteForm(): void {
+  public function testMenuLinkContentDeleteForm() {
     // Add new menu item.
     $this->drupalGet('admin/structure/menu/manage/admin/add');
     $this->submitForm([

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\file\Functional;
 
 /**
@@ -25,7 +23,7 @@ class FileFieldFormatterAccessTest extends FileFieldTestBase {
   /**
    * Tests the custom access handler is invoked.
    */
-  public function testFileAccessHandler(): void {
+  public function testFileAccessHandler() {
     $type_name = 'article';
     $field_name = $this->randomMachineName();
     $this->createFileField($field_name, 'node', $type_name);

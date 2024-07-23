@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\Form;
 
 use Drupal\form_test\Form\FormTestLabelForm;
@@ -35,7 +33,7 @@ class ElementsLabelsTest extends BrowserTestBase {
    * - Prefix and suffix render element placement.
    * - Form element title attributes.
    */
-  public function testFormLabels(): void {
+  public function testFormLabels() {
     $this->drupalGet('form_test/form-labels');
 
     // Check that the checkbox/radio processing is not interfering with
@@ -104,7 +102,7 @@ class ElementsLabelsTest extends BrowserTestBase {
   /**
    * Tests XSS-protection of element labels.
    */
-  public function testTitleEscaping(): void {
+  public function testTitleEscaping() {
     $this->drupalGet('form_test/form-labels');
     foreach (FormTestLabelForm::$typesWithTitle as $type) {
       $this->assertSession()->responseContains("$type alert('XSS') is XSS filtered!");
@@ -115,7 +113,7 @@ class ElementsLabelsTest extends BrowserTestBase {
   /**
    * Tests different display options for form element descriptions.
    */
-  public function testFormDescriptions(): void {
+  public function testFormDescriptions() {
     $this->drupalGet('form_test/form-descriptions');
 
     // Check #description placement with #description_display='after'.
@@ -142,11 +140,11 @@ class ElementsLabelsTest extends BrowserTestBase {
   /**
    * Tests forms in theme-less environments.
    */
-  public function testFormsInThemeLessEnvironments(): void {
+  public function testFormsInThemeLessEnvironments() {
     $form = $this->getFormWithLimitedProperties();
     $render_service = $this->container->get('renderer');
     // This should not throw any notices.
-    $render_service->renderInIsolation($form);
+    $render_service->renderPlain($form);
   }
 
   /**

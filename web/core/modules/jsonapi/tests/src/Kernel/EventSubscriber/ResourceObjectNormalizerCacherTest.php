@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\jsonapi\Kernel\EventSubscriber;
 
 use Drupal\Core\Cache\Cache;
@@ -75,7 +73,7 @@ class ResourceObjectNormalizerCacherTest extends KernelTestBase {
    *
    * @see https://www.drupal.org/project/drupal/issues/3077287
    */
-  public function testLinkNormalizationCacheability(): void {
+  public function testLinkNormalizationCacheability() {
     $user = User::create([
       'name' => $this->randomMachineName(),
       'pass' => $this->randomString(),

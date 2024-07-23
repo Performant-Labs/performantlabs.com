@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Functional\EntityReference;
 
 use Drupal\entity_test\Entity\EntityTest;
@@ -71,7 +69,7 @@ class EntityReferenceIntegrationTest extends BrowserTestBase {
   /**
    * Tests the entity reference field with all its supported field widgets.
    */
-  public function testSupportedEntityTypesAndWidgets(): void {
+  public function testSupportedEntityTypesAndWidgets() {
     foreach ($this->getTestEntities() as $key => $referenced_entities) {
       $this->fieldName = 'field_test_' . $referenced_entities[0]->getEntityTypeId();
 

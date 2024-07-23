@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional;
 
 use Drupal\language\Entity\ConfigurableLanguage;
@@ -104,7 +102,7 @@ class NodeTypeTranslationTest extends BrowserTestBase {
   /**
    * Tests the node type translation.
    */
-  public function testNodeTypeTranslation(): void {
+  public function testNodeTypeTranslation() {
     $type = $this->randomMachineName(16);
     $name = $this->randomString();
     $this->drupalLogin($this->adminUser);
@@ -141,7 +139,7 @@ class NodeTypeTranslationTest extends BrowserTestBase {
   /**
    * Tests the node type title label translation.
    */
-  public function testNodeTypeTitleLabelTranslation(): void {
+  public function testNodeTypeTitleLabelTranslation() {
     $type = $this->randomMachineName(16);
     $name = $this->randomString();
     $this->drupalLogin($this->adminUser);
@@ -172,8 +170,6 @@ class NodeTypeTranslationTest extends BrowserTestBase {
     $this->drupalGet("admin/structure/types/manage/{$type}/fields/add-field");
     $this->submitForm([
       'new_storage_type' => 'email',
-    ], 'Continue');
-    $this->submitForm([
       'label' => 'Email',
       'field_name' => 'email',
     ], 'Continue');

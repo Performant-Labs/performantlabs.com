@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional;
 
 /**
@@ -42,7 +40,7 @@ class ViewsNoResultsBehaviorTest extends ViewTestBase {
   /**
    * Tests the view with the text.
    */
-  public function testDuplicateText(): void {
+  public function testDuplicateText() {
     $output = $this->drupalGet('admin/content');
     $this->assertEquals(1, substr_count($output, 'No content available.'), 'Only one message should be present');
   }

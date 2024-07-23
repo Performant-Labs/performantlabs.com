@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -25,7 +23,7 @@ class ConfigurableLanguageTest extends KernelTestBase {
   /**
    * Tests configurable language name methods.
    */
-  public function testName(): void {
+  public function testName() {
     $name = $this->randomMachineName();
     $language_code = $this->randomMachineName(2);
     $configurableLanguage = new ConfigurableLanguage(['label' => $name, 'id' => $language_code], 'configurable_language');

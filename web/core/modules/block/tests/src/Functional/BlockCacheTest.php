@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\block\Functional;
 
 use Drupal\Core\Cache\Cache;
@@ -82,7 +80,7 @@ class BlockCacheTest extends BrowserTestBase {
   /**
    * Tests "user.roles" cache context.
    */
-  public function testCachePerRole(): void {
+  public function testCachePerRole() {
     \Drupal::state()->set('block_test.cache_contexts', ['user.roles']);
 
     // Enable our test block. Set some content for it to display.
@@ -134,7 +132,7 @@ class BlockCacheTest extends BrowserTestBase {
   /**
    * Tests a cacheable block without any additional cache context.
    */
-  public function testCachePermissions(): void {
+  public function testCachePermissions() {
     // user.permissions is a required context, so a user with different
     // permissions will see a different version of the block.
     \Drupal::state()->set('block_test.cache_contexts', []);
@@ -162,7 +160,7 @@ class BlockCacheTest extends BrowserTestBase {
   /**
    * Tests non-cacheable block.
    */
-  public function testNoCache(): void {
+  public function testNoCache() {
     \Drupal::state()->set('block_test.cache_max_age', 0);
 
     $current_content = $this->randomMachineName();
@@ -183,7 +181,7 @@ class BlockCacheTest extends BrowserTestBase {
   /**
    * Tests "user" cache context.
    */
-  public function testCachePerUser(): void {
+  public function testCachePerUser() {
     \Drupal::state()->set('block_test.cache_contexts', ['user']);
 
     $current_content = $this->randomMachineName();
@@ -215,7 +213,7 @@ class BlockCacheTest extends BrowserTestBase {
   /**
    * Tests "url" cache context.
    */
-  public function testCachePerPage(): void {
+  public function testCachePerPage() {
     \Drupal::state()->set('block_test.cache_contexts', ['url']);
 
     $current_content = $this->randomMachineName();

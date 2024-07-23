@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional\Rest;
 
 use Drupal\comment\Entity\Comment;
@@ -289,7 +287,7 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
    * - base fields that are marked as required, but yet can still result in
    *   validation errors other than "missing required field".
    */
-  public function testPostDxWithoutCriticalBaseFields(): void {
+  public function testPostDxWithoutCriticalBaseFields() {
     $this->initAuthentication();
     $this->provisionEntityResource();
     $this->setUpAuthorization('POST');
@@ -341,7 +339,7 @@ abstract class CommentResourceTestBase extends EntityResourceTestBase {
   /**
    * Tests POSTing a comment with and without 'skip comment approval'.
    */
-  public function testPostSkipCommentApproval(): void {
+  public function testPostSkipCommentApproval() {
     $this->initAuthentication();
     $this->provisionEntityResource();
     $this->setUpAuthorization('POST');

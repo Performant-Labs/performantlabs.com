@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_translation\Kernel;
 
 use Drupal\Core\Database\Database;
@@ -37,7 +35,7 @@ class ContentTranslationSettingsApiTest extends KernelTestBase {
   /**
    * Tests that enabling translation via the API triggers schema updates.
    */
-  public function testSettingsApi(): void {
+  public function testSettingsApi() {
     $this->container->get('content_translation.manager')->setEnabled('entity_test_mul', 'entity_test_mul', TRUE);
     $schema = Database::getConnection()->schema();
     $result =

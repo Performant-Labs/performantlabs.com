@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\options\Kernel\Views;
 
 use Drupal\field\Entity\FieldStorageConfig;
@@ -44,7 +42,7 @@ class FileViewsDataTest extends ViewsKernelTestBase {
    * @see file_field_views_data()
    * @see file_field_views_data_views_data_alter()
    */
-  public function testRelationshipViewsData(): void {
+  public function testRelationshipViewsData() {
     // Create file field to entity_test.
     FieldStorageConfig::create([
       'entity_type' => 'entity_test',

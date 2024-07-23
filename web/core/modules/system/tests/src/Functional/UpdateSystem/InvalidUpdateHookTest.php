@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\UpdateSystem;
 
 use Drupal\Core\Url;
@@ -60,7 +58,7 @@ class InvalidUpdateHookTest extends BrowserTestBase {
     ]);
   }
 
-  public function testInvalidUpdateHook(): void {
+  public function testInvalidUpdateHook() {
     // Confirm that a module with hook_update_8000() cannot be updated.
     $this->drupalLogin($this->updateUser);
     $this->drupalGet($this->updateUrl);

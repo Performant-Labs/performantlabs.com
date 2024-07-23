@@ -1,15 +1,6 @@
-name: Environment indicator
+name: 'Environment Indicator'
 type: module
-description: Adds a color indicator for the different environments.
+description: 'Adds a color indicator for the different environments.'
 package: Development
-core_version_requirement: ^9.3 || ^10 || ^11
-
-scripts:
-  - js/environment_indicator.js
-  - js/color.js
-
-stylesheets:
-  all:
-    - css/environment_indicator.css
-
+core_version_requirement: '^9.3 || ^10 || ^11'
 configure: environment_indicator.settings

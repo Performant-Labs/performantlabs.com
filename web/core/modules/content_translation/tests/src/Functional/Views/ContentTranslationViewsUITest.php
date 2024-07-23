@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_translation\Functional\Views;
 
 use Drupal\Tests\views_ui\Functional\UITestBase;
@@ -35,7 +33,7 @@ class ContentTranslationViewsUITest extends UITestBase {
   /**
    * Tests the views UI.
    */
-  public function testViewsUI(): void {
+  public function testViewsUI() {
     $this->drupalGet('admin/structure/views/view/test_view/edit');
     $this->assertSession()->titleEquals('Test view (Views test data) | Drupal');
   }

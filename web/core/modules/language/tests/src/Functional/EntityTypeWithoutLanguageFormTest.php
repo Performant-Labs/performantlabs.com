@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -48,7 +46,7 @@ class EntityTypeWithoutLanguageFormTest extends BrowserTestBase {
   /**
    * Tests configuration options with an entity without language definition.
    */
-  public function testEmptyLangcode(): void {
+  public function testEmptyLangcode() {
     // Assert that we can not enable language select from
     // content language settings page.
     $this->drupalGet('admin/config/regional/content-language');

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field_ui\Functional;
 
 use Drupal\Core\Entity\Entity\EntityFormMode;
@@ -47,7 +45,7 @@ class EntityDisplayModeTest extends BrowserTestBase {
   /**
    * Tests the EntityViewMode user interface.
    */
-  public function testEntityViewModeUI(): void {
+  public function testEntityViewModeUI() {
     // Test the listing page.
     $this->drupalGet('admin/structure/display-modes/view');
     $this->assertSession()->statusCodeEquals(403);
@@ -104,7 +102,7 @@ class EntityDisplayModeTest extends BrowserTestBase {
   /**
    * Tests the EntityFormMode user interface.
    */
-  public function testEntityFormModeUI(): void {
+  public function testEntityFormModeUI() {
     // Test the listing page.
     $this->drupalGet('admin/structure/display-modes/form');
     $this->assertSession()->statusCodeEquals(403);
@@ -164,7 +162,7 @@ class EntityDisplayModeTest extends BrowserTestBase {
    *
    * @see https://www.drupal.org/node/2858569
    */
-  public function testAlphabeticalDisplaySettings(): void {
+  public function testAlphabeticalDisplaySettings() {
     $this->drupalLogin($this->drupalCreateUser([
       'access administration pages',
       'administer content types',

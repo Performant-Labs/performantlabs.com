@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional;
 
 use Drupal\field\Entity\FieldConfig;
@@ -91,7 +89,7 @@ class NodeAccessFieldTest extends NodeTestBase {
   /**
    * Tests administering fields when node access is restricted.
    */
-  public function testNodeAccessAdministerField(): void {
+  public function testNodeAccessAdministerField() {
     // Create a page node.
     $fieldData = [];
     $value = $fieldData[0]['value'] = $this->randomMachineName();

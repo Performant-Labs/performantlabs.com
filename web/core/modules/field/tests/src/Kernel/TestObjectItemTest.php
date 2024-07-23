@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Kernel;
 
 use Drupal\entity_test\Entity\EntityTest;
@@ -44,7 +42,7 @@ class TestObjectItemTest extends FieldKernelTestBase {
   /**
    * Tests the serialization of a field type that has an object.
    */
-  public function testTestObjectItem(): void {
+  public function testTestObjectItem() {
     $object = new \stdClass();
     $object->foo = 'bar';
     $entity = EntityTest::create();

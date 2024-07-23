@@ -8,7 +8,6 @@ use Drupal\layout_builder\SectionStorageInterface;
 /**
  * Defines a controller to choose a new block.
  *
- * @phpstan-ignore-line
  * @internal
  *   Controller classes are internal.
  */
@@ -21,7 +20,6 @@ class ChooseBlockController extends ChooseBlockControllerCore {
     $build = parent::build($section_storage, $delta, $region);
 
     // Retrieve defined Layout Builder Restrictions plugins.
-    // @phpstan-ignore-line
     $layout_builder_restrictions_manager = \Drupal::service('plugin.manager.layout_builder_restriction');
     $restriction_plugins = $layout_builder_restrictions_manager->getSortedPlugins();
     foreach (array_keys($restriction_plugins) as $id) {
@@ -44,7 +42,6 @@ class ChooseBlockController extends ChooseBlockControllerCore {
     $build = parent::inlineBlockList($section_storage, $delta, $region);
 
     // Retrieve defined Layout Builder Restrictions plugins.
-    // @phpstan-ignore-line
     $layout_builder_restrictions_manager = \Drupal::service('plugin.manager.layout_builder_restriction');
     $restriction_plugins = $layout_builder_restrictions_manager->getSortedPlugins();
     foreach (array_keys($restriction_plugins) as $id) {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -73,7 +71,7 @@ class LanguageSelectorTranslatableTest extends BrowserTestBase {
   /**
    * Tests content translation language selectors are correctly translated.
    */
-  public function testLanguageStringSelector(): void {
+  public function testLanguageStringSelector() {
     // Add another language.
     static::createLanguageFromLangcode('es');
 
@@ -98,7 +96,7 @@ class LanguageSelectorTranslatableTest extends BrowserTestBase {
   /**
    * Tests that correct title is displayed for content translation page.
    */
-  public function testContentTranslationPageTitle(): void {
+  public function testContentTranslationPageTitle() {
     $this->drupalGet('admin/config/regional/content-language');
     $this->assertSession()->pageTextContains('Content language and translation');
     $this->assertSession()->pageTextNotMatches('#Content language$#');

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\image\Kernel\Views;
 
 use Drupal\field\Entity\FieldConfig;
@@ -72,7 +70,7 @@ class RelationshipUserImageDataTest extends ViewsKernelTestBase {
   /**
    * Tests using the views image relationship.
    */
-  public function testViewsHandlerRelationshipUserImageData(): void {
+  public function testViewsHandlerRelationshipUserImageData() {
     $file = File::create([
       'fid' => 2,
       'uid' => 2,

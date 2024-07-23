@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\FileTransfer;
 
 use Drupal\Core\FileTransfer\FileTransferException;
@@ -76,7 +74,7 @@ class FileTransferTest extends BrowserTestBase {
     }
   }
 
-  public function testJail(): void {
+  public function testJail() {
     $source = $this->_buildFakeModule();
 
     // This convoluted piece of code is here because our testing framework does

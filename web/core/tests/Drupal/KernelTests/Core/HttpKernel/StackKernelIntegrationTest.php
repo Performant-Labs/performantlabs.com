@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\HttpKernel;
 
 use Drupal\Core\Url;
@@ -26,7 +24,7 @@ class StackKernelIntegrationTest extends KernelTestBase {
   /**
    * Tests a request.
    */
-  public function testRequest(): void {
+  public function testRequest() {
     $request = Request::create((new Url('http_kernel_test.empty'))->toString());
     /** @var \Symfony\Component\HttpKernel\HttpKernelInterface $http_kernel */
     $http_kernel = \Drupal::service('http_kernel');
@@ -39,7 +37,7 @@ class StackKernelIntegrationTest extends KernelTestBase {
   /**
    * Tests that late middlewares are automatically flagged lazy.
    */
-  public function testLazyLateMiddlewares(): void {
+  public function testLazyLateMiddlewares() {
     $this->assertFalse($this->container->getDefinition('http_middleware.reverse_proxy')->isLazy(), 'lazy flag on http_middleware.reverse_proxy definition is not set');
     $this->assertFalse($this->container->getDefinition('http_middleware.kernel_pre_handle')->isLazy(), 'lazy flag on http_middleware.kernel_pre_handle definition is not set');
     $this->assertFalse($this->container->getDefinition('http_middleware.session')->isLazy(), 'lazy flag on http_middleware.session definition is not set');

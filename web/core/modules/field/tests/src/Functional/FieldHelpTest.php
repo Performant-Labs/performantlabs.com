@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -46,7 +44,7 @@ class FieldHelpTest extends BrowserTestBase {
   /**
    * Tests the Field module's help page.
    */
-  public function testFieldHelp(): void {
+  public function testFieldHelp() {
     // Log in the admin user.
     $this->drupalLogin($this->adminUser);
 

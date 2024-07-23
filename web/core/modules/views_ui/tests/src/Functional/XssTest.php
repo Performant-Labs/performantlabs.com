@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views_ui\Functional;
 
 /**
@@ -23,7 +21,7 @@ class XssTest extends UITestBase {
    */
   protected $defaultTheme = 'stark';
 
-  public function testViewsUi(): void {
+  public function testViewsUi() {
     $this->drupalGet('admin/structure/views/view/sa_contrib_2013_035');
     // Verify that the field admin label is properly escaped.
     $this->assertSession()->assertEscaped('<marquee>test</marquee>');
@@ -37,7 +35,7 @@ class XssTest extends UITestBase {
   /**
    * Checks the admin UI for double escaping.
    */
-  public function testNoDoubleEscaping(): void {
+  public function testNoDoubleEscaping() {
     $this->drupalGet('admin/structure/views');
     $this->assertSession()->assertNoEscaped('&lt;');
 

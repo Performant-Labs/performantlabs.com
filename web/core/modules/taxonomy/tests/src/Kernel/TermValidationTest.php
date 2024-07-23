@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\taxonomy\Kernel;
 
 use Drupal\Component\Render\FormattableMarkup;
@@ -32,7 +30,7 @@ class TermValidationTest extends EntityKernelTestBase {
   /**
    * Tests the term validation constraints.
    */
-  public function testValidation(): void {
+  public function testValidation() {
     $this->entityTypeManager->getStorage('taxonomy_vocabulary')->create([
       'vid' => 'tags',
       'name' => 'Tags',

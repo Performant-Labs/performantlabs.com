@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\block_content\Functional\Views;
 
 /**
@@ -33,7 +31,7 @@ class BlockContentRedirectTest extends BlockContentTestBase {
   /**
    * Tests the redirect destination when editing block content.
    */
-  public function testRedirectDestination(): void {
+  public function testRedirectDestination() {
     $this->drupalLogin($this->drupalCreateUser(['access block library', 'administer block content']));
     $this->drupalGet('admin/content/block');
 

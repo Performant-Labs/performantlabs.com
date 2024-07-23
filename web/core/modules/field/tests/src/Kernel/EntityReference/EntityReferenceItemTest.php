@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Kernel\EntityReference;
 
 use Drupal\comment\Entity\Comment;
@@ -131,7 +129,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests the entity reference field type for referencing content entities.
    */
-  public function testContentEntityReferenceItem(): void {
+  public function testContentEntityReferenceItem() {
     $tid = $this->term->id();
 
     // Just being able to create the entity like this verifies a lot of code.
@@ -220,7 +218,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests the ::generateSampleValue() method.
    */
-  public function testGenerateSampleValue(): void {
+  public function testGenerateSampleValue() {
     $entity = EntityTest::create();
 
     // Test while a term exists.
@@ -238,7 +236,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests the ::generateSampleValue() method when it has a circular reference.
    */
-  public function testGenerateSampleValueCircularReference(): void {
+  public function testGenerateSampleValueCircularReference() {
     // Delete the existing entity.
     $this->entityStringId->delete();
 
@@ -251,7 +249,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests referencing content entities with string IDs.
    */
-  public function testContentEntityReferenceItemWithStringId(): void {
+  public function testContentEntityReferenceItemWithStringId() {
     $entity = EntityTest::create();
     $entity->field_test_entity_test_string_id->target_id = $this->entityStringId->id();
     $entity->save();
@@ -267,7 +265,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests the entity reference field type for referencing config entities.
    */
-  public function testConfigEntityReferenceItem(): void {
+  public function testConfigEntityReferenceItem() {
     $referenced_entity_id = $this->vocabulary->id();
 
     // Just being able to create the entity like this verifies a lot of code.
@@ -314,7 +312,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests entity auto create.
    */
-  public function testEntityAutoCreate(): void {
+  public function testEntityAutoCreate() {
     // The term entity is unsaved here.
     $term = Term::create([
       'name' => $this->randomMachineName(),
@@ -338,7 +336,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests saving order sequence doesn't matter.
    */
-  public function testEntitySaveOrder(): void {
+  public function testEntitySaveOrder() {
     // The term entity is unsaved here.
     $term = Term::create([
       'name' => $this->randomMachineName(),
@@ -365,7 +363,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests that the 'handler' field setting stores the proper plugin ID.
    */
-  public function testSelectionHandlerSettings(): void {
+  public function testSelectionHandlerSettings() {
     $field_name = $this->randomMachineName();
     $field_storage = FieldStorageConfig::create([
       'field_name' => $field_name,
@@ -422,7 +420,7 @@ class EntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Tests ValidReferenceConstraint with newly created and unsaved entities.
    */
-  public function testAutocreateValidation(): void {
+  public function testAutocreateValidation() {
     // The term entity is unsaved here.
     $term = Term::create([
       'name' => $this->randomMachineName(),

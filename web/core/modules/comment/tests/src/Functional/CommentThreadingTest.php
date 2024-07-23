@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional;
 
 use Drupal\comment\CommentManagerInterface;
@@ -21,7 +19,7 @@ class CommentThreadingTest extends CommentTestBase {
   /**
    * Tests the comment threading.
    */
-  public function testCommentThreading(): void {
+  public function testCommentThreading() {
     // Set comments to have a subject with preview disabled.
     $this->setCommentPreview(DRUPAL_DISABLED);
     $this->setCommentForm(TRUE);

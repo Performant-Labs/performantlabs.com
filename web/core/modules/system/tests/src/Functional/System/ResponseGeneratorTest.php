@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\rest\Entity\RestResourceConfig;
@@ -40,7 +38,7 @@ class ResponseGeneratorTest extends BrowserTestBase {
   /**
    * Tests to see if generator header is added.
    */
-  public function testGeneratorHeaderAdded(): void {
+  public function testGeneratorHeaderAdded() {
 
     $node = $this->drupalCreateNode();
 

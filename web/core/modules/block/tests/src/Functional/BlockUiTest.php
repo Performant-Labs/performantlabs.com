@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\block\Functional;
 
 use Drupal\Component\Utility\Html;
@@ -9,8 +7,7 @@ use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\language\Plugin\LanguageNegotiation\LanguageNegotiationUrl;
 use Drupal\Tests\BrowserTestBase;
 
-// cspell:ignore displaymessage scriptalertxsssubjectscript
-// cspell:ignore testcontextawareblock
+// cspell:ignore scriptalertxsssubjectscript
 
 /**
  * Tests that the block configuration UI exists and stores data correctly.
@@ -96,7 +93,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests block demo page exists and functions correctly.
    */
-  public function testBlockDemoUiPage(): void {
+  public function testBlockDemoUiPage() {
     $this->drupalPlaceBlock('help_block', ['region' => 'help']);
     $this->drupalGet('admin/structure/block');
     $this->clickLink('Demonstrate block regions (Stark)');
@@ -130,7 +127,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests block admin page exists and functions correctly.
    */
-  public function testBlockAdminUiPage(): void {
+  public function testBlockAdminUiPage() {
     // Visit the blocks admin ui.
     $this->drupalGet('admin/structure/block');
     // Look for the blocks table.
@@ -193,7 +190,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests the block categories on the listing page.
    */
-  public function testCandidateBlockList(): void {
+  public function testCandidateBlockList() {
     $this->drupalGet('admin/structure/block');
     $this->clickLink('Place block');
     $this->assertSession()->elementExists('xpath', '//tr[.//td/div[text()="Display message"] and .//td[text()="Block test"] and .//td//a[contains(@href, "admin/structure/block/add/test_block_instantiation/stark")]]');
@@ -210,7 +207,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests the behavior of unsatisfied context-aware blocks.
    */
-  public function testContextAwareUnsatisfiedBlocks(): void {
+  public function testContextAwareUnsatisfiedBlocks() {
     $this->drupalGet('admin/structure/block');
     $this->clickLink('Place block');
     // Verify that the context-aware test block does not appear.
@@ -223,7 +220,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests the behavior of context-aware blocks.
    */
-  public function testContextAwareBlocks(): void {
+  public function testContextAwareBlocks() {
     $expected_text = '<div id="test_context_aware--username">' . \Drupal::currentUser()->getAccountName() . '</div>';
     $this->drupalGet('');
     $this->assertSession()->pageTextNotContains('Test context-aware block');
@@ -274,7 +271,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests that the BlockForm populates machine name correctly.
    */
-  public function testMachineNameSuggestion(): void {
+  public function testMachineNameSuggestion() {
     // Check the form uses the raw machine name suggestion when no instance
     // already exists.
     $url = 'admin/structure/block/add/test_block_instantiation/stark';
@@ -300,7 +297,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests the block placement indicator.
    */
-  public function testBlockPlacementIndicator(): void {
+  public function testBlockPlacementIndicator() {
     // Test the block placement indicator with using the domain as URL language
     // indicator. This causes destination query parameters to be absolute URLs.
     \Drupal::service('module_installer')->install(['language', 'locale']);
@@ -356,7 +353,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests if validation errors are passed plugin form to the parent form.
    */
-  public function testBlockValidateErrors(): void {
+  public function testBlockValidateErrors() {
     $this->drupalGet('admin/structure/block/add/test_settings_validation/stark');
     $this->submitForm([
       'region' => 'content',
@@ -370,7 +367,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests that the enable/disable routes are protected from CSRF.
    */
-  public function testRouteProtection(): void {
+  public function testRouteProtection() {
     // Get the first block generated in our setUp method.
     /** @var \Drupal\block\BlockInterface $block */
     $block = reset($this->blocks);
@@ -384,7 +381,7 @@ class BlockUiTest extends BrowserTestBase {
   /**
    * Tests that users without permission are not able to view broken blocks.
    */
-  public function testBrokenBlockVisibility(): void {
+  public function testBrokenBlockVisibility() {
     $assert_session = $this->assertSession();
 
     $block = $this->drupalPlaceBlock('broken');
@@ -398,14 +395,14 @@ class BlockUiTest extends BrowserTestBase {
     $this->drupalGet('');
     $assert_session->statusCodeEquals(200);
     // Check that this user can view the Broken Block message.
-    $assert_session->pageTextContains('This block is broken or missing. You may be missing content or you might need to install the original module.');
+    $assert_session->pageTextContains('This block is broken or missing. You may be missing content or you might need to enable the original module.');
     $this->drupalLogout();
 
     // Visit the same page as anonymous.
     $this->drupalGet('');
     $assert_session->statusCodeEquals(200);
     // Check that this user cannot view the Broken Block message.
-    $assert_session->pageTextNotContains('This block is broken or missing. You may be missing content or you might need to install the original module.');
+    $assert_session->pageTextNotContains('This block is broken or missing. You may be missing content or you might need to enable the original module.');
 
     // Visit same page as an authorized user that does not have access to
     // administer blocks.
@@ -413,7 +410,7 @@ class BlockUiTest extends BrowserTestBase {
     $this->drupalGet('');
     $assert_session->statusCodeEquals(200);
     // Check that this user cannot view the Broken Block message.
-    $assert_session->pageTextNotContains('This block is broken or missing. You may be missing content or you might need to install the original module.');
+    $assert_session->pageTextNotContains('This block is broken or missing. You may be missing content or you might need to enable the original module.');
   }
 
 }

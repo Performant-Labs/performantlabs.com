@@ -51,12 +51,7 @@
 
           setCountry(val);
 
-          $input.change((event) => {
-            const newVal = $(event.target).val();
-            if (val !== newVal) {
-              setCountry(newVal);
-            }
-          });
+          $input.change((event) => setCountry($(event.target).val()));
         },
       );
     },

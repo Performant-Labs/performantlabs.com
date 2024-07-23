@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Config;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -31,7 +29,7 @@ class ConfigExportStorageTest extends KernelTestBase {
   /**
    * Tests configuration override.
    */
-  public function testExportStorage(): void {
+  public function testExportStorage() {
     /** @var \Drupal\Core\Config\StorageInterface $active */
     $active = $this->container->get('config.storage');
     /** @var \Drupal\Core\Config\StorageInterface $export */

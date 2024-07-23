@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_moderation\Kernel;
 
 use Drupal\Core\Entity\EntityInterface;
@@ -55,7 +53,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
    *
    * @see \Drupal\workspaces\EntityTypeInfo::entityTypeAlter()
    */
-  public function testWorkspaceEntityTypeModeration(): void {
+  public function testWorkspaceEntityTypeModeration() {
     /** @var \Drupal\content_moderation\ModerationInformationInterface $moderation_info */
     $moderation_info = \Drupal::service('content_moderation.moderation_information');
     $entity_type = \Drupal::entityTypeManager()->getDefinition('workspace');
@@ -67,7 +65,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
    *
    * @see content_moderation_workspace_access()
    */
-  public function testContentModerationIntegrationWithWorkspaces(): void {
+  public function testContentModerationIntegrationWithWorkspaces() {
     $editorial = $this->createEditorialWorkflow();
     $access_handler = \Drupal::entityTypeManager()->getAccessControlHandler('workspace');
 
@@ -157,7 +155,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
   /**
    * Test cases for basic moderation test.
    */
-  public static function basicModerationTestCases() {
+  public function basicModerationTestCases() {
     return [
       'Nodes' => [
         'node',
@@ -180,18 +178,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
   /**
    * {@inheritdoc}
    */
-  public function testContentModerationStateDataRemoval($entity_type_id = NULL): void {
-    // This test creates published default revisions in Live, which can not be
-    // deleted in a workspace. A test scenario for the case when Content
-    // Moderation and Workspaces are used together is covered in
-    // parent::testContentModerationStateRevisionDataRemoval().
-    $this->markTestSkipped();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function testModerationWithFieldConfigOverride(): void {
+  public function testModerationWithFieldConfigOverride() {
     // This test does not assert anything that can be workspace-specific.
     $this->markTestSkipped();
   }
@@ -199,7 +186,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
   /**
    * {@inheritdoc}
    */
-  public function testWorkflowDependencies(): void {
+  public function testWorkflowDependencies() {
     // This test does not assert anything that can be workspace-specific.
     $this->markTestSkipped();
   }
@@ -207,7 +194,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
   /**
    * {@inheritdoc}
    */
-  public function testWorkflowNonConfigBundleDependencies(): void {
+  public function testWorkflowNonConfigBundleDependencies() {
     // This test does not assert anything that can be workspace-specific.
     $this->markTestSkipped();
   }
@@ -215,7 +202,7 @@ class WorkspacesContentModerationStateTest extends ContentModerationStateTest {
   /**
    * {@inheritdoc}
    */
-  public function testGetCurrentUserId(): void {
+  public function testGetCurrentUserId() {
     // This test does not assert anything that can be workspace-specific.
     $this->markTestSkipped();
   }

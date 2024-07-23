@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\image\Kernel;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -79,7 +77,7 @@ class ImageStyleCustomStreamWrappersTest extends KernelTestBase {
    * @param string $expected_scheme
    *   The derivative expected stream wrapper scheme.
    */
-  public function testCustomStreamWrappers($source_scheme, $expected_scheme): void {
+  public function testCustomStreamWrappers($source_scheme, $expected_scheme) {
     $derivative_uri = $this->imageStyle->buildUri("$source_scheme://some/path/image.png");
     $derivative_scheme = StreamWrapperManager::getScheme($derivative_uri);
 
@@ -104,7 +102,7 @@ class ImageStyleCustomStreamWrappersTest extends KernelTestBase {
    *   - The derivative expected stream wrapper scheme.
    *   - The stream wrapper service class.
    */
-  public static function providerTestCustomStreamWrappers() {
+  public function providerTestCustomStreamWrappers() {
     return [
       ['public', 'public', PublicStream::class],
       ['private', 'private', PrivateStream::class],

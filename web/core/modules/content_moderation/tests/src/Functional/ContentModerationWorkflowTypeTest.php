@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_moderation\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -43,7 +41,7 @@ class ContentModerationWorkflowTypeTest extends BrowserTestBase {
   /**
    * Tests creating a new workflow using the content moderation plugin.
    */
-  public function testNewWorkflow(): void {
+  public function testNewWorkflow() {
     $types[] = $this->createContentType();
     $types[] = $this->createContentType();
     $types[] = $this->createContentType();

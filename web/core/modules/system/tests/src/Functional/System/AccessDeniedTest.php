@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\Tests\BrowserTestBase;
@@ -53,7 +51,7 @@ class AccessDeniedTest extends BrowserTestBase {
     user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['access user profiles']);
   }
 
-  public function testAccessDenied(): void {
+  public function testAccessDenied() {
     $this->drupalGet('admin');
     $this->assertSession()->pageTextContains('Access denied');
     $this->assertSession()->statusCodeEquals(403);
@@ -130,7 +128,7 @@ class AccessDeniedTest extends BrowserTestBase {
   /**
    * Tests that an inaccessible custom 403 page falls back to the default.
    */
-  public function testAccessDeniedCustomPageWithAccessDenied(): void {
+  public function testAccessDeniedCustomPageWithAccessDenied() {
     // Sets up a 403 page not accessible by the anonymous user.
     $this->config('system.site')->set('page.403', '/system-test/custom-4xx')->save();
 

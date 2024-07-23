@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -75,7 +73,7 @@ class LanguagePathMonolingualTest extends BrowserTestBase {
   /**
    * Verifies that links do not have language prefixes in them.
    */
-  public function testPageLinks(): void {
+  public function testPageLinks() {
     // Navigate to 'admin/config' path.
     $this->drupalGet('admin/config');
 

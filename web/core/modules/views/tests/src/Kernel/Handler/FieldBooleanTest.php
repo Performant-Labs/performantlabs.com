@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Kernel\Handler;
 
 use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
@@ -35,7 +33,7 @@ class FieldBooleanTest extends ViewsKernelTestBase {
     return $data;
   }
 
-  public function testFieldBoolean(): void {
+  public function testFieldBoolean() {
     $view = Views::getView('test_view');
     $view->setDisplay();
 

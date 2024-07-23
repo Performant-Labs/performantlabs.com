@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\Tests\BrowserTestBase;
@@ -55,7 +53,7 @@ class SystemAuthorizeTest extends BrowserTestBase {
   /**
    * Tests the FileTransfer hooks.
    */
-  public function testFileTransferHooks(): void {
+  public function testFileTransferHooks() {
     $page_title = $this->randomMachineName(16);
     $this->drupalGetAuthorizePHP($page_title);
     $this->assertSession()->titleEquals("$page_title | Drupal");

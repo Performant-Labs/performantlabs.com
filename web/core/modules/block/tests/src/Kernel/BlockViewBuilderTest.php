@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\block\Kernel;
 
 use Drupal\Component\Utility\Html;
@@ -74,7 +72,7 @@ class BlockViewBuilderTest extends KernelTestBase {
   /**
    * Tests the rendering of blocks.
    */
-  public function testBasicRendering(): void {
+  public function testBasicRendering() {
     \Drupal::state()->set('block_test.content', '');
 
     $entity = $this->controller->create([
@@ -127,7 +125,7 @@ class BlockViewBuilderTest extends KernelTestBase {
   /**
    * Tests block render cache handling.
    */
-  public function testBlockViewBuilderCache(): void {
+  public function testBlockViewBuilderCache() {
     // Verify cache handling for a non-empty block.
     $this->verifyRenderCacheHandling();
 
@@ -191,7 +189,7 @@ class BlockViewBuilderTest extends KernelTestBase {
    * @see hook_block_view_alter()
    * @see hook_block_view_BASE_BLOCK_ID_alter()
    */
-  public function testBlockViewBuilderViewAlter(): void {
+  public function testBlockViewBuilderViewAlter() {
     // Establish baseline.
     $build = $this->getBlockRenderArray();
     $this->setRawContent((string) $this->renderer->renderRoot($build));
@@ -225,7 +223,7 @@ class BlockViewBuilderTest extends KernelTestBase {
    * @see hook_block_build_alter()
    * @see hook_block_build_BASE_BLOCK_ID_alter()
    */
-  public function testBlockViewBuilderBuildAlter(): void {
+  public function testBlockViewBuilderBuildAlter() {
     // Force a request via GET so we can test the render cache.
     $request = \Drupal::request();
     $request_method = $request->server->get('REQUEST_METHOD');

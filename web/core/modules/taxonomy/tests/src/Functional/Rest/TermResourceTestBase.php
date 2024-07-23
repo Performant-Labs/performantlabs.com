@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\taxonomy\Functional\Rest;
 
 use Drupal\Core\Cache\Cache;
@@ -283,7 +281,7 @@ abstract class TermResourceTestBase extends EntityResourceTestBase {
    *
    * @see \Drupal\Tests\rest\Functional\EntityResource\Node\NodeResourceTestBase::testPatchPath()
    */
-  public function testPatchPath(): void {
+  public function testPatchPath() {
     $this->initAuthentication();
     $this->provisionEntityResource();
     $this->setUpAuthorization('GET');
@@ -332,7 +330,7 @@ abstract class TermResourceTestBase extends EntityResourceTestBase {
    *
    * @dataProvider providerTestGetTermWithParent
    */
-  public function testGetTermWithParent(array $parent_term_ids): void {
+  public function testGetTermWithParent(array $parent_term_ids) {
     // Create all possible parent terms.
     Term::create(['vid' => Vocabulary::load('camelids')->id()])
       ->setName('Lamoids')
@@ -358,7 +356,7 @@ abstract class TermResourceTestBase extends EntityResourceTestBase {
     $this->assertSame($expected, $actual);
   }
 
-  public static function providerTestGetTermWithParent() {
+  public function providerTestGetTermWithParent() {
     return [
       'root parent: [0] (= no parent)' => [
         [0],

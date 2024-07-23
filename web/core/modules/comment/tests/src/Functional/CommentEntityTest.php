@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional;
 
 use Drupal\comment\Entity\CommentType;
@@ -69,7 +67,7 @@ class CommentEntityTest extends CommentTestBase {
   /**
    * Tests CSS classes on comments.
    */
-  public function testEntityChanges(): void {
+  public function testEntityChanges() {
     $this->drupalLogin($this->webUser);
     // Create a new node.
     $term = $this->createTerm($this->vocab, ['uid' => $this->webUser->id()]);

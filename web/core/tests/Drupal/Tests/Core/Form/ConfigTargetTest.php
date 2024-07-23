@@ -97,7 +97,7 @@ class ConfigTargetTest extends UnitTestCase {
     $this->assertSame($expected, $form_state->isCached());
   }
 
-  public static function providerTestFormCacheable(): array {
+  public function providerTestFormCacheable(): array {
     $closure = fn (bool $something): string => $something ? 'Yes' : 'No';
     return [
       'No callables' => [TRUE, NULL, NULL],
@@ -114,7 +114,7 @@ class ConfigTargetTest extends UnitTestCase {
    * @covers ::fromForm
    * @covers ::fromString
    */
-  public function testFromFormString(): void {
+  public function testFromFormString() {
     $form = [
       'group' => [
         '#type' => 'details',
@@ -136,7 +136,7 @@ class ConfigTargetTest extends UnitTestCase {
   /**
    * @covers ::fromForm
    */
-  public function testFromFormConfigTarget(): void {
+  public function testFromFormConfigTarget() {
     $form = [
       'test' => [
         '#type' => 'text',
@@ -158,13 +158,13 @@ class ConfigTargetTest extends UnitTestCase {
    * @covers ::fromForm
    * @dataProvider providerTestFromFormException
    */
-  public function testFromFormException(array $form, array $array_parents, string $exception_message): void {
+  public function testFromFormException(array $form, array $array_parents, string $exception_message) {
     $this->expectException(\LogicException::class);
     $this->expectExceptionMessage($exception_message);
     ConfigTarget::fromForm($array_parents, $form);
   }
 
-  public static function providerTestFromFormException(): array {
+  public function providerTestFromFormException(): array {
     return [
       'No #config_target' => [
         [
@@ -215,7 +215,7 @@ class ConfigTargetTest extends UnitTestCase {
     new ConfigTarget(...$arguments);
   }
 
-  public static function providerMultiTargetWithoutCallables(): \Generator {
+  public function providerMultiTargetWithoutCallables(): \Generator {
     yield "neither callable" => ['foo.settings', ['a', 'b']];
     yield "only fromConfig" => ['foo.settings', ['a', 'b'], "intval"];
     yield "only toConfig" => ['foo.settings', ['a', 'b'], NULL, "intval"];

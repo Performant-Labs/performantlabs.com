@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\FunctionalTests\Image;
 
 use Drupal\Tests\BrowserTestBase;
@@ -46,7 +44,7 @@ class ToolkitSetupFormTest extends BrowserTestBase {
   /**
    * Tests Image toolkit setup form.
    */
-  public function testToolkitSetupForm(): void {
+  public function testToolkitSetupForm() {
     // Get form.
     $this->drupalGet('admin/config/media/image-toolkit');
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -62,7 +60,7 @@ class NodeFormSaveChangedTimeTest extends BrowserTestBase {
   /**
    * Tests the changed time after API and FORM save without changes.
    */
-  public function testChangedTimeAfterSaveWithoutChanges(): void {
+  public function testChangedTimeAfterSaveWithoutChanges() {
     $storage = $this->container->get('entity_type.manager')->getStorage('node');
     $storage->resetCache([1]);
     $node = $storage->load(1);

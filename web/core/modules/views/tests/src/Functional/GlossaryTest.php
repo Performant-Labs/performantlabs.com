@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional;
 
 use Drupal\Core\Language\LanguageInterface;
@@ -35,7 +33,7 @@ class GlossaryTest extends ViewTestBase {
   /**
    * Tests the default glossary view.
    */
-  public function testGlossaryView(): void {
+  public function testGlossaryView() {
     // Create a content type and add some nodes, with a non-random title.
     $type = $this->drupalCreateContentType();
     $nodes_per_char = [

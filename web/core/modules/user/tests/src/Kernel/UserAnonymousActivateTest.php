@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -33,7 +31,7 @@ class UserAnonymousActivateTest extends KernelTestBase {
   /**
    * Tests that the anonymous user cannot be activated.
    */
-  public function testAnonymousActivate(): void {
+  public function testAnonymousActivate() {
     $accountAnon = \Drupal::entityTypeManager()->getStorage('user')->load(0);
 
     // Test that the anonymous user is blocked.

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\contact\Functional\Views;
 
 use Drupal\Core\Cache\Cache;
@@ -54,7 +52,7 @@ class ContactLinkTest extends ViewTestBase {
   /**
    * Tests contact link.
    */
-  public function testContactLink(): void {
+  public function testContactLink() {
     $accounts = [];
     $accounts['root'] = User::load(1);
     // Create an account with access to all contact pages.

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -26,7 +24,7 @@ class MigrateSkipRowTest extends KernelTestBase {
   /**
    * Tests migration interruptions.
    */
-  public function testPrepareRowSkip(): void {
+  public function testPrepareRowSkip() {
     // Run a simple little migration with two data rows which should be skipped
     // in different ways.
     $definition = [

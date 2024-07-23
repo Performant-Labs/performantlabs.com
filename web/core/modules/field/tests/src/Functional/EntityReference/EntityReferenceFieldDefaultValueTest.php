@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Functional\EntityReference;
 
 use Drupal\Tests\SchemaCheckTestTrait;
@@ -62,7 +60,7 @@ class EntityReferenceFieldDefaultValueTest extends BrowserTestBase {
   /**
    * Tests that default values are correctly translated to UUIDs in config.
    */
-  public function testEntityReferenceDefaultValue(): void {
+  public function testEntityReferenceDefaultValue() {
     // Create a node to be referenced.
     $referenced_node = $this->drupalCreateNode(['type' => 'referenced_content']);
 
@@ -126,7 +124,7 @@ class EntityReferenceFieldDefaultValueTest extends BrowserTestBase {
    *
    * @see \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem::onDependencyRemoval()
    */
-  public function testEntityReferenceDefaultConfigValue(): void {
+  public function testEntityReferenceDefaultConfigValue() {
     // Create a node to be referenced.
     $referenced_node_type = $this->drupalCreateContentType(['type' => 'referenced_config_to_delete']);
     $referenced_node_type2 = $this->drupalCreateContentType(['type' => 'referenced_config_to_preserve']);

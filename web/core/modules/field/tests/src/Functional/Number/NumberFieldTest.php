@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Functional\Number;
 
 use Drupal\field\Entity\FieldConfig;
@@ -48,7 +46,7 @@ class NumberFieldTest extends BrowserTestBase {
   /**
    * Tests decimal field.
    */
-  public function testNumberDecimalField(): void {
+  public function testNumberDecimalField() {
     // Create a field with settings to validate.
     $field_name = $this->randomMachineName();
     FieldStorageConfig::create([
@@ -136,7 +134,7 @@ class NumberFieldTest extends BrowserTestBase {
   /**
    * Tests integer field.
    */
-  public function testNumberIntegerField(): void {
+  public function testNumberIntegerField() {
     $minimum = rand(-4000, -2000);
     $maximum = rand(2000, 4000);
 
@@ -302,7 +300,7 @@ class NumberFieldTest extends BrowserTestBase {
   /**
    * Tests float field.
    */
-  public function testNumberFloatField(): void {
+  public function testNumberFloatField() {
     // Create a field with settings to validate.
     $field_name = $this->randomMachineName();
     FieldStorageConfig::create([
@@ -395,7 +393,7 @@ class NumberFieldTest extends BrowserTestBase {
   /**
    * Tests setting the minimum value of a float field through the interface.
    */
-  public function testCreateNumberFloatField(): void {
+  public function testCreateNumberFloatField() {
     // Create a float field.
     $field_name = $this->randomMachineName();
     FieldStorageConfig::create([
@@ -420,7 +418,7 @@ class NumberFieldTest extends BrowserTestBase {
   /**
    * Tests setting the minimum value of a decimal field through the interface.
    */
-  public function testCreateNumberDecimalField(): void {
+  public function testCreateNumberDecimalField() {
     // Create a decimal field.
     $field_name = $this->randomMachineName();
     FieldStorageConfig::create([

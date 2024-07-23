@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\config\Functional;
 
 use Drupal\Core\Archiver\Tar;
@@ -47,7 +45,7 @@ class ConfigExportUITest extends BrowserTestBase {
   /**
    * Tests export of configuration.
    */
-  public function testExport(): void {
+  public function testExport() {
     // Verify the export page with export submit button is available.
     $this->drupalGet('admin/config/development/configuration/full/export');
     $this->assertSession()->buttonExists('Export');

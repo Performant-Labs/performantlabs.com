@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Kernel\Views;
 
 use Drupal\language\Entity\ConfigurableLanguage;
@@ -56,7 +54,7 @@ class RevisionRelationshipsTest extends ViewsKernelTestBase {
   /**
    * Create a node with revision and rest result count for both views.
    */
-  public function testNodeRevisionRelationship(): void {
+  public function testNodeRevisionRelationship() {
     $type = NodeType::create(['type' => 'page', 'name' => 'page']);
     $type->save();
     $node = Node::create(['type' => 'page', 'title' => 'test', 'uid' => 1]);

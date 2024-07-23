@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\file\Functional\Rest;
 
 use Drupal\file\Entity\File;
@@ -200,7 +198,7 @@ abstract class FileResourceTestBase extends EntityResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testPost(): void {
+  public function testPost() {
     // Drupal does not allow creating file entities independently. It allows you
     // to create file entities that are referenced from another entity (e.g. an
     // image for a node's image field).

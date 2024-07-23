@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional\Rest;
 
 use Drupal\node\Entity\Node;
@@ -229,7 +227,7 @@ abstract class NodeResourceTestBase extends EntityResourceTestBase {
    *
    * @see \Drupal\Tests\rest\Functional\EntityResource\Term\TermResourceTestBase::testPatchPath()
    */
-  public function testPatchPath(): void {
+  public function testPatchPath() {
     $this->initAuthentication();
     $this->provisionEntityResource();
     $this->setUpAuthorization('GET');

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\migrate\Plugin\MigrationInterface;
@@ -30,7 +28,7 @@ class MigrateExecutableTest extends MigrateTestBase {
   /**
    * Tests the MigrateExecutable class.
    */
-  public function testMigrateExecutable(): void {
+  public function testMigrateExecutable() {
     $data_rows = [
       ['key' => '1', 'field1' => 'f1value1', 'field2' => 'f2value1'],
       ['key' => '2', 'field1' => 'f1value2', 'field2' => 'f2value2'],

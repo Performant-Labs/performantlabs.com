@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Kernel;
 
 use Drupal\language\Entity\ConfigurableLanguage;
@@ -24,7 +22,7 @@ class LanguageConfigFactoryOverrideTest extends KernelTestBase {
   /**
    * Tests language.config_factory_override service has the default language.
    */
-  public function testLanguageConfigFactoryOverride(): void {
+  public function testLanguageConfigFactoryOverride() {
     $this->installConfig('system');
     $this->installConfig('language');
 

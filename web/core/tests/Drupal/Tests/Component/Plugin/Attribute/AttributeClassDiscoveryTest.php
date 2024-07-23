@@ -36,7 +36,7 @@ class AttributeClassDiscoveryTest extends TestCase {
    * @covers ::__construct
    * @covers ::getPluginNamespaces
    */
-  public function testGetPluginNamespaces(): void {
+  public function testGetPluginNamespaces() {
     // Path to the classes which we'll discover and parse annotation.
     $discovery = new AttributeClassDiscovery(['com/example' => [__DIR__]]);
 
@@ -51,7 +51,7 @@ class AttributeClassDiscoveryTest extends TestCase {
    * @covers ::getDefinitions
    * @covers ::prepareAttributeDefinition
    */
-  public function testGetDefinitions(): void {
+  public function testGetDefinitions() {
     $discovery = new AttributeClassDiscovery(['com\example' => [__DIR__ . '/Fixtures/Plugins']]);
     $this->assertEquals([
       'discovery_test_1' => [

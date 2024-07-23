@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\UpdateSystem;
 
 use Drupal\Tests\BrowserTestBase;
@@ -35,7 +33,7 @@ class DependencyMissingTest extends BrowserTestBase {
     require_once $this->root . '/core/includes/update.inc';
   }
 
-  public function testMissingUpdate(): void {
+  public function testMissingUpdate() {
     $starting_updates = [
       'update_test_2' => 8001,
     ];

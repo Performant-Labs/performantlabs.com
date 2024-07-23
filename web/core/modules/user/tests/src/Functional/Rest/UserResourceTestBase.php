@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Functional\Rest;
 
 use Drupal\Core\Url;
@@ -147,7 +145,7 @@ abstract class UserResourceTestBase extends EntityResourceTestBase {
   /**
    * Tests PATCHing security-sensitive base fields of the logged in account.
    */
-  public function testPatchDxForSecuritySensitiveBaseFields(): void {
+  public function testPatchDxForSecuritySensitiveBaseFields() {
     // The anonymous user is never allowed to modify itself.
     if (!static::$auth) {
       $this->markTestSkipped();
@@ -263,7 +261,7 @@ abstract class UserResourceTestBase extends EntityResourceTestBase {
   /**
    * Tests PATCHing security-sensitive base fields to change other users.
    */
-  public function testPatchSecurityOtherUser(): void {
+  public function testPatchSecurityOtherUser() {
     // The anonymous user is never allowed to modify other users.
     if (!static::$auth) {
       $this->markTestSkipped();
@@ -309,7 +307,7 @@ abstract class UserResourceTestBase extends EntityResourceTestBase {
   protected function getExpectedUnauthorizedAccessMessage($method) {
     switch ($method) {
       case 'GET':
-        return "The 'access user profiles' permission is required.";
+        return "The 'access user profiles' permission is required and the user must be active.";
 
       case 'PATCH':
         return "Users can only update their own account, unless they have the 'administer users' permission.";
@@ -327,13 +325,8 @@ abstract class UserResourceTestBase extends EntityResourceTestBase {
    */
   protected function getExpectedUnauthorizedEntityAccessCacheability($is_authenticated) {
     // @see \Drupal\user\UserAccessControlHandler::checkAccess()
-    $result = parent::getExpectedUnauthorizedEntityAccessCacheability($is_authenticated);
-
-    if (!\Drupal::currentUser()->hasPermission('access user profiles')) {
-      $result->addCacheContexts(['user']);
-    }
-
-    return $result;
+    return parent::getExpectedUnauthorizedEntityAccessCacheability($is_authenticated)
+      ->addCacheTags(['user:3']);
   }
 
   /**

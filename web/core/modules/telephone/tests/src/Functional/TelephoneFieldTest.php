@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\telephone\Functional;
 
 use Drupal\field\Entity\FieldConfig;
@@ -90,7 +88,7 @@ class TelephoneFieldTest extends BrowserTestBase {
    *
    * @covers \Drupal\telephone\Plugin\Field\FieldWidget\TelephoneDefaultWidget::formElement
    */
-  public function testTelephoneWidget(): void {
+  public function testTelephoneWidget() {
     $this->drupalGet('node/add/article');
     $this->assertSession()->fieldValueEquals("field_telephone[0][value]", '');
     $this->assertSession()->elementAttributeContains('css', 'input[name="field_telephone[0][value]"]', 'maxlength', (string) TelephoneItem::MAX_LENGTH);
@@ -104,7 +102,7 @@ class TelephoneFieldTest extends BrowserTestBase {
    *
    * @dataProvider providerPhoneNumbers
    */
-  public function testTelephoneFormatter($input, $expected): void {
+  public function testTelephoneFormatter($input, $expected) {
     // Test basic entry of telephone field.
     $edit = [
       'title[0][value]' => $this->randomMachineName(),
@@ -119,7 +117,7 @@ class TelephoneFieldTest extends BrowserTestBase {
   /**
    * Provides the phone numbers to check and expected results.
    */
-  public static function providerPhoneNumbers() {
+  public function providerPhoneNumbers() {
     return [
       'standard phone number' => ['123456789', '123456789'],
       'whitespace is removed' => ['1234 56789', '123456789'],

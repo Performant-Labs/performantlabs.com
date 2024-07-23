@@ -7,8 +7,6 @@ namespace Drupal\Tests\Core\Mail;
 use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\Tests\UnitTestCase;
 
-// cspell:ignore officedocument openxmlformats wordprocessingml
-
 /**
  * @coversDefaultClass \Drupal\Core\Mail\MailFormatHelper
  * @group Mail
@@ -18,7 +16,7 @@ class MailFormatHelperTest extends UnitTestCase {
   /**
    * @covers ::wrapMail
    */
-  public function testWrapMail(): void {
+  public function testWrapMail() {
     $delimiter = "End of header\n";
     $long_file_name = $this->randomMachineName(64) . '.docx';
     $headers_in_body = 'Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document; name="' . $long_file_name . "\"\n";

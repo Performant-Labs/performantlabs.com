@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Kernel\Migrate\d7;
 
 use Drupal\Core\Field\Entity\BaseFieldOverride;
@@ -45,7 +43,7 @@ class MigrateNodeTitleLabelTest extends MigrateDrupal7TestBase {
   /**
    * Tests migration of node title field overrides.
    */
-  public function testMigration(): void {
+  public function testMigration() {
     // Forum title labels are overridden to 'Subject'.
     $this->assertEntity('node.forum.title', 'Subject');
     // Other content types use the default of 'Title' and are not overridden.

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\datetime\Kernel;
 
 use Drupal\Core\Datetime\DrupalDateTime;
@@ -93,7 +91,7 @@ class DateTimeFormInjectionTest extends KernelTestBase implements FormInterface 
   /**
    * Tests custom string injection serialization.
    */
-  public function testDatetimeSerialization(): void {
+  public function testDatetimeSerialization() {
     $form_state = new FormState();
     $form_state->setRequestMethod('POST');
     $form_state->setCached();

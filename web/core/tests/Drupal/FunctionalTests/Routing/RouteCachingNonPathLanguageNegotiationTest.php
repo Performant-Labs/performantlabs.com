@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\FunctionalTests\Routing;
 
 use Drupal\language\Entity\ConfigurableLanguage;
@@ -81,7 +79,7 @@ class RouteCachingNonPathLanguageNegotiationTest extends BrowserTestBase {
   /**
    * Tests aliases when the negotiated language is not in the path.
    */
-  public function testAliases(): void {
+  public function testAliases() {
     // Switch to French and try to access the now inaccessible block.
     $this->drupalGet('');
 

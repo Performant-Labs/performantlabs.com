@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\rest\Functional\EntityResource;
 
 use Drupal\Core\Entity\FieldableEntityInterface;
@@ -151,7 +149,7 @@ trait XmlEntityNormalizationQuirksTrait {
   /**
    * {@inheritdoc}
    */
-  public function testPost(): void {
+  public function testPost() {
     // Deserialization of the XML format is not supported.
     $this->markTestSkipped();
   }
@@ -159,7 +157,7 @@ trait XmlEntityNormalizationQuirksTrait {
   /**
    * {@inheritdoc}
    */
-  public function testPatch(): void {
+  public function testPatch() {
     // Deserialization of the XML format is not supported.
     $this->markTestSkipped();
   }

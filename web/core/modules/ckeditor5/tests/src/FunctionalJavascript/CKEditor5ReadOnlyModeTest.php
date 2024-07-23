@@ -52,7 +52,7 @@ class CKEditor5ReadOnlyModeTest extends CKEditor5TestBase {
   /**
    * Test that disabling a CKEditor 5 field results in an uneditable editor.
    */
-  public function testReadOnlyMode(): void {
+  public function testReadOnlyMode() {
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
     $this->addNewTextFormat($page, $assert_session);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Kernel;
 
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
@@ -36,7 +34,7 @@ class NodeValidationTest extends EntityKernelTestBase {
   /**
    * Tests the node validation constraints.
    */
-  public function testValidation(): void {
+  public function testValidation() {
     $this->createUser();
     $node = Node::create(['type' => 'page', 'title' => 'test', 'uid' => 1]);
     $violations = $node->validate();

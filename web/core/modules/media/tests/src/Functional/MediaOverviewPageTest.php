@@ -1,10 +1,7 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\media\Functional;
 
-use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\media\Entity\Media;
 use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
@@ -24,22 +21,15 @@ class MediaOverviewPageTest extends MediaFunctionalTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['language'];
-
-  /**
-   * {@inheritdoc}
-   */
   protected function setUp(): void {
     parent::setUp();
-    // Make the site multilingual to have a working language field handler.
-    ConfigurableLanguage::create(['id' => 'es', 'title' => 'Spanish title', 'label' => 'Spanish label'])->save();
     $this->drupalLogin($this->nonAdminUser);
   }
 
   /**
    * Tests that the Media overview page (/admin/content/media).
    */
-  public function testMediaOverviewPage(): void {
+  public function testMediaOverviewPage() {
     $assert_session = $this->assertSession();
 
     // Check the view exists, is access-restricted, and some defaults are there.

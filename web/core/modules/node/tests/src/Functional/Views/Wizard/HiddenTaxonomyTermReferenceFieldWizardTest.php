@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional\Views\Wizard;
 
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -32,7 +30,7 @@ class HiddenTaxonomyTermReferenceFieldWizardTest extends WizardTestBase {
   /**
    * Tests content type with a hidden Taxonomy Term Reference field.
    */
-  public function testHiddenTaxonomyTermReferenceField(): void {
+  public function testHiddenTaxonomyTermReferenceField() {
     // Create Article node type.
     $this->drupalCreateContentType(['type' => 'article', 'name' => 'Article']);
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\Form;
 
 use Drupal\Component\Serialization\Json;
@@ -29,7 +27,7 @@ class ResponseTest extends BrowserTestBase {
   /**
    * Tests that enforced responses propagate through subscribers and middleware.
    */
-  public function testFormResponse(): void {
+  public function testFormResponse() {
     $edit = [
       'content' => $this->randomString(),
       'status' => 200,

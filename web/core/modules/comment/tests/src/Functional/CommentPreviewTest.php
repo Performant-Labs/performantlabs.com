@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional;
 
 use Drupal\comment\CommentManagerInterface;
@@ -36,7 +34,7 @@ class CommentPreviewTest extends CommentTestBase {
   /**
    * Tests comment preview.
    */
-  public function testCommentPreview(): void {
+  public function testCommentPreview() {
     $this->setCommentPreview(DRUPAL_OPTIONAL);
     $this->setCommentForm(TRUE);
     $this->setCommentSubject(TRUE);
@@ -92,7 +90,7 @@ class CommentPreviewTest extends CommentTestBase {
   /**
    * Tests comment preview.
    */
-  public function testCommentPreviewDuplicateSubmission(): void {
+  public function testCommentPreviewDuplicateSubmission() {
     $this->setCommentPreview(DRUPAL_OPTIONAL);
     $this->setCommentForm(TRUE);
     $this->setCommentSubject(TRUE);
@@ -133,7 +131,7 @@ class CommentPreviewTest extends CommentTestBase {
   /**
    * Tests comment edit, preview, and save.
    */
-  public function testCommentEditPreviewSave(): void {
+  public function testCommentEditPreviewSave() {
     $web_user = $this->drupalCreateUser([
       'access comments',
       'post comments',
@@ -178,7 +176,7 @@ class CommentPreviewTest extends CommentTestBase {
     // Check that saving a comment produces a success message.
     $this->drupalGet('comment/' . $comment->id() . '/edit');
     $this->submitForm($edit, 'Save');
-    $this->assertSession()->pageTextContains('Your comment has been updated.');
+    $this->assertSession()->pageTextContains('Your comment has been posted.');
 
     // Check that the comment fields are correct after loading the saved comment.
     $this->drupalGet('comment/' . $comment->id() . '/edit');

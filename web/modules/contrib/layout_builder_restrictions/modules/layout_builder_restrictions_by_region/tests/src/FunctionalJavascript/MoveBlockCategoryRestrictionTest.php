@@ -3,8 +3,9 @@
 namespace Drupal\Tests\layout_builder_restrictions_by_region\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use Drupal\Tests\layout_builder_restrictions\Traits\MoveBlockHelperTrait;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
+use Drupal\layout_library\Entity\Layout;
+use Drupal\Tests\layout_builder_restrictions\Traits\MoveBlockHelperTrait;
 
 /**
  * Tests moving blocks via the form.
@@ -32,6 +33,7 @@ class MoveBlockCategoryRestrictionTest extends WebDriverTestBase {
     'field_ui',
     'node',
     'layout_builder',
+    'layout_library',
     'layout_builder_restrictions',
     'layout_builder_restrictions_by_region',
   ];
@@ -59,6 +61,14 @@ class MoveBlockCategoryRestrictionTest extends WebDriverTestBase {
       'administer node fields',
       'access contextual links',
     ]));
+
+    $layout = Layout::create([
+      'id' => 'alpha',
+      'label' => 'Alpha',
+      'targetEntityType' => 'node',
+      'targetBundle' => 'bundle_with_section_field',
+    ]);
+    $layout->save();
 
     // Enable Layout Builder.
     $this->drupalGet(static::FIELD_UI_PREFIX . '/display/default');

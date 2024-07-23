@@ -7,10 +7,7 @@
     "require-dev": {
         "drupal/rules": "^3",
         "drush/drush": ">=9",
-        "drupal/devel_generate": ">=4",
-        "drupal/workbench_moderation": "*",
-        "drupal/workbench_moderation_actions": "*",
-        "drupal/commerce": "^2.0"
+        "drupal/devel_generate": "^2.0 || >=4"
     },
     "repositories": {
         "drupal": {
@@ -18,7 +15,6 @@
             "url": "https://packages.drupal.org/8"
         }
     },
-    "_comment": "cSpell:disable",
     "authors": [
         {
             "name": "Eric Schaefer (Eric Schaefer)",
@@ -41,7 +37,6 @@
             "role": "Maintainer"
         }
     ],
-    "_comment": "cSpell:enable",
     "support": {
         "issues": "https://www.drupal.org/project/issues/scheduler",
         "source": "https://git.drupalcode.org/project/scheduler"

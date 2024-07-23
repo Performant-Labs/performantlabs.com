@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Functional\Views;
 
 use Drupal\user\Entity\User;
@@ -34,7 +32,7 @@ class NodeContextualLinksTest extends NodeTestBase {
    *
    * @see https://www.drupal.org/node/2379811
    */
-  public function testPageWithDisabledContextualModule(): void {
+  public function testPageWithDisabledContextualModule() {
     \Drupal::service('module_installer')->uninstall(['contextual']);
     \Drupal::service('module_installer')->install(['views_ui']);
 

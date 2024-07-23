@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional\Plugin;
 
 use Drupal\Core\Url;
@@ -53,7 +51,7 @@ class DisplayFeedTest extends ViewTestBase {
   /**
    * Tests the rendered output.
    */
-  public function testFeedOutput(): void {
+  public function testFeedOutput() {
     $this->drupalCreateContentType(['type' => 'page']);
 
     // Verify a title with HTML entities is properly escaped.
@@ -116,7 +114,7 @@ class DisplayFeedTest extends ViewTestBase {
   /**
    * Tests the rendered output for fields display.
    */
-  public function testFeedFieldOutput(): void {
+  public function testFeedFieldOutput() {
     $this->drupalCreateContentType(['type' => 'page']);
 
     // Verify a title with HTML entities is properly escaped.
@@ -158,7 +156,7 @@ class DisplayFeedTest extends ViewTestBase {
   /**
    * Tests that nothing is output when the feed display is disabled.
    */
-  public function testDisabledFeed(): void {
+  public function testDisabledFeed() {
     $this->drupalCreateContentType(['type' => 'page']);
     $this->drupalCreateNode();
 
@@ -189,7 +187,7 @@ class DisplayFeedTest extends ViewTestBase {
   /**
    * Tests that the feed display works when the linked display is disabled.
    */
-  public function testDisabledLinkedDisplay(): void {
+  public function testDisabledLinkedDisplay() {
     $view = Views::getView('test_attached_disabled');
     $view->setDisplay();
     // Disable the page and link the feed to the page.

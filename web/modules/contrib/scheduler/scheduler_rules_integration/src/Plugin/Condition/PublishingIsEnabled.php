@@ -6,29 +6,35 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\rules\Core\RulesConditionBase;
 
 /**
- * Provides 'Publishing is enabled for the type of this entity' condition.
+ * Provides a 'Publishing is enabled' condition.
  *
  * @Condition(
- *   id = "scheduler_publishing_is_enabled",
- *   deriver = "Drupal\scheduler_rules_integration\Plugin\Condition\ConditionDeriver"
+ *   id = "scheduler_condition_publishing_is_enabled",
+ *   label = @Translation("Node type is enabled for scheduled publishing"),
+ *   category = @Translation("Scheduler"),
+ *   context_definitions = {
+ *     "node" = @ContextDefinition("entity:node",
+ *       label = @Translation("Scheduled Node"),
+ *       description = @Translation("The node to check for scheduled publishing enabled. Enter 'node' or use data selection.")
+ *     )
+ *   }
  * )
  */
 class PublishingIsEnabled extends RulesConditionBase {
 
   /**
-   * Determines whether scheduled publishing is enabled for this entity type.
+   * Determines whether scheduled publishing is enabled for this node type.
    *
-   * @param \Drupal\Core\Entity\EntityInterface $entity
-   *   The entity to be checked.
+   * @param \Drupal\Core\Entity\EntityInterface $node
+   *   The node to be checked.
    *
    * @return bool
-   *   TRUE if scheduled publishing is enabled for the bundle of this entity
-   *   type.
+   *   TRUE if scheduled publishing is enabled for the content type of this
+   *   node.
    */
-  public function doEvaluate(EntityInterface $entity) {
+  protected function doEvaluate(EntityInterface $node) {
     $config = \Drupal::config('scheduler.settings');
-    $bundle_field = $entity->getEntityType()->get('entity_keys')['bundle'];
-    return ($entity->$bundle_field->entity->getThirdPartySetting('scheduler', 'publish_enable', $config->get('default_publish_enable')));
+    return ($node->type->entity->getThirdPartySetting('scheduler', 'publish_enable', $config->get('default_publish_enable')));
   }
 
 }

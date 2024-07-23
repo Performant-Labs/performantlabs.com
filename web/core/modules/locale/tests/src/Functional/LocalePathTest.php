@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\locale\Functional;
 
 use Drupal\Core\Language\LanguageInterface;
@@ -44,7 +42,7 @@ class LocalePathTest extends BrowserTestBase {
   /**
    * Tests if a language can be associated with a path alias.
    */
-  public function testPathLanguageConfiguration(): void {
+  public function testPathLanguageConfiguration() {
     // User to add and remove language.
     $admin_user = $this->drupalCreateUser([
       'administer languages',

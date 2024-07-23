@@ -3,7 +3,6 @@
 namespace Drupal\Core\Render\Element;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Attribute\FormElement;
 use Drupal\Core\Render\Element;
 
 /**
@@ -20,7 +19,7 @@ use Drupal\Core\Render\Element;
  *
  * Usage example:
  * @code
- * $form['title'] = [
+ * $form['title'] = array(
  *   '#type' => 'textfield',
  *   '#title' => $this->t('Subject'),
  *   '#default_value' => $node->title,
@@ -28,7 +27,7 @@ use Drupal\Core\Render\Element;
  *   '#maxlength' => 128,
  *   '#pattern' => 'some-prefix-[a-z]+',
  *   '#required' => TRUE,
- * ];
+ * );
  * @endcode
  *
  * @see \Drupal\Core\Render\Element\Color
@@ -40,9 +39,10 @@ use Drupal\Core\Render\Element;
  * @see \Drupal\Core\Render\Element\Range
  * @see \Drupal\Core\Render\Element\Tel
  * @see \Drupal\Core\Render\Element\Url
+ *
+ * @FormElement("textfield")
  */
-#[FormElement('textfield')]
-class Textfield extends FormElementBase {
+class Textfield extends FormElement {
 
   /**
    * {@inheritdoc}

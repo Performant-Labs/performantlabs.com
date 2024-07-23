@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Kernel;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -25,7 +23,7 @@ class FieldTypeCategoryDiscoveryTest extends KernelTestBase {
   /**
    * Tests custom field type categories created by modules.
    */
-  public function testFieldTypeCategories(): void {
+  public function testFieldTypeCategories() {
     $category = \Drupal::service('plugin.manager.field.field_type_category')->createInstance('test_category');
     $expected = [
       'Test category',

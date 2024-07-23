@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\migrate\Event\MigratePostRowSaveEvent;
@@ -36,7 +34,7 @@ class MigrateInterruptionTest extends KernelTestBase {
   /**
    * Tests migration interruptions.
    */
-  public function testMigrateEvents(): void {
+  public function testMigrateEvents() {
     // Run a simple little migration, which should trigger one of each event
     // other than map_delete.
     $definition = [

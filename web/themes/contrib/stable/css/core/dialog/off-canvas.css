@@ -29,15 +29,13 @@
 }
 
 /* Wrap the form that's inside the off-canvas dialog. */
-.ui-dialog-off-canvas #drupal-off-canvas:not(.drupal-off-canvas-reset),
-.ui-dialog-off-canvas #drupal-off-canvas-wrapper {
+.ui-dialog-off-canvas #drupal-off-canvas {
   /* Prevent horizontal scrollbar. */
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0 20px 20px;
 }
-[dir="rtl"] .ui-dialog-off-canvas #drupal-off-canvas:not(.drupal-off-canvas-reset),
-[dir="rtl"] .ui-dialog-off-canvas #drupal-off-canvas-wrapper {
+[dir="rtl"] .ui-dialog-off-canvas #drupal-off-canvas {
   text-align: right;
 }
 

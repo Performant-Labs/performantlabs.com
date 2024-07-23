@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\migrate\Kernel;
 
 use Drupal\migrate\MigrateExecutable;
@@ -38,7 +36,7 @@ class MigrateBundleTest extends MigrateTestBase {
   /**
    * Tests setting the bundle in the destination.
    */
-  public function testDestinationBundle(): void {
+  public function testDestinationBundle() {
     $term_data_rows = [
       ['id' => 1, 'name' => 'Category 1'],
     ];
@@ -75,7 +73,7 @@ class MigrateBundleTest extends MigrateTestBase {
   /**
    * Tests setting the bundle in the process pipeline.
    */
-  public function testProcessBundle(): void {
+  public function testProcessBundle() {
     $term_data_rows = [
       ['id' => 1, 'vocab' => 'categories', 'name' => 'Category 1'],
       ['id' => 2, 'vocab' => 'tags', 'name' => 'Tag 1'],
@@ -115,7 +113,7 @@ class MigrateBundleTest extends MigrateTestBase {
   /**
    * Tests setting bundles both in process and destination.
    */
-  public function testMixedBundles(): void {
+  public function testMixedBundles() {
     $term_data_rows = [
       ['id' => 1, 'vocab' => 'categories', 'name' => 'Category 1'],
       ['id' => 2, 'name' => 'Tag 1'],

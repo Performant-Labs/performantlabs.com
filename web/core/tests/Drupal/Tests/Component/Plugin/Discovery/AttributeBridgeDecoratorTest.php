@@ -19,7 +19,7 @@ class AttributeBridgeDecoratorTest extends TestCase {
   /**
    * @covers ::getDefinitions
    */
-  public function testGetDefinitions(): void {
+  public function testGetDefinitions() {
     // Normally the attribute classes would be autoloaded.
     include_once __DIR__ . '/../Attribute/Fixtures/CustomPlugin.php';
     include_once __DIR__ . '/../Attribute/Fixtures/Plugins/PluginNamespace/AttributeDiscoveryTest1.php';

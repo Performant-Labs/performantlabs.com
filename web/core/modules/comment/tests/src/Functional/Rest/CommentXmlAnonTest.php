@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional\Rest;
 
 use Drupal\Tests\rest\Functional\AnonResourceTestTrait;
@@ -9,7 +7,6 @@ use Drupal\Tests\rest\Functional\EntityResource\XmlEntityNormalizationQuirksTrai
 
 /**
  * @group rest
- * @group #slow
  */
 class CommentXmlAnonTest extends CommentResourceTestBase {
 
@@ -55,7 +52,7 @@ class CommentXmlAnonTest extends CommentResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testPostDxWithoutCriticalBaseFields(): void {
+  public function testPostDxWithoutCriticalBaseFields() {
     // Deserialization of the XML format is not supported.
     $this->markTestSkipped();
   }
@@ -63,7 +60,7 @@ class CommentXmlAnonTest extends CommentResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testPostSkipCommentApproval(): void {
+  public function testPostSkipCommentApproval() {
     // Deserialization of the XML format is not supported.
     $this->markTestSkipped();
   }

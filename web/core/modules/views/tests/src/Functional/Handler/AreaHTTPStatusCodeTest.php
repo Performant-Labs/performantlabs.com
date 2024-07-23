@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional\Handler;
 
 use Drupal\Tests\views\Functional\ViewTestBase;
@@ -37,7 +35,7 @@ class AreaHTTPStatusCodeTest extends ViewTestBase {
   /**
    * Tests the area handler.
    */
-  public function testHTTPStatusCodeHandler(): void {
+  public function testHTTPStatusCodeHandler() {
     $this->drupalGet('test-http-status-code');
     $this->assertSession()->statusCodeEquals(200);
 

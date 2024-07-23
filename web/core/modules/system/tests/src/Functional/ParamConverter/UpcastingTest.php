@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\ParamConverter;
 
 use Drupal\Tests\BrowserTestBase;
@@ -33,7 +31,7 @@ class UpcastingTest extends BrowserTestBase {
    * The test shuffles the parameters around and checks if the right thing is
    * happening.
    */
-  public function testUpcasting(): void {
+  public function testUpcasting() {
     $node = $this->drupalCreateNode(['title' => $this->randomMachineName(8)]);
     $user = $this->drupalCreateUser(['access content']);
     $foo = 'bar';
@@ -59,7 +57,7 @@ class UpcastingTest extends BrowserTestBase {
   /**
    * Confirms we can upcast to controller arguments of the same type.
    */
-  public function testSameTypes(): void {
+  public function testSameTypes() {
     $node = $this->drupalCreateNode(['title' => $this->randomMachineName(8)]);
     $parent = $this->drupalCreateNode(['title' => $this->randomMachineName(8)]);
     // paramconverter_test/node/{node}/set/parent/{parent}
@@ -71,7 +69,7 @@ class UpcastingTest extends BrowserTestBase {
   /**
    * Confirms entity is shown in user's language by default.
    */
-  public function testEntityLanguage(): void {
+  public function testEntityLanguage() {
     $language = ConfigurableLanguage::createFromLangcode('de');
     $language->save();
     \Drupal::configFactory()->getEditable('language.negotiation')

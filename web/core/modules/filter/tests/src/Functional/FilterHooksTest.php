@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\filter\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -32,7 +30,7 @@ class FilterHooksTest extends BrowserTestBase {
    * Tests that hooks run correctly on creating, editing, and deleting a text
    * format.
    */
-  public function testFilterHooks(): void {
+  public function testFilterHooks() {
     // Create content type, with underscores.
     $type_name = 'test_' . $this->randomMachineName();
     $type = $this->drupalCreateContentType(['name' => $type_name, 'type' => $type_name]);

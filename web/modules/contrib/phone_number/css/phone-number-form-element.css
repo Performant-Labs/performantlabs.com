@@ -11,10 +11,6 @@ div.phone-number-field div.form-item {
   width: 150px;
 }
 
-.phone-number-field .form-type-textfield input.extension {
-  width: auto;
-}
-
 .phone-number-field .local-number,
 .phone-number-field .extension {
   position: relative;
@@ -24,7 +20,17 @@ div.phone-number-field div.form-item {
   margin: 0;
   border-width: 0;
   border-bottom: 1px solid #ccc;
+}
 
+/* Hide up/down arrows on numeric extension field. */
+.phone-number-field .extension {
+  appearance: textfield;
+}
+
+/* Hide up/down arrows on numeric extension field in webkit browsers. */
+.phone-number-field .extension::-webkit-outer-spin-button,
+.phone-number-field .extension::-webkit-inner-spin-button {
+  appearance: none;
 }
 
 .phone-number-field .phone-number-flag {
@@ -65,7 +71,8 @@ div.phone-number-field div.form-item {
   margin-left: 10px;
 }
 
-.form-item-fields-field-phone-number-settings-edit-form-settings-countries select {
+.form-item-fields-field-phone-number-settings-edit-form-settings-countries
+  select {
   min-height: 150px;
 }
 

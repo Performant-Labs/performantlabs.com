@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_translation\Functional;
 
 use Drupal\Core\Url;
@@ -13,14 +11,6 @@ use Drupal\language\Entity\ConfigurableLanguage;
  * @group content_translation
  */
 class ContentTranslationRevisionTranslationDeletionTest extends ContentTranslationPendingRevisionTestBase {
-
-  /**
-   * {@inheritdoc}
-   *
-   * @todo Remove and fix test to not rely on super user.
-   * @see https://www.drupal.org/project/drupal/issues/3437620
-   */
-  protected bool $usesSuperUserAccessPolicy = TRUE;
 
   /**
    * {@inheritdoc}
@@ -39,7 +29,7 @@ class ContentTranslationRevisionTranslationDeletionTest extends ContentTranslati
   /**
    * Tests that translation overview handles pending revisions correctly.
    */
-  public function testOverview(): void {
+  public function testOverview() {
     $index = 1;
     $accounts = [
       $this->rootUser,

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\contact\Kernel\Migrate;
 
 use Drupal\contact\Entity\ContactForm;
@@ -59,7 +57,7 @@ class MigrateContactCategoryTest extends MigrateDrupal6TestBase {
   /**
    * The Drupal 6 and 7 contact categories to Drupal 8 migration.
    */
-  public function testContactCategory(): void {
+  public function testContactCategory() {
     $this->assertEntity('website_feedback', 'Website feedback', ['admin@example.com'], '', 0);
     $this->assertEntity('some_other_category', 'Some other category', ['test@example.com'], 'Thanks for contacting us, we will reply ASAP!', 1);
     $this->assertEntity('a_category_much_longer_than_th', 'A category much longer than thirty two characters', ['fortyninechars@example.com'], '', 2);

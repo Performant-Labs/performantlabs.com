@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Extension;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -21,7 +19,7 @@ class ModuleHandlerDeprecatedHookTest extends KernelTestBase {
   /**
    * @covers ::invokeDeprecated
    */
-  public function testInvokeDeprecated(): void {
+  public function testInvokeDeprecated() {
     $this->expectDeprecation('The deprecated hook hook_deprecated_hook() is implemented in these functions: deprecation_test_deprecated_hook(). Use something else.');
     /** @var \Drupal\Core\Extension\ModuleHandlerInterface $module_handler */
     $module_handler = $this->container->get('module_handler');
@@ -35,7 +33,7 @@ class ModuleHandlerDeprecatedHookTest extends KernelTestBase {
   /**
    * @covers ::invokeAllDeprecated
    */
-  public function testInvokeAllDeprecated(): void {
+  public function testInvokeAllDeprecated() {
     $this->expectDeprecation('The deprecated hook hook_deprecated_hook() is implemented in these functions: deprecation_test_deprecated_hook(). Use something else.');
     /** @var \Drupal\Core\Extension\ModuleHandlerInterface $module_handler */
     $module_handler = $this->container->get('module_handler');
@@ -49,7 +47,7 @@ class ModuleHandlerDeprecatedHookTest extends KernelTestBase {
   /**
    * @covers ::alterDeprecated
    */
-  public function testAlterDeprecated(): void {
+  public function testAlterDeprecated() {
     $this->expectDeprecation('The deprecated alter hook hook_deprecated_alter_alter() is implemented in these functions: deprecation_test_deprecated_alter_alter. Alter something else.');
     /** @var \Drupal\Core\Extension\ModuleHandlerInterface $module_handler */
     $module_handler = $this->container->get('module_handler');

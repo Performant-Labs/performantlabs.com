@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Functional\EntityReference;
 
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
@@ -163,7 +161,7 @@ class EntityReferenceFieldTranslatedReferenceViewTest extends BrowserTestBase {
   /**
    * Tests if the entity is displayed in an entity reference field.
    */
-  public function testEntityReferenceDisplay(): void {
+  public function testEntityReferenceDisplay() {
     // Create a translated referrer entity.
     $this->referrerEntity = $this->createReferrerEntity();
     $this->assertEntityReferenceDisplay();

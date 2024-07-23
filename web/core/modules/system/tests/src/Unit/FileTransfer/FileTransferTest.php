@@ -26,7 +26,7 @@ class FileTransferTest extends UnitTestCase {
     $this->testConnection = TestFileTransfer::factory($this->root, []);
   }
 
-  public function testFileTransferMagicMethods(): void {
+  public function testFileTransferMagicMethods() {
     // Test to ensure __get() preserves public access.
     $this->assertInstanceOf(MockTestConnection::class, $this->testConnection->connection);
   }

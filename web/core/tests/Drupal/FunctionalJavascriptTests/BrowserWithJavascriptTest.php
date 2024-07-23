@@ -25,7 +25,7 @@ class BrowserWithJavascriptTest extends WebDriverTestBase {
    */
   protected $defaultTheme = 'stark';
 
-  public function testJavascript(): void {
+  public function testJavascript() {
     $this->drupalGet('<front>');
     $session = $this->getSession();
 
@@ -48,7 +48,7 @@ JS;
     $this->assertFalse($this->isTestUsingGuzzleClient());
   }
 
-  public function testAssertJsCondition(): void {
+  public function testAssertJsCondition() {
     $this->drupalGet('<front>');
     $session = $this->getSession();
 
@@ -74,7 +74,7 @@ JS;
   /**
    * Tests creating screenshots.
    */
-  public function testCreateScreenshot(): void {
+  public function testCreateScreenshot() {
     $this->drupalGet('<front>');
     $this->createScreenshot('public://screenshot.jpg');
     $this->assertFileExists('public://screenshot.jpg');
@@ -86,7 +86,7 @@ JS;
    * @see \Drupal\Tests\WebAssert::assertNoEscaped()
    * @see \Drupal\Tests\WebAssert::assertEscaped()
    */
-  public function testEscapingAssertions(): void {
+  public function testEscapingAssertions() {
     $assert = $this->assertSession();
 
     $this->drupalGet('test-escaped-characters');

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field_ui\Functional;
 
 use Drupal\Core\Entity\Entity\EntityFormMode;
@@ -24,14 +22,6 @@ class FieldUIRouteTest extends BrowserTestBase {
 
   /**
    * {@inheritdoc}
-   *
-   * @todo Remove and fix test to not rely on super user.
-   * @see https://www.drupal.org/project/drupal/issues/3437620
-   */
-  protected bool $usesSuperUserAccessPolicy = TRUE;
-
-  /**
-   * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
 
@@ -48,7 +38,7 @@ class FieldUIRouteTest extends BrowserTestBase {
   /**
    * Ensures that entity types with bundles do not break following entity types.
    */
-  public function testFieldUIRoutes(): void {
+  public function testFieldUIRoutes() {
     $this->drupalGet('entity_test_no_id/structure/entity_test/fields');
     $this->assertSession()->pageTextContains('No fields are present yet.');
 
@@ -131,7 +121,7 @@ class FieldUIRouteTest extends BrowserTestBase {
   /**
    * Asserts that admin routes are correctly marked as such.
    */
-  public function testAdminRoute(): void {
+  public function testAdminRoute() {
     $route = \Drupal::service('router.route_provider')->getRouteByName('entity.entity_test.field_ui_fields');
     $is_admin = \Drupal::service('router.admin_context')->isAdminRoute($route);
     $this->assertTrue($is_admin, 'Admin route correctly marked for "Manage fields" page.');

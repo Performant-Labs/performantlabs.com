@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Theme;
 
 use Drupal\Component\Utility\Crypt;
@@ -33,7 +31,7 @@ class TwigEnvironmentTest extends KernelTestBase {
   /**
    * Tests inline templates.
    */
-  public function testInlineTemplate(): void {
+  public function testInlineTemplate() {
     /** @var \Drupal\Core\Render\RendererInterface $renderer */
     $renderer = $this->container->get('renderer');
     /** @var \Drupal\Core\Template\TwigEnvironment $environment */
@@ -103,7 +101,7 @@ class TwigEnvironmentTest extends KernelTestBase {
   /**
    * Tests that exceptions are thrown when a template is not found.
    */
-  public function testTemplateNotFoundException(): void {
+  public function testTemplateNotFoundException() {
     /** @var \Drupal\Core\Template\TwigEnvironment $environment */
     $environment = \Drupal::service('twig');
 
@@ -119,7 +117,7 @@ class TwigEnvironmentTest extends KernelTestBase {
   /**
    * Ensures that templates resolve to the same class name and cache file.
    */
-  public function testTemplateClassname(): void {
+  public function testTemplateClassname() {
     /** @var \Drupal\Core\Template\TwigEnvironment $environment */
     $environment = \Drupal::service('twig');
 
@@ -148,7 +146,7 @@ class TwigEnvironmentTest extends KernelTestBase {
   /**
    * Ensures that cacheFilename() varies by extensions + deployment identifier.
    */
-  public function testCacheFilename(): void {
+  public function testCacheFilename() {
     /** @var \Drupal\Core\Template\TwigEnvironment $environment */
     // Note: Later we refetch the twig service in order to bypass its internal
     // static cache.
@@ -198,7 +196,7 @@ class TwigEnvironmentTest extends KernelTestBase {
   /**
    * Tests template invalidation.
    */
-  public function testTemplateInvalidation(): void {
+  public function testTemplateInvalidation() {
     $template_before = <<<TWIG
 <div>Hello before</div>
 TWIG;
@@ -234,7 +232,7 @@ TWIG;
   /**
    * Test twig file prefix change.
    */
-  public function testTwigFilePrefixChange(): void {
+  public function testTwigFilePrefixChange() {
     /** @var \Drupal\Core\Template\TwigEnvironment $environment */
     $environment = \Drupal::service('twig');
     $cache_prefixes = [];

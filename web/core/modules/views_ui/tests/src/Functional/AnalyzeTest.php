@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views_ui\Functional;
 
 /**
@@ -33,7 +31,7 @@ class AnalyzeTest extends UITestBase {
   /**
    * Tests that analyze works in general.
    */
-  public function testAnalyzeBasic(): void {
+  public function testAnalyzeBasic() {
     $this->drupalLogin($this->adminUser);
 
     $this->drupalGet('admin/structure/views/view/test_view/edit');

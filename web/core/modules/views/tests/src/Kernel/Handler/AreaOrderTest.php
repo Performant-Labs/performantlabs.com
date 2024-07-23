@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Kernel\Handler;
 
 use Drupal\Tests\block\Traits\BlockCreationTrait;
@@ -58,7 +56,7 @@ class AreaOrderTest extends ViewsKernelTestBase {
   /**
    * Tests the order of the handlers.
    */
-  public function testAreaOrder(): void {
+  public function testAreaOrder() {
     $view = Views::getView('test_area_order');
     $renderable = $view->buildRenderable();
     $output = $this->render($renderable);

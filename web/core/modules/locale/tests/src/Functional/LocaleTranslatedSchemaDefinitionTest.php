@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\locale\Functional;
 
 use Drupal\Core\Url;
@@ -46,7 +44,7 @@ class LocaleTranslatedSchemaDefinitionTest extends BrowserTestBase {
   /**
    * Tests that translated field descriptions do not affect the update system.
    */
-  public function testTranslatedSchemaDefinition(): void {
+  public function testTranslatedSchemaDefinition() {
     /** @var \Drupal\locale\StringDatabaseStorage $stringStorage */
     $stringStorage = \Drupal::service('locale.storage');
 
@@ -70,7 +68,7 @@ class LocaleTranslatedSchemaDefinitionTest extends BrowserTestBase {
   /**
    * Tests that translations do not affect the update system.
    */
-  public function testTranslatedUpdate(): void {
+  public function testTranslatedUpdate() {
     // Visit the update page to collect any strings that may be translatable.
     $user = $this->drupalCreateUser(['administer software updates']);
     $this->drupalLogin($user);

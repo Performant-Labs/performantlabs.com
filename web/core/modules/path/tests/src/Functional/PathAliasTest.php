@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\path\Functional;
 
 use Drupal\Core\Cache\Cache;
@@ -55,7 +53,7 @@ class PathAliasTest extends PathTestBase {
   /**
    * Tests the path cache.
    */
-  public function testPathCache(): void {
+  public function testPathCache() {
     // Create test node.
     $node1 = $this->drupalCreateNode();
 
@@ -89,7 +87,7 @@ class PathAliasTest extends PathTestBase {
   /**
    * Tests alias functionality through the admin interfaces.
    */
-  public function testAdminAlias(): void {
+  public function testAdminAlias() {
     // Create test node.
     $node1 = $this->drupalCreateNode();
 
@@ -258,7 +256,7 @@ class PathAliasTest extends PathTestBase {
   /**
    * Tests alias functionality through the node interfaces.
    */
-  public function testNodeAlias(): void {
+  public function testNodeAlias() {
     // Create test node.
     $node1 = $this->drupalCreateNode();
 
@@ -422,7 +420,7 @@ class PathAliasTest extends PathTestBase {
   /**
    * Tests that duplicate aliases fail validation.
    */
-  public function testDuplicateNodeAlias(): void {
+  public function testDuplicateNodeAlias() {
     // Create one node with a random alias.
     $node_one = $this->drupalCreateNode();
     $edit = [];

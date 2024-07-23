@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views_ui\Functional;
 
 use Drupal\views\Views;
@@ -30,7 +28,7 @@ class DisplayAttachmentTest extends UITestBase {
   /**
    * Tests the attachment UI.
    */
-  public function testAttachmentUI(): void {
+  public function testAttachmentUI() {
     $this->drupalGet('admin/structure/views/view/test_attachment_ui/edit/attachment_1');
     $this->assertSession()->pageTextContains('Not defined');
 
@@ -71,7 +69,7 @@ class DisplayAttachmentTest extends UITestBase {
   /**
    * Tests the attachment working after the attached page was deleted.
    */
-  public function testRemoveAttachedDisplay(): void {
+  public function testRemoveAttachedDisplay() {
     // Create a view.
     $view = $this->randomView();
     $path_prefix = 'admin/structure/views/view/' . $view['id'] . '/edit';

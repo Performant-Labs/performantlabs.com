@@ -20,147 +20,125 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
   protected static $modules = ['scheduler_rules_integration'];
 
   /**
-   * The rules_reaction_rule entity object.
-   *
-   * @var \Drupal\rules\Entity\ReactionRuleConfig
-   */
-  protected $rulesStorage;
-
-  /**
-   * The rules expression plugin manager.
-   *
-   * @var \Drupal\rules\Engine\ExpressionManagerInterface
-   */
-  protected $expressionManager;
-
-  /**
    * {@inheritdoc}
    */
   protected function setUp(): void {
     parent::setUp();
+
     $this->rulesStorage = $this->container->get('entity_type.manager')->getStorage('rules_reaction_rule');
     $this->expressionManager = $this->container->get('plugin.manager.rules_expression');
+
+    // Create a published node.
+    $this->node = $this->drupalCreateNode([
+      'title' => 'Rules Test Node',
+      'type' => $this->type,
+      'uid' => $this->schedulerUser->id(),
+      'status' => TRUE,
+    ]);
   }
 
   /**
-   * Tests the conditions for whether an entity type is enabled for Scheduler.
-   *
-   * @dataProvider dataStandardEntityTypes()
+   * Tests the conditions for whether a nodetype is enabled for Scheduler.
    */
-  public function testEntityTypeEnabledConditions($entityTypeId, $bundle) {
-
-    // The legacy rules condition ids for nodes remain as:
-    // -  scheduler_condition_publishing_is_enabled
-    // -  scheduler_condition_unpublishing_is_enabled
-    // For all other entity types the new derived condition ids are of the form:
-    // -  scheduler_publishing_is_enabled:{type}
-    // -  scheduler_unpublishing_is_enabled:{type}
-    // .
-    $condition_prefix = ($entityTypeId == 'node') ? 'scheduler_condition_' : 'scheduler_';
-    $condition_suffix = ($entityTypeId == 'node') ? '' : ":$entityTypeId";
-    $entityType = $this->entityTypeObject($entityTypeId, $bundle);
-    $assert = $this->assertSession();
-
-    // Create a reaction rule to display a message when viewing an entity of a
-    // type that is enabled for scheduled publishing.
+  public function testNodeTypeEnabledConditions() {
+    // Create a reaction rule to display a message when viewing a node of a type
+    // that is enabled for scheduled publishing.
     // "viewing content" actually means "viewing PUBLISHED content".
     $rule1 = $this->expressionManager->createRule();
-    $rule1->addCondition("{$condition_prefix}publishing_is_enabled{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")
+    $rule1->addCondition('scheduler_condition_publishing_is_enabled',
+      ContextConfig::create()->map('node', 'node')
     );
-    $message1 = 'RULES message 1. This entity type is enabled for scheduled publishing.';
+    $message1 = 'RULES message 1. This node type is enabled for scheduled publishing.';
     $rule1->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message1)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule1',
-      'events' => [['event_name' => "rules_entity_view:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_view:node']],
       'expression' => $rule1->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when viewing an entity of a
-    // type that is enabled for scheduled unpublishing.
+    // Create a reaction rule to display a message when viewing a node of a type
+    // that is enabled for scheduled unpublishing.
     $rule2 = $this->expressionManager->createRule();
-    $rule2->addCondition("{$condition_prefix}unpublishing_is_enabled{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")
+    $rule2->addCondition('scheduler_condition_unpublishing_is_enabled',
+      ContextConfig::create()->map('node', 'node')
     );
-    $message2 = 'RULES message 2. This entity type is enabled for scheduled unpublishing.';
+    $message2 = 'RULES message 2. This node type is enabled for scheduled unpublishing.';
     $rule2->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message2)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule2',
-      'events' => [['event_name' => "rules_entity_view:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_view:node']],
       'expression' => $rule2->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when viewing an entity of a
-    // type that is NOT enabled for scheduled publishing.
+    // Create a reaction rule to display a message when viewing a node of a type
+    // that is NOT enabled for scheduled publishing.
     $rule3 = $this->expressionManager->createRule();
-    $rule3->addCondition("{$condition_prefix}publishing_is_enabled{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")->negateResult()
+    $rule3->addCondition('scheduler_condition_publishing_is_enabled',
+      ContextConfig::create()->map('node', 'node')->negateResult()
     );
-    $message3 = 'RULES message 3. This entity type is not enabled for scheduled publishing.';
+    $message3 = 'RULES message 3. This node type is not enabled for scheduled publishing.';
     $rule3->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message3)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule3',
-      'events' => [['event_name' => "rules_entity_view:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_view:node']],
       'expression' => $rule3->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when viewing an entity of a
-    // type that is NOT enabled for scheduled unpublishing.
+    // Create a reaction rule to display a message when viewing a node of a type
+    // that is NOT enabled for scheduled unpublishing.
     $rule4 = $this->expressionManager->createRule();
-    $rule4->addCondition("{$condition_prefix}unpublishing_is_enabled{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")->negateResult()
+    $rule4->addCondition('scheduler_condition_unpublishing_is_enabled',
+      ContextConfig::create()->map('node', 'node')->negateResult()
     );
-    $message4 = 'RULES message 4. This entity type is not enabled for scheduled unpublishing.';
+    $message4 = 'RULES message 4. This node type is not enabled for scheduled unpublishing.';
     $rule4->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message4)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule4',
-      'events' => [['event_name' => "rules_entity_view:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_view:node']],
       'expression' => $rule4->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a published entity.
-    $entity = $this->createEntity($entityTypeId, $bundle, [
-      'title' => "Enabled Conditions - $entityTypeId $bundle",
-      'status' => TRUE,
-    ]);
+    $assert = $this->assertSession();
 
-    // View the entity and check the default position - that the entity type is
+    // View the node and check the default position - that the node type is
     // enabled for both publishing and unpublishing.
-    $this->drupalGet($entity->toUrl());
+    $this->drupalGet('node/' . $this->node->id());
     $assert->pageTextContains($message1);
     $assert->pageTextContains($message2);
     $assert->pageTextNotContains($message3);
     $assert->pageTextNotContains($message4);
 
-    // Turn off scheduled publishing for the entity type and check the rules.
-    $entityType->setThirdPartySetting('scheduler', 'publish_enable', FALSE)->save();
+    // Turn off scheduled publishing for the node type and check the rules.
+    $this->nodetype->setThirdPartySetting('scheduler', 'publish_enable', FALSE)->save();
+    // Flushing the caches was not required when using WebTestBase but is needed
+    // after converting to BrowserTestBase.
     drupal_flush_all_caches();
-    $this->drupalGet($entity->toUrl());
+    $this->drupalGet('node/' . $this->node->id());
     $assert->pageTextNotContains($message1);
     $assert->pageTextContains($message2);
     $assert->pageTextContains($message3);
     $assert->pageTextNotContains($message4);
 
-    // Turn off scheduled unpublishing for the entity type and the check again.
-    $entityType->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)->save();
+    // Turn off scheduled unpublishing for the node type and the check again.
+    $this->nodetype->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)->save();
     drupal_flush_all_caches();
-    $this->drupalGet($entity->toUrl());
+    $this->drupalGet('node/' . $this->node->id());
     $assert->pageTextNotContains($message1);
     $assert->pageTextNotContains($message2);
     $assert->pageTextContains($message3);
@@ -169,133 +147,118 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
   }
 
   /**
-   * Tests the conditions for whether an entity is scheduled.
-   *
-   * @dataProvider dataStandardEntityTypes()
+   * Tests the conditions for whether a node is scheduled.
    */
-  public function testEntityIsScheduledConditions($entityTypeId, $bundle) {
-    // The legacy rules condition ids for nodes remain as:
-    // -  scheduler_condition_node_scheduled_for_publishing
-    // -  scheduler_condition_node_scheduled_for_unpublishing
-    // For all other entity types the new derived condition ids are of the form:
-    // -  scheduler_entity_is_scheduled_for_publishing:{type}
-    // -  scheduler_entity_is_scheduled_for_unpublishing:{type}
-    // .
-    $condition_prefix = ($entityTypeId == 'node') ? 'scheduler_condition_node_' : 'scheduler_entity_is_';
-    $condition_suffix = ($entityTypeId == 'node') ? '' : ":$entityTypeId";
-    $assert = $this->assertSession();
-
-    // Create a reaction rule to display a message when an entity is updated and
+  public function testNodeIsScheduledConditions() {
+    // Create a reaction rule to display a message when a node is updated and
     // is not scheduled for publishing.
     $rule5 = $this->expressionManager->createRule();
-    $rule5->addCondition("{$condition_prefix}scheduled_for_publishing{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")->negateResult()
+    $rule5->addCondition('scheduler_condition_node_scheduled_for_publishing',
+      ContextConfig::create()->map('node', 'node')->negateResult()
     );
-    $message5 = "RULES message 5. This $entityTypeId is not scheduled for publishing.";
+    $message5 = 'RULES message 5. This content is not scheduled for publishing.';
     $rule5->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message5)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule5',
-      'events' => [['event_name' => "rules_entity_update:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_update:node']],
       'expression' => $rule5->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when an entity is updated and
+    // Create a reaction rule to display a message when a node is updated and
     // is not scheduled for unpublishing.
     $rule6 = $this->expressionManager->createRule();
-    $rule6->addCondition("{$condition_prefix}scheduled_for_unpublishing{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")->negateResult()
+    $rule6->addCondition('scheduler_condition_node_scheduled_for_unpublishing',
+      ContextConfig::create()->map('node', 'node')->negateResult()
     );
-    $message6 = "RULES message 6. This $entityTypeId is not scheduled for unpublishing.";
+    $message6 = 'RULES message 6. This content is not scheduled for unpublishing.';
     $rule6->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message6)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule6',
-      'events' => [['event_name' => "rules_entity_update:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_update:node']],
       'expression' => $rule6->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when an entity is updated and
+    // Create a reaction rule to display a message when a node is updated and
     // is scheduled for publishing.
     $rule7 = $this->expressionManager->createRule();
-    $rule7->addCondition("{$condition_prefix}scheduled_for_publishing{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")
+    $rule7->addCondition('scheduler_condition_node_scheduled_for_publishing',
+      ContextConfig::create()->map('node', 'node')
     );
-    $message7 = "RULES message 7. This $entityTypeId is scheduled for publishing.";
+    $message7 = 'RULES message 7. This content is scheduled for publishing.';
     $rule7->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message7)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule7',
-      'events' => [['event_name' => "rules_entity_update:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_update:node']],
       'expression' => $rule7->getConfiguration(),
     ]);
     $config_entity->save();
 
-    // Create a reaction rule to display a message when an entity is updated and
+    $assert = $this->assertSession();
+
+    // Create a reaction rule to display a message when a node is updated and
     // is scheduled for unpublishing.
     $rule8 = $this->expressionManager->createRule();
-    $rule8->addCondition("{$condition_prefix}scheduled_for_unpublishing{$condition_suffix}",
-      ContextConfig::create()->map('entity', "$entityTypeId")
+    $rule8->addCondition('scheduler_condition_node_scheduled_for_unpublishing',
+      ContextConfig::create()->map('node', 'node')
     );
-    $message8 = "RULES message 8. This $entityTypeId is scheduled for unpublishing.";
+    $message8 = 'RULES message 8. This content is scheduled for unpublishing.';
     $rule8->addAction('rules_system_message', ContextConfig::create()
       ->setValue('message', $message8)
       ->setValue('type', 'status')
       );
     $config_entity = $this->rulesStorage->create([
       'id' => 'rule8',
-      'events' => [['event_name' => "rules_entity_update:$entityTypeId"]],
+      'events' => [['event_name' => 'rules_entity_update:node']],
       'expression' => $rule8->getConfiguration(),
     ]);
     $config_entity->save();
 
     $this->drupalLogin($this->schedulerUser);
 
-    // Create a published entity.
-    $entity = $this->createEntity($entityTypeId, $bundle, [
-      'title' => "Scheduled Conditions - $entityTypeId $bundle",
-      'uid' => $this->schedulerUser->id(),
-      'status' => TRUE,
-    ]);
+    // Edit the node but do not enter any scheduling dates.
+    $edit = [
+      'body[0][value]' => $this->randomString(30),
+    ];
+    $this->drupalGet('node/' . $this->node->id() . '/edit');
+    $this->submitForm($edit, 'Save');
 
-    // Edit the entity but do not enter any scheduling dates, and check that
-    // only messages 5 and 6 are shown.
-    $this->drupalGet($entity->toUrl('edit-form'));
-    $this->submitForm([], 'Save');
     $assert->pageTextContains($message5);
     $assert->pageTextContains($message6);
     $assert->pageTextNotContains($message7);
     $assert->pageTextNotContains($message8);
 
-    // Edit the entity, set a publish_on date, and check that message 5 is now
-    // not shown and we get message 7 instead.
+    // Edit the node and set a publish_on date.
     $edit = [
       'publish_on[0][value][date]' => date('Y-m-d', strtotime('+1 day', $this->requestTime)),
       'publish_on[0][value][time]' => date('H:i:s', strtotime('+1 day', $this->requestTime)),
     ];
-    $this->drupalGet($entity->toUrl('edit-form'));
+    $this->drupalGet('node/' . $this->node->id() . '/edit');
     $this->submitForm($edit, 'Save');
+
     $assert->pageTextNotContains($message5);
     $assert->pageTextContains($message6);
     $assert->pageTextContains($message7);
     $assert->pageTextNotContains($message8);
 
-    // Edit the entity again, set an unpublish_on date, and check that message 6
-    // is now not shown and we get message 8 instead.
+    // Edit the node and set an unpublish_on date.
     $edit = [
       'unpublish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', $this->requestTime)),
       'unpublish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', $this->requestTime)),
     ];
-    $this->drupalGet($entity->toUrl('edit-form'));
+    $this->drupalGet('node/' . $this->node->id() . '/edit');
     $this->submitForm($edit, 'Save');
+
     $assert->pageTextNotContains($message5);
     $assert->pageTextNotContains($message6);
     $assert->pageTextContains($message7);

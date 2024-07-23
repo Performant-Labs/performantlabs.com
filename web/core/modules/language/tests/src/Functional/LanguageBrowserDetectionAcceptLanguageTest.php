@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -76,7 +74,7 @@ class LanguageBrowserDetectionAcceptLanguageTest extends BrowserTestBase {
   /**
    * Tests with browsers with and without Accept-Language header.
    */
-  public function testAcceptLanguageEmptyDefault(): void {
+  public function testAcceptLanguageEmptyDefault() {
 
     // Check correct headers.
     $this->drupalGet('/en/system-test/echo/language test', [], ['Accept-Language' => 'en']);
@@ -102,7 +100,7 @@ class LanguageBrowserDetectionAcceptLanguageTest extends BrowserTestBase {
     $this->assertSession()->responseHeaderDoesNotExist('X-Drupal-Cache');
 
     // Check with browser without language settings - should return fallback language.
-    $this->drupalGet('/system-test/echo/language test', [], ['Accept-Language' => '']);
+    $this->drupalGet('/system-test/echo/language test', [], ['Accept-Language' => NULL]);
     $this->assertSession()->responseHeaderEquals('Content-Language', 'en');
     $this->assertSession()->responseHeaderDoesNotExist('X-Drupal-Cache');
 

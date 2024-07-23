@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\Form;
 
 use Drupal\Tests\BrowserTestBase;
@@ -28,7 +26,7 @@ class ElementsContainerTest extends BrowserTestBase {
   /**
    * Tests the #optional container property.
    */
-  public function testOptionalContainerElements(): void {
+  public function testOptionalContainerElements() {
     $this->drupalGet('form-test/optional-container');
     $assertSession = $this->assertSession();
     $assertSession->elementNotExists('css', 'div.empty_optional');

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\menu_ui\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -35,7 +33,7 @@ class MenuLinkReorderTest extends BrowserTestBase {
   /**
    * Tests creating, editing, deleting menu links via node form widget.
    */
-  public function testDefaultMenuLinkReorder(): void {
+  public function testDefaultMenuLinkReorder() {
 
     // Add the main menu block.
     $this->drupalPlaceBlock('system_menu_block:main');

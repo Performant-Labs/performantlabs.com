@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\comment\Functional;
 
 use Drupal\comment\CommentManagerInterface;
@@ -53,7 +51,7 @@ class CommentNodeAccessTest extends CommentTestBase {
   /**
    * Tests that threaded comments can be viewed.
    */
-  public function testThreadedCommentView(): void {
+  public function testThreadedCommentView() {
     // Set comments to have subject required and preview disabled.
     $this->setCommentPreview(DRUPAL_DISABLED);
     $this->setCommentForm(TRUE);

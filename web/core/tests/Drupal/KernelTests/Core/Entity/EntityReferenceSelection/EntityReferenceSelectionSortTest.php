@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Entity\EntityReferenceSelection;
 
 use Drupal\Component\Utility\Html;
@@ -46,7 +44,7 @@ class EntityReferenceSelectionSortTest extends EntityKernelTestBase {
   /**
    * Assert sorting by field and property.
    */
-  public function testSort(): void {
+  public function testSort() {
     // Add text field to entity, to sort by.
     FieldStorageConfig::create([
       'field_name' => 'field_text',

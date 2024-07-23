@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\field\Kernel\Migrate\d7;
 
 use Drupal\Core\Entity\Entity\EntityViewMode;
@@ -50,7 +48,7 @@ class MigrateViewModesTest extends MigrateDrupal7TestBase {
   /**
    * Tests migration of D7 view mode variables to D8 config entities.
    */
-  public function testMigration(): void {
+  public function testMigration() {
     $this->assertEntity('comment.full', 'Full', 'comment');
     $this->assertEntity('node.teaser', 'Teaser', 'node');
     $this->assertEntity('node.full', 'Full', 'node');

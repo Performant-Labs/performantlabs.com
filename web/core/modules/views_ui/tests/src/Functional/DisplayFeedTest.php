@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views_ui\Functional;
 
 /**
@@ -34,7 +32,7 @@ class DisplayFeedTest extends UITestBase {
   /**
    * Tests feed display admin UI.
    */
-  public function testFeedUI(): void {
+  public function testFeedUI() {
     // Test the RSS feed.
     foreach (self::$testViews as $view_name) {
       $this->checkFeedViewUi($view_name);

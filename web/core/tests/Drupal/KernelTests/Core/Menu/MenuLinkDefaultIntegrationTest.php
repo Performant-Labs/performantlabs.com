@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Menu;
 
 use Drupal\Core\Menu\MenuTreeParameters;
@@ -26,7 +24,7 @@ class MenuLinkDefaultIntegrationTest extends KernelTestBase {
   /**
    * Tests moving a static menu link without a specified menu to the root.
    */
-  public function testMoveToRoot(): void {
+  public function testMoveToRoot() {
     /** @var \Drupal\Core\Menu\MenuLinkManagerInterface $menu_link_manager */
     $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
     $menu_link_manager->rebuild();

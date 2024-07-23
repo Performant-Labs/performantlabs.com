@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\taxonomy\Kernel;
 
 use Drupal\taxonomy\Entity\Term;
@@ -37,7 +35,7 @@ class TermKernelTest extends KernelTestBase {
   /**
    * Tests that a deleted term is no longer in the vocabulary.
    */
-  public function testTermDelete(): void {
+  public function testTermDelete() {
     $vocabulary = $this->createVocabulary();
     $valid_term = $this->createTerm($vocabulary);
     // Delete a valid term.
@@ -49,7 +47,7 @@ class TermKernelTest extends KernelTestBase {
   /**
    * Deleting a parent of a term with multiple parents does not delete the term.
    */
-  public function testMultipleParentDelete(): void {
+  public function testMultipleParentDelete() {
     $vocabulary = $this->createVocabulary();
     $parent_term1 = $this->createTerm($vocabulary);
     $parent_term2 = $this->createTerm($vocabulary);
@@ -73,7 +71,7 @@ class TermKernelTest extends KernelTestBase {
   /**
    * Tests a taxonomy with terms that have multiple parents of different depths.
    */
-  public function testTaxonomyVocabularyTree(): void {
+  public function testTaxonomyVocabularyTree() {
     // Create a new vocabulary with 6 terms.
     $vocabulary = $this->createVocabulary();
     $term = [];
@@ -153,7 +151,7 @@ class TermKernelTest extends KernelTestBase {
   /**
    * Tests that a Term is renderable when unsaved (preview).
    */
-  public function testTermPreview(): void {
+  public function testTermPreview() {
     $entity_manager = \Drupal::entityTypeManager();
     $vocabulary = $this->createVocabulary();
 
@@ -169,7 +167,7 @@ class TermKernelTest extends KernelTestBase {
     $this->assertNotEmpty($render_array, 'Term view builder is built.');
 
     // Confirm we can render said view.
-    $rendered = (string) \Drupal::service('renderer')->renderInIsolation($render_array);
+    $rendered = (string) \Drupal::service('renderer')->renderPlain($render_array);
     $this->assertNotEmpty(trim($rendered), 'Term is able to be rendered.');
   }
 

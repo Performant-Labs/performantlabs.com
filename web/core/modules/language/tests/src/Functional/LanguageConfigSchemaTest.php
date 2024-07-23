@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\SchemaCheckTestTrait;
@@ -49,7 +47,7 @@ class LanguageConfigSchemaTest extends BrowserTestBase {
   /**
    * Tests whether the language config schema is valid.
    */
-  public function testValidLanguageConfigSchema(): void {
+  public function testValidLanguageConfigSchema() {
     // Make sure no language configuration available by default.
     $config_data = $this->config('language.settings')->get();
     $this->assertEmpty($config_data);

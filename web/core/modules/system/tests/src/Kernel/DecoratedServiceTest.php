@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Kernel;
 
 use Drupal\Component\DependencyInjection\ReverseContainer;
@@ -22,7 +20,7 @@ class DecoratedServiceTest extends KernelTestBase {
   /**
    * Check that decorated services keep their original service ID.
    */
-  public function testDecoratedServiceId(): void {
+  public function testDecoratedServiceId() {
     // Service decorated once.
     $test_service = $this->container->get('test_service');
     $this->assertEquals('test_service', $this->container->get(ReverseContainer::class)->getId($test_service));

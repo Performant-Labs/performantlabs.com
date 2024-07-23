@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Config\Storage;
 
 use Drupal\KernelTests\KernelTestBase;
@@ -35,7 +33,7 @@ abstract class ConfigStorageTestBase extends KernelTestBase {
    *
    * @todo Coverage: Trigger PDOExceptions / Database exceptions.
    */
-  public function testCRUD(): void {
+  public function testCRUD() {
     $name = 'config_test.storage';
 
     // Checking whether a non-existing name exists returns FALSE.
@@ -122,7 +120,7 @@ abstract class ConfigStorageTestBase extends KernelTestBase {
   /**
    * Tests an invalid storage.
    */
-  public function testInvalidStorage(): void {
+  public function testInvalidStorage() {
     $name = 'config_test.storage';
 
     // Write something to the valid storage to prove that the storages do not
@@ -164,7 +162,7 @@ abstract class ConfigStorageTestBase extends KernelTestBase {
   /**
    * Tests storage writing and reading data preserving data type.
    */
-  public function testDataTypes(): void {
+  public function testDataTypes() {
     $name = 'config_test.types';
     $data = [
       'array' => [],
@@ -188,7 +186,7 @@ abstract class ConfigStorageTestBase extends KernelTestBase {
   /**
    * Tests that the storage supports collections.
    */
-  public function testCollection(): void {
+  public function testCollection() {
     $name = 'config_test.storage';
     $data = ['foo' => 'bar'];
     $result = $this->storage->write($name, $data);

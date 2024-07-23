@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\EventSubscriber;
 
 use Drupal\Core\DependencyInjection\ContainerBuilder;
@@ -32,7 +30,7 @@ class ExceptionLoggingSubscriberTest extends KernelTestBase {
   /**
    * Tests \Drupal\Core\EventSubscriber\ExceptionLoggingSubscriber::onException().
    */
-  public function testExceptionLogging(): void {
+  public function testExceptionLogging() {
     $http_kernel = \Drupal::service('http_kernel');
 
     $channel_map = [

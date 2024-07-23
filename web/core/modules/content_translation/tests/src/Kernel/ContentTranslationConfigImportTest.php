@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\content_translation\Kernel;
 
 use Drupal\Core\Config\ConfigImporter;
@@ -68,7 +66,7 @@ class ContentTranslationConfigImportTest extends KernelTestBase {
   /**
    * Tests config import updates.
    */
-  public function testConfigImportUpdates(): void {
+  public function testConfigImportUpdates() {
     $entity_type_id = 'entity_test_mul';
     $config_id = $entity_type_id . '.' . $entity_type_id;
     $config_name = 'language.content_settings.' . $config_id;

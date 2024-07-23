@@ -119,6 +119,7 @@ class PhoneNumber extends FormElement {
       'allowed_types' => NULL,
       'placeholder' => NULL,
       'extension_field' => FALSE,
+      'country_selection' => 'flag',
     ];
     $settings = $element['#phone_number'];
 
@@ -190,12 +191,13 @@ class PhoneNumber extends FormElement {
         'extension' => '',
       ];
       $element['extension'] = [
-        '#type' => 'textfield',
-        '#default_value' => !empty($value['extension']) ? $value['extension'] : NULL,
+        '#type' => 'number',
+        '#min' => 0,
+        '#step' => 1,
+        '#default_value' => $value['extension'] ?? NULL,
         '#title' => $this->t('Extension'),
         '#title_display' => 'invisible',
         '#size' => $settings['extension_size'] ?? 5,
-        '#maxlength' => 40,
         '#attributes' => [
           'class' => ['extension'],
           'placeholder' => $this->t('Ext.'),
@@ -232,10 +234,7 @@ class PhoneNumber extends FormElement {
     $input = NestedArray::getValue($form_state->getUserInput(), $tree_parents);
     $input = $input ? $input : [];
     $phone_number = NULL;
-    $extension = NULL;
-    if ($settings['extension_field']) {
-      $extension = $input['extension'];
-    }
+    $extension = ($settings['extension_field'] && isset($input['extension'])) ? $input['extension'] : NULL;
 
     $phone_number_provided = isset($input['phone']) && $input['phone'] != '';
 
@@ -304,15 +303,6 @@ class PhoneNumber extends FormElement {
             '%field' => $field_label,
           ]));
         }
-      }
-
-      // Validate extension is numeric (if provided).
-      if (!empty($settings['extension_field'])
-        && (!is_null($extension) && $extension != '')
-        && !ctype_digit($extension)) {
-        $form_state->setError($element['extension'], $this->t('The extension for %field must be numeric.', [
-          '%field' => $field_label,
-        ]));
       }
 
       // Validate country is allowed.

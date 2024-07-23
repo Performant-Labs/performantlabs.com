@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\Theme;
 
 use Drupal\Core\Language\LanguageInterface;
@@ -85,7 +83,7 @@ class TwigTransTest extends BrowserTestBase {
   /**
    * Tests Twig "trans" tags.
    */
-  public function testTwigTransTags(): void {
+  public function testTwigTransTags() {
     // Run this once without and once with Twig debug because trans can work
     // differently depending on that setting.
     $this->drupalGet('twig-theme-test/trans', ['language' => \Drupal::languageManager()->getLanguage('xx')]);
@@ -105,7 +103,7 @@ class TwigTransTest extends BrowserTestBase {
   /**
    * Tests empty Twig "trans" tags.
    */
-  public function testEmptyTwigTransTags(): void {
+  public function testEmptyTwigTransTags() {
     $elements = [
       '#type' => 'inline_template',
       '#template' => '{% trans %}{% endtrans %}',
@@ -114,7 +112,7 @@ class TwigTransTest extends BrowserTestBase {
     $renderer = \Drupal::service('renderer');
 
     try {
-      $renderer->renderInIsolation($elements);
+      $renderer->renderPlain($elements);
 
       $this->fail('{% trans %}{% endtrans %} did not throw an exception.');
     }

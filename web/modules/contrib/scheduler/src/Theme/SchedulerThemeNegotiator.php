@@ -14,9 +14,8 @@ class SchedulerThemeNegotiator implements ThemeNegotiatorInterface {
    * {@inheritdoc}
    */
   public function applies(RouteMatchInterface $route_match) {
-    // Use the Scheduler theme negotiator for scheduler views on the user page.
-    $user_page_routes = \Drupal::service('scheduler.manager')->getUserPageViewRoutes();
-    $applies = (in_array($route_match->getRouteName(), $user_page_routes));
+    // Use the Scheduler theme negotiator for the user 'scheduled' tab.
+    $applies = ($route_match->getRouteName() == 'view.scheduler_scheduled_content.user_page');
     return $applies;
   }
 

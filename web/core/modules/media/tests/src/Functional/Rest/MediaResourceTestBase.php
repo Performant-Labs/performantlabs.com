@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\media\Functional\Rest;
 
 use Drupal\Component\Utility\NestedArray;
@@ -312,7 +310,7 @@ abstract class MediaResourceTestBase extends EntityResourceTestBase {
   /**
    * {@inheritdoc}
    */
-  public function testPost(): void {
+  public function testPost() {
     $file_storage = $this->container->get('entity_type.manager')->getStorage('file');
 
     // Step 1: upload file, results in File entity marked temporary.

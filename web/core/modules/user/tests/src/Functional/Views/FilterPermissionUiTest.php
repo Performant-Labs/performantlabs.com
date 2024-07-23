@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Functional\Views;
 
 use Drupal\Tests\views\Functional\ViewTestBase;
@@ -45,7 +43,7 @@ class FilterPermissionUiTest extends ViewTestBase {
   /**
    * Tests basic filter handler settings in the UI.
    */
-  public function testHandlerUI(): void {
+  public function testHandlerUI() {
     $this->drupalLogin($this->drupalCreateUser([
       'administer views',
       'administer users',

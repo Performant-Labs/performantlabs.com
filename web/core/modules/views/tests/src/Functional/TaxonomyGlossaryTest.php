@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional;
 
 use Drupal\Core\Url;
@@ -61,7 +59,7 @@ class TaxonomyGlossaryTest extends ViewTestBase {
   /**
    * Tests a taxonomy glossary view.
    */
-  public function testTaxonomyGlossaryView(): void {
+  public function testTaxonomyGlossaryView() {
     $initials = [];
     foreach ($this->taxonomyTerms as $term) {
       $char = mb_strtolower(substr($term->label(), 0, 1));

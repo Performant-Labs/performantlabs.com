@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Kernel\Handler;
 
 use Drupal\Tests\views\Kernel\ViewsKernelTestBase;
@@ -28,7 +26,7 @@ class ArgumentNullTest extends ViewsKernelTestBase {
     return $data;
   }
 
-  public function testAreaText(): void {
+  public function testAreaText() {
     // Test validation
     $view = Views::getView('test_view');
     $view->setDisplay();

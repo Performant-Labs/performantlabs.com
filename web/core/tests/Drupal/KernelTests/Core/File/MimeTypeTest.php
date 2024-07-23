@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\File;
 
 /**
@@ -21,7 +19,7 @@ class MimeTypeTest extends FileTestBase {
   /**
    * Tests mapping of mimetypes from filenames.
    */
-  public function testFileMimeTypeDetection(): void {
+  public function testFileMimeTypeDetection() {
     $prefixes = ['public://', 'private://', 'temporary://', 'dummy-remote://'];
 
     $test_case = [

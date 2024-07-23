@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\KernelTests\Core\Entity;
 
 /**
@@ -46,7 +44,7 @@ class EntityBundleFieldTest extends EntityKernelTestBase {
   /**
    * Tests making use of a custom bundle field.
    */
-  public function testCustomBundleFieldUsage(): void {
+  public function testCustomBundleFieldUsage() {
     entity_test_create_bundle('custom', NULL, 'entity_test_update');
 
     // Check that an entity with bundle entity_test does not have the custom

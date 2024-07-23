@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional\Plugin;
 
 use Drupal\Core\Url;
@@ -65,7 +63,7 @@ class MonthDatePluginTest extends ViewTestBase {
   /**
    * Tests the Month Date Plugin.
    */
-  public function testMonthDatePlugin(): void {
+  public function testMonthDatePlugin() {
     $assert_session = $this->assertSession();
 
     // Test fallback value.

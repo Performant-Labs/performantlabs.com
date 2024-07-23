@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional\Plugin;
 
 use Drupal\node\Entity\Node;
@@ -96,7 +94,7 @@ class DisplayFeedTranslationTest extends ViewTestBase {
   /**
    * Tests the rendered output for fields display with multiple translations.
    */
-  public function testFeedFieldOutput(): void {
+  public function testFeedFieldOutput() {
     $node = $this->drupalCreateNode([
       'type' => 'page',
       'title' => 'en',

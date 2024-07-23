@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\language\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -35,7 +33,7 @@ class LanguageEntityFieldAccessHookTest extends BrowserTestBase {
   /**
    * Tests compatibility with hook_entity_field_access().
    */
-  public function testHookEntityFieldAccess(): void {
+  public function testHookEntityFieldAccess() {
     // Create an admin user and do the login.
     $user = $this->drupalCreateUser([], NULL, TRUE);
     $this->drupalLogin($user);

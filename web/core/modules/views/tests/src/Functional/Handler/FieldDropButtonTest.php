@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views\Functional\Handler;
 
 use Drupal\Tests\views\Functional\ViewTestBase;
@@ -50,7 +48,7 @@ class FieldDropButtonTest extends ViewTestBase {
   /**
    * Tests dropbutton field.
    */
-  public function testDropbutton(): void {
+  public function testDropbutton() {
     // Create some test nodes.
     $nodes = [];
     for ($i = 0; $i < 5; $i++) {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\views_ui\Functional;
 
 /**
@@ -33,7 +31,7 @@ class NewViewConfigSchemaTest extends UITestBase {
   /**
    * Tests creating brand new views.
    */
-  public function testNewViews(): void {
+  public function testNewViews() {
     $this->drupalLogin($this->drupalCreateUser(['administer views']));
 
     // Create views with all core Views wizards.

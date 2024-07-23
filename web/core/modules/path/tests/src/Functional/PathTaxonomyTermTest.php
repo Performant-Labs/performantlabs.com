@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\path\Functional;
 
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -50,7 +48,7 @@ class PathTaxonomyTermTest extends PathTestBase {
   /**
    * Tests alias functionality through the admin interfaces.
    */
-  public function testTermAlias(): void {
+  public function testTermAlias() {
     // Create a term in the default 'Tags' vocabulary with URL alias.
     $vocabulary = Vocabulary::load('tags');
     $description = $this->randomMachineName();

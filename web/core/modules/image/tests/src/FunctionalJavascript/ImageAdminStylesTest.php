@@ -21,7 +21,7 @@ class ImageAdminStylesTest extends ImageFieldTestBase {
   /**
    * Tests editing Ajax-enabled image effect forms.
    */
-  public function testAjaxEnabledEffectForm(): void {
+  public function testAjaxEnabledEffectForm() {
     $admin_path = 'admin/config/media/image-styles';
 
     // Setup a style to be created and effects to add to it.

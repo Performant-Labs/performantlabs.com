@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Kernel;
 
 use Drupal\Core\Form\FormState;
@@ -31,7 +29,7 @@ class UserAccountFormFieldsTest extends KernelTestBase {
   /**
    * Tests the root user account form section in the "Configure site" form.
    */
-  public function testInstallConfigureForm(): void {
+  public function testInstallConfigureForm() {
     require_once $this->root . '/core/includes/install.core.inc';
     require_once $this->root . '/core/includes/install.inc';
     $install_state = install_state_defaults();
@@ -53,7 +51,7 @@ class UserAccountFormFieldsTest extends KernelTestBase {
   /**
    * Tests the user registration form.
    */
-  public function testUserRegistrationForm(): void {
+  public function testUserRegistrationForm() {
     // Install default configuration; required for AccountFormController.
     $this->installConfig(['user']);
 
@@ -77,7 +75,7 @@ class UserAccountFormFieldsTest extends KernelTestBase {
   /**
    * Tests the user edit form.
    */
-  public function testUserEditForm(): void {
+  public function testUserEditForm() {
     // Install default configuration; required for AccountFormController.
     $this->installConfig(['user']);
     $this->installEntitySchema('user');

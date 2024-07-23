@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\node\Kernel\Migrate\d7;
 
 use Drupal\field\Entity\FieldConfig;
@@ -82,7 +80,7 @@ class MigrateNodeTypeTest extends MigrateDrupal7TestBase {
   /**
    * Tests Drupal 7 node type to Drupal 8 migration.
    */
-  public function testNodeType(): void {
+  public function testNodeType() {
     $expected_available_menus = ['main'];
     $expected_parent = 'main:';
 

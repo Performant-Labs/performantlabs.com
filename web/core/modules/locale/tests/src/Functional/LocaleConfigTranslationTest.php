@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\locale\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -84,7 +82,7 @@ class LocaleConfigTranslationTest extends BrowserTestBase {
   /**
    * Tests basic configuration translation.
    */
-  public function testConfigTranslation(): void {
+  public function testConfigTranslation() {
     // Check that the maintenance message exists and create translation for it.
     $source = '@site is currently under maintenance. We should be back shortly. Thank you for your patience.';
     $string = $this->storage->findString(['source' => $source, 'context' => '', 'type' => 'configuration']);
@@ -231,7 +229,7 @@ class LocaleConfigTranslationTest extends BrowserTestBase {
   /**
    * Tests translatability of optional configuration in locale.
    */
-  public function testOptionalConfiguration(): void {
+  public function testOptionalConfiguration() {
     $this->assertNodeConfig(FALSE, FALSE);
     // Enable the node module.
     $this->drupalGet('admin/modules');

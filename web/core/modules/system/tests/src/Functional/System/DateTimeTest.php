@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\system\Functional\System;
 
 use Drupal\Core\Datetime\Entity\DateFormat;
@@ -59,7 +57,7 @@ class DateTimeTest extends BrowserTestBase {
   /**
    * Tests time zones and DST handling.
    */
-  public function testTimeZoneHandling(): void {
+  public function testTimeZoneHandling() {
     // Setup date/time settings for Honolulu time.
     $config = $this->config('system.date')
       ->set('timezone.default', 'Pacific/Honolulu')
@@ -100,7 +98,7 @@ class DateTimeTest extends BrowserTestBase {
   /**
    * Tests date format configuration.
    */
-  public function testDateFormatConfiguration(): void {
+  public function testDateFormatConfiguration() {
     // Confirm 'no custom date formats available' message appears.
     $this->drupalGet('admin/config/regional/date-time');
 
@@ -209,7 +207,7 @@ class DateTimeTest extends BrowserTestBase {
   /**
    * Tests handling case with invalid data in selectors (like February, 31st).
    */
-  public function testEnteringDateTimeViaSelectors(): void {
+  public function testEnteringDateTimeViaSelectors() {
 
     $this->drupalCreateContentType(['type' => 'page_with_date', 'name' => 'Page with date']);
 

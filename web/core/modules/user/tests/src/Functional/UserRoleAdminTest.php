@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\user\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -49,7 +47,7 @@ class UserRoleAdminTest extends BrowserTestBase {
   /**
    * Tests adding, renaming and deleting roles.
    */
-  public function testRoleAdministration(): void {
+  public function testRoleAdministration() {
     $this->drupalLogin($this->adminUser);
     $default_langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
     // Test presence of tab.
@@ -113,7 +111,7 @@ class UserRoleAdminTest extends BrowserTestBase {
   /**
    * Tests user role weight change operation and ordering.
    */
-  public function testRoleWeightOrdering(): void {
+  public function testRoleWeightOrdering() {
     $this->drupalLogin($this->adminUser);
     $roles = Role::loadMultiple();
     $weight = count($roles);

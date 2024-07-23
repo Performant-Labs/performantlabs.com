@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\Tests\editor\Kernel;
 
 use Drupal\KernelTests\Core\Entity\EntityKernelTestBase;
@@ -46,7 +44,7 @@ class EntityUpdateTest extends EntityKernelTestBase {
    *
    * @see editor_test_entity_update()
    */
-  public function testEntityUpdate(): void {
+  public function testEntityUpdate() {
     // Create a node.
     $node = Node::create([
       'type' => 'page',
