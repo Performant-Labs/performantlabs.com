@@ -26,6 +26,22 @@ function init_tugboat() {
   fi
 }
 
+function check_rclone() {
+  type rclone > /dev/null 2> /dev/null
+  if [ $? != 0 ]; then
+    echo "Please install rclone (see https://docs.google.com/document/d/1tmISRP4ZpvVAKrR15Mi33nAXdQndyIrdHb58SrhMbmY/edit)" >&2
+    exit 1
+  fi
+}
+
+function check_terminus() {
+  type terminus > /dev/null 2> /dev/null
+  if [ $? != 0 ]; then
+    echo "Please install and configure terminus" >&2
+    exit 1
+  fi
+}
+
 
 COMMAND=$1
 shift 1
@@ -60,12 +76,25 @@ preview:create)
   tugboat create preview "$GITHUB_BRANCH" \
     base=false repo=$repo label="$LABEL" output=json
   ;;
+snapshot:export)
+  check_terminus
+  check_rclone
+  SITE=performant-labs
+  ENV=${ARGS["--env"]:-dev}
+  terminus backup:create $SITE.$ENV --element=database
+  terminus backup:list $SITE.$ENV --format=json | jq -r .[].file | (
+    read line
+    terminus backup:get $SITE.$ENV --file=$line --to=$line
+    rclone copy $line "GDrive:/$SITE.snapshot"
+  )
+  ;;
 *)
   echo "Use: ./scripts/test <command> [args]
 
 List of commands:
-preview:delete <--repo:REPO>               delete all previews within the repo on Tugboat
-preview:create <--repo:REPO>               create a preview on Tugboat for the repo
+preview:delete <--repo REPO>               delete all previews within the repo on Tugboat
+preview:create <--repo REPO>               create a preview on Tugboat for the repo
+snapshot:export <--env ENV>                export snapshot from a given Pantheon env, and upload it to GDrive
 ...TBD....
 
 
