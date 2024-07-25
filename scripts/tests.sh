@@ -76,6 +76,22 @@ preview:create)
   tugboat create preview "$GITHUB_BRANCH" \
     base=false repo=$repo label="$LABEL" output=json
   ;;
+preview:ls)
+  init_tugboat
+  tugboat ls previews repo=$repo
+  ;;
+preview:use)
+  PREVIEW=${ARGS["--preview"]}
+  if [ -z $PREVIEW ]; then
+    echo "Please provide --preview argument" >&2
+    exit 1
+  fi
+  SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
+  URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
+  sed -i '/tugboat/{n;s/isTarget: false/isTarget: true/}' playwright.atk.config.js
+  sed -i 's/service: "[^\"]*"/service: "'$SERVICE'"/g' playwright.atk.config.js
+  sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $URL)"'/g" playwright.config.js
+  ;;
 snapshot:export)
   check_terminus
   check_rclone
@@ -106,6 +122,10 @@ preview:delete <--repo REPO>               delete all previews within the repo
 
 preview:create <--repo REPO>               create a preview on Tugboat for
                                            the repo
+
+preview:ls <--repo REPO>                   list previews in the repo
+
+preview:use <--preview PREVIEW>            use preview in the tests
 
 snapshot:export <--env ENV>                export snapshot from a given Pantheon
 [--use-on-preview --repo REPO]             env, and upload it to GDrive,

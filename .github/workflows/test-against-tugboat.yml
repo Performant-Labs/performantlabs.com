@@ -83,14 +83,11 @@ jobs:
           ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID > preview.json
           cat preview.json
 
-      - name: Parse preview json
+      - name: Parse preview json and change test configs
         run: |
           set -x
           PREVIEW=$(cat preview.json | jq -r .preview)
-          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
-          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
-          echo SERVICE=$SERVICE >> $GITHUB_ENV
-          echo URL=$URL >> $GITHUB_ENV
+          ./scripts/tests.sh preview:use --preview $PREVIEW
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
@@ -104,21 +101,6 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
-
-      - name: Change playwright.atk.config.js
-        run: |
-          set -x
-          sed -i '/tugboat/{n;s/isTarget: false/isTarget: true/}' playwright.atk.config.js
-          sed -i 's/service: "<id>"/service: "'$SERVICE'"/g' playwright.atk.config.js
-          echo "----playwright.atk.config.js----"
-          cat playwright.atk.config.js
-
-      - name: Change playwright.config.js
-        run: |
-          set -x
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $URL)"'/g" playwright.config.js
-          echo "----playwright.config.js----"
-          cat playwright.config.js
 
       - name: Run Playwright tests
         run: export CI_SHARDING=1 && npx playwright test --shard=${{ matrix.shardIndex }}/$CI_SHARDS
