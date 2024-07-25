@@ -15,7 +15,7 @@ on:
         description: Other environment (for multi-environment setup)
         required: false
       threads:
-        description: Thread count
+        description: Thread count per shard
         default: 2
       shards:
         description: Shard count
