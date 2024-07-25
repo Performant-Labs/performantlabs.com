@@ -48,7 +48,8 @@ services:
         - echo "===== Apache/PHP Update ====="
 
         # Import the database.
-        - zcat project/database/performant-labs_dev.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
+        - curl $SNAPSHOT_URL --output snapshot.sql.gz
+        - zcat snapshot.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
 
         # Install/update packages managed by composer, including drush.
         # First ensure there are no artifacts that snuck into the repo.

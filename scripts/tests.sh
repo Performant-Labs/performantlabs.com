@@ -86,20 +86,37 @@ snapshot:export)
     read line
     terminus backup:get $SITE.$ENV --file=$line --to=$line
     rclone copy $line "GDrive:/$SITE.snapshot"
+    LINK=$(rclone link GDrive:$SITE.snapshot/$line)
+    LINK=$(echo "$LINK" | sed "s/open/download/" | sed "s/drive/drive.usercontent/")
+    LINK="$LINK&export=download&authuser=0"
+    echo $LINK
+    if [ ! -z ${ARGS["--use-on-preview"]} ]; then
+      init_tugboat
+      tugboat update $repo envvars="SNAPSHOT_URL=$LINK"
+    fi
   )
   ;;
 *)
   echo "Use: ./scripts/test <command> [args]
 
 List of commands:
-preview:delete <--repo REPO>               delete all previews within the repo on Tugboat
-preview:create <--repo REPO>               create a preview on Tugboat for the repo
-snapshot:export <--env ENV>                export snapshot from a given Pantheon env, and upload it to GDrive
-...TBD....
+
+preview:delete <--repo REPO>               delete all previews within the repo
+                                           on Tugboat
+
+preview:create <--repo REPO>               create a preview on Tugboat for
+                                           the repo
+
+snapshot:export <--env ENV>                export snapshot from a given Pantheon
+[--use-on-preview --repo REPO]             env, and upload it to GDrive,
+                                           and optionally use for new previews
+
+....to be continued....
 
 
 Environment variables:
-TUGBOAT_TOKEN                              token to set up Tugboat if it's not set locally
+TUGBOAT_TOKEN                              token to set up Tugboat if it's
+                                           not set locally
 GITHUB_BRANCH                              branch to create env / run tests for
 "
 esac
