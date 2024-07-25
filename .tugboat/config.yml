@@ -60,9 +60,9 @@ services:
         # files from another publicly-accessible Drupal site instead of
         # syncing the entire files directory into the Tugboat Preview.
         # This results in smaller previews and reduces the build time.
-#        - composer require drupal/stage_file_proxy
-#        - vendor/bin/drush pm:enable --yes stage_file_proxy
-#        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://www.performantlabs.com"
+        - composer require drupal/stage_file_proxy
+        - vendor/bin/drush pm:enable --yes stage_file_proxy
+        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://performantlabs.com"
 
         # Take out of maintenance mode.
         - vendor/bin/drush state:set system.maintenance_mode 0
