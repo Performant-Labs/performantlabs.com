@@ -44,7 +44,7 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
@@ -60,7 +60,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
@@ -102,11 +102,16 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
 
     // Upload image.
-    await page.setInputFiles('#edit-field-image-0-upload', image1Filepath);
+    let imageField = page.locator('#edit-field-image-0-upload');
     const altField = page.locator('input[name="field_image[0][alt]"]');
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      imageField.click()
+    ]);
+    await fileChooser.setFiles(image1Filepath);
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
     // Fill body.
@@ -132,7 +137,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);

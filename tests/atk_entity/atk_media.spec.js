@@ -45,7 +45,13 @@ test.describe('Media tests.', () => {
     await page.goto(atkConfig.imageAddUrl);
 
     // Upload image.
-    await page.setInputFiles('#edit-field-media-image-0-upload', image1Filepath);
+    const imageField = page.locator('#edit-field-media-image-0-upload');
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      imageField.click()
+    ]);
+    await fileChooser.setFiles(image1Filepath);
+
     const altField = page.locator('input[name="field_media_image[0][alt]"]');
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
@@ -62,6 +68,7 @@ test.describe('Media tests.', () => {
     // We are now on the media content list. Confirm the image
     // was rendered by checking for the token.
     let imageLocator = page.locator(`img[alt*="${uniqueToken1}"]`);
+    await imageLocator.scrollIntoViewIfNeeded();
     await expect(imageLocator).toBeVisible();
 
     // Confirm image downloads correctly by testing the naturalWidth
