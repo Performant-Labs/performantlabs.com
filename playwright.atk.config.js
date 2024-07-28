@@ -1,7 +1,7 @@
 /*
 * Automated Testing Kit configuration.
 */
-module.exports = {
+export default {
   operatingMode: "native",
   drushCmd: "drush",
   articleAddUrl: 'node/add/article',

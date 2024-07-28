@@ -11,20 +11,17 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
-
-const baseUrl = playwrightConfig.use.baseURL;
 
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Holds standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
+
+
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.describe('Media tests.', () => {
   //
@@ -40,7 +37,7 @@ test.describe('Media tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add an image.
@@ -48,7 +45,13 @@ test.describe('Media tests.', () => {
     await page.goto(atkConfig.imageAddUrl);
 
     // Upload image.
-    await page.setInputFiles('#edit-field-media-image-0-upload', image1Filepath);
+    const imageField = page.locator('#edit-field-media-image-0-upload');
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      imageField.click()
+    ]);
+    await fileChooser.setFiles(image1Filepath);
+
     const altField = page.locator('input[name="field_media_image[0][alt]"]');
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
@@ -65,6 +68,7 @@ test.describe('Media tests.', () => {
     // We are now on the media content list. Confirm the image
     // was rendered by checking for the token.
     let imageLocator = page.locator(`img[alt*="${uniqueToken1}"]`);
+    await imageLocator.scrollIntoViewIfNeeded();
     await expect(imageLocator).toBeVisible();
 
     // Confirm image downloads correctly by testing the naturalWidth
