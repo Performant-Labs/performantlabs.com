@@ -27,37 +27,35 @@ const lighthouseTest = test.extend({
 });
 
 let title = '(ATK-PW-1700) Audit of the pages with Google Lighthouse @atk-pw-1700 @lighthouse @audit';
-lighthouseTest.describe(title, async () => {
-  const locations = await getLocationsFromFile('atk_audit-locations');
+const locations = await getLocationsFromFile('atk_audit-locations.csv');
 
-  lighthouseTest.afterEach(async ({}, testInfo) => {
-    await testInfo.attach('lighthouse-report', {
-      path: `lighthouse-report-${testInfo.parallelIndex}.html`
+lighthouseTest.afterEach(async ({}, testInfo) => {
+  await testInfo.attach('lighthouse-report', {
+    path: `lighthouse-report-${testInfo.parallelIndex}.html`
+  });
+});
+
+for (let [location,] of locations) {
+  lighthouseTest(`${title}: ${location}`, async ({ page, port }, testInfo) => {
+    await page.goto(location);
+
+    await playAudit({
+      page,
+      port,
+      thresholds: {
+        performance: 70,
+        accessibility: 90,
+        seo: 70,
+        pwa: 70,
+        'best-practices': 70
+      },
+      reports: {
+        formats: {
+          html: true
+        },
+        name: `lighthouse-report-${testInfo.parallelIndex}`,
+        directory: '.'
+      }
     });
   });
-
-  for (let location of locations) {
-    lighthouseTest(`${title}: ${location}`, async ({ page, port }, testInfo) => {
-      await page.goto(location);
-
-      await playAudit({
-        page,
-        port,
-        thresholds: {
-          performance: 70,
-          accessibility: 90,
-          seo: 70,
-          pwa: 70,
-          'best-practices': 70
-        },
-        reports: {
-          formats: {
-            html: true
-          },
-          name: `lighthouse-report-${testInfo.parallelIndex}`,
-          directory: '.'
-        }
-      });
-    });
-  }
-});
+}
