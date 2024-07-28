@@ -11,20 +11,17 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
-
-const baseUrl = playwrightConfig.use.baseURL;
 
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Holds standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
+
+
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.describe('Node tests.', () => {
   //
@@ -37,7 +34,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add a page.
@@ -47,7 +44,7 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
@@ -63,7 +60,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
@@ -95,7 +92,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add an article.
@@ -105,11 +102,16 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
 
     // Upload image.
-    await page.setInputFiles('#edit-field-image-0-upload', image1Filepath);
+    let imageField = page.locator('#edit-field-image-0-upload');
     const altField = page.locator('input[name="field_image[0][alt]"]');
+    const [fileChooser] = await Promise.all([
+      page.waitForEvent('filechooser'),
+      imageField.click()
+    ]);
+    await fileChooser.setFiles(image1Filepath);
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
     // Fill body.
@@ -135,7 +137,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);

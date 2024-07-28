@@ -1,26 +1,14 @@
 name: (Test) Run Playwright tests against  Tugboat Preview.
-run-name: ${{ github.actor }} is running tests on ${{ github.event.inputs.url }}.
+run-name: ${{ github.actor }} is running tests on Tugboat.
 on:
-  workflow_dispatch:
-    inputs:
-      service:
-        description: Service ID of php-service of the Tugboat Preview environment
-        required: true
-      url:
-        description: Website URL of the Preview environment
-        required: false
-      threads:
-        description: Thread count
-        default: 2
-      shards:
-        description: Shard count
-        default: 1
+  pull_request:
 
 env:
   PHP_VERSION: '8.1'
 
   # for parallelization
-  CI_THREADS: ${{ github.event.inputs.threads }}
+  CI_THREADS: 2
+  CI_SHARDS: 3
 
   # for reporting
   JOB_NAME: ${{ github.workflow }}
@@ -37,32 +25,47 @@ env:
   MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
 
 jobs:
-  Define-Matrix:
+  Test-Setup:
+    env:
+      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
+
     runs-on: ubuntu-latest
     outputs:
       startTime: ${{ steps.get-output.outputs.startTime }}
       shardIndex: ${{ steps.get-output.outputs.shardIndex }}
     steps:
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Delete prior previews
+        run:
+          ./scripts/tests.sh preview:delete --repo $TUGBOAT_REPO_ID
+
       - id: get-output
         run: |
           set -x
           echo "::set-output name=startTime::$(date '+%s')"
-          echo "::set-output name=shardIndex::[$(seq 1 ${{ github.event.inputs.shards }} | tr '\n' ',' | sed 's/.$//')]"
+          echo "::set-output name=shardIndex::[$(seq 1 $CI_SHARDS | tr '\n' ',' | sed 's/.$//')]"
           cat $GITHUB_OUTPUT
 
   Test-on-Preview:
     needs:
-      - Define-Matrix
+      - Test-Setup
     strategy:
       fail-fast: false
       matrix:
-        shardIndex: ${{ fromJSON(needs.Define-Matrix.outputs.shardIndex) }}
+        shardIndex: ${{ fromJSON(needs.Test-Setup.outputs.shardIndex) }}
     env:
       GIT_EMAIL: 'ci-bot@pantheon.io'
       GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
+      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
 
     runs-on: ubuntu-latest
     steps:
@@ -72,6 +75,19 @@ jobs:
 
       - name: Check out repository code.
         uses: actions/checkout@v3
+
+      # Create new preview if requested
+      - name: Create a preview
+        run: |
+          set -x
+          ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID > preview.json
+          cat preview.json
+
+      - name: Parse preview json and change test configs
+        run: |
+          set -x
+          PREVIEW=$(cat preview.json | jq -r .preview)
+          ./scripts/tests.sh preview:use --preview $PREVIEW
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
@@ -86,38 +102,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: List the directories in the project (x1).
-        run: |
-          tree -d -L 3
-
-      - name: Install Tugboat.
-        run: |
-          set -x
-          curl -O https://dashboard.tugboatqa.com/cli/linux/tugboat.tar.gz
-          tar -zxf tugboat.tar.gz
-          echo $GITHUB_WORKSPACE >> $GITHUB_PATH
-          echo token: ${{ secrets.TUGBOAT_TOKEN }} > ~/.tugboat.yml
-
-      - name: Verify that test runner can communicate with Tugboat via shell
-        run: tugboat shell ${{ github.event.inputs.service }} command="vendor/drush/drush/drush status"
-
-      - name: Change playwright.atk.config.js
-        run: |
-          set -x
-          sed -i '/tugboat/{n;s/isTarget: false/isTarget: true/}' playwright.atk.config.js
-          sed -i 's/service: "<id>"/service: "${{ github.event.inputs.service }}"/g' playwright.atk.config.js
-          echo "----playwright.atk.config.js----"
-          cat playwright.atk.config.js
-
-      - name: Change playwright.config.js
-        run: |
-          set -x
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< ${{ github.event.inputs.url }})"'/g" playwright.config.js
-          echo "----playwright.config.js----"
-          cat playwright.config.js
-
       - name: Run Playwright tests
-        run: export CI_SHARDING=1 && npx playwright test --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
+        run: export CI_SHARDING=1 && npx playwright test --shard=${{ matrix.shardIndex }}/$CI_SHARDS
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -128,11 +114,15 @@ jobs:
 
       - run: echo "🍏 Job's status ${{ job.status }}."
 
-  Merge-Blob-Reports:
+  Test-Teardown:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+
     runs-on: ubuntu-latest
     if: ${{ !cancelled() }}
     needs:
-      - Define-Matrix
+      - Test-Setup
       - Test-on-Preview
     steps:
 
@@ -169,9 +159,9 @@ jobs:
         run: |
           set -x
           echo JOB_STATUS=${{ needs.Test-on-Preview.result }} >> $GITHUB_ENV
-          echo JOB_ENV=${{ github.event.inputs.url }} >> $GITHUB_ENV
-          echo JOB_BRANCH=${{ github.ref_name }} >> $GITHUB_ENV
-          START=${{ needs.Define-Matrix.outputs.startTime }}
+          echo JOB_ENV=Tugboat preview per shard >> $GITHUB_ENV
+          echo JOB_BRANCH=$GITHUB_BRANCH >> $GITHUB_ENV
+          START=${{ needs.Test-Setup.outputs.startTime }}
           STOP=$(date '+%s')
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 

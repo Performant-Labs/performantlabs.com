@@ -15,11 +15,11 @@ on:
         description: Other environment (for multi-environment setup)
         required: false
       threads:
-        description: Thread count
+        description: Thread count per shard
         default: 2
       shards:
         description: Shard count
-        default: 1
+        default: 3
 
 env:
   PHP_VERSION: '8.1'

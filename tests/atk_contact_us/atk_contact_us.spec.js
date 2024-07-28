@@ -11,23 +11,16 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
-
-const baseUrl = playwrightConfig.use.baseURL;
 
 // Import ATK Configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../data/etherealUser.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
 
-// Standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.describe('Contact Us tests.', () => {
   //
@@ -42,8 +35,8 @@ test.describe('Contact Us tests.', () => {
     // Begin registration.
     await page.goto(atkConfig.contactUsUrl);
 
-    await page.getByLabel('Your name').fill(userEtherealAccount.userName);
-    await page.getByLabel('Your email').fill(userEtherealAccount.userEmail);
+    await page.getByLabel('Your name').fill(atkData.etherealUser.userName);
+    await page.getByLabel('Your email').fill(atkData.etherealUser.userEmail);
     await page.getByLabel('Subject').fill(subjectLine);
     await page.getByLabel('Message').fill(testId);
     await page.getByRole('button', { name: 'Send message' }).click();
@@ -58,9 +51,9 @@ test.describe('Contact Us tests.', () => {
     // Now check for the entry in the database.
     await atkCommands.logOutViaUi(page, context);
 
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
-    await page.goto(`${baseUrl}admin/structure/webform/manage/contact/results/submissions`);
+    await page.goto(`admin/structure/webform/manage/contact/results/submissions`);
 
     // Check for presence of random string.
     // Part A passes: the submission appears.
@@ -70,17 +63,17 @@ test.describe('Contact Us tests.', () => {
     // Check for registration email at Ethereal.
     const etherealUrl = 'https://ethereal.email';
     await page.goto(`${etherealUrl}/login`);
-    await page.getByPlaceholder('Enter email').fill(userEtherealAccount.userEmail);
-    await page.getByPlaceholder('Password').fill(userEtherealAccount.userPassword);
+    await page.getByPlaceholder('Enter email').fill(atkData.etherealUser.userEmail);
+    await page.getByPlaceholder('Password').fill(atkData.etherealUser.userPassword);
     await page.getByRole('button', { name: 'Log in' }).click();
 
     textContent = await page.textContent('body');
-    expect(textContent).toContain(`Logged in as ${userEtherealAccount.userEmail}`);
+    expect(textContent).toContain(`Logged in as ${atkData.etherealUser.userEmail}`);
 
     await page.goto(`${etherealUrl}/messages`);
 
     textContent = await page.textContent('body');
-    expect(textContent).toContain(`Messages for ${userEtherealAccount.userEmail}`);
+    expect(textContent).toContain(`Messages for ${atkData.etherealUser.userEmail}`);
 
     // Look for "ATK-CY-1050) uniqueToken" generated above.
     await expect(page.getByRole('row', { subject: subjectLine })).toBeVisible;
