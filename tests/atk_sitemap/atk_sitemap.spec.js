@@ -13,23 +13,16 @@ import axios from 'axios';
 import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
 import * as atkCommands from '../support/atk_commands';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
 
 const baseUrl = playwrightConfig.use.baseURL;
 
-// Import ATK Configuration.
-import atkConfig from '../../playwright.atk.config'; // eslint-disable-line no-unused-vars
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
 
-// Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../data/etherealUser.json'; // eslint-disable-line no-unused-vars
 
-// Standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.skip('Sitemap tests.', () => {
   //
@@ -79,7 +72,7 @@ test.skip('Sitemap tests.', () => {
     //
     // Step 1.
     //
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
     await page.goto(`admin/config/search/xmlsitemap`);
 
     // Find the row where the first column contains 'http://default'.

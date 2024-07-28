@@ -11,20 +11,16 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
-// Set up Playwright.
-const { test, expect } = require('@playwright/test');
-
 import playwrightConfig from '../../playwright.config';
-
-const baseUrl = playwrightConfig.use.baseURL;
-
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Holds standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json';
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
+
+
+// Set up Playwright.
+import { expect, test } from '@playwright/test';
 
 test.describe('Entity tests.', () => {
   //
@@ -39,7 +35,7 @@ test.describe('Entity tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin);
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
 
     //
     // Add a taxonomy node to the tags vocabulary.
@@ -50,7 +46,7 @@ test.describe('Entity tests.', () => {
     // Below we provide a name and body.
     const titleTextfield = await page.$('input[name="name[0][value]"]');
     await titleTextfield.fill(termName);
-    let ckEditor = await page.$('[aria-label="Editor editing area: main"]');
+    let ckEditor = await page.$('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
 
     await page.getByRole('button', { name: 'Save and go to list' }).click();
@@ -88,7 +84,7 @@ test.describe('Entity tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibllus vulputate ut id lacus.';
 
     await page.goto(termEditUrl);
-    ckEditor = await page.locator('[aria-label="Editor editing area: main"]');
+    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
     await ckEditor.fill(bodyText);
     const button = await page.locator('#edit-save'); // eslint-disable-line no-unused-vars
     // await button.click( { force: true } )
