@@ -28,7 +28,8 @@ export default defineConfig({
       buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
       buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
       buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }]
+    }],
+    ['allure-playwright'],
   ],
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
