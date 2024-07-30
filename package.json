@@ -3,6 +3,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
     "@playwright/test": "^1.44.1",
+    "@reportportal/agent-js-playwright": "^5.1.9",
     "@types/node": "^20.14.2",
     "axe-html-reporter": "^2.2.3",
     "axios": "^1.7.2",

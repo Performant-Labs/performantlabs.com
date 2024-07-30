@@ -8,6 +8,8 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+import rpconfig from './reportportal.config.js';
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -28,7 +30,8 @@ export default defineConfig({
       buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
       buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
       buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }]
+    }],
+    ['@reportportal/agent-js-playwright', rpconfig],
   ],
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -42,6 +45,8 @@ export default defineConfig({
     /* Record video for all tests, but remove all videos from successful test runs */
     video: 'retain-on-failure',
   },
+
+  timeout: 60000,
 
   /* Configure projects for major browsers */
   projects: [
