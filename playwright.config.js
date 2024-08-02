@@ -11,6 +11,36 @@ import { defineConfig, devices } from '@playwright/test';
 import rpconfig from './reportportal.config.js';
 
 /**
+ * Check if reportportal is available
+ * @return {Promise<boolean>} true if it is, false if it's not
+ */
+async function checkReportPortal() {
+  return new Promise((resolve) => {
+    const rpURL = new URL(rpconfig.endpoint);
+    fetch(`${rpURL.protocol}//${rpURL.host}/health`)
+      .then(() => resolve(true))
+      .catch(() => resolve(false));
+  });
+}
+
+// Define reporters depending on sharding and Portal's availability
+const reporter = [];
+const isShard = process.argv.find((arg) => arg.startsWith('--shard'));
+if (isShard) {
+  reporter.push(['blob']);
+} else {
+  reporter.push(['html']);
+  reporter.push(['playwright-ctrf-json-reporter', {
+    buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
+    buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
+    buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
+  }]);
+}
+if (await checkReportPortal()) {
+  reporter.push(['@reportportal/agent-js-playwright', rpconfig]);
+}
+
+/**
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
@@ -24,15 +54,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? parseInt(process.env.CI_THREADS) || 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI_SHARDING ? 'blob' : [
-    ['html'],
-    ['playwright-ctrf-json-reporter', {
-      buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
-      buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
-      buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }],
-    ['@reportportal/agent-js-playwright', rpconfig],
-  ],
+  reporter: reporter,
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
