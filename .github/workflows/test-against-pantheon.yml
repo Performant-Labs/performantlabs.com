@@ -25,6 +25,7 @@ env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
+  REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
 
   # for parallelization
   CI_THREADS: ${{ github.event.inputs.threads }}
@@ -156,7 +157,7 @@ jobs:
           cat playwright.config.js
 
       - name: Run Playwright tests
-        run: export CI_SHARDING=1 && npx playwright test --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
+        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -196,7 +197,8 @@ jobs:
 
       - name: Merge into an HTML (and other configured) report
         run: |
-          unset CI_SHARDING && npx playwright merge-reports -c playwright.config.js blob-report
+          sed 's/launch: "Playwright tests"/launch: "Playwright tests merged"/' -i reportportal.config.js
+          npx playwright merge-reports -c playwright.config.js blob-report
 
       - uses: actions/upload-artifact@v4
         with:

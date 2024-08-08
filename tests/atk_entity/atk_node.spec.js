@@ -22,6 +22,7 @@ import * as atkData from '../support/atk_data.js';
 
 // Set up Playwright.
 import { expect, test } from '@playwright/test';
+import { ReportingApi } from '@reportportal/agent-js-playwright';
 
 test.describe('Node tests.', () => {
   //
@@ -85,6 +86,10 @@ test.describe('Node tests.', () => {
   //
   test('(ATK-PW-1111) Create, update, delete an article via the UI. @ATK-PW-1111 @node @smoke @alters-db', async ({ page, context }) => {
     const testId = 'ATK-PW-1111';
+    ReportingApi.addAttributes([{
+      key: 'testId',
+      value: testId,
+    }])
     const image1Filepath = 'tests/data/NewspaperArticle.jpg';
     const uniqueToken1 = atkUtilities.createRandomString(6);
     let bodyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ultrices tortor.';
