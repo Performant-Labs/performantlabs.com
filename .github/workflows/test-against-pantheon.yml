@@ -196,6 +196,7 @@ jobs:
 
       - name: Merge into an HTML (and other configured) report
         run: |
+          sed 's/launch: "Playwright tests"/launch: "Playwright tests merged"/' -i reportportal.config.js
           npx playwright merge-reports -c playwright.config.js blob-report
 
       - uses: actions/upload-artifact@v4
