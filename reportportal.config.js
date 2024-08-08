@@ -1,8 +1,8 @@
 import atkConfig from './playwright.atk.config.js';
 
 const rpconfig = {
-  endpoint: "http://127.0.0.1:8080/api/v1",
-  apiKey: "local_FfldjGJhTaemxy3XaFuFle2htVGApdPr3EmX1e0KFaRToKPbKKHnAqQbVdKICbCR",
+  endpoint: "https://reportportal.performantlabs.com/api/v1",
+  apiKey: "playwright-tests_amr-RR6oQG2FH0lilzVLS89XOFFef8T0zgr5r834vmTuAAOYEEFKvo1a0xH4GxzZ",
   project: "default_personal",
   launch: "Launch name",
   description: "My awesome launch",
