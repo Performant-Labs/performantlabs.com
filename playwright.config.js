@@ -36,7 +36,7 @@ if (isShard) {
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }]);
 }
-if (await checkReportPortal()) {
+if (await checkReportPortal() && rpconfig.apiKey) {
   reporter.push(['@reportportal/agent-js-playwright', rpconfig]);
 }
 

@@ -2,7 +2,7 @@ import atkConfig from './playwright.atk.config.js';
 
 const rpconfig = {
   endpoint: "https://reportportal.performantlabs.com/api/v1",
-  apiKey: "playwright-tests_amr-RR6oQG2FH0lilzVLS89XOFFef8T0zgr5r834vmTuAAOYEEFKvo1a0xH4GxzZ",
+  apiKey: process.env.REPORT_PORTAL_API_TOKEN,
   project: "performantlabs",
   launch: "Playwright tests",
   description: "My awesome launch",

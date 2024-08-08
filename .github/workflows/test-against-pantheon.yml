@@ -25,6 +25,7 @@ env:
   PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
+  REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
 
   # for parallelization
   CI_THREADS: ${{ github.event.inputs.threads }}
