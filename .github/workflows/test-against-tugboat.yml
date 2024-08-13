@@ -5,7 +5,6 @@ on:
 
 env:
   PHP_VERSION: '8.1'
-  REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
 
   # for parallelization
   CI_THREADS: 2
@@ -24,6 +23,12 @@ env:
   MAIL_FROM: ${{ vars.ATK_MAIL_FROM }}
   MAIL_TO: ${{ vars.ATK_MAIL_TO }}
   MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
+#  can be 'reportportal', 'allure', or 'reportportal,allure'
+  ATK_REPORT_TARGET: 'reportportal,allure'
+  REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
+  ALLURE_SERVER: 'https://172.232.174.154'
+  ALLURE_SECURITY_USER: ${{ secrets.ALLURE_SECURITY_USER }}
+  ALLURE_SECURITY_PASS: ${{ secrets.ALLURE_SECURITY_PASS }}
 
 jobs:
   Test-Setup:
@@ -157,7 +162,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - name: Upload results to Allure
+        run: |
+          ./allure_send_results.sh
+
       - name: Set environment for messaging results
+        if: ${{ always() }}
         run: |
           set -x
           echo JOB_STATUS=${{ needs.Test-on-Preview.result }} >> $GITHUB_ENV
@@ -168,12 +178,12 @@ jobs:
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
       - name: Send results by email
-        if: ${{ vars.ATK_MAIL_ENABLED }}
+        if: ${{ always() && vars.ATK_MAIL_ENABLED }}
         run: |
           node tests/support/message-email.js
 
       - name: Send results to Slack
-        if: ${{ vars.ATK_SLACK_ENABLED }}
+        if: ${{ always() && vars.ATK_SLACK_ENABLED }}
         shell: bash
         run: |
           node tests/support/message-slack.js

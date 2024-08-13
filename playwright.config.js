@@ -23,6 +23,12 @@ async function checkReportPortal() {
   });
 }
 
+// Report portal & allure config
+const reporterMap = {
+  allure: ['allure-playwright'],
+  reportportal: ['@reportportal/agent-js-playwright', rpconfig],
+}
+
 // Define reporters depending on sharding and Portal's availability
 const reporter = [];
 const isShard = process.argv.find((arg) => arg.startsWith('--shard'));
@@ -35,9 +41,13 @@ if (isShard) {
     buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }]);
-}
-if (await checkReportPortal() && rpconfig.apiKey) {
-  reporter.push(['@reportportal/agent-js-playwright', rpconfig]);
+  for (let target of (process.env.ATK_REPORT_TARGET || '').split(',')) {
+    if (target in reporterMap) {
+      reporter.push(reporterMap[target]);
+    } else {
+      console.warn(`Bad report target: ${target}`);
+    }
+  }
 }
 
 /**
