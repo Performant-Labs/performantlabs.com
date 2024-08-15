@@ -45,7 +45,7 @@ env:
   #  can be 'reportportal', 'allure', or 'reportportal,allure'
   ATK_REPORT_TARGET: 'reportportal,allure'
   REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
-  ALLURE_SERVER: 'https://172.232.174.154'
+  ALLURE_SERVER: 'https://allure-api.performantlabs.com'
   ALLURE_SECURITY_USER: ${{ secrets.ALLURE_SECURITY_USER }}
   ALLURE_SECURITY_PASS: ${{ secrets.ALLURE_SECURITY_PASS }}
 
