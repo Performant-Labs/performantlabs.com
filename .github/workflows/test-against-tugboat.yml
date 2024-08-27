@@ -4,6 +4,9 @@ on:
   pull_request:
 
 env:
+  PHP_VERSION: 8.2
+  TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+
   # for parallelization
   CI_THREADS: 2
   CI_SHARDS: 3
@@ -34,10 +37,6 @@ env:
 
 jobs:
   Test-Setup:
-    env:
-      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
-      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
-
     runs-on: ubuntu-latest
     outputs:
       startTime: ${{ steps.get-output.outputs.startTime }}
@@ -47,9 +46,13 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
       - name: Delete prior previews
         run:
-          ./scripts/tests.sh preview:delete --repo $TUGBOAT_REPO_ID
+          ./vendor/bin/testor preview:delete
 
       - id: get-output
         run: |
@@ -72,8 +75,6 @@ jobs:
       GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
       GH_PROJECT_USERNAME: ${{ github.repository_owner }}
       GH_PROJECT_REPONAME: ${{ github.repository }}
-      TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
-      TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
 
     runs-on: ubuntu-latest
     steps:
@@ -84,18 +85,22 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
       # Create new preview if requested
       - name: Create a preview
         run: |
           set -x
-          ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID > preview.json
+          ./vendor/bin/testor preview:create --format=json > preview.json
           cat preview.json
 
       - name: Parse preview json and change test configs
         run: |
           set -x
           PREVIEW=$(cat preview.json | jq -r .preview)
-          ./scripts/tests.sh preview:use --preview $PREVIEW
+          ./vendor/bin/testor preview:set $PREVIEW
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'

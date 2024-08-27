@@ -1,19 +1,18 @@
-name: (Test) Deploy app on Tugboat and run Playwright tests against it from GitHib Actions
-run-name: ${{ github.actor }} is triggering a Tugboat preview that will trigger tests from GitHub Actions.
+name: (Test) Deploy app on Tugboat
+run-name: ${{ github.actor }} is triggering a Tugboat preview.
 
 on:
   workflow_dispatch:
 
 env:
+  PHP_VERSION: 8.2
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
   TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
-  # Repo ID comes from 'tugboat ls repos'
-  TUGBOAT_REPO_ID: ${{ vars.TUGBOAT_REPO_ID }}
 
 jobs:
   create-preview:
-    name: Trigger Tugboat Preview that triggers GitHub actions.
+    name: Trigger Tugboat Preview
     runs-on: ubuntu-latest
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
@@ -23,18 +22,14 @@ jobs:
       - name: Check out repository code.
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
       - name: Delete prior preview.
         run: |
-          ./scripts/tests.sh preview:delete --repo $TUGBOAT_REPO_ID
+          ./vendor/bin/testor preview:delete
 
       - name: Create the preview.
         run: |
-          ./scripts/tests.sh preview:create --repo $TUGBOAT_REPO_ID
-
-      - name: Trigger tests
-        run: |
-          set -x
-          PREVIEW=$(tugboat list previews --json | jq -r 'map(select(.label=="'"$LABEL"'"))[0].preview')
-          SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
-          URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
-          gh workflow run test-against-tugboat.yml --ref $GITHUB_BRANCH -f service=$SERVICE -f url=$URL
+          ./vendor/bin/testor preview:create
