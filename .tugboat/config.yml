@@ -48,7 +48,8 @@ services:
         - echo "===== Apache/PHP Update ====="
 
         # Import the database.
-        - curl $SNAPSHOT_URL --output snapshot.sql.gz
+        - echo "s3_secret: $S3_SECRET" >> .testor.yml
+        - vendor/bin/robo snapshot:get --name preview --output snapshot.sql.gz
         - zcat snapshot.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
 
         # Install/update packages managed by composer, including drush.
