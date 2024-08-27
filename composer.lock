@@ -8697,17 +8697,11 @@
         },
         {
             "name": "performant-labs/testor",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Performant-Labs/testor.git",
-                "reference": "a3773613624fec3293d108d516d2ab0524cfe286"
-            },
+            "version": "dev-IL/bugfix",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/a3773613624fec3293d108d516d2ab0524cfe286",
-                "reference": "a3773613624fec3293d108d516d2ab0524cfe286",
-                "shasum": ""
+                "type": "path",
+                "url": "/testor",
+                "reference": "bb799a38f87949b4ea61c109d02690001397c763"
             },
             "require": {
                 "aws/aws-sdk-php": "^3.320",
@@ -8722,7 +8716,6 @@
                 "php-mock/php-mock-phpunit": "^2.10",
                 "phpunit/phpunit": "^10.5"
             },
-            "default-branch": true,
             "bin": [
                 "testor"
             ],
