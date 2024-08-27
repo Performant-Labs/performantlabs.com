@@ -25,6 +25,7 @@ on:
     - cron: "57 23 * * *"
 
 env:
+  PHP_VERSION: '8.2'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
 
@@ -121,11 +122,6 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: ' '
           if_key_exists: replace
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
 
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
