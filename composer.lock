@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82fb307097b116bf7c806b03c977f17a",
+    "content-hash": "2ed5a371bafefdb2393ea558d400fc32",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8055,16 +8055,16 @@
         },
         {
             "name": "performantlabs/testor",
-            "version": "dev-main",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Performant-Labs/testor.git",
-                "reference": "d73dbddea002399a1bd21af2af8046bdfacecc4c"
+                "reference": "296de92209c279dce30c68a8fe2083253c5d1c18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/d73dbddea002399a1bd21af2af8046bdfacecc4c",
-                "reference": "d73dbddea002399a1bd21af2af8046bdfacecc4c",
+                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/296de92209c279dce30c68a8fe2083253c5d1c18",
+                "reference": "296de92209c279dce30c68a8fe2083253c5d1c18",
                 "shasum": ""
             },
             "require": {
@@ -8077,7 +8077,6 @@
                 "mockery/mockery": "^1.6",
                 "phpunit/phpunit": "^10.5"
             },
-            "default-branch": true,
             "bin": [
                 "testor"
             ],
@@ -8091,9 +8090,9 @@
             "description": "Robo tasks that work with Automated Testing Kit",
             "support": {
                 "issues": "https://github.com/Performant-Labs/testor/issues",
-                "source": "https://github.com/Performant-Labs/testor/tree/main"
+                "source": "https://github.com/Performant-Labs/testor/tree/1.0.0"
             },
-            "time": "2024-09-09T15:47:49+00:00"
+            "time": "2024-09-09T17:20:28+00:00"
         },
         {
             "name": "phootwork/collection",
@@ -12743,9 +12742,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "performantlabs/testor": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
