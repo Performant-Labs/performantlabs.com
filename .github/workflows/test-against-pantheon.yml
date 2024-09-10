@@ -100,41 +100,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: List the directories in the project (x1).
-        run: |
-          tree -d -L 3
-
-      - name: Validate composer.json and composer.lock.
-        continue-on-error: true
-        run: composer validate --strict
-
-      - name: Set Composer cache directory.
-        id: composer-cache-dir
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer dependencies.
-        uses: actions/cache@v3.2.4
-        with:
-          path: ${{ steps.composer-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
-      - name: Install SSH Key.
-        uses: shimataro/ssh-key-action@v2.5.0
-        with:
-          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
-          name: id_rsa_pantheon
-          config: |
-            Host *.drush.in
-              IdentityFile ~/.ssh/id_rsa_pantheon
-              IdentitiesOnly yes
-              HostKeyAlgorithms +ssh-rsa
-              PubkeyAcceptedAlgorithms +ssh-rsa
-              StrictHostKeyChecking no
-          known_hosts: ' '
-          if_key_exists: replace
-
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
         with:
