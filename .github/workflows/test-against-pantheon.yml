@@ -22,7 +22,6 @@ on:
         default: 3
 
 env:
-  PHP_VERSION: '8.1'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
 
@@ -100,26 +99,6 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: List the directories in the project (x1).
-        run: |
-          tree -d -L 3
-
-      - name: Validate composer.json and composer.lock.
-        continue-on-error: true
-        run: composer validate --strict
-
-      - name: Set Composer cache directory.
-        id: composer-cache-dir
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer dependencies.
-        uses: actions/cache@v3.2.4
-        with:
-          path: ${{ steps.composer-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
-
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
         with:
@@ -134,6 +113,11 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: ' '
           if_key_exists: replace
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
 
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
