@@ -7,6 +7,18 @@ if [ ! -d $ALLURE_RESULTS_DIRECTORY ]; then
     echo "$ALLURE_RESULTS_DIRECTORY does not exist"
     exit 0
 fi
+
+# Environment file
+# (docs: https://allurereport.org/docs/how-it-works-environment-file/)
+echo "client_os = $(uname)"                      >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "client_os_release = $(uname -rs)"          >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "client_os_codename = $(uname -cs)"         >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "workflow = $GITHUB_WORKFLOW"               >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "branch = ${GITHUB_BRANCH:-$GITHUB_REF_NAME}">> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "commit = $GITHUB_SHA"                      >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "pantheon_site_name = $PANTHEON_SITE_NAME"  >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+echo "pantheon_env = $PANTHEON_ENV"              >> "$ALLURE_RESULTS_DIRECTORY/environment.properties"
+
 # This url is where the Allure container is deployed. We are using localhost as example
 ALLURE_SERVER=$ALLURE_SERVER  #'http://localhost:5050'
 # Project ID according to existent projects in your Allure container - Check endpoint for project creation >> `[POST]/projects`

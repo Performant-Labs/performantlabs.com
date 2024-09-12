@@ -4,8 +4,6 @@ on:
   pull_request:
 
 env:
-  PHP_VERSION: '8.1'
-
   # for parallelization
   CI_THREADS: 2
   CI_SHARDS: 3
