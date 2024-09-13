@@ -160,6 +160,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ctrf
+          path: ctrf/
+          retention-days: 30
+
       - name: Upload results to Allure
         run: |
           ./allure_send_results.sh
