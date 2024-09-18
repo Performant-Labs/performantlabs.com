@@ -2,6 +2,8 @@
 # Use `echo "s3_secret: $MY_SUPER_SECRET" >> .testor.yml` in your scripts.
 pantheon:
   site: 'performant-labs'
+tugboat:
+  repo: '63fe5557d5af549afd35a86a'
 s3:
   config:
     version: 'latest'
