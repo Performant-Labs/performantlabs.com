@@ -89,7 +89,7 @@ jobs:
       - name: Create a preview
         run: |
           set -x
-          ./vendor/bin/testor preview:create > preview.json
+          ./vendor/bin/testor preview:create --format=json > preview.json
           cat preview.json
 
       - name: Parse preview json and change test configs
