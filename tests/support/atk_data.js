@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import fs from 'fs';
+import { parse } from 'csv';
 import atkConfig from '../../playwright.atk.config.js';
 import playwrightConfig from '../../playwright.config.js';
 
@@ -55,30 +56,76 @@ async function parseXmlSitemap(fileName) {
 }
 
 /**
- * Get a list of the locations from the file located in 'data' directory.
+ * Get a list of the locations from a .csv file located in 'data' directory.
+ * Format
+ * <pre>
+ *   *,"r1,r2"
+ *   /path,"r3,r4"
+ *   /path2
+ *   /path3
+ *   @settings.xml
+ *   </pre>
  * Each line of this file maybe
  * - site location;
+ * - site location <comma> any additional info, such as rules to ignore etc...
  * - "@<sitemap>" where <sitemap> is a location of the XML sitemap file.
  * In this case all URLs from this sitemap will be included.
  *
  * @param fileName File name.
- * @return {Promise<string[]>} A list of the locations.
+ * @return {Promise<string[][]>} A list of the locations + additional info for each location.
  */
 async function getLocationsFromFile(fileName) {
   const filePath = `${atkConfig.dataDir}/${fileName}`;
   const fileContent = fs.readFileSync(filePath, 'utf-8');
-  const loc1 = fileContent.split('\n').filter(s => s !== '');
-  const loc2 = [];
-  for (let loc of loc1) {
-    if (!(loc[0] === '@')) {
-      loc2.push(loc);
-    } else {
-      const loc3 = await parseXmlSitemap(loc.substring(1));
-      for (let loc of loc3) loc2.push(loc);
-    }
-  }
+  const result = [];
+  return new Promise((resolve, reject) => {
+    const parser = parse({ delimiter: ',', encoding: 'utf-8' });
+    const sitemapPromises = [];
+    let globalRecord = [];
 
-  return loc2;
+    function getResultRecord(...record) {
+      const rr = [];
+      rr.push(record[0] || '');
+      for (let i = 1; i < Math.max(record.length, globalRecord.length); i++) {
+        let r = '';
+        if (record[i]) r += record[i];
+        if (globalRecord[i] && r) r += ',';
+        if (globalRecord[i]) r += globalRecord[i];
+        rr.push(r);
+      }
+      return rr;
+    }
+
+    parser.on('readable', () => {
+      let record;
+      while (record = parser.read()) {
+        if (!record || !record[0]) {
+          continue;
+        } else if (record[0] === '*') {
+          globalRecord = record;
+        } else if (!(record[0][0] === '@')) {
+          result.push(getResultRecord(...record));
+        } else {
+          let sitemapPromise = parseXmlSitemap(record[0].substring(1)).then((locationList) => {
+            locationList.forEach((location) => {
+              result.push(getResultRecord(location, ...record.slice(1)));
+            });
+          });
+          sitemapPromises.push(sitemapPromise);
+        }
+      }
+    });
+    parser.on('error', (err) => {
+      reject(err);
+    });
+    parser.on('end', () => {
+      Promise.all(sitemapPromises).then(() => {
+        resolve(result);
+      });
+    });
+    parser.write(fileContent);
+    parser.end();
+  });
 }
 
 /**

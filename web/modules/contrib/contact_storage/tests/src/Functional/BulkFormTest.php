@@ -72,10 +72,11 @@ class BulkFormTest extends ContactStorageTestBase {
     // Check the operations are accessible to the administer permission user.
     $this->drupalLogin($this->drupalCreateUser(['administer contact forms']));
     $this->drupalGet('test-contact-message-bulk-form');
-    $elements = $this->xpath('//select[@id="edit-action"]//option');
-    $this->assertSame(count($elements), 1, 'All contact message operations are found.');
+    // There are 2 options: "- Select -", "Delete contact message".
+    $elements = $this->xpath('//select[@id="edit-action"]//option[@value="contact_message_delete_action"]');
+    $this->assertCount(1, $elements, 'All contact message operations are found.');
     $this->drupalGet('test-contact-message-bulk-form');
-    $this->submitForm([], t('Apply to selected items'));
+    $this->submitForm([], 'Apply to selected items');
     $this->assertSession()->pageTextContains('No message selected.');
   }
 

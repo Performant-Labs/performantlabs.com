@@ -8,6 +8,48 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // require('dotenv').config();
 
+import rpconfig from './reportportal.config.js';
+
+/**
+ * Check if reportportal is available
+ * @return {Promise<boolean>} true if it is, false if it's not
+ */
+async function checkReportPortal() {
+  return new Promise((resolve) => {
+    const rpURL = new URL(rpconfig.endpoint);
+    fetch(`${rpURL.protocol}//${rpURL.host}/health`)
+      .then(() => resolve(true))
+      .catch(() => resolve(false));
+  });
+}
+
+// Report portal & allure config
+const reporterMap = {
+  allure: ['allure-playwright'],
+  reportportal: ['@reportportal/agent-js-playwright', rpconfig],
+}
+
+// Define reporters depending on sharding and Portal's availability
+const reporter = [];
+const isShard = process.argv.find((arg) => arg.startsWith('--shard'));
+if (isShard) {
+  reporter.push(['blob']);
+} else {
+  reporter.push(['html']);
+  reporter.push(['playwright-ctrf-json-reporter', {
+    buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
+    buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
+    buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
+  }]);
+  for (let target of (process.env.ATK_REPORT_TARGET || '').split(',')) {
+    if (target in reporterMap) {
+      reporter.push(reporterMap[target]);
+    } else {
+      console.warn(`Bad report target: ${target}`);
+    }
+  }
+}
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -22,14 +64,7 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? parseInt(process.env.CI_THREADS) || 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI_SHARDING ? 'blob' : [
-    ['html'],
-    ['playwright-ctrf-json-reporter', {
-      buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
-      buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
-      buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }]
-  ],
+  reporter: reporter,
   snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -38,7 +73,12 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Record video for all tests, but remove all videos from successful test runs */
+    video: 'retain-on-failure',
   },
+
+  timeout: 60000,
 
   /* Configure projects for major browsers */
   projects: [

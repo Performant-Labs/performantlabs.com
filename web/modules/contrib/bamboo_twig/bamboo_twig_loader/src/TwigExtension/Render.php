@@ -5,6 +5,7 @@ namespace Drupal\bamboo_twig_loader\TwigExtension;
 use Drupal\bamboo_twig\TwigExtension\TwigExtensionBase;
 use Drupal\Core\Block\TitleBlockPluginInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\RevisionableStorageInterface;
 use Drupal\Core\Plugin\ContextAwarePluginInterface;
 use Drupal\Core\Routing\RouteObjectInterface;
 use Twig\TwigFunction;
@@ -42,7 +43,7 @@ class Render extends TwigExtensionBase {
   }
 
   /**
-   * Load a given block with or whitout parameters.
+   * Load a given block with or without parameters.
    *
    * @param string $block_id
    *   The ID of the block to render.
@@ -81,7 +82,7 @@ class Render extends TwigExtensionBase {
   }
 
   /**
-   * Load a given form with or whitout parameters.
+   * Load a given form with or without parameters.
    *
    * @param string $module
    *   The module name where the form below.
@@ -152,8 +153,14 @@ class Render extends TwigExtensionBase {
    *   exists.
    */
   public function renderEntityRevision($entity_type, $revision_id = NULL, $view_mode = '', $langcode = NULL) {
+    $storage = $this->getEntityTypeManager()->getStorage($entity_type);
+
+    if (!$storage instanceof RevisionableStorageInterface) {
+      return NULL;
+    }
+
     $revision = $revision_id ?
-      $this->getEntityTypeManager()->getStorage($entity_type)->loadRevision($revision_id) :
+      $storage->loadRevision($revision_id) :
       $this->getCurrentRouteMatch()->getParameter($entity_type . '_revision');
 
     if (!$revision instanceof EntityInterface) {
@@ -211,7 +218,7 @@ class Render extends TwigExtensionBase {
    * @return string|null
    *   The absolute URL where a style image can be downloaded, suitable for use
    *   in an <img> tag.
-   *   Requesting the URL will cause the image to be created. Exceptend when
+   *   Requesting the URL will cause the image to be created. Excepted when
    *   preprocess is enabled, the image will already be available on the fso.
    */
   public function renderImageStyle($path, $style, $preprocess = FALSE) {
@@ -224,11 +231,6 @@ class Render extends TwigExtensionBase {
 
     // From an uri or path retrieve an image object.
     $image = $this->getImageFactory()->get($path);
-
-    // Assert the image exist, otherwise return null.
-    if (empty($image)) {
-      return NULL;
-    }
 
     // Lazy load the fso.
     $fso = $this->getFileSystemObject();
@@ -296,10 +298,10 @@ class Render extends TwigExtensionBase {
     foreach ($blocks as $id => $block) {
       $block_plugin = $block->getPlugin();
       if ($block_plugin instanceof TitleBlockPluginInterface) {
-        $request = $this->requestStack->getCurrentRequest();
+        $request = $this->getRequestStack()->getCurrentRequest();
         $route = $request->attributes->get(RouteObjectInterface::ROUTE_OBJECT);
         if ($route) {
-          $block_plugin->setTitle($this->titleResolver->getTitle($request, $route));
+          $block_plugin->setTitle($this->getTitleResolver()->getTitle($request, $route));
         }
       }
       $build[$id] = $view_builder->view($block);

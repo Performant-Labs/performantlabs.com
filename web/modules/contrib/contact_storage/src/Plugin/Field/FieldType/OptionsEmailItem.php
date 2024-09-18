@@ -4,7 +4,6 @@ namespace Drupal\contact_storage\Plugin\Field\FieldType;
 
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\options\Plugin\Field\FieldType\ListItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\Session\AccountInterface;
@@ -20,7 +19,7 @@ use Drupal\Core\Session\AccountInterface;
  *   default_formatter = "list_default"
  * )
  */
-class OptionsEmailItem extends ListItemBase {
+class OptionsEmailItem extends OptionsListItemBase {
 
   /**
    * {@inheritdoc}

@@ -341,6 +341,7 @@
         "jquery/select2": "*",
         "jquery/textcounter": "*",
         "jquery/timepicker": "*",
+        "performantlabs/testor": "dev-main",
         "progress-tracker/progress-tracker": "*",
         "signature_pad/signature_pad": "*",
         "symfony/amazon-mailer": "^6.2",

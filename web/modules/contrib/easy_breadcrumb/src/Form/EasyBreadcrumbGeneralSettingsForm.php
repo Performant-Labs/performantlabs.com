@@ -221,7 +221,7 @@ class EasyBreadcrumbGeneralSettingsForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#title' => $this->t('Paths to be excluded while generating segments'),
       '#description' => $this->t('Enter a line separated list of paths to be excluded while generating the segments.
-			Paths may use simple regex, i.e.: report\/2[0-9][0-9][0-9].'),
+      Slashes must be escaped i.e.: ( foo/bar should be foo\/bar ) Paths may use simple regex, i.e.: report\/2[0-9][0-9][0-9].'),
       '#default_value' => $excluded_paths,
     ];
 
@@ -312,7 +312,7 @@ class EasyBreadcrumbGeneralSettingsForm extends ConfigFormBase {
     $details_advanced[EasyBreadcrumbConstants::HIDE_SINGLE_HOME_ITEM] = [
       '#type' => 'checkbox',
       '#title' => $this->t("Hide link to home page if it's the only breadcrumb item"),
-      '#description' => $this->t('Hide the breadcrumb when it only links to the home page and nothing more. <br> <strong>Note: If the homepage path is a "/" then this feature has an uncertain behavior.</strong>'),
+      '#description' => $this->t('Hide the breadcrumb when it only links to the home page and nothing more.'),
       '#default_value' => $config->get(EasyBreadcrumbConstants::HIDE_SINGLE_HOME_ITEM),
     ];
 

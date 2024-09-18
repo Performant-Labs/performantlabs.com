@@ -127,7 +127,7 @@ class ContactViewBuilderTest extends ContactStorageTestBase {
     $edit[$body_key] = $this->randomMachineName(16);
     $edit[$contact_key] = 'test_id';
     $this->drupalGet('node/add/article');
-    $this->submitForm($edit, t('Save'));
+    $this->submitForm($edit, 'Save');
     // Check that the node exists in the database.
     $node = $this->drupalGetNodeByTitle($edit[$title_key]);
     $this->drupalGet('node/' . $node->id());

@@ -40,7 +40,7 @@ abstract class ContactStorageTestBase extends BrowserTestBase {
     $edit['recipients'] = $recipients;
     $edit['selected'] = ($selected ? TRUE : FALSE);
     $edit += $third_party_settings;
-    $this->submitForm($edit, t('Save'));
+    $this->submitForm($edit, 'Save');
   }
 
   /**
@@ -65,11 +65,11 @@ abstract class ContactStorageTestBase extends BrowserTestBase {
     $edit['message[0][value]'] = $message;
     if ($id == $this->config('contact.settings')->get('default_form')) {
       $this->drupalGet('contact');
-      $this->submitForm($edit, t('Send message'));
+      $this->submitForm($edit, 'Send message');
     }
     else {
       $this->drupalGet('contact/' . $id);
-      $this->submitForm($edit, t('Send message'));
+      $this->submitForm($edit, 'Send message');
     }
   }
 

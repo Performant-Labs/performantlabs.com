@@ -5,16 +5,18 @@
  * Contains install and update hooks.
  */
 
-use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
 use Drupal\Core\Url;
 use Drupal\Core\Config\InstallStorage;
 use Drupal\Core\Config\FileStorage;
 use Drupal\Core\Field\BaseFieldDefinition;
 
 /**
- * Implements hook_install().
+ * Implements hook_module_preinstall().
  */
-function contact_storage_install() {
+function contact_storage_module_preinstall($module) {
+  if ($module !== 'contact_storage') {
+    return;
+  }
   $entity_definition_update_manager = \Drupal::entityDefinitionUpdateManager();
   $original_contact_message = $entity_definition_update_manager->getEntityType('contact_message');
   $original_contact_form = \Drupal::entityTypeManager()->getDefinition('contact_form');
@@ -29,7 +31,6 @@ function contact_storage_install() {
   ];
   contact_storage_entity_type_alter($entity_types);
   $entity_definition_update_manager->installEntityType($entity_types['contact_message']);
-  _contact_storage_ensure_fields();
 }
 
 /**

@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.2] - 2024-08-09
+### Added
+- add phpstan.neon file
+- add cpsell project words for Gitlab-CI
+- add .dockerignore to speedup docker mount
+- add official support of drupal 11.0
+
+### Changed
+- remove usage of deprecated ContainerAware class
+- add getRequestStack & getTitleResolver to TwigExtensionBase
+- improve type-hinting using RevisionableStorageInterface for Loader::loadEntityRevision && Render::renderEntityRevision
+- remove usage of deprecated twig_date_converter function when Twig 3.9 is installed
+- use both trait conditionally EntityReferenceTestTrait and EntityReferenceFieldCreationTrait for Drupal 10 & 11 compliances
+- allow compatibility with symfony/mime:^7.0
+- fix obsolete docker-compose command in CIs
+
+### Fixed
+- fix tests running on 10.3-dev with rendered webp image
+- fix Drupal 11 usage of bamboo_extensions_time_diff
+
+### Removed
+- remove legacy version annotation on docker-compose.yml
+
 ## [6.0.1] - 2024-03-01
 ### Changed
 - re-enable PHPUnit Symfony Deprecation notice
@@ -131,7 +154,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - init module
 - provides some Twig extensions with some useful functions and filters that can improve development experience.
 
-[Unreleased]: https://github.com/antistatique/drupal-bamboo-twig/compare/6.0.1...HEAD
+[Unreleased]: https://github.com/antistatique/drupal-bamboo-twig/compare/6.0.2...HEAD
+[6.0.2]: https://github.com/antistatique/drupal-bamboo-twig/compare/6.0.1...6.0.2
 [6.0.1]: https://github.com/antistatique/drupal-bamboo-twig/compare/6.0.0...6.0.1
 [6.0.0]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.1...6.0.0
 [5.1.0]: https://github.com/antistatique/drupal-bamboo-twig/compare/8.x-5.0...8.x-5.1
