@@ -1,12 +1,14 @@
 #!/usr/bin/bash
 
 # don't uncomment this if you don't want to reveal the secrets and hang the servers with logs I/O
-set -x
+#set -x
 # export all secrets to environment variables
 set -a
 source "$GITHUB_SECRETS"
 source "$GITHUB_ENV"
 set +a
+echo "BRANCH_NAME=$BRANCH_NAME"
+branch=$BRANCH_NAME
 # trigger run
 curl -L\
   -X POST\
