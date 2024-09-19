@@ -15,5 +15,11 @@ pipeline {
       }
     }
   }
+  post {
+    always {
+      archiveArtifacts artifacts: 'logs.zip', followSymlinks: false
+      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: 'Playwright Report', useWrapperFileDirectly: true])}
+    }
+  }
 }
 
