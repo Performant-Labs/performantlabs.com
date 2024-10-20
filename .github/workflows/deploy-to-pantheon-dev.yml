@@ -72,9 +72,9 @@ jobs:
 
       - name: Occasionally the write permission is missing.
         run: |
-          chmod +x vendor/bin/drush
-          pwd
-          ls -la vendor/bin
+          chmod +x vendor/bin/drush vendor/bin/drush.php
+          cd vendor/bin
+          ls -la
 
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
