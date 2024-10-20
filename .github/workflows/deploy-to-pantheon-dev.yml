@@ -26,6 +26,17 @@ jobs:
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Check PHP version
+        run: php -v
+
+      - name: Update Composer
+        run: composer self-update
+
       - name: Check out repository code.
         uses: actions/checkout@v3
 
