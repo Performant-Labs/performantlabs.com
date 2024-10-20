@@ -4,7 +4,7 @@ run-name: ${{ github.actor }} is deploying to Pantheon Dev.
 on: workflow_dispatch
 
 env:
-  PHP_VERSION: '8.1'
+  PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: 'dev'
   PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
