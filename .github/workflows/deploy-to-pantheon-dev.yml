@@ -71,7 +71,10 @@ jobs:
         run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
 
       - name: Occasionally the write permission is missing.
-        run: chmod +x vendor/bin/drush
+        run: |
+          chmod +x vendor/bin/drush
+          pwd
+          ls -la vendor/bin
 
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
