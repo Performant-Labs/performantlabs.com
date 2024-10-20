@@ -39,7 +39,7 @@ class EnvironmentIndicatorForm extends EntityForm {
     ];
 
     $form['weight'] = [
-      '#type' => 'textfield',
+      '#type' => 'weight',
       '#title' => $this->t('Weight'),
       '#default_value' => $environment_switcher->getWeight(),
     ];

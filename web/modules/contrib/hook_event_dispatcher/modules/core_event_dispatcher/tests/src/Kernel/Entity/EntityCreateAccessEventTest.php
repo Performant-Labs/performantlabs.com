@@ -75,7 +75,7 @@ class EntityCreateAccessEventTest extends KernelTestBase {
   /**
    * Data provider for testEntityCreateAccessEvent.
    */
-  public function entityCreateAccessEventProvider(): array {
+  public static function entityCreateAccessEventProvider(): array {
     return [
       [AccessResult::allowed(), TRUE],
       [AccessResult::forbidden(), FALSE],

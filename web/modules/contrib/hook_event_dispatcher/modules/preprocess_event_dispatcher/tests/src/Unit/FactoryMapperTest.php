@@ -30,6 +30,7 @@ final class FactoryMapperTest extends TestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
+    parent::setUp();
     $this->mapper = YamlDefinitionsLoader::getInstance()->getMapper();
   }
 

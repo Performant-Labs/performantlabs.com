@@ -52,7 +52,7 @@ class FileTransferInfoEvent extends Event implements EventInterface, DiscoveryIn
    *   Integer weight used for sorting connection types on the authorize.php
    *   form.
    */
-  public function addDefinition(string $type, $title, string $class, int $weight = NULL): void {
+  public function addDefinition(string $type, $title, string $class, ?int $weight = NULL): void {
     $this->definitions[$type] = [
       'title' => $title,
       'class' => $class,

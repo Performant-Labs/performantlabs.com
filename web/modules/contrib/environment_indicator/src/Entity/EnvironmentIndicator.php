@@ -25,7 +25,7 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
  *   static_cache = TRUE,
  *   entity_keys = {
  *     "id" = "machine",
- *     "label" = "human_name",
+ *     "label" = "name",
  *     "weight" = "weight"
  *   },
  *   links = {

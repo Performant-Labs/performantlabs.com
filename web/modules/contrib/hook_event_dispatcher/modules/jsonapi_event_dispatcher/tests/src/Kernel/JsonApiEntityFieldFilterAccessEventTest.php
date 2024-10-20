@@ -61,7 +61,7 @@ class JsonApiEntityFieldFilterAccessEventTest extends KernelTestBase {
    * @return array
    *   An array of test data.
    */
-  public function jsonapiEntityFieldFilterAccessEventProvider(): array {
+  public static function jsonapiEntityFieldFilterAccessEventProvider(): array {
     return [
       ['name'],
       ['created'],
@@ -76,7 +76,7 @@ class JsonApiEntityFieldFilterAccessEventTest extends KernelTestBase {
    *
    * @throws \Exception
    */
-  public function testJsonapiEntityFieldFilterAccessEvent(string $fieldName, string $exception = NULL): void {
+  public function testJsonapiEntityFieldFilterAccessEvent(string $fieldName, ?string $exception = NULL): void {
     if ($exception) {
       $this->expectException($exception);
     }

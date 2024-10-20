@@ -17,23 +17,25 @@ class ImageStyle extends CKEditor5PluginDefault {
   use CKEditor5PluginConfigurableTrait;
 
   /**
-   * @param mixed[] $static_plugin_config
-   * @param \Drupal\editor\EditorInterface $editor
-   *
-   * @return mixed[]
+   * {@inheritdoc}
    */
-  public function getDynamicPluginConfig(array $static_plugin_config, EditorInterface $editor): array {
+  public function getDynamicPluginConfig(
+    array $static_plugin_config,
+    EditorInterface $editor,
+  ): array {
     $format = $editor->getFilterFormat();
     /** @var \Drupal\filter\Plugin\FilterInterface $filter */
     $filter = $format->filters('filter_imagestyle');
     $filter_config = $filter->getConfiguration();
+    $image_styles = array_keys(array_filter($filter_config['settings']['image_styles']));
     $enabledStyles = [];
-    foreach (array_keys(array_filter($filter_config['settings'])) as $style_name) {
-      $style_name = str_replace('image_style_', '', $style_name);
-      if ($style = Style::load($style_name)) {
-        $enabledStyles[$style_name] = $style->label();
+
+    foreach ($image_styles as $image_style_id) {
+      if ($style = Style::load($image_style_id)) {
+        $enabledStyles[$image_style_id] = $style->label();
       }
     }
+
     $parent_config = parent::getDynamicPluginConfig($static_plugin_config, $editor);
     return array_merge_recursive($parent_config,
       [

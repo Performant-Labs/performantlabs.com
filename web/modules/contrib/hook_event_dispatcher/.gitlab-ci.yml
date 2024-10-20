@@ -48,4 +48,5 @@ include:
 ################
 variables:
   _TARGET_CORE: "$CORE_STABLE"
+  _LENIENT_ALLOW_LIST: "webform"
   SKIP_ESLINT: '1'

@@ -196,7 +196,7 @@ trait HookEventDispatcherModuleHandlerProxyTrait {
   /**
    * {@inheritdoc}
    */
-  public function destruct() {
+  public function destruct(): void {
     if ($this->inner instanceof DestructableInterface) {
       $this->inner->destruct();
     }

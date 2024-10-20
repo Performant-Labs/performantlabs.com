@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'phpowermove\\docblock\\' => array($vendorDir . '/phpowermove/docblock/src'),
     'phootwork\\lang\\' => array($vendorDir . '/phootwork/lang'),
     'phootwork\\collection\\' => array($vendorDir . '/phootwork/collection'),
@@ -61,6 +62,7 @@ return array(
     'SelfUpdate\\' => array($vendorDir . '/consolidation/self-update/src'),
     'Robo\\' => array($vendorDir . '/consolidation/robo/src'),
     'Psy\\' => array($vendorDir . '/psy/psysh/src'),
+    'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
@@ -69,12 +71,16 @@ return array(
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'Peast\\' => array($vendorDir . '/mck89/peast/lib/Peast'),
-    'PL\\' => array($vendorDir . '/performantlabs/testor/src'),
+    'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
+    'PL\\' => array($vendorDir . '/performant-labs/testor/src'),
     'PHPStan\\' => array($vendorDir . '/phpstan/phpstan-deprecation-rules/src'),
     'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
     'League\\Container\\' => array($vendorDir . '/league/container/src'),
+    'Laravel\\Prompts\\' => array($vendorDir . '/laravel/prompts/src'),
     'Kint\\' => array($vendorDir . '/kint-php/kint/src'),
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
+    'Illuminate\\Support\\' => array($vendorDir . '/illuminate/macroable', $vendorDir . '/illuminate/conditionable', $vendorDir . '/illuminate/collections'),
+    'Illuminate\\Contracts\\' => array($vendorDir . '/illuminate/contracts'),
     'Html2Text\\' => array($vendorDir . '/html2text/html2text/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),

@@ -38,6 +38,7 @@ abstract class AbstractFormEntityDisplayEditAlterEventSubscriberTestCase extends
    * Sets up the test.
    */
   protected function setUp(): void {
+    parent::setUp();
     $builder = new ContainerBuilder();
     $this->manager = new HookEventDispatcherManagerSpy();
     $builder->set('hook_event_dispatcher.manager', $this->manager);

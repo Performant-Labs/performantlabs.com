@@ -1,6 +1,6 @@
-import {Plugin} from 'ckeditor5/src/core';
-import {Model, createDropdown, addListToDropdown} from 'ckeditor5/src/ui';
-import {Collection} from 'ckeditor5/src/utils';
+import { Plugin } from 'ckeditor5/src/core';
+import { ViewModel, createDropdown, addListToDropdown } from 'ckeditor5/src/ui';
+import { Collection } from 'ckeditor5/src/utils';
 import MissingImageStyleView from "./missingimagestyleview";
 
 export default class StyleUIBase extends Plugin {
@@ -42,7 +42,7 @@ export default class StyleUIBase extends Plugin {
       for (const [machineName, label] of Object.entries(options)) {
         const def = {
           type: 'button',
-          model: new Model({
+          model: new ViewModel({
             withText: true,
             label,
             machineName,
@@ -83,7 +83,7 @@ export default class StyleUIBase extends Plugin {
       locale => {
         const view = new MissingImageStyleView(Drupal.t('Please select an image style.'), locale);
         view.listenTo(this.editor.ui, 'update', () => {
-          view.set({isVisible: !this._isVisible || !view.isSelected});
+          view.set({ isVisible: !this._isVisible || !view.isSelected });
         });
         return view;
       },

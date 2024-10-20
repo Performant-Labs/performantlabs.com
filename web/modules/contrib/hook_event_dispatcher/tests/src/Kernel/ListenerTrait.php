@@ -29,7 +29,7 @@ trait ListenerTrait {
    *
    * @throws \Exception
    */
-  protected function listen($events, string $method, InvocationOrder $expects = NULL): void {
+  protected function listen($events, string $method, ?InvocationOrder $expects = NULL): void {
     if (!$expects) {
       $expects = $this->once();
     }

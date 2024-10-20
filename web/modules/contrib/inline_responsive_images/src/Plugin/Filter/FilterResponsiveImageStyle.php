@@ -8,8 +8,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
+use Drupal\filter\Plugin\FilterInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,7 +22,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   module = "inline_responsive_images",
  *   title = @Translation("Display responsive images"),
  *   description = @Translation("Uses the data-responsive-image-style attribute on &lt;img&gt; tags to display responsive images."),
- *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE,
+ *   weight = 100
  * )
  */
 class FilterResponsiveImageStyle extends FilterBase implements ContainerFactoryPluginInterface {
@@ -88,17 +91,20 @@ class FilterResponsiveImageStyle extends FilterBase implements ContainerFactoryP
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $image_styles = $this->entityTypeManager->getStorage('responsive_image_style')->loadMultiple();
-    $form['responsive_styles'] = [
-      '#type' => 'markup',
-      '#markup' => 'Select the responsive styles that are available in the editor',
-    ];
+    $styles_options = [];
     foreach ($image_styles as $image_style) {
-      $form['responsive_style_' . $image_style->id()] = [
-        '#type' => 'checkbox',
-        '#title' => $image_style->label(),
-        '#default_value' => $this->settings['responsive_style_' . $image_style->id()] ?? 0,
-      ];
+      $styles_options[$image_style->id()] = $image_style->label();
     }
+
+    $form['image_styles'] = [
+      '#type' => 'checkboxes',
+      '#title' => 'Select the responsive styles that are available in the editor',
+      '#options' => $styles_options,
+      '#default_value' => $this->settings['image_styles'],
+      '#size' => 6,
+      '#multiple' => TRUE,
+    ];
+
     return $form;
   }
 

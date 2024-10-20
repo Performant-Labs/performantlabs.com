@@ -154,9 +154,6 @@ class ToolbarHandler {
 
       $items['environment_indicator'] += [
         '#type' => 'toolbar_item',
-        '#cache' => [
-          'tags' => Cache::mergeTags(['config:environment_indicator.settings'], $this->getCacheTags()),
-        ],
         '#weight' => 125,
         'tab' => [
           '#type' => 'link',
@@ -184,6 +181,14 @@ class ToolbarHandler {
         ],
       ];
 
+      // Add cache tags to the toolbar item while preserving context.
+      $items['environment_indicator']['#cache']['tags'] = Cache::mergeTags(
+        [
+          'config:environment_indicator.settings',
+          'config:environment_indicator.indicator',
+        ],
+        $this->getCacheTags()
+      );
       if ($this->account->hasPermission('administer environment indicator settings')) {
         $items['environment_indicator']['tray']['configuration'] = [
           '#type' => 'link',

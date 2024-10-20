@@ -2,6 +2,12 @@
 
 ## NOT RELEASED
 
+## 1.8.2
+
+### Changed
+
+- Enable compiler optimization for the `sprintf` function.
+
 ## 1.8.1
 
 ### Changed

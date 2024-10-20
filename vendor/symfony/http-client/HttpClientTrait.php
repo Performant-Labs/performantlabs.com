@@ -627,7 +627,10 @@ trait HttpClientTrait
     private static function parseUrl(string $url, array $query = [], array $allowedSchemes = ['http' => 80, 'https' => 443]): array
     {
         if (false === $parts = parse_url($url)) {
-            throw new InvalidArgumentException(sprintf('Malformed URL "%s".', $url));
+            if ('/' !== ($url[0] ?? '') || false === $parts = parse_url($url.'#')) {
+                throw new InvalidArgumentException(sprintf('Malformed URL "%s".', $url));
+            }
+            unset($parts['fragment']);
         }
 
         if ($query) {
@@ -681,10 +684,8 @@ trait HttpClientTrait
      * Removes dot-segments from a path.
      *
      * @see https://tools.ietf.org/html/rfc3986#section-5.2.4
-     *
-     * @return string
      */
-    private static function removeDotSegments(string $path)
+    private static function removeDotSegments(string $path): string
     {
         $result = '';
 

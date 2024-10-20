@@ -32,7 +32,6 @@ class JsonApiEntityFilterAccessEventTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'action',
     'system',
     'text',
     'user',

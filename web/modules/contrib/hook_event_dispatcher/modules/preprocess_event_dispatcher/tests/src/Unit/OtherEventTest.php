@@ -55,6 +55,7 @@ final class OtherEventTest extends TestCase {
    * {@inheritdoc}
    */
   protected function setUp(): void {
+    parent::setUp();
     $loader = YamlDefinitionsLoader::getInstance();
     $this->dispatcher = new SpyEventDispatcher();
     $this->service = new PreprocessEventService($this->dispatcher, $loader->getMapper());

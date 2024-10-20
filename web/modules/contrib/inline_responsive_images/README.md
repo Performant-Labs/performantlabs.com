@@ -65,6 +65,14 @@ information, see
   is rendered on the frontend.
 
 
+## CKEditor5 Plugin Development
+
+To compile CKEditor plugin javascript follow [instructions](https://ckeditor.com/docs/ckeditor5/latest/getting-started/installation/quick-start.html)
+
+Make sure CKEditor5 version is compatible with Drupal's by monitoring Drupal [issue queue](https://www.drupal.org/project/issues/drupal?text=Update&component=ckeditor5.module)
+
+* Upgrade is required when Drupal 10.4 is released (see [issue](https://www.drupal.org/project/drupal/issues/3459926))
+
 ## Credits
 
 We would like to credit the original authors of the patch in #2061377:

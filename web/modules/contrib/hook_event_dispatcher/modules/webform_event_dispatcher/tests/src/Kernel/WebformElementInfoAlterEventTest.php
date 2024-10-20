@@ -31,18 +31,6 @@ class WebformElementInfoAlterEventTest extends KernelTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected function setUp(): void {
-    // The `checkRequirements` method in TestCase is private.
-    // Invoke our own check requirements.
-    // see https://www.drupal.org/project/drupal/issues/3261817
-    $this->checkRequirements();
-
-    parent::setUp();
-  }
-
-  /**
    * Test WebformElementInfoAlterEvent.
    *
    * @throws \Exception

@@ -8,8 +8,10 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
+use Drupal\filter\Plugin\FilterInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,7 +22,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   module = "inline_responsive_images",
  *   title = @Translation("Display image styles"),
  *   description = @Translation("Uses the data-image-style attribute on &lt;img&gt; tags to display image styles."),
- *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE
+ *   type = Drupal\filter\Plugin\FilterInterface::TYPE_TRANSFORM_REVERSIBLE,
+ *   weight = 100
  * )
  */
 class FilterImageStyle extends FilterBase implements ContainerFactoryPluginInterface {
@@ -62,7 +65,14 @@ class FilterImageStyle extends FilterBase implements ContainerFactoryPluginInter
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ImageFactory $image_factory, RendererInterface $renderer) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    EntityTypeManagerInterface $entity_type_manager,
+    ImageFactory $image_factory,
+    RendererInterface $renderer,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->imageFactory = $image_factory;
@@ -72,7 +82,12 @@ class FilterImageStyle extends FilterBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+  ) {
     return new static(
       $configuration,
       $plugin_id,
@@ -88,17 +103,20 @@ class FilterImageStyle extends FilterBase implements ContainerFactoryPluginInter
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $image_styles = $this->entityTypeManager->getStorage('image_style')->loadMultiple();
-    $form['image_styles'] = [
-      '#type' => 'markup',
-      '#markup' => 'Select the image styles that are available in the editor',
-    ];
+    $styles_options = [];
     foreach ($image_styles as $image_style) {
-      $form['image_style_' . $image_style->id()] = [
-        '#type' => 'checkbox',
-        '#title' => $image_style->label(),
-        '#default_value' => $this->settings['image_style_' . $image_style->id()] ?? 0,
-      ];
+      $styles_options[$image_style->id()] = $image_style->label();
     }
+
+    $form['image_styles'] = [
+      '#type' => 'checkboxes',
+      '#title' => 'Select the image styles that are available in the editor',
+      '#options' => $styles_options,
+      '#default_value' => $this->settings['image_styles'],
+      '#size' => 6,
+      '#multiple' => TRUE,
+    ];
+
     return $form;
   }
 

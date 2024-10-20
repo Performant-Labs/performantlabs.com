@@ -26,7 +26,6 @@ class ViewDataEventTest extends KernelTestBase {
    */
   protected static $modules = [
     'system',
-    'action',
     'views',
     'hook_event_dispatcher',
     'views_event_dispatcher',

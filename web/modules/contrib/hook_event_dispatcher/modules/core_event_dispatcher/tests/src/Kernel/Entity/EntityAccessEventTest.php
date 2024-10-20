@@ -69,7 +69,7 @@ class EntityAccessEventTest extends KernelTestBase {
   public function testEntityAccessEventWithNoChanges(): void {
     $entityTypeManager = $this->container->get('entity_type.manager');
 
-    $entity = $entityTypeManager->getStorage('entity_test')->create();
+    $entity = $entityTypeManager->getStorage('entity_test')->create(['name' => $this->randomMachineName()]);
     $user = $entityTypeManager->getStorage('user')->create();
     $operation = $this->randomString();
 
@@ -98,7 +98,7 @@ class EntityAccessEventTest extends KernelTestBase {
 
     $entity = $this->container->get('entity_type.manager')
       ->getStorage('entity_test')
-      ->create();
+      ->create(['name' => $this->randomMachineName()]);
 
     $access = $entity->access($this->randomString(), NULL, TRUE);
 

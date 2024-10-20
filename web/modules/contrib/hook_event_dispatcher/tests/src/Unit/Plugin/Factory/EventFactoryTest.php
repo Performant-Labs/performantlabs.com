@@ -34,7 +34,7 @@ class EventFactoryTest extends TestCase {
     $this->assertInstanceOf($class, $instance);
   }
 
-  public function createInstanceProvider(): \Generator {
+  public static function createInstanceProvider(): \Generator {
     $eventFactory = new class() implements EventFactoryInterface {
 
       use EventFactoryTrait;

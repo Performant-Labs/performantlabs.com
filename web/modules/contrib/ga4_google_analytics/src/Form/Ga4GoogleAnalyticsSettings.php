@@ -7,6 +7,7 @@ use Drupal\Component\Plugin\Factory\FactoryInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\Role;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -33,8 +34,7 @@ class Ga4GoogleAnalyticsSettings extends ConfigFormBase {
         ConfigFactoryInterface $config_factory,
         FactoryInterface $plugin_factory
     ) {
-    parent::__construct($config_factory);
-
+    $this->configFactory = $config_factory;
     try {
       $this->condition = $plugin_factory->createInstance("request_path");
     }
@@ -73,7 +73,11 @@ class Ga4GoogleAnalyticsSettings extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config("ga4_google_analytics.config");
-
+    $roles = Role::loadMultiple();
+    $role_options = [];
+    foreach ($roles as $role) {
+      $role_options[$role->id()] = $role->label();
+    }
     $form["ga4_google_analytics_api_settings"] = [
       "#type" => "details",
       "#title" => $this->t("GA4 Google Analytics Configuration"),
@@ -144,7 +148,7 @@ class Ga4GoogleAnalyticsSettings extends ConfigFormBase {
               "Use analytics with your site when the user has the following roles"
       ),
       "#default_value" => $config->get("ga4_access_roles") ? $config->get("ga4_access_roles") : [],
-      "#options" => array_map("\Drupal\Component\Utility\Html::escape", user_role_names()),
+      "#options" => $role_options,
       "#description" => $this->t(
               "If you select no roles, the condition will evaluate to TRUE for all users."
       ),
