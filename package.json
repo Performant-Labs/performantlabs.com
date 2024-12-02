@@ -17,7 +17,10 @@
     "nodemailer": "^6.9.14",
     "playwright-ctrf-json-reporter": "^0.0.14",
     "playwright-lighthouse": "^4.0.0",
-    "slack-ctrf": "^0.0.9"
+    "slack-ctrf": "^0.0.9",
+    "playwright-lighthouse": "^4.0",
+    "slack-ctrf": "^0.0",
+    "yaml": "^2.6.1"
   },
   "browser": {
     "[module-name]": false

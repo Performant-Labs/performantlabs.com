@@ -41,11 +41,14 @@ if (isShard) {
     buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }]);
-  for (let target of (process.env.ATK_REPORT_TARGET || '').split(',')) {
-    if (target in reporterMap) {
-      reporter.push(reporterMap[target]);
-    } else {
-      console.warn(`Bad report target: ${target}`);
+  let target = process.env.ATK_REPORT_TARGET;
+  if (target) {
+    for (let target of target.split(',')) {
+      if (target in reporterMap) {
+        reporter.push(reporterMap[target]);
+      } else {
+        console.warn(`Bad report target: ${target}`);
+      }
     }
   }
 }
@@ -75,7 +78,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://atk.ddev.site:8493/',
+    baseURL: 'https://dev-performant-labs.pantheonsite.io/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -114,16 +117,16 @@ export default defineConfig({
     // },
 
     /* Test against mobile viewports. */
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'Tablet Safari',
-      use: { ...devices['iPad Pro 11 landscape'] },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    //   dependencies: ['setup'],
+    // },
+    // {
+    //   name: 'Tablet Safari',
+    //   use: { ...devices['iPad Pro 11 landscape'] },
+    //   dependencies: ['setup'],
+    // },
 
     /* Test against branded browsers. */
     // {

@@ -89,7 +89,7 @@ test.skip('User registration and login tasks.', () => {
   //
   test('(ATK-PW-1011) Log in via POST. @ATK-PW-1011 @register-login @smoke', async ({ page }) => { // eslint-disable-line no-unused-vars
     // TODO: Not ready yet.
-    // await atkCommands.logInViaPost(page, context, request, qaUserAccounts.authenticated)
+    // await atkCommands.logInViaPost(page, context, request, atkData.qaUsers.admin)
   });
 
   //
