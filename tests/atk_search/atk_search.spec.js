@@ -8,30 +8,27 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
-import * as atkCommands from '../support/atk_commands'
-import * as atkUtilities from '../support/atk_utilities'
+import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
+import * as atkCommands from '../support/atk_commands';
+
+import playwrightConfig from '../../playwright.config';
+
+const baseUrl = playwrightConfig.use.baseURL;
+
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
+
 
 // Set up Playwright.
-const { test, expect } = require('@playwright/test')
-
-import playwrightConfig from '../../playwright.config'
-
-const baseUrl = playwrightConfig.use.baseURL
-
-// Import ATK Configuration.
-import atkConfig from '../../playwright.atk.config'
-
-// Standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json'
+import { expect, test } from '@playwright/test';
 
 // Search keywords and expected results.
 // Adjust for your site.
 const searchData = atkUtilities.readYAML('search.yml')
 
 test.describe('Search tests.', () => {
-  test('(ATK-PW-1160) Search content by a keyword. @ATK-PW-1160 @search @content', async ({ page }) => {
+  // No public search form on PL.
+  test.skip('(ATK-PW-1160) Search content by a keyword. @ATK-PW-1160 @search @content', async ({ page }) => {
     const testId = 'ATK-PW-1160'
 
     await page.goto(baseUrl)
@@ -43,7 +40,7 @@ test.describe('Search tests.', () => {
     }
 
     for (const item of searchData.simple) {
-      await page.getByLabel('Search Form').click()
+      await openSearchForm(page);
       const keyInput = page.getByRole('searchbox', { name: 'Search' })
       await keyInput.fill(item.keyword)
       await keyInput.press('Enter')
@@ -67,7 +64,7 @@ test.describe('Search tests.', () => {
     for (const item of searchData.advanced) {
       // In the default installation, only admin can do advanced search.
       // Change if it's configured different way on your site.
-      await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+      await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin)
       await page.goto(`${baseUrl}search/node`)
 
       // Expand "Advanced search".
@@ -101,7 +98,7 @@ test.describe('Search tests.', () => {
     }
   })
 
-  test('(ATK-PW-1162) Search by a keyword: empty input @ATK-PW-1162 @search @content @empty', async ({ page }) => {
+  test.skip('(ATK-PW-1162) Search by a keyword: empty input @ATK-PW-1162 @search @content @empty', async ({ page }) => {
     const testId = 'ATK-PW-1162'
 
     await page.goto(baseUrl)
@@ -112,7 +109,7 @@ test.describe('Search tests.', () => {
       await page.getByLabel('Main Menu').click();
     }
 
-    await page.getByLabel('Search Form').click()
+    await openSearchForm(page);
     const searchInput = page.getByRole('searchbox', { name: 'Search' })
     await expect(searchInput).toHaveAttribute('placeholder', 'Search by keyword or phrase.')
   })
@@ -122,7 +119,7 @@ test.describe('Search tests.', () => {
 
     // In the default installation, only admin can do advanced search.
     // Change if it's configured different way on your site.
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin)
     await page.goto(`${baseUrl}search/node`)
 
     // Expand "Advanced search".
@@ -134,7 +131,21 @@ test.describe('Search tests.', () => {
     await expect(page.getByText('Enter some keywords.')).toBeVisible()
   })
 
+  async function openSearchForm(page) {
+    // Handle "responsive design". If "Search form" isn't visible,
+    // have to click main menu button first.
+
+    let searchForm = page.getByLabel('Search Form');
+    await searchForm.waitFor();
+    if (!(await searchForm.isVisible())) {
+      await page.getByLabel('Main Menu').click();
+    }
+    await searchForm.click();
+  }
+
   async function checkResult(page, item) {
+    // Wait at least one result to be visible.
+    await expect(page.locator('.search-result__title').last()).toBeVisible()
     const resultLocatorList = await page.locator('.search-result__title').all()
     const resultList = []
     for (const resultLocator of resultLocatorList) {
