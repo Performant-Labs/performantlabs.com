@@ -105,7 +105,7 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -145,7 +145,7 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - uses: actions/download-artifact@v4
         with:
