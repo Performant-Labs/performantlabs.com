@@ -8,6 +8,10 @@ env:
   CI_THREADS: 2
   CI_SHARDS: 3
 
+  # additional arguments to pass to `playwright test`.
+  # can be used to include/exclude tests, specify project ect.
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGT_ARG }}
+
   # for reporting
   JOB_NAME: ${{ github.workflow }}
   JOB_NUMBER: ${{ github.run_number }}
@@ -107,7 +111,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/$CI_SHARDS
+        run: npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/$CI_SHARDS
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
