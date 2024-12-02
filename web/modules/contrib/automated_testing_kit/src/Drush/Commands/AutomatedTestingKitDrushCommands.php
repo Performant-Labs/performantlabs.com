@@ -36,31 +36,31 @@ final class AutomatedTestingKitDrushCommands extends DrushCommands {
 
     ])]
     public function fileProperties($filepath, $options = ['format' => 'json']): RowsOfFields {
-    // Get the file system service.
-    $fileSystem = \Drupal::service('file_system');
+      // Get the file system service.
+      $fileSystem = \Drupal::service('file_system');
 
-    if (file_exists($filepath)) {
-      if (is_dir($filepath)) {
-        $basename = '<directory>';
+      if (file_exists($filepath)) {
+
+        if (is_dir($filepath)) {
+          $basename = '<directory>';
+        }
+        else {
+          $basename = basename($filepath);
+        }
+
+        $rows[] = [
+          'directory' => dirname($filepath),
+          'filename' => $basename,
+          'filesize' => filesize($filepath),
+          'filectime' => filectime($filepath),
+          'filemtime' => filemtime($filepath),
+          'fileatime' => filemtime($filepath),
+        ];
+
+        return new RowsOfFields($rows);
       }
       else {
-        $basename = basename($filepath);
+        $this->logger()->error(dt("Does not exist: $filepath."));
       }
-
-      $rows[] = [
-        'directory' => dirname($filepath),
-        'filename' => $basename,
-        'filesize' => filesize($filepath),
-        'filectime' => filectime($filepath),
-        'filemtime' => filemtime($filepath),
-        'fileatime' => filemtime($filepath),
-      ];
-
-      return new RowsOfFields($rows);
     }
-    else {
-      $this->logger()->error(dt("Does not exist: $filepath."));
-    }
-    }
-
 }

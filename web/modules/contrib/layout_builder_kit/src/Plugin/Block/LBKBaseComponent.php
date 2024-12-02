@@ -47,6 +47,13 @@ abstract class LBKBaseComponent extends BlockBase
   use StringTranslationTrait;
 
   /**
+   * The base ID for the component.
+   *
+   * @var string
+   */
+  protected $baseId;
+
+  /**
    * The transliteration service.
    *
    * @var \Drupal\Component\Transliteration\TransliterationInterface
@@ -82,6 +89,8 @@ abstract class LBKBaseComponent extends BlockBase
    *   The EntityTypeBundleInfo service.
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, CurrentRouteMatch $currentRouteMatch, EntityTypeBundleInfo $entityTypeBundleInfo) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
     $this->setConfiguration($configuration);
     $this->currentRouteMatch = $currentRouteMatch;
     $this->entityTypeBundleInfo = $entityTypeBundleInfo;

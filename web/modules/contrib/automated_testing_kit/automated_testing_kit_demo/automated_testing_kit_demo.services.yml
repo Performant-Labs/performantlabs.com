@@ -1,0 +1,6 @@
+services:
+  automated_testing_kit_demo.recipe_subscriber:
+    class: Drupal\automated_testing_kit_demo\EventSubscriber\RecipeEventSubscriber
+    arguments: ['@logger.factory', '@cron', '@messenger']
+    tags:
+      - { name: event_subscriber }

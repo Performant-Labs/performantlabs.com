@@ -2,9 +2,9 @@ name: Routes List
 type: module
 description: 'Overview of all registered routes.'
 package: Development
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^8 || ^9 || ^10 || ^11
 
-# Information added by Drupal.org packaging script on 2022-08-24
-version: '8.x-6.2'
+# Information added by Drupal.org packaging script on 2024-11-20
+version: '8.x-6.3'
 project: 'routes_list'
-datestamp: 1661302499
+datestamp: 1732124493

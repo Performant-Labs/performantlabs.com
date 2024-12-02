@@ -2,6 +2,18 @@
 
 ## NOT RELEASED
 
+## 1.23.0
+
+### Added
+
+- Added support for EKS Pod Identity
+
+### Changed
+
+- use strict comparison `null !==` instead of `!`
+- Fix CS
+- AWS enhancement: Documentation updates.
+
 ## 1.22.1
 
 ### Changed

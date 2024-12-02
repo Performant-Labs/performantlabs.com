@@ -20,7 +20,7 @@ import atkConfig from '../../../cypress.atk.config';
 // Accounts module is enabled.
 import qaUserAccounts from '../../data/qaUsers.json';
 
-describe('Media tests.', () => {
+describe('Taxonomy tests.', () => {
   //
   // Create media with image, confirm it, update it, confirm update then delete it via the UI.
   //

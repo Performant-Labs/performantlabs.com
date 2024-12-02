@@ -16,9 +16,6 @@ import * as atkUtilities from '../../support/atk_utilities';
 // atkConfig gets its own file.
 import atkConfig from '../../../cypress.atk.config'; // eslint-disable-line no-unused-vars
 
-// Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../../data/etherealUser.json'; // eslint-disable-line no-unused-vars
-
 // Standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
@@ -36,12 +33,10 @@ describe('Page error tests.', () => {
     const testId = 'ATK-CY-1060'; // eslint-disable-line no-unused-vars
     const badAnonymousUrl = 'admin';
 
-    cy.log(`**Pull up access denied page for anonymous user with Url of ${badAnonymousUrl}.**`);
-
     cy.logOutViaUi();
 
     cy.visit(badAnonymousUrl, { failOnStatusCode: false });
-    cy.contains('403 error page');
+    cy.contains('403 Error Page');
   });
 
   //
@@ -56,19 +51,15 @@ describe('Page error tests.', () => {
     const badAnonymousUrl = `${testId}-BadAnonymousPage-${randomString}`;
     const badAuthenticatedUrl = `${testId}-BadAuthenticatedPage-${randomString}`;
 
-    cy.log(`**Pull up bad page for anonymous user with Url of ${badAnonymousUrl}.**`);
-
     cy.logOutViaUi();
 
     cy.visit(badAnonymousUrl, { failOnStatusCode: false });
-    cy.contains('404 error page');
-
-    cy.log(`**Pull up bad page for authenticated user with Url of ${badAuthenticatedUrl}.**`);
+    cy.contains('404 Error Page');
 
     cy.logOutViaUi();
     cy.logInViaForm(qaUserAccounts.authenticated);
 
     cy.visit(badAuthenticatedUrl, { failOnStatusCode: false });
-    cy.contains('404 error page');
+    cy.contains('404 Error Page');
   });
 });

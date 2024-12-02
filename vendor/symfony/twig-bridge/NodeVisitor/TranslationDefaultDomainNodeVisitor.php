@@ -15,13 +15,16 @@ use Symfony\Bridge\Twig\Node\TransDefaultDomainNode;
 use Symfony\Bridge\Twig\Node\TransNode;
 use Twig\Environment;
 use Twig\Node\BlockNode;
+use Twig\Node\EmptyNode;
 use Twig\Node\Expression\ArrayExpression;
 use Twig\Node\Expression\AssignNameExpression;
 use Twig\Node\Expression\ConstantExpression;
 use Twig\Node\Expression\FilterExpression;
 use Twig\Node\Expression\NameExpression;
+use Twig\Node\Expression\Variable\LocalVariable;
 use Twig\Node\ModuleNode;
 use Twig\Node\Node;
+use Twig\Node\Nodes;
 use Twig\Node\SetNode;
 use Twig\NodeVisitor\NodeVisitorInterface;
 
@@ -31,6 +34,7 @@ use Twig\NodeVisitor\NodeVisitorInterface;
 final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
 {
     private Scope $scope;
+    private int $nestingLevel = 0;
 
     public function __construct()
     {
@@ -44,17 +48,26 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
         }
 
         if ($node instanceof TransDefaultDomainNode) {
+            ++$this->nestingLevel;
+
             if ($node->getNode('expr') instanceof ConstantExpression) {
                 $this->scope->set('domain', $node->getNode('expr'));
 
                 return $node;
-            } else {
-                $var = $this->getVarName();
-                $name = new AssignNameExpression($var, $node->getTemplateLine());
-                $this->scope->set('domain', new NameExpression($var, $node->getTemplateLine()));
-
-                return new SetNode(false, new Node([$name]), new Node([$node->getNode('expr')]), $node->getTemplateLine());
             }
+
+            if (class_exists(Nodes::class)) {
+                $name = new LocalVariable(null, $node->getTemplateLine());
+                $this->scope->set('domain', $name);
+
+                return new SetNode(false, new Nodes([$name]), new Nodes([$node->getNode('expr')]), $node->getTemplateLine());
+            }
+
+            $var = '__internal_trans_default_domain_'.$this->nestingLevel;
+            $name = new AssignNameExpression($var, $node->getTemplateLine());
+            $this->scope->set('domain', new NameExpression($var, $node->getTemplateLine()));
+
+            return new SetNode(false, new Node([$name]), new Node([$node->getNode('expr')]), $node->getTemplateLine());
         }
 
         if (!$this->scope->has('domain')) {
@@ -63,6 +76,12 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
 
         if ($node instanceof FilterExpression && 'trans' === ($node->hasAttribute('twig_callable') ? $node->getAttribute('twig_callable')->getName() : $node->getNode('filter')->getAttribute('value'))) {
             $arguments = $node->getNode('arguments');
+
+            if ($arguments instanceof EmptyNode) {
+                $arguments = new Nodes();
+                $node->setNode('arguments', $arguments);
+            }
+
             if ($this->isNamedArguments($arguments)) {
                 if (!$arguments->hasNode('domain') && !$arguments->hasNode(1)) {
                     $arguments->setNode('domain', $this->scope->get('domain'));
@@ -86,6 +105,8 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
     public function leaveNode(Node $node, Environment $env): ?Node
     {
         if ($node instanceof TransDefaultDomainNode) {
+            --$this->nestingLevel;
+
             return null;
         }
 
@@ -110,10 +131,5 @@ final class TranslationDefaultDomainNodeVisitor implements NodeVisitorInterface
         }
 
         return false;
-    }
-
-    private function getVarName(): string
-    {
-        return sprintf('__internal_%s', hash('xxh128', uniqid(mt_rand(), true)));
     }
 }

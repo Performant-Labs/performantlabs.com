@@ -85,7 +85,7 @@ class AssumeRoleWithWebIdentityResponse extends Result
      * The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric
      * characters with no spaces. You can also include underscores or any of the following characters: =,.@-
      *
-     * [^1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining
+     * [^1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts
      * [^2]: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html
      * [^3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
      *
@@ -147,20 +147,30 @@ class AssumeRoleWithWebIdentityResponse extends Result
         $data = new \SimpleXMLElement($response->getContent());
         $data = $data->AssumeRoleWithWebIdentityResult;
 
-        $this->credentials = !$data->Credentials ? null : new Credentials([
-            'AccessKeyId' => (string) $data->Credentials->AccessKeyId,
-            'SecretAccessKey' => (string) $data->Credentials->SecretAccessKey,
-            'SessionToken' => (string) $data->Credentials->SessionToken,
-            'Expiration' => new \DateTimeImmutable((string) $data->Credentials->Expiration),
+        $this->credentials = 0 === $data->Credentials->count() ? null : $this->populateResultCredentials($data->Credentials);
+        $this->subjectFromWebIdentityToken = (null !== $v = $data->SubjectFromWebIdentityToken[0]) ? (string) $v : null;
+        $this->assumedRoleUser = 0 === $data->AssumedRoleUser->count() ? null : $this->populateResultAssumedRoleUser($data->AssumedRoleUser);
+        $this->packedPolicySize = (null !== $v = $data->PackedPolicySize[0]) ? (int) (string) $v : null;
+        $this->provider = (null !== $v = $data->Provider[0]) ? (string) $v : null;
+        $this->audience = (null !== $v = $data->Audience[0]) ? (string) $v : null;
+        $this->sourceIdentity = (null !== $v = $data->SourceIdentity[0]) ? (string) $v : null;
+    }
+
+    private function populateResultAssumedRoleUser(\SimpleXMLElement $xml): AssumedRoleUser
+    {
+        return new AssumedRoleUser([
+            'AssumedRoleId' => (string) $xml->AssumedRoleId,
+            'Arn' => (string) $xml->Arn,
         ]);
-        $this->subjectFromWebIdentityToken = ($v = $data->SubjectFromWebIdentityToken) ? (string) $v : null;
-        $this->assumedRoleUser = !$data->AssumedRoleUser ? null : new AssumedRoleUser([
-            'AssumedRoleId' => (string) $data->AssumedRoleUser->AssumedRoleId,
-            'Arn' => (string) $data->AssumedRoleUser->Arn,
+    }
+
+    private function populateResultCredentials(\SimpleXMLElement $xml): Credentials
+    {
+        return new Credentials([
+            'AccessKeyId' => (string) $xml->AccessKeyId,
+            'SecretAccessKey' => (string) $xml->SecretAccessKey,
+            'SessionToken' => (string) $xml->SessionToken,
+            'Expiration' => new \DateTimeImmutable((string) $xml->Expiration),
         ]);
-        $this->packedPolicySize = ($v = $data->PackedPolicySize) ? (int) (string) $v : null;
-        $this->provider = ($v = $data->Provider) ? (string) $v : null;
-        $this->audience = ($v = $data->Audience) ? (string) $v : null;
-        $this->sourceIdentity = ($v = $data->SourceIdentity) ? (string) $v : null;
     }
 }

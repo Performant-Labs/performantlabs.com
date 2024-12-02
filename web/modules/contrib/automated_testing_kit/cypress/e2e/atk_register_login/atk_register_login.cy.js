@@ -15,9 +15,6 @@ import * as atkCommands from '../../support/atk_commands'; // eslint-disable-lin
 import * as atkUtilities from '../../support/atk_utilities';
 import atkConfig from '../../../cypress.atk.config';
 
-// Used to check for emails at the Ethereal fake SMTP service.
-import userEtherealAccount from '../../data/etherealUser.json';
-
 // Standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
@@ -25,22 +22,16 @@ import qaUserAccounts from '../../data/qaUsers.json';
 
 describe('User registration and login tasks.', () => {
   //
-  // Register the Ethereal user and confirm email reaches Ethereal.
+  // Register the created user.
   //
-  it('(ATK-CY-1000) Register with form and confirm email with Ethereal.', { tags: ['@ATK-CY-1000', '@register-login', '@alters-db', '@smoke'] }, () => {
+  it('(ATK-CY-1000) Register with form.', { tags: ['@ATK-CY-1000', '@register-login', '@alters-db', '@smoke'] }, () => {
     const testId = 'ATK-CY-1000'; // eslint-disable-line no-unused-vars
 
-    // Clean up user in case it exists.
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, ['--delete-content']);
-
-    // Ensure user is logged out.
-    cy.logOutViaUi();
-
-    // Begin registration. Use random string to identify user in Ethereal.email.
-    const extendedUserName = `${userEtherealAccount.userName}-${atkUtilities.createRandomString(6)}`;
+    // Begin registration.
+    const user = atkUtilities.createRandomUser();
     cy.visit(atkConfig.registerUrl).then(() => {
-      cy.get('#edit-mail').type(userEtherealAccount.userEmail);
-      cy.get('#edit-name').type(extendedUserName);
+      cy.get('#edit-mail').type(user.userEmail);
+      cy.get('#edit-name').type(user.userName);
       cy.get('#user-register-form > #edit-actions > #edit-submit').click();
     });
 
@@ -50,34 +41,6 @@ describe('User registration and login tasks.', () => {
     // Give the email some time to arrive.
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
-
-    // Check for registration email at Ethereal.
-    const sentArgs = {
-      userName: userEtherealAccount.userName,
-      userEmail: userEtherealAccount.userEmail,
-      userPassword: userEtherealAccount.userPassword,
-      longUserName: extendedUserName,
-    };
-
-    cy.origin('https://ethereal.email', { args: sentArgs }, ({
-      userEmail, userPassword, longUserName,
-    }) => {
-      cy.visit('/login');
-      cy.get('#address').type(userEmail);
-      cy.get('#password').type(userPassword);
-      cy.get('form > :nth-child(5) > .btn').click();
-      cy.contains(`Logged in as ${userEmail}`);
-
-      cy.visit('/messages', true);
-      cy.contains(`Messages for ${userEmail}`);
-
-      // There may be two emails, one for the user and one for the admin.
-      // Look for email in the first column and the username + userCode generated above
-      // in the second column that's the user email.
-      const toValue = `To: <${userEmail}>`;
-      const subjectValue = `Account details for ${longUserName}`;
-      cy.get('table tr').contains('td', toValue).parent().contains('td', subjectValue);
-    });
   });
 
   //
@@ -114,9 +77,9 @@ describe('User registration and login tasks.', () => {
   it('(ATK-CY-1020) Create user with Drush, delete by email.', { tags: ['@ATK-CY-1020', '@register-login', '@smoke', 'alters-db'] }, () => {
     const testId = 'ATK-CY-1020'; // eslint-disable-line no-unused-vars
 
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, [], ['--delete-content']);
-    cy.createUserWithUserObject(userEtherealAccount, []);
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, [], ['--delete-content']);
+    const user = atkUtilities.createRandomUser();
+    cy.createUserWithUserObject(user, []);
+    cy.deleteUserWithEmail(user.userEmail, [], ['--delete-content']);
   });
 
   //
@@ -125,9 +88,9 @@ describe('User registration and login tasks.', () => {
   it('(ATK-CY-1021) Create user with Drush, delete by UID.', { tags: ['@ATK-CY-1021', '@register-login', '@smoke', 'alters-db'] }, () => {
     const testId = 'ATK-CY-1021'; // eslint-disable-line no-unused-vars
 
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, [], ['--delete-content']);
-    cy.createUserWithUserObject(userEtherealAccount, []);
-    cy.getUidWithEmail(userEtherealAccount.userEmail).then((uid) => {
+    const user = atkUtilities.createRandomUser();
+    cy.createUserWithUserObject(user, []);
+    cy.getUidWithEmail(user.userEmail).then((uid) => {
       cy.deleteUserWithUid(uid, [], ['--delete-content']);
     });
   });
@@ -138,21 +101,12 @@ describe('User registration and login tasks.', () => {
   it('(ATK-CY-1030) Reset password.', { tags: ['@ATK-CY-1030', '@register-login', '@smoke'] }, () => {
     const testId = 'ATK-CY-1030'; // eslint-disable-line no-unused-vars
 
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, [], ['--delete-content']);
+    const user = atkUtilities.createRandomUser();
 
-    // Use random string to identify user in Ethereal.email.
-    const extendedUserName = `${userEtherealAccount.userName}-${atkUtilities.createRandomString(6)}`;
-
-    const resetAccount = {
-      userName: extendedUserName,
-      userEmail: userEtherealAccount.userEmail,
-      userPassword: userEtherealAccount.userEmail,
-      userRoles: [],
-    };
-    cy.createUserWithUserObject(resetAccount, []);
+    cy.createUserWithUserObject(user, []);
 
     cy.visit(atkConfig.resetPasswordUrl).then(() => {
-      cy.get('#edit-name').type(extendedUserName);
+      cy.get('#edit-name').type(user.userName);
       cy.get('#user-pass > #edit-actions > #edit-submit').click();
     });
 
@@ -163,32 +117,6 @@ describe('User registration and login tasks.', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000);
 
-    // Check for registration email at Ethereal.
-    const sentArgs = {
-      userEmail: userEtherealAccount.userEmail,
-      userPassword: userEtherealAccount.userPassword,
-      longUserName: extendedUserName,
-    };
-
-    cy.origin('https://ethereal.email', { args: sentArgs }, ({
-      userEmail, userPassword, longUserName,
-    }) => {
-      cy.visit('/login');
-      cy.get('#address').type(userEmail);
-      cy.get('#password').type(userPassword);
-      cy.get('form > :nth-child(5) > .btn').click();
-      cy.contains(`Logged in as ${userEmail}`);
-
-      cy.visit('/messages', true);
-      cy.contains(`Messages for ${userEmail}`);
-
-      // Look for email in the first column and the username + userCode generated above
-      // in the second column that's the user email.
-      const toValue = `To: <${userEmail}>`;
-      const subjectValue = `Replacement login information for ${longUserName}`;
-      cy.get('table tr').contains('td', toValue).parent().contains('td', subjectValue);
-    });
-
-    cy.deleteUserWithEmail(userEtherealAccount.userEmail, [], ['--delete-content']);
+    cy.deleteUserWithEmail(user.userEmail, [], ['--delete-content']);
   });
 });

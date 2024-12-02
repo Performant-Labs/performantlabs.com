@@ -29,7 +29,8 @@ function automated_testing_kit_preprocess_html(&$variables) {
  *
  * Provides media object ID.
  */
-function automated_testing_kit_preprocess_image(&$variables, $context) {
+function automated_testing_kit_preprocess_image(&$variables) {
+
   if (isset($variables['uri'])) {
     $filename = basename($variables['uri']);
 
@@ -40,7 +41,16 @@ function automated_testing_kit_preprocess_image(&$variables, $context) {
       ->getStorage('file')
       ->loadByProperties(['filename' => $filename]);
 
-    if ($file) {
+    if (count($file) == 0) {
+      // Strip the webp extension.
+      $filename = preg_replace('/\.webp$/', '', $filename);
+
+      $file = \Drupal::entityTypeManager()
+      ->getStorage('file')
+      ->loadByProperties(['filename' => $filename]);
+    }
+
+    if (count($file)) {
       $fileId = array_shift($file)->fid->value;
 
       // Array of Media entities.

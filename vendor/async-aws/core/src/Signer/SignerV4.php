@@ -317,7 +317,7 @@ class SignerV4 implements Signer
         $query = $request->getQuery();
 
         unset($query['X-Amz-Signature']);
-        if (!$query) {
+        if (empty($query)) {
             return '';
         }
 
@@ -330,6 +330,7 @@ class SignerV4 implements Signer
                 continue;
             }
 
+            // @phpstan-ignore argument.unresolvableType
             sort($values);
             foreach ($values as $value) {
                 $encodedQuery[] = rawurlencode($key) . '=' . rawurlencode($value);

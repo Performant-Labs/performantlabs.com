@@ -8,15 +8,12 @@
 
 /** ESLint directives */
 /* eslint-disable no-prototype-builtins */
-/* eslint-disable import/first */
-
-import { execSync } from 'child_process'
 
 // https://github.com/bahmutov/cypress-log-to-term
 import 'cypress-log-to-term/commands'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
-import atkConfig from '../../cypress.atk.config.js'
+import atkConfig from '../../cypress.atk.config'
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -48,7 +45,7 @@ Cypress.Commands.add('createUserWithUserObject', (user, roles = [], args = [], o
   options.push(`--mail='${user.userEmail}'`, `--password='${user.userPassword}'`)
   cy.log(`Attempting to create: ${user.userName}. `)
 
-  cy.execDrush(cmd, args, options).then((result) => {
+  cy.execDrush(cmd, args, options).then(() => {
     // TODO: Bring this in when execDrush reliably
     // returns results.
 
@@ -79,7 +76,7 @@ Cypress.Commands.add('createUserWithUserObject', (user, roles = [], args = [], o
  * @param {int} nid Node ID of item to delete.
  */
 Cypress.Commands.add('deleteNodeViaUiWithNid', (nid) => {
-  const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace("{nid}", nid)
+  const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace('{nid}', nid)
 
   // Delete a node page.
   cy.visit(nodeDeleteUrl)
@@ -89,9 +86,7 @@ Cypress.Commands.add('deleteNodeViaUiWithNid', (nid) => {
   cy.get('#edit-submit').click()
 
   // Adjust this confirmation to your needs.
-  cy.get('.messages--status').invoke('text').should('include', 'has been deleted.');
-
-  return
+  cy.get('.messages--status').invoke('text').should('include', 'has been deleted.')
 })
 
 /**
@@ -113,7 +108,7 @@ Cypress.Commands.add('deleteUserWithEmail', (email, options = []) => {
   options.push(`--mail='${email}'`)
   const cmd = 'user:cancel -y '
 
-  cy.execDrush(cmd, ['dummy'], ['--mail=' + email, '--delete-content'])
+  cy.execDrush(cmd, ['dummy'], [`--mail=${email}`, '--delete-content'])
 })
 
 /**
@@ -188,17 +183,18 @@ Cypress.Commands.add('execDrush', (cmd, args = [], options = []) => {
   const optionsString = options.join(' ')
   const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
 
+  cy.log(`Full command: ${command}`)
   // Pantheon needs special handling.
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
     return cy.execPantheonDrush(command) // Returns stdout (not wrapped).
-  } else {
-    cy.exec(command, { failOnNonZeroExit: false }).then((result) => {
-      output = result.stdout
-      cy.log('cy.exec result: ' + output)
-      return cy.wrap(output, {log: false})
-    })
   }
+
+  cy.exec(command, { failOnNonZeroExit: false }).then((result) => {
+    output = result.stdout
+    cy.log(`cy.exec result: ${output}`)
+    return cy.wrap(output, { log: false })
+  })
 })
 
 /**
@@ -215,7 +211,6 @@ Cypress.Commands.add('execPantheonDrush', (cmd) => {
 
   // Ask Terminus for SFTP command to send Drush to Pantheon.
   cy.exec(connectCmd, { failOnNonZeroExit: false }).then((result) => {
-    debugger
     const connections = JSON.parse(result.stdout)
     const sftpConnection = connections.sftp_command
     const envConnection = sftpConnection.replace('sftp -o Port=2222 ', '')
@@ -224,13 +219,28 @@ Cypress.Commands.add('execPantheonDrush', (cmd) => {
     // the cmd argument.
     const remoteCmd = `ssh -T ${envConnection} -p 2222 -o 'StrictHostKeyChecking=no' -o 'AddressFamily inet' '${cmd}'`
 
-    cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result) => {
-      let output = result.stdout
-      cy.log('cy.exec result: ' + output)
+    cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result2) => {
+      const output = result2.stdout
+      cy.log(`cy.exec result: ${output}`)
 
-      return cy.wrap(output, {log: false} )
+      return cy.wrap(output, { log: false })
     })
   })
+})
+
+/**
+ * Get selector by label.
+ *
+ * @param label {string} label.
+ * @return {Cypress.Chainable<HTMLElement>} input.
+ */
+Cypress.Commands.add('getByLabel', (label) => {
+  //cy.log('**getByLabel**')
+  cy.contains('label', label)
+    .invoke('attr', 'for')
+    .then((id) => {
+      cy.get(`#${id}`)
+    })
 })
 
 /**
@@ -247,28 +257,25 @@ function getDrushAlias() {
     cmd = 'drush '
   } else {
     // Fetch the Drush command appropriate to the operating mode.
-    cmd = atkConfig.drushCmd + ' '
+    cmd = `${atkConfig.drushCmd} `
   }
   return cmd
 }
 
 /**
  * Get Iframe body given an id.
+ *
+ * Get the iframe > document > body
+ * and retry until the body element is not empty
  */
-Cypress.Commands.add('getIframeBodyWithId', (iframeId) => {
-  // Get the iframe > document > body
-  // and retry until the body element is not empty
-  return (
-    cy
-      .get('iframe[id=mvActiveArea]')
-      .its('0.contentDocument.body')
-      .should('not.be.empty')
-      // Wraps “body” DOM element to allow
-      // chaining more Cypress commands, like “.find(...)”
-      // https://on.cypress.io/wrap
-      .then(cy.wrap, {log: false})
-  )
-})
+Cypress.Commands.add('getIframeBodyWithId', () =>
+  cy.get('iframe[id=mvActiveArea]')
+    .its('0.contentDocument.body')
+    .should('not.be.empty')
+    // Wraps “body” DOM element to allow
+    // chaining more Cypress commands, like “.find(...)”
+    // https://on.cypress.io/wrap
+    .then(cy.wrap, { log: false }))
 
 /**
  * Return the UID of a user given an email.
@@ -287,7 +294,8 @@ Cypress.Commands.add('getUidWithEmail', (email) => {
       for (const key in userJson) {
         if (userJson[key].hasOwnProperty('uid')) {
           const uidValue = userJson[key].uid
-          return cy.wrap(parseInt(uidValue), {log: false}) // Exit the loop once the mail property is found.
+          // Exit the loop once the mail property is found.
+          return cy.wrap(parseInt(uidValue, 10), { log: false })
         }
       }
     }
@@ -311,7 +319,8 @@ Cypress.Commands.add('getUsernameWithEmail', (email) => {
       for (const key in userJson) {
         if (userJson[key].hasOwnProperty('name')) {
           const nameValue = userJson[key].name
-          return cy.wrap(nameValue, {log: false}) // Exit the loop once the mail property is found.
+          // Exit the loop once the mail property is found.
+          return cy.wrap(nameValue, { log: false })
         }
       }
     }
@@ -324,15 +333,16 @@ Cypress.Commands.add('getUsernameWithEmail', (email) => {
  * @param {object} account JSON object; see structure of qaUserAccounts.json.
  */
 Cypress.Commands.add('logInViaForm', (account) => {
-  const logInUrl = atkConfig.logInUrl
+  const { logInUrl } = atkConfig
 
   Cypress.session.clearAllSavedSessions()
 
-  cy.session(account.userName, () => {
+  cy.session(
+    account.userName,
+    () => {
       cy.visit(logInUrl)
 
       // It is ok for the username to be visible in the Command Log.
-      // eslint-disable-next-line no-unused-expressions
       expect(account.userName, 'username was set').to.be.a('string').and.not.be.empty
 
       // But the password value should not be shown.
@@ -369,13 +379,19 @@ Cypress.Commands.add('logInViaForm', (account) => {
  * @param {integer} uid Drupal user id.
  */
 Cypress.Commands.add('logInViaUli', (uid) => {
-  if (uid === undefined) uid = 1
+  let useUid
+  if (uid === undefined) {
+    useUid = 1
+  } else {
+    useUid = uid
+  }
 
   Cypress.session.clearAllSavedSessions()
 
-  const cmd = `user:login --uid=${uid}`
+  const cmd = `user:login --uid=${useUid}`
+  const baseUrl = Cypress.config('baseUrl')
 
-  cy.execDrush(cmd, [], ['--uri=' + Cypress.config('baseUrl')]).then((result) => {
+  cy.execDrush(cmd, [], [`--uri=${baseUrl}`]).then((result) => {
     cy.visit(result)
   })
 })

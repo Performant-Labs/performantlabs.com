@@ -16,11 +16,6 @@ import * as atkCommands from '../../support/atk_commands';
 import * as atkUtilities from '../../support/atk_utilities'; // eslint-disable-line no-unused-vars
 import atkConfig from '../../../cypress.atk.config'; // eslint-disable-line no-unused-vars
 
-// Import file and parse XML.
-
-// Import email settings for Ethereal fake SMTP service.
-import userEtherealAccount from '../../data/etherealUser.json'; // eslint-disable-line no-unused-vars
-
 // Standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
 // Accounts module is enabled.
@@ -55,47 +50,88 @@ describe('Sitemap tests.', () => {
   // 1. Find Site ID of default sitemap (change for your installation).
   // 2. Fetch the 1.xml timestamp.
   // 3. Use drush xmlsitemap:regenerate to create new files.
-  // 4. Validate new files.
+  // 4. Compare timestamps.
   //
   it('(ATK-CY-1071) Regenerate sitemap files.', { tags: ['@ATK-CY-1071', '@xml-sitemap', '@smoke'] }, () => {
     const testId = 'ATK-CY-1071'; // eslint-disable-line no-unused-vars
     let siteId = null;
+    let filename = null;
+    let firstFileProps;
 
     //
-    // Step 1.
+    // Step 1. Identify the site ID.
     //
     cy.logInViaForm(qaUserAccounts.admin);
-    cy.visit('admin/config/search/xmlsitemap');
+    cy.visit(atkConfig.xmlSitemapUrl);
 
-    // Examine each row.
-    cy.get('table > tbody > tr').each(($row) => {
-      // Check if the first column contains 'http://default'.
-      if ($row.find('td:nth-child(1)').text() === 'http://default') {
-        // Get the text content of the second column in that row
-        siteId = $row.find('td:nth-child(2)').text();
-        return false; // This stops the .each() loop.
+    // Get and parse the base URL.
+    cy.url().then((baseUrl) => {
+      const match = baseUrl.match(/^(?:https?:\/\/)(?:[^@\/\n]+@)?(?:[^:\/\n]+)/);
+      if (!match) {
+        throw new Error(`Url is not parsed: ${baseUrl}`);
       }
+      return match[0];
+    }).as('trimmedBaseUrl');
 
-      //
-      // Step 2.
-      //
-      const firstSitemap = `sites/default/files/xmlsitemap/${siteId}/1.xml`; // eslint-disable-line no-unused-vars
+    // Find the site ID from the table.
+    cy.get('@trimmedBaseUrl').then((trimmedBaseUrl) => {
+      let foundSiteId = null;
 
-      // Capture the timestamp to ensure it changes.
-      const firstFileProps = JSON.parse(cy.execDrush(`fprop --format=json ${firstSitemap}`));
+      cy.get('table tr').each((tr) => {
+        if (tr.find('td:nth-child(1)').text().includes(trimmedBaseUrl)) {
+          foundSiteId = tr.find('td:nth-child(2)').text();
+          return false;
+        }
+      }).then(() => {
+        cy.wrap(foundSiteId).as('siteId');
+      });
+    });
 
-      //
-      // Step 3.
-      //
-      cy.execDrush('xmlsitemap:rebuild');
+    // Generate filename.
+    cy.get('@siteId').then((siteId) => {
+      const filename = `sites/default/files/xmlsitemap/${siteId}/1.xml`;
+      cy.wrap(filename).as('filename');
+    });
 
-      //
-      // Step 4.
-      //
-      const secondFileProps = JSON.parse(atkCommands.execDrush(`fprop --format=json ${firstSitemap}`));
-      const firstTime = firstFileProps[0].filemtime;
-      const secondTime = secondFileProps[0].filemtime;
-      expect(firstTime).not.toBe(secondTime);
+    //
+    // Step 2. Fetch the file properties for the sitemap xml file.
+    //
+    cy.get('@filename').then((filename) => {
+      cy.execDrush(`fprop --format=json ${filename}`).as('initialFileProps');
+    });
+
+    // Parse initial file properties.
+    cy.get('@initialFileProps').then((result) => {
+      cy.get('@filename').then((filename) => {
+        console.log(`**About to parse: ${filename}**`);
+        console.log(`**Text is: ${result}**`);
+        cy.wrap(JSON.parse(result)).as('firstFileProps');
+      });
+    });
+
+    //
+    // Step 3. Regenerate the sitemap files, which will change the timestamp.
+    //
+    cy.execDrush('xmlsitemap:rebuild');
+
+    //
+    // Step 4. Compare the timestamps. They should be different.
+    //
+    cy.get('@filename').then((filename) => {
+      cy.execDrush(`fprop --format=json ${filename}`).as('finalFileProps');
+    });
+
+    // Verify timestamps changed.
+    cy.get('@firstFileProps').then((firstFileProps) => {
+      cy.get('@finalFileProps').then((text) => {
+        const secondFileProps = JSON.parse(text);
+        const firstTime = firstFileProps[0].filemtime;
+        const secondTime = secondFileProps[0].filemtime;
+
+        expect(firstTime).not.to.be.undefined;
+        expect(secondTime).not.to.be.undefined;
+        expect(firstTime).not.to.eq(secondTime);
+      });
     });
   });
 
@@ -103,7 +139,5 @@ describe('Sitemap tests.', () => {
   // Regenerate sitemap files for SimpleSiteMap.
   // 1080 to 1089 reserved for Simple XML Sitemap (https://www.drupal.org/project/simple_sitemap) tests.
   //
-  it('(ATK-CY-1080)  Return # of sitemap files; fail if zero.', { tags: ['@ATK-CY-1080', '@xml-sitemap', '@smoke'] }, () => {
-    const testId = 'ATK-CY-1080'; // eslint-disable-line no-unused-vars
-  });
+
 });
