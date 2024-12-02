@@ -6,8 +6,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\layout_builder_kit\Plugin\Block\LBKBaseComponent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -20,9 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Rich Text (LBK)"),
  * )
  */
-class LBKRichText extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKRichText extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -134,18 +130,9 @@ class LBKRichText extends LBKBaseComponent implements ContainerFactoryPluginInte
   }
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_rich_text');
+  public function getPluginId() {
+    return 'lbk_rich_text';
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKRichText';
-  }
-
 }

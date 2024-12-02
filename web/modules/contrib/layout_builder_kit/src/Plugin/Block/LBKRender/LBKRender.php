@@ -9,8 +9,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\layout_builder_kit\Plugin\Block\LBKBaseComponent;
 use Drupal\media\Entity\Media;
@@ -25,9 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Render (LBK)"),
  * )
  */
-class LBKRender extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKRender extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -334,18 +330,9 @@ class LBKRender extends LBKBaseComponent implements ContainerFactoryPluginInterf
   }
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_render');
+  public function getPluginId() {
+    return 'lbk_render';
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKRender';
-  }
-
 }

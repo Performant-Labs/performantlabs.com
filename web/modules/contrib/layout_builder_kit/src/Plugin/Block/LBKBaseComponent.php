@@ -5,6 +5,7 @@ namespace Drupal\layout_builder_kit\Plugin\Block;
 use Drupal\Component\Transliteration\TransliterationInterface;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\Plugin\DataType\ConfigEntityAdapter;
@@ -36,7 +37,8 @@ use Symfony\Component\Routing\Route;
  *
  * @ingroup block_api
  */
-abstract class LBKBaseComponent implements BlockPluginInterface, PluginWithFormsInterface, PreviewFallbackInterface, ContainerFactoryPluginInterface {
+abstract class LBKBaseComponent extends BlockBase
+  implements BlockPluginInterface, PluginWithFormsInterface, PreviewFallbackInterface, ContainerFactoryPluginInterface {
 
   use ContextAwarePluginAssignmentTrait;
   use ContextAwarePluginTrait;
@@ -83,8 +85,6 @@ abstract class LBKBaseComponent implements BlockPluginInterface, PluginWithForms
     $this->setConfiguration($configuration);
     $this->currentRouteMatch = $currentRouteMatch;
     $this->entityTypeBundleInfo = $entityTypeBundleInfo;
-    $this->getPluginDefinition = $plugin_definition;
-    $this->getPluginId = $plugin_id;
   }
 
   /**
@@ -96,6 +96,7 @@ abstract class LBKBaseComponent implements BlockPluginInterface, PluginWithForms
     }
 
     $definition = $this->getPluginDefinition();
+
     // Cast the admin label to a string since it is an object.
     // @see \Drupal\Core\StringTranslation\TranslatableMarkup
     return (string) $definition['admin_label'];
@@ -128,7 +129,7 @@ abstract class LBKBaseComponent implements BlockPluginInterface, PluginWithForms
   protected function baseConfigurationDefaults() {
     return [
       'id' => $this->getPluginId(),
-      'provider' => $this->getPluginDefinition()['provider'],
+      'provider' => $this->pluginDefinition['provider'],
       'title' => '',
       'display_title' => TRUE,
       'classes' => '',
@@ -439,20 +440,5 @@ abstract class LBKBaseComponent implements BlockPluginInterface, PluginWithForms
 
     return $machineName;
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getPluginId() {
-    $definition = $this->getPluginDefinition();
-
-    // Cast the id to a string since it is an object.
-    return (string) $definition['id'];
-  }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getDerivativeId() {}
 
 }

@@ -7,19 +7,20 @@ use Drupal\Core\Config\ConfigManagerInterface;
 use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Field\FieldItemList;
+use Drupal\Core\Field\TypedData\FieldItemDataDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Plugin\Context\EntityContext;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\entity\BundleFieldDefinition;
+use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\field\FieldConfigInterface;
 use Drupal\file\Entity\File;
 use Drupal\layout_builder_kit\Plugin\Block\LBKBaseComponent;
 use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Tests\Core\Entity\EntityTypeBundleInfoTest;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\layout_builder\Plugin\SectionStorage\DefaultsSectionStorage;
@@ -28,6 +29,7 @@ use Drupal\Core\Entity\Plugin\DataType\ConfigEntityAdapter;
 use Drupal\Core\Entity\Plugin\DataType\EntityAdapter;
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
+use Drupal\Core\Field\FieldDefinition;
 
 /**
  * Provides a 'LBKVideo' block.
@@ -37,9 +39,7 @@ use Drupal\Core\Entity\EntityTypeBundleInfo;
  *  admin_label = @Translation("Video (LBK)"),
  * )
  */
-class LBKVideo extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKVideo extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -679,20 +679,4 @@ class LBKVideo extends LBKBaseComponent implements ContainerFactoryPluginInterfa
 
     return $machineName;
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_video');
-  }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKVideo';
-  }
-
 }

@@ -17,7 +17,6 @@
     }
   },
   "require": {
-    "drupal/default_content": "^2",
-    "drupal/hook_event_dispatcher": "^3"
+    "drupal/hook_event_dispatcher": "^4"
   }
 }

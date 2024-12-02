@@ -3,7 +3,7 @@
         'name' => 'drupal/recommended-project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '2f87d186f5e54de0d30eaf47beb5b8770fd8abbb',
+        'reference' => '76f4e8d2b812befdcbc5c82b2a98be6dc7341796',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -541,6 +541,15 @@
                 0 => '10.3.6',
             ),
         ),
+        'drupal/core_event_dispatcher' => array(
+            'pretty_version' => '4.2.0',
+            'version' => '4.2.0.0',
+            'reference' => null,
+            'type' => 'metapackage',
+            'install_path' => null,
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/ctools' => array(
             'pretty_version' => '4.1.0',
             'version' => '4.1.0.0',
@@ -768,6 +777,17 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/layout_builder_kit' => array(
+            'pretty_version' => 'dev-3.0.x',
+            'version' => 'dev-3.0.x',
+            'reference' => '1cbe38b2854fce622633472cf9a21b49d1782a2b',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/layout_builder_kit',
+            'aliases' => array(
+                0 => '3.0.x-dev',
+            ),
+            'dev_requirement' => false,
+        ),
         'drupal/layout_builder_modal' => array(
             'pretty_version' => '1.3.0',
             'version' => '1.3.0.0',
@@ -897,7 +917,7 @@
         'drupal/recommended-project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '2f87d186f5e54de0d30eaf47beb5b8770fd8abbb',
+            'reference' => '76f4e8d2b812befdcbc5c82b2a98be6dc7341796',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

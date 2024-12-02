@@ -8,8 +8,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Url;
 use Drupal\layout_builder_kit\LinkProviderInterface;
@@ -25,9 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Book Navigation (LBK)"),
  * )
  */
-class LBKBookNavigation extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKBookNavigation extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Routing\CurrentRouteMatch class.
@@ -228,7 +224,7 @@ class LBKBookNavigation extends LBKBaseComponent implements ContainerFactoryPlug
 
           $titleKeyParent = '';
           if ($node_parent) {
-            $titleKeyParent = $node_parent->title()->value;
+            $titleKeyParent = $node_parent->title->value;
           }
 
           $content['parent_title'] = $titleKeyParent;
@@ -304,18 +300,9 @@ class LBKBookNavigation extends LBKBaseComponent implements ContainerFactoryPlug
   }
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_book_navigation');
+  public function getPluginId() {
+    return 'lbk_book_navigation';
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKBookNavigation';
-  }
-
 }

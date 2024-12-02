@@ -2,14 +2,14 @@
 
 namespace Drupal\layout_builder_kit\Plugin\Block\LBKIconText;
 
+use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Config\ConfigManagerInterface;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
+use Drupal\Core\Url;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\file\Entity\File;
 use Drupal\layout_builder_kit\Plugin\Block\LBKBaseComponent;
@@ -23,9 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Icon Text (LBK)"),
  * )
  */
-class LBKIconText extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKIconText extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -141,9 +139,6 @@ class LBKIconText extends LBKBaseComponent implements ContainerFactoryPluginInte
     $text_format = (isset($this->configuration['icon_text_component_fields']['text']['format'])) ? $this->configuration['icon_text_component_fields']['text']['format'] : NULL;
     $text_value = (isset($this->configuration['icon_text_component_fields']['text']['value'])) ? $this->configuration['icon_text_component_fields']['text']['value'] : NULL;
 
-    // Disable cache to avoid errors with storing files in tempstore.
-    $formState->disableCache();
-
     $form['image'] = [
       '#type' => 'managed_file',
       '#title' => $this->t('Image'),
@@ -256,18 +251,9 @@ class LBKIconText extends LBKBaseComponent implements ContainerFactoryPluginInte
   }
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_icon_text');
+  public function getPluginId() {
+    return 'lbk_icon_text';
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKIconText';
-  }
-
 }

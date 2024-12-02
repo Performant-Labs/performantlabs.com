@@ -8,8 +8,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginInterface;
-use Drupal\Core\Plugin\ContextAwarePluginTrait;
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\file\Entity\File;
 use Drupal\layout_builder_kit\Plugin\Block\LBKBaseComponent;
@@ -23,9 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *  admin_label = @Translation("Image (LBK)"),
  * )
  */
-class LBKImage extends LBKBaseComponent implements ContainerFactoryPluginInterface, ContextAwarePluginInterface {
-
-  use ContextAwarePluginTrait;
+class LBKImage extends LBKBaseComponent implements ContainerFactoryPluginInterface {
 
   /**
    * Drupal\Core\Entity\EntityTypeManagerInterface definition.
@@ -133,10 +129,6 @@ class LBKImage extends LBKBaseComponent implements ContainerFactoryPluginInterfa
     $locationFolder = $locationFolderConfig->get('layout_builder_kit.image_location');
 
     $title_position = $this->configuration['image_component_fields']['title_position'] ? $this->configuration['image_component_fields']['title_position'] : 'title_on_top';
-
-    // Disable cache to avoid errors with storing files in tempstore.
-    $formState->disableCache();
-
     $form['title_position'] = [
       '#type' => 'select',
       '#title' => $this->t('Title position'),
@@ -268,23 +260,9 @@ class LBKImage extends LBKBaseComponent implements ContainerFactoryPluginInterfa
   }
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
-  public function getPluginDefinition() {
-    $pluginService = \Drupal::service('plugin.manager.block');
-    return $pluginService->getDefinition('lbk_image');
+  public function getPluginId() {
+    return 'lbk_image';
   }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getBaseId() {
-    return 'LBKImage';
-  }
-
-  /**
-   * {inheritdoc}
-   */
-  public function getDerivativeId() {}
-
 }

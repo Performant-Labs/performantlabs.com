@@ -1,0 +1,10 @@
+layout_builder_kit.settings:
+  type: config_entity
+  label: 'Layout Builder Kit Configuration'
+  mapping:
+    image_location:
+      type: string
+      label: 'Image Location'
+    image_extensions:
+      type: string
+      label: 'Image Extensions'
