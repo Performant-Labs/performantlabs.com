@@ -25,6 +25,10 @@ env:
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
 
+  # additional arguments to pass to `playwright test`.
+  # can be used to include/exclude tests, specify project ect.
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGT_ARG }}
+
   # for parallelization
   CI_THREADS: ${{ github.event.inputs.threads }}
 
@@ -146,7 +150,7 @@ jobs:
           cat playwright.config.js
 
       - name: Run Playwright tests
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
+        run: npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
