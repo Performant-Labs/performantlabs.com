@@ -1,4 +1,0 @@
-access layout builder kit components:
-  title: 'Administer Layout Builder Kit components.'
-  description: 'Allow access to Layout Builder Kit components.'
-  restrict access: true
