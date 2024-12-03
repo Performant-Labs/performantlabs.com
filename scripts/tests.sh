@@ -88,7 +88,11 @@ preview:use)
   fi
   SERVICE=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].service')
   URL=$(tugboat ls services preview=$PREVIEW --json | jq -r 'map(select(.name=="php"))[0].urls[0]')
+  if [[ "${URL: -1}" != "/" ]]; then
+    URL="$URL/"
+  fi
   sed -i '/tugboat/{n;s/isTarget: false/isTarget: true/}' playwright.atk.config.js
+  sed -i '/pantheon/{n;s/isTarget: true/isTarget: false/}' playwright.atk.config.js
   sed -i 's/service: "[^\"]*"/service: "'$SERVICE'"/g' playwright.atk.config.js
   sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $URL)"'/g" playwright.config.js
   ;;

@@ -21,12 +21,19 @@ export default function ({ type }) {
   try {
     report = getJsonFile('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
-    testMessage = `✅ ${passed} passed`;
-    if (passed < tests) {
-      testMessage = `❌ ${failed} failed | ${testMessage} | 🚫 ${skipped} skipped`;
+    const testMessageParts = [];
+    if (failed) {
+      testMessageParts.push(`❌ ${failed} failed`);
     }
+    if (passed) {
+      testMessageParts.push(`✅ ${passed} passed`);
+    }
+    if (skipped) {
+      testMessageParts.push(`🚫 ${skipped} skipped`);
+    }
+    testMessage = testMessageParts.join(` | `);
   } catch (_) {
-    testMessage = "🔴CTRF Report missing. Check workflow steps."
+    testMessage = "CTRF Report missing. Check workflow steps."
   }
 
   let testDurationMs = parseInt(process.env.JOB_DURATION);
@@ -81,6 +88,9 @@ export default function ({ type }) {
     }
   }
 
+  // Job status as returned by GitHub.
+  let jobStatus = process.env.JOB_STATUS || 'undefined';
+
   switch (type) {
     case 'subject':
       let mailsubjectPattern = process.env.MAIL_SUBJECT || '$JOB_NAME #$JOB_NUMBER $JOB_STATUS';
@@ -97,13 +107,14 @@ ${testDuration ? `<p>⏱${testDuration}</p>` : ''}
 <p><a href="${jobURL}">View workflow run</a></p>`;
 
     case 'slack':
+      let badge = jobStatus === 'success' ? '🟢' : '🔴';
       return {
         blocks: [
           {
             type: 'header',
             text: {
               type: 'plain_text',
-              text: `${jobName}${jobNumber ? ` #${jobNumber}` : ''}`
+              text: `${badge} ${jobName}${jobNumber ? ` #${jobNumber}` : ''}`
             }
           },
           {

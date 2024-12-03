@@ -33,30 +33,38 @@ test.skip('Sitemap tests.', () => {
   // Return # of sitemap files; fail if zero.
   //
   test('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
-    const testId = 'ATK-PW-1070'; // eslint-disable-line no-unused-vars
-    const fileName = 'sitemap.xml';
+    const testId = 'ATK-PW-1070' // eslint-disable-line no-unused-vars
+    const fileName = 'sitemap.xml'
 
     // Fetch file.
-    await page.goto(baseUrl);
-    const targetUrl = new URL(fileName, baseUrl).toString();
+    await page.goto(baseUrl)
+    const targetUrl = baseUrl + fileName
+
+    // Create a custom Axios instance with SSL verification disabled
+    const axiosInstance = axios.create({
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+      }),
+    })
 
     // If there isn't at least one sitemap, this will fail.
-    const response = await axios.get(targetUrl);
+    const response = await axiosInstance.get(targetUrl)
 
     // Uncomment and use with parse() below to test multi-part sitemaps.
     // let tempVal = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>http://example.com/sitemap1.xml</loc><lastmod>2023-01-01T00:00:00+00:00</lastmod></sitemap><sitemap><loc>http://example.com/sitemap2.xml</loc><lastmod>2023-01-01T00:00:00+00:00</lastmod></sitemap></sitemapindex>'
 
-    const parser = new XMLParser();
-    const jsonObj = parser.parse(response.data);
+    const parser = new XMLParser()
+    const jsonObj = parser.parse(response.data)
 
-    let sitemapCount = 1;
+    let sitemapCount = 1
     try {
       // If there is just one sitemap file, this will fail.
-      sitemapCount = jsonObj.sitemapindex.sitemap.length;
+      // Is the module enabled and cron has run?
+      sitemapCount = jsonObj.sitemapindex.sitemap.length
     } catch (error) {}
 
-    console.log(`Total sitemap files: ${sitemapCount}`); // eslint-disable-line no-console
-  });
+    console.log(`Total sitemap files: ${sitemapCount}`) // eslint-disable-line no-console
+  })
 
   //
   // Regenerate sitemap files.
@@ -66,46 +74,51 @@ test.skip('Sitemap tests.', () => {
   // 4. Validate new files.
   //
   test('(ATK-PW-1071) Regenerate sitemap files. @ATK-PW-1071 @xml-sitemap @smoke', async ({ page, context }) => {
-    const testId = 'ATK-PW-1071'; // eslint-disable-line no-unused-vars
-    const fileName = 'sitemap.xml'; // eslint-disable-line no-unused-vars
+    const testId = 'ATK-PW-1071' // eslint-disable-line no-unused-vars
+    const fileName = 'sitemap.xml' // eslint-disable-line no-unused-vars
 
     //
     // Step 1.
     //
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
-    await page.goto(`admin/config/search/xmlsitemap`);
+    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+    await page.goto(baseUrl + atkConfig.xmlSitemapUrl)
 
-    // Find the row where the first column contains 'http://default'.
-    const row = await page.$('table tr:has(td:first-child:has-text("http://default"))');
+    // Find the row where the first column contains the baseUrl.
+
+    // URL is live URL for all environments.
+    const trimmedBaseUrl = 'https://performantlabs.com'
+    const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
+    const rowLocator = await page.locator(searchText)
 
     // Get the text content of the second column in that row
-    const siteId = await row.$eval('td:nth-child(2)', (el) => el.textContent);
+    // const siteId = await rowLocator.$eval('td:nth-child(2)', (el) => el.textContent);
+    const siteId = await rowLocator.locator('td:nth-child(2)').textContent()
 
     //
     // Step 2.
     //
-    const firstSitemap = `sites/default/files/xmlsitemap/${siteId}/1.xml`;
-    const drushFull = `fprop --format=json ${firstSitemap}`;
+    const firstSitemap = `sites/default/files/xmlsitemap/${siteId}/1.xml`
+    const drushFull = `fprop --format=json ${firstSitemap}`
 
     // Capture the timestamp to ensure it changes.
-    const firstFileProps = JSON.parse(atkCommands.execDrush(drushFull));
+    const firstFileProps = JSON.parse(atkCommands.execDrush(drushFull))
 
     //
     // Step 3.
     //
-    atkCommands.execDrush('xmlsitemap:rebuild');
+    atkCommands.execDrush('xmlsitemap:rebuild')
 
     //
     // Step 4.
     //
-    const secondFileProps = JSON.parse(atkCommands.execDrush(`fprop --format=json ${firstSitemap}`));
-    const firstTime = firstFileProps[0].filemtime;
-    const secondTime = secondFileProps[0].filemtime;
-    expect(firstTime).not.toBe(secondTime);
-  });
+    const secondFileProps = JSON.parse(atkCommands.execDrush(`fprop --format=json ${firstSitemap}`))
+    const firstTime = firstFileProps[0].filemtime
+    const secondTime = secondFileProps[0].filemtime
+    expect(firstTime).not.toEqual(secondTime)
+  })
 
   //
   // Regenerate sitemap files for SimpleSiteMap.
   // 1080 to 1089 reserved for Simple XML Sitemap (https://www.drupal.org/project/simple_sitemap) tests.
   //
-});
+})
