@@ -34,7 +34,7 @@ test.describe('User tests.', () => {
     atkCommands.createUserWithUserObject(user, [])
     atkCommands.deleteUserWithUserName(user.userName, [], ['--delete-content'])
     // TODO: how is this supposed to work?
-    // expect(output, 'Command output [See stdout attached].').toBeTruthy()
+    expect(output, 'Command output [See stdout attached].').toBeTruthy()
   })
 
   //
@@ -47,6 +47,6 @@ test.describe('User tests.', () => {
     const uid = atkCommands.createUserWithUserObject(user, [])
     atkCommands.deleteUserWithUid(uid)
     // TODO: how is this supposed to work?
-    // expect(output, 'Command output [See stdout attached].').toBeTruthy()
+    expect(output, 'Command output [See stdout attached].').toBeTruthy()
   })
 })
