@@ -266,6 +266,7 @@ function execDrush(cmd, args = [], options = []) {
     return execTugboatDrush(command)
   } else {
     try {
+      console.log('execDrush cmd: ' + command)
       // output = execSync(command, { shell: 'bin/bash'}).toString()
       output = execSync(command).toString()
 
@@ -291,6 +292,7 @@ function execPantheonDrush(cmd) {
   // Construct the Terminus command. Remove "drush" from argument.
   const remoteCmd = `terminus remote:drush ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} -- ${cmd.substring(5)}`
 
+  console.log('execPantheonDrush cmd: ' + remoteCmd)
   result = ''
   try {
     result = execSync(remoteCmd)
@@ -305,6 +307,7 @@ function execPantheonDrush(cmd) {
 function execTugboatDrush(cmd) {
   const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${cmd}"`
 
+  console.log('execTugboatDrush cmd: ' + remoteCmd)
   let result;
   result = ''
   try {
