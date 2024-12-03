@@ -31,7 +31,7 @@ export default {
   dataDir: "tests/data",
   supportDir: "tests/support",
   testDir: "tests",
-  pantheon : {
+  pantheon: {
     isTarget: true,
     site: "performant-labs",
     environment: "dev"
