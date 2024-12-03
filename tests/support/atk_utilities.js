@@ -27,7 +27,7 @@ function createRandomUser() {
   const name1 = createRandomString(6)
   const name2 = createRandomString(6)
   return {
-    userName: `${name1} ${name2}`,
+    userName: `${name1}.${name2}`,
     userEmail: `${name1.toLowerCase()}.${name2.toLowerCase()}@ethereal.email`,
     userPassword: createRandomString(18),
     userRoles: [],
