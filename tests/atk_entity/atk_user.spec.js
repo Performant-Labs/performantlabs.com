@@ -44,8 +44,7 @@ test.describe('User tests.', () => {
     const testId = 'ATK-PW-1101' // eslint-disable-line no-unused-vars
 
     const user = atkUtilities.createRandomUser()
-    atkCommands.createUserWithUserObject(user, [])
-    const uid = atkCommands.getUidWithEmail(user.userEmail)
+    const uid = atkCommands.createUserWithUserObject(user, [])
     atkCommands.deleteUserWithUid(uid)
     // TODO: how is this supposed to work?
     // expect(output, 'Command output [See stdout attached].').toBeTruthy()

@@ -114,7 +114,7 @@ test.skip('User registration and login tasks.', () => {
       userPassword: atkData.etherealUser.userPassword,
       userRoles: [],
     };
-    await atkCommands.createUserWithUserObject(resetAccount, []);
+    const uid = await atkCommands.createUserWithUserObject(resetAccount, []);
 
     // Begin registration.
     await page.goto(atkConfig.resetPasswordUrl);
@@ -154,7 +154,6 @@ test.skip('User registration and login tasks.', () => {
     const subjectValue = `Replacement login information for ${extendedUserName}`;
     await expect(page.getByRole('row', { name: `${toValue} ${subjectValue}` })).toBeVisible;
 
-    const uid = await atkCommands.getUidWithEmail(atkData.etherealUser.userEmail);
     await atkCommands.deleteUserWithUid(uid, [], ['--delete-content']);
   });
 });
