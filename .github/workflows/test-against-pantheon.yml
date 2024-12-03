@@ -150,7 +150,7 @@ jobs:
           cat playwright.config.js
 
       - name: Run Playwright tests
-        run: npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
+        run: eval npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
