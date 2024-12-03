@@ -41,9 +41,9 @@ if (isShard) {
     buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }]);
-  let target = process.env.ATK_REPORT_TARGET;
-  if (target) {
-    for (let target of target.split(',')) {
+  let alltarget = process.env.ATK_REPORT_TARGET;
+  if (alltarget) {
+    for (let target of alltarget.split(',')) {
       if (target in reporterMap) {
         reporter.push(reporterMap[target]);
       } else {
