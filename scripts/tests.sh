@@ -92,6 +92,7 @@ preview:use)
     URL="$URL/"
   fi
   sed -i '/tugboat/{n;s/isTarget: false/isTarget: true/}' playwright.atk.config.js
+  sed -i '/pantheon/{n;s/isTarget: true/isTarget: false/}' playwright.atk.config.js
   sed -i 's/service: "[^\"]*"/service: "'$SERVICE'"/g' playwright.atk.config.js
   sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $URL)"'/g" playwright.config.js
   ;;
