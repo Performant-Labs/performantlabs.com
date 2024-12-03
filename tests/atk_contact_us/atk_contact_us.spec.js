@@ -51,6 +51,6 @@ test.describe('Contact Us tests.', () => {
 
     // Check for presence of random string.
     // Part A passes: the submission appears.
-    await expect(page.getByText(user.userName)).toBeVisible()
+    await expect(page.getByText(user.userName, { exact: true })).toBeVisible()
   })
 })
