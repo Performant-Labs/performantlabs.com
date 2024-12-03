@@ -10,7 +10,7 @@ env:
 
   # additional arguments to pass to `playwright test`.
   # can be used to include/exclude tests, specify project ect.
-  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGT_ARG }}
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGHT_ARG }}
 
   # for reporting
   JOB_NAME: ${{ github.workflow }}
