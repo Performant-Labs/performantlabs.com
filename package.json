@@ -14,7 +14,7 @@
     "get-port": "^7.1",
     "lighthouse": "^12.1",
     "nodemailer": "^6.9",
-    "playwright-ctrf-json-reporter": "^0.0.14",
+    "playwright-ctrf-json-reporter": "^0.0.18",
     "playwright-lighthouse": "^4.0",
     "slack-ctrf": "^0.0"
   },
