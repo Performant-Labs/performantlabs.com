@@ -67,14 +67,8 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? parseInt(process.env.CI_THREADS) || 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI_SHARDING ? 'blob' : [
-    ['html'],
-    ['playwright-ctrf-json-reporter', {
-      buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
-      buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
-      buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }]
-  ],
+  reporter: reporter,
+  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
