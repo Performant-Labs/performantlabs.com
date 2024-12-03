@@ -30,6 +30,7 @@ import { baseUrl } from './atk_data.js';
  * @param {array} roles Array of string roles to pass to Drush (machine names).
  * @param {array} args Array of string arguments to pass to Drush.
  * @param {array} options Array of string options to pass to Drush.
+ * @returns {number} uid
  */
 function createUserWithUserObject(user, roles = [], args = [], options = []) {
   let cmd = 'user:create '
@@ -45,20 +46,12 @@ function createUserWithUserObject(user, roles = [], args = [], options = []) {
   }
 
   args.unshift(`'${user.userName}'`)
-  options.push(`--mail='${user.userEmail}'`, `--password='${user.userPassword}'`)
+  options.push(`--mail='${user.userEmail}'`, `--password='${user.userPassword}' --format=json`)
 
   // Uncomment for debugging.
   // console.log(`Attempting to create: ${user.userName}. `)
 
-  execDrush(cmd, args, options)
-
-  // TODO: Bring this in when execDrush reliably
-  // returns results.
-
-  // Get the UID, if present.
-  // const pattern = '/Created a new user with uid ([0-9]+)/g'
-
-  // let uid = result.match(pattern)
+  const result = execDrush(cmd, args, options)
 
   // Attempt to add the roles.
   // Role(s) may come from the user object or the function arguments.
@@ -75,6 +68,15 @@ function createUserWithUserObject(user, roles = [], args = [], options = []) {
     // Uncomment for debugging.
     // console.log(`${role}: If role exists, role assigned to the user ${user.userName}`)
   })
+
+  // Following workaround is for tugboat envs.
+  // Tugboat has limited support of command line execution,
+  // specifically, it mixes stdout and stderr.
+  // Change output to filter out messages from   stderr.
+  const cr = result.replace(/^[^{]*/,'')
+
+  // Get the UID, if present.
+  return getUidFromUserObject(cr)
 }
 
 /**
@@ -295,7 +297,7 @@ function execPantheonDrush(cmd) {
   console.log('execPantheonDrush cmd: ' + remoteCmd)
   result = ''
   try {
-    result = execSync(remoteCmd)
+    result = execSync(remoteCmd).toString()
     console.log("execPantheonDrush result: " + result)
   } catch (error) {
     console.error(`execPantheonDrush error: ${error}`)
@@ -311,7 +313,7 @@ function execTugboatDrush(cmd) {
   let result;
   result = ''
   try {
-    result = execSync(remoteCmd)
+    result = execSync(remoteCmd).toString()
     console.log('execTugboatDrush result: ' + result)
   } catch (e) {
     console.log('execTugboatDrush error: ' + e)
@@ -356,16 +358,7 @@ function getDrushAlias() {
   return cmd
 }
 
-/**
- * Return the UID of a user given an email.
- *
- * @param {string} email Email of the account.
- * @returns {number} UID of user.
- */
-function getUidWithEmail(email) {
-  const cmd = `user:info --mail=${email} --format=json`
-
-  const result = execDrush(cmd)
+function getUidFromUserObject(result) {
   if (result) {
     // Fetch uid from json object, if present.
     const userJson = JSON.parse(result)
@@ -377,6 +370,19 @@ function getUidWithEmail(email) {
       }
     }
   }
+}
+
+/**
+ * Return the UID of a user given an email.
+ *
+ * @param {string} email Email of the account.
+ * @returns {number} UID of user.
+ */
+function getUidWithEmail(email) {
+  const cmd = `user:info --mail=${email} --format=json`
+
+  const result = execDrush(cmd)
+  return getUidFromUserObject(result);
 }
 
 /**
