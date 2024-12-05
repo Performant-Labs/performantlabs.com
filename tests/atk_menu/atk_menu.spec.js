@@ -7,23 +7,22 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
-import * as atkCommands from '../support/atk_commands'
-import * as atkUtilities from '../support/atk_utilities'
+import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
+import * as atkCommands from '../support/atk_commands';
+
+import playwrightConfig from '../../playwright.config';
+
+// Import ATK Configuration.
+import atkConfig from '../../playwright.atk.config';
+
+const baseUrl = playwrightConfig.use.baseURL;
+
+// Import ATK data.
+import * as atkData from '../support/atk_data.js';
+
 
 // Set up Playwright.
-const { test } = require('@playwright/test')
-
-import playwrightConfig from '../../playwright.config'
-
-const baseUrl = playwrightConfig.use.baseURL
-
-// Import ATK configuration.
-import atkConfig from '../../playwright.atk.config'
-
-// Standard accounts that use user accounts created
-// by QA Accounts. QA Accounts are created when the QA
-// Accounts module is enabled.
-import qaUserAccounts from '../data/qaUsers.json'
+import { expect, test } from '@playwright/test';
 
 test.describe('Menu tests.', () => {
   //
@@ -37,7 +36,7 @@ test.describe('Menu tests.', () => {
     //
     // Log in with the administrator account.
     //
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin)
 
     //
     // Begin menu item creation.
@@ -50,7 +49,7 @@ test.describe('Menu tests.', () => {
 
     // Verify the menu item was created by checking its presence.
     await page.goto(baseUrl)
-    await page.locator(`text=${menuItemTitle}`).waitFor() // Ensure it's visible.
+    await expect(page.locator('.nav-link', { hasText: menuItemTitle })).toBeVisible() // Ensure it's visible.
 
     //
     // Navigate to the menu management page to determine the menu id.

@@ -8,6 +8,10 @@ env:
   CI_THREADS: 2
   CI_SHARDS: 3
 
+  # additional arguments to pass to `playwright test`.
+  # can be used to include/exclude tests, specify project ect.
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGHT_ARG }}
+
   # for reporting
   JOB_NAME: ${{ github.workflow }}
   JOB_NUMBER: ${{ github.run_number }}
@@ -101,13 +105,13 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/$CI_SHARDS
+        run: eval npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/$CI_SHARDS
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -141,7 +145,7 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - uses: actions/download-artifact@v4
         with:
