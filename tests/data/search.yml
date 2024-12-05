@@ -1,0 +1,14 @@
+# Test cases for the simple search.
+simple:
+  - keyword: 'good happy beauty'
+    results:
+      - 'Futurama'
+# Test cases for the advanced search at /search/node.
+advanced:
+  - any: 'playwright'
+    phrase: ''
+    none: ''
+    types: []
+    languages: []
+    results:
+      - 'Running tests'

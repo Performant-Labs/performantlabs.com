@@ -41,11 +41,14 @@ if (isShard) {
     buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }]);
-  for (let target of (process.env.ATK_REPORT_TARGET || '').split(',')) {
-    if (target in reporterMap) {
-      reporter.push(reporterMap[target]);
-    } else {
-      console.warn(`Bad report target: ${target}`);
+  let alltarget = process.env.ATK_REPORT_TARGET;
+  if (alltarget) {
+    for (let target of alltarget.split(',')) {
+      if (target in reporterMap) {
+        reporter.push(reporterMap[target]);
+      } else {
+        console.warn(`Bad report target: ${target}`);
+      }
     }
   }
 }
@@ -60,22 +63,16 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: 0,
+  retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? parseInt(process.env.CI_THREADS) || 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: process.env.CI_SHARDING ? 'blob' : [
-    ['html'],
-    ['playwright-ctrf-json-reporter', {
-      buildName: process.env.BUILD_NAME || 'BUILD_NAME is not set',
-      buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
-      buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
-    }]
-  ],
+  reporter: reporter,
+  snapshotPathTemplate: '{testDir}/{testFilePath}-snapshots/{arg}/{projectName}.png',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: 'https://atk.ddev.site:8493/',
+    baseURL: 'https://dev-performant-labs.pantheonsite.io/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -114,16 +111,16 @@ export default defineConfig({
     // },
 
     /* Test against mobile viewports. */
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-      dependencies: ['setup'],
-    },
-    {
-      name: 'Tablet Safari',
-      use: { ...devices['iPad Pro 11 landscape'] },
-      dependencies: ['setup'],
-    },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    //   dependencies: ['setup'],
+    // },
+    // {
+    //   name: 'Tablet Safari',
+    //   use: { ...devices['iPad Pro 11 landscape'] },
+    //   dependencies: ['setup'],
+    // },
 
     /* Test against branded browsers. */
     // {

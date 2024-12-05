@@ -10,7 +10,7 @@ on:
           - dev
           - test
           - live
-        default: dev
+        default: live
       multienv:
         description: Other environment (for multi-environment setup)
         required: false
@@ -21,9 +21,16 @@ on:
         description: Shard count
         default: 3
 
+  schedule:
+    - cron: "57 23 * * *"
+
 env:
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ github.event.inputs.multienv || github.event.inputs.env }}
+
+  # additional arguments to pass to `playwright test`.
+  # can be used to include/exclude tests, specify project ect.
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGHT_ARG }}
 
   # for parallelization
   CI_THREADS: ${{ github.event.inputs.threads }}
@@ -94,7 +101,7 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -146,7 +153,7 @@ jobs:
           cat playwright.config.js
 
       - name: Run Playwright tests
-        run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
+        run: eval npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/${{ github.event.inputs.shards }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -176,7 +183,7 @@ jobs:
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
-        run: npm ci
+        run: npm i
 
       - uses: actions/download-artifact@v4
         with:
