@@ -8,7 +8,7 @@
     "allure-commandline": "^2.29.0",
     "allure-playwright": "^3.0.0-beta.7",
     "axe-html-reporter": "^2.2.3",
-    "axios": "^1.7.2",
+    "axios": "^1.7.9",
     "csv": "^6.3.10",
     "dotenv": "^16.4.5",
     "fast-xml-parser": "^4.4.0",
