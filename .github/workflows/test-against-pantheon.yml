@@ -10,7 +10,7 @@ on:
           - dev
           - test
           - live
-        default: dev
+        default: live
       multienv:
         description: Other environment (for multi-environment setup)
         required: false
@@ -20,6 +20,9 @@ on:
       shards:
         description: Shard count
         default: 3
+
+  schedule:
+    - cron: "57 23 * * *"
 
 env:
   PANTHEON_SITE_NAME: 'performant-labs'
