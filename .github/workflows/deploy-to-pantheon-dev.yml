@@ -160,8 +160,10 @@ jobs:
       - name: Add and commit then deploy to Pantheon.
         run: |
           cd "$PANTHEON_REPO_DIR"
-          echo "Adding even .gitignored files."
-          git add --force -A .
+          #echo "Adding even .gitignored files."
+          #git add --force -A .
+          echo "Adding changed files."
+          git add -A .
           git commit -q -m "Build assets for $PANTHEON_SITE_NAME.$PANTHEON_ENV."
           echo "Pushing build to Pantheon."
           git push --force pantheon master
