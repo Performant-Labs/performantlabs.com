@@ -72,6 +72,7 @@ jobs:
 
       - name: Occasionally the write permission is missing.
         run: |
+          echo "Setting +x to vendor/bin/drush and vendor/bin/drush.php."
           chmod +x vendor/bin/drush vendor/bin/drush.php
           cd vendor/bin
           ls -la
