@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'drupal/recommended-project',
-        'pretty_version' => 'dev-IL/all-tests',
-        'version' => 'dev-IL/all-tests',
-        'reference' => 'e5936e1f4778c536b141260299751d23f22dd7d1',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '2d74c4e55e4aca42249037ac009a16c06b25cc13',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -913,9 +913,9 @@
             'dev_requirement' => false,
         ),
         'drupal/recommended-project' => array(
-            'pretty_version' => 'dev-IL/all-tests',
-            'version' => 'dev-IL/all-tests',
-            'reference' => 'e5936e1f4778c536b141260299751d23f22dd7d1',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '2d74c4e55e4aca42249037ac009a16c06b25cc13',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
