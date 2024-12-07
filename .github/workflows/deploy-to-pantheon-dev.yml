@@ -167,6 +167,7 @@ jobs:
           touch vendor/bin/drush.php
           git add -f vendor/bin/drush.php
           git config core.fileMode false
+          git ls-tree HEAD vendor/bin/drush
           git add --force -A .
 
           echo "Show files that are about to be committed."
