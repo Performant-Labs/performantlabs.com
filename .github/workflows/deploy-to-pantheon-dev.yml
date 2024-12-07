@@ -162,8 +162,8 @@ jobs:
           cd "$PANTHEON_REPO_DIR"
           echo "Adding even .gitignored files."
           git add --force -A .
-          #echo "Adding changed files."
-          #git add -A .
+          # Force add drush.php to include a version with the execute flag set.
+          git add -f vendor/bin/drush.php
           git commit -q -m "Build assets for $PANTHEON_SITE_NAME.$PANTHEON_ENV."
           echo "Pushing build to Pantheon."
           git push --force pantheon master
