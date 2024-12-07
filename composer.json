@@ -364,7 +364,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/console-extend-plugin": true,
-            "cweagans/composer-patches": true
+            "cweagans/composer-patches": true,
+            "tbachert/spi": true
         }
     },
     "scripts": {
