@@ -168,9 +168,6 @@ jobs:
           #git add -f vendor/bin/drush.php
           #git config core.fileMode false
           #git ls-tree HEAD vendor/bin/drush
-
-          echo "Clearing out all of vendor."
-          rm -Rf vendor
           git add --force -A .
 
           echo "Show files that are about to be committed."
