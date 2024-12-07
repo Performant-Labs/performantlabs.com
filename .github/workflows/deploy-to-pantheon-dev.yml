@@ -164,6 +164,7 @@ jobs:
           # Force add drush.php to include a version with the execute flag set.
           # Tell git to care about permissions for just this file.
           git config core.fileMode true
+          touch vendor/bin/drush.php
           git add -f vendor/bin/drush.php
           git config core.fileMode false
           git add --force -A .
