@@ -118,7 +118,6 @@ jobs:
           git init
           git config user.email "$GIT_EMAIL"
           git config user.name "CI Bot"
-          git config core.fileMode false
           echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
           git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
 
@@ -163,7 +162,10 @@ jobs:
 
           echo "Adding files."
           # Force add drush.php to include a version with the execute flag set.
+          # Tell git to care about permissions for just this file.
+          git config core.fileMode true
           git add -f vendor/bin/drush.php
+          git config core.fileMode false
           git add --force -A .
 
           echo "Show files that are about to be committed."
@@ -175,7 +177,7 @@ jobs:
 
           echo "Push complete."
 
-      - name: Wait the deploy to complete
+      - name: Wait for the deploy to complete.
         run: |
           terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
 
