@@ -160,15 +160,19 @@ jobs:
       - name: Add and commit then deploy to Pantheon.
         run: |
           cd "$PANTHEON_REPO_DIR"
+
           echo "Adding files."
-          git add --force -A .
           # Force add drush.php to include a version with the execute flag set.
           git add -f vendor/bin/drush.php
+          git add --force -A .
+
           echo "Show files that are about to be committed."
           git status
           git commit -q -m "Build assets for $PANTHEON_SITE_NAME.$PANTHEON_ENV."
+
           echo "Pushing build to Pantheon."
           git push --force pantheon master
+
           echo "Push complete."
 
       - name: Wait the deploy to complete
