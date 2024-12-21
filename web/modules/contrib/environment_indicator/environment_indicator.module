@@ -16,13 +16,27 @@ use Drupal\environment_indicator\ToolbarHandler;
 function environment_indicator_help($route_name, RouteMatchInterface $route_match) {
   $permissions_url = Url::fromRoute('user.admin_permissions', [], ['fragment' => 'module-environment_indicator'])->toString();
   $settings_url = Url::fromRoute('environment_indicator.settings')->toString();
+  // Define reusable variables for common strings and links.
+  $access_permission_text = t('The Environment Indicator\'s visibility depends upon the permissions of the viewer. The <a href=":permissions">access environment indicator</a> permission must be enabled for a user role in order for users of that role to see the indicator.', [':permissions' => $permissions_url]);
+  $deployment_identifier_info = '<p>' . t('<strong>Deployment Identifier:</strong> The deployment identifier mechanism is provided by Drupal core and is used by various hosting providers. It is a string that can be used to identify a particular deployment of your site. This is useful for identifying the specific code or configuration version currently deployed. The deployment identifier can be set in the <code>settings.php</code> file or through other mechanisms in your deployment process.') . '</p>';
+  $version_identifier_info = '<p>' . t('<strong>Source of Version Identifier to Display:</strong> You can configure the source of the version identifier to display in the environment indicator through the <a href=":settings">settings page</a>. The available options are:', [
+    ':settings' => $settings_url,
+  ]) . '</p>';
+  $version_identifier_info .= '<ul>';
+  $version_identifier_info .= '<li><strong>' . t('Environment Indicator Current Release (Default):') . '</strong> ' . t('Set the "environment_indicator.current_release" state using Drush: <code>drush sset environment_indicator.current_release v1.2.44</code>.') . '</li>';
+  $version_identifier_info .= '<li><strong>' . t('Deployment Identifier:') . '</strong> ' . t('Typically set in the <code>settings.php</code> file or through your deployment process.') . '</li>';
+  $version_identifier_info .= '<li><strong>' . t('Drupal Version:') . '</strong> ' . t('Displays the current Drupal version.') . '</li>';
+  $version_identifier_info .= '<li><strong>' . t('None:') . '</strong> ' . t('No version identifier is displayed.') . '</li>';
+  $version_identifier_info .= '</ul>';
+  $fallback_identifier_info = '<p>' . t('<strong>Fallback Source of Version Identifier to Display:</strong> Configure a fallback source for the version identifier to ensure version information is always available. Selecting "none" for the primary source disallows a fallback source.') . '</p>';
+
   switch ($route_name) {
     case 'environment_indicator.settings':
       $output = '<p>' . t('The Environment Indicator adds a coloured strip to the site informing you which environment you are currently in (Development, Staging, Production, etc.)') . '</p>';
-      $output .= '<p>' . t('The Environment Indicator\'s visibility depends upon the permissions of the viewer. The <a href=":permissions">access environment indicator</a> permission must be enabled for a user role in order for users of that role to see the indicator.', [
-        ':permissions' => $permissions_url,
-      ]) . '</p>';
-      $output .= '<p>' . t('The recommended way to add information about your release is to set the "environment_indicator.current_release" state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
+      $output .= '<p>' . $access_permission_text . '</p>';
+      $output .= $version_identifier_info;
+      $output .= $fallback_identifier_info;
+      $output .= $deployment_identifier_info;
       return $output;
 
     case 'entity.environment_indicator.collection':
@@ -31,9 +45,11 @@ function environment_indicator_help($route_name, RouteMatchInterface $route_matc
       return $output;
 
     case 'help.page.environment_indicator':
-      $output = '<p>' . t('The Environment Indicator adds a coloured strip to the site informing you which environment you are currently in (Development, Staging, Production, etc.') . '</p>';
-      $output .= '<p>' . t('The Environment Indicator <a href=":settings">settings page</a> allows you to modify some elements of the indicator\'s behavior and appearance. Since the appearance of the indicator is dependent on your site theme, substantial customisations require modifications to your site\'s theme and CSS files.', [':settings' => $settings_url]) . '</p>';
-      $output .= '<p>' . t('The Environment Indicator\'s visibility depends upon the permissions of the viewer. The <a href=":permissions">access environment indicator</a> permission must be enabled for a user role in order for users of that role to see the indicator.', [':permissions' => $permissions_url]) . '</p>';
+      $output = '<p>' . t('The Environment Indicator adds a coloured strip to the site informing you which environment you are currently in (Development, Staging, Production, etc.)') . '</p>';
+      $output .= '<p>' . t('The Environment Indicator <a href=":settings">settings page</a> allows you to modify some elements of the indicator\'s behavior and appearance. Since the appearance of the indicator is dependent on your site theme, substantial customisations require modifications to your site\'s theme and CSS files.', [
+        ':settings' => $settings_url,
+      ]) . '</p>';
+      $output .= '<p>' . $access_permission_text . '</p>';
       $output .= '<p>' . t('Modify the "environment_indicator.indicator" configuration object to control how the environment indicator is presented:') . '</p>';
       $output .= '<dl>';
       $output .= '<dt><em>$config[\'environment_indicator.indicator\'][\'bg_color\']</em></dt><dd>';
@@ -46,7 +62,9 @@ function environment_indicator_help($route_name, RouteMatchInterface $route_matc
       $output .= t('The text that will be displayed on the indicator.') . '<br/>';
       $output .= '$config[\'environment_indicator.indicator\'][\'name\'] = \'Staging\';<br /></dd></dt>';
       $output .= '</dl>';
-      $output .= '<p>' . t('The recommended way to add information about your release is to set the "environment_indicator.current_release" state. Use your git hooks to set the state using drush: <code>drush sset environment_indicator.current_release v1.2.44</code>') . '</p>';
+      $output .= $version_identifier_info;
+      $output .= $fallback_identifier_info;
+      $output .= $deployment_identifier_info;
 
       return $output;
   }
@@ -170,7 +188,7 @@ function template_preprocess_environment_indicator(array &$variables) {
   $attributes['style'] = implode('; ', $data);
   $attributes['id'] = (empty($attributes['id']) ? (empty($attributes['#id']) ? 'environment-indicator' : $attributes['#id']) : $attributes['id']);
   $variables['attributes'] = $attributes;
-  $variables['switcher'] = isset($element['switcher']) ? $element['switcher'] : '';
+  $variables['switcher'] = $element['switcher'] ?? '';
 }
 
 /**

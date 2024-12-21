@@ -39,17 +39,25 @@ environment_indicator.settings:
     favicon:
       type: boolean
       label: 'Show a colored favicon for environment'
+    version_identifier:
+      type: string
+      label: 'Source of version identifier to display'
+      default_value: 'environment_indicator_current_release'
+    version_identifier_fallback:
+      type: string
+      label: 'Fallback source of version identifier to display'
+      default_value: 'deployment_identifier'
 
 environment_indicator.indicator:
-    type: config_object
-    label: 'Environment indicator local environment'
-    mapping:
-      name:
-        type: string
-        label: 'Environment name'
-      fg_color:
-        type: string
-        label: 'Foreground color'
-      bg_color:
-        type: string
-        label: 'Background color'
+  type: config_object
+  label: 'Environment indicator local environment'
+  mapping:
+    name:
+      type: string
+      label: 'Environment name'
+    fg_color:
+      type: string
+      label: 'Foreground color'
+    bg_color:
+      type: string
+      label: 'Background color'

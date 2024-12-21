@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\layout_builder_restrictions\FunctionalJavascript;
 
 use Drupal\Tests\layout_builder_restrictions\Traits\MoveBlockHelperTrait;
@@ -68,26 +70,22 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
     $page->clickLink('Two column');
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'input[value="Add section"]'));
     $page->pressButton('Add section');
-    $assert_session->assertWaitOnAjaxRequest();
-
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
     // Add Basic Block 1 to the 'first' region.
     $assert_session->elementExists('css', '[data-layout-delta="0"].layout--twocol-section [data-region="first"] .layout-builder__add-block .layout-builder__link--add')->click();
     $this->assertNotEmpty($assert_session->waitForText('Basic Block 1'));
     $page->clickLink('Basic Block 1');
     $this->assertNotEmpty($assert_session->waitForText("Display title"));
     $page->pressButton('Add block');
-    $assert_session->assertWaitOnAjaxRequest();
-    $this->waitForNoElement('#drupal-off-canvas');
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
 
     // Add Alternate Block 1 to the 'first' region.
-    $assert_session->assertWaitOnAjaxRequest();
     $assert_session->elementExists('css', '[data-layout-delta="0"].layout--twocol-section [data-region="first"] .layout-builder__add-block .layout-builder__link--add')->click();
-    $assert_session->assertWaitOnAjaxRequest();
     $this->assertNotEmpty($assert_session->waitForText("Alternate Block 1"));
     $page->clickLink('Alternate Block 1');
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForText('Add block'));
     $page->pressButton('Add block');
-    $this->waitForNoElement('#drupal-off-canvas');
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
 
@@ -110,6 +108,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
     $this->assertRegionBlocksOrder(0, 'first', $expected_block_order);
     $this->navigateToManageDisplay();
     $page->clickLink('Manage layout');
+    $this->assertNotEmpty($assert_session->waitForText('Basic Block 1'));
     // Attempt to reorder Alternate Block 1.
     $this->openMoveForm(
       0,
@@ -133,7 +132,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
     $this->assertNotNull($close_button);
     $close_button->press();
 
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $page->pressButton('Save layout');
     $page->clickLink('Manage layout');
     // The order should not have changed after save.
@@ -171,7 +170,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
       ['Alternate Block 1 (current) *', 'Basic Block 1']
     );
     $page->pressButton('Move');
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $this->assertRegionBlocksOrder(0, 'first', $expected_block_order_moved);
 
     // Demonstrate that Basic block types are still restricted.
@@ -195,7 +194,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
     $close_button = $dialog_div->findButton('Close');
     $this->assertNotNull($close_button);
     $close_button->press();
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $page->pressButton('Save layout');
     $page->clickLink('Manage layout');
 
@@ -224,7 +223,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
       ['Basic Block 1 (current) *', 'Alternate Block 1']
     );
     $page->pressButton('Move');
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $modal = $page->find('css', '#drupal-off-canvas p');
     $this->assertNull($modal);
     $page->pressButton('Save layout');
@@ -243,7 +242,7 @@ class MoveBlockRestrictionTest extends LayoutBuilderRestrictionsTestBase {
       ['Alternate Block 1 (current) *', 'Basic Block 1']
     );
     $page->pressButton('Move');
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $page->pressButton('Save layout');
     $page->clickLink('Manage layout');
     $this->assertRegionBlocksOrder(0, 'first', $expected_block_order_moved);

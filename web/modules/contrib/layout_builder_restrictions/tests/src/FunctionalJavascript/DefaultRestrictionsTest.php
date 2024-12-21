@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\layout_builder_restrictions\FunctionalJavascript;
 
 /**
@@ -59,7 +61,7 @@ class DefaultRestrictionsTest extends LayoutBuilderRestrictionsTestBase {
     $page->checkField('layout[allow_custom]');
     $page->pressButton('Save');
 
-    // Restrict all new block categories.
+    // Allow all new block categories.
     $this->navigateToManageDisplay();
     $element = $page->find('xpath', '//*[@id="edit-layout-builder-restrictions-allowed-block-categories-allowed"]');
     $element->click();

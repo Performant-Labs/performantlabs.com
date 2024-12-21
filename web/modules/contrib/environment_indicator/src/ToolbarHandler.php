@@ -117,6 +117,7 @@ class ToolbarHandler {
    * User can access a specific indicator.
    *
    * @param $environment
+   *   The environment identifier.
    *
    * @return bool
    */
@@ -172,7 +173,7 @@ class ToolbarHandler {
           'library' => ['environment_indicator/drupal.environment_indicator'],
           'drupalSettings' => [
             'environmentIndicator' => [
-              'name' => $title ?: ' ',
+              'name' => $this->activeEnvironment->get('name') ?: ' ',
               'fgColor' => $this->activeEnvironment->get('fg_color'),
               'bgColor' => $this->activeEnvironment->get('bg_color'),
               'addFavicon' => $this->config->get('favicon'),
@@ -215,22 +216,51 @@ class ToolbarHandler {
   }
 
   /**
-   * Retrieve the current release from the state or deployment_identifier.
+   * Retrieve value from the selected version identifier source.
    *
    * @return string|null
    */
-  public function getCurrentRelease() {
-    $current_release = $this->state->get('environment_indicator.current_release');
-    if ($current_release !== NULL) {
-      return (string) $current_release;
+  public function getCurrentRelease(): ?string {
+    $version_identifier = $this->config->get('version_identifier') ?? 'environment_indicator_current_release';
+    $version_identifier_fallback = $this->config->get('version_identifier_fallback') ?? 'deployment_identifier';
+
+    $release = $this->getVersionIdentifier($version_identifier);
+    if ($release !== NULL) {
+      return $release;
     }
 
-    $deployment_identifier = $this->settings->get('deployment_identifier');
-    if ($deployment_identifier !== NULL) {
-      return (string) $deployment_identifier;
+    if ($version_identifier !== $version_identifier_fallback) {
+      return $this->getVersionIdentifier($version_identifier_fallback);
     }
 
     return NULL;
+  }
+
+  /**
+   * Helper function to get version identifier based on the type.
+   *
+   * @param string $type
+   *   The type of version identifier.
+   *
+   * @return string|null
+   */
+  protected function getVersionIdentifier(string $type): ?string {
+    switch ($type) {
+      case 'environment_indicator_current_release':
+        $current_release = $this->state->get('environment_indicator.current_release');
+        return $current_release !== NULL ? (string) $current_release : NULL;
+
+      case 'deployment_identifier':
+        $deployment_identifier = $this->settings->get('deployment_identifier');
+        return $deployment_identifier !== NULL ? (string) $deployment_identifier : NULL;
+
+      case 'drupal_version':
+        return \Drupal::VERSION;
+
+      case 'none':
+      default:
+        return NULL;
+    }
   }
 
   /**
@@ -324,3 +354,4 @@ class ToolbarHandler {
   }
 
 }
+

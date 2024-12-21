@@ -22,6 +22,11 @@ class TugboatPreviewSetTest extends TestorTestCase
             ->with('which tugboat')
             ->willReturn('/usr/bin/tugboat');
 
+        $mockFileExists = $this->mockBuiltIn('file_exists');
+        $mockFileExists->expects(self::once())
+            ->with(getenv('HOME') . '/.tugboat.yml')
+            ->willReturn(true);
+
         $mockFileGetContents = $this->mockBuiltIn('file_get_contents');
         $mockFileGetContents->expects(self::exactly(2))
             ->withReturnMap([
@@ -101,7 +106,7 @@ class TugboatPreviewSetTest extends TestorTestCase
                   blabla: 'blablablaj',
                   /* Base URL */
                   use: {
-                    baseURL: 'https://tugboatqa.com/test',
+                    baseURL: 'https://tugboatqa.com/test/',
                   }
                 });
                 ",
@@ -155,7 +160,7 @@ class TugboatPreviewSetTest extends TestorTestCase
                   blabla: 'blablablaj',
                   /* Base URL */
                   use: {
-baseURL: 'https://tugboatqa.com/test',
+baseURL: 'https://tugboatqa.com/test/',
                   }
                 });
                 ",
@@ -209,7 +214,7 @@ baseURL: 'https://tugboatqa.com/test',
                   blabla: 'blablablaj',
                   /* Base URL */
                   use: {
-                    baseURL: 'https://tugboatqa.com/test',
+                    baseURL: 'https://tugboatqa.com/test/',
                   }
                 });
                 ",

@@ -116,15 +116,15 @@ trait PluginHelperTrait {
    *
    * This is based on CategorizingPluginManagerTrait::getGroupedDefinitions.
    *
-   * @param array $definitions
-   *   The definitions as provided by the Block Plugin Manager.
+   * @param array|null $definitions
+   *   (optional) The definitions as provided by the Block Plugin Manager.
    * @param string $label_key
    *   The key to use if a block does not have a category defined.
    *
    * @return array
    *   Definitions grouped by untranslated category.
    */
-  public function getGroupedDefinitions(array $definitions = NULL, $label_key = 'label') {
+  public function getGroupedDefinitions(?array $definitions = NULL, $label_key = 'label') {
     $definitions = $this->getSortedDefinitions($definitions, $label_key);
     $grouped_definitions = [];
     foreach ($definitions as $id => $definition) {
@@ -203,15 +203,15 @@ trait PluginHelperTrait {
   /**
    * Sort block categories alphabetically.
    *
-   * @param array $definitions
-   *   The block definitions, with category values.
+   * @param array|null $definitions
+   *   (optional) The block definitions, with category values.
    * @param string $label_key
    *   The module name, if no category value is present on the block.
    *
    * @return array
    *   The alphabetically sorted categories with definitions.
    */
-  protected function getSortedDefinitions(array $definitions = NULL, $label_key = 'label') {
+  protected function getSortedDefinitions(?array $definitions = NULL, $label_key = 'label') {
     uasort($definitions, function ($a, $b) use ($label_key) {
       if ($a['category'] != $b['category']) {
         $a['category'] = $a['category'] ?? '';
@@ -252,6 +252,13 @@ trait PluginHelperTrait {
     // contexts, below. We need a fallback since some entity types (such as
     // Layout entities) do not implement a view mode.
     $view_mode = 'default';
+
+    // Initialize the $bundle variable to avoid 'Undefined variable' warnings.
+    $bundle = NULL;
+
+    // Initialize $entity_type variable to avoid 'Undefined variable' warnings.
+    $entity_type = NULL;
+
     if ($requested_value == 'contexts') {
       return $contexts;
     }

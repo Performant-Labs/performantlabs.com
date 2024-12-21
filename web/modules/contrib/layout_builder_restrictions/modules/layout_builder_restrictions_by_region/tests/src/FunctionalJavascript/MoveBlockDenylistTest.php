@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\layout_builder_restrictions_by_region\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
@@ -99,9 +101,8 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     // Add a top section using the Two column layout.
     $page->clickLink('Add section');
     $assert_session->waitForElementVisible('css', '#drupal-off-canvas');
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForLink('Two column'));
     $page->clickLink('Two column');
-    $assert_session->assertWaitOnAjaxRequest();
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'input[value="Add section"]'));
     $page->pressButton('Add section');
     $this->assertRegionBlocksOrder(1, 'content', $expected_block_order);
@@ -110,16 +111,14 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     $assert_session->elementNotExists('css', $first_region_block_locator);
     $assert_session->elementExists('css', '[data-layout-delta="0"].layout--twocol-section [data-region="first"] .layout-builder__add-block')->click();
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', '#drupal-off-canvas a:contains("Powered by Drupal")'));
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForLink('Powered by Drupal'));
     $page->clickLink('Powered by Drupal');
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', 'input[value="Add block"]'));
-    $assert_session->assertWaitOnAjaxRequest();
     $page->pressButton('Add block');
     $this->assertNotEmpty($assert_session->waitForElementVisible('css', $first_region_block_locator));
 
     // Ensure the request has completed before the test starts.
-    $this->waitForNoElement('#drupal-off-canvas');
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
 
     $page = $this->getSession()->getPage();
     $assert_session = $this->assertSession();
@@ -145,7 +144,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
 
     $element = $page->find('xpath', '//*[@id="edit-layout-builder-restrictions-allowed-blocks-by-layout-layout-onecol-table"]/tbody/tr[@data-region="all_regions"]//a');
     $element->click();
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForText('Allow all existing & new Content fields blocks.'));
 
     $assert_session->checkboxChecked('Allow all existing & new Content fields blocks.');
     $assert_session->checkboxNotChecked('Allow specific Content fields blocks:');
@@ -157,7 +156,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     }
     $element = $page->find('xpath', '//*[starts-with(@id,"edit-submit--")]');
     $element->click();
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForText('Save'));
     $page->pressButton('Save');
 
     $page->clickLink('Manage layout');
@@ -191,7 +190,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     $this->assertNotNull($close_button);
     $close_button->press();
 
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
     $page->pressButton('Save layout');
     $page->clickLink('Manage layout');
     // The order should not have changed after save.
@@ -211,7 +210,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
 
     $element = $page->find('xpath', '//*[@id="edit-layout-builder-restrictions-allowed-blocks-by-layout-layout-onecol-table"]/tbody/tr[@data-region="all_regions"]//a');
     $element->click();
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForText('Allow all existing & new Content fields blocks.'));
 
     $assert_session->checkboxChecked('Allow all existing & new Content fields blocks.');
     $assert_session->checkboxNotChecked('Allow specific Content fields blocks:');
@@ -223,7 +222,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     }
     $element = $page->find('xpath', '//*[starts-with(@id,"edit-submit--")]');
     $element->click();
-    $assert_session->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog'));
     $page->pressButton('Save');
 
     // Try an allowed move to another section.
@@ -243,7 +242,8 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
       ['Body (current) *', 'Powered by Drupal']
     );
     $page->pressButton('Move');
-    $this->assertSession()->assertWaitOnAjaxRequest();
+
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
     $expected_block_order_2 = [
       '.block-field-blocknodebundle-with-section-fieldbody',
       '.block-system-powered-by-block',
@@ -261,7 +261,7 @@ class MoveBlockDenylistTest extends WebDriverTestBase {
     $page->selectFieldOption('Region', '0:second');
     $this->assertBlockTable(['Body (current)']);
     $page->pressButton('Move');
-    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertNotEmpty($assert_session->waitForElementRemoved('css', '.ui-dialog-off-canvas'));
     $expected_block_order_3 = [
       '.block-field-blocknodebundle-with-section-fieldbody',
     ];

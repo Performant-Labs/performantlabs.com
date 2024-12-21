@@ -5,7 +5,7 @@ type: module
 dependencies:
   - layout_builder_restrictions:layout_builder_restrictions
 
-# Information added by Drupal.org packaging script on 2024-05-17
-version: '3.0.0'
+# Information added by Drupal.org packaging script on 2024-12-10
+version: '3.0.1'
 project: 'layout_builder_restrictions'
-datestamp: 1715966114
+datestamp: 1733841261
