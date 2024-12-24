@@ -45,8 +45,7 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
     //
@@ -61,8 +60,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Save' }).click();
@@ -107,7 +105,6 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
 
     // Upload image.
     let imageField = page.locator('#edit-field-image-0-upload');
@@ -120,7 +117,7 @@ test.describe('Node tests.', () => {
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
     // Fill body.
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
     //
@@ -142,8 +139,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Save' }).click();
