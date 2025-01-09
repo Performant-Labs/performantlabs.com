@@ -2,18 +2,18 @@ import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { createHtmlReport } from 'axe-html-reporter';
 import fs from 'fs';
-import { getLocationsFromFile } from '../support/atk_data.js';
+import { getURLList } from '../support/atk_utilities.js';
 
-const title = '(ATK-PW-1600) Automatic detection of accessibility problems. @accessibility @ATK-PW-1600';
-const locations = await getLocationsFromFile('atk_accessibility-locations.csv');
+const title = '(ATK-PW-1600) {url} Automatic detection of accessibility problems. @accessibility @axe @deque @ATK-PW-1600';
+const URLs = await getURLList('atk_accessibility.yml');
 
-for (let [location, rules] of locations) {
-  test(`${title}: ${location}`, async ({ page }, testInfo) => {
-    await page.goto(location);
+for (const [url, props] of URLs) {
+  test(title.replace('{url}', url), async ({ page }, testInfo) => {
+    await page.goto(url);
 
     let axeBuilder = new AxeBuilder({ page });
-    if (rules) {
-      axeBuilder.disableRules(rules.split(','));
+    if (props.disable) {
+      axeBuilder.disableRules(props.disable);
     }
     const accessibilityScanResults = await axeBuilder.analyze();
 

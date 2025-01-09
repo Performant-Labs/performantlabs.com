@@ -16,7 +16,8 @@ import { execSync } from 'child_process'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
 import atkConfig from '../../playwright.atk.config.js'
-import { baseUrl } from './atk_data.js';
+
+import { baseUrl } from './atk_utilities.js';
 
 /**
  * Create a user via Drush using a JSON user object.

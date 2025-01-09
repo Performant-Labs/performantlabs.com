@@ -1,0 +1,7 @@
+options:
+  maxDiffPixels: 10
+URL:
+  /:
+  /services:
+  /how-we-do-it:
+  /contact-us:

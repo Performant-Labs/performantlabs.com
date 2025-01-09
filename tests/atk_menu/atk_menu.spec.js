@@ -8,6 +8,7 @@
 /* eslint-disable import/first */
 
 import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
+import { qaUsers } from '../support/atk_utilities';
 import * as atkCommands from '../support/atk_commands';
 
 import playwrightConfig from '../../playwright.config';
@@ -15,14 +16,12 @@ import playwrightConfig from '../../playwright.config';
 // Import ATK Configuration.
 import atkConfig from '../../playwright.atk.config';
 
-const baseUrl = playwrightConfig.use.baseURL;
-
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
-
 
 // Set up Playwright.
 import { expect, test } from '@playwright/test';
+
+const baseUrl = playwrightConfig.use.baseURL;
+
 
 test.describe('Menu tests.', () => {
   //
@@ -36,7 +35,7 @@ test.describe('Menu tests.', () => {
     //
     // Log in with the administrator account.
     //
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin)
+    await atkCommands.logInViaForm(page, context, qaUsers.admin)
 
     //
     // Begin menu item creation.
