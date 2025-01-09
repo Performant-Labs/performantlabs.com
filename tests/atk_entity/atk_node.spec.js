@@ -10,14 +10,10 @@
 
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
-
-import playwrightConfig from '../../playwright.config';
+import { qaUsers } from '../support/atk_utilities';
 
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
-
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
 
 
 // Set up Playwright.
@@ -35,7 +31,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
+    await atkCommands.logInViaForm(page, context, qaUsers.admin);
 
     //
     // Add a page.
@@ -95,7 +91,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
+    await atkCommands.logInViaForm(page, context, qaUsers.admin);
 
     //
     // Add an article.

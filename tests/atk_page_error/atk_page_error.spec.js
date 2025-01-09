@@ -10,11 +10,7 @@
 
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
-
-import playwrightConfig from '../../playwright.config';
-
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
+import { qaUsers } from '../support/atk_utilities';
 
 
 // Set up Playwright.
@@ -59,7 +55,7 @@ test.describe('Page error tests.', () => {
     textContent = await page.content();
     expect(textContent).toContain('The requested page could not be found');
 
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.authenticated);
+    await atkCommands.logInViaForm(page, context, qaUsers.authenticated);
     await page.goto(badAuthenticatedUrl);
 
     // Should see the 404 message.

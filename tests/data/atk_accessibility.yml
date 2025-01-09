@@ -1,0 +1,19 @@
+# Rules that are disabled.
+disable:
+  - color-contrast
+  - landmark-no-duplicate-contentinfo
+  - landmark-contentinfo-is-top-level
+  - page-has-heading-one
+  - region
+# List of URL to check. Can specify additional rules to disable.
+URL:
+  /:
+    disable:
+      - heading-order
+  /services:
+  /how-we-do-it:
+  /contact-us:
+# Sitemap to check all links from it.
+#sitemap:
+#  /sitemap.xml:
+
