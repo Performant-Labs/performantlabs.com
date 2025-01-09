@@ -1,4 +1,4 @@
-import { getJsonFile } from './atk_data.js';
+import { readYAML } from './atk_utilities.js';
 
 /**
  * Format a message, using environment variables (must be set in a job).
@@ -19,7 +19,7 @@ export default function ({ type }) {
   let testMessage;
   let report;
   try {
-    report = getJsonFile('../../ctrf/ctrf-report.json');
+    report = readYAML('../../ctrf/ctrf-report.json');
     const { tests, failed, passed, skipped } = report.results.summary;
     const testMessageParts = [];
     if (failed) {

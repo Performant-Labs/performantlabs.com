@@ -17,11 +17,11 @@ import playwrightConfig from '../../playwright.config';
 import atkConfig from '../../playwright.atk.config';
 
 // Import ATK data.
-import * as atkData from '../support/atk_data.js';
+const baseUrl = playwrightConfig.use.baseURL;
+const qaUsers = atkUtilities.qaUsers;
 
 // Set up Playwright.
 import { expect, test } from '@playwright/test';
-import { baseUrl } from '../support/atk_data.js';
 
 test.describe('Contact Us tests.', () => {
   //
@@ -45,7 +45,7 @@ test.describe('Contact Us tests.', () => {
     // Mail don't work **but** we can still check message in the admin interface.
     await expect(page.getByText('Thank you. We\'ll get in contact with you right away.')).toBeVisible()
 
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin)
+    await atkCommands.logInViaForm(page, context, qaUsers.admin)
 
     await page.goto(`${baseUrl}admin/structure/webform/manage/contact/results/submissions`)
 
