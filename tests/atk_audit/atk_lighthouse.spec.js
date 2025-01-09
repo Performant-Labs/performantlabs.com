@@ -1,9 +1,9 @@
 import getPort from 'get-port';
 import { playAudit } from 'playwright-lighthouse';
-import { chromium, test } from '@playwright/test';
-import { getLocationsFromFile } from '../support/atk_data.js';
+import { chromium, test as base } from '@playwright/test';
+import { getURLList } from '../support/atk_utilities.js';
 
-const lighthouseTest = test.extend({
+const test = base.extend({
   port: [
     async ({}, use) => {
 
@@ -26,29 +26,23 @@ const lighthouseTest = test.extend({
   ],
 });
 
-let title = '(ATK-PW-1700) Audit of the pages with Google Lighthouse @atk-pw-1700 @lighthouse @audit';
-const locations = await getLocationsFromFile('atk_audit-locations.csv');
+const title = '(ATK-PW-1700) {url} Audit of the pages with Google Lighthouse @ATK-PW-1700 @lighthouse @audit @performance @accessibility @seo @best-practices';
+const URLList = await getURLList('atk_audit.yml');
 
-lighthouseTest.afterEach(async ({}, testInfo) => {
+test.afterEach(async ({}, testInfo) => {
   await testInfo.attach('lighthouse-report', {
     path: `lighthouse-report-${testInfo.parallelIndex}.html`
   });
 });
 
-for (let [location,] of locations) {
-  lighthouseTest(`${title}: ${location}`, async ({ page, port }, testInfo) => {
-    await page.goto(location);
+for (const [url, props] of URLList) {
+  test(title.replace('{url}', url), async ({ page, port }, testInfo) => {
+    await page.goto(url);
 
     await playAudit({
       page,
       port,
-      thresholds: {
-        performance: 70,
-        accessibility: 90,
-        seo: 70,
-        pwa: 70,
-        'best-practices': 70
-      },
+      thresholds: props.thresholds,
       reports: {
         formats: {
           html: true
