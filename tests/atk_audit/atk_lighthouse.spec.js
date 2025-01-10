@@ -29,27 +29,29 @@ const test = base.extend({
 const title = '(ATK-PW-1700) {url} Audit of the pages with Google Lighthouse @ATK-PW-1700 @lighthouse @audit @performance @accessibility @seo @best-practices';
 const URLList = await getURLList('atk_audit.yml');
 
-test.afterEach(async ({}, testInfo) => {
-  await testInfo.attach('lighthouse-report', {
-    path: `lighthouse-report-${testInfo.parallelIndex}.html`
-  });
-});
-
-for (const [url, props] of URLList) {
-  test(title.replace('{url}', url), async ({ page, port }, testInfo) => {
-    await page.goto(url);
-
-    await playAudit({
-      page,
-      port,
-      thresholds: props.thresholds,
-      reports: {
-        formats: {
-          html: true
-        },
-        name: `lighthouse-report-${testInfo.parallelIndex}`,
-        directory: '.'
-      }
+test.describe('Google Lighthouse Audit', () => {
+  test.afterEach(async ({}, testInfo) => {
+    await testInfo.attach('lighthouse-report', {
+      path: `lighthouse-report-${testInfo.parallelIndex}.html`
     });
   });
-}
+
+  for (const [url, props] of URLList) {
+    test(title.replace('{url}', url), async ({ page, port }, testInfo) => {
+      await page.goto(url);
+
+      await playAudit({
+        page,
+        port,
+        thresholds: props.thresholds,
+        reports: {
+          formats: {
+            html: true
+          },
+          name: `lighthouse-report-${testInfo.parallelIndex}`,
+          directory: '.'
+        }
+      });
+    });
+  }
+});
