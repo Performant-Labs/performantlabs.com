@@ -26,7 +26,7 @@ const test = base.extend({
   ],
 });
 
-const title = '(ATK-PW-1700) {url} Audit of the pages with Google Lighthouse @ATK-PW-1700 @lighthouse @audit @performance @accessibility @seo @best-practices';
+const title = '(ATK-PW-1700) {url} @ATK-PW-1700 @lighthouse @audit @performance @accessibility @seo @best-practices';
 const URLList = await getURLList('atk_audit.yml');
 
 test.describe('Google Lighthouse Audit', () => {
