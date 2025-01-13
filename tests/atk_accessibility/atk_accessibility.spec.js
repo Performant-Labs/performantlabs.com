@@ -4,7 +4,7 @@ import { createHtmlReport } from 'axe-html-reporter';
 import fs from 'fs';
 import { getURLList } from '../support/atk_utilities.js';
 
-const title = '(ATK-PW-1600) {url} Automatic detection of accessibility problems. @accessibility @axe @deque @ATK-PW-1600';
+const title = '(ATK-PW-1600) {url} @accessibility @axe @ATK-PW-1600';
 const URLs = await getURLList('atk_accessibility.yml');
 
 test.describe('Accessibility', () => {

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { getURLList } from '../support/atk_utilities.js';
 
-const title = '(ATK-PW-1500) {url} Visually compare screenshots. @visual @ATK-PW-1500';
+const title = '(ATK-PW-1500) {url} @visual @ATK-PW-1500';
 /**
  * Test all pages of the website by comparing them with the
  * target screenshots.
