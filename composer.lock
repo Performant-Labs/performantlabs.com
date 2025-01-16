@@ -8697,16 +8697,16 @@
         },
         {
             "name": "performant-labs/testor",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Performant-Labs/testor.git",
-                "reference": "8b2a2a896428e2f0657c156a2989c652f66e8455"
+                "reference": "4da9a4e0eb7bfda97077ad71d19f53e73961fc76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/8b2a2a896428e2f0657c156a2989c652f66e8455",
-                "reference": "8b2a2a896428e2f0657c156a2989c652f66e8455",
+                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/4da9a4e0eb7bfda97077ad71d19f53e73961fc76",
+                "reference": "4da9a4e0eb7bfda97077ad71d19f53e73961fc76",
                 "shasum": ""
             },
             "require": {
@@ -8737,9 +8737,9 @@
             "description": "Robo tasks that work with Automated Testing Kit",
             "support": {
                 "issues": "https://github.com/Performant-Labs/testor/issues",
-                "source": "https://github.com/Performant-Labs/testor/tree/1.4.0"
+                "source": "https://github.com/Performant-Labs/testor/tree/1.4.1"
             },
-            "time": "2025-01-14T21:46:32+00:00"
+            "time": "2025-01-16T18:41:33+00:00"
         },
         {
             "name": "phootwork/collection",
