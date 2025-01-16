@@ -25,7 +25,7 @@ on:
     - cron: "57 23 * * *"
 
 env:
-  PHP_VERSION: '8.2'
+  PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
 
