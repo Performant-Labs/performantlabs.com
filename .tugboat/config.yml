@@ -120,7 +120,7 @@ services:
 #          --parallelize-by-file
 
   mysql:
-    image: tugboatqa/mysql:8-debian
+    image: tugboatqa/mariadb:10.11
 
     commands:
       init:
