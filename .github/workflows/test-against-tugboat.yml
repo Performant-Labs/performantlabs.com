@@ -19,7 +19,9 @@ env:
   JOB_NAME: ${{ github.workflow }}
   JOB_NUMBER: ${{ github.run_number }}
   JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  SLACK_ENABLED: ${{ secrets.ATK_SLACK_ENABLED || 'false' }}
   SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
+  MAIL_ENABLED: ${{ vars.ATK_MAIL_ENABLED || 'false' }}
   MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
   MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
   MAIL_USER: ${{ secrets.ATK_MAIL_USER }}
@@ -191,12 +193,12 @@ jobs:
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
       - name: Send results by email
-        if: ${{ always() && vars.ATK_MAIL_ENABLED }}
+        if: ${{ always() && fromJSON(env.MAIL_ENABLED) }}
         run: |
           node tests/support/message-email.js
 
       - name: Send results to Slack
-        if: ${{ always() && vars.ATK_SLACK_ENABLED }}
+        if: ${{ always() && fromJSON(env.SLACK_ENABLED) }}
         shell: bash
         run: |
           node tests/support/message-slack.js
