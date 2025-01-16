@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  PHP_VERSION: 8.2
+  PHP_VERSION: '8.3'
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
   TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
