@@ -76,3 +76,6 @@ cypress/videos
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Testor.
+.testor_secret.yml

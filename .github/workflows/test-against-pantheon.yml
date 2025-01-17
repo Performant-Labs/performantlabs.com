@@ -25,6 +25,7 @@ on:
     - cron: "57 23 * * *"
 
 env:
+  PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
 
@@ -40,7 +41,9 @@ env:
   JOB_NAME: ${{ github.workflow }}
   JOB_NUMBER: ${{ github.run_number }}
   JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  SLACK_ENABLED: ${{ vars.ATK_SLACK_ENABLED }}
   SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
+  MAIL_ENABLED: ${{ vars.ATK_MAIL_ENABLED }}
   MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
   MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
   MAIL_USER: ${{ secrets.ATK_MAIL_USER }}
@@ -121,11 +124,6 @@ jobs:
               StrictHostKeyChecking no
           known_hosts: ' '
           if_key_exists: replace
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
 
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
@@ -225,12 +223,12 @@ jobs:
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
       - name: Send results by email
-        if: ${{ always() && vars.ATK_MAIL_ENABLED }}
+        if: ${{ always() && env.MAIL_ENABLED == 'true' }}
         run: |
           node tests/support/message-email.js
 
       - name: Send results to Slack
-        if: ${{ always() && vars.ATK_SLACK_ENABLED }}
+        if: ${{ always() && env.SLACK_ENABLED == 'true' }}
         shell: bash
         run: |
           node tests/support/message-slack.js
