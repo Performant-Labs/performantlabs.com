@@ -1,6 +1,7 @@
 import getPort from 'get-port';
 import { playAudit } from 'playwright-lighthouse';
-import { chromium, test as base } from '@playwright/test';
+import { chromium } from '@playwright/test';
+import { test as base } from '../support/atk_fixture.js';
 import { getURLList } from '../support/atk_utilities.js';
 
 const test = base.extend({

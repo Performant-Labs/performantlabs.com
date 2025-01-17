@@ -1,7 +1,7 @@
-import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { createHtmlReport } from 'axe-html-reporter';
 import fs from 'fs';
+import { expect, test } from '../support/atk_fixture.js';
 import { getURLList } from '../support/atk_utilities.js';
 
 const title = '(ATK-PW-1600) {url} @accessibility @axe @ATK-PW-1600';

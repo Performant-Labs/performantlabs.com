@@ -17,7 +17,7 @@ import atkConfig from '../../playwright.atk.config';
 
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 import { ReportingApi } from '@reportportal/agent-js-playwright';
 
 test.describe('Node tests.', () => {

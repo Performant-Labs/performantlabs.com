@@ -14,7 +14,7 @@ import { qaUsers } from '../support/atk_utilities';
 
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 test.describe('Page error tests.', () => {
   //
