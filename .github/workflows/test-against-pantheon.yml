@@ -223,12 +223,12 @@ jobs:
           echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
 
       - name: Send results by email
-        if: ${{ always() && fromJSON(env.MAIL_ENABLED) }}
+        if: ${{ always() && env.MAIL_ENABLED == 'true' }}
         run: |
           node tests/support/message-email.js
 
       - name: Send results to Slack
-        if: ${{ always() && fromJSON(env.SLACK_ENABLED) }}
+        if: ${{ always() && env.SLACK_ENABLED == 'true' }}
         shell: bash
         run: |
           node tests/support/message-slack.js
