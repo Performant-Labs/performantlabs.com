@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4596c72cb71fe1aaf1a048f1db7268b6",
+    "content-hash": "74851fd604864fd6609c950b4d871fae",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -8697,16 +8697,16 @@
         },
         {
             "name": "performant-labs/testor",
-            "version": "dev-main",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Performant-Labs/testor.git",
-                "reference": "a3773613624fec3293d108d516d2ab0524cfe286"
+                "reference": "4da9a4e0eb7bfda97077ad71d19f53e73961fc76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/a3773613624fec3293d108d516d2ab0524cfe286",
-                "reference": "a3773613624fec3293d108d516d2ab0524cfe286",
+                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/4da9a4e0eb7bfda97077ad71d19f53e73961fc76",
+                "reference": "4da9a4e0eb7bfda97077ad71d19f53e73961fc76",
                 "shasum": ""
             },
             "require": {
@@ -8720,9 +8720,10 @@
                 "mockery/mockery": "^1.6",
                 "php-mock/php-mock": "^2.5",
                 "php-mock/php-mock-phpunit": "^2.10",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-strict-rules": "^2.0",
                 "phpunit/phpunit": "^10.5"
             },
-            "default-branch": true,
             "bin": [
                 "testor"
             ],
@@ -8736,9 +8737,9 @@
             "description": "Robo tasks that work with Automated Testing Kit",
             "support": {
                 "issues": "https://github.com/Performant-Labs/testor/issues",
-                "source": "https://github.com/Performant-Labs/testor/tree/1.3.3"
+                "source": "https://github.com/Performant-Labs/testor/tree/1.4.1"
             },
-            "time": "2024-12-19T21:17:06+00:00"
+            "time": "2025-01-16T18:41:33+00:00"
         },
         {
             "name": "phootwork/collection",
@@ -13358,8 +13359,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "drupal/layout_builder_kit": 10,
-        "performant-labs/testor": 20
+        "drupal/layout_builder_kit": 10
     },
     "prefer-stable": true,
     "prefer-lowest": false,

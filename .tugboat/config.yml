@@ -47,14 +47,17 @@ services:
       update:
         - echo "===== Apache/PHP Update ====="
 
-        # Import the database.
-        - curl $SNAPSHOT_URL --output snapshot.sql.gz
-        - zcat snapshot.sql.gz | mysql -h mysql -utugboat -ptugboat tugboat
-
         # Install/update packages managed by composer, including drush.
         # First ensure there are no artifacts that snuck into the repo.
         - rm -rf vendor/ web/modules/contrib/ web/core/
         - composer update --optimize-autoloader
+
+        # Import the database.
+        - 'echo "s3_secret: $S3_SECRET" >> .testor_secret.yml'
+        - vendor/bin/testor snapshot:get --name preview --output snapshot.tar.gz
+        - tar xf snapshot.tar.gz
+        - find *.sql -exec mv {} snapshot.sql \;
+        - cat snapshot.sql | mysql -h mysql -utugboat -ptugboat tugboat
 
         # Enable the stage_file_proxy Drupal module. This module lets Drupal serve
         # files from another publicly-accessible Drupal site instead of
@@ -117,7 +120,7 @@ services:
 #          --parallelize-by-file
 
   mysql:
-    image: tugboatqa/mysql:8-debian
+    image: tugboatqa/mariadb:10.11
 
     commands:
       init:
