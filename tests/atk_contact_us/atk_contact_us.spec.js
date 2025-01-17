@@ -21,7 +21,7 @@ const baseUrl = playwrightConfig.use.baseURL;
 const qaUsers = atkUtilities.qaUsers;
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 test.describe('Contact Us tests.', () => {
   //

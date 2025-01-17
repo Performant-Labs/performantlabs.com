@@ -16,7 +16,7 @@ import playwrightConfig from '../../playwright.config';
 
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 const baseUrl = playwrightConfig.use.baseURL;
 

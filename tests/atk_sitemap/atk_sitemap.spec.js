@@ -19,7 +19,7 @@ const baseUrl = playwrightConfig.use.baseURL;
 
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 test.skip('Sitemap tests.', () => {
   //
