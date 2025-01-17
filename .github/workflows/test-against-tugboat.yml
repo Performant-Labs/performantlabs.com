@@ -19,9 +19,9 @@ env:
   JOB_NAME: ${{ github.workflow }}
   JOB_NUMBER: ${{ github.run_number }}
   JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-  SLACK_ENABLED: ${{ secrets.ATK_SLACK_ENABLED || 'false' }}
+  SLACK_ENABLED: ${{ vars.ATK_SLACK_ENABLED }}
   SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
-  MAIL_ENABLED: ${{ vars.ATK_MAIL_ENABLED || 'false' }}
+  MAIL_ENABLED: ${{ vars.ATK_MAIL_ENABLED }}
   MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
   MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
   MAIL_USER: ${{ secrets.ATK_MAIL_USER }}
