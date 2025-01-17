@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 import { getURLList } from '../support/atk_utilities.js';
 
 const title = '(ATK-PW-1500) {url} @visual @ATK-PW-1500';

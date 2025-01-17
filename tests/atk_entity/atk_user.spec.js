@@ -13,7 +13,7 @@ import * as atkCommands from '../support/atk_commands';
 
 import playwrightConfig from '../../playwright.config';
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 
 test.describe('User tests.', () => {
