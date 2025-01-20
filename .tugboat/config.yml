@@ -41,6 +41,15 @@ services:
         - sed -e '9,13 s/#//' -i ~/.bashrc
         - sed -e '16,19 s/#//' -i ~/.bashrc
 
+        # Set up error capture.
+        - touch /var/log/php-error.log && chown www-data:www-data /var/log/php-error.log
+        - echo "log_errors = On"  >> /usr/local/etc/php/conf.d/my-php.ini
+        - echo "error_log = /var/log/php-error.log" >> /usr/local/etc/php/conf.d/my-php.ini
+        - echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/my-php.ini
+
+        # Set up testor configuration.
+        - 'echo "s3_secret: $S3_SECRET" >> .testor_secret.yml'
+
       update:
         - echo "===== Apache/PHP Update ====="
 
@@ -50,7 +59,6 @@ services:
         - composer install
 
         # Import the database.
-        - 'echo "s3_secret: $S3_SECRET" >> .testor_secret.yml'
         - vendor/bin/testor snapshot:get --name preview --output snapshot.tar.gz
         - tar xf snapshot.tar.gz
         - find *.sql -exec mv {} snapshot.sql \;
@@ -92,12 +100,6 @@ services:
         - vendor/bin/drush theme:install stable9
         - vendor/bin/drush updb -y
         - vendor/bin/drush cr
-
-        # Set up error capture.
-        - touch /var/log/php-error.log && chown www-data:www-data /var/log/php-error.log
-        - echo "log_errors = On"  >> /usr/local/etc/php/conf.d/my-php.ini
-        - echo "error_log = /var/log/php-error.log" >> /usr/local/etc/php/conf.d/my-php.ini
-        - echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/my-php.ini
 
         # Check for upgrades to the Testery command line interface.
 #        - pip3 install testery --upgrade
