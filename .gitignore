@@ -79,3 +79,4 @@ cypress/videos
 
 # Testor.
 .testor_secret.yml
+app_server_*
