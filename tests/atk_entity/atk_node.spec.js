@@ -10,18 +10,14 @@
 
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
-
-import playwrightConfig from '../../playwright.config';
+import { qaUsers } from '../support/atk_utilities';
 
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
-
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 import { ReportingApi } from '@reportportal/agent-js-playwright';
 
 test.describe('Node tests.', () => {
@@ -35,7 +31,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
+    await atkCommands.logInViaForm(page, context, qaUsers.admin);
 
     //
     // Add a page.
@@ -45,8 +41,7 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
     //
@@ -61,8 +56,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Save' }).click();
@@ -97,7 +91,7 @@ test.describe('Node tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
+    await atkCommands.logInViaForm(page, context, qaUsers.admin);
 
     //
     // Add an article.
@@ -107,7 +101,6 @@ test.describe('Node tests.', () => {
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
     await titleTextField.fill(`${testId}: A Title`);
-    let ckEditor = page.locator('[aria-label*="Editor editing area: main"]');
 
     // Upload image.
     let imageField = page.locator('#edit-field-image-0-upload');
@@ -120,7 +113,7 @@ test.describe('Node tests.', () => {
     await altField.fill(`${testId}: ${uniqueToken1}`);
 
     // Fill body.
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     await page.getByRole('button', { name: 'Save' }).click();
 
     //
@@ -142,8 +135,7 @@ test.describe('Node tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
     await page.getByRole('link', { name: 'Edit' }).click();
-    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Save' }).click();

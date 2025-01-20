@@ -10,17 +10,13 @@
 
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
-
-import playwrightConfig from '../../playwright.config';
+import { qaUsers } from '../support/atk_utilities';
 // Import ATK configuration.
 import atkConfig from '../../playwright.atk.config';
 
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
-
 
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 test.describe('Entity tests.', () => {
   //
@@ -35,7 +31,7 @@ test.describe('Entity tests.', () => {
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
     // which has all rights.
-    await atkCommands.logInViaForm(page, context, atkData.qaUsers.admin);
+    await atkCommands.logInViaForm(page, context, qaUsers.admin);
 
     //
     // Add a taxonomy node to the tags vocabulary.
@@ -46,8 +42,7 @@ test.describe('Entity tests.', () => {
     // Below we provide a name and body.
     const titleTextfield = await page.$('input[name="name[0][value]"]');
     await titleTextfield.fill(termName);
-    let ckEditor = await page.$('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
 
     await page.getByRole('button', { name: 'Save and go to list' }).click();
 
@@ -84,8 +79,7 @@ test.describe('Entity tests.', () => {
     bodyText = 'Ut eget ex vitae nibh dapibllus vulputate ut id lacus.';
 
     await page.goto(termEditUrl);
-    ckEditor = await page.locator('[aria-label*="Editor editing area: main"]');
-    await ckEditor.fill(bodyText);
+    await atkCommands.inputTextIntoCKEditor(page, bodyText);
     const button = await page.locator('#edit-save'); // eslint-disable-line no-unused-vars
     // await button.click( { force: true } )
     await page.getByRole('button', { name: 'Save and go to list' }).click();

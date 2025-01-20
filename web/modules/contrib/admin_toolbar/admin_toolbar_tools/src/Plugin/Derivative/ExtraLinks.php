@@ -13,6 +13,9 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\system\Entity\Menu;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Drupal\Core\Url;
+
 
 /**
  * Provides a default implementation for menu link plugins.
@@ -499,11 +502,18 @@ class ExtraLinks extends DeriverBase implements ContainerDeriverInterface {
         'parent' => 'system.modules_list',
       ] + $base_plugin_definition;
       if (version_compare(\Drupal::VERSION, '11.0.0', '<')) {
+        try {
+          // Check if the route exists
+          \Drupal::service('router.route_provider')->getRouteByName('update.theme_install');
+          
         $links['update.theme_install'] = [
           'title' => $this->t('Install new theme'),
           'route_name' => 'update.theme_install',
           'parent' => 'system.themes_page',
         ] + $base_plugin_definition;
+      } catch (RouteNotFoundException $e) {
+        // Route does not exist, do nothing
+    }
       }
       $links['update.theme_update'] = [
         'title' => $this->t('Update'),

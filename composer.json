@@ -345,7 +345,7 @@
         "jquery/select2": "*",
         "jquery/textcounter": "*",
         "jquery/timepicker": "*",
-        "performant-labs/testor": "dev-main",
+        "performant-labs/testor": "^1.4",
         "progress-tracker/progress-tracker": "*",
         "signature_pad/signature_pad": "*",
         "symfony/amazon-mailer": "^6.2",
@@ -381,6 +381,9 @@
     "extra": {
         "enable-patching": true,
         "patches": {
+            "drupal/admin_toolbar": {
+                "Compatibility issue: Route update.theme_install does not exist in Drupal 11.0.x & 10.4.x": "https://www.drupal.org/files/issues/2024-12-19/compatibility-issue-update.3493798.patch"
+            },
             "drupal/asset_injector": {
                 "Provide upgrade path for the node_type condition": "https://www.drupal.org/files/issues/2023-07-17/asset_injector-3375026-upgrade_node_type_condition-3.diff"
             },

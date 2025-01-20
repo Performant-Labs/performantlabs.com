@@ -12,15 +12,8 @@ import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line
 import * as atkCommands from '../support/atk_commands';
 
 import playwrightConfig from '../../playwright.config';
-
-const baseUrl = playwrightConfig.use.baseURL;
-
-// Import ATK data.
-import * as atkData from '../support/atk_data.js';
-
-
 // Set up Playwright.
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../support/atk_fixture.js';
 
 
 test.describe('User tests.', () => {
