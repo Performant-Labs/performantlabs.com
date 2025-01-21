@@ -1903,9 +1903,6 @@
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "patches_applied": {
-                    "Compatibility issue: Route update.theme_install does not exist in Drupal 11.0.x & 10.4.x": "https://www.drupal.org/files/issues/2024-12-19/admin_toolbar_3493798_4.patch"
                 }
             },
             "installation-source": "dist",
