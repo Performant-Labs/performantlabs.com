@@ -6,7 +6,7 @@ run-name: ${{ github.actor }} is running Cypress.
 #  push:
 #    paths:
 #      - .github/workflows/cypress_on_testery.yml
-  
+
 env:
   php_version: '8.1'
   pantheon_site_name: 'performant-labs'
@@ -70,7 +70,7 @@ jobs:
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies.
-        uses: actions/cache@v3.2.4
+        uses: actions/cache@v4.2.0
         with:
           path: ${{ steps.composer-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
