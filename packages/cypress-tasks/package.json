@@ -9,7 +9,8 @@
     "cypress-data-session": "^2.8.6",
     "cypress-log-to-term": "^1.5.4",
     "debug": "^4.4.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "x2js": "^3.4.4"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
