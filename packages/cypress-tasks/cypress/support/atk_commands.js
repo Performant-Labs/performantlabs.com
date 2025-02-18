@@ -194,8 +194,6 @@ Cypress.Commands.add('execDrush', (cmd, args = [], options = []) => {
 Cypress.Commands.add('execPantheonDrush', (cmd) => {
   const connectCmd = `terminus connection:info ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} --format=json`
 
-  cy.log('execPantheonDrush result: ' + output)
-
   // Ask Terminus for SFTP command to send Drush to Pantheon.
   cy.exec(connectCmd, { failOnNonZeroExit: false }).then((result) => {
     const connections = JSON.parse(result.stdout)
@@ -206,7 +204,7 @@ Cypress.Commands.add('execPantheonDrush', (cmd) => {
     // the cmd argument.
     const remoteCmd = `ssh -T ${envConnection} -p 2222 -o 'StrictHostKeyChecking=no' -o 'AddressFamily inet' '${cmd}'`
 
-    cy.log('execPantheonDrush: ' + command)
+    cy.log('execPantheonDrush: ' + cmd)
 
     cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result) => {
       let output = result.stdout
