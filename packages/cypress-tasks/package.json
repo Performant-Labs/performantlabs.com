@@ -1,0 +1,19 @@
+{
+  "name": "cypress-tasks",
+  "version": "1.0.0",
+  "description": "Cypress tasks in the Colud Cypress account",
+  "main": "index.js",
+  "devDependencies": {
+    "@cypress/grep": "^4.1.0",
+    "cypress": "^14.0.3",
+    "cypress-data-session": "^2.8.6",
+    "cypress-log-to-term": "^1.5.4",
+    "debug": "^4.4.0",
+    "lodash": "^4.17.21"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

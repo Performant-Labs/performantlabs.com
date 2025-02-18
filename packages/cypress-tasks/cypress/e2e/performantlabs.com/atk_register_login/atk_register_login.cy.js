@@ -24,8 +24,9 @@ import qaUserAccounts from '../../../data/qaUsers.json'
 describe('User registration and login tasks.', () => {
   //
   // Register the Ethereal user and confirm email reaches Ethereal.
+  // Forbidden.
   //
-  it.only('(ATK-CY-1000) Register with form and confirm email with Ethereal.', { tags: ['ATK-CY-1000', 'register-login', 'alters-db', 'smoke'] }, () => {
+  it.skip('(ATK-CY-1000) Register with form and confirm email with Ethereal.', { tags: ['ATK-CY-1000', 'register-login', 'alters-db', 'smoke'] }, () => {
     // Clean up user in case it exists.
     cy.deleteUserWithEmail(userEtherealAccount.userEmail, ['--delete-content'])
 

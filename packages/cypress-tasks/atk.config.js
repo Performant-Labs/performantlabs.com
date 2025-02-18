@@ -12,9 +12,9 @@ module.exports = {
   dataDir: "cypress/data",
   supportDir: "cypress/support",
   testDir: "cypress/e2e/performantlabs.com",
-  pantheon : {
+  pantheon: {
     isTarget: true,
     site: "performant-labs",
     environment: "dev"
-    }
+  }
 }
