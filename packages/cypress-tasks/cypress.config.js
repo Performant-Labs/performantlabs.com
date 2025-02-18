@@ -3,7 +3,7 @@ const registerDataSession = require('cypress-data-session/src/plugin')
 
 module.exports = defineConfig({
   // Used by Cypress.io
-  projectId: 'projectID',
+  projectId: 'fczbqz',
   pageLoadTimeout: 30000,
   requestTimeout : 5000,
   responseTimeout : 5000,
@@ -35,7 +35,8 @@ module.exports = defineConfig({
   env: {
     grepFilterSpecs: true,
     drupalDrushCmdLine: "./vendor/bin/drush %command",
-    commandDelay: 2000
+    commandDelay: 2000,
+    account: require('./cypress/data/qaUsers.json'),
   },
   e2e: {
     baseUrl: 'https://dev-performant-labs.pantheonsite.io/',
