@@ -322,6 +322,7 @@
         "drupal/qa_accounts": "^1.0",
         "drupal/rdf": "^2.1",
         "drupal/redirect": "^1.8",
+        "drupal/reroute_email": "^2.2",
         "drupal/responsive_menu": "~4.4.2",
         "drupal/routes_list": "^6.2",
         "drupal/scheduler": "~2.0",
