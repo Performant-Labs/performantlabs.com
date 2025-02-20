@@ -8,15 +8,13 @@
 
 /** ESLint directives */
 /* eslint-disable no-prototype-builtins */
-/* eslint-disable import/first */
-
-import { execSync } from 'child_process'
 
 // https://github.com/bahmutov/cypress-log-to-term
 import 'cypress-log-to-term/commands'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
-import atkConfig from '../../atk.config.js'
+import { chai } from 'globals'
+import atkConfig from '../../cypress.atk.config'
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -48,7 +46,7 @@ Cypress.Commands.add('createUserWithUserObject', (user, roles = [], args = [], o
   options.push(`--mail='${user.userEmail}'`, `--password='${user.userPassword}'`)
   cy.log(`Attempting to create: ${user.userName}. `)
 
-  cy.execDrush(cmd, args, options).then((result) => {
+  cy.execDrush(cmd, args, options).then(() => {
     // TODO: Bring this in when execDrush reliably
     // returns results.
 
@@ -60,17 +58,36 @@ Cypress.Commands.add('createUserWithUserObject', (user, roles = [], args = [], o
     // Attempt to add the roles.
     // Role(s) may come from the user object or the function arguments.
     if (user.hasOwnProperty('userRoles')) {
-      user.userRoles.forEach(function (role) {
+      user.userRoles.forEach((role) => {
         roles.push(role)
       })
     }
 
-    roles.forEach(function (role) {
+    roles.forEach((role) => {
       cmd = `user:role:add '${role}' '${user.userName}'`
       cy.execDrush(cmd)
       cy.log(`${role}: If role exists, role assigned to the user ${user.userName}`)
     })
   })
+})
+
+/**
+ * Delete node via UI given a nid.
+ *
+ * @param {int} nid Node ID of item to delete.
+ */
+Cypress.Commands.add('deleteNodeViaUiWithNid', (nid) => {
+  const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace('{nid}', nid)
+
+  // Delete a node page.
+  cy.visit(nodeDeleteUrl)
+  // cy.get().click()
+
+  cy.wait(500)
+  cy.get('#edit-submit').click()
+
+  // Adjust this confirmation to your needs.
+  cy.get('.messages--status').invoke('text').should('include', 'has been deleted.')
 })
 
 /**
@@ -92,7 +109,7 @@ Cypress.Commands.add('deleteUserWithEmail', (email, options = []) => {
   options.push(`--mail='${email}'`)
   const cmd = 'user:cancel -y '
 
-  cy.execDrush(cmd, ['dummy'], ['--mail=' + email, '--delete-content'])
+  cy.execDrush(cmd, ['dummy'], [`--mail=${email}`, '--delete-content'])
 })
 
 /**
@@ -167,19 +184,27 @@ Cypress.Commands.add('execDrush', (cmd, args = [], options = []) => {
   const optionsString = options.join(' ')
   const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
 
+  cy.log(`Full command: ${command}`)
   // Pantheon needs special handling.
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
     return cy.execPantheonDrush(command) // Returns stdout (not wrapped).
-  } else {
-    cy.log('execDrush: ' + command)
-
-    cy.exec(command, { failOnNonZeroExit: false }).then((result) => {
-      output = result.stdout
-      cy.log('execDrush result: ' + output)
-      return cy.wrap(output, {log: false})
-    })
   }
+
+  cy.exec(command, { failOnNonZeroExit: false }).then((result) => {
+    output = result.stdout
+    cy.log(`cy.exec result: ${output}`)
+    return cy.wrap(output, { log: false })
+  })
+})
+
+/**
+ * Delete nod via Drush with nid.
+ *
+ * @param {number} nid Node ID of item to be deleted.
+ */
+Cypress.Commands.add('deleteNodeWithNid', (nid) => {
+  cy.execDrush(`entity:delete node ${nid}`)
 })
 
 /**
@@ -204,15 +229,146 @@ Cypress.Commands.add('execPantheonDrush', (cmd) => {
     // the cmd argument.
     const remoteCmd = `ssh -T ${envConnection} -p 2222 -o 'StrictHostKeyChecking=no' -o 'AddressFamily inet' '${cmd}'`
 
-    cy.log('execPantheonDrush: ' + cmd)
+    cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result2) => {
+      const output = result2.stdout
+      cy.log(`cy.exec result: ${output}`)
 
-    cy.exec(remoteCmd, { failOnNonZeroExit: false }).then((result) => {
-      let output = result.stdout
-      cy.log('execPantheonDrush result: ' + output)
-
-      return cy.wrap(output, {log: false} )
+      return cy.wrap(output, { log: false })
     })
   })
+})
+
+/**
+ * Get selector by label.
+ *
+ * @param label {string} label.
+ * @return {Cypress.Chainable<HTMLElement>} input.
+ */
+Cypress.Commands.add('getByLabel', (label) => {
+  // cy.log('**getByLabel**')
+  cy.contains('label', label)
+    .invoke('attr', 'for')
+    .then((id) => {
+      cy.get(`#${id}`)
+    })
+})
+
+/**
+ * Get base URL from the currently open page.
+ *
+ * @return {string} URL, without trailing slash. E.g. "http://example.com".
+ */
+Cypress.Commands.add('getBaseUrl', () => {
+  const baseUrl = Cypress.config('baseUrl')
+  const match = baseUrl.match(/^(?:https?:\/\/)(?:[^@/\n]+@)?(?:[^:/\n]+)/)
+  if (!match) {
+    throw new Error(`Url is not parsed: ${baseUrl}`)
+  }
+  return match[0]
+})
+
+/**
+ * Assert that email has been received to the given address and
+ * subject.
+ *
+ * It is done with one of mail capture software which is configured
+ * in {@link atkConfig}. If it's not configured, email verification
+ * is skipped.
+ *
+ * @param mailto Recipient email address.
+ * @param subject Expected email subject.
+ * @return {Promise<void>}
+ */
+Cypress.Commands.add('expectEmail', (mailto, subject) => {
+  // Helper function to match message subject.
+  function matchSubject(actualSubject) {
+    if (typeof actualSubject !== 'string') {
+      return false
+    }
+    if (typeof subject === 'string') {
+      return actualSubject.includes(subject)
+    }
+    if (subject instanceof RegExp) {
+      return actualSubject.match(subject)
+    }
+    return false
+  }
+
+  // Helper function to match mailto.
+  function matchTo(actualTo) {
+    if (typeof actualTo !== 'string') {
+      return false
+    }
+    if (mailto instanceof RegExp) {
+      return actualTo.match(mailto)
+    }
+    return actualTo === mailto
+  }
+
+  const prov = atkConfig.email?.provider
+  if (prov === 'mailpit') {
+    cy.getBaseUrl().then((baseURL) => {
+      const emailURL = atkConfig.email.url.replace('{baseURL}', baseURL)
+      return new URL('/api/v1/messages', emailURL).toString()
+    }).as('apiURL')
+
+    // Check email via API.
+    cy.get('@apiURL').then((apiUrl) => cy.request(apiUrl)).as('messages')
+    cy.get('@messages')
+      .then(({ body }) => {
+        // List of objects in format:
+        //     {
+        //       "ID": "8EuEhuoAVxZzxxiYrr3TVh",
+        //       "MessageID": "UR2Rbn5wjvdxYxQ4n68tpk@mailpit",
+        //       "Read": true,
+        //       "From": {
+        //         "Name": "Automated Testing Kit Demonstration",
+        //         "Address": "admin@example.com"
+        //       },
+        //       "To": [
+        //         {
+        //           "Name": "",
+        //           "Address": "admin@example.com"
+        //         }
+        //       ],
+        //       "Cc": [],
+        //       "Bcc": [],
+        //       "ReplyTo": [],
+        //       "Subject": "New release(s) available for Automated Testing Kit Demonstration",
+        //       "Created": "2024-11-26T16:11:17.393Z",
+        //       "Tags": [],
+        //       "Size": 1236,
+        //       "Attachments": 0,
+        //       "Snippet": "There is a security update available for your version of Drupal. To ensure the security of your server, you should update immediately! There are updates available for one or more of your modules or th..."
+        //     }
+        const { messages } = body
+        expect(messages).to.exist
+
+        // Find  a proper message:
+        const message = messages.find((message) => matchTo(message.To[0].Address) && matchSubject(message.Subject))
+        expect(message, `To: <${mailto}>
+Subject: ${subject}`).to.exist
+      })
+  } else if (prov === 'testmail') {
+    const { namespace, apiKey } = atkConfig.email
+    if (typeof mailto !== 'string' || !new RegExp(`^${namespace}\\.\\w+@inbox\\.testmail\\.app$`).test(mailto)) {
+      throw new Error(`Test email address must be in format ${namespace}.{tag}@inbox.testmail.app`)
+    }
+
+    cy.request(`https://api.testmail.app/api/json?apikey=${apiKey}&namespace=${namespace}&pretty=true`).then(({ body }) => {
+      if (body.result !== 'success') {
+        // Body contains message.
+        throw body
+      } else {
+        // Find a proper message:
+        const message = body.emails.find((email) => matchTo(email.to) && matchSubject(email.subject))
+        expect(message, `To: <${mailto}>
+Subject: ${subject}`).to.exist
+      }
+    })
+  } else {
+    cy.log('Email verification skipped. Configure **email** in **cypress.atk.config.js** to enable.')
+  }
 })
 
 /**
@@ -229,28 +385,24 @@ function getDrushAlias() {
     cmd = 'drush '
   } else {
     // Fetch the Drush command appropriate to the operating mode.
-    cmd = atkConfig.drushCmd + ' '
+    cmd = `${atkConfig.drushCmd} `
   }
   return cmd
 }
 
 /**
  * Get Iframe body given an id.
+ *
+ * Get the iframe > document > body
+ * and retry until the body element is not empty
  */
-Cypress.Commands.add('getIframeBodyWithId', (iframeId) => {
-  // Get the iframe > document > body
-  // and retry until the body element is not empty
-  return (
-    cy
-      .get('iframe[id=mvActiveArea]')
-      .its('0.contentDocument.body')
-      .should('not.be.empty')
-      // Wraps “body” DOM element to allow
-      // chaining more Cypress commands, like “.find(...)”
-      // https://on.cypress.io/wrap
-      .then(cy.wrap, {log: false})
-  )
-})
+Cypress.Commands.add('getIframeBodyWithId', () => cy.get('iframe[id=mvActiveArea]')
+  .its('0.contentDocument.body')
+  .should('not.be.empty')
+// Wraps “body” DOM element to allow
+// chaining more Cypress commands, like “.find(...)”
+// https://on.cypress.io/wrap
+  .then(cy.wrap, { log: false }))
 
 /**
  * Return the UID of a user given an email.
@@ -269,7 +421,8 @@ Cypress.Commands.add('getUidWithEmail', (email) => {
       for (const key in userJson) {
         if (userJson[key].hasOwnProperty('uid')) {
           const uidValue = userJson[key].uid
-          return cy.wrap(parseInt(uidValue), {log: false}) // Exit the loop once the mail property is found.
+          // Exit the loop once the mail property is found.
+          return cy.wrap(parseInt(uidValue, 10), { log: false })
         }
       }
     }
@@ -293,7 +446,8 @@ Cypress.Commands.add('getUsernameWithEmail', (email) => {
       for (const key in userJson) {
         if (userJson[key].hasOwnProperty('name')) {
           const nameValue = userJson[key].name
-          return cy.wrap(nameValue, {log: false}) // Exit the loop once the mail property is found.
+          // Exit the loop once the mail property is found.
+          return cy.wrap(nameValue, { log: false })
         }
       }
     }
@@ -306,7 +460,7 @@ Cypress.Commands.add('getUsernameWithEmail', (email) => {
  * @param {object} account JSON object; see structure of qaUserAccounts.json.
  */
 Cypress.Commands.add('logInViaForm', (account) => {
-  const logInUrl = atkConfig.logInUrl
+  const { logInUrl } = atkConfig
 
   Cypress.session.clearAllSavedSessions()
 
@@ -316,7 +470,6 @@ Cypress.Commands.add('logInViaForm', (account) => {
       cy.visit(logInUrl)
 
       // It is ok for the username to be visible in the Command Log.
-      // eslint-disable-next-line no-unused-expressions
       expect(account.userName, 'username was set').to.be.a('string').and.not.be.empty
 
       // But the password value should not be shown.
@@ -342,8 +495,19 @@ Cypress.Commands.add('logInViaForm', (account) => {
         // Optional.
         // should('include.text', 'user')
       },
-    }
+    },
   )
+})
+
+Cypress.Commands.add('inputCKEditor', (text) => {
+  cy.get('.ck-editor__main > .ck').then((element) => {
+    const editor = element[0].ckeditorInstance
+    editor.setData(text)
+  })
+})
+
+Cypress.Commands.add('save', () => {
+  cy.contains('Save').click()
 })
 
 /**
@@ -353,13 +517,19 @@ Cypress.Commands.add('logInViaForm', (account) => {
  * @param {integer} uid Drupal user id.
  */
 Cypress.Commands.add('logInViaUli', (uid) => {
-  if (uid === undefined) uid = 1
+  let useUid
+  if (uid === undefined) {
+    useUid = 1
+  } else {
+    useUid = uid
+  }
 
   Cypress.session.clearAllSavedSessions()
 
-  const cmd = `user:login --uid=${uid}`
+  const cmd = `user:login --uid=${useUid}`
+  const baseUrl = Cypress.config('baseUrl')
 
-  cy.execDrush(cmd, [], ['--uri=' + Cypress.config('baseUrl')]).then((result) => {
+  cy.execDrush(cmd, [], [`--uri=${baseUrl}`]).then((result) => {
     cy.visit(result)
   })
 })
@@ -371,6 +541,28 @@ Cypress.Commands.add('logInViaUli', (uid) => {
  */
 Cypress.Commands.add('logOutViaUi', () => {
   cy.visit(atkConfig.logOutUrl)
+  // Confirm if needed.
+  cy.url().then((url) => {
+    if (url.match(/confirm/)) {
+      cy.get('input[value="Log out"]').click()
+    }
+  })
+})
+
+/**
+ * Get Drupal configuration via Drush (cget).
+ *
+ * @param {string} objectName Name of configuration category.
+ * @param {string} key Name of configuration setting.
+ * @return {*} Value of configuration setting.
+ */
+Cypress.Commands.add('getDrupalConfiguration', (objectName, key) => {
+  const cmd = `cget ${objectName} ${key} --format=json`
+
+  cy.execDrush(cmd).then((output) => {
+    const obj = JSON.parse(output)
+    return obj[`${objectName}:${key}`]
+  })
 })
 
 /**
@@ -381,7 +573,7 @@ Cypress.Commands.add('logOutViaUi', () => {
  * @param {*} value Value of configuration setting.
  */
 Cypress.Commands.add('setDrupalConfiguration', (objectName, key, value) => {
-  const cmd = `cset -y ${objectName} ${key} ${value}`
+  const cmd = `cset -y --input-format=yaml ${objectName} ${key} '${JSON.stringify(value)}'`
 
   cy.execDrush(cmd)
 })
