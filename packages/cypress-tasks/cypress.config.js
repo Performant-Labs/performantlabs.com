@@ -1,9 +1,8 @@
 const { defineConfig } = require("cypress");
-const registerDataSession = require('cypress-data-session/src/plugin')
 
 module.exports = defineConfig({
   // Used by Cypress.io
-  projectId: 'projectID',
+  projectId: 'fczbqz',
   pageLoadTimeout: 30000,
   requestTimeout : 5000,
   responseTimeout : 5000,
@@ -32,26 +31,17 @@ module.exports = defineConfig({
     "www.linkedin.com",
     "www.googletagmanager.com",
   ],
-  env: {
-    grepFilterSpecs: true,
-    drupalDrushCmdLine: "./vendor/bin/drush %command",
-    commandDelay: 2000
-  },
   e2e: {
     baseUrl: 'https://dev-performant-labs.pantheonsite.io/',
-    isPantheon: true,
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
-    pantheonSite: 'performant-labs',
-    pantheonEnvironment: 'live',
-    pantheonTerminus: 'terminus',
-    useRegions: false,
     setupNodeEvents(on, config) {
-      // register the "cypress-log-to-term" plugin
+      // Register the "cypress-log-to-term" plugin.
       // https://github.com/bahmutov/cypress-log-to-term
       // IMPORTANT: pass the "on" callback argument
-
       require('cypress-log-to-term')(on)
-      registerDataSession(on, config)
+
+      // Register the "cypress/grep" plugin.
+      require('@cypress/grep/src/plugin')(config)
       return config
     },
   },
