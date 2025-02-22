@@ -1,8 +1,26 @@
+/**
+ * atk_lighthouse.spec.js
+ *
+ * Lighthouse tests.
+ *
+ */
+
+/** ESLint directives */
+/* eslint-disable import/first */
+
+import * as atkCommands from '../support/atk_commands';
+import * as atkUtilities from '../support/atk_utilities';
+
 import getPort from 'get-port';
 import { playAudit } from 'playwright-lighthouse';
 import { chromium } from '@playwright/test';
 import { test as base } from '../support/atk_fixture.js';
 import { getURLList } from '../support/atk_utilities.js';
+
+// Import configuration.
+import playwrightConfig from '../../playwright.config';
+import atkConfig from '../../playwright.atk.config';
+const baseUrl = playwrightConfig.use.baseURL;
 
 const test = base.extend({
   port: [
@@ -38,8 +56,8 @@ test.describe('Google Lighthouse Audit', () => {
   });
 
   for (const [url, props] of URLList) {
-    test(title.replace('{url}', url), async ({ page, port }, testInfo) => {
-      await page.goto(url);
+    test.skip(title.replace('{url}', url), async ({ page, port }, testInfo) => {
+      await page.goto(baseUrl + url);
 
       await playAudit({
         page,

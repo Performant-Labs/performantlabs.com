@@ -11,7 +11,7 @@ import { defineConfig, devices } from '@playwright/test';
 import rpconfig from './reportportal.config.js';
 
 /**
- * Check if reportportal is available
+ * Check if ReportPortal is available
  * @return {Promise<boolean>} true if it is, false if it's not
  */
 async function checkReportPortal() {
@@ -23,14 +23,15 @@ async function checkReportPortal() {
   });
 }
 
-// Report portal & allure config
+// ReportPortal & Allure config
 const reporterMap = {
   allure: ['allure-playwright'],
   reportportal: ['@reportportal/agent-js-playwright', rpconfig],
 }
 
 // Define reporters depending on sharding and Portal's availability
-const reporter = [];
+const reporter = [['list']];
+// const reporter = [];
 const isShard = process.argv.find((arg) => arg.startsWith('--shard'));
 if (isShard) {
   reporter.push(['blob']);
