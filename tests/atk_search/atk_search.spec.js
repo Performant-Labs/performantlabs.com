@@ -8,18 +8,17 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
+import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
 import { qaUsers } from '../support/atk_utilities';
-import * as atkCommands from '../support/atk_commands';
 
+// Import configuration.
 import playwrightConfig from '../../playwright.config';
-
+import atkConfig from '../../playwright.atk.config';
+const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
-
-const baseUrl = playwrightConfig.use.baseURL;
-
 
 // Search keywords and expected results.
 // Adjust for your site.
@@ -64,7 +63,7 @@ test.describe('Search tests.', () => {
       // In the default installation, only admin can do advanced search.
       // Change if it's configured different way on your site.
       await atkCommands.logInViaForm(page, context, qaUsers.admin)
-      await page.goto(`${baseUrl}search/node`)
+      await page.goto(baseUrl + 'search/node')
 
       // Expand "Advanced search".
       await page.getByRole('button', { name: 'Advanced search' }).click()
@@ -119,7 +118,7 @@ test.describe('Search tests.', () => {
     // In the default installation, only admin can do advanced search.
     // Change if it's configured different way on your site.
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
-    await page.goto(`${baseUrl}search/node`)
+    await page.goto(baseUrl + 'search/node')
 
     // Expand "Advanced search".
     await page.getByRole('button', { name: 'Advanced search' }).click()

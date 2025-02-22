@@ -8,28 +8,25 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
+import * as atkCommands from '../support/atk_commands';
+import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
+import { qaUsers } from '../support/atk_utilities';
 import { XMLParser } from 'fast-xml-parser';
 import axios from 'axios';
-import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
-import * as atkCommands from '../support/atk_commands';
 
+// Import configuration.
 import playwrightConfig from '../../playwright.config';
-
+import atkConfig from '../../playwright.atk.config';
 const baseUrl = playwrightConfig.use.baseURL;
-
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
 
-test.skip('Sitemap tests.', () => {
-  //
-  // 1070 to 1079 reserved for XML Sitemap (https://www.drupal.org/project/xmlsitemap) tests.
-  //
-
+test('Sitemap tests.', () => {
   //
   // Return # of sitemap files; fail if zero.
   //
-  test('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
+  test.skip('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
     const testId = 'ATK-PW-1070' // eslint-disable-line no-unused-vars
     const fileName = 'sitemap.xml'
 

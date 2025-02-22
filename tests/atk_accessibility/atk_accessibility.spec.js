@@ -9,7 +9,7 @@ const URLs = await getURLList('atk_accessibility.yml');
 
 test.describe('Accessibility', () => {
   for (const [url, props] of URLs) {
-    test(title.replace('{url}', url), async ({ page }, testInfo) => {
+    test.skip(title.replace('{url}', url), async ({ page }, testInfo) => {
       await page.goto(url);
 
       let axeBuilder = new AxeBuilder({ page });

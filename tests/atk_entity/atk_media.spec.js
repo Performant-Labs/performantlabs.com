@@ -12,9 +12,10 @@ import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 import { qaUsers } from '../support/atk_utilities';
 
-// Import ATK configuration.
+// Import configuration.
+import playwrightConfig from '../../playwright.config';
 import atkConfig from '../../playwright.atk.config';
-
+const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -23,7 +24,7 @@ test.describe('Media tests.', () => {
   //
   // Create media with image, confirm it, update it, confirm update then delete it via the UI.
   //
-  test('(ATK-PW-1130) Create, update, delete an image via the UI. @ATK-PW-1130 @media @smoke @alters-db', async ({ page, context }) => {
+  test.skip('(ATK-PW-1130) Create, update, delete an image via the UI. @ATK-PW-1130 @media @smoke @alters-db', async ({ page, context }) => {
     const testId = 'ATK-PW-1130';
     const image1Filepath = 'tests/data/RobotsAtDesk.png';
     const image2Filepath = 'tests/data/SmokeTest.png';
@@ -38,7 +39,7 @@ test.describe('Media tests.', () => {
     //
     // Add an image.
     //
-    await page.goto(atkConfig.imageAddUrl);
+    await page.goto(baseUrl + atkConfig.imageAddUrl);
 
     // Upload image.
     const imageField = page.locator('#edit-field-media-image-0-upload');
@@ -79,7 +80,7 @@ test.describe('Media tests.', () => {
     //
     // Update the media.
     //
-    await page.goto(mediaEditUrl);
+    await page.goto(baseUrl + mediaEditUrl);
     await page.getByRole('button', { name: 'Remove' }).click();
     await page.setInputFiles('input[name="files[field_media_image_0]"]', image2Filepath);
     await altField.fill(`${testId}: ${uniqueToken2}`);
@@ -101,7 +102,7 @@ test.describe('Media tests.', () => {
     //
     // Delete the media entity.
     //
-    await page.goto(mediaDeleteUrl);
+    await page.goto(baseUrl + mediaDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
   });
 });

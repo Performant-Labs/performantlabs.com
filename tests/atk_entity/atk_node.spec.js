@@ -12,9 +12,10 @@ import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 import { qaUsers } from '../support/atk_utilities';
 
-// Import ATK configuration.
+// Import configuration.
+import playwrightConfig from '../../playwright.config';
 import atkConfig from '../../playwright.atk.config';
-
+const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -36,7 +37,7 @@ test.describe('Node tests.', () => {
     //
     // Add a page.
     //
-    await page.goto(atkConfig.pageAddUrl);
+    await page.goto(baseUrl + atkConfig.pageAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -96,7 +97,7 @@ test.describe('Node tests.', () => {
     //
     // Add an article.
     //
-    await page.goto(atkConfig.articleAddUrl);
+    await page.goto(baseUrl + atkConfig.articleAddUrl);
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');

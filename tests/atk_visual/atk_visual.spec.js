@@ -1,3 +1,13 @@
+/**
+ * atk_visual.spec.js
+ *
+ * Set up visual page tests.
+ *
+ */
+
+/** ESLint directives */
+/* eslint-disable import/first */
+
 import { expect, test } from '../support/atk_fixture.js';
 import { getURLList } from '../support/atk_utilities.js';
 

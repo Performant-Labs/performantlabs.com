@@ -11,14 +11,16 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 import { qaUsers } from '../support/atk_utilities';
-// Import ATK configuration.
-import atkConfig from '../../playwright.atk.config';
 
+// Import configuration.
+import playwrightConfig from '../../playwright.config';
+import atkConfig from '../../playwright.atk.config';
+const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
 
-test.describe('Entity tests.', () => {
+test.describe('Taxonomy tests.', () => {
   //
   // Create taxonomy term, confirm it, update it, confirm update then delete it via the UI.
   //
@@ -36,7 +38,7 @@ test.describe('Entity tests.', () => {
     //
     // Add a taxonomy node to the tags vocabulary.
     //
-    await page.goto(atkConfig.termAddUrl);
+    await page.goto(baseUrl + atkConfig.termAddUrl);
 
     // Fill in as many fields as you need here.
     // Below we provide a name and body.
@@ -50,7 +52,7 @@ test.describe('Entity tests.', () => {
     // Fetch tag id from the list. The new term should be at
     // or near the top.
     //
-    await page.goto(`admin/structure/taxonomy/manage/tags/overview`);
+    await page.goto(baseUrl + 'admin/structure/taxonomy/manage/tags/overview');
 
     // Get the tid from the edit button.
     const link = await page.locator("//a[contains(text(),'Edit') and  starts-with(@href, '/taxonomy/term')]").first();
@@ -66,7 +68,7 @@ test.describe('Entity tests.', () => {
     const termDeleteUrl = atkConfig.termDeleteUrl.replace('{tid}', tid);
 
     // Validate the body.
-    await page.goto(termViewUrl);
+    await page.goto(baseUrl + termViewUrl);
     await expect(bodyText).toContain(bodyText);
 
     // Extract the tid placed in the body class by this hook:
@@ -78,7 +80,7 @@ test.describe('Entity tests.', () => {
     //
     bodyText = 'Ut eget ex vitae nibh dapibllus vulputate ut id lacus.';
 
-    await page.goto(termEditUrl);
+    await page.goto(baseUrl + termEditUrl);
     await atkCommands.inputTextIntoCKEditor(page, bodyText);
     const button = await page.locator('#edit-save'); // eslint-disable-line no-unused-vars
     // await button.click( { force: true } )
@@ -87,7 +89,7 @@ test.describe('Entity tests.', () => {
     //
     // Delete the term.
     //
-    await page.goto(termDeleteUrl);
+    await page.goto(baseUrl + termDeleteUrl);
     await page.getByRole('button', { name: 'Delete' }).click();
 
     // Adjust this confirmation to your needs.
