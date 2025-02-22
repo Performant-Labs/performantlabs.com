@@ -12,6 +12,10 @@ import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 import { qaUsers } from '../support/atk_utilities';
 
+// Import configuration.
+import playwrightConfig from '../../playwright.config';
+import atkConfig from '../../playwright.atk.config';
+const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -28,7 +32,7 @@ test.describe('Page error tests.', () => {
     const badAnonymousUrl = 'admin';
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(badAnonymousUrl);
+    await page.goto(baseUrl + badAnonymousUrl);
 
     // Should see the 403 message.
     let textContent = '';
@@ -48,7 +52,7 @@ test.describe('Page error tests.', () => {
     const badAuthenticatedUrl = `${testId}-BadAuthenticatedPage-${randomString}`;
 
     await atkCommands.logOutViaUi(page, context);
-    await page.goto(`${badAnonymousUrl}`);
+    await page.goto(baseUrl + badAnonymousUrl);
 
     // Should see the 404 message.
     let textContent = '';
@@ -56,7 +60,7 @@ test.describe('Page error tests.', () => {
     expect(textContent).toContain('The requested page could not be found');
 
     await atkCommands.logInViaForm(page, context, qaUsers.authenticated);
-    await page.goto(badAuthenticatedUrl);
+    await page.goto(baseUrl + badAuthenticatedUrl);
 
     // Should see the 404 message.
     textContent = await page.content();

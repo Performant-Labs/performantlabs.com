@@ -11,17 +11,16 @@
 import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
+// Import configuration.
 import playwrightConfig from '../../playwright.config';
-
-// Import ATK Configuration.
 import atkConfig from '../../playwright.atk.config';
-
-// Import ATK data.
 const baseUrl = playwrightConfig.use.baseURL;
-const qaUsers = atkUtilities.qaUsers;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
+
+// Import ATK data.
+const qaUsers = atkUtilities.qaUsers;
 
 test.describe('Contact Us tests.', () => {
   //
