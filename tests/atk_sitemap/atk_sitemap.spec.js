@@ -13,6 +13,7 @@ import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line
 import { qaUsers } from '../support/atk_utilities';
 import { XMLParser } from 'fast-xml-parser';
 import axios from 'axios';
+import https from 'https';
 
 // Import configuration.
 import playwrightConfig from '../../playwright.config';
@@ -22,11 +23,11 @@ const baseUrl = playwrightConfig.use.baseURL;
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
 
-test('Sitemap tests.', () => {
+test.describe('Sitemap tests.', () => {
   //
   // Return # of sitemap files; fail if zero.
   //
-  test.skip('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
+  test('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
     const testId = 'ATK-PW-1070' // eslint-disable-line no-unused-vars
     const fileName = 'sitemap.xml'
 
@@ -74,7 +75,7 @@ test('Sitemap tests.', () => {
     //
     // Step 1.
     //
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+    await atkCommands.logInViaForm(page, context, qaUsers.admin)
     await page.goto(baseUrl + atkConfig.xmlSitemapUrl)
 
     // Find the row where the first column contains the baseUrl.
