@@ -1,0 +1,35 @@
+name: (Test) Deploy app on Tugboat
+run-name: ${{ github.actor }} is triggering a Tugboat preview.
+
+on:
+  workflow_dispatch:
+
+env:
+  PHP_VERSION: '8.3'
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+  TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+
+jobs:
+  create-preview:
+    name: Trigger Tugboat Preview
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $pantheon_site_name.$pantheon_env."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
+      - name: Delete prior preview.
+        run: |
+          ./vendor/bin/testor preview:delete
+
+      - name: Create the preview.
+        run: |
+          ./vendor/bin/testor preview:create

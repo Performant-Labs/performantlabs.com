@@ -1,0 +1,15 @@
+# We make use of config substitusion, #see https://github.com/consolidation/config?tab=readme-ov-file#configuration-value-substitution
+# Use `echo "s3_secret: $MY_SUPER_SECRET" >> .testor.yml` in your scripts.
+pantheon:
+  site: 'performant-labs'
+tugboat:
+  repo: '63fe5557d5af549afd35a86a'
+s3:
+  config:
+    version: 'latest'
+    region: 'us-lax-1'
+    endpoint: 'https://us-lax-1.linodeobjects.com'
+    credentials:
+      key: '9ZGBU4TC3DA5Z1AYJD3O'
+      secret: '${s3_secret}'
+  bucket: 'snapshot'

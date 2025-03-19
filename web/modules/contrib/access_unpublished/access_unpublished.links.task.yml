@@ -1,5 +1,0 @@
-access_unpublished.access_token.list:
-  title: Access Tokens
-  route_name: access_unpublished.access_token.list
-  base_route: system.admin_content
-  weight: 1

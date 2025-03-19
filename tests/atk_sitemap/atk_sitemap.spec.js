@@ -8,24 +8,22 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
+import * as atkCommands from '../support/atk_commands';
+import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
+import { qaUsers } from '../support/atk_utilities';
 import { XMLParser } from 'fast-xml-parser';
 import axios from 'axios';
-import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
-import * as atkCommands from '../support/atk_commands';
+import https from 'https';
 
+// Import configuration.
 import playwrightConfig from '../../playwright.config';
-
+import atkConfig from '../../playwright.atk.config';
 const baseUrl = playwrightConfig.use.baseURL;
-
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
 
-test.skip('Sitemap tests.', () => {
-  //
-  // 1070 to 1079 reserved for XML Sitemap (https://www.drupal.org/project/xmlsitemap) tests.
-  //
-
+test.describe('Sitemap tests.', () => {
   //
   // Return # of sitemap files; fail if zero.
   //
@@ -77,7 +75,7 @@ test.skip('Sitemap tests.', () => {
     //
     // Step 1.
     //
-    await atkCommands.logInViaForm(page, context, qaUserAccounts.admin)
+    await atkCommands.logInViaForm(page, context, qaUsers.admin)
     await page.goto(baseUrl + atkConfig.xmlSitemapUrl)
 
     // Find the row where the first column contains the baseUrl.

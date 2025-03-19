@@ -1,9 +1,0 @@
-routes_list.report:
-  path: '/admin/reports/routes-list'
-  defaults:
-    _controller: '\Drupal\routes_list\Controller\RoutesListController::report'
-    _title: 'Routes List'
-  requirements:
-    _permission: 'access routes list'
-  options:
-    _admin_route: TRUE

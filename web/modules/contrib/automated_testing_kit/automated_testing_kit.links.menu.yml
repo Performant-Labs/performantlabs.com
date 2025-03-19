@@ -1,6 +1,0 @@
-# Automated Testing Kit settings form
-automated_testing_kit.automated_testing_kit_configuration:
-  title: 'Automated Testing Kit Configuration'
-  description: 'Configuration options for the Automated Testing Kit module.'
-  route_name: automated_testing_kit.configuration_form
-  parent: system.admin_config_development

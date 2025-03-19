@@ -1,0 +1,199 @@
+name: (Deploy) Deploy artifact to Pantheon Dev.
+run-name: ${{ github.actor }} is deploying to Pantheon Dev.
+#on: [push]
+on: workflow_dispatch
+
+env:
+  PHP_VERSION: '8.3'
+  PANTHEON_SITE_NAME: 'performant-labs'
+  PANTHEON_ENV: 'dev'
+  PANTHEON_REPO_DIR: '/tmp/pantheon_repo'
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  Deploy-to-Dev:
+    env:
+      GIT_EMAIL: 'ci-bot@pantheon.io'
+      GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_PROJECT_USERNAME: ${{ github.repository_owner }}
+      GH_PROJECT_REPONAME: ${{ github.repository }}
+      PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Check PHP version
+        run: php -v
+
+      - name: Update Composer
+        run: composer self-update
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: List the directories in the project (x1).
+        run: |
+          tree -d -L 3
+
+      - name: Validate composer.json and composer.lock.
+        continue-on-error: true
+        run: composer validate --strict
+
+      - name: Set Composer cache directory.
+        id: composer-cache-dir
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies.
+        uses: actions/cache@v4.2.0
+        with:
+          path: ${{ steps.composer-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Avoid GitHub rate limit for Composer.
+        run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+
+# Use this sparingly.
+#      - name: Remove composer.lock.
+#        run: rm composer.lock
+
+      - name: Install project using Composer.
+        run: composer install --optimize-autoloader --no-dev --prefer-dist --no-interaction --no-progress
+
+      - name: Occasionally the write permission is missing.
+        run: |
+          echo "Showing vendor directory."
+          pwd
+          tree -d -L 4
+
+      - name: Install SSH Key.
+        uses: shimataro/ssh-key-action@v2.5.0
+        with:
+          key: ${{ secrets.PANTHEON_SSH_PRIVATE_KEY }}
+          name: id_rsa_pantheon
+          config: |
+            Host *.drush.in
+              IdentityFile ~/.ssh/id_rsa_pantheon
+              IdentitiesOnly yes
+              HostKeyAlgorithms +ssh-rsa
+              PubkeyAcceptedAlgorithms +ssh-rsa
+              StrictHostKeyChecking no
+          known_hosts: ' '
+          if_key_exists: replace
+
+      - name: Install Terminus as standalone command to avoid dependency interference.
+        uses: pantheon-systems/terminus-github-actions@main
+        with:
+          pantheon-machine-token: ${{ secrets.PANTHEON_MACHINE_TOKEN }}
+
+      - name: Install Terminus Build Tools.
+        run: terminus self:plugin:install terminus-build-tools-plugin
+
+      - name: List the directories in the project (x2).
+        run: |
+          cd web
+          tree -d -L 4
+
+      - name: Enable maintenance mode.
+        run: |
+          echo "Enabling maintenance mode for $pantheon_site_name.$pantheon_env."
+          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sset system.maintenance_mode 1
+          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- sget system.maintenance_mode
+
+      - name: Clone Pantheon repo locally.
+        run: |
+          mkdir "$PANTHEON_REPO_DIR"
+          cd "$PANTHEON_REPO_DIR"
+          git init
+          git config user.email "$GIT_EMAIL"
+          git config user.name "CI Bot"
+          echo "Pantheon repo URL - ${{vars.PANTHEON_REPO_URL}}"
+          git remote add pantheon ${{vars.PANTHEON_REPO_URL}}
+
+          # Make the GitHub url be the origin so that Build Tools sets that url appropriately in the metadata file.
+          git remote add origin "$GITHUB_REPOSITORY_URL"
+
+          # List remotes (for debugging)
+          git remote -v
+
+          echo "Performing fetch."
+          git checkout -b master
+          git pull pantheon master
+
+      - name: Copy code to the local clone of the Pantheon repository.
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          pwd
+
+          # Pantheon needs special .gitignore
+          cp .pantheon.gitignore .gitignore
+          rm -rf .git .github .idea
+          rm -rf web/core/*.txt
+
+          # Cleans extra .git directories otherwise the module will be interpreted by git
+          # as a submodule and will not be added to the repo.
+          echo "Deleting all occurrences of .git and .DS_Store in modules."
+          find ./web -type d -name ".git" | xargs rm -fr
+          find . -type d -name ".DS_Store" | xargs rm -fr
+
+          # Remove because files are handled separately by Pantheon.
+          rm -Rf web/sites/default/files
+
+          # Copy files to Pantheon repo dir.
+          cp -R * "$PANTHEON_REPO_DIR"
+
+          # For easier debugging, show what files have changed.
+          git -C "$PANTHEON_REPO_DIR" status
+
+      - name: Add and commit then deploy to Pantheon.
+        run: |
+          cd "$PANTHEON_REPO_DIR"
+
+          echo "Adding files."
+          # Force add drush.php to include a version with the execute flag set.
+          # Tell git to care about permissions for just this file.
+          git config core.fileMode true
+          #touch vendor/bin/drush.php
+          #git add -f vendor/bin/drush.php
+          #git config core.fileMode false
+          #git ls-tree HEAD vendor/bin/drush
+          git add --force -A .
+
+          echo "Show files that are about to be committed."
+          git status
+          git commit -q -m "Updated files for $PANTHEON_SITE_NAME.$PANTHEON_ENV."
+
+          echo "Pushing build to Pantheon."
+          git push --force pantheon master
+
+          echo "Push complete. Running Pantheon's post-push hooks."
+
+          #echo "Peforming a Composer install via terminus."
+          #terminus connection:set $PANTHEON_SITE_NAME.$PANTHEON_ENV sftp
+          #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- install
+
+      - name: Wait for the deploy to complete.
+        run: |
+          terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Trigger tests
+        run: |
+          set -x
+          cd $GITHUB_WORKSPACE
+          BRANCH=${{ github.ref_name }}
+          gh workflow run test-against-pantheon.yml --ref $BRANCH -f env=dev
+
+      - run: echo "🍏 Job's status ${{ job.status }}."

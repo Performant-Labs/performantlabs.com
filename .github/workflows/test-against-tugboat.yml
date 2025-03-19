@@ -1,0 +1,204 @@
+name: (Test) Run Playwright tests against  Tugboat Preview.
+run-name: ${{ github.actor }} is running tests on Tugboat.
+on:
+  pull_request:
+
+env:
+  PHP_VERSION: '8.3'
+  TUGBOAT_TOKEN: ${{ secrets.TUGBOAT_TOKEN }}
+
+  # for parallelization
+  CI_THREADS: 2
+  CI_SHARDS: 3
+
+  # additional arguments to pass to `playwright test`.
+  # can be used to include/exclude tests, specify project ect.
+  ATK_PLAYWRIGHT_ARG: ${{ vars.ATK_PLAYWRIGHT_ARG }}
+
+  # for reporting
+  JOB_NAME: ${{ github.workflow }}
+  JOB_NUMBER: ${{ github.run_number }}
+  JOB_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  SLACK_ENABLED: ${{ vars.ATK_SLACK_ENABLED }}
+  SLACK_WEBHOOK_URL: ${{ secrets.ATK_SLACK_WEBHOOK_URL }}
+  MAIL_ENABLED: ${{ vars.ATK_MAIL_ENABLED }}
+  MAIL_HOST: ${{ secrets.ATK_MAIL_HOST }}
+  MAIL_PORT: ${{ secrets.ATK_MAIL_PORT }}
+  MAIL_USER: ${{ secrets.ATK_MAIL_USER }}
+  MAIL_PASSWORD: ${{ secrets.ATK_MAIL_PASSWORD }}
+  MAIL_TLS_ENABLE: ${{ secrets.ATK_MAIL_TLS_ENABLE }}
+  MAIL_FROM: ${{ vars.ATK_MAIL_FROM }}
+  MAIL_TO: ${{ vars.ATK_MAIL_TO }}
+  MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
+#  can be 'reportportal', 'allure', or 'reportportal,allure'
+  ATK_REPORT_TARGET: 'reportportal,allure'
+  REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
+  ALLURE_SERVER: 'https://allure-api.performantlabs.com'
+  ALLURE_SECURITY_USER: ${{ secrets.ALLURE_SECURITY_USER }}
+  ALLURE_SECURITY_PASS: ${{ secrets.ALLURE_SECURITY_PASS }}
+
+jobs:
+  Test-Setup:
+    runs-on: ubuntu-latest
+    outputs:
+      startTime: ${{ steps.get-output.outputs.startTime }}
+      shardIndex: ${{ steps.get-output.outputs.shardIndex }}
+    steps:
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
+      - name: Delete prior previews
+        run:
+          ./vendor/bin/testor preview:delete
+
+      - id: get-output
+        run: |
+          set -x
+          echo "::set-output name=startTime::$(date '+%s')"
+          echo "::set-output name=shardIndex::[$(seq 1 $CI_SHARDS | tr '\n' ',' | sed 's/.$//')]"
+          cat $GITHUB_OUTPUT
+
+  Test-on-Preview:
+    needs:
+      - Test-Setup
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: ${{ fromJSON(needs.Test-Setup.outputs.shardIndex) }}
+    env:
+      GIT_EMAIL: 'ci-bot@pantheon.io'
+      GITHUB_REPOSITORY_URL: ${{ github.repositoryUrl }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+      GH_PROJECT_USERNAME: ${{ github.repository_owner }}
+      GH_PROJECT_REPONAME: ${{ github.repository }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
+      - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          composer update --optimize-autoloader
+
+      # Create new preview if requested
+      - name: Create a preview
+        run: |
+          set -x
+          ./vendor/bin/testor preview:create --format=json > preview.json
+          cat preview.json
+
+      - name: Parse preview json and change test configs
+        run: |
+          set -x
+          PREVIEW=$(cat preview.json | jq -r .preview)
+          ./vendor/bin/testor preview:set $PREVIEW
+
+      # Install node after checking out repo to get access to package.json.
+      - name: 'Set up Node.'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: 'Install NPM dependencies'
+        run: npm i
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: eval npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/$CI_SHARDS
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report
+          retention-days: 1
+
+      - run: echo "🍏 Job's status ${{ job.status }}."
+
+  Test-Teardown:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_BRANCH: ${{ github.event.pull_request.head.ref || github.ref_name }}
+
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+    needs:
+      - Test-Setup
+      - Test-on-Preview
+    steps:
+
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
+      # Install node after checking out repo to get access to package.json.
+      - name: 'Set up Node.'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '19'
+          cache: 'npm'
+
+      - name: 'Install NPM dependencies'
+        run: npm i
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: blob-report
+          pattern: blob-report-*
+          merge-multiple: true
+
+      - name: Merge into an HTML (and other configured) report
+        run: |
+          sed 's/launch: "Playwright tests"/launch: "Playwright tests merged"/' -i reportportal.config.js
+          npx playwright merge-reports -c playwright.config.js blob-report
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ctrf
+          path: ctrf/
+          retention-days: 30
+
+      - name: Upload results to Allure
+        run: |
+          ./allure_send_results.sh
+
+      - name: Set environment for messaging results
+        if: ${{ always() }}
+        run: |
+          set -x
+          echo JOB_STATUS=${{ needs.Test-on-Preview.result }} >> $GITHUB_ENV
+          echo JOB_ENV=Tugboat preview per shard >> $GITHUB_ENV
+          echo JOB_BRANCH=$GITHUB_BRANCH >> $GITHUB_ENV
+          START=${{ needs.Test-Setup.outputs.startTime }}
+          STOP=$(date '+%s')
+          echo JOB_DURATION=$((STOP-START))000 >> $GITHUB_ENV
+
+      - name: Send results by email
+        if: ${{ always() && env.MAIL_ENABLED == 'true' }}
+        run: |
+          node tests/support/message-email.js
+
+      - name: Send results to Slack
+        if: ${{ always() && env.SLACK_ENABLED == 'true' }}
+        shell: bash
+        run: |
+          node tests/support/message-slack.js

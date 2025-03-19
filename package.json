@@ -5,11 +5,12 @@
     "@ghostery/adblocker-playwright": "^2.3.1",
     "@playwright/test": "^1.44.1",
     "@reportportal/agent-js-playwright": "^5.1.9",
+    "@testiny/cli": "^1.21.1",
     "@types/node": "^20.14.2",
     "allure-commandline": "^2.29.0",
     "allure-playwright": "^3.0.0-beta.7",
     "axe-html-reporter": "^2.2.3",
-    "axios": "^1.7.2",
+    "axios": "^1.7",
     "deepmerge": "^4.3.1",
     "dotenv": "^16.4.5",
     "fast-xml-parser": "^4.4.0",
@@ -24,5 +25,8 @@
   "browser": {
     "[module-name]": false
   },
-  "scripts": {}
+  "scripts": {},
+  "workspaces": [
+    "packages/cypress-tasks"
+  ]
 }

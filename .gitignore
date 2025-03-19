@@ -21,7 +21,10 @@ vendor
 web/autoload.php
 web/robots.txt
 web/core
-web/libraries
+web/libraries/*
+!web/libraries/hammerjs
+!web/libraries/mmenu
+!web/libraries/superfish
 web/modules/contrib
 web/themes/contrib
 
@@ -48,7 +51,7 @@ private/files/**/.flv
 # Working files.
 *.sql
 *.mysql
-*.sql.gz
+#*.sql.gz
 *.mysql.gz
 *.log
 *.gz
@@ -66,3 +69,17 @@ Thumbs.db
 /node_modules
 /web/themes/custom/performant_labs/node_modules
 
+# Cypress.
+cypress/videos
+.sass-cache
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Testor.
+.testor_secret.yml
+app_server_*
+
+# Testor.
+.testor_secret.yml

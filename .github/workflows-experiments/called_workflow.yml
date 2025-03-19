@@ -1,0 +1,13 @@
+name: Called Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  add_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Display a message
+        run: echo "Hello, GitHub Actions!"
