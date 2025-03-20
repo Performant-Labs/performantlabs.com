@@ -314,7 +314,7 @@
         "drupal/media_entity_browser": "^3.0",
         "drupal/module_filter": "^5.0",
         "drupal/pathauto": "~1.0",
-        "drupal/publication_date": "~2.0",
+        "drupal/publication_date": "^3.0",
         "drupal/qa_accounts": "^1.0",
         "drupal/rdf": "^3.0",
         "drupal/redirect": "^1.8",
