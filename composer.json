@@ -281,7 +281,7 @@
         "drupal/backup_migrate": "^5.0",
         "drupal/bamboo_twig": "^6.0",
         "drupal/bootstrap4": "^3.0",
-        "drupal/coffee": "^1.0",
+        "drupal/coffee": "^2.0",
         "drupal/contact_storage": "^1.0",
         "drupal/core": "11.1",
         "drupal/core-composer-scaffold": "11.1",
