@@ -2,7 +2,7 @@ name: Inline Styled Images
 type: module
 description: 'Allows you to apply image styles and responsive image styles in the WYSIWYG editor.'
 package: Editor
-core_version_requirement: ^9.3 || ^10 ^ 11
+core_version_requirement: ^9.3 || ^10 || ^11
 dependencies:
   - drupal:editor
   - drupal:image
