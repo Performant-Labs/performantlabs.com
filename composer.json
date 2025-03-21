@@ -335,6 +335,7 @@
         "drupal/webform": "^6.0",
         "drupal/xmlsitemap": "^2.0",
         "drush/drush": "^13.0",
+        "giggsey/libphonenumber-for-php": "^9.0",
         "jquery/inputmask": "*",
         "jquery/intl-tel-input": "*",
         "jquery/rateit": "*",
