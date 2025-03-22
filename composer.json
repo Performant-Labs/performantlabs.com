@@ -298,6 +298,7 @@
         "drupal/entity_embed": "~1.0",
         "drupal/environment_indicator": "^4.1",
         "drupal/exclude_node_title": "^2.0",
+        "drupal/experience_builder": "^0.2.0@alpha",
         "drupal/filefield_paths": "^1.0",
         "drupal/ga4_google_analytics": "^1.1",
         "drupal/honeypot": "~2.0",
