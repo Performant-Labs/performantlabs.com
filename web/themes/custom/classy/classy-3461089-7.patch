@@ -1,0 +1,114 @@
+diff --git a/classy.info.yml b/classy.info.yml
+index ac12ebc..2edb796 100644
+--- a/classy.info.yml
++++ b/classy.info.yml
+@@ -5,7 +5,7 @@ description: 'The Classy base theme from Drupal 8/9 moved to contrib.'
+ package: Core
+ version: VERSION
+ hidden: true
+-core_version_requirement: ^9 || ^10
++core_version_requirement: ^9 || ^10 || ^11
+ 
+ libraries:
+   - classy/base
+diff --git a/templates/field/link-formatter-link-separate.html.twig b/templates/field/link-formatter-link-separate.html.twig
+index 52c8d29..87fba0a 100644
+--- a/templates/field/link-formatter-link-separate.html.twig
++++ b/templates/field/link-formatter-link-separate.html.twig
+@@ -12,11 +12,4 @@
+  * @see template_preprocess_link_formatter_link_separate()
+  */
+ #}
+-{% apply spaceless %}
+-  <div class="link-item">
+-    {% if title %}
+-      <div class="link-title">{{ title }}</div>
+-    {% endif %}
+-    <div class="link-url">{{ link }}</div>
+-  </div>
+-{% endapply %}
++<div class="link-item">{% if title %}<div class="link-title">{{ title }}</div>{% endif %}<div class="link-url">{{ link }}</div></div>
+diff --git a/templates/form/dropbutton-wrapper.html.twig b/templates/form/dropbutton-wrapper.html.twig
+index a2bdc21..07b3760 100644
+--- a/templates/form/dropbutton-wrapper.html.twig
++++ b/templates/form/dropbutton-wrapper.html.twig
+@@ -10,11 +10,5 @@
+  */
+ #}
+ {% if children %}
+-  {% apply spaceless %}
+-    <div class="dropbutton-wrapper">
+-      <div class="dropbutton-widget">
+-        {{ children }}
+-      </div>
+-    </div>
+-  {% endapply %}
++    <div class="dropbutton-wrapper"><div class="dropbutton-widget">{{ children }}</div></div>
+ {% endif %}
+diff --git a/templates/form/select.html.twig b/templates/form/select.html.twig
+index 9c8a97c..03fca09 100644
+--- a/templates/form/select.html.twig
++++ b/templates/form/select.html.twig
+@@ -10,18 +10,16 @@
+  * @see template_preprocess_select()
+  */
+ #}
+-{% apply spaceless %}
+-  <select{{ attributes }}>
+-    {% for option in options %}
+-      {% if option.type == 'optgroup' %}
+-        <optgroup label="{{ option.label }}">
+-          {% for sub_option in option.options %}
+-            <option value="{{ sub_option.value }}"{{ sub_option.selected ? ' selected="selected"' }}>{{ sub_option.label }}</option>
+-          {% endfor %}
+-        </optgroup>
+-      {% elseif option.type == 'option' %}
+-        <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' }}>{{ option.label }}</option>
+-      {% endif %}
+-    {% endfor %}
+-  </select>
+-{% endapply %}
++<select{{ attributes }}>
++{%- for option in options -%}
++  {%- if option.type == 'optgroup' -%}
++    <optgroup label="{{ option.label }}">
++      {%- for sub_option in option.options -%}
++        <option value="{{ sub_option.value }}"{{ sub_option.selected ? ' selected="selected"' }}>{{ sub_option.label }}</option>
++      {%- endfor -%}
++    </optgroup>
++  {%- elseif option.type == 'option' -%}
++    <option value="{{ option.value }}"{{ option.selected ? ' selected="selected"' }}>{{ option.label }}</option>
++  {%- endif -%}
++{%- endfor -%}
++</select>
+diff --git a/templates/navigation/toolbar.html.twig b/templates/navigation/toolbar.html.twig
+index 5ef3ffa..df455e4 100644
+--- a/templates/navigation/toolbar.html.twig
++++ b/templates/navigation/toolbar.html.twig
+@@ -26,19 +26,15 @@
+     {% for key, tab in tabs %}
+       {% set tray = trays[key] %}
+       <div{{ tab.attributes.addClass('toolbar-tab') }}>
+-        {{ tab.link }}
+-        {% apply spaceless %}
++        {{ tab.link -}}
+           <div{{ tray.attributes }}>
+-            {% if tray.label %}
+-              <nav class="toolbar-lining clearfix" role="navigation" aria-label="{{ tray.label }}">
+-                <h3 class="toolbar-tray-name visually-hidden">{{ tray.label }}</h3>
+-            {% else %}
++            {%- if tray.label -%}
++              <nav class="toolbar-lining clearfix" role="navigation" aria-label="{{ tray.label }}"><h3 class="toolbar-tray-name visually-hidden">{{ tray.label }}</h3>
++            {%- else -%}
+               <nav class="toolbar-lining clearfix" role="navigation">
+-            {% endif %}
+-            {{ tray.links }}
+-            </nav>
+-          </div>
+-        {% endapply %}
++            {%- endif -%}
++            {{- tray.links -}}
++            </nav></div>
+       </div>
+     {% endfor %}
+   </nav>

@@ -1,0 +1,11 @@
+--- classy.info.yml
++++ classy.info.yml
+@@ -5,7 +5,7 @@ description: 'The Classy base theme from Drupal 8/9 moved to contrib.'
+ package: Core
+ version: VERSION
+ hidden: true
+-core_version_requirement: ^9 || ^10
++core_version_requirement: ^9 || ^10 || ^11
+ 
+ libraries:
+   - classy/base

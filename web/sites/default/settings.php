@@ -819,8 +819,19 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
 
 $settings['skip_permissions_hardening'] = TRUE;
 
+// Email
+$config['symfony_mailer_lite.settings']['transport'] = [
+  'scheme' => 'smtp',
+  'host' => 'email-smtp.us-west-2.amazonaws.com',
+  'user' => '***REMOVED***',
+  'password' => '***REMOVED***',
+  'port' => 587,
+  'encryption' => 'tls',
+];
+
 // Automatically generated include for settings managed by ddev.
 $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
 if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
   require $ddev_settings;
 }
+
