@@ -4,6 +4,24 @@
 /*
  * Automated Testing page.
  */
+
+ .automated-testing-kit-automated-testing-kit-page{
+  #block-booknavigation-2{
+  .nav-book-tree{
+    >ul{
+      >li{
+        text-indent: -6px;
+        padding-left: 6px;
+        >a{
+          display: inline-block;
+          line-height: 1.35 !important;
+        }
+      }
+    }
+  }
+ }
+}
+
 .automated-testing-page {
   //
   // Main container.
