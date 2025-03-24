@@ -33,12 +33,25 @@ header.navbar-expand-lg {
   }
 }
 .user-logged-in {
-  .pl-container {
-    header.navbar-expand-lg {
-      @include for-desktop-up {
-        padding-top: 79px;
+  &.toolbar-horizontal{
+    .pl-container {
+      header.navbar-expand-lg {
+        @include for-desktop-up {
+          padding-top: 38px;
+        }
       }
     }
+    &.toolbar-tray-open{
+      .pl-container {
+        header.navbar-expand-lg {
+          @include for-desktop-up {
+            padding-top: 79px;
+          }
+        }
+      }
+    }
+  }
+  .pl-container {
     main {
       @include for-desktop-up {
         flex: 1;

@@ -879,7 +879,12 @@ main .container {
 }
 
 @media (min-width: 1200px) {
-  .user-logged-in .pl-container header.navbar-expand-lg {
+  .user-logged-in.toolbar-horizontal .pl-container header.navbar-expand-lg {
+    padding-top: 38px;
+  }
+}
+@media (min-width: 1200px) {
+  .user-logged-in.toolbar-horizontal.toolbar-tray-open .pl-container header.navbar-expand-lg {
     padding-top: 79px;
   }
 }
@@ -9860,9 +9865,12 @@ a.btn-primary.button:visited:active {
  * Automated Testing page.
  */
 .automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul > li {
-  line-height: 1.35;
   text-indent: -6px;
   padding-left: 6px;
+}
+.automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul > li > a {
+  display: inline-block;
+  line-height: 1.35 !important;
 }
 
 .automated-testing-page main .container {

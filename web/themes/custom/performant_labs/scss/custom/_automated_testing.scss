@@ -10,9 +10,12 @@
   .nav-book-tree{
     >ul{
       >li{
-        line-height: 1.35;
         text-indent: -6px;
         padding-left: 6px;
+        >a{
+          display: inline-block;
+          line-height: 1.35 !important;
+        }
       }
     }
   }
