@@ -298,7 +298,6 @@
         "drupal/entity_embed": "~1.0",
         "drupal/environment_indicator": "^4.1",
         "drupal/exclude_node_title": "^2.0",
-        "drupal/experience_builder": "^0.2.0@alpha",
         "drupal/filefield_paths": "^1.0",
         "drupal/ga4_google_analytics": "^1.1",
         "drupal/honeypot": "~2.0",
@@ -335,7 +334,7 @@
         "drupal/views_bulk_operations": "^4.2",
         "drupal/webform": "^6.0",
         "drupal/xmlsitemap": "^2.0",
-        "drush/drush": "^13.0",
+        "drush/drush": "^13.4",
         "giggsey/libphonenumber-for-php": "^9.0",
         "jquery/inputmask": "*",
         "jquery/intl-tel-input": "*",
@@ -364,7 +363,8 @@
             "drupal/core-project-message": true,
             "drupal/console-extend-plugin": true,
             "cweagans/composer-patches": true,
-            "tbachert/spi": true
+            "tbachert/spi": true,
+            "*": true
         }
     },
     "scripts": {
