@@ -296,6 +296,7 @@
         "drupal/entity_browser": "~2.0",
         "drupal/entity_browser_block": "^2.0",
         "drupal/entity_embed": "~1.0",
+        "drupal/entity_update": "^3.0",
         "drupal/environment_indicator": "^4.1",
         "drupal/exclude_node_title": "^2.0",
         "drupal/filefield_paths": "^1.0",
