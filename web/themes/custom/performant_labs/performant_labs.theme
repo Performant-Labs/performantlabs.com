@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Core\Render\Markup;
 /**
  * @file
  * The primary PHP file for the Performant_Labs theme.
@@ -43,4 +44,25 @@ function performant_labs_preprocess_node__article(&$variables) {
   $variables['custom']['title']['#label_display'] = 'hidden';
   $variables['custom']['body'] = $node->body->view();
   $variables['custom']['body']['#label_display'] = 'hidden';
+}
+
+
+
+
+
+function performant_labs_config_preprocess_page(&$variables) {
+ 
+  $config = \Drupal::config('performant_labs_config.settings');
+
+  $body = $config->get('body')['value'];  // Correct way
+  $pages = explode("\n", $config->get('pages_to_show'));
+  
+  $current_path = \Drupal::service('path.current')->getPath();
+  $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+  if (in_array(trim($current_path_alias), array_map('trim', $pages))) {
+    $variables['content']['custom_popup'] = [
+      '#markup' => Markup::create($body),
+    ];
+  }
 }
