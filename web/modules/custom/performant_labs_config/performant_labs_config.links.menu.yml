@@ -1,0 +1,6 @@
+custom_config_form.settings:
+  title: 'Performant Labs Config'
+  description: 'Settings for Performant Labs Custom Form.'
+  parent: system.admin_config
+  route_name: custom_config_form.settings
+  weight: 100

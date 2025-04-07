@@ -1,156 +1,180 @@
 {#
 /**
- * @file
- * Theme override for the basic structure of a single Drupal page.
- *
- * Variables:
- * - logged_in: A flag indicating if user is logged in.
- * - root_path: The root path of the current page (e.g., node, admin, user).
- * - node_type: The content type for the current node, if the page is a node.
- * - head_title: List of text elements that make up the head_title variable.
- *   May contain one or more of the following:
- *   - title: The title of the page.
- *   - name: The name of the site.
- *   - slogan: The slogan of the site.
- * - page_top: Initial rendered markup. This should be printed before 'page'.
- * - page: The rendered page markup.
- * - page_bottom: Closing rendered markup. This variable should be printed after
- *   'page'.
- * - db_offline: A flag indicating if the database is offline.
- * - placeholder_token: The token for generating head, css, js and js-bottom
- *   placeholders.
- *
- * @see template_preprocess_html()
- */
+* @file
+* Theme override for the basic structure of a single Drupal page.
+*
+* Variables:
+* - logged_in: A flag indicating if user is logged in.
+* - root_path: The root path of the current page (e.g., node, admin, user).
+* - node_type: The content type for the current node, if the page is a node.
+* - head_title: List of text elements that make up the head_title variable.
+* May contain one or more of the following:
+* - title: The title of the page.
+* - name: The name of the site.
+* - slogan: The slogan of the site.
+* - page_top: Initial rendered markup. This should be printed before 'page'.
+* - page: The rendered page markup.
+* - page_bottom: Closing rendered markup. This variable should be printed after
+* 'page'.
+* - db_offline: A flag indicating if the database is offline.
+* - placeholder_token: The token for generating head, css, js and js-bottom
+* placeholders.
+*
+* @see template_preprocess_html()
+*/
 #}
 {%
-  set body_classes = [
-    logged_in ? 'user-logged-in',
-    not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
-    node_type ? 'page-node-type-' ~ node_type|clean_class,
-    db_offline ? 'db-offline',
-    (b4_body_schema == 'light' ? ' text-dark' : (b4_body_schema == 'dark' ? ' text-light' :  ' ')),
-    (b4_body_bg_schema != 'none' ? " bg-#{b4_body_bg_schema}" : ' '),
-    'd-flex flex-column h-100'
-  ]
+set body_classes = [
+logged_in ? 'user-logged-in',
+not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
+node_type ? 'page-node-type-' ~ node_type|clean_class,
+db_offline ? 'db-offline',
+(b4_body_schema == 'light' ? ' text-dark' : (b4_body_schema == 'dark' ? ' text-light' : ' ')),
+(b4_body_bg_schema != 'none' ? " bg-#{b4_body_bg_schema}" : ' '),
+'d-flex flex-column h-100'
+]
 %}
 
 <!DOCTYPE html>
 <html{{ html_attributes.addClass('h-100') }}>
-  <head>
-    <head-placeholder token="{{ placeholder_token }}">
-    <title>{{ head_title|safe_join(' | ') }}</title>
-    <css-placeholder token="{{ placeholder_token }}">
-    <js-placeholder token="{{ placeholder_token }}">
-  </head>
-  <body{{ attributes.addClass(body_classes) }}>
-    {#
-      Keyboard navigation/accessibility link to main content section in
-      page.html.twig.
-    #}
-    <a href="#main-content" class="visually-hidden focusable skip-link">
-      {{ 'Skip to main content'|t }}
-    </a>
-    {{ page_top }}
-    {{ page }}
-    {{ page_bottom }}
-    <js-bottom-placeholder token="{{ placeholder_token }}">
-    <div class="d-none" id="mailchimp-popup-form">
-    <button class="close-button" type="button">×</button>
-<div id="mc_embed_shell">
-    <p>
-        <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet" type="text/css">
-        <style type="text/css">
-        #mc_embed_signup {
-                background: #fff;
-                false;
-                clear: left;
-                font: 14px Helvetica, Arial, sans-serif;
-                width: 600px;
-        }
-    /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
-        We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
-        </style>
-    </p>
-    <div id="mc_embed_signup">
-        <form class="validate" action="https://performantlabs.us20.list-manage.com/subscribe/post?u=05117ac6f6cc39e7101707928&amp;id=6e474d0dac&amp;f_id=009203eef0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
-            <div id="mc_embed_signup_scroll">
-                <h2>
-                    Subscribe
-                </h2>
-                <div class="indicates-required">
-                    <span class="asterisk">*</span> indicates required
-                </div>
-                <div class="mc-field-group">
-                    <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input class="required email" type="email" name="EMAIL" id="mce-EMAIL" required="" value="">
-                </div>
-                <div class="mc-field-group">
-                    <label for="mce-FNAME">First Name </label><input class=" text" type="text" name="FNAME" id="mce-FNAME" value="">
-                </div>
-                <div class="mc-field-group">
-                    <label for="mce-LNAME">Last Name </label><input class=" text" type="text" name="LNAME" id="mce-LNAME" value="">
-                </div>
-                <div class="mc-field-group">
-                    <label for="mce-PHONE">Phone Number </label><input class="REQ_CSS" type="text" name="PHONE" id="mce-PHONE" value="">
-                </div>
-                <div class="clear foot" id="mce-responses">
-                    <div class="response" style="display:none;" id="mce-error-response">
-                        &nbsp;
-                    </div>
-                    <div class="response" style="display:none;" id="mce-success-response">
-                        &nbsp;
-                    </div>
-                </div>
-                <div style="left:-5000px;position:absolute;" aria-hidden="true">
-                    /* real people should not fill this in and expect good things - do not remove this or risk form bot signups */ <input type="text" name="b_05117ac6f6cc39e7101707928_6e474d0dac" tabindex="-1" value="">
-                </div>
-                <div class="optionalParent">
-                    <div class="clear foot">
-                        <p>
-                            <input class="button" type="submit" name="subscribe" id="mc-embedded-subscribe" value="Subscribe">
-                        </p>
-                        <p style="margin:0px auto;">
-                            <a href="http://eepurl.com/jbwOHo" title="Mailchimp - email marketing made easy and fun"><span style="background-color:transparent;border-radius:4px;display:inline-block;"><img class="refferal_badge" style="align-items:center;display:flex;justify-content:center;padding:2px 0px;" src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg" alt="Intuit Mailchimp" width="220" height="65"></span></a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <p>
-        <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script><script type="text/javascript">(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; fnames[1] = 'FNAME'; ftypes[1] = 'text'; fnames[2] = 'LNAME'; ftypes[2] = 'text'; fnames[4] = 'PHONE'; ftypes[4] = 'phone'; fnames[3] = 'ADDRESS'; ftypes[3] = 'address'; fnames[5] = 'BIRTHDAY'; ftypes[5] = 'birthday'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
-    </p>
-<script>
-let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
-let closeButton = document.querySelector('.close-button')
-console.log(mailChimpPopupForm);
-console.log(closeButton);
-if(mailChimpPopupForm!=null){
-console.log(sessionStorage.getItem('firstVisit'));
-if (!sessionStorage.getItem("firstVisit")) {
-     
-        if(mailChimpPopupForm!=null){
-             
-                setTimeout(()=>{
-                        mailChimpPopupForm.classList.remove('d-none');  
-                        document.body.classList.add('no-scroll');         
-                },30000)
-     
-                if(closeButton!=null){
-                        console.log(closeButton)
-                        closeButton.addEventListener('click',()=>{
-                                mailChimpPopupForm.classList.add('d-none'); 
-                                document.body.classList.remove('no-scroll');   
-                        })
-                }
-        }
-        // Setting flag in sessionStorage
-        sessionStorage.setItem("firstVisit", "true");
-    }
-}
 
-</script>
-</div>
-    </div>
-  </body>
-</html>
+    <head>
+        <head-placeholder token="{{ placeholder_token }}">
+            <title>{{ head_title|safe_join(' | ') }}</title>
+            <css-placeholder token="{{ placeholder_token }}">
+                <js-placeholder token="{{ placeholder_token }}">
+    </head>
+    <body{{ attributes.addClass(body_classes) }}>
+        {#
+        Keyboard navigation/accessibility link to main content section in
+        page.html.twig.
+        #}
+        <a href="#main-content" class="visually-hidden focusable skip-link">
+            {{ 'Skip to main content'|t }}
+        </a>
+        {{ page_top }}
+        {{ page }}
+        {{ page_bottom }}
+        <js-bottom-placeholder token="{{ placeholder_token }}">
+            {# <div class="d-none" id="mailchimp-popup-form">
+                <button class="close-button" type="button">×</button>
+                <div id="mc_embed_shell">
+                    <p>
+                        <link href="//cdn-images.mailchimp.com/embedcode/classic-061523.css" rel="stylesheet"
+                            type="text/css">
+                        <style type="text/css">
+                            #mc_embed_signup {
+                                background: #fff;
+                                false;
+                                clear: left;
+                                font: 14px Helvetica, Arial, sans-serif;
+                                width: 600px;
+                            }
+
+                            /* Add your own Mailchimp form style overrides in your site stylesheet or in this style block.
+        We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+                        </style>
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form class="validate"
+                            action="https://performantlabs.us20.list-manage.com/subscribe/post?u=05117ac6f6cc39e7101707928&amp;id=6e474d0dac&amp;f_id=009203eef0"
+                            method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form"
+                            target="_blank">
+                            <div id="mc_embed_signup_scroll">
+                                <h2>
+                                    Subscribe
+                                </h2>
+                                <div class="indicates-required">
+                                    <span class="asterisk">*</span> indicates required
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label><input
+                                        class="required email" type="email" name="EMAIL" id="mce-EMAIL" required=""
+                                        value="">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-FNAME">First Name </label><input class=" text" type="text"
+                                        name="FNAME" id="mce-FNAME" value="">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-LNAME">Last Name </label><input class=" text" type="text"
+                                        name="LNAME" id="mce-LNAME" value="">
+                                </div>
+                                <div class="mc-field-group">
+                                    <label for="mce-PHONE">Phone Number </label><input class="REQ_CSS" type="text"
+                                        name="PHONE" id="mce-PHONE" value="">
+                                </div>
+                                <div class="clear foot" id="mce-responses">
+                                    <div class="response" style="display:none;" id="mce-error-response">
+                                        &nbsp;
+                                    </div>
+                                    <div class="response" style="display:none;" id="mce-success-response">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div style="left:-5000px;position:absolute;" aria-hidden="true">
+                                    /* real people should not fill this in and expect good things - do not remove this
+                                    or risk form bot signups */ <input type="text"
+                                        name="b_05117ac6f6cc39e7101707928_6e474d0dac" tabindex="-1" value="">
+                                </div>
+                                <div class="optionalParent">
+                                    <div class="clear foot">
+                                        <p>
+                                            <input class="button" type="submit" name="subscribe"
+                                                id="mc-embedded-subscribe" value="Subscribe">
+                                        </p>
+                                        <p style="margin:0px auto;">
+                                            <a href="http://eepurl.com/jbwOHo"
+                                                title="Mailchimp - email marketing made easy and fun"><span
+                                                    style="background-color:transparent;border-radius:4px;display:inline-block;"><img
+                                                        class="refferal_badge"
+                                                        style="align-items:center;display:flex;justify-content:center;padding:2px 0px;"
+                                                        src="https://digitalasset.intuit.com/render/content/dam/intuit/mc-fe/en_us/images/intuit-mc-rewards-text-dark.svg"
+                                                        alt="Intuit Mailchimp" width="220" height="65"></span></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <p>
+                        <script type="text/javascript"
+                            src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+                        <script
+                            type="text/javascript">(function ($) { window.fnames = new Array(); window.ftypes = new Array(); fnames[0] = 'EMAIL'; ftypes[0] = 'email'; fnames[1] = 'FNAME'; ftypes[1] = 'text'; fnames[2] = 'LNAME'; ftypes[2] = 'text'; fnames[4] = 'PHONE'; ftypes[4] = 'phone'; fnames[3] = 'ADDRESS'; ftypes[3] = 'address'; fnames[5] = 'BIRTHDAY'; ftypes[5] = 'birthday'; }(jQuery)); var $mcj = jQuery.noConflict(true);</script>
+                    </p>
+                    <script>
+                        let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
+                        let closeButton = document.querySelector('.close-button')
+                        console.log(mailChimpPopupForm);
+                        console.log(closeButton);
+                        if (mailChimpPopupForm != null) {
+                            console.log(sessionStorage.getItem('firstVisit'));
+                            if (!sessionStorage.getItem("firstVisit")) {
+
+                                if (mailChimpPopupForm != null) {
+
+                                    setTimeout(() => {
+                                        mailChimpPopupForm.classList.remove('d-none');
+                                        document.body.classList.add('no-scroll');
+                                    }, 30000)
+
+                                    if (closeButton != null) {
+                                        console.log(closeButton)
+                                        closeButton.addEventListener('click', () => {
+                                            mailChimpPopupForm.classList.add('d-none');
+                                            document.body.classList.remove('no-scroll');
+                                        })
+                                    }
+                                }
+                                // Setting flag in sessionStorage
+                                sessionStorage.setItem("firstVisit", "true");
+                            }
+                        }
+
+                    </script>
+                </div>
+            </div> #}
+            </body>
+
+            </html>

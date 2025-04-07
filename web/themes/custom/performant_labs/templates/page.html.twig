@@ -124,7 +124,37 @@
       {% endif %}
     </div>
   </div>
+    {{ content.custom_popup|raw }}
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+    let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
+    console.log(mailChimpPopupForm);
+    let closeButton = document.querySelector('p:has(.close-button)');
 
+    if (mailChimpPopupForm) {
+        // Check if first visit
+        if (!sessionStorage.getItem("firstVisit")) {
+
+            // Show popup after 30 seconds
+            setTimeout(() => {
+                mailChimpPopupForm.classList.remove('d-none');
+                mailChimpPopupForm.style.display = 'block';  // Also reset inline style
+                document.body.classList.add('no-scroll');
+            }, 5000);
+
+            // Close button action
+            closeButton.addEventListener('click', () => {
+                mailChimpPopupForm.classList.add('d-none');
+                mailChimpPopupForm.style.display = 'none';  // Hide inline style also
+                document.body.classList.remove('no-scroll');
+            });
+
+            // Set flag so popup doesn't show again
+            sessionStorage.setItem("firstVisit", "true");
+        }
+    }
+});
+</script>
 </main>
 
 {% if page.footer %}
@@ -133,6 +163,7 @@
       {{ page.footer }}
     </div>
   </footer>
+
 {% endif %}
 
 </div>
