@@ -860,6 +860,7 @@ div#mailchimp-popup-form button.close-button {
   padding: 0;
   border: none;
   background: transparent;
+  z-index: 100000;
 }
 
 body.no-scroll {
