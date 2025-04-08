@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\performant_labs_config\Form;
+namespace Drupal\pl_main\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -8,15 +8,15 @@ use Drupal\Core\Form\FormStateInterface;
 class PerformantLabsConfigForm extends ConfigFormBase {
 
   public function getFormId() {
-    return 'performant_labs_config_settings';
+    return 'pl_main_settings';
   }
 
   protected function getEditableConfigNames() {
-    return ['performant_labs_config.settings'];
+    return ['pl_main.settings'];
   }
 
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('performant_labs_config.settings');
+    $config = $this->config('pl_main.settings');
 
     $form['body'] = [
       '#type' => 'text_format',
@@ -37,7 +37,7 @@ class PerformantLabsConfigForm extends ConfigFormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('performant_labs_config.settings')
+    $this->config('pl_main.settings')
       ->set('body', [
         'value' => $form_state->getValue('body')['value'],
         'format' => $form_state->getValue('body')['format'],
@@ -49,6 +49,3 @@ class PerformantLabsConfigForm extends ConfigFormBase {
   }
 
 }
-
-
-

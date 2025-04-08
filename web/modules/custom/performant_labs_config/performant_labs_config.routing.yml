@@ -1,8 +1,0 @@
-custom_config_form.settings:
-  path: '/admin/config/performant-labs-config'
-  defaults:
-    _form: '\Drupal\performant_labs_config\Form\PerformantLabsConfigForm'
-    _title: 'Performant Labs Config'
-  requirements:
-    _permission: 'administer site configuration'
-
