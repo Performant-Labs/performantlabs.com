@@ -1,0 +1,8 @@
+pl_main.settings:
+  title: 'PL Popup Configuration'
+  description: 'Settings PL Main module Custom Form.'
+  parent: system.admin_config
+  route_name: pl_main.settings_form
+  weight: 100
+
+

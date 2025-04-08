@@ -50,9 +50,9 @@ function performant_labs_preprocess_node__article(&$variables) {
 
 
 
-function performant_labs_config_preprocess_page(&$variables) {
+function pl_main_preprocess_page(&$variables) {
  
-  $config = \Drupal::config('performant_labs_config.settings');
+  $config = \Drupal::config('pl_main.settings');
 
   $body = $config->get('body')['value'];  // Correct way
   $pages = explode("\n", $config->get('pages_to_show'));
@@ -65,4 +65,5 @@ function performant_labs_config_preprocess_page(&$variables) {
       '#markup' => Markup::create($body),
     ];
   }
+  
 }
