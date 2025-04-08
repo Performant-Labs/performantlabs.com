@@ -4,5 +4,3 @@ pl_main.settings:
   parent: system.admin_config
   route_name: pl_main.settings_form
   weight: 100
-
-

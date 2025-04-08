@@ -3,8 +3,6 @@ pl_main.layout:
   requirements:
     _permission: 'access content'
 
-
-
 pl_main.settings_form:
   path: '/admin/pl-popup-config-form'
   defaults:
