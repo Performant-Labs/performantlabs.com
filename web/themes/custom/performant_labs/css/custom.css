@@ -83,7 +83,7 @@ p{
         line-height: 77px;
         font-size: 60px;
         text-transform: uppercase;
-        width: 620px;
+        max-width: 620px;
     }
     .description{
         color: #222222;
@@ -223,4 +223,88 @@ p{
 
 .logo-image-grid-wrapper{
     padding: 70px 0;
+}
+
+@media screen and (max-width: 992px){
+    .node-type-microsite main > .container{
+        .field--name-field-production-section::before,
+        .field--name-field-production-section::after{
+            display: none;
+        }
+    }
+    .img-text-cta-wrapper.hero-section{
+        text-align: center;
+        .container > .row{
+            flex-direction: column-reverse;
+        }
+        .subtitle{
+            font-size: 24px;
+            line-height: 34px;
+        }
+        .title{
+            line-height: 49px;
+            font-size: 37px;
+        }
+        .description{
+            color: #222222;
+            font-size: 23px;
+            line-height: 36px;
+            margin-top: 0px !important;
+        }
+        .cta{
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+    }
+    .para-title{
+        font-size: 33.7px;
+        line-height: 49px;
+        padding-bottom: 23px;
+    }
+    .img-text-heirarchy-wrapper{
+        .production-line {
+            display: none;     
+        }
+        .path-title{
+            font-size: 23px;
+            padding-top: 0px;
+            padding-bottom: 1.9px;
+        }
+        .hierarchy-child {
+            .desc{
+                font-size: 20px;
+                line-height: 32px;
+            }
+        }
+        .hierarchy-child:last-child{
+            margin-bottom: 0;
+        }
+    }
+    .title-decription-image-wrapper {
+        .para-title{
+            padding-bottom: 0px !important;
+            font-size: 30px !important;
+            line-height: 42px !important;
+        }
+        .formated-description{
+            font-size: 18px;
+            line-height: 30px;
+            ul{
+                padding: 0;
+            }
+        }
+    }
+    
+}
+
+@media screen and (max-width: 768px){
+    .img-text-heirarchy-wrapper{
+        .hierarchy-child {
+            flex-direction: column !important;
+            .desc{
+                text-align: center;
+            }
+        }
+    }
 }
