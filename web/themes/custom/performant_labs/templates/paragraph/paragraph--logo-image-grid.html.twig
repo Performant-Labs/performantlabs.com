@@ -54,7 +54,7 @@
 	<div{{attributes.addClass(classes)}}>
         <div class="logo-image-grid-wrapper">
             <div class="container-fluid"> 
-              <div class="row justify-content-center">
+              <div class="row justify-content-center gy-3 gy-md-0">
                   {% for item in paragraph.field_logo_image %}
                       <div class="col-md-6 col-lg-3 text-center"><img src="{{ file_url(item.entity.field_upload_image.entity.uri.value) }}" class="img-fluid"></div>
                   {% endfor %}
