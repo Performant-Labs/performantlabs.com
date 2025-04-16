@@ -4,12 +4,12 @@ pl_main.layout:
     _permission: 'access content'
 
 pl_main.settings_form:
-  path: '/pl-popup-config-form'
+  path: '/admin/pl-popup-config-form'
   defaults:
     _form: 'Drupal\pl_main\Form\PerformantLabsConfigForm'
     _title: 'Performant Labs Popup Configuration'
   requirements:
-    _role: 'anonymous'
+    _permission: 'administer site configuration'
 
 
 
