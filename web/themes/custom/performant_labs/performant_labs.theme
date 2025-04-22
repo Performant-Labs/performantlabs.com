@@ -65,6 +65,9 @@ function pl_main_preprocess_page(&$variables) {
   if ($current_user->isAnonymous() && in_array(trim($current_path_alias), array_map('trim', $pages))) {
     $variables['content']['custom_popup'] = [
       '#markup' => Markup::create($body),
+      '#cache' => [
+              'contexts' => ['url.path', 'user.roles:anonymous'],
+            ],
     ];
   }
 }

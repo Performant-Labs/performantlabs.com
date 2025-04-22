@@ -125,12 +125,19 @@
     </div>
   </div>
 
-    {{ content.custom_popup|raw }}
+    {% if content.custom_popup %}
+      <div class='d-none' id='mailchimp-popup-form'>
+          <button class='close-button'>×</button>
+          {{ content.custom_popup|raw }}
+      </div>
+    </div>
+    {% endif %}
+    
     <script>
       window.addEventListener('DOMContentLoaded', function () {
       let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
       console.log(mailChimpPopupForm);
-      let closeButton = document.querySelector('p:has(.close-button)');
+      let closeButton = document.querySelector('.close-button');
       if (mailChimpPopupForm) {
           // Check if first visit
           if (!sessionStorage.getItem("firstVisit")) {
