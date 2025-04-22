@@ -843,11 +843,12 @@ div#mailchimp-popup-form {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+  box-shadow: 0px 1px 20px 4px rgba(132, 115, 115, 0.26);
 }
 div#mailchimp-popup-form button.close-button {
   position: absolute;
-  top: 32px;
-  right: 31px;
+  top: 15px;
+  right: 15px;
   border: none;
   background: none;
   font-size: 2.5rem;
@@ -4493,13 +4494,6 @@ a.btn-primary.button:visited:active {
  */
 .path-frontpage {
   font-family: "Rubik", sans-serif;
-}
-.path-frontpage div#mc_embed_signup {
-  box-shadow: 1px 1px 10px -2px grey;
-  width: max-content;
-  border-radius: 2rem;
-  border: 1px solid grey;
-  padding: 1.5rem;
 }
 .path-frontpage .layout--threecol-section--33-34-33.PL-section-default {
   display: flex;
