@@ -6362,6 +6362,17 @@ a.btn-primary.button:visited:active {
 }
 .page-node-type-book #block-booknavigation-2 ul {
   list-style-type: none;
+  padding-left: 5px !important;
+}
+.page-node-type-book #block-booknavigation-2 ul > li {
+  margin-bottom: 8px;
+}
+.page-node-type-book #block-booknavigation-2 ul > li:last-child {
+  margin-bottom: 0 !important;
+}
+.page-node-type-book #block-booknavigation-2 ul > li > a {
+  display: inline-block;
+  line-height: 1.25 !important;
 }
 
 @media (min-width: 1200px) {
@@ -9895,20 +9906,6 @@ a.btn-primary.button:visited:active {
 /*
  * Automated Testing page.
  */
-.automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul {
-  padding-left: 5px !important;
-}
-.automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul > li {
-  margin-bottom: 8px;
-}
-.automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul > li:last-child {
-  margin-bottom: 0 !important;
-}
-.automated-testing-kit-automated-testing-kit-page #block-booknavigation-2 .nav-book-tree > ul > li > a {
-  display: inline-block;
-  line-height: 1.25 !important;
-}
-
 .automated-testing-page main .container {
   overflow: hidden;
 }
