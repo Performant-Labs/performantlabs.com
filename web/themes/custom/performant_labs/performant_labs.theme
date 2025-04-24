@@ -51,7 +51,7 @@ function performant_labs_preprocess_node__article(&$variables) {
 
 
 
-function pl_main_preprocess_page(&$variables) {
+function performant_labs_preprocess_page(&$variables) {
  
   $config = \Drupal::config('pl_main.settings');
 
