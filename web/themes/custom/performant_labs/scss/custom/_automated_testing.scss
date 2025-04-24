@@ -9,12 +9,15 @@
   #block-booknavigation-2{
   .nav-book-tree{
     >ul{
+      padding-left: 5px !important;
       >li{
-        text-indent: -6px;
-        padding-left: 6px;
+        margin-bottom: 8px;
+        &:last-child{
+          margin-bottom: 0 !important;
+        }
         >a{
           display: inline-block;
-          line-height: 1.35 !important;
+          line-height: 1.25 !important;
         }
       }
     }
