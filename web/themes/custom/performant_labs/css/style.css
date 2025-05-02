@@ -6373,6 +6373,8 @@ a.btn-primary.button:visited:active {
 .page-node-type-book #block-booknavigation-2 ul > li > a {
   display: inline-block;
   line-height: 1.25 !important;
+  text-indent: -6pt;
+  padding-left: 6pt;
 }
 
 @media (min-width: 1200px) {
