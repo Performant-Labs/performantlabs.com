@@ -7,7 +7,7 @@
     "@reportportal/agent-js-playwright": "^5.1.9",
     "@testiny/cli": "^1.21.1",
     "@types/node": "^20.14.2",
-    "allure-commandline": "^2.29.0",
+    "allure-commandline": "^2.32.2",
     "allure-playwright": "^3.0.0-beta.7",
     "axe-html-reporter": "^2.2.3",
     "axios": "^1.7",
