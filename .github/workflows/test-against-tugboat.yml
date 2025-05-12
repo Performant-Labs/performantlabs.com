@@ -54,7 +54,7 @@ jobs:
 
       - name: Delete prior previews
         run:
-          ./vendor/bin/testor preview:delete
+          ./vendor/bin/testor preview:delete all
 
       - id: get-output
         run: |
