@@ -301,6 +301,7 @@
         "drupal/exclude_node_title": "^2.0",
         "drupal/filefield_paths": "^1.0",
         "drupal/ga4_google_analytics": "^1.1",
+        "drupal/google_tag": "^2.0",
         "drupal/honeypot": "~2.0",
         "drupal/hook_event_dispatcher": "~4.0",
         "drupal/imce": "^3.1",
