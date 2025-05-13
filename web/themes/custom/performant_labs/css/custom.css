@@ -1,34 +1,89 @@
 /* ------------- Node Type Microsite Stylings ---------- */
 
 @font-face {
-    font-family:poppins;
+    font-family: poppins;
     src: url(../fonts/Poppins-Regular.ttf);
 }
+
 @font-face {
-    font-family:extra-bold;
+    font-family: extra-bold;
     src: url(../fonts/Poppins-ExtraBold.ttf);
 }
 
 @font-face {
-    font-family:sami-bold;
+    font-family: sami-bold;
     src: url(../fonts/Poppins-SemiBold.ttf);
 }
-body{
+
+body {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    font-family:poppins !important;
+    font-family: poppins !important;
     font-weight: 400;
 }
 
-p{
+.button-primary {
+    font-size: 22px;
+    color: #fff;
+    border: none;
+    line-height: 32px;
+    padding: 10px 20px;
+    font-family: sami-bold;
+    background: #0093b4;
+    transition: all 0.3s ease;
+    text-wrap-mode: nowrap;
+}
+
+.button-primary:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.button-secondary {
+    background: transparent;
+    font-family: poppins;
+    color: #222;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-wrap-mode: nowrap;
+}
+.cta-wrapper{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.button-secondary::before {
+    content: '';
+    background: url('../images/v-btn.png') center/contain no-repeat;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    transition: all 0.3s ease;
+}
+
+.button-secondary:hover::before {
+    filter: brightness(0);
+}
+
+p {
     font-weight: inherit;
 }
-.node-type-microsite main > .container{
+
+.node-type-microsite main>.container {
     max-width: 100% !important;
     padding: 0 !important;
 
-    .field--name-field-production-section{
+    .field--name-field-production-section {
         background: url(../images/product-section-bg.png);
         background-size: cover;
         background-position: top;
@@ -38,7 +93,8 @@ p{
         padding-top: 170px;
         padding-bottom: 0px;
     }
-    .field--name-field-production-section::before{
+
+    .field--name-field-production-section::before {
         content: '';
         position: absolute;
         background: url(../images/Left-aarrow.png) center/contain no-repeat;
@@ -47,7 +103,8 @@ p{
         top: 480px;
         left: 0;
     }
-    .field--name-field-production-section::after{
+
+    .field--name-field-production-section::after {
         content: '';
         position: absolute;
         background: url(../images/Right-aarrow.png) center/contain no-repeat;
@@ -60,7 +117,7 @@ p{
 
 /* --------------- Paragraph Stylings ------------------ */
 
-.para-title{
+.para-title {
     text-align: center;
     font-size: 41px;
     line-height: 65px;
@@ -70,14 +127,15 @@ p{
 
 /* --------------- Hero Section Paragraph ------------------ */
 
-.img-text-cta-wrapper.hero-section{
-    .subtitle{
+.img-text-cta-wrapper.hero-section {
+    .subtitle {
         font-family: poppins;
         font-size: 33px;
         line-height: 56px;
         color: #222222;
     }
-    .title{
+
+    .title {
         font-family: extra-bold;
         color: #13c5e5;
         line-height: 77px;
@@ -85,15 +143,18 @@ p{
         text-transform: uppercase;
         max-width: 620px;
     }
-    .description{
+
+    .description {
         color: #222222;
         font-size: 32px;
         line-height: 53px;
         margin-top: 0.7px;
     }
-    .cta{
+
+    .cta {
         gap: 20px;
-        a{
+
+        a {
             font-size: 22px;
             color: #fff;
             border: none;
@@ -103,11 +164,13 @@ p{
             background: #0093b4;
             transition: all 0.3s ease;
         }
-        a:hover{
+
+        a:hover {
             background: #000;
             color: #fff;
         }
-        a:nth-child(2){
+
+        a:nth-child(2) {
             background: transparent;
             font-family: poppins;
             color: #222;
@@ -117,7 +180,8 @@ p{
             gap: 10px;
             padding: 0;
         }
-        a:nth-child(2)::before{
+
+        a:nth-child(2)::before {
             content: '';
             background: url('../images/v-btn.png') center/contain no-repeat;
             display: inline-block;
@@ -125,7 +189,8 @@ p{
             width: 50px;
             transition: all 0.3s ease;
         }
-        a:nth-child(2):hover::before{
+
+        a:nth-child(2):hover::before {
             filter: brightness(0);
         }
 
@@ -134,9 +199,9 @@ p{
 
 /* --------------- Paragraph (image text hierarchy) ------------ */
 
-.img-text-heirarchy-wrapper{
-    
-    .path-title{
+.img-text-heirarchy-wrapper {
+
+    .path-title {
         color: #222;
         font-size: 36px;
         text-align: center;
@@ -146,37 +211,43 @@ p{
         padding-top: 19px;
         padding-bottom: 81.9px;
     }
-    .separator-line{
+
+    .separator-line {
         background: url(../images/Center-line.png) center no-repeat;
     }
-    .hierarchy-child{
+
+    .hierarchy-child {
         gap: 30px;
         align-items: center;
         margin-bottom: 60px;
         position: relative;
         z-index: 1;
-        
-        .desc{
+
+        .desc {
             font-size: 22px;
             line-height: 34px;
             color: #222;
             width: 289.6px;
             max-width: 290px;
         }
-        .img img{
+
+        .img img {
             width: 170px;
         }
-        
+
     }
+
     .production-line {
-        position: absolute;        
+        position: absolute;
     }
-    .hierarchy-left .production-line{
+
+    .hierarchy-left .production-line {
         top: 280px;
         left: 160px;
         width: 235px;
     }
-    .hierarchy-right .production-line{
+
+    .hierarchy-right .production-line {
         top: 305px;
         left: 170px;
         width: 190px;
@@ -185,13 +256,14 @@ p{
 
 /* --------Paragraph (title-decription-image) --------- */
 
-.title-decription-image-wrapper{
-    .para-title{
+.title-decription-image-wrapper {
+    .para-title {
         padding-bottom: 0px;
         font-size: 50px;
         line-height: 70px;
     }
-    .formated-description{
+
+    .formated-description {
         font-size: 26px;
         line-height: 48px;
         text-align: center;
@@ -199,9 +271,10 @@ p{
         max-width: 870px;
         margin: 0 auto;
 
-        ul{
+        ul {
             list-style-type: none;
-            li::before{
+
+            li::before {
                 content: "";
                 display: inline-block;
                 width: 9px;
@@ -214,95 +287,136 @@ p{
             }
         }
     }
-    .image img{
+
+    .image img {
         max-width: 280px;
     }
+
+    #videoContainer{
+        position: fixed;
+        width: 80%;
+        max-width: 64rem;
+        height: 90vh;
+        max-height: max-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99;
+        
+    }
+    #videoContainer.collapse{
+        display: none;
+    }
+    #videoContainer > *{
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
 }
+
+
 
 /* ------------ Paragraph (Logo Grid) ------------ */
 
-.logo-image-grid-wrapper{
+.logo-image-grid-wrapper {
     padding: 70px 0;
 }
 
-@media screen and (max-width: 992px){
-    .node-type-microsite main > .container{
+@media screen and (max-width: 992px) {
+    .node-type-microsite main>.container {
+
         .field--name-field-production-section::before,
-        .field--name-field-production-section::after{
+        .field--name-field-production-section::after {
             display: none;
         }
     }
-    .img-text-cta-wrapper.hero-section{
+
+    .img-text-cta-wrapper.hero-section {
         text-align: center;
-        .container > .row{
+
+        .container>.row {
             flex-direction: column-reverse;
         }
-        .subtitle{
+
+        .subtitle {
             font-size: 24px;
             line-height: 34px;
         }
-        .title{
+
+        .title {
             line-height: 49px;
             font-size: 37px;
         }
-        .description{
+
+        .description {
             color: #222222;
             font-size: 23px;
             line-height: 36px;
             margin-top: 0px !important;
         }
-        .cta{
+
+        .cta {
             justify-content: center;
             flex-wrap: wrap;
         }
 
     }
-    .para-title{
+
+    .para-title {
         font-size: 33.7px;
         line-height: 49px;
         padding-bottom: 23px;
     }
-    .img-text-heirarchy-wrapper{
+
+    .img-text-heirarchy-wrapper {
         .production-line {
-            display: none;     
+            display: none;
         }
-        .path-title{
+
+        .path-title {
             font-size: 23px;
             padding-top: 0px;
             padding-bottom: 1.9px;
         }
+
         .hierarchy-child {
-            .desc{
+            .desc {
                 font-size: 20px;
                 line-height: 32px;
             }
         }
-        .hierarchy-child:last-child{
+
+        .hierarchy-child:last-child {
             margin-bottom: 0;
         }
     }
+
     .title-decription-image-wrapper {
-        .para-title{
+        .para-title {
             padding-bottom: 0px !important;
             font-size: 30px !important;
             line-height: 42px !important;
         }
-        .formated-description{
+
+        .formated-description {
             font-size: 18px;
             line-height: 30px;
-            ul{
+
+            ul {
                 padding: 0;
             }
         }
     }
-    
+
 }
 
-@media screen and (max-width: 768px){
-    .img-text-heirarchy-wrapper{
+@media screen and (max-width: 768px) {
+    .img-text-heirarchy-wrapper {
         .hierarchy-child {
             flex-direction: column !important;
-            .desc{
+
+            .desc {
                 text-align: center;
             }
         }
