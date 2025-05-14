@@ -60,11 +60,6 @@
                     <h4 class="subtitle">{{ paragraph.field_subtitle.value }}</h4>
                     <h2 class="title">{{ paragraph.field_title.value }}</h2>
                     <div class="description">{{ paragraph.field_description.value|raw }}</div>
-                    <div class="cta d-flex gap-2">
-                      {% for item in paragraph.field_cta %} 
-                        <a href="{{ item.uri.value }}">{{ item.title }}</a>
-                      {% endfor %}
-                    </div>
                   </div>
                 </div>
                 <div class="col-lg-5">
