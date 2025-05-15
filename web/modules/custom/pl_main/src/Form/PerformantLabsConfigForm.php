@@ -19,10 +19,10 @@ class PerformantLabsConfigForm extends ConfigFormBase {
     $config = $this->config('pl_main.settings');
 
     $form['body'] = [
-      '#type' => 'text_format',
+      '#type' => 'textarea',
       '#title' => $this->t('Body'),
       '#default_value' => $config->get('body.value'),
-      '#format' => $config->get('body.format') ?: 'basic_html',
+      // '#format' => $config->get('body.format') ?: 'basic_html',
       '#description' => $this->t('Enter the popup body text.'),
     ];
 
@@ -39,8 +39,8 @@ class PerformantLabsConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('pl_main.settings')
       ->set('body', [
-        'value' => $form_state->getValue('body')['value'],
-        'format' => $form_state->getValue('body')['format'],
+        'value' => $form_state->getValue('body'),
+        // 'format' => $form_state->getValue('body')['format'],
       ])
       ->set('pages_to_show', $form_state->getValue('pages_to_show'))
       ->save();
