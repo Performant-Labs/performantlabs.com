@@ -3,20 +3,28 @@
         AOS.init();
 
         var btn = $('.show-intro-video');
-        var video = $('#videoContainer');
-        var body = $('body'); // For detecting clicks outside the video
+        var videoContainer = $('#videoContainer');
+        var body = $('body');
 
-        if (btn.length && video.length) {
-            // Toggle video visibility on button click
+        if (btn.length && videoContainer.length) {
+            var iframe = $('#videoContainer iframe');
+            var player = new Vimeo.Player(iframe);
+
             btn.on('click', function () {
-                video.toggleClass('collapse');
+                videoContainer.toggleClass('collapse');
+                if (!videoContainer.hasClass('collapse')) {
+                    player.play();
+                }else{
+                    player.pause();
+                    player.setCurrentTime(0);
+                }
             });
 
-            // Close the video if clicked outside the video container
             body.on('click', function (e) {
-                // If the click is outside the video container and the button
-                if (!video.is(e.target) && !btn.is(e.target) && video.has(e.target).length === 0 && btn.has(e.target).length === 0) {
-                    video.addClass('collapse'); // Collapse the video
+                if (!videoContainer.is(e.target) && !btn.is(e.target) && videoContainer.has(e.target).length === 0 && btn.has(e.target).length === 0) {
+                    videoContainer.addClass('collapse');
+                    player.pause();
+                    player.setCurrentTime(0);
                 }
             });
         }
