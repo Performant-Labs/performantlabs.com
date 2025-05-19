@@ -53,11 +53,12 @@ env:
   MAIL_TO: ${{ vars.ATK_MAIL_TO }}
   MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
   #  can be 'reportportal', 'allure', or 'reportportal,allure'
-  ATK_REPORT_TARGET: 'reportportal,allure'
+  ATK_REPORT_TARGET: 'reportportal,allure,testiny'
   REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
   ALLURE_SERVER: 'https://allure-api.performantlabs.com'
   ALLURE_SECURITY_USER: ${{ secrets.ALLURE_SECURITY_USER }}
   ALLURE_SECURITY_PASS: ${{ secrets.ALLURE_SECURITY_PASS }}
+  TESTINY_API_KEY: ${{ secrets.TESTINY_API_KEY }}
 
 jobs:
   Define-Matrix:
@@ -210,6 +211,10 @@ jobs:
       - name: Upload results to Allure
         run: |
           ./allure_send_results.sh
+
+      - name: Upload results to Testiny
+        run: |
+          npx @testiny/cli automation --project ATK --source Playwright --playwright playwright-report.json --field-values env=${{ env.PANTHEON_ENV }}
 
       - name: Set environment for messaging results
         if: ${{ always() }}
