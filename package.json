@@ -5,7 +5,7 @@
     "@ghostery/adblocker-playwright": "^2.3.1",
     "@playwright/test": "^1.44.1",
     "@reportportal/agent-js-playwright": "^5.1.9",
-    "@testiny/cli": "^1.21.1",
+    "@testiny/cli": "^1.24.0",
     "@types/node": "^20.14.2",
     "allure-commandline": "^2.29.0",
     "allure-playwright": "^3.0.0-beta.7",
