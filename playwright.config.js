@@ -27,6 +27,7 @@ async function checkReportPortal() {
 const reporterMap = {
   allure: ['allure-playwright'],
   reportportal: ['@reportportal/agent-js-playwright', rpconfig],
+  testiny: ['json', { outputFile: 'playwright-report.json' }],
 }
 
 // Define reporters depending on sharding and Portal's availability
