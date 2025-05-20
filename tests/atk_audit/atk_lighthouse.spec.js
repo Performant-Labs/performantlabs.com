@@ -56,7 +56,7 @@ test.describe('Google Lighthouse Audit', () => {
   });
 
   for (const [url, props] of URLList) {
-    test.skip(title.replace('{url}', url), async ({ page, port }, testInfo) => {
+    test(title.replace('{url}', url), async ({ page, port }, testInfo) => {
       await page.goto(baseUrl + url);
 
       await playAudit({
