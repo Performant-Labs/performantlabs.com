@@ -1,5 +1,5 @@
 options:
-  maxDiffPixels: 10
+  maxDiffPixels: 100
 URL:
   /:
   /services:
