@@ -214,7 +214,7 @@ jobs:
 
       - name: Upload results to Testiny
         run: |
-          npx @testiny/cli automation --project ATK --source Playwright --playwright playwright-report.json --field-values "Pantheon env=${{ env.PANTHEON_ENV }}"
+          npx @testiny/cli automation --project ATK --source Playwright --playwright playwright-report.json --field-values "Pantheon_env=${{ env.PANTHEON_ENV }}"
 
       - name: Set environment for messaging results
         if: ${{ always() }}
