@@ -102,6 +102,9 @@ services:
         - vendor/bin/drush updb -y
         - vendor/bin/drush cr
 
+        # Sitemap tests require initially built sitemap
+        - vendor/bin/drush xmlsitemap:rebuild
+
         # Check for upgrades to the Testery command line interface.
 #        - pip3 install testery --upgrade
 
