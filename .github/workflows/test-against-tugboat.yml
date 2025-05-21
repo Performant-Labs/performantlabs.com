@@ -30,7 +30,7 @@ env:
   MAIL_FROM: ${{ vars.ATK_MAIL_FROM }}
   MAIL_TO: ${{ vars.ATK_MAIL_TO }}
   MAIL_SUBJECT: ${{ vars.ATK_MAIL_SUBJECT }}
-#  can be 'reportportal', 'allure', or 'reportportal,allure'
+  #  can be 'reportportal', 'allure', or 'reportportal,allure'
   ATK_REPORT_TARGET: 'reportportal,allure'
   REPORT_PORTAL_API_TOKEN: ${{ secrets.REPORT_PORTAL_API_TOKEN }}
   ALLURE_SERVER: 'https://allure-api.performantlabs.com'
@@ -44,17 +44,6 @@ jobs:
       startTime: ${{ steps.get-output.outputs.startTime }}
       shardIndex: ${{ steps.get-output.outputs.shardIndex }}
     steps:
-
-      - name: Check out repository code.
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          composer update --optimize-autoloader
-
-      - name: Delete prior previews
-        run:
-          ./vendor/bin/testor preview:delete all
 
       - id: get-output
         run: |
@@ -104,6 +93,8 @@ jobs:
           PREVIEW=$(cat preview.json | jq -r .preview)
           ./vendor/bin/testor preview:set $PREVIEW
 
+          echo TUGBOAT_PREVIEW_ID=$PREVIEW >> $GITHUB_ENV
+
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
@@ -126,6 +117,12 @@ jobs:
           name: blob-report-${{ matrix.shardIndex }}
           path: blob-report
           retention-days: 1
+
+      - name: Delete the preview
+        if: ${{ always() }}
+        run: |
+          set -x
+          ./vendor/bin/testor preview:delete $TUGBOAT_PREVIEW_ID
 
       - run: echo "🍏 Job's status ${{ job.status }}."
 
