@@ -58,6 +58,8 @@ function performant_labs_preprocess_page(&$variables) {
   $body = $config->get('body')['value'];  // Correct way
   $pages = explode("\n", $config->get('pages_to_show'));
   
+  $delay_time = $config->get('delay_time');
+  
   $current_path = \Drupal::service('path.current')->getPath();
   $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
 
@@ -69,5 +71,11 @@ function performant_labs_preprocess_page(&$variables) {
               'contexts' => ['url.path', 'user.roles:anonymous'],
             ],
     ];
+    if(isset($delay_time)){
+        $variables['#attached']['drupalSettings']['delay_time'] = $delay_time;
+    }else{
+      $variables['#attached']['drupalSettings']['delay_time'] = 6000;
+    }
+
   }
 }
