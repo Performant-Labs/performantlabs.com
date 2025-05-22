@@ -126,6 +126,7 @@
   </div>
 
     {% if content.custom_popup %}
+    {{dump(content.delay_time)}}
       <div class='d-none' id='mailchimp-popup-form'>
           <button class='close-button'>×</button>
           {{ content.custom_popup|raw }}
@@ -134,33 +135,37 @@
     {% endif %}
     
     <script>
-      window.addEventListener('DOMContentLoaded', function () {
-      let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
-      console.log(mailChimpPopupForm);
-      let closeButton = document.querySelector('.close-button');
-      if (mailChimpPopupForm) {
-          // Check if first visit
-          if (!sessionStorage.getItem("firstVisit")) {
+        (function () {
+             window.addEventListener('DOMContentLoaded', function () {
+              let mailChimpPopupForm = document.getElementById('mailchimp-popup-form');
+              
+              let closeButton = document.querySelector('.close-button');
+              if (mailChimpPopupForm) {
+                  // Check if first visit
+                  if (!sessionStorage.getItem("firstVisit")) {
+                      let delayTimeForPopup = parseInt(drupalSettings.delay_time);
+                      // Show popup after 30 seconds
+                      setTimeout(() => {
+                          mailChimpPopupForm.classList.remove('d-none');
+                          mailChimpPopupForm.style.display = 'block';  // Also reset inline style
+                          document.body.classList.add('no-scroll');
 
-              // Show popup after 30 seconds
-              setTimeout(() => {
-                  mailChimpPopupForm.classList.remove('d-none');
-                  mailChimpPopupForm.style.display = 'block';  // Also reset inline style
-                  document.body.classList.add('no-scroll');
-              }, 6000);
+                      }, delayTimeForPopup);
 
-              // Close button action
-              closeButton.addEventListener('click', () => {
-                  mailChimpPopupForm.classList.add('d-none');
-                  mailChimpPopupForm.style.display = 'none';  // Hide inline style also
-                  document.body.classList.remove('no-scroll');
-              });
+                      // Close button action
+                      closeButton.addEventListener('click', () => {
+                          mailChimpPopupForm.classList.add('d-none');
+                          mailChimpPopupForm.style.display = 'none';  // Hide inline style also
+                          document.body.classList.remove('no-scroll');
+                      });
 
-              // Set flag so popup doesn't show again
-              sessionStorage.setItem("firstVisit", "true");
-          }
-      }
-    });
+                      // Set flag so popup doesn't show again
+                      sessionStorage.setItem("firstVisit", "true");
+                  }
+              }
+            });
+          })();
+
     </script>
     
 </main>

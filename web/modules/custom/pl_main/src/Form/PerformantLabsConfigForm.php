@@ -33,6 +33,14 @@ class PerformantLabsConfigForm extends ConfigFormBase {
       '#description' => $this->t('One path per line where popup should be shown. Example: /node/1'),
     ];
 
+    $form['delay_time'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Delay Time'),
+      '#default_value' => $config->get('delay_time'),
+      '#description' => $this->t('Enter delay time for the popup (in milliseconds), e.g., 1000 = 1 second.'),
+      
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -43,6 +51,7 @@ class PerformantLabsConfigForm extends ConfigFormBase {
         // 'format' => $form_state->getValue('body')['format'],
       ])
       ->set('pages_to_show', $form_state->getValue('pages_to_show'))
+      ->set('delay_time', $form_state->getValue('delay_time'))
       ->save();
 
     parent::submitForm($form, $form_state);
