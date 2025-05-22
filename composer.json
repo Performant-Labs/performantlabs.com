@@ -277,7 +277,7 @@
         "drupal/allowed_formats": "^3.0",
         "drupal/asset_injector": "^2.0",
         "drupal/autocomplete_deluxe": "^2.0",
-        "drupal/automated_testing_kit": "^1.0",
+        "drupal/automated_testing_kit": "^2.0",
         "drupal/backup_migrate": "^5.0",
         "drupal/bamboo_twig": "^6.0",
         "drupal/book": "^2.0",

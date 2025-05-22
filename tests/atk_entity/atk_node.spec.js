@@ -22,12 +22,15 @@ import { expect, test } from '../support/atk_fixture.js';
 import { ReportingApi } from '@reportportal/agent-js-playwright';
 
 test.describe('Node tests.', () => {
+  // Node IDs to clean up after the test run.
+  const tmpNid = []
+
   //
   // Create a page with an image, confirm it, update it, confirm update then delete it via the UI.
   //
   test('(ATK-PW-1110) Create, update, delete a page via the UI. @ATK-PW-1110 @node @smoke @alters-db', async ({ page, context }) => {
-    const testId = 'ATK-PW-1110';
-    let bodyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ultrices tortor.';
+    const testId = 'ATK-PW-1110'
+    let bodyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ultrices tortor.'
 
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
@@ -37,7 +40,7 @@ test.describe('Node tests.', () => {
     //
     // Add a page.
     //
-    await page.goto(baseUrl + atkConfig.pageAddUrl);
+    await page.goto(baseUrl + atkConfig.pageAddUrl)
 
     // Fill in as many fields as you need here.
     const titleTextField = await page.locator('input[name="title[0][value]"]');
@@ -48,16 +51,23 @@ test.describe('Node tests.', () => {
     //
     // Confirm content appears.
     //
-    let divContainer = await page.textContent('.node__content');
-    await expect(divContainer).toContain(bodyText);
+    let divContainer = await page.textContent('.node__content')
+    await expect(divContainer).toContain(bodyText)
+
+    // Get the nid.
+    const nid = await atkCommands.getNid(page)
+    tmpNid.push(nid)
 
     //
     // Update the node.
     //
     bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
 
-    await page.getByRole('link', { name: 'Edit' }).click();
-    await atkCommands.inputTextIntoCKEditor(page, bodyText);
+    await page.getByRole('link', { name: 'Edit' }).click()
+    // Use these two lines for older versions of Drupal.
+    // ckEditor = await page.locator('[aria-label="Editor editing area: main"]')
+    // await ckEditor.fill(bodyText)
+    await atkCommands.inputTextIntoCKEditor(page, bodyText)
     // Timeouts necessary when running at full speed.
     await page.waitForTimeout(1000);
     await page.getByRole('button', { name: 'Save' }).click();
@@ -66,28 +76,26 @@ test.describe('Node tests.', () => {
     //
     // Confirm content has changed.
     //
-    divContainer = await page.locator('.node__content');
-    const text = await divContainer.textContent();
-    await expect(text).toContain(bodyText);
+    divContainer = await page.locator('.node__content')
+    const text = await divContainer.textContent()
+    await expect(text).toContain(bodyText)
 
     //
     // Delete the node.
     //
-    await atkCommands.deleteCurrentNodeViaUi(page);
-  });
+    await atkCommands.deleteCurrentNodeViaUi(page)
+    tmpNid.splice(tmpNid.indexOf(nid), 1)
+  })
 
   //
-  // Create an article with an image, confirm it, update it, confirm update then delete it via the UI.
+  // Create an article with an image, confirm it, update it, confirm update
+  // then delete it via the UI.
   //
   test('(ATK-PW-1111) Create, update, delete an article via the UI. @ATK-PW-1111 @node @smoke @alters-db', async ({ page, context }) => {
-    const testId = 'ATK-PW-1111';
-    ReportingApi.addAttributes([{
-      key: 'testId',
-      value: testId,
-    }])
-    const image1Filepath = 'tests/data/NewspaperArticle.jpg';
-    const uniqueToken1 = atkUtilities.createRandomString(6);
-    let bodyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ultrices tortor.';
+    const testId = 'ATK-PW-1111'
+    const image1Filepath = 'tests/data/NewspaperArticle.jpg'
+    const uniqueToken1 = atkUtilities.createRandomString(6)
+    let bodyText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a ultrices tortor.'
 
     // Log in with the administrator account.
     // You should change this to an account other than the administrator,
@@ -97,11 +105,11 @@ test.describe('Node tests.', () => {
     //
     // Add an article.
     //
-    await page.goto(baseUrl + atkConfig.articleAddUrl);
+    await page.goto(baseUrl + atkConfig.articleAddUrl)
 
     // Fill in as many fields as you need here.
-    const titleTextField = await page.locator('input[name="title[0][value]"]');
-    await titleTextField.fill(`${testId}: A Title`);
+    const titleTextField = await page.locator('input[name="title[0][value]"]')
+    await titleTextField.fill(`${testId}: A Title`)
 
     // Upload image.
     let imageField = page.locator('#edit-field-image-0-upload');
@@ -120,20 +128,16 @@ test.describe('Node tests.', () => {
     //
     // Confirm content appears.
     //
-    let divContainer = await page.textContent('.node__content');
-    await expect(divContainer).toContain(bodyText);
+    let divContainer = await page.textContent('.node__content')
+    await expect(divContainer).toContain(bodyText)
 
-    // Extract the nid placed in the body class by this hook:
-    // automated_testing_kit.module:automated_testing_kit_preprocess_html().
-    // Wait for the page to load
-    await page.waitForLoadState('domcontentloaded');
-    const bodyClass = await page.evaluate(() => document.body.className);
-    const match = bodyClass.match(/node-nid-(\d+)/);
+    const nid = await atkCommands.getNid(page)
+    tmpNid.push(nid)
 
     //
     // Update the node.
     //
-    bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.';
+    bodyText = 'Ut eget ex vitae nibh dapibus vulputate ut id lacus.'
 
     await page.getByRole('link', { name: 'Edit' }).click();
     await atkCommands.inputTextIntoCKEditor(page, bodyText);
@@ -145,13 +149,20 @@ test.describe('Node tests.', () => {
     //
     // Confirm content has changed.
     //
-    divContainer = await page.locator('.node__content');
-    const text = await divContainer.textContent();
-    await expect(text).toContain(bodyText);
+    divContainer = await page.locator('.node__content')
+    const text = await divContainer.textContent()
+    await expect(text).toContain(bodyText)
 
     //
     // Delete the node.
     //
-    await atkCommands.deleteCurrentNodeViaUi(page);
-  });
-});
+    await atkCommands.deleteCurrentNodeViaUi(page)
+    tmpNid.splice(tmpNid.indexOf(nid), 1)
+  })
+
+  test.afterAll(() => {
+    tmpNid.forEach((nid) => {
+      atkCommands.deleteNodeWithNid(nid)
+    })
+  })
+})

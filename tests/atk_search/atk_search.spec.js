@@ -8,17 +8,18 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
-import * as atkCommands from '../support/atk_commands';
-import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
-import { qaUsers } from '../support/atk_utilities';
+import * as atkCommands from '../support/atk_commands'
+import * as atkUtilities from '../support/atk_utilities' // eslint-disable-line no-unused-vars
+import { qaUsers } from '../support/atk_utilities'
 
 // Import configuration.
-import playwrightConfig from '../../playwright.config';
-import atkConfig from '../../playwright.atk.config';
-const baseUrl = playwrightConfig.use.baseURL;
+import playwrightConfig from '../../playwright.config'
+import atkConfig from '../../playwright.atk.config'
+
+const baseUrl = playwrightConfig.use.baseURL
 
 // Set up Playwright.
-import { expect, test } from '../support/atk_fixture.js';
+import { expect, test } from '../support/atk_fixture.js'
 
 // Search keywords and expected results.
 // Adjust for your site.
@@ -31,68 +32,90 @@ test.describe('Search tests.', () => {
 
     await page.goto(baseUrl)
 
-    const searchForm = page.getByLabel('Search Form');
-    const isSearchFormVisible = await searchForm.isVisible();
+    const searchForm = page.getByLabel('Search Form')
+    const isSearchFormVisible = await searchForm.isVisible()
     if (!isSearchFormVisible) {
-      await page.getByLabel('Main Menu').click();
+      await page.getByLabel('Main Menu').click()
     }
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const item of searchData.simple) {
-      await openSearchForm(page);
+      // eslint-disable-next-line no-await-in-loop
+      await atkCommands.openSearchForm(page)
       const keyInput = page.getByRole('searchbox', { name: 'Search' })
+      // eslint-disable-next-line no-await-in-loop
       await keyInput.fill(item.keyword)
+      // eslint-disable-next-line no-await-in-loop
       await keyInput.press('Enter')
 
       // Wait for search result to be shown.
+      // eslint-disable-next-line no-await-in-loop
       await expect(page.getByText('Search results')).toBeVisible()
 
       // Check that expected items are shown.
-      await checkResult(page, item)
+      // eslint-disable-next-line no-await-in-loop
+      await atkCommands.checkSearchResult(page, item)
 
       // Check that the search keyword(s) are highlighted in the text.
+      // eslint-disable-next-line no-restricted-syntax
       for (const keyword of item.keyword.split(' ')) {
+        // eslint-disable-next-line no-await-in-loop
         await expect(page.locator(`xpath=//strong[.="${keyword}"]`).first()).toBeVisible()
       }
     }
   })
 
   test('(ATK-PW-1161) Advanced search. @ATK-PW-1161 @search @content', async ({ page, context }) => {
+    // eslint-disable-next-line no-unused-vars
     const testId = 'ATK-PW-1161'
 
+    // eslint-disable-next-line no-restricted-syntax
     for (const item of searchData.advanced) {
       // In the default installation, only admin can do advanced search.
       // Change if it's configured different way on your site.
+      // eslint-disable-next-line no-await-in-loop
       await atkCommands.logInViaForm(page, context, qaUsers.admin)
-      await page.goto(baseUrl + 'search/node')
+      // eslint-disable-next-line no-await-in-loop
+      await page.goto(`${baseUrl}search/node`)
 
       // Expand "Advanced search".
+      // eslint-disable-next-line no-await-in-loop
       await page.getByRole('button', { name: 'Advanced search' }).click()
 
       // Fill all the configured data.
       if (item.any) {
+        // eslint-disable-next-line no-await-in-loop
         await page.getByLabel('Containing any of the words').fill(item.any)
       }
       if (item.phrase) {
+        // eslint-disable-next-line no-await-in-loop
         await page.getByLabel('Containing the phrase').fill(item.phrase)
       }
       if (item.none) {
+        // eslint-disable-next-line no-await-in-loop
         await page.getByLabel('Containing none of the words').fill(item.none)
       }
 
       // Select node type if specified.
+      // eslint-disable-next-line no-restricted-syntax
       for (const type of item.types) {
+        // eslint-disable-next-line no-await-in-loop
         await page.getByRole('group', { name: 'Types' }).getByLabel(type).check()
       }
 
       // Select languages if specified.
+      // eslint-disable-next-line no-restricted-syntax
       for (const language of item.languages) {
+        // eslint-disable-next-line no-await-in-loop
         await page.getByRole('group', { name: 'Languages' }).getByLabel(language).check()
       }
 
+      // eslint-disable-next-line no-await-in-loop
       await page.locator('input[value="Advanced search"]').click()
 
       // Wait for search result to be shown.
-      await checkResult(page, item)
+      // eslint-disable-next-line no-await-in-loop
+      await atkCommands.checkSearchResult(page, item)
     }
   })
 
@@ -101,24 +124,25 @@ test.describe('Search tests.', () => {
 
     await page.goto(baseUrl)
 
-    const searchForm = page.getByLabel('Search Form');
-    const isSearchFormVisible = await searchForm.isVisible();
+    const searchForm = page.getByLabel('Search Form')
+    const isSearchFormVisible = await searchForm.isVisible()
     if (!isSearchFormVisible) {
-      await page.getByLabel('Main Menu').click();
+      await page.getByLabel('Main Menu').click()
     }
 
-    await openSearchForm(page);
+    await atkCommands.openSearchForm(page)
     const searchInput = page.getByRole('searchbox', { name: 'Search' })
     await expect(searchInput).toHaveAttribute('placeholder', 'Search by keyword or phrase.')
   })
 
   test('(ATK-PW-1163) Advanced search: empty input @ATK-PW-1163 @search @content @empty', async ({ page, context }) => {
+    // eslint-disable-next-line no-unused-vars
     const testId = 'ATK-PW-1163'
 
     // In the default installation, only admin can do advanced search.
     // Change if it's configured different way on your site.
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
-    await page.goto(baseUrl + 'search/node')
+    await page.goto(`${baseUrl}search/node`)
 
     // Expand "Advanced search".
     await page.getByRole('button', { name: 'Advanced search' }).click()
@@ -128,32 +152,4 @@ test.describe('Search tests.', () => {
     // Wait for search result to be shown.
     await expect(page.getByText('Enter some keywords.')).toBeVisible()
   })
-
-  async function openSearchForm(page) {
-    // Handle "responsive design". If "Search form" isn't visible,
-    // have to click main menu button first.
-
-    let searchForm = page.getByLabel('Search Form');
-    await searchForm.waitFor();
-    if (!(await searchForm.isVisible())) {
-      await page.getByLabel('Main Menu').click();
-    }
-    await searchForm.click();
-  }
-
-  async function checkResult(page, item) {
-    // Wait at least one result to be visible.
-    await expect(page.locator('.search-result__title').last()).toBeVisible()
-    const resultLocatorList = await page.locator('.search-result__title').all()
-    const resultList = []
-    for (const resultLocator of resultLocatorList) {
-      const fullString = await resultLocator.textContent()
-      const trimmedString = fullString.trim()
-
-      resultList.push(trimmedString)
-    }
-    for (const result of item.results) {
-      expect(resultList).toContain(result)
-    }
-  }
 })
