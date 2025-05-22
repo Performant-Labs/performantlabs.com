@@ -7,28 +7,25 @@
 /** ESLint directives */
 /* eslint-disable import/first */
 
-import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
-import { qaUsers } from '../support/atk_utilities';
-import * as atkCommands from '../support/atk_commands';
+import * as atkUtilities from '../support/atk_utilities' // eslint-disable-line no-unused-vars
+import { qaUsers } from '../support/atk_utilities'
+import * as atkCommands from '../support/atk_commands'
 
-import playwrightConfig from '../../playwright.config';
+import playwrightConfig from '../../playwright.config'
 
 // Import ATK Configuration.
-import atkConfig from '../../playwright.atk.config';
-
+import atkConfig from '../../playwright.atk.config'
 
 // Set up Playwright.
-import { expect, test } from '../support/atk_fixture.js';
+import { expect, test } from '../support/atk_fixture.js'
 
-const baseUrl = playwrightConfig.use.baseURL;
-
+const baseUrl = playwrightConfig.use.baseURL
 
 test.describe('Menu tests.', () => {
   //
   // Validate Menu items are added and removed.
   //
   test('(ATK-PW-1150) Create a new menu item, validate it, and remove it @ATK-PW-1150 @menu @smoke @alters-db', async ({ page, context }) => {
-    const testId = 'ATK-PW-1150'
     const uniqueToken = atkUtilities.createRandomString(6)
     const menuItemTitle = `Test${uniqueToken}`
 
@@ -47,12 +44,13 @@ test.describe('Menu tests.', () => {
     await page.getByRole('button', { name: 'Save' }).click()
 
     // Verify the menu item was created by checking its presence.
-    await page.goto(baseUrl)
+    await atkCommands.logOutViaUi(page)
     await expect(page.locator('.nav-link', { hasText: menuItemTitle })).toBeVisible() // Ensure it's visible.
 
     //
     // Navigate to the menu management page to determine the menu id.
     //
+    await atkCommands.logInViaForm(page, context, qaUsers.admin)
     await page.goto(baseUrl + atkConfig.menuListUrl)
 
     const menuLocator = await page.getByText(menuItemTitle)

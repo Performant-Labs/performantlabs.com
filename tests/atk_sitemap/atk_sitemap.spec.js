@@ -25,6 +25,10 @@ import { expect, test } from '../support/atk_fixture.js';
 
 test.describe('Sitemap tests.', () => {
   //
+  // 1070 to 1079 reserved for XML Sitemap (https://www.drupal.org/project/xmlsitemap) tests.
+  //
+
+  //
   // Return # of sitemap files; fail if zero.
   //
   test('(ATK-PW-1070) Return # of sitemap files; fail if zero. @ATK-PW-1070 @xml-sitemap @smoke', async ({ page }) => {
@@ -56,7 +60,7 @@ test.describe('Sitemap tests.', () => {
       // If there is just one sitemap file, this will fail.
       // Is the module enabled and cron has run?
       sitemapCount = jsonObj.sitemapindex.sitemap.length
-    } catch (error) {}
+    } catch (error) { /* empty */ }
 
     console.log(`Total sitemap files: ${sitemapCount}`) // eslint-disable-line no-console
   })
