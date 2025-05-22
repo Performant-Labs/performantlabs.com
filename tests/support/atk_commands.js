@@ -7,17 +7,22 @@
 
 /** ESLint directives */
 /* eslint-disable no-prototype-builtins */
-/* eslint-disable import/first */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-console */
 
 // Set up Playwright.
 import { expect } from '@playwright/test'
-
 import { execSync } from 'child_process'
+import playwrightConfig from '../../playwright.config'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
-import atkConfig from '../../playwright.atk.config.js'
+import atkConfig from '../../playwright.atk.config'
+import { getProperty, readYAML } from './atk_utilities'
 
-import { baseUrl } from './atk_utilities.js';
+// Fetch test messages.
+const atkMessages = readYAML('testMessages.json')
+
+const baseUrl = playwrightConfig.use.baseURL
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -38,12 +43,12 @@ function createUserWithUserObject(user, roles = [], args = [], options = []) {
 
   if ((args === undefined) || !Array.isArray(args)) {
     console.log('createUserWithUserObject: Pass an array for args.')
-    return
+    return 0
   }
 
   if ((options === undefined) || !Array.isArray(options)) {
     console.log('createUserWithUserObject: Pass an array for options.')
-    return
+    return 0
   }
 
   args.unshift(`'${user.userName}'`)
@@ -57,12 +62,12 @@ function createUserWithUserObject(user, roles = [], args = [], options = []) {
   // Attempt to add the roles.
   // Role(s) may come from the user object or the function arguments.
   if (user.hasOwnProperty('userRoles')) {
-    user.userRoles.forEach(function (role) {
+    user.userRoles.forEach((role) => {
       roles.push(role)
     })
   }
 
-  roles.forEach(function (role) {
+  roles.forEach((role) => {
     cmd = `user:role:add '${role}' '${user.userName}'`
     execDrush(cmd)
 
@@ -74,10 +79,43 @@ function createUserWithUserObject(user, roles = [], args = [], options = []) {
   // Tugboat has limited support of command line execution,
   // specifically, it mixes stdout and stderr.
   // Change output to filter out messages from   stderr.
-  const cr = result.replace(/^[^{]*/,'')
+  const cr = result.replace(/^[^{]*/, '')
 
   // Get the UID, if present.
   return getUidFromUserObject(cr)
+}
+
+/**
+ * Extract the media id that was added by
+ * automated_testing_kit_preprocess_image().
+ *
+ * @param imageLocator {import('@playwright/test').Locator}
+ * @return {Promise<string>}
+ */
+async function getMid(imageLocator) {
+  const mid = await imageLocator.getAttribute('data-media-id')
+  if (!mid) {
+    throw new Error(atkMessages.ATK_MID_MISSING)
+  }
+
+  return mid
+}
+
+/**
+ * Extract the nid placed in the body class by this hook:
+ * automated_testing_kit.module:automated_testing_kit_preprocess_html().
+ * @param page {import('@playwright/test').Page}
+ * @return {Promise<number>}
+ */
+async function getNid(page) {
+  const bodyClass = await page.evaluate(() => document.body.className)
+  const match = bodyClass.match(/node-nid-(\d+)/)
+  if (!match) {
+    throw new Error(atkMessages.ATK_NID_MISSING)
+  }
+
+  // Get the nid.
+  return parseInt(match[1], 10)
 }
 
 /**
@@ -147,14 +185,6 @@ function deleteUserWithEmail(email, options = []) {
     throw new Error('deleteUserWithEmail: Pass an array for options.')
   }
 
-  // TODO: --mail doesn't work without an argument.
-  // See issue filed with Drush:
-  // https://github.com/drush-ops/drush/issues/5652
-  //
-  // When that's corrected, remove 'dummy.'
-  // Workaround is to provide a username when giving the email.
-  // This has been fixed but only in the latest version (12.x).
-  // Wait until 2025 before removing "dummy" below.
   options.push(`--mail=${email}`)
   const cmd = 'user:cancel -y dummy '
 
@@ -194,7 +224,6 @@ function deleteUserWithUid(uid, options = []) {
 
   options.push(`--uid=${uid}`)
   options.push('--delete-content')
-  // As of Drush 11.6 --uid doesn't work without a name argument.
   const cmd = 'user:cancel -y dummy '
 
   return execDrush(cmd, [], options)
@@ -265,18 +294,17 @@ function execDrush(cmd, args = [], options = []) {
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
     return execPantheonDrush(command) // Returns stdout (not wrapped).
-  } else if (atkConfig.tugboat.isTarget) {
+  } if (atkConfig.tugboat.isTarget) {
     return execTugboatDrush(command)
-  } else {
-    try {
-      console.log('execDrush cmd: ' + command)
-      // output = execSync(command, { shell: 'bin/bash'}).toString()
-      output = execSync(command).toString()
+  }
+  try {
+    console.log(`execDrush cmd: ${command}`)
+    // output = execSync(command, { shell: 'bin/bash'}).toString()
+    output = execSync(command).toString()
 
-      console.log('execDrush result: ' + output)
-    } catch (error) {
-      console.log(`execDrush error: ${error.message}`)
-    }
+    console.log(`execDrush result: ${output}`)
+  } catch (error) {
+    console.log(`execDrush error: ${error.message}`)
   }
 
   return output
@@ -295,11 +323,11 @@ function execPantheonDrush(cmd) {
   // Construct the Terminus command. Remove "drush" from argument.
   const remoteCmd = `terminus remote:drush ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} -- ${cmd.substring(5)}`
 
-  console.log('execPantheonDrush cmd: ' + remoteCmd)
+  console.log(`execPantheonDrush cmd: ${remoteCmd}`)
   result = ''
   try {
     result = execSync(remoteCmd).toString()
-    console.log("execPantheonDrush result: " + result)
+    console.log(`execPantheonDrush result: ${result}`)
   } catch (error) {
     console.error(`execPantheonDrush error: ${error}`)
   }
@@ -310,14 +338,13 @@ function execPantheonDrush(cmd) {
 function execTugboatDrush(cmd) {
   const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${cmd}"`
 
-  console.log('execTugboatDrush cmd: ' + remoteCmd)
-  let result;
-  result = ''
+  console.log(`execTugboatDrush cmd: ${remoteCmd}`)
+  let result = ''
   try {
     result = execSync(remoteCmd).toString()
-    console.log('execTugboatDrush result: ' + result)
+    console.log(`execTugboatDrush result: ${result}`)
   } catch (e) {
-    console.log('execTugboatDrush error: ' + e)
+    console.log(`execTugboatDrush error: ${e}`)
   }
 
   return result
@@ -336,6 +363,108 @@ async function expectMessage(page, text) {
 
   // Should see the thank-you message.
   expect(await message.textContent()).toContain(text)
+}
+
+/**
+ * Assert that email has been received to the given address and
+ * subject.
+ *
+ * It is done with one of mail capture software which is configured
+ * in {@link atkConfig}. If it's not configured, email verification
+ * is skipped.
+ *
+ * @param mailto Recipient email address.
+ * @param subject Expected email subject.
+ * @return {Promise<void>}
+ */
+async function expectEmail(mailto, subject) {
+  // Helper function to match message subject.
+  function matchSubject(actualSubject) {
+    if (typeof actualSubject !== 'string') {
+      return false
+    }
+    if (typeof subject === 'string') {
+      return actualSubject.includes(subject)
+    }
+    if (subject instanceof RegExp) {
+      return actualSubject.match(subject)
+    }
+    return false
+  }
+
+  // Helper function to match mailto.
+  function matchTo(actualTo) {
+    if (typeof actualTo !== 'string') {
+      return false
+    }
+    if (mailto instanceof RegExp) {
+      return actualTo.match(mailto)
+    }
+    return actualTo === mailto
+  }
+
+  const prov = atkConfig.email?.provider
+  if (prov === 'mailpit') {
+    const baseURL = new URL(baseUrl).host
+    const emailURL = atkConfig.email.url.replace('{baseURL}', baseURL)
+    const apiURL = new URL('/api/v1/messages', emailURL)
+    // Uncomment for debug.
+    // console.log(`Checking emails via ${apiURL}`)
+
+    // Check email via API.
+    await fetch(apiURL).then((response) => response.json()).then((response) => {
+      // List of objects in format:
+      // /* cSpell:disable */
+      //     {
+      //       "ID": "8EuEhuoAVxZzxxiYrr3TVh",
+      //       "MessageID": "UR2Rbn5wjvdxYxQ4n68tpk@mailpit",
+      //       "Read": true,
+      //       "From": {
+      //         "Name": "Automated Testing Kit Demonstration",
+      //         "Address": "admin@example.com"
+      //       },
+      //       "To": [
+      //         {
+      //           "Name": "",
+      //           "Address": "admin@example.com"
+      //         }
+      //       ],
+      //       "Cc": [],
+      //       "Bcc": [],
+      //       "ReplyTo": [],
+      //       "Subject": "New release(s) available for Automated Testing ...",
+      //       "Created": "2024-11-26T16:11:17.393Z",
+      //       "Tags": [],
+      //       "Size": 1236,
+      //       "Attachments": 0,
+      //       "Snippet": "There is a security update available for your ..."
+      //     }
+      // /* cSpell:enable */
+      const { messages } = response
+      expect(messages).toBeTruthy()
+
+      // Find  a proper message:
+      const message = messages
+        .find((m) => matchTo(m.To[0].Address) && matchSubject(m.Subject))
+      expect(message, `To: ${mailto}
+Subject: ${subject}`).toBeTruthy()
+    })
+  } if (prov === 'testmail') {
+    const { namespace, apiKey } = atkConfig.email
+    const apiURL = `https://api.testmail.app/api/json?apikey=${apiKey}&namespace=${namespace}&pretty=true`
+    await fetch(apiURL).then((response) => response.json()).then((response) => {
+      if (response.result !== 'success') {
+        throw response
+      }
+
+      // Find a proper message:
+      const message = response.emails
+        .find((email) => matchTo(email.to) && matchSubject(email.subject))
+      expect(message, `To: ${mailto}
+Subject: ${subject}`).toBeTruthy()
+    })
+  }
+  console.warn('Email verification skipped. Configure "email" in playwright.atk.config.js to enable.')
 }
 
 /**
@@ -383,31 +512,24 @@ function getUidWithEmail(email) {
   const cmd = `user:info --mail=${email} --format=json`
 
   const result = execDrush(cmd)
-  return getUidFromUserObject(result);
+  return getUidFromUserObject(result)
 }
 
 /**
  * Return the Username of a user given an email.
  *
  * @param {string} email Email of the account.
- * @returns {string} Username of user.
+ * @returns {string|null} Username of user.
  */
 function getUsernameWithEmail(email) {
   const cmd = `user:info --mail=${email} --format=json`
   const result = execDrush(cmd)
 
-  // Fetch uid from json object, if present.
+  // Fetch name from json object, if present.
   let nameValue = null
-  if (!result === '') {
+  if (result) {
     // Expecting a string in json form.
-    const userJson = JSON.parse(result)
-
-    for (const key in userJson) {
-      if (userJson[key].hasOwnProperty('name')) {
-        nameValue = userJson[key].name
-        break // Exit the loop once the mail property is found.
-      }
-    }
+    nameValue = Object.values(JSON.parse(result))[0]?.name
   }
   return nameValue
 }
@@ -448,8 +570,10 @@ async function inputTextIntoCKEditor(page, text, instanceNumber = 0) {
 
         // Attempt to get the CKEditor instance.
         const editorInstance = targetEditorElement.ckeditorInstance
-          || Object.values(CKEDITOR.instances)[editorIndex]
-          || Object.values(ClassicEditor.instances)[editorIndex]
+        // eslint-disable-next-line no-undef
+              || Object.values(CKEDITOR.instances)[editorIndex]
+        // eslint-disable-next-line no-undef
+              || Object.values(ClassicEditor.instances)[editorIndex]
 
         if (editorInstance) {
           // Set the data in the editor.
@@ -528,13 +652,30 @@ async function logInViaUli(page, context, uid) {
 /**
  * Log out user via the UI.
  *
- * @param {object} page Page object.
- * @param {object} context Context object.
+ * @param {import('@playwright/test').Page} page Page object.
  */
 async function logOutViaUi(page) {
-  const cmd = `${baseUrl}${atkConfig.logOutUrl}`
+  const url = `${baseUrl}${atkConfig.logOutUrl}`
 
-  await page.goto(cmd)
+  await page.goto(url)
+  if (page.url().includes('confirm')) {
+    await page.locator('input[value="Log out"]').click()
+  }
+}
+
+/**
+ * Get Drupal configuration via drush.
+ *
+ * @param objectName {string} Name of configuration category.
+ * @param key {string} Name of configuration setting.
+ * @return {*} Value of configuration setting.
+ */
+function getDrupalConfiguration(objectName, key) {
+  const cmd = `cget ${objectName} ${key} --format=json`
+
+  const output = execDrush(cmd)
+  const settingObj = JSON.parse(output)
+  return settingObj[`${objectName}:${key}`]
 }
 
 /**
@@ -545,29 +686,103 @@ async function logOutViaUi(page) {
  * @param {*} value Value of configuration setting.
  */
 function setDrupalConfiguration(objectName, key, value) {
-  const cmd = `cset -y ${objectName} ${key} ${value}`
+  const cmd = `cset -y --input-format=yaml ${objectName} ${key} '${JSON.stringify(value)}'`
 
   execDrush(cmd)
 }
 
-/**
- * Enable drupal module
- * @param module {string} module name
- */
-function enableModule(module) {
-  return execDrush(`pm:install ${module}`)
+// Check global prerequisites.
+// (Once per test run.)
+const prerequisites = readYAML('atk_prerequisites.yml')
+const { prerequisitesOk } = globalThis
+if (prerequisitesOk === undefined) {
+  globalThis.prerequisitesOk = false
+  const errorList = []
+  // eslint-disable-next-line no-restricted-syntax
+  for (const prerequisite of prerequisites) {
+    console.debug('Pre-flight test is about to run: %s', prerequisite.message)
+    if ('command' in prerequisite) {
+      const output = execDrush(prerequisite.command)
+      if (prerequisite.json) {
+        const outputJson = JSON.parse(output)
+        // Each property of prerequisite.json is a condition.
+        // eslint-disable-next-line no-restricted-syntax,prefer-const
+        for (let [key, condition] of Object.entries(prerequisite.json)) {
+          const value = getProperty(outputJson, key)
+          if (typeof condition !== 'object') {
+            condition = { eq: condition }
+          }
+          // eslint-disable-next-line no-restricted-syntax
+          for (const [conditionType, conditionValue] of Object.entries(condition)) {
+            try {
+              switch (conditionType) {
+                case 'eq':
+                  // expect() ignores message if raised outside a test.
+                  expect(value).toEqual(conditionValue)
+                  break
+                  // ...
+                default:
+                  throw new Error(`Condition ${conditionType} is not implemented`)
+              }
+            } catch (e) {
+              errorList.push(e)
+            }
+          }
+
+          if (errorList.length) {
+            throw new Error(`${prerequisite.message}\n${errorList}`)
+          }
+        }
+      }
+    }
+  }
+  globalThis.prerequisitesOk = true
 }
 
 /**
- * Disable drupal module
- * @param module
+ * Open a Search Form regardless of desktop / mobile design.
+ *
+ * @param page {import('@playwright/test').Page} Page Object
+ * @returns {Promise<void>}
  */
-function disableModule(module) {
-  return execDrush(`pm:uninstall ${module}`)
+async function openSearchForm(page) {
+  // Handle "responsive design". If "Search form" isn't visible,
+  // have to click main menu button first.
+
+  const searchForm = page.getByLabel('Search Form')
+  await searchForm.waitFor()
+  if (!(await searchForm.isVisible())) {
+    await page.getByLabel('Main Menu').click()
+  }
+  await searchForm.click()
+}
+
+/**
+ * Check search result, using expectation setup in data/search.yml.
+ *
+ * @param page {import('@playwright/test').Page} Page Object
+ * @param item {{results: [string]}} Item of the data/search.yml
+ * @returns {Promise<void>}
+ */
+async function checkSearchResult(page, item) {
+  // Wait at least one result to be visible.
+  await expect(page.locator('.search-result__title').last()).toBeVisible()
+
+  const resultLocatorList = await page.locator('.search-result__title').all()
+  const resultList = (await (Promise.all(resultLocatorList
+    .map((resultLocator) => resultLocator.textContent()))))
+    .map((s) => s.trim())
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const result of item.results) {
+    expect(resultList).toContain(result)
+  }
 }
 
 export {
   createUserWithUserObject,
+  getMid,
+  getNid,
   deleteCurrentNodeViaUi,
   deleteNodeViaUiWithNid,
   deleteNodeWithNid,
@@ -576,6 +791,7 @@ export {
   deleteUserWithUserName,
   execDrush,
   execPantheonDrush,
+  expectEmail,
   expectMessage,
   getDrushAlias,
   getUidWithEmail,
@@ -584,7 +800,8 @@ export {
   logInViaForm,
   logInViaUli,
   logOutViaUi,
+  getDrupalConfiguration,
   setDrupalConfiguration,
-  enableModule,
-  disableModule,
+  openSearchForm,
+  checkSearchResult,
 }
