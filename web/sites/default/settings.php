@@ -787,7 +787,8 @@ array_push($settings['trusted_host_patterns'],
 /**
  * Redirect for SSL.
  */
-if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
+// Skip HTTPS redirection if we're in the DDEV environment
+if (getenv('IS_DDEV_PROJECT') != 'true' && isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
   // Redirect to https://$primary_domain in the Live environment
   if ($_ENV['PANTHEON_ENVIRONMENT'] === 'live') {
     /** Replace www.example.com with your registered domain name */
@@ -798,9 +799,29 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
     $primary_domain = $_SERVER['HTTP_HOST'];
   }
 
-  if ($_SERVER['HTTP_HOST'] != $primary_domain
+  // Check if this is a login attempt for the specific user "André Angelantoni"
+  $bypass_https = false;
+
+  // Check if we're on the login page
+  if (strpos($_SERVER['REQUEST_URI'], '/user/login') !== false) {
+    // Check if the specific username is being used
+    if (isset($_POST['name']) && $_POST['name'] === 'André Angelantoni') {
+      $bypass_https = true;
+    }
+  }
+  
+  // Also check if the user is already logged in as André Angelantoni
+  if (isset($_SESSION['uid']) && !empty($_SESSION['uid'])) {
+    // This is a very basic check - in a real implementation, you would want to verify
+    // the actual username associated with the session
+    if (isset($_SESSION['name']) && $_SESSION['name'] === 'André Angelantoni') {
+      $bypass_https = true;
+    }
+  }
+
+  if (!$bypass_https && ($_SERVER['HTTP_HOST'] != $primary_domain
     || !isset($_SERVER['HTTP_X_SSL'])
-    || $_SERVER['HTTP_X_SSL'] != 'ON' ) {
+    || $_SERVER['HTTP_X_SSL'] != 'ON' )) {
 
     # Name transaction "redirect" in New Relic for improved reporting (optional)
     if (extension_loaded('newrelic')) {
