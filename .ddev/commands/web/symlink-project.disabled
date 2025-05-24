@@ -7,6 +7,9 @@
 ## Example: "ddev symlink-project"
 ## ExecRaw: true
 
+# Export PROJECT_FILES environment variable to avoid warning
+export PROJECT_FILES=$(ls -A)
+
 export _WEB_ROOT=$DDEV_DOCROOT
 #todo use more dynamic ref.
 cd "$DDEV_COMPOSER_ROOT" || exit
@@ -14,5 +17,6 @@ curl -OL https://git.drupalcode.org/project/gitlab_templates/-/raw/default-ref/s
 
 # Symlink name using underscores.
 # @see https://www.drupal.org/docs/develop/creating-modules/naming-and-placing-your-drupal-module
-php symlink_project.php "${DDEV_SITENAME//-/_}"
+# Redirect output to /dev/null to suppress file listing
+php symlink_project.php "${DDEV_SITENAME//-/_}" > /dev/null
 rm -f symlink_project.php
