@@ -287,24 +287,26 @@ function execDrush(cmd, args = [], options = []) {
   const drushAlias = getDrushAlias()
   const argsString = args.join(' ')
   const optionsString = options.join(' ')
-  const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
-  // const command = 'echo $PATH'
-
+  
   // Pantheon needs special handling.
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
+    const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
     return execPantheonDrush(command) // Returns stdout (not wrapped).
   } if (atkConfig.tugboat.isTarget) {
+    const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
     return execTugboatDrush(command)
   }
+  
+  // For local DDEV environment, use ddev exec drush
+  const command = `ddev exec drush ${cmd} ${argsString} ${optionsString}`
+  
   try {
-    console.log(`execDrush cmd: ${command}`)
-    // output = execSync(command, { shell: 'bin/bash'}).toString()
+    // Run the command without logging the details
     output = execSync(command).toString()
-
-    console.log(`execDrush result: ${output}`)
   } catch (error) {
-    console.log(`execDrush error: ${error.message}`)
+    // Only log errors, not the full error message
+    console.log(`execDrush error occurred`)
   }
 
   return output
