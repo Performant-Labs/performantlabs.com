@@ -10,8 +10,10 @@ web_environment:
 hooks:
   post-start:
     - exec-host: |
-        if [[ -f vendor/autoload.php ]]; then
-          ddev symlink-project
-        else
-          exit 0
-        fi
+        # Symlink creation disabled
+        # if [[ -f vendor/autoload.php ]]; then
+        #   ddev symlink-project
+        # else
+        #   exit 0
+        # fi
+        echo "Symlink creation is disabled"

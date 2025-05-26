@@ -1,18 +1,18 @@
 /// <reference types='Cypress' />
 
-import fs from 'fs';
-import YAML from 'yaml';
+import YAML from 'yaml'
 
 /**
  * Return a string of random characters of specified length.
  *
- * @param {length}        int   Length of string to return.
+ * @param length {number} Length of the string.
  */
-function createRandomString (length) {
+function createRandomString(length) {
   let result = ''
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   const charactersLength = characters.length
 
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength))
   }
@@ -25,11 +25,11 @@ function createRandomString (length) {
  * @return {{userRoles: *[], userPassword: string, userEmail: string, userName: string}}
  */
 function createRandomUser() {
-  const name1 = createRandomString(6);
-  const name2 = createRandomString(6);
+  const name1 = createRandomString(6)
+  const name2 = createRandomString(6)
   return {
     userName: `${name1} ${name2}`,
-    userEmail: `${Cypress.env('TESTMAIL_NAMESPACE')}.${name2.toLowerCase()}@inbox.testmail.app`,
+    userEmail: `${name1.toLowerCase()}.${name2.toLowerCase()}@ethereal.email`,
     userPassword: createRandomString(18),
     userRoles: [],
   }
@@ -42,8 +42,36 @@ function createRandomUser() {
  * @return {object}
  */
 function readYAML(filename) {
-  return cy.readFile(`cypress/data/${filename}`).then((text) => YAML.parse(text));
+  return cy.readFile(`cypress/data/${filename}`).then((text) => YAML.parse(text))
 }
 
+/**
+ * Get multi-level property from an object.
+ * E.g. if object is {"foo":{"bar":"buzz"}} and key is "foo.bar",
+ * "buzz" will be returned.
+ * If key at some level does not exist, null is returned.
+ *
+ * @param object {*} Initial object.
+ * @param key {string} Property path.
+ * @return {*}
+ */
+function getProperty(object, key) {
+  let result
+  result = object
+  // eslint-disable-next-line no-restricted-syntax
+  for (const p of key.split('.')) {
+    if (result === undefined) {
+      return null
+    }
+    result = result[p]
+  }
 
-export { createRandomString, createRandomUser, readYAML }
+  if (result === undefined) {
+    return null
+  }
+  return result
+}
+
+export {
+  createRandomString, createRandomUser, readYAML, getProperty,
+}
