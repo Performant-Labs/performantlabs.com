@@ -13,9 +13,9 @@
 /// <reference types='Cypress' />
 
 // Set up ATK.
-import * as atkCommands from '../../../support/atk_commands' // eslint-disable-line no-unused-vars
-import * as atkUtilities from '../../../support/atk_utilities'
-import atkConfig from '../../../../cypress.atk.config'
+import * as atkCommands from '../../support/atk_commands' // eslint-disable-line no-unused-vars
+import * as atkUtilities from '../../support/atk_utilities'
+import atkConfig from '../../../cypress.atk.config'
 
 // Standard accounts that use user accounts created
 // by QA Accounts. QA Accounts are created when the QA
