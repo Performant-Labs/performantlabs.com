@@ -6366,6 +6366,7 @@ a.btn-primary.button:visited:active {
 }
 .page-node-type-book #block-booknavigation-2 ul > li {
   margin-bottom: 8px;
+  word-break: break-word;
 }
 .page-node-type-book #block-booknavigation-2 ul > li:last-child {
   margin-bottom: 0 !important;
