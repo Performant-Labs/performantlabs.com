@@ -9,6 +9,9 @@ libraries-override:
     css:
       theme:
         css/style.css: css/style.css
+  core/jquery:
+    js:
+      assets/vendor/jquery/jquery.min.js: https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js
 # Defines the base theme
 base theme: bootstrap4
 # Defines libraries group in which we can add css/js.
