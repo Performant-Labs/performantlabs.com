@@ -1,20 +1,5 @@
 /* ------------- Node Type Microsite Stylings ---------- */
 
-@font-face {
-    font-family: poppins;
-    src: url(../fonts/Poppins-Regular.ttf);
-}
-
-@font-face {
-    font-family: extra-bold;
-    src: url(../fonts/Poppins-ExtraBold.ttf);
-}
-
-@font-face {
-    font-family: sami-bold;
-    src: url(../fonts/Poppins-SemiBold.ttf);
-}
-
 body {
     margin: 0px;
     padding: 0px;
@@ -305,7 +290,7 @@ p {
         align-items: center;
         justify-content: center;
         z-index: 99;
-        
+
     }
     #videoContainer.collapse{
         display: none;
