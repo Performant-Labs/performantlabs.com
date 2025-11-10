@@ -11,10 +11,7 @@
 import * as atkUtilities from '../support/atk_utilities'; // eslint-disable-line no-unused-vars
 import * as atkCommands from '../support/atk_commands';
 
-// Import configuration.
-import playwrightConfig from '../../playwright.config';
-import atkConfig from '../../playwright.atk.config';
-const baseUrl = playwrightConfig.use.baseURL;
+// Tests should use relative URLs resolved against Playwright's baseURL when needed.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';

@@ -13,7 +13,6 @@
 // Set up Playwright.
 import { expect } from '@playwright/test'
 import { execSync } from 'child_process'
-import playwrightConfig from '../../playwright.config'
 
 // Fetch the Automated Testing Kit config, which is in the project root.
 import atkConfig from '../../playwright.atk.config'
@@ -22,7 +21,12 @@ import { getProperty, readYAML } from './atk_utilities'
 // Fetch test messages.
 const atkMessages = readYAML('testMessages.json')
 
-const baseUrl = playwrightConfig.use.baseURL
+// No baseUrl import; use relative URLs and Playwright's baseURL resolution.
+
+function ensureLeadingSlash(path) {
+  if (!path) return '/'
+  return path.startsWith('/') ? path : `/${path}`
+}
 
 /**
  * Create a user via Drush using a JSON user object.
@@ -138,8 +142,8 @@ async function deleteCurrentNodeViaUi(page) {
 async function deleteNodeViaUiWithNid(page, context, nid) {
   const nodeDeleteUrl = atkConfig.nodeDeleteUrl.replace('{nid}', nid)
 
-  // Delete a node page.
-  await page.goto(`${baseUrl}${nodeDeleteUrl}`)
+  // Delete a node page. Use relative path so Playwright's baseURL resolves host.
+  await page.goto(ensureLeadingSlash(nodeDeleteUrl))
   await page.getByRole('button', { name: 'Delete' }).click()
 
   // Adjust this confirmation to your needs.
@@ -407,7 +411,8 @@ async function expectEmail(mailto, subject) {
 
   const prov = atkConfig.email?.provider
   if (prov === 'mailpit') {
-    const baseURL = new URL(baseUrl).host
+    // If you need the host, use page.url() or Playwright's baseURL fixture.
+    const baseURL = new URL(page.url()).host
     const emailURL = atkConfig.email.url.replace('{baseURL}', baseURL)
     const apiURL = new URL('/api/v1/messages', emailURL)
     // Uncomment for debug.
@@ -611,7 +616,7 @@ async function inputTextIntoCKEditor(page, text, instanceNumber = 0) {
  */
 async function logInViaForm(page, context, account) {
   await context.clearCookies()
-  await page.goto(`${baseUrl}${atkConfig.logInUrl}`)
+  await page.goto(ensureLeadingSlash(atkConfig.logInUrl))
   await page.getByLabel('Username').fill(account.userName)
   await page.getByLabel('Password').fill(account.userPassword)
   await page.getByRole('button', { name: 'Log in' }).click()
@@ -646,7 +651,9 @@ async function logInViaUli(page, context, uid) {
   }
 
   cmd = `user:login --uid=${newUid}`
-  url = execDrush(cmd, [], [`--uri=${baseUrl}`])
+  // If you need the full site URL for Drush, use Playwright's baseURL from config or env.
+  // For now, this will not set --uri; update if needed for your environment.
+  url = execDrush(cmd)
 
   await page.goto(url) // Drush returns fully formed URL.
 }
@@ -657,7 +664,7 @@ async function logInViaUli(page, context, uid) {
  * @param {import('@playwright/test').Page} page Page object.
  */
 async function logOutViaUi(page) {
-  const url = `${baseUrl}${atkConfig.logOutUrl}`
+  const url = ensureLeadingSlash(atkConfig.logOutUrl)
 
   await page.goto(url)
   if (page.url().includes('confirm')) {

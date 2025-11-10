@@ -12,10 +12,7 @@ import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 import { qaUsers } from '../support/atk_utilities';
 
-// Import configuration.
-import playwrightConfig from '../../playwright.config';
-import atkConfig from '../../playwright.atk.config';
-const baseUrl = playwrightConfig.use.baseURL;
+// Note: tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -37,8 +34,7 @@ test.describe('Taxonomy tests.', () => {
 
     //
     // Add a taxonomy node to the tags vocabulary.
-    //
-    await page.goto(baseUrl + atkConfig.termAddUrl)
+    await page.goto('/admin/structure/taxonomy/manage/tags/add')
 
     // Fill in as many fields as you need here.
     // Below we provide a name and body.
@@ -52,7 +48,7 @@ test.describe('Taxonomy tests.', () => {
     // Fetch tag id from the list. The new term should be at
     // or near the top but we shouldn't assume that.
     //
-    await page.goto(baseUrl + atkConfig.termListUrl)
+    await page.goto('/admin/structure/taxonomy/manage/tags/overview')
     const termLocator = await page.getByText(termName)
 
     // Get the tid from the edit button.
@@ -64,12 +60,12 @@ test.describe('Taxonomy tests.', () => {
     const tidArray = workingUrl.match(regex)
     const tid = tidArray[1]
 
-    const termEditUrl = atkConfig.termEditUrl.replace('{tid}', tid)
-    const termViewUrl = atkConfig.termViewUrl.replace('{tid}', tid)
-    const termDeleteUrl = atkConfig.termDeleteUrl.replace('{tid}', tid)
+    const termEditUrl = `/taxonomy/term/${tid}/edit`
+    const termViewUrl = `/taxonomy/term/${tid}`
+    const termDeleteUrl = `/taxonomy/term/${tid}/delete`
 
     // Validate the body.
-    await page.goto(baseUrl + termViewUrl)
+    await page.goto(termViewUrl)
     await expect(bodyText).toContain(bodyText)
 
     //
@@ -77,7 +73,7 @@ test.describe('Taxonomy tests.', () => {
     //
     bodyText = 'Ut eget ex vitae erat lacinia molestie non non massa.'
 
-    await page.goto(baseUrl + termEditUrl)
+    await page.goto(termEditUrl)
 
     // See comment above if inputTextIntoCKEditor() does not work for you.
     await atkCommands.inputTextIntoCKEditor(page, bodyText)
@@ -89,7 +85,7 @@ test.describe('Taxonomy tests.', () => {
     //
     // Delete the term.
     //
-    await page.goto(baseUrl + termDeleteUrl)
+    await page.goto(termDeleteUrl)
     await page.getByRole('button', { name: 'Delete' }).click()
 
     // Adjust this confirmation to your needs.

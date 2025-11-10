@@ -12,9 +12,7 @@ import * as atkCommands from '../support/atk_commands';
 import * as atkUtilities from '../support/atk_utilities';
 
 // Import configuration.
-import playwrightConfig from '../../playwright.config';
 import atkConfig from '../../playwright.atk.config';
-const baseUrl = playwrightConfig.use.baseURL;
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -78,7 +76,7 @@ test.describe('Contact Us tests.', () => {
 
     // Begin Contact us.
     const user = atkUtilities.createRandomUser()
-    await page.goto(baseUrl)
+    await page.goto('/')
     await page.getByRole('link', { name: 'CONTACT US' }).first().click()
 
     await page.getByLabel('Your name').fill(user.userName)
@@ -88,12 +86,20 @@ test.describe('Contact Us tests.', () => {
     await page.getByLabel('Message').fill(testId)
     await page.getByRole('button', { name: 'SEND MESSAGE' }).click()
 
-    // Mail don't work **but** we can still check message in the admin interface.
+    // Assert success message is visible.
     await expect(page.getByText('Thank you. We\'ll get in contact with you right away.')).toBeVisible()
+    // Ensure no error message appeared (check for error/alert classes regardless of text).
+    const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
+    const errorCount = await errorLocator.count()
+    let errorMessage = ''
+    if (errorCount > 0) {
+      errorMessage = await errorLocator.first().textContent()
+    }
+    await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
 
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
 
-    await page.goto(`${baseUrl}admin/structure/webform/manage/contact/results/submissions`)
+    await page.goto('/admin/structure/webform/manage/contact/results/submissions')
 
     // Check for presence of random string.
     // Part A passes: the submission appears.

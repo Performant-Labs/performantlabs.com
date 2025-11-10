@@ -73,6 +73,7 @@ Thumbs.db
 cypress/videos
 .sass-cache
 /test-results/
+/tests/support/loginAuth.json
 /playwright-report/
 /blob-report/
 /playwright/.cache/
