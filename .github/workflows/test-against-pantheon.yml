@@ -103,7 +103,7 @@ jobs:
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
         with:
-          node-version: '19'
+          node-version: '22'
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
@@ -178,7 +178,7 @@ jobs:
       - name: 'Set up Node.'
         uses: actions/setup-node@v3
         with:
-          node-version: '19'
+          node-version: '22'
           cache: 'npm'
 
       - name: 'Install NPM dependencies'
