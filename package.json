@@ -3,7 +3,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
     "@ghostery/adblocker-playwright": "^2.3.1",
-    "@playwright/test": "^1.44.1",
+    "@playwright/test": "^1.56.1",
     "@reportportal/agent-js-playwright": "^5.1.9",
     "@testiny/cli": "^1.24.0",
     "@types/node": "^20.14.2",
@@ -20,8 +20,8 @@
     "playwright-ctrf-json-reporter": "^0.0.18",
     "playwright-lighthouse": "^4.0",
     "slack-ctrf": "^0.0",
-    "yaml": "^2.6.1",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "yaml": "^2.6.1"
   },
   "browser": {
     "[module-name]": false

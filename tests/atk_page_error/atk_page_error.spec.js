@@ -13,10 +13,7 @@ import * as atkUtilities from '../support/atk_utilities'
 import { qaUsers } from '../support/atk_utilities'
 
 // Import configuration.
-import playwrightConfig from '../../playwright.config'
-import atkConfig from '../../playwright.atk.config'
-
-const baseUrl = playwrightConfig.use.baseURL
+// Note: tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js'
@@ -33,7 +30,8 @@ test.describe('Page error tests.', () => {
     const badAnonymousUrl = 'admin'
 
     await atkCommands.logOutViaUi(page, context)
-    await page.goto(baseUrl + badAnonymousUrl)
+    // Use a relative URL so Playwright will resolve it against the configured baseURL.
+    await page.goto(`/${badAnonymousUrl}`)
 
     // Should see the 403 message.
     let textContent = ''
@@ -53,7 +51,7 @@ test.describe('Page error tests.', () => {
     const badAuthenticatedUrl = `${testId}-BadAuthenticatedPage-${randomString}`
 
     await atkCommands.logOutViaUi(page, context)
-    await page.goto(`${baseUrl}${badAnonymousUrl}`)
+    await page.goto(`/${badAnonymousUrl}`)
 
     // Should see the 404 message.
     let textContent = ''
@@ -61,7 +59,7 @@ test.describe('Page error tests.', () => {
     expect(textContent).toContain('The requested page could not be found')
 
     await atkCommands.logInViaForm(page, context, qaUsers.authenticated)
-    await page.goto(`${baseUrl}${badAuthenticatedUrl}`)
+    await page.goto(`/${badAuthenticatedUrl}`)
 
     // Should see the 404 message.
     textContent = await page.content()

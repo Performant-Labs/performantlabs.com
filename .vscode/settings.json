@@ -1,0 +1,8 @@
+{
+  "playwright.reuseBrowser": false,
+  "playwright.showBrowser": true,
+  "github.copilot.chat.model": "claude-sonnet",
+  "github.copilot.advanced": {
+    "inlineSuggestEnable": true
+  }
+}

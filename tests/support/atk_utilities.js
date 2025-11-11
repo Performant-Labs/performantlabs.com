@@ -3,7 +3,7 @@ import YAML from 'yaml'
 import axios from 'axios'
 import { XMLParser } from 'fast-xml-parser'
 import deepmerge from 'deepmerge'
-import playwrightConfig from '../../playwright.config.js'
+// import playwrightConfig from '../../playwright.config.js'
 import atkConfig from '../../playwright.atk.config.js'
 
 /**
@@ -50,7 +50,6 @@ function readYAML(filename) {
   return YAML.parse(file)
 }
 
-const baseUrl = playwrightConfig.use.baseURL
 function makeRelativeURL(url) {
   return new URL(url).pathname
 }
@@ -154,6 +153,5 @@ export {
   readYAML,
   getProperty,
   getURLList,
-  baseUrl,
   qaUsers,
 }

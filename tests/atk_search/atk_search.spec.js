@@ -12,11 +12,7 @@ import * as atkCommands from '../support/atk_commands'
 import * as atkUtilities from '../support/atk_utilities' // eslint-disable-line no-unused-vars
 import { qaUsers } from '../support/atk_utilities'
 
-// Import configuration.
-import playwrightConfig from '../../playwright.config'
-import atkConfig from '../../playwright.atk.config'
-
-const baseUrl = playwrightConfig.use.baseURL
+// Note: tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js'
@@ -30,7 +26,7 @@ test.describe('Search tests.', () => {
   test.skip('(ATK-PW-1160) Search content by a keyword. @ATK-PW-1160 @search @content', async ({ page }) => {
     const testId = 'ATK-PW-1160'
 
-    await page.goto(baseUrl)
+    await page.goto('/')
 
     const searchForm = page.getByLabel('Search Form')
     const isSearchFormVisible = await searchForm.isVisible()
@@ -75,8 +71,8 @@ test.describe('Search tests.', () => {
       // Change if it's configured different way on your site.
       // eslint-disable-next-line no-await-in-loop
       await atkCommands.logInViaForm(page, context, qaUsers.admin)
-      // eslint-disable-next-line no-await-in-loop
-      await page.goto(`${baseUrl}search/node`)
+      // Navigate to the search page via a relative URL.
+      await page.goto('/search/node')
 
       // Expand "Advanced search".
       // eslint-disable-next-line no-await-in-loop
@@ -122,7 +118,7 @@ test.describe('Search tests.', () => {
   test.skip('(ATK-PW-1162) Search by a keyword: empty input @ATK-PW-1162 @search @content @empty', async ({ page }) => {
     const testId = 'ATK-PW-1162'
 
-    await page.goto(baseUrl)
+    await page.goto('/')
 
     const searchForm = page.getByLabel('Search Form')
     const isSearchFormVisible = await searchForm.isVisible()
@@ -142,7 +138,7 @@ test.describe('Search tests.', () => {
     // In the default installation, only admin can do advanced search.
     // Change if it's configured different way on your site.
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
-    await page.goto(`${baseUrl}search/node`)
+    await page.goto('/search/node')
 
     // Expand "Advanced search".
     await page.getByRole('button', { name: 'Advanced search' }).click()

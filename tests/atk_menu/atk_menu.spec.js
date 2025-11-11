@@ -11,15 +11,13 @@ import * as atkUtilities from '../support/atk_utilities' // eslint-disable-line 
 import { qaUsers } from '../support/atk_utilities'
 import * as atkCommands from '../support/atk_commands'
 
-import playwrightConfig from '../../playwright.config'
-
-// Import ATK Configuration.
-import atkConfig from '../../playwright.atk.config'
+// Tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js'
+// Removed stray top-level await calls; all test logic is inside test blocks below.
 
-const baseUrl = playwrightConfig.use.baseURL
+// Use relative paths so Playwright resolves them against baseURL.
 
 test.describe('Menu tests.', () => {
   //
@@ -37,7 +35,7 @@ test.describe('Menu tests.', () => {
     //
     // Begin menu item creation.
     //
-    await page.goto(`${baseUrl}/admin/structure/menu/manage/main/add`)
+    await page.goto('/admin/structure/menu/manage/main/add')
     await page.getByLabel('Menu link title').fill(menuItemTitle)
     await page.getByLabel('Link', { exact: true }).fill('<front>')
     await page.getByText('Link Loading… The location')
@@ -51,7 +49,7 @@ test.describe('Menu tests.', () => {
     // Navigate to the menu management page to determine the menu id.
     //
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
-    await page.goto(baseUrl + atkConfig.menuListUrl)
+    await page.goto('/admin/structure/menu/manage/main')
 
     const menuLocator = await page.getByText(menuItemTitle)
 
@@ -64,9 +62,9 @@ test.describe('Menu tests.', () => {
     const midArray = workingUrl.match(regex)
     const mid = midArray[1]
 
-    const menuDeleteUrl = atkConfig.menuDeleteUrl.replace('{mid}', mid)
+    const menuDeleteUrl = `/admin/structure/menu/item/${mid}/delete`
 
-    await page.goto(baseUrl + menuDeleteUrl)
+    await page.goto(menuDeleteUrl)
 
     // Confirm the deletion.
     await page.getByRole('button', { name: 'Delete' }).click()
@@ -74,7 +72,7 @@ test.describe('Menu tests.', () => {
     //
     // Validate the menu item has been deleted.
     //
-    await page.goto(baseUrl + atkConfig.menuListUrl)
+    await page.goto('/admin/structure/menu/manage/main')
     const menuItemExists = await page.locator(`text=${menuItemTitle}`).count()
     test.expect(menuItemExists).toBe(0) // Ensure the item is gone.
   })

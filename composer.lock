@@ -8442,16 +8442,16 @@
         },
         {
             "name": "performant-labs/testor",
-            "version": "1.9.0",
+            "version": "1.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Performant-Labs/testor.git",
-                "reference": "19d844a12cf9f53ae285ee89dde496f25376678e"
+                "reference": "023375f9a845af3a4b8313991d19c9b209d6630e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/19d844a12cf9f53ae285ee89dde496f25376678e",
-                "reference": "19d844a12cf9f53ae285ee89dde496f25376678e",
+                "url": "https://api.github.com/repos/Performant-Labs/testor/zipball/023375f9a845af3a4b8313991d19c9b209d6630e",
+                "reference": "023375f9a845af3a4b8313991d19c9b209d6630e",
                 "shasum": ""
             },
             "require": {
@@ -8462,6 +8462,7 @@
                 "phpseclib/phpseclib": "^3.0"
             },
             "require-dev": {
+                "humbug/box": "^4.6",
                 "mockery/mockery": "^1.6",
                 "php-mock/php-mock": "^2.5",
                 "php-mock/php-mock-phpunit": "^2.10",
@@ -8482,9 +8483,9 @@
             "description": "Robo tasks that work with Automated Testing Kit",
             "support": {
                 "issues": "https://github.com/Performant-Labs/testor/issues",
-                "source": "https://github.com/Performant-Labs/testor/tree/1.9.0"
+                "source": "https://github.com/Performant-Labs/testor/tree/1.10.3"
             },
-            "time": "2025-05-21T18:38:08+00:00"
+            "time": "2025-11-11T22:21:36+00:00"
         },
         {
             "name": "phootwork/collection",
