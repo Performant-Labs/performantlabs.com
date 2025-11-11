@@ -28,6 +28,7 @@ env:
   PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
+  BASE_URL: ${{ format('https://{0}-{1}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
 
   # additional arguments to pass to `playwright test`.
   # can be used to include/exclude tests, specify project ect.
@@ -144,13 +145,11 @@ jobs:
           echo "----playwright.atk.config.js----"
           cat playwright.atk.config.js
 
-      - name: Change playwright.config.js
+      # No longer mutating playwright.config.js; BASE_URL is set via env instead.
+      - name: Show effective BASE_URL
         run: |
           set -x
-          SITE_URL=${{ format('https://{1}-{0}.pantheonsite.io/', vars.PANTHEON_SITE_NAME, env.PANTHEON_ENV) }}
-          sed -i -r "s/(\\/\\/[[:space:]]*)?baseURL: '.*'/baseURL: '"$(sed "s/\\//\\\\\\//g" <<< $SITE_URL)"'/g" playwright.config.js
-          echo "----playwright.config.js----"
-          cat playwright.config.js
+          echo "Using BASE_URL=$BASE_URL"
 
       - name: Run Playwright tests
         run: eval npx playwright test $ATK_PLAYWRIGHT_ARG --shard=${{ matrix.shardIndex }}/$CI_SHARDS
