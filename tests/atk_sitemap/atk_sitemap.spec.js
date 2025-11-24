@@ -15,10 +15,7 @@ import { XMLParser } from 'fast-xml-parser';
 import axios from 'axios';
 import https from 'https';
 
-// Import configuration.
-import playwrightConfig from '../../playwright.config';
-import atkConfig from '../../playwright.atk.config';
-const baseUrl = playwrightConfig.use.baseURL;
+// Note: tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js';
@@ -35,25 +32,15 @@ test.describe('Sitemap tests.', () => {
     const testId = 'ATK-PW-1070' // eslint-disable-line no-unused-vars
     const fileName = 'sitemap.xml'
 
-    // Fetch file.
-    await page.goto(baseUrl)
-    const targetUrl = baseUrl + fileName
-
-    // Create a custom Axios instance with SSL verification disabled
-    const axiosInstance = axios.create({
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false,
-      }),
-    })
-
-    // If there isn't at least one sitemap, this will fail.
-    const response = await axiosInstance.get(targetUrl)
+    // Fetch file via Playwright so relative paths resolve against baseURL.
+    const response = await page.goto(`/${fileName}`)
+    const responseBody = await response.text()
 
     // Uncomment and use with parse() below to test multi-part sitemaps.
     // let tempVal = '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>http://example.com/sitemap1.xml</loc><lastmod>2023-01-01T00:00:00+00:00</lastmod></sitemap><sitemap><loc>http://example.com/sitemap2.xml</loc><lastmod>2023-01-01T00:00:00+00:00</lastmod></sitemap></sitemapindex>'
 
     const parser = new XMLParser()
-    const jsonObj = parser.parse(response.data)
+    const jsonObj = parser.parse(responseBody)
 
     let sitemapCount = 1
     try {
@@ -80,12 +67,11 @@ test.describe('Sitemap tests.', () => {
     // Step 1.
     //
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
-    await page.goto(baseUrl + atkConfig.xmlSitemapUrl)
+    // Navigate to the XML sitemap admin page using a relative path.
+    await page.goto('/admin/config/search/xmlsitemap')
 
-    // Find the row where the first column contains the baseUrl.
-
-    // URL is live URL for all environments.
-    const trimmedBaseUrl = 'https://performantlabs.com'
+    // Find the row where the first column contains the site's origin.
+    const trimmedBaseUrl = new URL(page.url()).origin
     const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
     const rowLocator = await page.locator(searchText)
 
