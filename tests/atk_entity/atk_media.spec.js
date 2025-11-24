@@ -12,11 +12,7 @@ import * as atkCommands from '../support/atk_commands'
 import * as atkUtilities from '../support/atk_utilities'
 import { qaUsers } from '../support/atk_utilities'
 
-// Import configuration.
-import playwrightConfig from '../../playwright.config'
-import atkConfig from '../../playwright.atk.config'
-
-const baseUrl = playwrightConfig.use.baseURL
+// Tests should use relative URLs resolved against Playwright's baseURL.
 
 // Set up Playwright.
 import { expect, test } from '../support/atk_fixture.js'
@@ -39,8 +35,7 @@ test.describe('Media tests.', () => {
 
     //
     // Add an image.
-    //
-    await page.goto(baseUrl + atkConfig.imageAddUrl)
+    await page.goto('/media/add/image')
 
     // Upload image.
     const imageField = page.locator('#edit-field-media-image-0-upload')
@@ -82,7 +77,7 @@ test.describe('Media tests.', () => {
     //
     // Update the media.
     //
-    await page.goto(baseUrl + mediaEditUrl)
+    await page.goto(mediaEditUrl)
     await page.getByRole('button', { name: 'Remove' }).click()
     await page.setInputFiles('input[name="files[field_media_image_0]"]', image2Filepath)
     await altField.fill(`${testId}: ${uniqueToken2}`)
@@ -106,7 +101,7 @@ test.describe('Media tests.', () => {
     //
     // Delete the media entity.
     //
-    await page.goto(baseUrl + mediaDeleteUrl)
+    await page.goto(mediaDeleteUrl)
     await page.getByRole('button', { name: 'Delete' }).click()
   })
 })
