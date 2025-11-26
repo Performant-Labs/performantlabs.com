@@ -252,5 +252,10 @@ jobs:
             - Actor: ${{ github.actor }}
 
             Please investigate the failure and take necessary
-          labels: bug, playwright, pantheon, ci, auto-heal
+          labels: |
+            bug
+            playwright
+            pantheon
+            ci
+            auto-heal
 
