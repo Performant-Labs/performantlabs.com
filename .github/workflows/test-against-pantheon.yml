@@ -252,5 +252,5 @@ jobs:
             - Actor: ${{ github.actor }}
 
             Please investigate the failure and take necessary
-          assignees: '@copilot'
+          labels: bug, playwright, pantheon, ci, auto-heal
 
