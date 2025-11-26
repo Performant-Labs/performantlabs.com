@@ -1,0 +1,21 @@
+# .github/workflows/copilot-setup-steps.yml
+name: Copilot Agent Environment Setup (External App)
+
+on: workflow_call
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js & Install Deps
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      
+      - run: npm ci
+      
+      - name: Install Playwright Browsers (for MCP Inspection)
+        run: npx playwright install --with-deps

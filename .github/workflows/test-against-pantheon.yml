@@ -16,10 +16,10 @@ on:
         required: false
       threads:
         description: Thread count per shard
-        default: 2
+        default: "2"
       shards:
         description: Shard count
-        default: 3
+        default: "3"
 
   schedule:
     - cron: "57 23 * * *"
@@ -28,7 +28,7 @@ env:
   PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
-  BASE_URL: ${{ format('https://{0}-{1}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
+  BASE_URL: ${{ format('https://{1}-{0}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
 
   # additional arguments to pass to `playwright test`.
   # can be used to include/exclude tests, specify project ect.
@@ -236,3 +236,26 @@ jobs:
         shell: bash
         run: |
           node tests/support/message-slack.js
+
+      - name: Create an issue on failure and assign it to Copilot for automatic healing
+        if: ${{ needs.Test-on-Pantheon.result == 'failure' }}
+        uses: actions-ecosystem/action-create-issue@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          title: "Playwright tests failed on Pantheon environment $PANTHEON_ENV"
+          body: |
+            The Playwright tests against Pantheon environment **$PANTHEON_ENV** have failed.
+
+            - Job: [${{ env.JOB_NAME }} #${{ env.JOB_NUMBER }}](${{ env.JOB_URL }})
+            - Branch: ${{ env.JOB_BRANCH }}
+            - Duration: $((env.JOB_DURATION / 1000)) seconds
+            - Actor: ${{ github.actor }}
+
+            Please investigate the failure and take necessary
+          labels: |
+            bug
+            playwright
+            pantheon
+            ci
+            auto-heal
+
