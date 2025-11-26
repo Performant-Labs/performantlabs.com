@@ -4,6 +4,8 @@ description: Automatically heals broken Playwright tests by analyzing failures a
 tools:
   - edit
   - search
+  - bash
+  - playwright-mcp-server
   - playwright-test/*
 ---
 
