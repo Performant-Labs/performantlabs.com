@@ -28,7 +28,7 @@ env:
   PHP_VERSION: '8.3'
   PANTHEON_SITE_NAME: 'performant-labs'
   PANTHEON_ENV: ${{ inputs.multienv || inputs.env || 'live' }}
-  BASE_URL: ${{ format('https://{0}-{1}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
+  BASE_URL: ${{ format('https://{1}-{0}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
 
   # additional arguments to pass to `playwright test`.
   # can be used to include/exclude tests, specify project ect.
