@@ -251,6 +251,7 @@ jobs:
             - Actor: ${{ github.actor }}
 
             Please investigate the failure and take necessary steps.
+          assignees: 'Copilot'
           labels: |
             bug
             playwright
