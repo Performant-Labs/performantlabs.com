@@ -89,13 +89,16 @@ test.describe('Contact Us tests.', () => {
     // Assert success message is visible.
     await expect(page.getByText('Thank you. We\'ll get in contact with you right away.')).toBeVisible()
     // Ensure no error message appeared (check for error/alert classes regardless of text).
-    const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
-    const errorCount = await errorLocator.count()
-    let errorMessage = ''
-    if (errorCount > 0) {
-      errorMessage = await errorLocator.first().textContent()
+    // Skip email error check if email provider is not configured (e.g., on Pantheon dev).
+    if (atkConfig.email?.provider) {
+      const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
+      const errorCount = await errorLocator.count()
+      let errorMessage = ''
+      if (errorCount > 0) {
+        errorMessage = await errorLocator.first().textContent()
+      }
+      await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
     }
-    await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
 
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
 

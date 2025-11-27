@@ -70,14 +70,20 @@ test.describe('Sitemap tests.', () => {
     // Navigate to the XML sitemap admin page using a relative path.
     await page.goto('/admin/config/search/xmlsitemap')
 
+    // Wait for the table to be visible
+    await page.waitForSelector('table', { timeout: 10000 })
+
     // Find the row where the first column contains the site's origin.
     const trimmedBaseUrl = new URL(page.url()).origin
     const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
-    const rowLocator = await page.locator(searchText)
+    const rowLocator = page.locator(searchText)
+
+    // Wait for the row to be visible with increased timeout
+    await rowLocator.waitFor({ state: 'visible', timeout: 15000 })
 
     // Get the text content of the second column in that row
     // const siteId = await rowLocator.$eval('td:nth-child(2)', (el) => el.textContent);
-    const siteId = await rowLocator.locator('td:nth-child(2)').textContent()
+    const siteId = await rowLocator.locator('td:nth-child(2)').textContent({ timeout: 10000 })
 
     //
     // Step 2.
