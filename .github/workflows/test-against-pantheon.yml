@@ -237,14 +237,15 @@ jobs:
         run: |
           node tests/support/message-slack.js
 
-      - name: Create an issue on failure and assign it to Copilot for automatic healing
+      - name: Create an issue on failure
+        id: create_issue
         if: ${{ needs.Test-on-Pantheon.result == 'failure' }}
         uses: actions-ecosystem/action-create-issue@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           title: "Playwright tests failed on Pantheon environment ${{ env.PANTHEON_ENV }}"
           body: |
-            The Playwright tests against Pantheon environment **$PANTHEON_ENV** have failed.
+            The Playwright tests against Pantheon environment **${{ env.PANTHEON_ENV }}** have failed.
 
             - Job: [${{ env.JOB_NAME }} #${{ env.JOB_NUMBER }}](${{ env.JOB_URL }})
             - Branch: ${{ env.JOB_BRANCH }}
@@ -258,3 +259,16 @@ jobs:
             ci
             auto-heal
 
+      - name: Assign the issue to Copilot custom agent
+        uses: otto-de/assign_issue_toCopilot_action@v1.0.1
+        if: ${{ always() && steps.create_issue.outputs.issue_number }}
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          issue_number: ${{ steps.create_issue.outputs.issue_number }}
+          comment: |
+            🤖 **Automatically assigned to Copilot**
+            This issue has been automatically assigned to the Copilot agent for:
+            
+            - Code analysis
+            - Heal using Tests Healer agent
+            - Automatic pull requests
