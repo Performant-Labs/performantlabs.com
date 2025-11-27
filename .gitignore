@@ -84,3 +84,5 @@ app_server_*
 
 # Testor.
 .testor_secret.yml
+# Ignore all node_modules directories
+node_modules/
