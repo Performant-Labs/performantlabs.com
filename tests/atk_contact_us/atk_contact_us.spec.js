@@ -99,7 +99,7 @@ test.describe('Contact Us tests.', () => {
       if (atkConfig.email?.reroute) {
         await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
       } else {
-        console.log(`Warning: Error message appeared but ignored (email not configured): "${errorMessage}"`)
+        await page.evaluate((msg) => console.warn(`Error message appeared but ignored (email not configured): "${msg}"`), errorMessage)
       }
     }
 
