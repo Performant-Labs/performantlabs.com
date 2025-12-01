@@ -72,12 +72,27 @@ test.describe('Sitemap tests.', () => {
 
     // Find the row where the first column contains the site's origin.
     const trimmedBaseUrl = new URL(page.url()).origin
-    const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
-    const rowLocator = await page.locator(searchText)
-
-    // Get the text content of the second column in that row
-    // const siteId = await rowLocator.$eval('td:nth-child(2)', (el) => el.textContent);
-    const siteId = await rowLocator.locator('td:nth-child(2)').textContent()
+    
+    // Wait for the table to be visible
+    await page.waitForSelector('table', { timeout: 10000 })
+    
+    // Find all table rows and iterate to find the one with the base URL
+    const rows = await page.locator('table tbody tr').all()
+    let siteId = null
+    
+    for (const row of rows) {
+      const firstCell = await row.locator('td:nth-child(1)').textContent()
+      if (firstCell && firstCell.includes(trimmedBaseUrl)) {
+        siteId = await row.locator('td:nth-child(2)').textContent()
+        break
+      }
+    }
+    
+    if (!siteId) {
+      throw new Error(`Could not find sitemap configuration for ${trimmedBaseUrl}`)
+    }
+    
+    siteId = siteId.trim()
 
     //
     // Step 2.
