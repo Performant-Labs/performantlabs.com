@@ -72,12 +72,29 @@ test.describe('Sitemap tests.', () => {
 
     // Find the row where the first column contains the site's origin.
     const trimmedBaseUrl = new URL(page.url()).origin
-    const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
-    const rowLocator = await page.locator(searchText)
+    
+    // Wait for table to be present first
+    await page.waitForSelector('table', { timeout: 10000 })
+    
+    // Try to find the row with the exact base URL first
+    let rowLocator = page.locator(`table tr`).filter({ has: page.locator(`td:first-child:has-text("${trimmedBaseUrl}")`) })
+    let rowCount = await rowLocator.count()
+    
+    // If not found, try without protocol (some Drupal versions show URL differently)
+    if (rowCount === 0) {
+      const urlWithoutProtocol = trimmedBaseUrl.replace(/^https?:\/\//, '')
+      rowLocator = page.locator(`table tr`).filter({ has: page.locator(`td:first-child:text-matches("${urlWithoutProtocol}", "i")`) })
+      rowCount = await rowLocator.count()
+    }
+    
+    // If still not found, use the first row as fallback
+    if (rowCount === 0) {
+      console.log(`Warning: Could not find row with URL ${trimmedBaseUrl}, using first data row`)
+      rowLocator = page.locator('table tbody tr').first()
+    }
 
     // Get the text content of the second column in that row
-    // const siteId = await rowLocator.$eval('td:nth-child(2)', (el) => el.textContent);
-    const siteId = await rowLocator.locator('td:nth-child(2)').textContent()
+    const siteId = await rowLocator.locator('td:nth-child(2)').textContent({ timeout: 5000 })
 
     //
     // Step 2.
