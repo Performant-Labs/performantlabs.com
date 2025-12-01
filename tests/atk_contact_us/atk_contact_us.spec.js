@@ -88,23 +88,14 @@ test.describe('Contact Us tests.', () => {
 
     // Assert success message is visible.
     await expect(page.getByText('Thank you. We\'ll get in contact with you right away.')).toBeVisible()
-    
-    // Check if email is configured (used for conditional validation)
-    const hasEmailConfigured = !!(atkConfig.email?.reroute || atkConfig.email?.provider)
-    
-    // Only check for error messages if email is configured.
-    // On environments without email (e.g., Pantheon dev), the form may show
-    // an error about email delivery even though the submission was recorded.
-    if (hasEmailConfigured) {
-      // Ensure no error message appeared (check for error/alert classes regardless of text).
-      const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
-      const errorCount = await errorLocator.count()
-      let errorMessage = ''
-      if (errorCount > 0) {
-        errorMessage = await errorLocator.first().textContent()
-      }
-      await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
+    // Ensure no error message appeared (check for error/alert classes regardless of text).
+    const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
+    const errorCount = await errorLocator.count()
+    let errorMessage = ''
+    if (errorCount > 0) {
+      errorMessage = await errorLocator.first().textContent()
     }
+    await expect(errorLocator, `Expected no error message, but found: "${errorMessage}"`).not.toBeVisible()
 
     await atkCommands.logInViaForm(page, context, qaUsers.admin)
 
@@ -114,11 +105,9 @@ test.describe('Contact Us tests.', () => {
     // Part A passes: the submission appears.
     await expect(page.getByText(user.userName, { exact: true })).toBeVisible()
 
-    // Check for an email sent to site admin only if email is configured.
+    // Check for an email sent to site admin.
     // We don't know the address here (unless we use Reroute Email),
     // so just check the subject.
-    if (hasEmailConfigured) {
-      await atkCommands.expectEmail(atkConfig.email?.reroute?.address ?? /.*/, subjectLine)
-    }
+    await atkCommands.expectEmail(atkConfig.email?.reroute?.address ?? /.*/, subjectLine)
   })
 })
