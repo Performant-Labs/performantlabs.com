@@ -70,14 +70,31 @@ test.describe('Sitemap tests.', () => {
     // Navigate to the XML sitemap admin page using a relative path.
     await page.goto('/admin/config/search/xmlsitemap')
 
-    // Find the row where the first column contains the site's origin.
-    const trimmedBaseUrl = new URL(page.url()).origin
-    const searchText = `table tr:has(td:first-child:has-text('${trimmedBaseUrl}'))`
-    const rowLocator = await page.locator(searchText)
-
-    // Get the text content of the second column in that row
-    // const siteId = await rowLocator.$eval('td:nth-child(2)', (el) => el.textContent);
-    const siteId = await rowLocator.locator('td:nth-child(2)').textContent()
+    // Find the row where the first column contains the production site URL.
+    // Note: Due to DB sync from production, the sitemap table always contains
+    // the production URL (performantlabs.com) even on dev/test environments.
+    const productionUrl = 'https://performantlabs.com'
+    
+    // Wait for the table to be visible
+    await page.waitForSelector('table', { timeout: 10000 })
+    
+    // Find all table rows and iterate to find the one with the production URL
+    const rows = await page.locator('table tbody tr').all()
+    let siteId = null
+    
+    for (const row of rows) {
+      const firstCell = await row.locator('td:nth-child(1)').textContent()
+      if (firstCell && firstCell.includes(productionUrl)) {
+        siteId = await row.locator('td:nth-child(2)').textContent()
+        break
+      }
+    }
+    
+    if (!siteId) {
+      throw new Error(`Could not find sitemap configuration for ${productionUrl}`)
+    }
+    
+    siteId = siteId.trim()
 
     //
     // Step 2.
