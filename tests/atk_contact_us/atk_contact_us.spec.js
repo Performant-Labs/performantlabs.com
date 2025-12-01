@@ -89,10 +89,13 @@ test.describe('Contact Us tests.', () => {
     // Assert success message is visible.
     await expect(page.getByText('Thank you. We\'ll get in contact with you right away.')).toBeVisible()
     
+    // Check if email is configured (used for conditional validation)
+    const hasEmailConfigured = !!(atkConfig.email?.reroute || atkConfig.email?.provider)
+    
     // Only check for error messages if email is configured.
     // On environments without email (e.g., Pantheon dev), the form may show
     // an error about email delivery even though the submission was recorded.
-    if (atkConfig.email?.reroute || atkConfig.email?.provider) {
+    if (hasEmailConfigured) {
       // Ensure no error message appeared (check for error/alert classes regardless of text).
       const errorLocator = page.locator('[role="alert"], .messages--error, .error-message')
       const errorCount = await errorLocator.count()
@@ -114,7 +117,7 @@ test.describe('Contact Us tests.', () => {
     // Check for an email sent to site admin only if email is configured.
     // We don't know the address here (unless we use Reroute Email),
     // so just check the subject.
-    if (atkConfig.email?.reroute || atkConfig.email?.provider) {
+    if (hasEmailConfigured) {
       await atkCommands.expectEmail(atkConfig.email?.reroute?.address ?? /.*/, subjectLine)
     }
   })
