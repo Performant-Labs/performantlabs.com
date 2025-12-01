@@ -83,15 +83,14 @@ test.describe('Sitemap tests.', () => {
     // If not found, try without protocol (some Drupal versions show URL differently)
     if (rowCount === 0) {
       const urlWithoutProtocol = trimmedBaseUrl.replace(/^https?:\/\//, '')
-      // Escape special regex characters to prevent regex injection
-      const escapedUrl = urlWithoutProtocol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      rowLocator = page.locator(`table tr`).filter({ has: page.locator(`td:first-child:text-matches("${escapedUrl}", "i")`) })
+      // Use has-text with the URL (safer than regex pattern matching)
+      rowLocator = page.locator(`table tr`).filter({ has: page.locator(`td:first-child:has-text("${urlWithoutProtocol}")`) })
       rowCount = await rowLocator.count()
     }
     
     // If still not found, use the first row as fallback
     if (rowCount === 0) {
-      await page.evaluate((url) => console.warn(`Could not find row with URL ${url}, using first data row`), trimmedBaseUrl)
+      console.warn(`Could not find row with URL ${trimmedBaseUrl}, using first data row`)
       rowLocator = page.locator('table tbody tr').first()
     }
 
