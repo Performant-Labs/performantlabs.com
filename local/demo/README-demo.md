@@ -125,6 +125,7 @@ npm run demo:reset
 4. Replaces `waitForTimeout` with proper waiting
 5. Adds `waitForLoadState('networkidle')`
 6. Uses flexible selectors for Drupal patterns
+7. **Note**: LLM may suggest `data-testid` attributes - review these as they may not exist on your site
 
 ## 🔧 Technical Details
 
@@ -154,6 +155,13 @@ ollama pull mfdoom/deepseek-coder-v2-tool-calling:latest
 # Update heal-local.js to use this model
 ```
 
+**OpenCode fails with "ProviderModelNotFoundError" (case sensitivity)**
+```bash
+# OpenCode requires lowercase model names
+# The demo automatically converts model names to lowercase
+# Check: ollama list | grep -i "deepseek-coder"
+```
+
 **Test passes unexpectedly**
 - The template selectors might match your current site
 - Modify `local/demo/template-failing-test.spec.js` to ensure failures
@@ -170,6 +178,11 @@ ddev start
 # Check: curl -I https://performant-labs.ddev.site:8493
 ```
 
+**Healing produces incorrect data-testid selectors**
+- The LLM may suggest `data-testid` attributes that don't exist
+- This demonstrates the need for human review of LLM suggestions
+- Real fix: Update selectors to match actual site structure
+
 ### **Debug Mode**
 ```bash
 # Enable debug output
@@ -181,8 +194,24 @@ npm run demo:run
 
 - **Time to fix**: < 2 minutes from failure to healed
 - **Accuracy**: LLM identifies all 8 failure causes
-- **Code quality**: Applies Playwright best practices
+- **Code quality**: Applies Playwright best practices  
 - **Repeatability**: Can run demo multiple times
+- **Case handling**: Automatically fixes model name case sensitivity
+
+## 🔧 Technical Implementation
+
+### **Key Features:**
+1. **Automatic model detection** - Finds best tool-calling model from Ollama
+2. **Case sensitivity fix** - Converts `MFDoom/deepseek-coder-v2-tool-calling:latest` → `mfdoom/deepseek-coder-v2-tool-calling:latest`
+3. **CTRF integration** - Uses standardized test reporting format
+4. **Git workflow** - Creates healing branches for review
+5. **Human-in-the-loop** - Shows diffs before applying changes (auto-accept optional)
+
+### **Real Drupal Patterns:**
+- Based on actual DOM analysis via Playwright MCP
+- Uses real selectors from your Performant Labs site
+- Simulates common Drupal maintenance challenges
+- Follows your existing test patterns
 
 ## 🎯 Use Cases
 
