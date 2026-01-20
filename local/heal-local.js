@@ -12,6 +12,7 @@ class LocalTestHealer {
     this.logger = this.createLogger();
     this.opencodeConfigPath = join(process.cwd(), '.opencode', 'config.json');
     this.healingBranch = `heal/local-fixes-${Date.now()}`;
+    this.recommendedModel = null;
   }
   
   createLogger() {
@@ -38,9 +39,38 @@ class LocalTestHealer {
       const response = await fetch('http://localhost:11434/api/tags');
       if (response.ok) {
         const data = await response.json();
-        const models = data.models?.map(m => m.name).join(', ') || 'none';
-        this.logger.success(`Ollama available with models: ${models}`);
-        return { available: true, provider: 'ollama', models: data.models };
+        const models = data.models?.map(m => m.name) || [];
+        const modelsString = models.join(', ');
+        this.logger.success(`Ollama available with models: ${modelsString}`);
+        
+        // Find a model that supports tool calling (prefer tool-calling variants)
+        let recommendedModel = null;
+        const toolCallingModels = models.filter(m => m.includes('tool') || m.includes('tool-calling'));
+        const codingModels = models.filter(m => m.includes('coder') || m.includes('code'));
+        
+        if (toolCallingModels.length > 0) {
+          recommendedModel = toolCallingModels[0];
+          this.logger.info(`Found tool-calling model: ${recommendedModel}`);
+        } else if (codingModels.length > 0) {
+          recommendedModel = codingModels[0];
+          this.logger.warn(`No tool-calling model found. Using coding model: ${recommendedModel}`);
+          this.logger.warn('This model may not support tool calling and could cause OpenCode errors.');
+        } else if (models.length > 0) {
+          recommendedModel = models[0];
+          this.logger.warn(`Using generic model: ${recommendedModel}. Tool calling may fail.`);
+        }
+        
+        // Ensure model name is lowercase for OpenCode compatibility
+        if (recommendedModel) {
+          recommendedModel = recommendedModel.toLowerCase();
+        }
+        
+        return { 
+          available: true, 
+          provider: 'ollama', 
+          models: data.models,
+          recommendedModel: recommendedModel ? `ollama/${recommendedModel}` : null
+        };
       }
     } catch (error) {
       this.logger.warn('Ollama not available on localhost:11434');
@@ -52,7 +82,12 @@ class LocalTestHealer {
         const config = JSON.parse(readFileSync(this.opencodeConfigPath, 'utf8'));
         if (config.model?.provider === 'ollama' || config.model?.provider?.includes('local')) {
           this.logger.success(`OpenCode configured for local model: ${config.model.model}`);
-          return { available: true, provider: 'opencode-config', config };
+          return { 
+            available: true, 
+            provider: 'opencode-config', 
+            config,
+            recommendedModel: config.model.model
+          };
         }
       } catch (error) {
         this.logger.debug('Error reading OpenCode config:', error.message);
@@ -61,10 +96,10 @@ class LocalTestHealer {
     
     this.logger.error('No local LLM detected. Please install Ollama or configure OpenCode.');
     this.logger.info('Installation: https://ollama.com/download');
-    this.logger.info('Recommended model: `ollama pull deepseek-coder-v2:16b`');
+    this.logger.info('Recommended model: `ollama pull mfdoom/deepseek-coder-v2-tool-calling:latest`');
     this.logger.info('Or run: `npm run setup:local-llm`');
     
-    return { available: false, provider: null };
+    return { available: false, provider: null, recommendedModel: null };
   }
   
   async readCTRFReport() {
@@ -157,10 +192,11 @@ FIXED TEST CODE:
     
     this.logger.debug(`Created prompt file: ${tempPromptFile}`);
     
-    // Use OpenCode CLI with local model (use tool-calling variant)
+    // Use OpenCode CLI with local model
+    const model = this.recommendedModel || 'ollama/mfdoom/deepseek-coder-v2-tool-calling:latest';
     const args = [
       'run',
-      '--model', 'ollama/mfdoom/deepseek-coder-v2-tool-calling:latest',
+      '--model', model,
       'Analyze and fix this failing Playwright test',
       '-f', tempPromptFile
     ];
@@ -353,6 +389,9 @@ FIXED TEST CODE:
       this.logger.info('Run `npm run setup:local-llm` for setup instructions.');
       process.exit(1);
     }
+    
+    // Store recommended model for OpenCode
+    this.recommendedModel = llmCheck.recommendedModel || 'ollama/mfdoom/deepseek-coder-v2-tool-calling:latest';
     
     // Step 2: Read CTRF report
     let reportData;
