@@ -75,7 +75,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // Allow overriding the base URL via the BASE_URL environment variable
     // so tests can be targeted at production (https://performantlabs.com).
-    baseURL: process.env.BASE_URL || 'https://dev-performant-labs.pantheonsite.io/',
+    baseURL: process.env.BASE_URL || 'https://performant-labs.ddev.site:8493',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -90,7 +90,18 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          args: [
+            '--password-store=basic',
+            '--use-mock-keychain',
+          ],
+          env: {
+            PLAYWRIGHT_CHROMIUM_USE_MOCK_KEYCHAIN: '1',
+          },
+        },
+      },
     },
     //
     // {

@@ -26,7 +26,12 @@
   "browser": {
     "[module-name]": false
   },
-  "scripts": {},
+  "scripts": {
+    "test:local": "node local/test-local.js",
+    "heal:local": "node local/heal-local.js",
+    "test-and-heal": "npm run test:local && npm run heal:local",
+    "setup:local-llm": "node local/setup-local-llm.js"
+  },
   "workspaces": [
     "packages/cypress-tasks"
   ]

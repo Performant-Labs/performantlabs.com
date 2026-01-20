@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "model": {
+    "provider": "ollama",
+    "model": "deepseek-coder-v2:16b",
+    "options": {
+      "temperature": 0.1,
+      "maxTokens": 4000
+    }
+  },
+  "local": {
+    "preferLocal": true,
+    "fallbackToCloud": false
+  }
+}
