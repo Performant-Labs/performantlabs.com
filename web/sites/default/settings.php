@@ -822,10 +822,10 @@ $settings['skip_permissions_hardening'] = TRUE;
 // Email
 $config['symfony_mailer_lite.settings']['transport'] = [
   'scheme' => 'smtp',
-  'host' => 'email-smtp.us-west-2.amazonaws.com',
-  'user' => 'AKIA6IVCRJ7LNFCQ5HMO',
-  'password' => 'BKFe2b7wKUOayat/b5jsN1wMifiDrAAT6uVlh8ZEJ0to',
-  'port' => 587,
+  'host' => getenv('SMTP_HOST') ?: 'email-smtp.us-west-2.amazonaws.com',
+  'user' => getenv('SMTP_USER'),
+  'password' => getenv('SMTP_PASSWORD'),
+  'port' => getenv('SMTP_PORT') ?: 587,
   'encryption' => 'tls',
 ];
 
