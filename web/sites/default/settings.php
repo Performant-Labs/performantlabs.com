@@ -819,6 +819,11 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
 
 $settings['skip_permissions_hardening'] = TRUE;
 
+// Load SMTP credentials for Pantheon (not in Git)
+if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(__DIR__ . '/settings.pantheon.smtp.php')) {
+  include __DIR__ . '/settings.pantheon.smtp.php';
+}
+
 // Email configuration
 // Use Pantheon Secrets for production, environment variables for local/DDEV
 if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
