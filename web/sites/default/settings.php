@@ -819,15 +819,30 @@ if (isset($_SERVER['PANTHEON_ENVIRONMENT']) && php_sapi_name() != 'cli') {
 
 $settings['skip_permissions_hardening'] = TRUE;
 
-// Email
-$config['symfony_mailer_lite.settings']['transport'] = [
-  'scheme' => 'smtp',
-  'host' => getenv('SMTP_HOST') ?: 'email-smtp.us-west-2.amazonaws.com',
-  'user' => getenv('SMTP_USER'),
-  'password' => getenv('SMTP_PASSWORD'),
-  'port' => getenv('SMTP_PORT') ?: 587,
-  'encryption' => 'tls',
-];
+// Email configuration
+// Use Pantheon Secrets for production, environment variables for local/DDEV
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  // Running on Pantheon - use Pantheon Secrets
+  // Set these via: terminus secret:set <site>.<env> SMTP_USER <value>
+  $config['symfony_mailer_lite.settings']['transport'] = [
+    'scheme' => 'smtp',
+    'host' => $_ENV['SMTP_HOST'] ?? 'email-smtp.us-west-2.amazonaws.com',
+    'user' => $_ENV['SMTP_USER'] ?? '',
+    'password' => $_ENV['SMTP_PASSWORD'] ?? '',
+    'port' => $_ENV['SMTP_PORT'] ?? 587,
+    'encryption' => 'tls',
+  ];
+} else {
+  // Running locally (DDEV) - use getenv()
+  $config['symfony_mailer_lite.settings']['transport'] = [
+    'scheme' => 'smtp',
+    'host' => getenv('SMTP_HOST') ?: 'email-smtp.us-west-2.amazonaws.com',
+    'user' => getenv('SMTP_USER'),
+    'password' => getenv('SMTP_PASSWORD'),
+    'port' => getenv('SMTP_PORT') ?: 587,
+    'encryption' => 'tls',
+  ];
+}
 
 // Automatically generated include for settings managed by ddev.
 $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
