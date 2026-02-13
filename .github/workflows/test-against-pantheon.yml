@@ -102,11 +102,11 @@ jobs:
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
       - name: Check out repository code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -177,11 +177,11 @@ jobs:
     steps:
 
       - name: Check out repository code.
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Install node after checking out repo to get access to package.json.
       - name: 'Set up Node.'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
