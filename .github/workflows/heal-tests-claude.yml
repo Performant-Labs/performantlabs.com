@@ -46,7 +46,7 @@ jobs:
           additional_permissions: |
             actions: read
           claude_args: |
-            --allowedTools "Bash(npx *),Bash(npm *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Edit,Replace"
+            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace"
           prompt: |
             You are the Playwright Test Healer for a Drupal website.
 
