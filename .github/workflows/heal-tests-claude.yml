@@ -49,6 +49,7 @@ jobs:
             actions: read
           claude_args: |
             --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
+            --disallowedTools "AskUserQuestion"
           prompt: |
             You are the Playwright Test Healer for a Drupal website.
 
@@ -63,6 +64,7 @@ jobs:
             - BASE_URL is already set to https://live-performant-labs.pantheonsite.io
             - Do NOT prefix commands with BASE_URL=..., it's already in the environment
             - Do NOT use shell pipes or redirects (2>&1, |) — run simple commands only
+            - This is a FULLY AUTOMATED workflow. NEVER ask questions. All info you need is in the issue body above.
 
             **Your task:**
             1. Identify which test file(s) are failing from the issue body
