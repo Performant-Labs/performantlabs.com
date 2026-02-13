@@ -18,8 +18,17 @@ jobs:
       id-token: write
       actions: read
     steps:
+      - name: Extract branch from issue
+        id: get-branch
+        run: |
+          BRANCH=$(echo "${{ github.event.issue.body }}" | grep -oP '(?<=Branch: )\S+' || echo "")
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "Extracted branch: ${BRANCH:-default}"
+
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.get-branch.outputs.branch || github.event.repository.default_branch }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
