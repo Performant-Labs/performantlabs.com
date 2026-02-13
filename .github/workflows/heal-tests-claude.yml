@@ -56,6 +56,8 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           base_branch: ${{ steps.get-branch.outputs.branch || github.event.repository.default_branch }}
+          show_full_output: true
+          track_progress: true
           additional_permissions: |
             actions: read
           claude_args: |
