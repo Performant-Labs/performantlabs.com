@@ -1,0 +1,57 @@
+name: (Heal) AI Test Healer via Claude
+run-name: Claude is healing test failures on issue #${{ github.event.issue.number }}
+
+# Trigger when an issue is created or labeled with 'auto-heal'
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  heal-tests:
+    # Only run if the issue has the 'auto-heal' label
+    if: contains(github.event.issue.labels.*.name, 'auto-heal')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Heal tests with Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are the Playwright Test Healer for a Drupal website.
+
+            A nightly CI run has failed. Here is the GitHub issue:
+
+            **Issue #${{ github.event.issue.number }}:** ${{ github.event.issue.title }}
+
+            **Issue body:**
+            ${{ github.event.issue.body }}
+
+            **Your task:**
+            1. Identify which test file(s) are failing from the issue body
+            2. Run the failing tests: `npx playwright test --reporter=list`
+            3. Analyze the failures using the decision framework in CLAUDE.md
+            4. Determine if each failure is a TEST ISSUE or WEBSITE ISSUE
+            5. For TEST issues: fix the test code and create a PR
+            6. For WEBSITE issues: comment your analysis on this issue but do NOT modify tests
+            7. If creating a PR, reference this issue number (#${{ github.event.issue.number }}) in it
+
+            Read CLAUDE.md in the repo root for project-specific patterns and guidelines.
