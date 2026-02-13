@@ -70,11 +70,13 @@ jobs:
 
             **Your task:**
             1. Identify which test file(s) are failing from the issue body
-            2. Run the failing tests: `npx playwright test --reporter=list`
-            3. Analyze the failures using the decision framework in CLAUDE.md
-            4. Determine if each failure is a TEST ISSUE or WEBSITE ISSUE
-            5. For TEST issues: fix the test code and create a PR
-            6. For WEBSITE issues: comment your analysis on this issue but do NOT modify tests
-            7. If creating a PR, reference this issue number (#${{ github.event.issue.number }}) in it
+            2. Read the failing test file(s) to understand the test
+            3. Run ONLY the specific failing test file: `npx playwright test <path-to-failing-test> --reporter=list`
+               Do NOT run `npx playwright test` without specifying the file — that runs ALL tests
+            4. Analyze the failures using the decision framework in CLAUDE.md
+            5. Determine if each failure is a TEST ISSUE or WEBSITE ISSUE
+            6. For TEST issues: fix the test code and create a PR
+            7. For WEBSITE issues: comment your analysis on this issue but do NOT modify tests
+            8. If creating a PR, reference this issue number (#${{ github.event.issue.number }}) in it
 
             Read CLAUDE.md in the repo root for project-specific patterns and guidelines.
