@@ -283,7 +283,7 @@ jobs:
 
       - name: AI Analysis of Test Failures
         if: ${{ needs.Test-on-Pantheon.result == 'failure' }}
-        run: npx ai-ctrf claude ctrf/ctrf-report.json || true
+        run: npx ai-ctrf claude ctrf/ctrf-report.json --model claude-sonnet-4-20250514 || true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
