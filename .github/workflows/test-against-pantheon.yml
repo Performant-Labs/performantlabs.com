@@ -40,7 +40,7 @@ env:
 
   # additional arguments to pass to `playwright test`.
   # can be used to include/exclude tests, specify project ect.
-  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('--grep "{0}"', inputs.grep) || vars.ATK_PLAYWRIGHT_ARG }}
+  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('{0} --grep "{1}"', vars.ATK_PLAYWRIGHT_ARG, inputs.grep) || vars.ATK_PLAYWRIGHT_ARG }}
 
   # for parallelization
   CI_THREADS: ${{ inputs.threads || 2 }}
