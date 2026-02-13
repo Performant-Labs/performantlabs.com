@@ -55,10 +55,11 @@ jobs:
           BASE_URL: https://live-performant-labs.pantheonsite.io
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          base_branch: ${{ steps.get-branch.outputs.branch || github.event.repository.default_branch }}
           additional_permissions: |
             actions: read
           claude_args: |
-            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
+            --allowedTools "Bash(npx *),Bash(npm *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
             --disallowedTools "AskUserQuestion"
             --max-turns 15
           prompt: |
@@ -75,7 +76,8 @@ jobs:
             - BASE_URL is already set to https://live-performant-labs.pantheonsite.io
             - Do NOT prefix commands with BASE_URL=..., it's already in the environment
             - Do NOT use shell pipes, redirects, or heredocs — run simple single commands only
-            - Do NOT use `git commit` or `git push` directly — the action handles commits and PRs for you
+            - Do NOT use any git commands — the action handles branching, commits, and PRs for you automatically
+            - Just use the Edit tool to fix files. The action will create the branch and PR.
             - This is a FULLY AUTOMATED workflow. NEVER ask questions. All info you need is in the issue body above.
 
             **Your task:**
@@ -85,8 +87,8 @@ jobs:
                Do NOT run `npx playwright test` without specifying the file — that runs ALL tests
             4. Analyze the failures using the decision framework in CLAUDE.md
             5. Determine if each failure is a TEST ISSUE or WEBSITE ISSUE
-            6. For TEST issues: fix the test code and create a PR
-            7. For WEBSITE issues: comment your analysis on this issue but do NOT modify tests
-            8. If creating a PR, reference this issue number (#${{ github.event.issue.number }}) in it
+            6. For TEST issues: fix the test code using the Edit tool. The action creates the PR automatically.
+            7. For WEBSITE issues: add your analysis as your final response, do NOT modify tests
+            8. Reference this issue number (#${{ github.event.issue.number }}) in your analysis
 
             Read CLAUDE.md in the repo root for project-specific patterns and guidelines.
