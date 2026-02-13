@@ -77,7 +77,7 @@ test.describe('Contact Us tests.', () => {
     // Begin Contact us.
     const user = atkUtilities.createRandomUser()
     await page.goto('/')
-    await page.getByRole('link', { name: 'COTACT US' }).first().click()
+    await page.getByRole('link', { name: 'CONTACT US' }).first().click()
 
     await page.getByLabel('Your name').fill(user.userName)
     await page.getByLabel('Your email').fill(user.userEmail)
