@@ -58,7 +58,7 @@ jobs:
           additional_permissions: |
             actions: read
           claude_args: |
-            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
+            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git log *),Bash(git diff *),Bash(git status *),Bash(git show *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
             --disallowedTools "AskUserQuestion"
             --max-turns 10
           prompt: |
