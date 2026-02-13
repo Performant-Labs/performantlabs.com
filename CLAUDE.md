@@ -86,6 +86,19 @@ When fixing selectors, follow these patterns:
 - Base URL depends on environment (set via `BASE_URL` env var)
 - Pantheon targets: `https://{env}-performant-labs.pantheonsite.io`
 
+## PR Description Guidelines
+
+When creating a PR, include:
+
+- **Root cause:** What went wrong and why (e.g., "selector `#main-mneu` is a typo")
+- **Classification:** Whether this is a TEST issue or WEBSITE issue, with reasoning
+- **Changes made:** What files were modified and what was changed
+- **Failure message:** The specific error Playwright reported
+- **Verification:** Confirm you re-ran the test and it passes now
+- **Issue reference:** Link back to the triggering issue (e.g., "Fixes #182")
+
+Example PR title: `Fix typo in Contact Us test selector (#182)`
+
 ## Code Style
 
 - Use ES module syntax (`import`/`export`)
