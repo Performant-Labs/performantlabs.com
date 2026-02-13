@@ -713,6 +713,11 @@ if (prerequisitesOk === undefined) {
     if ('command' in prerequisite) {
       const output = execDrush(prerequisite.command)
       if (prerequisite.json) {
+        // Skip validation if output is empty (e.g., terminus not installed)
+        if (!output || output.trim() === '') {
+          console.warn(`Skipping prerequisite check "${prerequisite.message}" - no output from Drush command`)
+          continue
+        }
         const outputJson = JSON.parse(output)
         // Each property of prerequisite.json is a condition.
         // eslint-disable-next-line no-restricted-syntax,prefer-const
