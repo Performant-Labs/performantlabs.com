@@ -276,16 +276,20 @@ jobs:
             }
             core.setOutput('issue_number', issueNumber);
 
-      - name: Assign the issue to Copilot custom agent
-        uses: otto-de/assign_issue_toCopilot_action@v1.0.1
+      - name: AI Analysis of Test Failures
+        if: ${{ needs.Test-on-Pantheon.result == 'failure' }}
+        run: npx ai-ctrf claude ctrf/ctrf-report.json || true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Comment on issue to trigger Claude healer
         if: ${{ always() && steps.create_issue.outputs.issue_number }}
+        uses: actions/github-script@v7
         with:
-          github_token: ${{ secrets.GH_PAT }}
-          issue_number: ${{ steps.create_issue.outputs.issue_number }}
-          comment: |
-            🤖 **Automatically assigned to Copilot**
-            This issue has been automatically assigned to the Copilot agent for:
-            
-            - Code analysis
-            - Heal using Tests Healer agent
-            - Automatic pull requests
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ steps.create_issue.outputs.issue_number }},
+              body: `🤖 **AI Test Healer triggered**\n\nThe Claude Code Action will analyze this failure and determine:\n- **Test issue** → Create PR with fixes\n- **Website issue** → Comment analysis only\n\nJob: [${{ env.JOB_NAME }} #${{ env.JOB_NUMBER }}](${{ env.JOB_URL }})\nEnvironment: ${{ env.PANTHEON_ENV }}`
+            });
