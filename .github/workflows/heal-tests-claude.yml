@@ -74,7 +74,8 @@ jobs:
             **Environment:**
             - BASE_URL is already set to https://live-performant-labs.pantheonsite.io
             - Do NOT prefix commands with BASE_URL=..., it's already in the environment
-            - Do NOT use shell pipes or redirects (2>&1, |) — run simple commands only
+            - Do NOT use shell pipes, redirects, or heredocs — run simple single commands only
+            - Do NOT use `git commit` or `git push` directly — the action handles commits and PRs for you
             - This is a FULLY AUTOMATED workflow. NEVER ask questions. All info you need is in the issue body above.
 
             **Your task:**
