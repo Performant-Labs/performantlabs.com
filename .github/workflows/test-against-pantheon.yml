@@ -80,7 +80,7 @@ jobs:
         run: |
           set -x
           echo "startTime=$(date '+%s')" >> $GITHUB_OUTPUT
-          echo "shardIndex=[$(seq 1 $CI_SHARDS | tr '\n' ',' | sed 's/.$//'))]" >> $GITHUB_OUTPUT
+          echo "shardIndex=[$(seq 1 $CI_SHARDS | tr '\n' ',' | sed 's/.$//')]" >> $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
 
   Test-on-Pantheon:
