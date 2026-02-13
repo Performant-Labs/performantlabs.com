@@ -41,12 +41,14 @@ jobs:
 
       - name: Heal tests with Claude
         uses: anthropics/claude-code-action@v1
+        env:
+          BASE_URL: https://live-performant-labs.pantheonsite.io
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           additional_permissions: |
             actions: read
           claude_args: |
-            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace"
+            --allowedTools "Bash(npx *),Bash(npm *),Bash(gh *),Bash(git *),Bash(cat *),Bash(ls *),Bash(grep *),Bash(find *),Bash(head *),Bash(tail *),Bash(sed *),Edit,Replace,WebFetch"
           prompt: |
             You are the Playwright Test Healer for a Drupal website.
 
@@ -56,6 +58,11 @@ jobs:
 
             **Issue body:**
             ${{ github.event.issue.body }}
+
+            **Environment:**
+            - BASE_URL is already set to https://live-performant-labs.pantheonsite.io
+            - Do NOT prefix commands with BASE_URL=..., it's already in the environment
+            - Do NOT use shell pipes or redirects (2>&1, |) — run simple commands only
 
             **Your task:**
             1. Identify which test file(s) are failing from the issue body
