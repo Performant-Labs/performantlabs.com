@@ -291,7 +291,7 @@ function execDrush(cmd, args = [], options = []) {
   const drushAlias = getDrushAlias()
   const argsString = args.join(' ')
   const optionsString = options.join(' ')
-  
+
   // Pantheon needs special handling.
   if (atkConfig.pantheon.isTarget) {
     // sshCmd comes from the test and is set in the before()
@@ -301,10 +301,10 @@ function execDrush(cmd, args = [], options = []) {
     const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
     return execTugboatDrush(command)
   }
-  
+
   // For local DDEV environment, use ddev exec drush
   const command = `ddev exec drush ${cmd} ${argsString} ${optionsString}`
-  
+
   try {
     // Run the command without logging the details
     output = execSync(command).toString()
@@ -329,11 +329,11 @@ function execPantheonDrush(cmd) {
   // Construct the Terminus command. Remove "drush" from argument.
   const remoteCmd = `terminus remote:drush ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} -- ${cmd.substring(5)}`
 
-  console.log(`execPantheonDrush cmd: ${remoteCmd}`)
+  console.debug(`execPantheonDrush cmd: ${remoteCmd}`)
   result = ''
   try {
     result = execSync(remoteCmd).toString()
-    console.log(`execPantheonDrush result: ${result}`)
+    console.debug(`execPantheonDrush result: ${result}`)
   } catch (error) {
     console.error(`execPantheonDrush error: ${error}`)
   }
@@ -344,13 +344,13 @@ function execPantheonDrush(cmd) {
 function execTugboatDrush(cmd) {
   const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${cmd}"`
 
-  console.log(`execTugboatDrush cmd: ${remoteCmd}`)
+  console.debug(`execTugboatDrush cmd: ${remoteCmd}`)
   let result = ''
   try {
     result = execSync(remoteCmd).toString()
-    console.log(`execTugboatDrush result: ${result}`)
+    console.debug(`execTugboatDrush result: ${result}`)
   } catch (e) {
-    console.log(`execTugboatDrush error: ${e}`)
+    console.error(`execTugboatDrush error: ${e}`)
   }
 
   return result
@@ -577,10 +577,10 @@ async function inputTextIntoCKEditor(page, text, instanceNumber = 0) {
 
         // Attempt to get the CKEditor instance.
         const editorInstance = targetEditorElement.ckeditorInstance
-        // eslint-disable-next-line no-undef
-              || Object.values(CKEDITOR.instances)[editorIndex]
-        // eslint-disable-next-line no-undef
-              || Object.values(ClassicEditor.instances)[editorIndex]
+          // eslint-disable-next-line no-undef
+          || Object.values(CKEDITOR.instances)[editorIndex]
+          // eslint-disable-next-line no-undef
+          || Object.values(ClassicEditor.instances)[editorIndex]
 
         if (editorInstance) {
           // Set the data in the editor.
@@ -729,7 +729,7 @@ if (prerequisitesOk === undefined) {
                   // expect() ignores message if raised outside a test.
                   expect(value).toEqual(conditionValue)
                   break
-                  // ...
+                // ...
                 default:
                   throw new Error(`Condition ${conditionType} is not implemented`)
               }
