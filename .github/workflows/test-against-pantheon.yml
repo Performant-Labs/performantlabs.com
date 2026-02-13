@@ -287,14 +287,34 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
-      - name: Comment on issue to trigger Claude healer
+      - name: Comment on issue with AI analysis
         if: ${{ always() && steps.create_issue.outputs.issue_number }}
         uses: actions/github-script@v7
         with:
           script: |
+            const fs = require('fs');
+            let aiSummary = '';
+            try {
+              const ctrf = JSON.parse(fs.readFileSync('ctrf/ctrf-report.json', 'utf8'));
+              const failed = ctrf.results?.tests?.filter(t => t.status === 'failed') || [];
+              if (failed.length > 0) {
+                aiSummary = '\n\n## 🧠 AI Analysis\n\n';
+                for (const t of failed) {
+                  aiSummary += `### ❌ ${t.name}\n`;
+                  if (t.ai?.summary) {
+                    aiSummary += `${t.ai.summary}\n\n`;
+                  } else if (t.message) {
+                    aiSummary += `\`\`\`\n${t.message.substring(0, 500)}\n\`\`\`\n\n`;
+                  }
+                }
+              }
+            } catch (e) {
+              aiSummary = '\n\n> AI analysis unavailable (CTRF report not found or not enriched)\n';
+            }
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: ${{ steps.create_issue.outputs.issue_number }},
-              body: `🤖 **AI Test Healer triggered**\n\nThe Claude Code Action will analyze this failure and determine:\n- **Test issue** → Create PR with fixes\n- **Website issue** → Comment analysis only\n\nJob: [${{ env.JOB_NAME }} #${{ env.JOB_NUMBER }}](${{ env.JOB_URL }})\nEnvironment: ${{ env.PANTHEON_ENV }}`
+              body: `🤖 **AI Test Healer triggered**\n\nThe Claude Code Action will analyze this failure and determine:\n- **Test issue** → Create PR with fixes\n- **Website issue** → Comment analysis only\n\nJob: [${{ env.JOB_NAME }} #${{ env.JOB_NUMBER }}](${{ env.JOB_URL }})\nEnvironment: ${{ env.PANTHEON_ENV }}${aiSummary}`
             });
