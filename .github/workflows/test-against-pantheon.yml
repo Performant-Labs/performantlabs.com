@@ -39,11 +39,11 @@ env:
   BASE_URL: ${{ format('https://{1}-{0}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
 
   # additional arguments to pass to `playwright test`.
-  # can be used to include/exclude tests, specify project ect.
-  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('{0} --grep "{1}"', vars.ATK_PLAYWRIGHT_ARG, inputs.grep) || vars.ATK_PLAYWRIGHT_ARG }}
+  # DEMO OVERRIDE: only run the contact-us test (remove this for full suite)
+  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('{0} --grep "{1}"', vars.ATK_PLAYWRIGHT_ARG, inputs.grep) || format('{0} --grep "@contact-us"', vars.ATK_PLAYWRIGHT_ARG) }}
 
-  # for parallelization
-  CI_THREADS: ${{ inputs.threads || 2 }}
+  # for parallelization (1 shard for demo — only 1 test)
+  CI_THREADS: ${{ inputs.threads || 1 }}
   CI_SHARDS: ${{ inputs.shards || 1 }}
 
   # for reporting
