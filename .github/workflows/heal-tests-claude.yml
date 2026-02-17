@@ -78,8 +78,7 @@ jobs:
             - BASE_URL is already set to https://live-performant-labs.pantheonsite.io
             - Do NOT prefix commands with BASE_URL=..., it's already in the environment
             - Do NOT use shell pipes, redirects, heredocs, or newlines in commands — every command must be a single line
-            - IMPORTANT: git commit messages MUST be a single line with no newlines. Example: git commit -m "Fix typo COTACT to CONTACT. Fixes #182"
-            - Do NOT include Co-authored-by trailers or multi-line commit messages
+            - For multi-part git commit messages, use multiple -m flags (each is a separate paragraph). Example: git commit -m "Fix typo COTACT to CONTACT" -m "Fixes #182"
             - This is a FULLY AUTOMATED workflow. NEVER ask questions. All info you need is in the issue body above.
 
             **Your task:**
