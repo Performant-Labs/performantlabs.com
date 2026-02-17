@@ -1,10 +1,11 @@
 name: (Heal) AI Test Healer via Claude
 run-name: Claude is healing test failures on issue #${{ github.event.issue.number }}
 
-# Trigger when an issue is created or labeled with 'auto-heal'
+# Trigger when an issue is created with 'auto-heal' label
+# NOTE: only 'opened' — not 'labeled' — to prevent duplicate runs (each label fires a separate event)
 on:
   issues:
-    types: [opened, labeled]
+    types: [opened]
 
 jobs:
   heal-tests:
