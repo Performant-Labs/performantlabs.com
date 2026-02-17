@@ -39,8 +39,8 @@ env:
   BASE_URL: ${{ format('https://{1}-{0}.pantheonsite.io', 'performant-labs', inputs.multienv || inputs.env || 'live') }}
 
   # additional arguments to pass to `playwright test`.
-  # DEMO OVERRIDE: only run the contact-us test (remove this for full suite)
-  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('{0} --grep "{1}"', vars.ATK_PLAYWRIGHT_ARG, inputs.grep) || format('{0} --grep "@contact-us"', vars.ATK_PLAYWRIGHT_ARG) }}
+  # DEMO OVERRIDE: only run the contact-us test with short timeout (remove this for full suite)
+  ATK_PLAYWRIGHT_ARG: ${{ inputs.grep && format('{0} --grep "{1}"', vars.ATK_PLAYWRIGHT_ARG, inputs.grep) || format('{0} --grep "@contact-us" --timeout 10000', vars.ATK_PLAYWRIGHT_ARG) }}
 
   # for parallelization (1 shard for demo — only 1 test)
   CI_THREADS: ${{ inputs.threads || 1 }}
@@ -116,6 +116,12 @@ jobs:
 
       - name: 'Install NPM dependencies'
         run: npm i
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
