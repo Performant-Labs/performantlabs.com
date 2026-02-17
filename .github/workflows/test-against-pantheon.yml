@@ -175,11 +175,49 @@ jobs:
           path: blob-report
           retention-days: 1
 
+      # DEMO: issue creation moved here to skip Merge-Blob-Reports (saves ~71s)
+      - name: Create an issue on failure
+        id: create_issue
+        if: ${{ failure() }}
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GH_PAT }}
+          script: |
+            const issueTitle = "Playwright tests failed on Pantheon environment ${{ env.PANTHEON_ENV }}";
+            const bodyContent = `The Playwright tests against Pantheon environment **${{ env.PANTHEON_ENV }}** have failed.
+
+            - Job: [${{ github.workflow }} #${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Branch: ${{ github.ref_name }}
+            - Actor: ${{ github.actor }}
+
+            Please investigate the failure and take necessary steps.
+            `;
+            const searchResult = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:title "${issueTitle}"`
+            });
+            let issueNumber = null;
+            if (searchResult.data.total_count > 0) {
+              issueNumber = searchResult.data.items[0].number;
+              core.info(`An open issue with the title "${issueTitle}" already exists: #${issueNumber}`);
+            } else {
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issueTitle,
+                body: bodyContent,
+                labels: ['bug', 'playwright', 'pantheon', 'ci', 'auto-heal'],
+              });
+              issueNumber = issue.data.number;
+              core.info(`Created a new issue: #${issueNumber}`);
+            }
+            core.setOutput('issue_number', issueNumber);
+
       - run: echo "🍏 Job's status ${{ job.status }}."
 
+  # DEMO: Merge-Blob-Reports disabled — single shard, issue creation moved to Test-on-Pantheon
   Merge-Blob-Reports:
     runs-on: ubuntu-latest
-    if: ${{ !cancelled() }}
+    if: false
     needs:
       - Define-Matrix
       - Test-on-Pantheon
