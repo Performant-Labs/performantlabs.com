@@ -95,3 +95,34 @@ jobs:
             8. For TEST issues: commit and push to create a PR
             9. For WEBSITE issues: add your analysis as your final response, do NOT modify tests
             10. Reference this issue number (#${{ github.event.issue.number }}) in your analysis
+
+      - name: Create PR automatically
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          # Find the claude branch that was just created
+          CLAUDE_BRANCH=$(git branch -r | grep "origin/claude/issue-${{ github.event.issue.number }}" | sed 's|origin/||' | head -1 | xargs)
+          
+          if [ -z "$CLAUDE_BRANCH" ]; then
+            echo "No claude branch found for issue #${{ github.event.issue.number }}"
+            exit 0
+          fi
+          
+          echo "Found branch: $CLAUDE_BRANCH"
+          
+          # Get base branch from the issue body
+          BASE_BRANCH=$(echo "${{ github.event.issue.body }}" | grep -oP 'Branch: \K[^\s]+' || echo "main")
+          echo "Base branch: $BASE_BRANCH"
+          
+          # Create PR
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$CLAUDE_BRANCH" \
+            --title "Fix: Test healing for issue #${{ github.event.issue.number }}" \
+            --body "Automated fix by Claude Code for issue #${{ github.event.issue.number }}.
+
+          See the issue comment for full analysis and changes.
+          
+          Fixes #${{ github.event.issue.number }}" \
+            || echo "PR creation failed or PR already exists"
