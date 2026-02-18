@@ -192,24 +192,24 @@ jobs:
 
             Please investigate the failure and take necessary steps.
             `;
-            const searchResult = await github.rest.search.issuesAndPullRequests({
-              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:title "${issueTitle}"`
+            // DEMO: deduplication disabled — always create a new issue so each run triggers the healer
+            // In production, re-enable this block to avoid duplicate issues:
+            // const searchResult = await github.rest.search.issuesAndPullRequests({
+            //   q: `repo:${context.repo.owner}/${context.repo.repo} is:issue is:open in:title "${issueTitle}"`
+            // });
+            // if (searchResult.data.total_count > 0) {
+            //   issueNumber = searchResult.data.items[0].number;
+            //   core.info(`An open issue with the title "${issueTitle}" already exists: #${issueNumber}`);
+            // } else { ... }
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: bodyContent,
+              labels: ['bug', 'playwright', 'pantheon', 'ci', 'auto-heal'],
             });
-            let issueNumber = null;
-            if (searchResult.data.total_count > 0) {
-              issueNumber = searchResult.data.items[0].number;
-              core.info(`An open issue with the title "${issueTitle}" already exists: #${issueNumber}`);
-            } else {
-              const issue = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issueTitle,
-                body: bodyContent,
-                labels: ['bug', 'playwright', 'pantheon', 'ci', 'auto-heal'],
-              });
-              issueNumber = issue.data.number;
-              core.info(`Created a new issue: #${issueNumber}`);
-            }
+            const issueNumber = issue.data.number;
+            core.info(`Created a new issue: #${issueNumber}`);
             core.setOutput('issue_number', issueNumber);
 
       - run: echo "🍏 Job's status ${{ job.status }}."
