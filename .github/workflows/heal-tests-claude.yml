@@ -50,6 +50,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Heal tests with Claude
+        continue-on-error: true
         timeout-minutes: 10
         uses: anthropics/claude-code-action@v1
         env:
