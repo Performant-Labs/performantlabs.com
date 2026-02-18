@@ -29,7 +29,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.get-branch.outputs.branch || github.event.repository.default_branch }}
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -57,7 +57,7 @@ jobs:
           BASE_URL: https://live-performant-labs.pantheonsite.io
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          base_branch: ${{ steps.get-branch.outputs.branch || github.event.repository.default_branch }}
+          base_branch: main
           show_full_output: false
           track_progress: true
           additional_permissions: |
