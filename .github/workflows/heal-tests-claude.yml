@@ -112,8 +112,8 @@ jobs:
 
           echo "Found branch: $CLAUDE_BRANCH"
 
-          # Get base branch from the issue body
-          BASE_BRANCH=$(echo "${{ github.event.issue.body }}" | grep -oP 'Branch: \K[^\s]+' || echo "main")
+          # Always target main so PRs survive demo branch deletion
+          BASE_BRANCH="main"
           echo "Base branch: $BASE_BRANCH"
 
           # Create PR
