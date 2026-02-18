@@ -1,5 +1,5 @@
 name: (Test) Run Playwright tests against Pantheon.
-run-name: ${{ github.actor }} is running tests on Pantheon.
+run-name: "Playwright tests on Pantheon — ${{ github.ref_name }} (${{ github.event_name }})"
 on:
   workflow_dispatch:
     inputs:
