@@ -1,5 +1,5 @@
 name: (Heal) AI Test Healer via Claude
-run-name: Claude is healing test failures on issue #${{ github.event.issue.number }}
+run-name: "Claude is healing test failures on issue #${{ github.event.issue.number }}"
 
 # Trigger when an issue is created with 'auto-heal' label
 # NOTE: only 'opened' — not 'labeled' — to prevent duplicate runs (each label fires a separate event)
