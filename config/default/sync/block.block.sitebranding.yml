@@ -1,0 +1,23 @@
+uuid: 81081704-11dd-449e-bcd2-7224216803bf
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - performant_labs
+id: sitebranding
+theme: performant_labs
+region: header
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

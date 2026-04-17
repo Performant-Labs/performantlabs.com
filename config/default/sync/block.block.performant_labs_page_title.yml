@@ -1,0 +1,29 @@
+uuid: a707680d-222f-4b5c-a861-7f51992164d9
+langcode: en
+status: false
+dependencies:
+  module:
+    - ctools
+  theme:
+    - performant_labs
+_core:
+  default_config_hash: gfXKmThltk6eewwrjAEaxVPxzPEVHV1UfNjjOUQ5A7g
+id: performant_labs_page_title
+theme: performant_labs
+region: content
+weight: -1
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: true
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      job: job

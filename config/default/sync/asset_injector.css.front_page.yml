@@ -1,0 +1,18 @@
+uuid: 01be7765-a900-40d4-8ddd-40c34c84c13f
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+id: front_page
+label: 'Front page'
+code: '/* */'
+media: all
+preprocess: true
+conditions:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'
+contexts: {  }
+conditions_require_all: true

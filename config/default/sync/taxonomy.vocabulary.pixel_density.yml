@@ -1,0 +1,9 @@
+uuid: 97e556e6-988c-4dae-959d-a1b3bf77d1ca
+langcode: en
+status: true
+dependencies: {  }
+name: 'Pixel Density'
+vid: pixel_density
+description: '1x, 2x, 3x'
+weight: 0
+new_revision: false

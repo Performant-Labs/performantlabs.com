@@ -1,0 +1,26 @@
+uuid: 85c47119-27ce-44b7-a052-c319d1594b3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.articles
+  module:
+    - views
+active_version: 31c63d822c6cf6ee
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:articles-block_3'
+        label: 'Articles: Teaser List'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Articles: Teaser List'
+id: block.views_block.articles-block_3
+provider: views
+source: block
+source_local_id: 'views_block:articles-block_3'

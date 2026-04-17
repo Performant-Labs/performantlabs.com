@@ -1,0 +1,32 @@
+uuid: d3335443-a9b8-4744-89f5-35c9c39d322b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_reported_by
+    - node.type.issue
+  content:
+    - 'user:user:4d50c7df-3e8d-4ff8-bd74-d939d9a5974b'
+id: node.issue.field_reported_by
+field_name: field_reported_by
+entity_type: node
+bundle: issue
+label: 'Reported By'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    target_uuid: 4d50c7df-3e8d-4ff8-bd74-d939d9a5974b
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference

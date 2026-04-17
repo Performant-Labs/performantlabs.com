@@ -1,0 +1,12 @@
+uuid: 55ecee53-d677-49e4-8f9d-0429225dc445
+langcode: en
+status: true
+dependencies: {  }
+id: article_above_fold
+label: 'Article above fold'
+classes: article-above-fold
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 0

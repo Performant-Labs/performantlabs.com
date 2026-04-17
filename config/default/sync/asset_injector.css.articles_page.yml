@@ -1,0 +1,47 @@
+uuid: 70c8c77f-2e0c-4d6b-b30d-294768af8424
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+id: articles_page
+label: 'Articles Page'
+code: |-
+  /* From CSS Injector */
+
+  .node--view-mode-card-large {
+      /*text-align: center;*/
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height:500px;
+  }
+  .node--view-mode-card-large .node__content {
+      /*bottom: 135px;*/
+      /*position: absolute;*/
+      padding-left: 50px;
+      padding-right: 50px;
+      transition: all .2s ease-in-out;
+      width: 100%;
+  }
+
+  .node--view-mode-card-large .node__content a {
+      color: #ffffff;
+      font-family: "Rubik", sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      /*height: 100%;*/
+  }
+
+  .node--view-mode-card-large .node__content .custom-field-title:hover {
+  	transform: scale(1.1);
+  }
+media: all
+preprocess: true
+conditions:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /articles
+contexts: {  }
+conditions_require_all: true

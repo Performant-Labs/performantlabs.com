@@ -1,0 +1,29 @@
+uuid: 78f47965-f5a7-40a3-87fe-a59714da8849
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'
+  module:
+    - block_content
+    - system
+  theme:
+    - performant_labs
+id: layoutbuilderkitlogo
+theme: performant_labs
+region: sidebar_first
+weight: -6
+provider: null
+plugin: 'block_content:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'
+settings:
+  id: 'block_content:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'
+  label: 'Layout Builder Kit Logo'
+  label_display: '0'
+  provider: block_content
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/layout-builder-kit/*'

@@ -1,0 +1,21 @@
+uuid: b2fcce37-fe47-4926-87fe-45a08053bd42
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.render_node
+    - field.storage.block_content.field_node
+id: block_content.render_node.field_node
+field_name: field_node
+entity_type: block_content
+bundle: render_node
+label: Node
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings: {  }
+field_type: entity_reference

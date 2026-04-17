@@ -1,0 +1,12 @@
+uuid: bf7518fc-0ee3-4d4a-a024-5ce8bd3b669f
+langcode: en
+status: true
+dependencies: {  }
+id: pl_section_thin
+label: PL-section-thin
+classes: PL-section-thin
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 4

@@ -1,0 +1,71 @@
+uuid: 8e3b0791-4bd0-431c-8d23-ac0ed8257bb9
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.comment
+    - field.field.comment.comment.comment_body
+  module:
+    - manage_display
+    - text
+_core:
+  default_config_hash: 77Ye1kR-P6AaiGfEO8mnXNSr7nqtnP3PiiVBwJeGGMI
+id: comment.comment.default
+targetEntityType: comment
+bundle: comment
+mode: default
+content:
+  comment_body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  created:
+    type: timestamp
+    label: hidden
+    region: content
+    weight: 102
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+      tooltip:
+        date_format: ''
+        custom_date_format: ''
+      time_diff:
+        enabled: false
+        future_format: '@interval hence'
+        past_format: '@interval ago'
+        granularity: 2
+        refresh: 60
+    third_party_settings: {  }
+  links:
+    weight: 100
+    region: content
+  pid:
+    type: in_reply_to
+    label: hidden
+    region: content
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+  subject:
+    type: title
+    label: hidden
+    weight: -49
+    settings:
+      tag: h3
+      link_to_entity: true
+    region: content
+    third_party_settings: {  }
+  uid:
+    type: submitted
+    label: hidden
+    weight: -51
+    region: content
+    settings:
+      user_picture: ''
+    third_party_settings: {  }
+hidden: {  }

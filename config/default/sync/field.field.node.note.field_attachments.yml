@@ -1,0 +1,27 @@
+uuid: b5987730-ad31-4034-8e00-3020862167fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_attachments
+    - node.type.note
+  module:
+    - file
+id: node.note.field_attachments
+field_name: field_attachments
+entity_type: node
+bundle: note
+label: Attachments
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: 'attachements/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt png mpg jpg jpeg mp4 mov docx webp svg'
+  max_filesize: ''
+  description_field: false
+field_type: file

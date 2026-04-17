@@ -1,0 +1,37 @@
+uuid: 67eeb47e-2a7d-44b2-8854-0054bc06b55c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_hierarchy_right
+    - paragraphs.paragraphs_type.image_text_hierarchy
+    - paragraphs.paragraphs_type.image_text_hierarchy_child
+  module:
+    - entity_reference_revisions
+id: paragraph.image_text_hierarchy.field_hierarchy_right
+field_name: field_hierarchy_right
+entity_type: paragraph
+bundle: image_text_hierarchy
+label: 'Hierarchy Right'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_text_hierarchy_child: image_text_hierarchy_child
+    negate: 0
+    target_bundles_drag_drop:
+      image_text_cta:
+        weight: 4
+        enabled: false
+      image_text_hierarchy:
+        weight: 5
+        enabled: false
+      image_text_hierarchy_child:
+        weight: 6
+        enabled: true
+field_type: entity_reference_revisions

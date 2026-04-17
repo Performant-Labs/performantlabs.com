@@ -1,0 +1,25 @@
+uuid: 4abafcb0-12b3-4698-839e-0e393507dc88
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:image:41a5c3d9-62df-4e10-9668-097ff92874af'
+  module:
+    - block_content
+active_version: c08f79a6150d5309
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'block_content:41a5c3d9-62df-4e10-9668-097ff92874af'
+        label: 'Image: 2'
+        label_display: '0'
+        provider: block_content
+        view_mode: full
+    fallback_metadata:
+      slot_definitions: null
+label: 'Image: 2'
+id: block.block_content.41a5c3d9-62df-4e10-9668-097ff92874af
+provider: block_content
+source: block
+source_local_id: 'block_content:41a5c3d9-62df-4e10-9668-097ff92874af'

@@ -1,0 +1,10 @@
+uuid: e1a8908f-7849-4ec9-9c78-296a70f690cd
+langcode: en
+status: true
+dependencies: {  }
+id: image_grid
+label: 'Logo Image'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

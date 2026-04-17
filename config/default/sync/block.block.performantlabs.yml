@@ -1,0 +1,23 @@
+uuid: df8f29b1-a4d7-41a4-a29c-b90f85e58471
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:981637eb-7f49-4087-9893-fed9da4e7572'
+  module:
+    - block_content
+  theme:
+    - performant_labs
+id: performantlabs
+theme: performant_labs
+region: footer
+weight: -7
+provider: null
+plugin: 'block_content:981637eb-7f49-4087-9893-fed9da4e7572'
+settings:
+  id: 'block_content:981637eb-7f49-4087-9893-fed9da4e7572'
+  label: 'Performant Labs'
+  label_display: visible
+  provider: block_content
+  view_mode: full
+visibility: {  }

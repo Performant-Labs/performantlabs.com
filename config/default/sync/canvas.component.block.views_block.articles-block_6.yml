@@ -1,0 +1,26 @@
+uuid: 8a71944a-7c8d-4e0e-90c9-df929c43a1cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.articles
+  module:
+    - views
+active_version: 7f57be4e42487072
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:articles-block_6'
+        label: 'Articles: Teasers by Campaign Kit Tag'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Articles: Teasers by Campaign Kit Tag'
+id: block.views_block.articles-block_6
+provider: views
+source: block
+source_local_id: 'views_block:articles-block_6'

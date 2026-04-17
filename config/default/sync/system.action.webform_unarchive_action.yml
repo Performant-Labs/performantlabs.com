@@ -1,0 +1,11 @@
+uuid: 32f5f88b-dd4c-4605-a0cd-9b050666b7a7
+langcode: en
+status: true
+dependencies:
+  module:
+    - webform
+id: webform_unarchive_action
+label: 'Restore webform'
+type: webform
+plugin: webform_unarchive_action
+configuration: {  }

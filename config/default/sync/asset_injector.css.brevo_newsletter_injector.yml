@@ -1,0 +1,48 @@
+uuid: 928bd5e4-3986-4e90-ae0a-f9c1f7532c5c
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+id: brevo_newsletter_injector
+label: 'Brevo Newsletter Injector'
+code: |-
+  #sib-container input:-ms-input-placeholder {
+    color: #c0ccda;
+    font-family: Helvetica, sans-serif;
+    text-align: left;
+  }
+
+  #sib-container input::placeholder {
+    color: #c0ccda;
+    font-family: Helvetica, sans-serif;
+    text-align: left;
+  }
+
+  #sib-container textarea::placeholder {
+    color: #c0ccda;
+    font-family: Helvetica, sans-serif;
+    text-align: left;
+  }
+
+  #sib-container a {
+    color: #2bb2fc;
+    text-decoration: underline;
+  }
+
+  .sib-form-block__button:hover {
+    background-color: #10819f !important;
+  }
+media: all
+preprocess: true
+conditions:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/*'
+  current_theme:
+    id: current_theme
+    negate: false
+    theme: performant_labs
+contexts: {  }
+conditions_require_all: true

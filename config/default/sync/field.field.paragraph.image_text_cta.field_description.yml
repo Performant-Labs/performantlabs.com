@@ -1,0 +1,26 @@
+uuid: f6e8129a-ade6-46f5-ba1d-bb3c82f2e39d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - filter.format.full_html
+    - filter.format.plain_text
+    - paragraphs.paragraphs_type.image_text_cta
+  module:
+    - text
+id: paragraph.image_text_cta.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: image_text_cta
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+    - plain_text
+field_type: text_long

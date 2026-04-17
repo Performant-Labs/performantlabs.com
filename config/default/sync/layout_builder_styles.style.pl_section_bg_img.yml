@@ -1,0 +1,12 @@
+uuid: 7e58fda7-7475-446d-944c-0867bb538725
+langcode: en
+status: true
+dependencies: {  }
+id: pl_section_bg_img
+label: PL-section-bg-img
+classes: pl-section-bg-img
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 0

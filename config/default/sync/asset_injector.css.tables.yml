@@ -1,0 +1,65 @@
+uuid: 011776e1-c659-419c-8ce1-920cf758e53e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: tables
+label: Tables
+code: |+
+  /*---------------------------------*/
+  /*----       Medium Table     -----*/
+  /*---------------------------------*/
+  .medium-table {
+    width: 760px;
+  }
+
+  .medium-table .table .row .cell:first-child,
+  .medium-table .table .row .cell.table-col-1 {
+    width: 250px;
+  }
+  .medium-table .table .row .cell.table-col-2 {
+    width: 120px;
+  }
+  .medium-table .table .row .cell.table-col-3 {
+    width: 200px;
+  }
+  .medium-table .table .row .cell.table-col-4,
+  .medium-table .table .row .cell:last-child {
+    width: 200px;
+  }
+
+  /*--------------------------------*/
+  /*----       Small Table     -----*/
+  /*--------------------------------*/
+  .small-table {
+    width: 500px;
+  }
+
+  .small-table .table .row .cell:first-child,
+  .small-table .table .row .cell.table-col-1 {
+    width: 200px;
+  }
+  .small-table .table .row .cell.table-col-2 {
+    width: 60px;
+  }
+  .small-table .table .row .cell.table-col-3 {
+    width: 135px;
+  }
+  .small-table .table .row .cell.table-col-4,
+  .small-table .table .row .cell:last-child {
+    width: 120px;
+  }
+
+media: all
+preprocess: true
+conditions:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      page: page
+contexts: {  }
+conditions_require_all: true

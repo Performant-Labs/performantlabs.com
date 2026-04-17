@@ -1,0 +1,41 @@
+uuid: 2ac5a984-9652-4232-8beb-b5163a91b93e
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.issue.body
+    - field.field.node.issue.field_assigned_to
+    - field.field.node.issue.field_issue_status
+    - field.field.node.issue.field_parent_issue
+    - field.field.node.issue.field_priority
+    - field.field.node.issue.field_reported_by
+    - node.type.issue
+  module:
+    - text
+    - user
+id: node.issue.teaser
+targetEntityType: node
+bundle: issue
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_assigned_to: true
+  field_issue_status: true
+  field_parent_issue: true
+  field_priority: true
+  field_reported_by: true
+  published_at: true

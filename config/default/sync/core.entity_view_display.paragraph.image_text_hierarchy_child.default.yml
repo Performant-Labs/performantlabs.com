@@ -1,0 +1,48 @@
+uuid: ba789388-a4d9-4e58-a839-240c4a34c199
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_text_hierarchy_child.field_alignment
+    - field.field.paragraph.image_text_hierarchy_child.field_description
+    - field.field.paragraph.image_text_hierarchy_child.field_upload_image
+    - paragraphs.paragraphs_type.image_text_hierarchy_child
+  module:
+    - options
+    - svg_image
+    - text
+id: paragraph.image_text_hierarchy_child.default
+targetEntityType: paragraph
+bundle: image_text_hierarchy_child
+mode: default
+content:
+  field_alignment:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_upload_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

@@ -1,0 +1,10 @@
+uuid: f219724b-55dd-4407-b624-53c0cc66384e
+langcode: en
+status: true
+dependencies: {  }
+id: image_text_hierarchy_child
+label: 'Image Text Hierarchy Child'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

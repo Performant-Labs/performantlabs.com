@@ -1,0 +1,18 @@
+uuid: 65a80922-6e65-492f-bfcd-99d1c98dfd29
+langcode: en
+status: true
+dependencies: {  }
+id: smtp
+label: SMTP
+plugin: smtp
+configuration:
+  user: apikey
+  pass: REPLACE_WITH_SENDGRID_API_KEY
+  host: smtp.sendgrid.net
+  port: 25
+  query:
+    verify_peer: true
+    local_domain: ''
+    restart_threshold: null
+    restart_threshold_sleep: null
+    ping_threshold: null

@@ -1,0 +1,28 @@
+uuid: 3d5d5533-caad-4ad1-9033-6e9fb29b92c6
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: documentation
+label: Documentation
+code: |
+  /*--------------------------------*/
+  /*----       File Table      -----*/
+  /*--------------------------------*/
+  .file-table {
+    width: 900px;
+    padding: 6px !important;
+  }
+media: all
+preprocess: true
+conditions:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      book: book
+contexts: {  }
+conditions_require_all: true
