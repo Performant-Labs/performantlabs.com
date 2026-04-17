@@ -90,26 +90,30 @@ ddev drush cache:rebuild
 ddev launch
 ```
 
-### 4. Install Canvas or Display Builder
+### 4. Install Canvas AND Display Builder
 
-**Option A: Canvas (requires 11.2+)**
+**Install Both Modules:**
 ```bash
+# Install Canvas
 ddev composer require drupal/canvas
 ddev drush pm:enable canvas -y
-ddev drush cache:rebuild
-```
 
-**Option B: Display Builder (requires 11.3+)**
-```bash
-# Install dependencies first
+# Install Display Builder and dependencies
 ddev composer require drupal/ui_patterns:^2.0.15
 ddev composer require drupal/ui_patterns_library
 ddev composer require drupal/display_builder
 
-# Enable modules
+# Enable Display Builder modules
 ddev drush pm:enable ui_patterns ui_patterns_library display_builder -y
+
+# Final cache rebuild
 ddev drush cache:rebuild
 ```
+
+**Why Both?**
+- **Canvas**: Simpler, component-based page building
+- **Display Builder**: Advanced UI Patterns integration, more powerful for complex layouts
+- Having both gives maximum flexibility for the work log dashboard
 
 ## Rollback Plan
 
@@ -201,10 +205,11 @@ The upgrade path is clean and should be straightforward. The main benefits:
 
 ## Next Steps After Upgrade
 
-Once on 11.3.7, you can:
-1. Merge to `main`
-2. Merge `main` into `aa/work-log-integration`
-3. Install Display Builder for the work log dashboard UI
-4. Use Canvas for page building
-5. Leverage modern UI Patterns for component-based theming
-6. Build the work log wireframes with proper layout tools
+Once on 11.3.7 with Canvas and Display Builder installed:
+1. Test both Canvas and Display Builder functionality
+2. Merge to `main`
+3. Merge `main` into `aa/work-log-integration`
+4. Build work log dashboard using Canvas or Display Builder
+5. Leverage UI Patterns for component-based theming
+6. Implement the work log wireframes with proper layout tools
+7. Choose the best tool (Canvas vs Display Builder) for each use case
