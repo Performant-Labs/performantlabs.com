@@ -1,0 +1,24 @@
+uuid: 0f724b80-4065-4d67-83ce-815c9a3d1625
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_description
+    - filter.format.plain_text
+    - paragraphs.paragraphs_type.image_text_hierarchy_child
+  module:
+    - text
+id: paragraph.image_text_hierarchy_child.field_description
+field_name: field_description
+entity_type: paragraph
+bundle: image_text_hierarchy_child
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - plain_text
+field_type: text_long

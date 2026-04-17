@@ -1,0 +1,22 @@
+_core:
+  default_config_hash: tFcyNjovmdPA1ZVm7j2Iymt809j-r2F5uSDJAOI_QV8
+translation_sync: true
+search: false
+type: remove
+content_types:
+  article: none
+  book: none
+  issue: none
+  job: all
+  landing_page: none
+  note: none
+  page: none
+content_type_modes:
+  article: {  }
+  book: {  }
+  issue: {  }
+  job:
+    - full
+  landing_page: {  }
+  note: {  }
+  page: {  }

@@ -1,0 +1,49 @@
+uuid: d3c4c980-7e38-4b38-b803-75ddea9332d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hero_section
+    - node.type.microsite
+    - paragraphs.paragraphs_type.image_text_cta
+  module:
+    - entity_reference_revisions
+id: node.microsite.field_hero_section
+field_name: field_hero_section
+entity_type: node
+bundle: microsite
+label: 'Hero Section'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_text_cta: image_text_cta
+    negate: 0
+    target_bundles_drag_drop:
+      full_width_image:
+        weight: 8
+        enabled: false
+      image_grid:
+        weight: 9
+        enabled: false
+      image_text_cta:
+        weight: 10
+        enabled: true
+      image_text_hierarchy:
+        weight: 11
+        enabled: false
+      image_text_hierarchy_child:
+        weight: 12
+        enabled: false
+      logo_image_grid:
+        weight: 13
+        enabled: false
+      title_description_image:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

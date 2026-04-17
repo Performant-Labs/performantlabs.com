@@ -1,0 +1,27 @@
+uuid: 603c22d4-87d0-43df-81d6-c92a741f6665
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_parent_issue
+    - node.type.issue
+id: node.issue.field_parent_issue
+field_name: field_parent_issue
+entity_type: node
+bundle: issue
+label: 'Parent Issue'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      issue: issue
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

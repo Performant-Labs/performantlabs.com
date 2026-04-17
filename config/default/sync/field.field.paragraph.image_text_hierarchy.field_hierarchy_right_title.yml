@@ -1,0 +1,19 @@
+uuid: 56a98491-93ee-4df7-93d1-136fc3a3392d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_hierarchy_right_title
+    - paragraphs.paragraphs_type.image_text_hierarchy
+id: paragraph.image_text_hierarchy.field_hierarchy_right_title
+field_name: field_hierarchy_right_title
+entity_type: paragraph
+bundle: image_text_hierarchy
+label: 'Hierarchy Right Title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

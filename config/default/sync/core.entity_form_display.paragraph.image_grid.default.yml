@@ -1,0 +1,36 @@
+uuid: fd377cf8-5004-4604-9aa6-21b100ddb28f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_grid.field_image_url
+    - field.field.paragraph.image_grid.field_upload_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.image_grid
+  module:
+    - link
+    - svg_image
+id: paragraph.image_grid.default
+targetEntityType: paragraph
+bundle: image_grid
+mode: default
+content:
+  field_image_url:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_upload_image:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

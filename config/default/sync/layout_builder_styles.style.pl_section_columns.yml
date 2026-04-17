@@ -1,0 +1,12 @@
+uuid: 6f53fc89-5eb2-4ae4-8445-2492c8fd9579
+langcode: en
+status: true
+dependencies: {  }
+id: pl_section_columns
+label: PL-section-columns
+classes: PL-section-columns
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 1

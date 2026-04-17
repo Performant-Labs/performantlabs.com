@@ -1,0 +1,26 @@
+uuid: bd9db2eb-d33d-433b-9918-860c55286193
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+  module:
+    - access_unpublished
+    - comment
+    - filter
+    - media
+    - search
+    - system
+_core:
+  default_config_hash: pq_mEIu_B4widZN7Ap81iCJSjShFFdcL0jEiCi8VrDk
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access_unpublished node article'
+  - 'search content'
+  - 'use text format restricted_html'
+  - 'view media'

@@ -1,0 +1,22 @@
+uuid: b13b996a-c204-43c5-b0ba-cc879bb0b7df
+langcode: en
+status: false
+dependencies:
+  module:
+    - help
+  theme:
+    - performant_labs
+_core:
+  default_config_hash: bMLNWPKf3uHuqgmVszMb5zhM205c4Y-r7j5Tw6NDo-o
+id: performant_labs_help
+theme: performant_labs
+region: content
+weight: -2
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

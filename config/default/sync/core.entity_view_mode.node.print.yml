@@ -1,0 +1,16 @@
+uuid: a2ebfe8a-0012-4b75-a319-614da34be77c
+langcode: en
+status: false
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - book
+_core:
+  default_config_hash: ERjobPGdPFAM9p5cmQIcJzk-0cY-1mE1OV_pKmMlJaE
+id: node.print
+label: Print
+description: ''
+targetEntityType: node
+cache: true

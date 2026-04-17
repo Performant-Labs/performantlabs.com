@@ -1,0 +1,59 @@
+uuid: e2f7ef3c-8847-4bac-9533-1b8c37549818
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_text_cta.field_cta
+    - field.field.paragraph.image_text_cta.field_description
+    - field.field.paragraph.image_text_cta.field_subtitle
+    - field.field.paragraph.image_text_cta.field_title
+    - field.field.paragraph.image_text_cta.field_upload_image
+    - paragraphs.paragraphs_type.image_text_cta
+  module:
+    - svg_image
+    - text
+id: paragraph.image_text_cta.default
+targetEntityType: paragraph
+bundle: image_text_cta
+mode: default
+content:
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_subtitle:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_upload_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  field_cta: true

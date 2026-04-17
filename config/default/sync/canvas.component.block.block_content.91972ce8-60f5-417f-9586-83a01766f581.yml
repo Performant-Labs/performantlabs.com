@@ -1,0 +1,25 @@
+uuid: 21334534-c986-4388-9395-e994e7c49306
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:basic:91972ce8-60f5-417f-9586-83a01766f581'
+  module:
+    - block_content
+active_version: f55a7f44024fc229
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'block_content:91972ce8-60f5-417f-9586-83a01766f581'
+        label: 'Jobs-No open positions'
+        label_display: '0'
+        provider: block_content
+        view_mode: full
+    fallback_metadata:
+      slot_definitions: null
+label: 'Jobs-No open positions'
+id: block.block_content.91972ce8-60f5-417f-9586-83a01766f581
+provider: block_content
+source: block
+source_local_id: 'block_content:91972ce8-60f5-417f-9586-83a01766f581'

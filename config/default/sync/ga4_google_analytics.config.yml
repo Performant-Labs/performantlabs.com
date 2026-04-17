@@ -1,0 +1,10 @@
+measurement_id: G-2T9GSVNQ6V
+ga4_access_roles:
+  anonymous: anonymous
+  authenticated: 0
+  administrator: 0
+ga4_access_pages:
+  id: request_path
+  pages: ''
+  negate: '0'
+scripts_custom_attributes: ''

@@ -1,0 +1,30 @@
+uuid: 8d465981-ef11-4287-92e1-292f05451d19
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.full_width_image.field_upload_image
+    - paragraphs.paragraphs_type.full_width_image
+  module:
+    - svg_image
+id: paragraph.full_width_image.default
+targetEntityType: paragraph
+bundle: full_width_image
+mode: default
+content:
+  field_upload_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

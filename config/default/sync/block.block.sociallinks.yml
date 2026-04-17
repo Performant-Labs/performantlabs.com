@@ -1,0 +1,25 @@
+uuid: a46aad07-7459-4438-ad77-bfe2a938451e
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.social-links
+  module:
+    - system
+  theme:
+    - performant_labs
+id: sociallinks
+theme: performant_labs
+region: footer
+weight: -6
+provider: null
+plugin: 'system_menu_block:social-links'
+settings:
+  id: 'system_menu_block:social-links'
+  label: 'Social Links'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: false
+visibility: {  }

@@ -1,0 +1,14 @@
+uuid: 5568c5a1-085b-43cb-bd9b-55008cc92155
+langcode: en
+status: true
+dependencies: {  }
+id: sendfox_newsletter
+label: 'Sendfox Newsletter'
+code: '!function(e){var t={};function r(n){if(t[n])return t[n].exports;var s=t[n]={i:n,l:!1,exports:{}};return e[n].call(s.exports,s,s.exports,r),s.l=!0,s.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{configurable:!1,enumerable:!0,get:n})},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=2)}({2:function(e,t,r){e.exports=r("PfAn")},PfAn:function(e,t){window.SENDFOX_FORM_LOADED||(window.SENDFOX_FORM_LOADED=!0,document.addEventListener("DOMContentLoaded",function(){for(var e=document.getElementsByClassName("sendfox-form"),t=0;t<e.length;t++)"true"===e[t].dataset.async&&e[t].addEventListener("submit",function(e){e.preventDefault(),form=this,this.querySelector(".sendfox-message")&&this.querySelector(".sendfox-message").remove();var t=this.querySelector("button");t.disabled=!0;var r=new XMLHttpRequest;r.addEventListener("load",function(e,n){var s=JSON.parse(r.responseText);if(422==e.currentTarget.status)s.hasOwnProperty("errors")&&((o=document.createElement("p")).className="sendfox-message error",o.innerHTML=s.errors[0],form.appendChild(o));else if(200==e.currentTarget.status){var o;if(s.redirect_url)window.location.href=s.redirect_url;else(o=document.createElement("p")).className="sendfox-message success",o.innerHTML="Thanks, your signup was successful!",form.appendChild(o),form.reset()}t.disabled=!1}),r.addEventListener("error",function(e){console.error("Error submitting form."),t.disabled=!1}),r.open("POST",this.action),r.setRequestHeader("X-Requested-With","XMLHttpRequest"),r.send(new FormData(this))})}))}});'
+noscript: ''
+noscriptRegion: {  }
+jquery: false
+header: false
+preprocess: true
+conditions: {  }
+conditions_require_all: true

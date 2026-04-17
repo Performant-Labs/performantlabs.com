@@ -1,0 +1,28 @@
+uuid: 732c4cc6-9b1b-4344-a95e-e6432dc8302f
+langcode: en
+status: false
+dependencies:
+  config:
+    - block_content.type.render_node
+  module:
+    - layout_builder
+active_version: e9ddc76d6dc77646
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'inline_block:render_node'
+        label: 'Render Node'
+        label_display: '0'
+        provider: layout_builder
+        view_mode: full
+        block_id: null
+        block_revision_id: null
+        block_serialized: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Render Node'
+id: block.inline_block.render_node
+provider: layout_builder
+source: block
+source_local_id: 'inline_block:render_node'

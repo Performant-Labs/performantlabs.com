@@ -1,0 +1,53 @@
+uuid: eec35d3d-2bab-4ee5-8c14-3a492ec215a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_production_section
+    - node.type.microsite
+    - paragraphs.paragraphs_type.full_width_image
+    - paragraphs.paragraphs_type.image_text_hierarchy
+    - paragraphs.paragraphs_type.title_description_image
+  module:
+    - entity_reference_revisions
+id: node.microsite.field_production_section
+field_name: field_production_section
+entity_type: node
+bundle: microsite
+label: 'Production Section'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      full_width_image: full_width_image
+      image_text_hierarchy: image_text_hierarchy
+      title_description_image: title_description_image
+    negate: 0
+    target_bundles_drag_drop:
+      full_width_image:
+        weight: 8
+        enabled: true
+      image_grid:
+        weight: 9
+        enabled: false
+      image_text_cta:
+        weight: 10
+        enabled: false
+      image_text_hierarchy:
+        weight: 11
+        enabled: true
+      image_text_hierarchy_child:
+        weight: 12
+        enabled: false
+      logo_image_grid:
+        weight: 13
+        enabled: false
+      title_description_image:
+        weight: 14
+        enabled: true
+field_type: entity_reference_revisions

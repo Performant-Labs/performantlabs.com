@@ -1,0 +1,12 @@
+uuid: bddcb0bd-c4d9-48ce-b661-718bb1444c6a
+langcode: en
+status: true
+dependencies: {  }
+id: pl_section_center
+label: PL-section-center
+classes: pl-section-centered
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 0

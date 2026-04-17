@@ -1,0 +1,48 @@
+uuid: ddc08cbb-837a-42ef-bcd2-e3b7cab586c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.title_description_image.field_formated_description
+    - field.field.paragraph.title_description_image.field_title
+    - field.field.paragraph.title_description_image.field_upload_image
+    - paragraphs.paragraphs_type.title_description_image
+  module:
+    - svg_image
+    - text
+id: paragraph.title_description_image.default
+targetEntityType: paragraph
+bundle: title_description_image
+mode: default
+content:
+  field_formated_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_upload_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
+hidden: {  }

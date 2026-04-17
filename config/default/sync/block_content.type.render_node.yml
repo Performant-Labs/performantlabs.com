@@ -1,0 +1,8 @@
+uuid: 379de5cf-0aa0-4304-aeed-74f40aacdf22
+langcode: en
+status: true
+dependencies: {  }
+id: render_node
+label: 'Render Node'
+revision: false
+description: ''

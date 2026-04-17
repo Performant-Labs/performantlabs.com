@@ -1,0 +1,12 @@
+uuid: 1dbdd59a-315c-41d2-8f52-55cd5defd731
+langcode: en
+status: true
+dependencies: {  }
+id: pl_section_medium
+label: PL-section-medium
+classes: PL-section-medium
+type: section
+group: default
+block_restrictions: {  }
+layout_restrictions: {  }
+weight: 3

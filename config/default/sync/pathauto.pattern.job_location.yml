@@ -1,0 +1,23 @@
+uuid: 92fb7a46-6ea5-4346-97ed-cfc9664b9bf6
+langcode: en
+status: true
+dependencies:
+  module:
+    - ctools
+    - taxonomy
+id: job_location
+label: Job-Location
+type: 'canonical_entities:taxonomy_term'
+pattern: 'job-location/[term:name]'
+selection_criteria:
+  f3a829cc-4c7c-4417-b1e9-c7b48d611f65:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: f3a829cc-4c7c-4417-b1e9-c7b48d611f65
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      job_location: job_location
+selection_logic: and
+weight: -5
+relationships: {  }

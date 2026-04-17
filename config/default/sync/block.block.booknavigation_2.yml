@@ -1,0 +1,30 @@
+uuid: f955a0ff-dc9e-4959-b689-5de280001378
+langcode: en
+status: true
+dependencies:
+  module:
+    - book
+    - node
+  theme:
+    - performant_labs
+id: booknavigation_2
+theme: performant_labs
+region: sidebar_first
+weight: 0
+provider: null
+plugin: book_navigation
+settings:
+  id: book_navigation
+  label: 'Book navigation'
+  label_display: '0'
+  provider: book
+  block_mode: 'book pages'
+  use_top_level_title: false
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      book: book

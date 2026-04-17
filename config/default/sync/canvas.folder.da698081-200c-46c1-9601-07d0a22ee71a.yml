@@ -1,0 +1,10 @@
+uuid: da698081-200c-46c1-9601-07d0a22ee71a
+langcode: en
+status: true
+dependencies: {  }
+name: 'Responsive menu'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.responsive_menu_horizontal_menu
+  - block.responsive_menu_toggle

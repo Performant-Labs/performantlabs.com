@@ -1,0 +1,26 @@
+uuid: c24d830f-f22f-4eed-8491-fa4c2efc26d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.full_width_image.field_upload_image
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.full_width_image
+  module:
+    - svg_image
+id: paragraph.full_width_image.default
+targetEntityType: paragraph
+bundle: full_width_image
+mode: default
+content:
+  field_upload_image:
+    type: image_image
+    weight: 4
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

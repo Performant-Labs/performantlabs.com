@@ -1,0 +1,9 @@
+uuid: ceee6857-4697-404b-ad89-095b230565b3
+langcode: en
+status: true
+dependencies: {  }
+name: 'Issue Status'
+vid: issue_status
+description: null
+weight: 0
+new_revision: false

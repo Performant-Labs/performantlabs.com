@@ -1,0 +1,101 @@
+uuid: 9ac36653-b69c-4b5e-8217-2ea9ca86aee8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.full
+    - field.field.node.book.body
+    - field.field.node.book.layout_builder__layout
+    - node.type.book
+  module:
+    - layout_builder
+    - layout_discovery
+    - manage_display
+    - text
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+          context_mapping: {  }
+        components:
+          19b84652-991b-4ed8-a13d-c852dfd83ba1:
+            uuid: 19b84652-991b-4ed8-a13d-c852dfd83ba1
+            region: content
+            configuration:
+              id: 'field_block:node:book:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          5cec2cbb-1494-4162-815f-8d145fe17c80:
+            uuid: 5cec2cbb-1494-4162-815f-8d145fe17c80
+            region: content
+            configuration:
+              id: 'extra_field_block:node:book:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 4
+            additional: {  }
+          4cd4b496-e54d-484d-886e-443dba25a0f8:
+            uuid: 4cd4b496-e54d-484d-886e-443dba25a0f8
+            region: content
+            configuration:
+              id: 'field_block:node:book:title'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: title
+                label: hidden
+                settings:
+                  link_to_entity: true
+                  tag: h2
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+        third_party_settings: {  }
+_core:
+  default_config_hash: UWTnZUj-u-jp8I_S1C1nUCTlM5iIV2QKdxm37ehFjoI
+id: node.book.full
+targetEntityType: node
+bundle: book
+mode: full
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  title:
+    type: title
+    label: hidden
+    settings:
+      link_to_entity: true
+      tag: h2
+    third_party_settings: {  }
+    weight: -49
+    region: content
+hidden:
+  created: true
+  layout_builder__layout: true
+  published_at: true
+  uid: true

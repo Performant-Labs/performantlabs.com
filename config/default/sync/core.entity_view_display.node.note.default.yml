@@ -1,0 +1,35 @@
+uuid: fb02ad50-11dc-47a1-93f8-87eb97abb35d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.note.body
+    - field.field.node.note.field_attachments
+    - node.type.note
+  module:
+    - file
+    - text
+    - user
+id: node.note.default
+targetEntityType: node
+bundle: note
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_attachments:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  links: true
+  published_at: true

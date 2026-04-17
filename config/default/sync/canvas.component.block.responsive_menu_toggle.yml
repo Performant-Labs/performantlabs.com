@@ -1,0 +1,22 @@
+uuid: 073becce-3106-4bff-b9bd-01723c3a2d11
+langcode: en
+status: true
+dependencies:
+  module:
+    - responsive_menu
+active_version: 861ec2c7898e4c9b
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: responsive_menu_toggle
+        label: 'Responsive menu mobile icon'
+        label_display: '0'
+        provider: responsive_menu
+    fallback_metadata:
+      slot_definitions: null
+label: 'Responsive menu mobile icon'
+id: block.responsive_menu_toggle
+provider: responsive_menu
+source: block
+source_local_id: responsive_menu_toggle

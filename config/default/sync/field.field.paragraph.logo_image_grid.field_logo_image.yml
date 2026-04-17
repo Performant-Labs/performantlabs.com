@@ -1,0 +1,49 @@
+uuid: 03a9577f-8555-4a1e-b11a-83d0dfe6d1ef
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_logo_image
+    - paragraphs.paragraphs_type.image_grid
+    - paragraphs.paragraphs_type.logo_image_grid
+  module:
+    - entity_reference_revisions
+id: paragraph.logo_image_grid.field_logo_image
+field_name: field_logo_image
+entity_type: paragraph
+bundle: logo_image_grid
+label: 'Logo Image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      image_grid: image_grid
+    negate: 0
+    target_bundles_drag_drop:
+      full_width_image:
+        weight: 8
+        enabled: false
+      image_grid:
+        weight: 9
+        enabled: true
+      image_text_cta:
+        weight: 10
+        enabled: false
+      image_text_hierarchy:
+        weight: 11
+        enabled: false
+      image_text_hierarchy_child:
+        weight: 12
+        enabled: false
+      logo_image_grid:
+        weight: 13
+        enabled: false
+      title_description_image:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

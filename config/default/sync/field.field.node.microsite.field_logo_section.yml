@@ -1,0 +1,49 @@
+uuid: df2aa7a8-7a19-4e76-bb55-8ac0c9cdeb91
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_logo_section
+    - node.type.microsite
+    - paragraphs.paragraphs_type.logo_image_grid
+  module:
+    - entity_reference_revisions
+id: node.microsite.field_logo_section
+field_name: field_logo_section
+entity_type: node
+bundle: microsite
+label: 'Logo Section'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      logo_image_grid: logo_image_grid
+    negate: 0
+    target_bundles_drag_drop:
+      full_width_image:
+        weight: 8
+        enabled: false
+      image_grid:
+        weight: 9
+        enabled: false
+      image_text_cta:
+        weight: 10
+        enabled: false
+      image_text_hierarchy:
+        weight: 11
+        enabled: false
+      image_text_hierarchy_child:
+        weight: 12
+        enabled: false
+      logo_image_grid:
+        weight: 13
+        enabled: true
+      title_description_image:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

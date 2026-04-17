@@ -1,0 +1,10 @@
+uuid: 42641949-85a6-4c23-be4e-304b57b26efb
+langcode: en
+status: true
+dependencies: {  }
+id: image_text_hierarchy
+label: 'Image + Text Hierarchy'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

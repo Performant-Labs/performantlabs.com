@@ -1,0 +1,14 @@
+uuid: a94d250d-2235-40f3-9ff7-a42bb8fa9ff2
+langcode: en
+status: true
+dependencies: {  }
+id: site_wide_style_sheet
+label: 'Site wide style sheet'
+code: |-
+  .off-canvas-wrapper {display: none}
+  .nav-link.is-active {background-color: initial !important}
+media: all
+preprocess: true
+conditions: {  }
+contexts: {  }
+conditions_require_all: true

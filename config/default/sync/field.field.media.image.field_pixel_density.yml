@@ -1,0 +1,29 @@
+uuid: 463cab5a-766d-41d0-accd-f7ac7e0a695d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.media.field_pixel_density
+    - media.type.image
+    - taxonomy.vocabulary.pixel_density
+id: media.image.field_pixel_density
+field_name: field_pixel_density
+entity_type: media
+bundle: image
+label: 'Pixel Density'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      pixel_density: pixel_density
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,21 @@
+uuid: d3047c63-8076-41c6-9cf1-87e7380c0140
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_alignment
+    - paragraphs.paragraphs_type.image_text_hierarchy_child
+  module:
+    - options
+id: paragraph.image_text_hierarchy_child.field_alignment
+field_name: field_alignment
+entity_type: paragraph
+bundle: image_text_hierarchy_child
+label: Alignment
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
