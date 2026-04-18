@@ -38,7 +38,7 @@
 ### 7. Three-Tier Verification — COMPLETE ✅
 - **Tier 1 (Headless) — COMPLETE:** All 23 URLs checked. HTTP status codes and H1 content match between Dev and Live.
 - **Tier 2 (Structural ARIA) — COMPLETE:** All 17 accessible pages compared (6 main + /automated-testing + /introduction-to-atk + 9 article pages). **ALL IDENTICAL.**
-- **Tier 3 (Visual) — COMPLETE:** All 6 main pages screenshotted at 1280px on Dev and Live. **PIXEL-PERFECT IDENTICAL. Zero visual regressions.**
+- **Tier 3 (Visual) — COMPLETE:** All 17 accessible pages screenshotted at 1280px on Dev and Live. **PIXEL-PERFECT IDENTICAL. Zero visual regressions.**
 
 ---
 
@@ -102,6 +102,17 @@
 | `/contact-us` | IDENTICAL |
 | `/articles` | IDENTICAL |
 | `/open-source-projects` | IDENTICAL |
+| `/automated-testing` | IDENTICAL |
+| `/introduction-to-atk` | IDENTICAL |
+| `/articles/badcamp-2020-talk` | IDENTICAL |
+| `/articles/cypress-drupal-cheat-sheet` | IDENTICAL |
+| `/articles/drupalcon-2020-talk` | IDENTICAL |
+| `/articles/introducing-automated-testing-kit` | IDENTICAL |
+| `/articles/introducing-layout-builder-kit-beta-1` | IDENTICAL |
+| `/articles/layout-builder-can-break-your-site-part-1` | IDENTICAL |
+| `/articles/version-10-automated-testing-kit-ready` | IDENTICAL |
+| `/articles/we-all-benefit-open-source` | IDENTICAL |
+| `/articles/why-drupal` | IDENTICAL |
 
 ---
 
