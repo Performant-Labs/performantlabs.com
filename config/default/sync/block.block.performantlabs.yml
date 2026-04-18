@@ -19,5 +19,7 @@ settings:
   label: 'Performant Labs'
   label_display: visible
   provider: block_content
+  status: true
+  info: ''
   view_mode: full
 visibility: {  }
