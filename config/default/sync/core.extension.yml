@@ -25,7 +25,6 @@ module:
   ctools: 0
   datetime: 0
   dblog: 0
-  display_builder: 0
   dynamic_page_cache: 0
   easy_breadcrumb: 0
   editor: 0
@@ -88,8 +87,6 @@ module:
   text: 0
   token: 0
   toolbar: 0
-  ui_patterns: 0
-  ui_patterns_library: 0
   user: 0
   views_ui: 0
   webform: 0
@@ -112,5 +109,4 @@ theme:
   stable9: 0
   stable: 0
   classy: 0
-  canvas_stark: 0
 profile: standard

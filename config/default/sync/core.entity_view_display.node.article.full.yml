@@ -6,7 +6,6 @@ dependencies:
     - core.entity_view_mode.node.full
     - field.field.node.article.body
     - field.field.node.article.field_image
-    - field.field.node.article.field_private_file
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - node.type.article
@@ -59,7 +58,6 @@ content:
     region: content
 hidden:
   created: true
-  field_private_file: true
   field_summary: true
   field_tags: true
   links: true

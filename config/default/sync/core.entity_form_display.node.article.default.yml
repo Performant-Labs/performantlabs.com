@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.field.node.article.body
     - field.field.node.article.field_image
-    - field.field.node.article.field_private_file
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
     - image.style.thumbnail
@@ -13,7 +12,6 @@ dependencies:
   module:
     - allowed_formats
     - autocomplete_deluxe
-    - file
     - path
     - publication_date
     - svg_image
@@ -51,13 +49,6 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_private_file:
-    type: file_generic
-    weight: 51
-    region: content
-    settings:
-      progress_indicator: throbber
     third_party_settings: {  }
   field_summary:
     type: text_textfield
