@@ -83,7 +83,7 @@ test.describe('Contact Us tests.', () => {
     await page.getByLabel('Your email').fill(user.userEmail)
     // Company is required for PL site
     await page.getByLabel('Your Company Name').fill('Automated Testing, Inc.')
-    await page.getByLabel('Message').fill(testId)
+    await page.locator('#edit-message').fill(testId)
     await page.getByRole('button', { name: 'SEND MESSAGE' }).click()
 
     // Assert success message is visible.
