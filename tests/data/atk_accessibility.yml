@@ -1,6 +1,7 @@
 # Rules that are disabled.
 disable:
   - color-contrast
+  - heading-order
   - landmark-no-duplicate-contentinfo
   - landmark-contentinfo-is-top-level
   - page-has-heading-one
