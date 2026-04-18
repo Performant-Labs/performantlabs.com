@@ -35,10 +35,10 @@
 - Deploy workflow re-triggered and completed successfully.
 - All 6 main pages returning 200 on Dev.
 
-### 7. Three-Tier Verification (Partial)
-- **Tier 1 (Headless) — COMPLETE:** All 23 URLs checked. HTTP status codes and H1 content match between Dev and Live. (See results below.)
-- **Tier 2 (Structural ARIA) — PARTIAL:** 7 pages compared (/, /services, /how-we-do-it, /contact-us, /articles, /open-source-projects + /about-us skipped as 403). All compared pages are **identical**. 10 article pages remain.
-- **Tier 3 (Visual) — NOT STARTED.**
+### 7. Three-Tier Verification — COMPLETE ✅
+- **Tier 1 (Headless) — COMPLETE:** All 23 URLs checked. HTTP status codes and H1 content match between Dev and Live.
+- **Tier 2 (Structural ARIA) — COMPLETE:** All 17 accessible pages compared (6 main + /automated-testing + /introduction-to-atk + 9 article pages). **ALL IDENTICAL.**
+- **Tier 3 (Visual) — COMPLETE:** All 6 main pages screenshotted at 1280px on Dev and Live. **PIXEL-PERFECT IDENTICAL. Zero visual regressions.**
 
 ---
 
@@ -70,10 +70,32 @@
 | `/articles/stanford-web-camp-2023` | 403 | 403 | YES |
 | `/landing-page` | 301 | 301 | YES |
 
-## Tier 2 Results (Partial)
+## Tier 2 Results — COMPLETE ✅
 
 | URL | ARIA Match |
 |-----|-----------|
+| `/` | IDENTICAL |
+| `/services` | IDENTICAL |
+| `/how-we-do-it` | IDENTICAL |
+| `/contact-us` | IDENTICAL |
+| `/articles` | IDENTICAL |
+| `/open-source-projects` | IDENTICAL |
+| `/automated-testing` | IDENTICAL |
+| `/introduction-to-atk` | IDENTICAL |
+| `/articles/badcamp-2020-talk` | IDENTICAL |
+| `/articles/cypress-drupal-cheat-sheet` | IDENTICAL |
+| `/articles/drupalcon-2020-talk` | IDENTICAL |
+| `/articles/introducing-automated-testing-kit` | IDENTICAL |
+| `/articles/introducing-layout-builder-kit-beta-1` | IDENTICAL |
+| `/articles/layout-builder-can-break-your-site-part-1` | IDENTICAL |
+| `/articles/version-10-automated-testing-kit-ready` | IDENTICAL |
+| `/articles/we-all-benefit-open-source` | IDENTICAL |
+| `/articles/why-drupal` | IDENTICAL |
+
+## Tier 3 Results — COMPLETE ✅
+
+| URL | Visual Match |
+|-----|--------------|
 | `/` | IDENTICAL |
 | `/services` | IDENTICAL |
 | `/how-we-do-it` | IDENTICAL |
@@ -109,16 +131,7 @@
 
 ### Immediate
 
-1. **Finish Tier 2 (Structural ARIA comparison):**
-   - Remaining pages: `/automated-testing`, `/introduction-to-atk`, and the 9 article pages that return 200.
-   - Use the Playwright MCP `browser_navigate` + `browser_snapshot` workflow described in `upgrade-comparison-plan.md`.
-   - Save snapshots with filenames like `tier2-dev-{slug}.md` / `tier2-live-{slug}.md`, then diff.
-
-2. **Run Tier 3 (Visual comparison):**
-   - Only needed for the 6 main pages (/, /services, /how-we-do-it, /contact-us, /articles, /open-source-projects).
-   - Take screenshots of each page on Dev and Live at 1280px width using Playwright MCP `browser_take_screenshot`.
-
-3. **Fix homepage content issues:**
+1. **Fix homepage content issues (unblocks ATK-PW-1600 and ATK-PW-1700):**
    - In Drupal admin, edit the homepage node.
    - Add `alt="Automated Testing Kit"` to the `AutomatedTestingKit.png` image.
    - Add link text to the Campaign Kit link (currently wraps an image with `alt=""`).
