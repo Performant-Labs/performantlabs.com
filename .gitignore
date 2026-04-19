@@ -69,6 +69,9 @@ Thumbs.db
 /node_modules
 /web/themes/custom/performant_labs/node_modules
 
+# PHPUnit test site artifacts.
+web/sites/simpletest/
+
 # Cypress.
 cypress/videos
 .sass-cache
