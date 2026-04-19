@@ -1,0 +1,72 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.work_log.field_work_log_category
+    - field.field.node.work_log.field_work_log_date
+    - field.field.node.work_log.field_work_log_event_id
+    - field.field.node.work_log.field_work_log_hours
+    - field.field.node.work_log.field_work_log_ingested_at
+    - field.field.node.work_log.field_work_log_project
+    - node.type.work_log
+  module:
+    - datetime
+id: node.work_log.default
+targetEntityType: node
+bundle: work_log
+mode: default
+content:
+  field_work_log_date:
+    type: datetime_default
+    weight: 0
+    region: content
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {}
+  field_work_log_hours:
+    type: number_decimal
+    weight: 1
+    region: content
+    label: inline
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 1
+      prefix_suffix: true
+    third_party_settings: {}
+  field_work_log_project:
+    type: entity_reference_label
+    weight: 2
+    region: content
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {}
+  field_work_log_category:
+    type: entity_reference_label
+    weight: 3
+    region: content
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {}
+  field_work_log_event_id:
+    type: string
+    weight: 4
+    region: content
+    label: inline
+    settings:
+      link_to_entity: false
+    third_party_settings: {}
+  field_work_log_ingested_at:
+    type: datetime_default
+    weight: 5
+    region: content
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {}
+hidden: {}

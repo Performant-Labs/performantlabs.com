@@ -1,0 +1,195 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the PL Work Log module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Database\Database;
+
+/**
+ * Machine-name-to-label mapping for work log categories.
+ *
+ * Keys are the machine names used in the Hermes SQLite 'category' column.
+ */
+/**
+ * Default category mapping rules.
+ */
+const PL_WORK_LOG_DEFAULT_RULES = [
+  ['label' => 'Meetings', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'meeting', 'category' => 'meeting', 'weight' => 0],
+  ['label' => 'Standups', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'standup', 'category' => 'meeting', 'weight' => 1],
+  ['label' => 'Sprint planning', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'planning', 'category' => 'meeting', 'weight' => 2],
+  ['label' => 'Code review', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'review', 'category' => 'development', 'weight' => 3],
+  ['label' => 'Testing / QA', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'test', 'category' => 'testing', 'weight' => 4],
+  ['label' => 'Research tasks', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'research', 'category' => 'research', 'weight' => 5],
+  ['label' => 'Admin tasks', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'admin', 'category' => 'admin', 'weight' => 6],
+  ['label' => 'Invoicing', 'field_name' => 'title', 'match_type' => 'contains', 'pattern' => 'invoice', 'category' => 'admin', 'weight' => 7],
+];
+
+const PL_WORK_LOG_CATEGORIES = [
+  'development' => 'Development',
+  'meeting' => 'Meeting',
+  'admin' => 'Admin',
+  'research' => 'Research',
+  'testing' => 'Testing',
+];
+
+/**
+ * Machine-name-to-label mapping for projects.
+ *
+ * Keys are the machine names used in the Hermes SQLite 'project_id' column.
+ */
+const PL_WORK_LOG_PROJECTS = [
+  'atk' => 'ATK',
+  'pl-website' => 'PL Website',
+];
+
+/**
+ * Implements hook_schema().
+ */
+function pl_work_log_schema() {
+  $schema['pl_work_log_category_rules'] = [
+    'description' => 'Category auto-mapping rules for work log import.',
+    'fields' => [
+      'id' => [
+        'description' => 'Primary key.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'label' => [
+        'description' => 'Human-readable rule description.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'field_name' => [
+        'description' => 'Source field to match (title, project_id).',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => 'title',
+      ],
+      'match_type' => [
+        'description' => 'Match type: contains, exact, or regex.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'contains',
+      ],
+      'pattern' => [
+        'description' => 'The string or regex to match against.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'category' => [
+        'description' => 'Target category machine name.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'weight' => [
+        'description' => 'Rule evaluation order.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'weight' => ['weight'],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function pl_work_log_install() {
+  // Seed default category mapping rules.
+  $db = Database::getConnection();
+  foreach (PL_WORK_LOG_DEFAULT_RULES as $rule) {
+    $db->insert('pl_work_log_category_rules')->fields($rule)->execute();
+  }
+
+  // Create default Work Log Categories terms.
+  // The description field stores the machine name for migration mapping.
+  $weight = 0;
+  foreach (PL_WORK_LOG_CATEGORIES as $machine_name => $name) {
+    Term::create([
+      'vid' => 'work_log_categories',
+      'name' => $name,
+      'description' => $machine_name,
+      'weight' => $weight++,
+    ])->save();
+  }
+
+  // Create default Projects terms matching existing SQLite data.
+  // The description field stores the machine name for migration mapping.
+  $weight = 0;
+  foreach (PL_WORK_LOG_PROJECTS as $machine_name => $name) {
+    Term::create([
+      'vid' => 'projects',
+      'name' => $name,
+      'description' => $machine_name,
+      'weight' => $weight++,
+    ])->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function pl_work_log_uninstall() {
+  // Delete all work log nodes.
+  $nids = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'work_log')
+    ->execute();
+  if ($nids) {
+    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids);
+    \Drupal::entityTypeManager()->getStorage('node')->delete($nodes);
+  }
+
+  // Delete taxonomy terms from module-owned vocabularies.
+  foreach (['work_log_categories', 'projects'] as $vid) {
+    $tids = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('vid', $vid)
+      ->execute();
+    if ($tids) {
+      $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($tids);
+      \Drupal::entityTypeManager()->getStorage('taxonomy_term')->delete($terms);
+    }
+  }
+
+  // Purge deleted field data.
+  field_purge_batch(100);
+}
+
+/**
+ * Create the category_rules table and seed default rules.
+ */
+function pl_work_log_update_10001() {
+  $schema = pl_work_log_schema();
+  $db_schema = Database::getConnection()->schema();
+  if (!$db_schema->tableExists('pl_work_log_category_rules')) {
+    $db_schema->createTable('pl_work_log_category_rules', $schema['pl_work_log_category_rules']);
+
+    // Seed default rules.
+    $db = Database::getConnection();
+    foreach (PL_WORK_LOG_DEFAULT_RULES as $rule) {
+      $db->insert('pl_work_log_category_rules')->fields($rule)->execute();
+    }
+  }
+}

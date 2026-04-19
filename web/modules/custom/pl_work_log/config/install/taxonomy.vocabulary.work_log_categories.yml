@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+name: 'Work Log Categories'
+vid: work_log_categories
+description: 'Categories for work log entries (e.g., development, meeting, admin).'
+weight: 0

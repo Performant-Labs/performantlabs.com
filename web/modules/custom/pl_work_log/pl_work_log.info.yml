@@ -1,0 +1,14 @@
+name: PL Work Log
+description: 'Work log integration for tracking hours from Hermes data.'
+core_version_requirement: ^10 || ^11
+type: module
+package: Performant Labs
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:datetime
+  - drupal:field
+  - drupal:views
+  - drupal:migrate
+  - migrate_plus:migrate_plus
+  - migrate_tools:migrate_tools

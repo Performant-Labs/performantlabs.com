@@ -1,0 +1,66 @@
+# Category auto-mapping rules for work log import.
+# Rules are evaluated in order; first match wins.
+# If the source record already has a category, it is kept unless
+# override_source is set to true.
+#
+# Each rule has:
+#   label:       Human-readable description.
+#   field:       Source field to match (title, project_id).
+#   match_type:  contains | exact | regex (case-insensitive).
+#   pattern:     The string or regex to match against.
+#   category:    Machine name of the target category term.
+#
+# The fallback_category is used when no rule matches and the source
+# record has no category.
+
+override_source: false
+fallback_category: development
+
+rules:
+  - label: 'Meetings'
+    field: title
+    match_type: contains
+    pattern: 'meeting'
+    category: meeting
+
+  - label: 'Standups'
+    field: title
+    match_type: contains
+    pattern: 'standup'
+    category: meeting
+
+  - label: 'Sprint planning'
+    field: title
+    match_type: contains
+    pattern: 'planning'
+    category: meeting
+
+  - label: 'Code review'
+    field: title
+    match_type: contains
+    pattern: 'review'
+    category: development
+
+  - label: 'Testing / QA'
+    field: title
+    match_type: contains
+    pattern: 'test'
+    category: testing
+
+  - label: 'Research tasks'
+    field: title
+    match_type: contains
+    pattern: 'research'
+    category: research
+
+  - label: 'Admin tasks'
+    field: title
+    match_type: contains
+    pattern: 'admin'
+    category: admin
+
+  - label: 'Invoicing'
+    field: title
+    match_type: contains
+    pattern: 'invoice'
+    category: admin
