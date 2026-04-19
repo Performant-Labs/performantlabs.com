@@ -1,164 +1,71 @@
-# Testing Instructions
+# Performant Labs: Work Log Module Testing Instructions
 
-This project uses a **three-tier verification hierarchy**.
-Run tests in order: Tier 1 first, escalate to Tier 2, then Tier 3.
+This document outlines the three-tier testing strategy implemented for the Hermes-to-Drupal `pl_work_log` module. Follow this workflow to ensure environment stability and robust functional verification before deploying configuration or codebase changes.
+
+> [!IMPORTANT]
+> Always execute testing starting from Tier 1 up to Tier 3. Catching schema and data logic errors early at the Kernel level significantly speeds up debugging compared to debugging UI failures in Playwright.
 
 ---
 
 ## Prerequisites
 
-```bash
-ddev start                  # local site must be running
-npx playwright install      # first time only — installs browsers
-```
+Testing MUST be executed within the local DDEV environment to ensure PHP extensions, database access, and the local web server are correctly resolved.
+
+Before beginning testing:
+1. Ensure the DDEV stack is running: `ddev start`
+2. Ensure the automated testing accounts module is active: `ddev drush pm:enable qa_accounts -y`
+3. (For Playwright tests): Ensure local NPM dependencies are installed: `npm install` inside the project root.
 
 ---
 
-## Tier 1 — Kernel (unit-level, ~10 s)
+## Tier 1: Kernel Tests
 
-PHPUnit `KernelTestBase`. No browser, no HTTP. Tests DB connections, schema,
-module state, and Drupal API logic in isolation.
+Kernel tests bootstrap a minimal environment to execute specific API checks—such as schema creation, SQLite database binding, and data integrity. They execute locally entirely in memory without requiring a web server routing setup.
 
+**Target File:** `web/modules/custom/pl_work_log/tests/src/Kernel/WorkLogMigrationTest.php`
+
+**Execution Command:**
 ```bash
-# All pl_work_log Kernel tests
 ddev exec "SIMPLETEST_DB=sqlite://localhost//tmp/test.sqlite \
   SIMPLETEST_BASE_URL=https://performant-labs.ddev.site:8493 \
-  vendor/bin/phpunit --bootstrap web/core/tests/bootstrap.php \
-  web/modules/custom/pl_work_log/tests/src/Kernel/ --testdox"
+  vendor/bin/phpunit web/modules/custom/pl_work_log/tests/src/Kernel/WorkLogMigrationTest.php"
 ```
-
-**Covers:**
-- `hermes_sqlite` DB connection is reachable
-- `work_logs` schema has `project_id` and `category` columns
-- Fixture rows have valid date / hours / title values
-- `project_id` and `category` round-trip correctly
-- Empty `project_id`/`category` stored as `''`, not `NULL`
-- Core `sqlite` module is enabled
 
 ---
 
-## Tier 2 — Functional (HTTP-level, ~3 min)
+## Tier 2: Functional Tests
 
-PHPUnit `BrowserTestBase`. Installs a fresh Drupal per test class, makes real
-HTTP requests, asserts page structure and access control. No real browser.
+Functional tests spin up a fresh, complete Drupal installation per test class. They install the entire module dependency chain, process routing mapping, verify block placement rendering, and test HTTP access controls (e.g., anonymous access denials).
 
+**Target File:** `web/modules/custom/pl_work_log/tests/src/Functional/WorkLogPagesTest.php`
+
+**Execution Command:**
 ```bash
-# All pl_work_log Functional tests
 ddev exec "SIMPLETEST_DB=sqlite://localhost//tmp/test.sqlite \
   SIMPLETEST_BASE_URL=https://performant-labs.ddev.site:8493 \
-  vendor/bin/phpunit --bootstrap web/core/tests/bootstrap.php \
-  web/modules/custom/pl_work_log/tests/src/Functional/ --testdox"
+  vendor/bin/phpunit web/modules/custom/pl_work_log/tests/src/Functional/WorkLogPagesTest.php"
 ```
 
-**Covers:**
-- All 5 work-log routes return 403 for anonymous users
-- Dashboard returns 200 and renders expected H2 sections
-- Dashboard table has Date / Title / Hours columns
-- Dashboard exposes Project / Category / Sort filters
-- Actions page shows Migration Status and sub-links
-- Ingest form has a "Run Ingestion" button
-- Category Mapping and Rollback routes are reachable
-- `work_log` node fields accept valid date and hours values
-
-> **Tip:** Fire the test run and check back in 30 s intervals.
-> Each test method takes ~10 s (fresh Drupal bootstrap).
+> [!TIP]
+> **Performance Note:** Execution can take 30-45 seconds due to initial Drupal bootstrap. Wait for completion rather than cancelling prematurely. Deprecation warnings related to Drupal 11 dependencies from the test suite runner can usually be safely ignored.
 
 ---
 
-## Tier 3 — ATK / Playwright (E2E, visual)
+## Tier 3: Playwright ATK (Visual UI) Tests
 
-Playwright tests run against the **live DDEV site** with real data.
-All spec files live in `tests/atk_<feature>/`.
+Tier 3 tests run against the **live local state** of your Drupal application using the Automated Testing Kit (ATK) framework. Playwright drives a real Chrome browser instance interacting with the HTML output mimicking user behaviors.
 
-### Run a single suite
+**Target File:** `tests/atk_work_log/atk_work_log.spec.js`
 
+**Execution Command:**
+To run tests locally using the specific `@work-log` tag:
 ```bash
-BASE_URL=https://performant-labs.ddev.site:8493 \
-  npx playwright test tests/atk_work_log/atk_work_log.spec.js --reporter=list
+npm run test:local -- --grep="@work-log"
 ```
 
-### Run by tag
+> [!WARNING]
+> Because Tier 3 runs against the LIVE instance and expects migrated layout and data components, ensure `ddev drush migrate:import pl_work_log_import` has been executed recently and that layout builders and blocks remain uncorrupted prior to execution.
 
-```bash
-BASE_URL=https://performant-labs.ddev.site:8493 \
-  npx playwright test --grep @work-log
-
-BASE_URL=https://performant-labs.ddev.site:8493 \
-  npx playwright test --grep @smoke
-```
-
-### Run via the project test runner
-
-The `test:local` script patches `playwright.atk.config.js` for the local DDEV
-URL automatically:
-
-```bash
-npm run test:local
-```
-
-### All ATK suites
-
-| Suite | Path | Tag |
-|-------|------|-----|
-| Work Log | `tests/atk_work_log/` | `@work-log` |
-| Contact Us | `tests/atk_contact_us/` | `@contact-us` |
-| Accessibility | `tests/atk_accessibility/` | `@accessibility` |
-| Visual | `tests/atk_visual/` | `@visual` |
-| Menu | `tests/atk_menu/` | `@menu` |
-| Search | `tests/atk_search/` | `@search` |
-| Sitemap | `tests/atk_sitemap/` | `@sitemap` |
-| Media | `tests/atk_media/` | `@media` |
-| Entity | `tests/atk_entity/` | `@entity` |
-| Page Errors | `tests/atk_page_error/` | `@page-error` |
-| Audit | `tests/atk_audit/` | `@audit` |
-
-### Work Log ATK tests (`@work-log`)
-
-| ID | What it checks |
-|----|---------------|
-| ATK-WL-1000 | Dashboard returns 200, H1 present |
-| ATK-WL-1001 | Summary and Recent Work Logs sections visible |
-| ATK-WL-1002 | Total Entries count is non-zero |
-| ATK-WL-1003 | Table has Date / Title / Hours columns |
-| ATK-WL-1004 | At least one data row in table |
-| ATK-WL-1005 | Filter form has Project / Category / Sort By controls |
-| ATK-WL-1006 | Anonymous users are redirected to login |
-| ATK-WL-2000 | Actions page returns 200 |
-| ATK-WL-2001 | Migration Status section shows "Idle" |
-| ATK-WL-2002 | Ingest / Rollback / Category Mapping links present |
-| ATK-WL-2003 | Ingest link navigates to `/work-logs/actions/ingest` |
-| ATK-WL-2004 | Category Mapping link navigates correctly |
-| ATK-WL-3000 | Sidebar nav has Dashboard / All Work Logs / Actions |
-| ATK-WL-4000 | "Improve Hermes" and "ATK Release" titles in table |
-| ATK-WL-4001 | Hours values are numeric and non-zero |
-
----
-
-## Quick reference — all three tiers for `pl_work_log`
-
-```bash
-# Tier 1 (~10 s)
-ddev exec "SIMPLETEST_DB=sqlite://localhost//tmp/test.sqlite \
-  SIMPLETEST_BASE_URL=https://performant-labs.ddev.site:8493 \
-  vendor/bin/phpunit --bootstrap web/core/tests/bootstrap.php \
-  web/modules/custom/pl_work_log/tests/src/Kernel/WorkLogMigrationTest.php --testdox"
-
-# Tier 2 (~3 min)
-ddev exec "SIMPLETEST_DB=sqlite://localhost//tmp/test.sqlite \
-  SIMPLETEST_BASE_URL=https://performant-labs.ddev.site:8493 \
-  vendor/bin/phpunit --bootstrap web/core/tests/bootstrap.php \
-  web/modules/custom/pl_work_log/tests/src/Functional/WorkLogPagesTest.php --testdox"
-
-# Tier 3
-BASE_URL=https://performant-labs.ddev.site:8493 \
-  npx playwright test tests/atk_work_log/atk_work_log.spec.js --reporter=list
-```
-
----
-
-## Notes
-
-- PHPUnit is installed via `drupal/core-dev` (a dev dependency).
-- Deprecation warnings from Drupal's test bridge in PHPUnit output are expected.
-- `SIMPLETEST_DB` is the scratch DB for Functional tests — Kernel tests use their own isolated SQLite.
-- Playwright tests require the DDEV site to be running and migration data to be present.
+**Troubleshooting Playwright Failures:**
+- If tests are reporting timeout assertions or "Access Denied" errors, verify that `qa_accounts` is installed and that the testing environment (`TESTING_BASE_URL`) hasn't reverted to Pantheon via dirty configuration files.
+- To use the local URL seamlessly, ALWAYS run tests via `npm run test:local`. This script ensures `playwright.atk.config.js` directs testing API calls to DDEV instead of remote instances.
