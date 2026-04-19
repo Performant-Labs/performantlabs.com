@@ -34,6 +34,10 @@ class ActionsController extends ControllerBase {
       '#theme' => 'item_list',
       '#items' => [
         Link::fromTextAndUrl(
+          $this->t('Ingest from Calendar'),
+          Url::fromRoute('pl_work_log.actions.ingest')
+        )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('Fetch new work log entries from the Hermes API and create or update nodes.') . '</small>'],
+        Link::fromTextAndUrl(
           $this->t('View Category Mapping Rules'),
           Url::fromRoute('pl_work_log.actions.category_mapping')
         )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('View the rules used to auto-assign categories.') . '</small>'],

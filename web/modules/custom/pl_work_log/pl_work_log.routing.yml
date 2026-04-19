@@ -14,6 +14,14 @@ pl_work_log.actions:
   requirements:
     _role: 'authenticated'
 
+pl_work_log.actions.ingest:
+  path: '/work-logs/actions/ingest'
+  defaults:
+    _form: '\Drupal\pl_work_log\Form\IngestForm'
+    _title: 'Ingest from Calendar'
+  requirements:
+    _role: 'authenticated'
+
 pl_work_log.actions.category_mapping:
   path: '/work-logs/actions/category-mapping'
   defaults:
