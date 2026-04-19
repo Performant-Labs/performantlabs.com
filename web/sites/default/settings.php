@@ -849,6 +849,12 @@ if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
   ];
 }
 
+// Hermes Work Log API settings.
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  $settings['hermes_api_url'] = 'https://spiderman.tail26a498.ts.net/api/work-logs';
+  $settings['hermes_api_token'] = '646aba25773fc24f180feda58f18154f6f35971a24f5d515139f497e9f0f68ae';
+}
+
 // Automatically generated include for settings managed by ddev.
 $ddev_settings = dirname(__FILE__) . '/settings.ddev.php';
 if (getenv('IS_DDEV_PROJECT') == 'true' && is_readable($ddev_settings)) {
