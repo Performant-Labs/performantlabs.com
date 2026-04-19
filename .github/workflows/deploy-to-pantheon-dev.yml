@@ -191,18 +191,9 @@ jobs:
           #terminus connection:set $PANTHEON_SITE_NAME.$PANTHEON_ENV sftp
           #terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- install
 
-      - name: Wait for the deploy to complete.
+      - name: Wait for the deploy and Quicksilver post-deploy hook to complete.
         run: |
           terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
-
-      - name: Run database updates and import config.
-        run: |
-          echo "Running database updates."
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updatedb --yes
-          echo "Importing configuration."
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- config:import --yes
-          echo "Clearing caches."
-          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
 
       - name: Check out repository code.
         uses: actions/checkout@v3
