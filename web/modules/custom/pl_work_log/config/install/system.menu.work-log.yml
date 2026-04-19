@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+id: work-log
+label: 'Work Log'
+description: 'Navigation for work log pages.'
+locked: false

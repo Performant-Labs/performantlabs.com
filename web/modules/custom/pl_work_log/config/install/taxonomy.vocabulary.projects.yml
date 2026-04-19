@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+name: Projects
+vid: projects
+description: 'Projects for work log tracking.'
+weight: 0

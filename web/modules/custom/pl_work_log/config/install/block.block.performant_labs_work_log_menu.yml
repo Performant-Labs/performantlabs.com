@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.work-log
+  enforced:
+    module:
+      - pl_work_log
+  module:
+    - system
+  theme:
+    - performant_labs
+id: performant_labs_work_log_menu
+theme: performant_labs
+region: sidebar_first
+weight: -10
+provider: null
+plugin: 'system_menu_block:work-log'
+settings:
+  id: 'system_menu_block:work-log'
+  label: 'Work Log'
+  label_display: visible
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/work-log-dashboard\r\n/work-logs\r\n/work-logs/*"

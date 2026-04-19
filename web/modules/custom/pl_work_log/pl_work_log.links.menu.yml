@@ -1,0 +1,27 @@
+pl_work_log.dashboard:
+  title: 'Dashboard'
+  description: 'Overview of work log hours and projects.'
+  route_name: pl_work_log.dashboard
+  menu_name: work-log
+  weight: 0
+
+pl_work_log.list:
+  title: 'All Work Logs'
+  description: 'Full list of work log entries.'
+  route_name: view.work_log_list.page_1
+  menu_name: work-log
+  weight: 1
+
+pl_work_log.by_project:
+  title: 'By Project'
+  description: 'Work logs grouped by project.'
+  route_name: view.work_log_by_project.page_1
+  menu_name: work-log
+  weight: 2
+
+pl_work_log.actions:
+  title: 'Actions'
+  description: 'Ingest, rollback, and category mapping.'
+  route_name: pl_work_log.actions
+  menu_name: work-log
+  weight: 10

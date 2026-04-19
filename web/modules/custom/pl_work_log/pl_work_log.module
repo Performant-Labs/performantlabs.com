@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for PL Work Log module.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Registers the Hermes SQLite database connection if not already present.
+ *
+ * Called during module bootstrap to ensure the 'hermes_sqlite' database key
+ * is available for the migration source plugin.
+ */
+function _pl_work_log_register_database() {
+  $key = 'hermes_sqlite';
+  $info = Database::getConnectionInfo($key);
+  if (!$info) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('pl_work_log');
+    $db_path = DRUPAL_ROOT . '/' . $module_path . '/data/hermes_logs.db';
+
+    Database::addConnectionInfo($key, 'default', [
+      'driver' => 'sqlite',
+      'database' => $db_path,
+      'prefix' => '',
+    ]);
+  }
+}
+
+// Register the database on every request where this module is active.
+_pl_work_log_register_database();

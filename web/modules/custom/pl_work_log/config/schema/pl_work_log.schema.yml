@@ -1,0 +1,32 @@
+pl_work_log.category_rules:
+  type: config_object
+  label: 'Category auto-mapping rules'
+  mapping:
+    override_source:
+      type: boolean
+      label: 'Override source category with rule-based mapping'
+    fallback_category:
+      type: string
+      label: 'Default category machine name when no rule matches'
+    rules:
+      type: sequence
+      label: 'Mapping rules'
+      sequence:
+        type: mapping
+        label: 'Rule'
+        mapping:
+          label:
+            type: label
+            label: 'Human-readable rule description'
+          field:
+            type: string
+            label: 'Source field to match (title, project_id)'
+          match_type:
+            type: string
+            label: 'Match type (contains, exact, regex)'
+          pattern:
+            type: string
+            label: 'Pattern to match against'
+          category:
+            type: string
+            label: 'Target category machine name'
