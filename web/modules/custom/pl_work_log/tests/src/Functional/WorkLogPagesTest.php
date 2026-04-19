@@ -29,10 +29,6 @@ class WorkLogPagesTest extends BrowserTestBase {
     'datetime',
     'taxonomy',
     'views',
-    'migrate',
-    'migrate_plus',
-    'migrate_tools',
-    'sqlite',
     'pl_work_log',
   ];
 
@@ -79,8 +75,6 @@ class WorkLogPagesTest extends BrowserTestBase {
     return [
       'dashboard'        => ['/work-log-dashboard'],
       'actions'          => ['/work-logs/actions'],
-      'ingest form'      => ['/work-logs/actions/ingest'],
-      'rollback form'    => ['/work-logs/actions/rollback'],
       'category mapping' => ['/work-logs/actions/category-mapping'],
     ];
   }
@@ -162,50 +156,22 @@ class WorkLogPagesTest extends BrowserTestBase {
   }
 
   /**
-   * The actions page must show Migration Status and the current status value.
+   * The actions page must link to category mapping.
    */
-  public function testActionsPageShowsMigrationStatus(): void {
+  public function testActionsPageHasCategoryMappingLink(): void {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/work-logs/actions');
 
-    $this->assertSession()->responseContains('Migration Status');
-    // Status is Idle when no migration is running.
-    $this->assertSession()->responseContains('Idle');
+    $this->assertSession()->linkExists('View Category Mapping Rules');
   }
 
   /**
-   * The actions page must link to all three action forms.
-   */
-  public function testActionsPageHasAllActionLinks(): void {
-    $this->drupalLogin($this->adminUser);
-    $this->drupalGet('/work-logs/actions');
-
-    $this->assertSession()->linkExists('Ingest New Hours');
-    $this->assertSession()->linkExists('Rollback Last Ingestion');
-    $this->assertSession()->linkExists('Category Mapping Rules');
-  }
-
-  /**
-   * "Ingest New Hours" link must navigate to the ingest form.
-   */
-  public function testIngestLinkNavigatesToForm(): void {
-    $this->drupalLogin($this->adminUser);
-    $this->drupalGet('/work-logs/actions');
-    $this->clickLink('Ingest New Hours');
-
-    $this->assertSession()->addressEquals('/work-logs/actions/ingest');
-    $this->assertSession()->statusCodeEquals(200);
-    // IngestForm extends ConfirmFormBase — button label is 'Run Ingestion'.
-    $this->assertSession()->buttonExists('Run Ingestion');
-  }
-
-  /**
-   * "Category Mapping Rules" link must navigate to the category form.
+   * "View Category Mapping Rules" link must navigate to the category form.
    */
   public function testCategoryMappingLinkNavigatesToForm(): void {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('/work-logs/actions');
-    $this->clickLink('Category Mapping Rules');
+    $this->clickLink('View Category Mapping Rules');
 
     $this->assertSession()->addressEquals('/work-logs/actions/category-mapping');
     $this->assertSession()->statusCodeEquals(200);

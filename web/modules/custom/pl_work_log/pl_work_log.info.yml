@@ -9,6 +9,3 @@ dependencies:
   - drupal:datetime
   - drupal:field
   - drupal:views
-  - drupal:migrate
-  - migrate_plus:migrate_plus
-  - migrate_tools:migrate_tools
