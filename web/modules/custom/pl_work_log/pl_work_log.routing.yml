@@ -14,22 +14,6 @@ pl_work_log.actions:
   requirements:
     _role: 'authenticated'
 
-pl_work_log.actions.ingest:
-  path: '/work-logs/actions/ingest'
-  defaults:
-    _form: '\Drupal\pl_work_log\Form\IngestForm'
-    _title: 'Ingest New Hours'
-  requirements:
-    _role: 'authenticated'
-
-pl_work_log.actions.rollback:
-  path: '/work-logs/actions/rollback'
-  defaults:
-    _form: '\Drupal\pl_work_log\Form\RollbackForm'
-    _title: 'Rollback Last Ingestion'
-  requirements:
-    _role: 'authenticated'
-
 pl_work_log.actions.category_mapping:
   path: '/work-logs/actions/category-mapping'
   defaults:

@@ -20,28 +20,6 @@ class ActionsController extends ControllerBase {
   public function overview() {
     $build = [];
 
-    // Migration status summary.
-    $status = $this->getMigrationStatus();
-
-    $build['status'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['work-log-actions-status']],
-    ];
-
-    $build['status']['heading'] = [
-      '#markup' => '<h2>' . $this->t('Migration Status') . '</h2>',
-    ];
-
-    $build['status']['info'] = [
-      '#theme' => 'item_list',
-      '#items' => [
-        $this->t('Status: @status', ['@status' => $status['status']]),
-        $this->t('Total imported: @count', ['@count' => $status['imported']]),
-        $this->t('Unprocessed: @count', ['@count' => $status['unprocessed']]),
-        $this->t('Last imported: @date', ['@date' => $status['last_imported'] ?: 'Never']),
-      ],
-    ];
-
     // Action links.
     $build['actions'] = [
       '#type' => 'container',
@@ -56,17 +34,9 @@ class ActionsController extends ControllerBase {
       '#theme' => 'item_list',
       '#items' => [
         Link::fromTextAndUrl(
-          $this->t('Ingest New Hours'),
-          Url::fromRoute('pl_work_log.actions.ingest')
-        )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('Run the migration to import new or updated entries from the SQLite database.') . '</small>'],
-        Link::fromTextAndUrl(
-          $this->t('Rollback Last Ingestion'),
-          Url::fromRoute('pl_work_log.actions.rollback')
-        )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('Remove all imported work log nodes. This cannot be undone.') . '</small>'],
-        Link::fromTextAndUrl(
           $this->t('View Category Mapping Rules'),
           Url::fromRoute('pl_work_log.actions.category_mapping')
-        )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('View the rules used to auto-assign categories during import.') . '</small>'],
+        )->toRenderable() + ['#suffix' => '<br><small>' . $this->t('View the rules used to auto-assign categories.') . '</small>'],
       ],
     ];
 
@@ -189,56 +159,6 @@ class ActionsController extends ControllerBase {
     ];
 
     return $build;
-  }
-
-  /**
-   * Gets migration status information.
-   *
-   * @return array
-   *   Associative array with status, imported, unprocessed, last_imported.
-   */
-  protected function getMigrationStatus() {
-    try {
-      $migration_manager = \Drupal::service('plugin.manager.migration');
-      $migration = $migration_manager->createInstance('work_log_import');
-      $map = $migration->getIdMap();
-      $source = $migration->getSourcePlugin();
-
-      $imported = $map->importedCount();
-      $source_count = $source->count();
-      $unprocessed = max(0, $source_count - $imported);
-
-      // Get last imported timestamp from the map table.
-      $last = '';
-      $db = \Drupal::database();
-      $table = 'migrate_map_work_log_import';
-      if ($db->schema()->tableExists($table)) {
-        $last_ts = $db->select($table, 'm')
-          ->fields('m', ['last_imported'])
-          ->orderBy('last_imported', 'DESC')
-          ->range(0, 1)
-          ->execute()
-          ->fetchField();
-        if ($last_ts) {
-          $last = \Drupal::service('date.formatter')->format((int) $last_ts, 'short');
-        }
-      }
-
-      return [
-        'status' => $migration->getStatusLabel(),
-        'imported' => $imported,
-        'unprocessed' => $unprocessed,
-        'last_imported' => $last,
-      ];
-    }
-    catch (\Exception $e) {
-      return [
-        'status' => 'Error: ' . $e->getMessage(),
-        'imported' => 0,
-        'unprocessed' => 0,
-        'last_imported' => '',
-      ];
-    }
   }
 
 }
