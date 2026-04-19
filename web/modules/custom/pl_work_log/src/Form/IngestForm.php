@@ -70,7 +70,8 @@ class IngestForm extends ConfirmFormBase {
         'timeout' => 30,
       ]);
 
-      $data = json_decode((string) $response->getBody(), TRUE);
+      $body = json_decode((string) $response->getBody(), TRUE);
+      $data = $body['data'] ?? $body;
       if (!is_array($data)) {
         $this->messenger()->addError($this->t('Invalid response from Hermes API.'));
         $form_state->setRedirectUrl($this->getCancelUrl());
