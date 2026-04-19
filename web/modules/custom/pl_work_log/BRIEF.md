@@ -1,16 +1,30 @@
 # pl_work_log Module — Implementation Brief
 
 ## Purpose
-Imports work log time-tracking data from an external SQLite database (`hermes_logs.db`) into Drupal, and provides views, a dashboard, and admin tools to manage it.
+Imports work log time-tracking data from the Hermes agent into Drupal, and provides views, a dashboard, and admin tools to manage it. Supports two data sources: a local SQLite file (dev) and the Hermes REST API on Spiderman (production).
 
 ## Architecture
 
 ### Data Flow
 ```
-hermes_logs.db (SQLite) → Drupal Migrate API → work_log nodes (Drupal DB)
+# Local/dev (SQLite)
+hermes_logs.db (SQLite) → HermesWorkLog source → Drupal Migrate API → work_log nodes
+
+# Production (API)
+Hermes API (Spiderman:8090) → HermesApiWorkLog source → Drupal Migrate API → work_log nodes
 ```
 
 The Migrate API was chosen over direct SQLite reads so that data lives natively in Drupal's entity system — enabling Views, caching, search indexing, and access control without custom query layers.
+
+### Hermes REST API (Spiderman)
+- **Host**: `spiderman.tail26a498.ts.net` (Tailscale)
+- **Port**: 8090 (inside `hermes-personal-manager-1` container)
+- **Endpoints**: `GET /api/health` (no auth), `GET /api/work-logs` (bearer token), `GET /api/work-logs?since=<ISO-8601>` (incremental)
+- **Auth**: Bearer token via `Authorization` header
+- **Script**: `/opt/data/scripts/work_log_api.py` (stdlib Python, zero dependencies)
+- **Startup**: Background process via entrypoint wrapper, restarts with container
+- **Config repo**: [Performant-Labs/hermes-config](https://github.com/Performant-Labs/hermes-config) (private)
+- **Backups**: SQLite databases backed up every 6 hours to `/opt/hermes-backups/`, 30-day retention
 
 ### Module Location
 `web/modules/custom/pl_work_log/`
@@ -26,13 +40,15 @@ The Migrate API was chosen over direct SQLite reads so that data lives natively 
 | `config/install/*.yml` | Content type `work_log`, 6 fields, 2 taxonomy vocabularies, custom menu, sidebar block placement — all with enforced module dependencies for clean uninstall |
 | `config/optional/views.view.work_log_list.yml` | Table view at `/work-logs` with exposed project/category filters, sortable columns, pagination |
 | `config/optional/views.view.work_log_by_project.yml` | View at `/work-logs/by-project` grouped by project |
-| `migrations/work_log_import.yml` | Migration config: source → process → destination mapping, `track_changes: true` for idempotent re-runs |
-| `data/hermes_logs.db` | The SQLite source database (committed to repo) |
+| `migrations/work_log_import.yml` | SQLite migration: source → process → destination mapping, `track_changes: true` for idempotent re-runs |
+| `migrations/work_log_api_import.yml` | API migration: same process/destination as above, but fetches from Hermes REST API |
+| `data/hermes_logs.db` | The SQLite source database (committed to repo, used for local dev) |
 
 ### Custom Plugins
 | Class | Type | What it does |
 |---|---|---|
-| `src/Plugin/migrate/source/HermesWorkLog.php` | Migrate Source | Queries `work_logs` table from `hermes_sqlite` DB connection |
+| `src/Plugin/migrate/source/HermesWorkLog.php` | Migrate Source | Queries `work_logs` table from `hermes_sqlite` DB connection (local SQLite) |
+| `src/Plugin/migrate/source/HermesApiWorkLog.php` | Migrate Source | Fetches work logs from Hermes REST API via Guzzle HTTP; reads URL/token from env vars or settings.php |
 | `src/Plugin/migrate/process/TermByMachineName.php` | Migrate Process | Maps machine names → taxonomy term IDs (used for projects) |
 | `src/Plugin/migrate/process/CategoryAutoMap.php` | Migrate Process | Rule-based category assignment; reads rules from `pl_work_log_category_rules` DB table, falls back to config for override/fallback settings |
 
@@ -59,10 +75,27 @@ Fields: `field_work_log_date` (date), `field_work_log_hours` (decimal), `field_w
 - **DB-backed rules over config**: Category mapping rules use a custom schema table for UI editability; override/fallback settings remain in simple config.
 - **Sidebar menu scoped to work log pages**: Block visibility restricts the Work Log menu to `/work-log-dashboard` and `/work-logs/*` only.
 - **No cron**: Import is manual only (`ddev drush migrate:import work_log_import` or via the UI ingest form).
+- **Dual migration sources**: SQLite (`work_log_import`) for local dev, API (`work_log_api_import`) for production. Both coexist; use whichever is appropriate.
+- **API token via env vars**: `HERMES_API_URL` and `HERMES_API_TOKEN` are set in `.ddev/config.yaml` (local) or Pantheon env vars (production). Never committed to code.
 
 ## Drush Commands
 ```bash
-ddev drush migrate:import work_log_import   # Import/sync
-ddev drush migrate:rollback work_log_import # Remove all imported nodes
-ddev drush migrate:status work_log_import   # Check status
+# SQLite source (local dev)
+ddev drush migrate:import work_log_import        # Import from local hermes_logs.db
+ddev drush migrate:rollback work_log_import      # Remove SQLite-imported nodes
+
+# API source (production)
+ddev drush migrate:import work_log_api_import    # Import from Hermes REST API
+ddev drush migrate:rollback work_log_api_import  # Remove API-imported nodes
+
+# Status
+ddev drush migrate:status                         # Show all migrations
 ```
+
+## Environment Variables
+| Variable | Where | Purpose |
+|---|---|---|
+| `HERMES_API_URL` | `.ddev/config.yaml` / Pantheon | Full URL to Hermes work-logs endpoint |
+| `HERMES_API_TOKEN` | `.ddev/config.yaml` / Pantheon | Bearer token for API authentication |
+
+Fallback order: migration YAML config → `settings.php` (`$settings['hermes_api_url']`) → env var.
