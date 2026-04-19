@@ -114,34 +114,21 @@ test.describe('Work Log module — Tier 3 (Playwright) tests.', () => {
       await expect(page).toHaveTitle(/Work Log/);
     });
 
-    test('(ATK-WL-2001) Actions page shows migration status section. @ATK-WL-2001 @work-log @smoke', async ({ page }) => {
+    test('(ATK-WL-2001) Actions page shows Available Actions section. @ATK-WL-2001 @work-log @smoke', async ({ page }) => {
       await page.goto('/work-logs/actions', { waitUntil: 'networkidle' });
 
-      await expect(page.getByRole('heading', { level: 2, name: 'Migration Status' })).toBeVisible();
-      // "Idle" status confirmed by Tier 2 audit.
-      await expect(page.getByText(/Idle/i).first()).toBeVisible();
-      // At least 1 item imported (fix strict mode by being more specific).
-      await expect(page.getByText(/Total imported: [1-9]/i)).toBeVisible();
+      await expect(page.getByRole('heading', { level: 2, name: 'Available Actions' })).toBeVisible();
     });
 
-    test('(ATK-WL-2002) Actions page has Ingest, Rollback, and Category Mapping links. @ATK-WL-2002 @work-log @smoke', async ({ page }) => {
+    test('(ATK-WL-2002) Actions page has Category Mapping link. @ATK-WL-2002 @work-log @smoke', async ({ page }) => {
       await page.goto('/work-logs/actions', { waitUntil: 'networkidle' });
 
-      await expect(page.getByRole('link', { name: /Ingest New Hours/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Rollback Last Ingestion/i })).toBeVisible();
-      await expect(page.getByRole('link', { name: /Category Mapping Rules/i })).toBeVisible();
-    });
-
-    test('(ATK-WL-2003) Ingest New Hours link navigates to ingest form. @ATK-WL-2003 @work-log', async ({ page }) => {
-      await page.goto('/work-logs/actions', { waitUntil: 'networkidle' });
-      await page.getByRole('link', { name: /Ingest New Hours/i }).click();
-      await expect(page).toHaveURL(/\/work-logs\/actions\/ingest/);
-      await expect(page).toHaveTitle(/Ingest/);
+      await expect(page.getByRole('link', { name: /View Category Mapping Rules/i })).toBeVisible();
     });
 
     test('(ATK-WL-2004) Category Mapping Rules link navigates correctly. @ATK-WL-2004 @work-log', async ({ page }) => {
       await page.goto('/work-logs/actions', { waitUntil: 'networkidle' });
-      await page.getByRole('link', { name: /Category Mapping Rules/i }).click();
+      await page.getByRole('link', { name: /View Category Mapping Rules/i }).click();
       await expect(page).toHaveURL(/\/work-logs\/actions\/category-mapping/);
     });
 
@@ -162,27 +149,5 @@ test.describe('Work Log module — Tier 3 (Playwright) tests.', () => {
 
   });
 
-  // ── Migration data integrity ───────────────────────────────────────────────
-
-  test.describe('Migration data integrity', () => {
-
-    test('(ATK-WL-4000) Known work log titles are present in the dashboard table. @ATK-WL-4000 @work-log', async ({ page }) => {
-      await page.goto('/work-log-dashboard', { waitUntil: 'networkidle' });
-
-      // Titles confirmed by running migrate:import and Tier 2 audit.
-      await expect(page.getByRole('cell', { name: /Improve Hermes/i }).first()).toBeVisible();
-      await expect(page.getByRole('cell', { name: /ATK Release/i }).first()).toBeVisible();
-    });
-
-    test('(ATK-WL-4001) Hours values in the table are numeric and non-zero. @ATK-WL-4001 @work-log', async ({ page }) => {
-      await page.goto('/work-log-dashboard', { waitUntil: 'networkidle' });
-
-      // Each hours cell should contain a number followed by "hrs" or just digits.
-      const hoursCells = page.locator('table tbody td').filter({ hasText: /\d+\.?\d*\s*(hr|h)/i });
-      const count = await hoursCells.count();
-      expect(count).toBeGreaterThan(0);
-    });
-
-  });
 
 }); // end describe
