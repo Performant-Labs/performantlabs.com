@@ -1,11 +1,81 @@
 <?php
 
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Session\AccountInterface;
 /**
  * @file
- * Functions to support theming.
+ * The primary PHP file for the Performant_Labs theme.
  */
 
-// Support autoloading of classes when composer is not used.
-if (file_exists(__DIR__ . '/../dripyard-classloader.php')) {
-  require_once __DIR__ . '/../dripyard-classloader.php';
+/**
+ * Implements hook_preprocess_html().
+ */
+function performant_labs_preprocess_html(&$variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  $path_alias = ltrim($path_alias, '/');
+  $variables['attributes']['class'][] = \Drupal\Component\Utility\Html::cleanCssIdentifier($path_alias). "-page";
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function performant_labs_preprocess_node(&$variables) {
+  $node = $variables['node'];
+  $contentType = $node->getType();
+
+  // Get the active theme name (machine name).
+  $themeName = Drupal::theme()->getActiveTheme()->getName();
+
+  // Dynamically call a hook based on the content type.
+  $function = "{$themeName}_preprocess_node__" . $contentType;
+  if (function_exists($function)) {
+    $function($variables);
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__article().
+ */
+function performant_labs_preprocess_node__article(&$variables) {
+  $node = $variables['node'];
+
+  // View Mode: Full isn't displaying title or body for some reason.
+  $variables['custom']['title'] = $node->title->view();
+  $variables['custom']['title']['#label_display'] = 'hidden';
+  $variables['custom']['body'] = $node->body->view();
+  $variables['custom']['body']['#label_display'] = 'hidden';
+}
+
+
+
+
+
+function performant_labs_preprocess_page(&$variables) {
+ 
+  $config = \Drupal::config('pl_main.settings');
+
+  $body = $config->get('body')['value'];  // Correct way
+  $pages = explode("\n", $config->get('pages_to_show'));
+  
+  $delay_time = $config->get('delay_time');
+  
+  $current_path = \Drupal::service('path.current')->getPath();
+  $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+
+  $current_user = \Drupal::currentUser();
+  if ($current_user->isAnonymous() && in_array(trim($current_path_alias), array_map('trim', $pages))) {
+    $variables['content']['custom_popup'] = [
+      '#markup' => Markup::create($body),
+      '#cache' => [
+              'contexts' => ['url.path', 'user.roles:anonymous'],
+            ],
+    ];
+    if(isset($delay_time)){
+        $variables['#attached']['drupalSettings']['delay_time'] = $delay_time;
+    }else{
+      $variables['#attached']['drupalSettings']['delay_time'] = 6000;
+    }
+
+  }
 }

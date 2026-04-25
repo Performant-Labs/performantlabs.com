@@ -1,24 +1,25 @@
-# Global styles and scripts.
-base:
+global-components:
+  css:
+    component:
+      css/style.css: {}
+      css/custom.css: {}
+      https://unpkg.com/aos@2.3.4/dist/aos.css: { type: external }
+
+fonts:
   css:
     theme:
-      css/base.css: {}
+      css/fonts.css: {}
 
-# Example library definition (used in testtheme.info.yml). Note the CSS file
-# will need to be created.
-# @see https://www.drupal.org/docs/develop/theming-drupal/adding-assets-css-js-to-a-drupal-theme-via-librariesyml
+# Global libraries
+global-scripts:
+  version: VERSION
+  js:
+    https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js: {}
+    https://unpkg.com/aos@2.3.4/dist/aos.js: {}
+    https://player.vimeo.com/api/player.js: { type: external }
+    js/microsite.js: {}
 
-# user-login-form:
-#   css:
-#     component:
-#       css/user-login-form.css: {}
+  dependencies:
+    - core/jquery
 
-# Another Example library definition (used in testtheme.info.yml). Note the
-# CSS file will need to be created.
 
-# status-messages:
-#   css:
-#     component:
-#       css/status-messages.css: {}
-#   js:
-#     js/status-messages.js: {}

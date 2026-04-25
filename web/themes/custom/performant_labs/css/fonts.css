@@ -1,0 +1,77 @@
+/* ============================================
+   Local Font Definitions - All Fonts
+   ============================================ */
+
+/* Poppins Font Family */
+
+@font-face {
+  font-family: 'poppins';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/Poppins-Regular.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'extra-bold';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../fonts/Poppins-ExtraBold.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'sami-bold';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-display: block;
+}
+
+/* Rubik Font Family - Variable Font */
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300 900;
+  src: url('../fonts/rubik/Rubik-Variable.ttf') format('truetype-variations');
+  font-display: block;
+}
+
+/* Open Sans Font Family */
+
+/* Open Sans Light (300) */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/open-sans/OpenSans-Light.ttf') format('truetype');
+  font-display: block;
+}
+
+/* Open Sans Regular (400) */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/open-sans/OpenSans-Regular.ttf') format('truetype');
+  font-display: block;
+}
+
+/* Open Sans SemiBold (600) */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/open-sans/OpenSans-SemiBold.ttf') format('truetype');
+  font-display: block;
+}
+
+/* Open Sans Bold (700) */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/open-sans/OpenSans-Bold.ttf') format('truetype');
+  font-display: block;
+}

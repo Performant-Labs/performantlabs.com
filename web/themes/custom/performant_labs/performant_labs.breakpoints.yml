@@ -1,0 +1,30 @@
+performant_labs.small:
+  label: small
+  mediaQuery: 'all and (min-width: 25em)'
+  weight: 0
+  multipliers:
+    - 1x
+performant_labs.small-med:
+  label: small-med
+  mediaQuery: 'all and (min-width: 26em)'
+  weight: 1
+  multipliers:
+    - 1x
+performant_labs.small-large:
+  label: small-large
+  mediaQuery: 'all and (min-width: 41em)'
+  weight: 2
+  multipliers:
+    - 1x
+performant_labs.medium:
+  label: medium
+  mediaQuery: 'all and (min-width: 48em)'
+  weight: 3
+  multipliers:
+    - 1x
+performant_labs.large:
+  label: large
+  mediaQuery: 'all and (min-width: 61.25em)'
+  weight: 4
+  multipliers:
+    - 2x

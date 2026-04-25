@@ -1,0 +1,120 @@
+@import 'variables';
+@import 'media_queries';
+
+/*
+ * Contact Us page.
+ */
+
+
+ .contact-us-page {
+  .lbk-rich-text-component {
+    p:nth-child(2) {
+      display: none;
+  }
+}
+
+  form#webform-submission-contact-node-13-add-form {
+    max-width: 90%;
+  }
+
+  .block-layout-builder-kit {
+    max-width: 85%;
+  }
+}
+
+
+.highlighted-blue-text {
+  color: $dark-blue;
+  font-size: 1.5rem;
+  font-family: $font-family-rubik;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 2rem 0 1rem;
+  a {
+    color: $orange-base;
+  }
+}
+.layout__region--second {
+  .block-webform h2 {
+    display: none;
+  }
+}
+.sidebar-contact {
+  padding-right: 40px;
+}
+
+.webform-submission-contact-form {
+  .phone-number-field {
+    label {
+      display: block;
+      margin-right: 5px;
+    }
+  }
+}
+
+
+@media screen and (max-width: 680px) and (min-width: 590px) {
+  .contact-us-page {
+    .layout--twocol-section {
+      flex-wrap: nowrap;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) and (min-width: 426px) {
+  .contact-us-page {
+    .PL-section-thin {
+      display: grid;
+  }
+  .block-layout-builder-kit{
+    max-width: 100% !important;
+    margin: 0;
+    .sidebar-contact{
+      padding-bottom: 1rem !important;
+    }
+  }
+
+  }
+}
+@media screen and (max-width: 426px) {
+  .block-layout-builder-kit {
+    max-width: unset !important;
+  }
+  }
+
+@media screen and (max-width: 767px) {
+  .contact-us-page {
+    .sidebar-contact{
+      padding-right: unset !important;
+    }
+    h2.lbk-block--title {
+      margin: 0;
+      margin-bottom: 1rem !important;
+  }
+
+    form#webform-submission-contact-node-13-add-form {
+      max-width: 100% !important;
+ 
+    }
+    .lbk-rich-text-component {
+      p:nth-child(2) {
+        display: none;
+    }
+      p {
+        width: 100%;
+        
+        &:has(img) {
+          width: 100%;
+        }
+      }
+      p:has(img){
+        display: flex;
+        justify-content: center;
+      }
+      img{
+        width: 90%;
+      }
+    }
+  }
+  
+}

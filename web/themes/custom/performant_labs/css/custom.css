@@ -1,0 +1,409 @@
+/* ------------- Node Type Microsite Stylings ---------- */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: poppins !important;
+    font-weight: 400;
+}
+
+.button-primary {
+    font-size: 22px;
+    color: #fff;
+    border: none;
+    line-height: 32px;
+    padding: 10px 20px;
+    font-family: sami-bold;
+    background: #0093b4;
+    transition: all 0.3s ease;
+    text-wrap-mode: nowrap;
+}
+
+.button-primary:hover {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.button-secondary {
+    background: transparent;
+    font-family: poppins;
+    color: #222;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: none;
+    outline: none;
+    text-wrap-mode: nowrap;
+}
+.cta-wrapper{
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+.button-secondary::before {
+    content: '';
+    background: url('../images/v-btn.png') center/contain no-repeat;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    transition: all 0.3s ease;
+}
+
+.button-secondary:hover::before {
+    filter: brightness(0);
+}
+
+p {
+    font-weight: inherit;
+}
+
+.node-type-microsite main>.container {
+    max-width: 100% !important;
+    padding: 0 !important;
+
+    .field--name-field-production-section {
+        background: url(../images/product-section-bg.png);
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        padding: 100px 0px;
+        position: relative;
+        padding-top: 170px;
+        padding-bottom: 0px;
+    }
+
+    .field--name-field-production-section::before {
+        content: '';
+        position: absolute;
+        background: url(../images/Left-aarrow.png) center/contain no-repeat;
+        height: 117px;
+        width: 130px;
+        top: 480px;
+        left: 0;
+    }
+
+    .field--name-field-production-section::after {
+        content: '';
+        position: absolute;
+        background: url(../images/Right-aarrow.png) center/contain no-repeat;
+        height: 117px;
+        width: 130px;
+        top: 480px;
+        right: 0;
+    }
+}
+
+/* --------------- Paragraph Stylings ------------------ */
+
+.para-title {
+    text-align: center;
+    font-size: 41px;
+    line-height: 65px;
+    color: #222;
+    padding-bottom: 70px;
+}
+
+/* --------------- Hero Section Paragraph ------------------ */
+
+.img-text-cta-wrapper.hero-section {
+    .subtitle {
+        font-family: poppins;
+        font-size: 33px;
+        line-height: 56px;
+        color: #222222;
+    }
+
+    .title {
+        font-family: extra-bold;
+        color: #13c5e5;
+        line-height: 77px;
+        font-size: 60px;
+        text-transform: uppercase;
+        max-width: 620px;
+    }
+
+    .description {
+        color: #222222;
+        font-size: 32px;
+        line-height: 53px;
+        margin-top: 0.7px;
+    }
+
+    .cta {
+        gap: 20px;
+
+        a {
+            font-size: 22px;
+            color: #fff;
+            border: none;
+            line-height: 32px;
+            padding: 10px 20px;
+            font-family: sami-bold;
+            background: #0093b4;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        a:nth-child(2) {
+            background: transparent;
+            font-family: poppins;
+            color: #222;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0;
+        }
+
+        a:nth-child(2)::before {
+            content: '';
+            background: url('../images/v-btn.png') center/contain no-repeat;
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            transition: all 0.3s ease;
+        }
+
+        a:nth-child(2):hover::before {
+            filter: brightness(0);
+        }
+
+    }
+}
+
+/* --------------- Paragraph (image text hierarchy) ------------ */
+
+.img-text-heirarchy-wrapper {
+
+    .path-title {
+        color: #222;
+        font-size: 36px;
+        text-align: center;
+        line-height: 54px;
+        padding-bottom: 34px;
+        font-family: sami-bold;
+        padding-top: 19px;
+        padding-bottom: 81.9px;
+    }
+
+    .separator-line {
+        background: url(../images/Center-line.png) center no-repeat;
+    }
+
+    .hierarchy-child {
+        gap: 30px;
+        align-items: center;
+        margin-bottom: 60px;
+        position: relative;
+        z-index: 1;
+
+        .desc {
+            font-size: 22px;
+            line-height: 34px;
+            color: #222;
+            width: 289.6px;
+            max-width: 290px;
+        }
+
+        .img img {
+            width: 170px;
+        }
+
+    }
+
+    .production-line {
+        position: absolute;
+    }
+
+    .hierarchy-left .production-line {
+        top: 280px;
+        left: 160px;
+        width: 235px;
+    }
+
+    .hierarchy-right .production-line {
+        top: 305px;
+        left: 170px;
+        width: 190px;
+    }
+}
+
+/* --------Paragraph (title-decription-image) --------- */
+
+.title-decription-image-wrapper {
+    .para-title {
+        padding-bottom: 0px;
+        font-size: 50px;
+        line-height: 70px;
+    }
+
+    .formated-description {
+        font-size: 26px;
+        line-height: 48px;
+        text-align: center;
+        color: #000;
+        max-width: 870px;
+        margin: 0 auto;
+
+        ul {
+            list-style-type: none;
+
+            li::before {
+                content: "";
+                display: inline-block;
+                width: 9px;
+                height: 9px;
+                background: #43b3cc;
+                border-radius: 50%;
+                position: relative;
+                top: -4px;
+                left: -5px;
+            }
+        }
+    }
+
+    .image img {
+        max-width: 280px;
+    }
+
+    #videoContainer{
+        position: fixed;
+        width: 80%;
+        max-width: 64rem;
+        height: 90vh;
+        max-height: max-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99;
+
+    }
+    #videoContainer.collapse{
+        display: none;
+    }
+    #videoContainer > *{
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+}
+
+
+
+/* ------------ Paragraph (Logo Grid) ------------ */
+
+.logo-image-grid-wrapper {
+    padding: 70px 0;
+}
+
+@media screen and (max-width: 992px) {
+    .node-type-microsite main>.container {
+
+        .field--name-field-production-section::before,
+        .field--name-field-production-section::after {
+            display: none;
+        }
+    }
+
+    .img-text-cta-wrapper.hero-section {
+        text-align: center;
+
+        .container>.row {
+            flex-direction: column-reverse;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            line-height: 34px;
+        }
+
+        .title {
+            line-height: 49px;
+            font-size: 37px;
+        }
+
+        .description {
+            color: #222222;
+            font-size: 23px;
+            line-height: 36px;
+            margin-top: 0px !important;
+        }
+
+        .cta {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+    }
+
+    .para-title {
+        font-size: 33.7px;
+        line-height: 49px;
+        padding-bottom: 23px;
+    }
+
+    .img-text-heirarchy-wrapper {
+        .production-line {
+            display: none;
+        }
+
+        .path-title {
+            font-size: 23px;
+            padding-top: 0px;
+            padding-bottom: 1.9px;
+        }
+
+        .hierarchy-child {
+            .desc {
+                font-size: 20px;
+                line-height: 32px;
+            }
+        }
+
+        .hierarchy-child:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .title-decription-image-wrapper {
+        .para-title {
+            padding-bottom: 0px !important;
+            font-size: 30px !important;
+            line-height: 42px !important;
+        }
+
+        .formated-description {
+            font-size: 18px;
+            line-height: 30px;
+
+            ul {
+                padding: 0;
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .img-text-heirarchy-wrapper {
+        .hierarchy-child {
+            flex-direction: column !important;
+
+            .desc {
+                text-align: center;
+            }
+        }
+    }
+}

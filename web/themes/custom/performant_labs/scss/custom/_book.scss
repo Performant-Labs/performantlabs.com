@@ -1,0 +1,123 @@
+@import 'variables';
+@import 'media_queries';
+@import 'common';
+
+/*
+ * Book page.
+ */
+
+.block-field-blocknodebookfield-display-title,
+.block-field-blocknodebooktitle {
+  text-align: center;
+}
+
+.block-field-blocknodebooktitle {
+  .field--name-title {
+    @extend .pl-title;
+  }
+}
+
+.page-node-type-book {
+  main {
+    .container {
+      padding-top: 0;
+    }
+  }
+  #block-campaignkitlogo,
+  #block-layoutbuilderkitlogo {
+    @include for-desktop-up {
+      position: relative;
+    }
+    .field--name-body {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .field--name-body img {
+      height: auto;
+      max-width: 260px;
+    }
+  }
+}
+//
+// Left Sidebar
+//
+.page-node-type-book {
+  main .container {
+    .col-lg-3 {
+      background: $light-gray4;
+    }
+  }
+  main .region-content {
+    padding-top: 60px;
+  }
+  .region-sidebar-first {
+    padding: 60px 15px 50px;
+  }
+  #block-booknavigation-2 {
+    font-size: 1.2rem;
+    ul {
+      list-style-type: none;
+      padding-left: 5px !important;
+      >li{
+        margin-bottom: 8px;
+        word-break: break-word;
+        &:last-child{
+          margin-bottom: 0 !important;
+        }
+        >a{
+          display: inline-block;
+          line-height: 1.25 !important;
+          text-indent: -6pt;
+          padding-left: 6pt;
+        }
+      }
+    }
+  }
+}
+.page-node-type-book,
+.user-logged-in.page-node-type-book {
+  .pl-container {
+    main {
+      @include for-desktop-up {
+        padding-top: 150px;
+      }
+    }
+  }
+}
+
+
+//
+// The book navigation..
+//
+.nav-book {
+  .nav-book-tree {
+    ul {
+      list-style-type: none;
+    }
+  }
+
+  .nav-bottom-links {
+    list-style-type: none;
+    ul {
+      margin: 0;
+      padding: 0.5em 0;
+      display: block;
+      li {
+        vertical-align: top;
+        display: inline-block;
+      }
+      li:first-child {
+        width: 45%;
+        text-align: left;
+      }
+      li:nth-child(2) {
+        text-align: center;
+      }
+      li:last-child {
+        float: right;
+        width: 45%;
+        text-align: right;
+      }
+    }
+  }
+}
