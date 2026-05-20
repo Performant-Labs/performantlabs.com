@@ -158,6 +158,15 @@ jobs:
           rm -rf "$PANTHEON_REPO_DIR"/web/profiles/contrib
           rm -rf "$PANTHEON_REPO_DIR"/vendor
 
+          # Resolve symlinks to real content before copying (Pantheon can't handle symlinked dirs).
+          find . -maxdepth 5 -type l | while read link; do
+            target=$(readlink -f "$link")
+            if [ -d "$target" ]; then
+              rm "$link"
+              cp -r "$target" "$link"
+            fi
+          done
+
           # Copy files to Pantheon repo dir.
           cp -R * "$PANTHEON_REPO_DIR"
 
