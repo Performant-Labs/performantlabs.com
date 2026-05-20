@@ -158,12 +158,13 @@ jobs:
           rm -rf "$PANTHEON_REPO_DIR"/web/profiles/contrib
           rm -rf "$PANTHEON_REPO_DIR"/vendor
 
-          # Resolve symlinks to real content before copying (Pantheon can't handle symlinked dirs).
+          # Remove symlinks pointing outside the repo (absolute paths that don't exist in CI).
+          # Also remove their counterparts in the Pantheon repo so cp -R doesn't conflict.
           find . -maxdepth 5 -type l | while read link; do
-            target=$(readlink -f "$link")
-            if [ -d "$target" ]; then
+            target=$(readlink "$link")
+            if [[ "$target" == /* ]]; then
               rm "$link"
-              cp -r "$target" "$link"
+              rm -rf "$PANTHEON_REPO_DIR/$link"
             fi
           done
 
