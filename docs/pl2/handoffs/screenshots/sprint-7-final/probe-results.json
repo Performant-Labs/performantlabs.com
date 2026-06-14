@@ -1,0 +1,602 @@
+{
+  "home@320": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+    "viewport": 320,
+    "vw": 320,
+    "docScroll": 305,
+    "docClient": 320,
+    "bodyScroll": 305,
+    "bodyClient": 305,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Ship Drupal releases with confidence.",
+      "left": 12,
+      "right": 293,
+      "width": 281,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      },
+      {
+        "text": "Book a testing review",
+        "left": 46,
+        "right": 259,
+        "inViewport": true
+      },
+      {
+        "text": "Or test with the tools",
+        "left": 49,
+        "right": 256,
+        "inViewport": true
+      }
+    ]
+  },
+  "services@320": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/services",
+    "viewport": 320,
+    "vw": 320,
+    "docScroll": 305,
+    "docClient": 320,
+    "bodyScroll": 305,
+    "bodyClient": 305,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Testing engagements for Drupal teams.",
+      "left": 12,
+      "right": 293,
+      "width": 281,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      },
+      {
+        "text": "Talk about capacity",
+        "left": 41,
+        "right": 264,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 25,
+        "right": 280,
+        "inViewport": true
+      }
+    ]
+  },
+  "how-we-do-it@320": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it",
+    "viewport": 320,
+    "vw": 320,
+    "docScroll": 305,
+    "docClient": 320,
+    "bodyScroll": 305,
+    "bodyClient": 305,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "How a testing engagement runs.",
+      "left": 12,
+      "right": 293,
+      "width": 281,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      },
+      {
+        "text": "See all engagement shapes",
+        "left": 21,
+        "right": 284,
+        "inViewport": true
+      }
+    ]
+  },
+  "open-source-projects@320": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects",
+    "viewport": 320,
+    "vw": 320,
+    "docScroll": 305,
+    "docClient": 320,
+    "bodyScroll": 305,
+    "bodyClient": 305,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "What we maintain in the open",
+      "left": 12,
+      "right": 293,
+      "width": 281,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Drop us a line",
+        "left": 12,
+        "right": 293,
+        "inViewport": true
+      }
+    ]
+  },
+  "home@375": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+    "viewport": 375,
+    "vw": 375,
+    "docScroll": 360,
+    "docClient": 375,
+    "bodyScroll": 360,
+    "bodyClient": 360,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Ship Drupal releases with confidence.",
+      "left": 14,
+      "right": 346,
+      "width": 331,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      },
+      {
+        "text": "Book a testing review",
+        "left": 74,
+        "right": 286,
+        "inViewport": true
+      },
+      {
+        "text": "Or test with the tools",
+        "left": 77,
+        "right": 283,
+        "inViewport": true
+      }
+    ]
+  },
+  "services@375": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/services",
+    "viewport": 375,
+    "vw": 375,
+    "docScroll": 360,
+    "docClient": 375,
+    "bodyScroll": 360,
+    "bodyClient": 360,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Testing engagements for Drupal teams.",
+      "left": 14,
+      "right": 346,
+      "width": 331,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      },
+      {
+        "text": "Talk about capacity",
+        "left": 68,
+        "right": 292,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 52,
+        "right": 308,
+        "inViewport": true
+      }
+    ]
+  },
+  "how-we-do-it@375": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it",
+    "viewport": 375,
+    "vw": 375,
+    "docScroll": 360,
+    "docClient": 375,
+    "bodyScroll": 360,
+    "bodyClient": 360,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "How a testing engagement runs.",
+      "left": 14,
+      "right": 346,
+      "width": 331,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      },
+      {
+        "text": "See all engagement shapes",
+        "left": 49,
+        "right": 311,
+        "inViewport": true
+      }
+    ]
+  },
+  "open-source-projects@375": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects",
+    "viewport": 375,
+    "vw": 375,
+    "docScroll": 360,
+    "docClient": 375,
+    "bodyScroll": 360,
+    "bodyClient": 360,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "What we maintain in the open",
+      "left": 14,
+      "right": 346,
+      "width": 331,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Drop us a line",
+        "left": 14,
+        "right": 346,
+        "inViewport": true
+      }
+    ]
+  },
+  "home@768": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+    "viewport": 768,
+    "vw": 768,
+    "docScroll": 753,
+    "docClient": 768,
+    "bodyScroll": 753,
+    "bodyClient": 753,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Ship Drupal releases with confidence.",
+      "left": 30,
+      "right": 723,
+      "width": 693,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 137,
+        "right": 350,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 382,
+        "right": 616,
+        "inViewport": true
+      },
+      {
+        "text": "Book a testing review",
+        "left": 157,
+        "right": 370,
+        "inViewport": true
+      },
+      {
+        "text": "Or test with the tools",
+        "left": 390,
+        "right": 596,
+        "inViewport": true
+      }
+    ]
+  },
+  "services@768": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/services",
+    "viewport": 768,
+    "vw": 768,
+    "docScroll": 753,
+    "docClient": 768,
+    "bodyScroll": 753,
+    "bodyClient": 753,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Testing engagements for Drupal teams.",
+      "left": 30,
+      "right": 723,
+      "width": 693,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 126,
+        "right": 360,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 372,
+        "right": 627,
+        "inViewport": true
+      },
+      {
+        "text": "Talk about capacity",
+        "left": 265,
+        "right": 488,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 249,
+        "right": 504,
+        "inViewport": true
+      }
+    ]
+  },
+  "how-we-do-it@768": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it",
+    "viewport": 768,
+    "vw": 768,
+    "docScroll": 753,
+    "docClient": 768,
+    "bodyScroll": 753,
+    "bodyClient": 753,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "How a testing engagement runs.",
+      "left": 30,
+      "right": 723,
+      "width": 693,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 260,
+        "right": 493,
+        "inViewport": true
+      },
+      {
+        "text": "See all engagement shapes",
+        "left": 245,
+        "right": 508,
+        "inViewport": true
+      }
+    ]
+  },
+  "open-source-projects@768": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects",
+    "viewport": 768,
+    "vw": 768,
+    "docScroll": 753,
+    "docClient": 768,
+    "bodyScroll": 753,
+    "bodyClient": 753,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "What we maintain in the open",
+      "left": 30,
+      "right": 723,
+      "width": 693,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Drop us a line",
+        "left": 280,
+        "right": 473,
+        "inViewport": true
+      }
+    ]
+  },
+  "home@1280": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+    "viewport": 1280,
+    "vw": 1280,
+    "docScroll": 1265,
+    "docClient": 1280,
+    "bodyScroll": 1265,
+    "bodyClient": 1265,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Ship Drupal releases with confidence.",
+      "left": 273,
+      "right": 993,
+      "width": 720,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 393,
+        "right": 606,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 638,
+        "right": 872,
+        "inViewport": true
+      },
+      {
+        "text": "Book a testing review",
+        "left": 413,
+        "right": 626,
+        "inViewport": true
+      },
+      {
+        "text": "Or test with the tools",
+        "left": 646,
+        "right": 852,
+        "inViewport": true
+      }
+    ]
+  },
+  "services@1280": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/services",
+    "viewport": 1280,
+    "vw": 1280,
+    "docScroll": 1265,
+    "docClient": 1280,
+    "bodyScroll": 1265,
+    "bodyClient": 1265,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "Testing engagements for Drupal teams.",
+      "left": 233,
+      "right": 1033,
+      "width": 800,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 981,
+        "right": 1214,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 505,
+        "right": 760,
+        "inViewport": true
+      },
+      {
+        "text": "Talk about capacity",
+        "left": 521,
+        "right": 744,
+        "inViewport": true
+      },
+      {
+        "text": "See how we test this site",
+        "left": 505,
+        "right": 760,
+        "inViewport": true
+      }
+    ]
+  },
+  "how-we-do-it@1280": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it",
+    "viewport": 1280,
+    "vw": 1280,
+    "docScroll": 1265,
+    "docClient": 1280,
+    "bodyScroll": 1265,
+    "bodyClient": 1265,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "How a testing engagement runs.",
+      "left": 222,
+      "right": 1042,
+      "width": 820,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Book a testing review",
+        "left": 516,
+        "right": 749,
+        "inViewport": true
+      },
+      {
+        "text": "See all engagement shapes",
+        "left": 501,
+        "right": 764,
+        "inViewport": true
+      }
+    ]
+  },
+  "open-source-projects@1280": {
+    "url": "https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects",
+    "viewport": 1280,
+    "vw": 1280,
+    "docScroll": 1265,
+    "docClient": 1280,
+    "bodyScroll": 1265,
+    "bodyClient": 1265,
+    "scrollXAfter": 0,
+    "offenderCount": 0,
+    "offenders": [],
+    "h1": {
+      "text": "What we maintain in the open",
+      "left": 153,
+      "right": 1112,
+      "width": 959,
+      "inViewport": true
+    },
+    "ctas": [
+      {
+        "text": "Drop us a line",
+        "left": 536,
+        "right": 729,
+        "inViewport": true
+      }
+    ]
+  }
+}

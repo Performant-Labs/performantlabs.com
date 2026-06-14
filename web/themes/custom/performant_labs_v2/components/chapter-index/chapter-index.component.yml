@@ -1,0 +1,70 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Chapter Index
+status: stable
+group: Performant Labs Books
+description: >
+  Renders book child pages as numbered cards in a responsive 2-column grid.
+  Consumed by node--book--landing.html.twig via preprocess. The chapters
+  array is assembled in performant_labs_20260502_preprocess_node__book__landing()
+  from book.manager data + field_chapter_summary.
+
+props:
+  type: object
+  required:
+    - chapters
+  properties:
+    chapters:
+      title: Chapters
+      description: >
+        Array of chapter objects, one per book child page, sorted by book weight.
+      type: array
+      items:
+        type: object
+        required:
+          - url
+          - title
+          - summary
+          - index
+        properties:
+          url:
+            title: Chapter URL
+            description: Path alias of the chapter page.
+            type: string
+            format: uri-reference
+            examples:
+              - /automated-testing-kit/introduction
+          title:
+            title: Chapter title
+            description: Display title of the chapter page.
+            type: string
+            examples:
+              - Introduction
+          summary:
+            title: Chapter summary
+            description: One-line summary from field_chapter_summary.
+            type: string
+            examples:
+              - What ATK is, what it covers, and where to go next
+          index:
+            title: Chapter index
+            description: Zero-padded position string (01, 02, etc.).
+            type: string
+            examples:
+              - '01'
+    book_title:
+      title: Book title
+      description: Title of the parent book (used in the heading area if needed).
+      type: string
+      examples:
+        - Automated Testing Kit
+    total:
+      title: Total chapters
+      description: Count of chapters, used in the subheading caption.
+      type: integer
+      examples:
+        - 19
+
+libraryOverrides:
+  css:
+    component:
+      css/chapter-index.css: {}

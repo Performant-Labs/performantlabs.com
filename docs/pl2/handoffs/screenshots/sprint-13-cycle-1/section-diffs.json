@@ -1,0 +1,194 @@
+{
+  "375": {
+    "sections": {
+      "hero": {
+        "liveTop": 271,
+        "liveH": 711,
+        "prevTop": 118,
+        "prevH": 700,
+        "cropH": 700,
+        "AE": 61769,
+        "totalPx": 262500,
+        "pct": "23.531%"
+      },
+      "track-record": {
+        "liveTop": 983,
+        "liveH": 1928,
+        "prevTop": 818,
+        "prevH": 1203,
+        "cropH": 1203,
+        "AE": 104366,
+        "totalPx": 451125,
+        "pct": "23.135%"
+      },
+      "opensource": {
+        "liveTop": 2910,
+        "liveH": 2905,
+        "prevTop": 2021,
+        "prevH": 2677,
+        "cropH": 2677,
+        "AE": 171755,
+        "totalPx": 1003875,
+        "pct": "17.109%"
+      },
+      "dogfood": {
+        "liveTop": 5816,
+        "liveH": 893,
+        "prevTop": 4698,
+        "prevH": 634,
+        "cropH": 634,
+        "AE": 58178,
+        "totalPx": 237750,
+        "pct": "24.470%"
+      },
+      "closing-cta": {
+        "liveTop": 6709,
+        "liveH": 533,
+        "prevTop": 5332,
+        "prevH": 526,
+        "cropH": 526,
+        "AE": 52869,
+        "totalPx": 197250,
+        "pct": "26.803%"
+      },
+      "footer": {
+        "liveTop": 7242,
+        "liveH": 709,
+        "prevTop": 5858,
+        "prevH": 865,
+        "cropH": 709,
+        "AE": 27743,
+        "totalPx": 265875,
+        "pct": "10.435%"
+      }
+    }
+  },
+  "768": {
+    "sections": {
+      "hero": {
+        "liveTop": 269,
+        "liveH": 766,
+        "prevTop": 118,
+        "prevH": 669,
+        "cropH": 669,
+        "AE": 114505,
+        "totalPx": 513792,
+        "pct": "22.286%"
+      },
+      "track-record": {
+        "liveTop": 1035,
+        "liveH": 957,
+        "prevTop": 787,
+        "prevH": 818,
+        "cropH": 818,
+        "AE": 119125,
+        "totalPx": 628224,
+        "pct": "18.962%"
+      },
+      "opensource": {
+        "liveTop": 1991,
+        "liveH": 2132,
+        "prevTop": 1604,
+        "prevH": 1794,
+        "cropH": 1794,
+        "AE": 171826,
+        "totalPx": 1377792,
+        "pct": "12.471%"
+      },
+      "dogfood": {
+        "liveTop": 4124,
+        "liveH": 559,
+        "prevTop": 3399,
+        "prevH": 565,
+        "cropH": 559,
+        "AE": 61556,
+        "totalPx": 429312,
+        "pct": "14.338%"
+      },
+      "closing-cta": {
+        "liveTop": 4683,
+        "liveH": 496,
+        "prevTop": 3963,
+        "prevH": 537,
+        "cropH": 496,
+        "AE": 58339,
+        "totalPx": 380928,
+        "pct": "15.315%"
+      },
+      "footer": {
+        "liveTop": 5178,
+        "liveH": 511,
+        "prevTop": 4500,
+        "prevH": 544,
+        "cropH": 511,
+        "AE": 35351,
+        "totalPx": 392448,
+        "pct": "9.008%"
+      }
+    }
+  },
+  "1280": {
+    "sections": {
+      "hero": {
+        "liveTop": 269,
+        "liveH": 631,
+        "prevTop": 118,
+        "prevH": 602,
+        "cropH": 602,
+        "AE": 107863,
+        "totalPx": 770560,
+        "pct": "13.998%"
+      },
+      "track-record": {
+        "liveTop": 900,
+        "liveH": 870,
+        "prevTop": 719,
+        "prevH": 818,
+        "cropH": 818,
+        "AE": 118826,
+        "totalPx": 1047040,
+        "pct": "11.349%"
+      },
+      "opensource": {
+        "liveTop": 1770,
+        "liveH": 1395,
+        "prevTop": 1537,
+        "prevH": 1375,
+        "cropH": 1375,
+        "AE": 185897,
+        "totalPx": 1760000,
+        "pct": "10.562%"
+      },
+      "dogfood": {
+        "liveTop": 3165,
+        "liveH": 473,
+        "prevTop": 2912,
+        "prevH": 565,
+        "cropH": 473,
+        "AE": 76774,
+        "totalPx": 605440,
+        "pct": "12.681%"
+      },
+      "closing-cta": {
+        "liveTop": 3638,
+        "liveH": 496,
+        "prevTop": 3476,
+        "prevH": 537,
+        "cropH": 496,
+        "AE": 57376,
+        "totalPx": 634880,
+        "pct": "9.037%"
+      },
+      "footer": {
+        "liveTop": 4134,
+        "liveH": 415,
+        "prevTop": 4013,
+        "prevH": 376,
+        "cropH": 376,
+        "AE": 36837,
+        "totalPx": 481280,
+        "pct": "7.654%"
+      }
+    }
+  }
+}

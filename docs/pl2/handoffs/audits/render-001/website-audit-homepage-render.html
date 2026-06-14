@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit render-001 — Homepage Render Phase — Performant Labs</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    padding-top: 72px;
+  }
+  a { color: #005aa0; }
+
+  /* Sticky header */
+  #sticky-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #1f1a14;
+    color: #fff;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    z-index: 999;
+    font-size: 13px;
+  }
+  #sticky-header .sh-title { font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sh-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  .sh-badge.critical { background: #c0392b; color: #fff; }
+  .sh-badge.warning  { background: #e67e22; color: #fff; }
+  .sh-badge.info     { background: #2980b9; color: #fff; }
+  .sh-badge.clean    { background: #27ae60; color: #fff; }
+
+  /* Layout */
+  .wrapper { max-width: 960px; margin: 0 auto; padding: 24px; }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #e8e8e8;
+    background: #fafafa;
+  }
+  .card-header h2 { font-size: 15px; font-weight: 600; flex: 1; }
+  .card-body { padding: 20px; }
+
+  /* Audit header */
+  .audit-meta { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .meta-item { background: #f0f0f0; border-radius: 4px; padding: 10px 14px; }
+  .meta-item dt { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #666; margin-bottom: 2px; }
+  .meta-item dd { font-weight: 600; font-size: 14px; }
+
+  /* Summary table */
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .summary-table th, .summary-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #eee; }
+  .summary-table th { background: #f5f5f5; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #555; }
+  .summary-table tr:last-child td { border-bottom: none; font-weight: 700; }
+  .summary-table .num { text-align: center; }
+  .num-critical { color: #c0392b; font-weight: 700; }
+  .num-warning  { color: #e67e22; font-weight: 700; }
+  .num-info     { color: #2980b9; font-weight: 700; }
+
+  /* Status banner */
+  .status-banner {
+    padding: 12px 18px;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-top: 16px;
+    font-size: 14px;
+  }
+  .status-banner.block { background: #fdecea; border-left: 4px solid #c0392b; color: #7b1d1d; }
+  .status-banner.warn  { background: #fff8e6; border-left: 4px solid #e67e22; color: #7a4b00; }
+  .status-banner.ok    { background: #e8f5e9; border-left: 4px solid #27ae60; color: #1b5e20; }
+
+  /* Finding */
+  .finding {
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .finding-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #fafafa;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .finding-header .badge {
+    flex-shrink: 0;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  .badge.critical { background: #fdecea; color: #c0392b; border: 1px solid #e57373; }
+  .badge.warning  { background: #fff8e6; color: #e67e22; border: 1px solid #fbc02d; }
+  .badge.info     { background: #e3f2fd; color: #1976d2; border: 1px solid #90caf9; }
+  .finding-header .finding-title { font-weight: 600; font-size: 14px; line-height: 1.4; }
+  .finding-location { font-size: 12px; color: #666; font-family: ui-monospace, monospace; margin-top: 2px; }
+  .finding-body { padding: 12px 14px; }
+  .finding-body p { margin-bottom: 8px; font-size: 14px; }
+  .finding-body p:last-child { margin-bottom: 0; }
+  .finding-body .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #888; font-weight: 600; margin-bottom: 4px; }
+  .finding-body .remediation { background: #f0f7ff; border-left: 3px solid #2980b9; padding: 8px 10px; border-radius: 0 4px 4px 0; font-size: 13px; }
+
+  /* Computed table */
+  .computed-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+  .computed-table th, .computed-table td { padding: 5px 8px; border: 1px solid #e8e8e8; }
+  .computed-table th { background: #f5f5f5; font-weight: 600; }
+  .computed-table .fail { color: #c0392b; font-weight: 700; }
+  .computed-table .pass { color: #27ae60; font-weight: 700; }
+
+  /* Color swatch */
+  .swatch {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.15);
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* Clean section */
+  .clean-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 5px;
+    color: #1b5e20;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* Section divider */
+  .dimension-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #888;
+    font-weight: 700;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* Out of scope */
+  .noticed-list { list-style: disc; padding-left: 20px; font-size: 14px; }
+  .noticed-list li { margin-bottom: 6px; }
+
+  details > summary { cursor: pointer; font-weight: 600; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<div id="sticky-header">
+  <span class="sh-title">render-001 — Homepage Render Audit — 2026-06-12</span>
+  <span class="sh-badge critical">4 Critical</span>
+  <span class="sh-badge warning">10 Warning</span>
+  <span class="sh-badge info">1 Info</span>
+</div>
+
+<div class="wrapper">
+
+  <!-- AUDIT HEADER -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Audit Header</h2>
+    </div>
+    <div class="card-body">
+      <dl class="audit-meta">
+        <div class="meta-item"><dt>Audit ID</dt><dd>render-001</dd></div>
+        <div class="meta-item"><dt>Date</dt><dd>2026-06-12</dd></div>
+        <div class="meta-item"><dt>Phase</dt><dd>Render</dd></div>
+        <div class="meta-item"><dt>Scope type</dt><dd>Page</dd></div>
+        <div class="meta-item"><dt>Target</dt><dd>Homepage</dd></div>
+        <div class="meta-item"><dt>Theme</dt><dd>neonbyte</dd></div>
+        <div class="meta-item"><dt>Theme chain</dt><dd>dripyard_base → neonbyte</dd></div>
+        <div class="meta-item"><dt>Prior static run</dt><dd>audit-static-001 (clean)</dd></div>
+        <div class="meta-item"><dt>Render data captured</dt><dd>375 / 768 / 1280 px</dd></div>
+      </dl>
+      <div class="status-banner block" style="margin-top:16px;">
+        Render phase complete — <strong>4 critical issues</strong> found. Fix and re-audit before sprint sign-off.
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Summary</h2>
+    </div>
+    <div class="card-body">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th class="num">Critical</th>
+            <th class="num">Warning</th>
+            <th class="num">Info</th>
+            <th class="num">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>render-cascade (variable resolution)</td>
+            <td class="num num-critical">0</td>
+            <td class="num num-warning">2</td>
+            <td class="num num-info">0</td>
+            <td class="num">2</td>
+          </tr>
+          <tr>
+            <td>wcag-contrast</td>
+            <td class="num num-critical">2</td>
+            <td class="num num-warning">1</td>
+            <td class="num num-info">0</td>
+            <td class="num">3</td>
+          </tr>
+          <tr>
+            <td>render-cascade responsive</td>
+            <td class="num num-critical">2</td>
+            <td class="num num-warning">7</td>
+            <td class="num num-info">1</td>
+            <td class="num">10</td>
+          </tr>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td class="num num-critical"><strong>4</strong></td>
+            <td class="num num-warning"><strong>10</strong></td>
+            <td class="num num-info"><strong>1</strong></td>
+            <td class="num"><strong>15</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DIMENSION 1: RENDER-CASCADE (VARIABLE RESOLUTION) -->
+  <div class="card">
+    <div class="card-header">
+      <span class="sh-badge warning">2 Warning</span>
+      <h2>render-cascade — Variable Resolution</h2>
+    </div>
+    <div class="card-body">
+      <p class="dimension-label">Checks: empty-string variables, wrong values, fallback-instead-of-primary</p>
+
+      <!-- Finding RC-1 -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">--theme-text resolves to empty string across entire page</div>
+            <div class="finding-location">--theme-text on canvas-page, theme--white, hero, card, heal-flow, title-cta (all viewports — all components)</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The custom property <code>--theme-text</code> is captured as an empty string (<code>""</code>) on every
+            sampled component at every viewport. This means no definition for this token reaches the computed style for
+            any element on the page. If any component CSS references <code>var(--theme-text)</code> for text colour, it
+            will silently resolve to its fallback or to <code>initial</code> with no browser error.
+          </p>
+          <p>
+            The <code>theme-primary.css</code> and <code>theme-secondary.css</code> files do not define
+            <code>--theme-text</code>; the theme-zone variable files define <code>--theme-text-color-soft</code>,
+            <code>--theme-text-color-medium</code>, and <code>--theme-text-color-loud</code> but not a bare
+            <code>--theme-text</code> alias. Any future component that consumes <code>--theme-text</code> will receive
+            nothing.
+          </p>
+          <div class="label">Computed value (all components, all viewports)</div>
+          <table class="computed-table">
+            <tr><th>Variable</th><th>Expected</th><th>Computed</th><th>Status</th></tr>
+            <tr>
+              <td><code>--theme-text</code></td>
+              <td>a defined colour token</td>
+              <td class="fail">""&nbsp;(empty string)</td>
+              <td class="fail">UNRESOLVED</td>
+            </tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Define <code>--theme-text</code> in each theme-zone file (e.g. <code>theme-primary.css</code>) as an alias
+            for the appropriate <code>--theme-text-color-*</code> token, or audit all component CSS files and replace
+            any <code>var(--theme-text)</code> reference with the correct named token.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RC-2 -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">--color-brand-primary resolves to empty string across entire page</div>
+            <div class="finding-location">--color-brand-primary on all sampled components, all viewports</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            <code>--color-brand-primary</code> resolves to an empty string everywhere. This token is not listed in the
+            known-context exclusions (only <code>--theme-setting-*</code> and <code>--offset-from-header</code> are
+            Drupal-injected). The neonbyte and dripyard_base variable files do not define this property; it is neither
+            derived from <code>--primary</code> nor aliased in any theme-zone file.
+          </p>
+          <p>
+            Any component consuming <code>var(--color-brand-primary)</code> for fill, border, or text will produce an
+            invisible or initial-value result with no browser error. The broken-reference is latent — it will surface the
+            moment a new component or style attempts to use it.
+          </p>
+          <div class="label">Computed value</div>
+          <table class="computed-table">
+            <tr><th>Variable</th><th>Expected</th><th>Computed</th><th>Status</th></tr>
+            <tr>
+              <td><code>--color-brand-primary</code></td>
+              <td>a defined colour token</td>
+              <td class="fail">""&nbsp;(empty string)</td>
+              <td class="fail">UNRESOLVED</td>
+            </tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Define <code>--color-brand-primary</code> in <code>themes/neonbyte/css/_variables/variables-colors-semantic.css</code>
+            as an alias for <code>var(--primary)</code>, or remove all references to this undefined token and replace
+            them with the canonical <code>--primary</code> or appropriate theme-zone alias.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DIMENSION 2: WCAG CONTRAST -->
+  <div class="card">
+    <div class="card-header">
+      <span class="sh-badge critical">2 Critical</span>
+      <span class="sh-badge warning">1 Warning</span>
+      <h2>wcag-contrast — Computed Colour Ratios</h2>
+    </div>
+    <div class="card-body">
+      <p class="dimension-label">
+        Ratios computed via WCAG relative luminance from captured rgb() values. Requirements: body text ≥ 4.5:1,
+        large text (≥ 18pt / ≥ 14pt bold) ≥ 3.0:1, links ≥ 4.5:1.
+      </p>
+
+      <!-- Finding WC-1 -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge critical">Critical</span>
+          <div>
+            <div class="finding-title">Hero / title-cta CTA button: white text on teal background fails 4.5:1</div>
+            <div class="finding-location">
+              .button — color: rgb(255,255,255) on background: rgb(98,187,203) — all viewports
+            </div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The primary CTA buttons ("Book a testing review", "See how we test this site", "Or test with the tools")
+            render white text over a teal surface. The computed contrast ratio is <strong>2.19:1</strong>, far below
+            the WCAG AA threshold of 4.5:1 for normal-weight body text at 15px.
+          </p>
+          <p>
+            This finding cross-references the axe-core flag noted in Known Context (hero primary button contrast).
+            Numeric analysis confirms the failure independently.
+          </p>
+          <div class="label">Luminance calculation</div>
+          <table class="computed-table">
+            <tr><th>Element</th><th>Foreground</th><th>Background</th><th>L (fg)</th><th>L (bg)</th><th>Ratio</th><th>Required</th><th>Result</th></tr>
+            <tr>
+              <td><code>.button</code></td>
+              <td><span class="swatch" style="background:#ffffff;"></span>rgb(255,255,255)</td>
+              <td><span class="swatch" style="background:rgb(98,187,203);"></span>rgb(98,187,203)</td>
+              <td>1.000</td>
+              <td>0.430</td>
+              <td class="fail">2.19:1</td>
+              <td>4.5:1</td>
+              <td class="fail">FAIL</td>
+            </tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Darken the button surface token so white text achieves ≥ 4.5:1 (the teal would need to reach approximately
+            <code>oklch(0.48 0.08 200)</code> or darker), or switch button text to a dark colour token that passes
+            against the current teal. Update via the <code>--theme-button-background-color</code> token in the
+            appropriate theme-zone CSS, not as a hardcoded hex.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding WC-2 -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge critical">Critical</span>
+          <div>
+            <div class="finding-title">Card links and icon-list links: teal text on white fails link contrast</div>
+            <div class="finding-location">
+              .card__link, [icon-list inline link] — color: rgb(24,147,180) on background: rgb(255,255,255) — all viewports
+            </div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            All card "read more" links (<code>.card__link</code>) and the inline link within the icon-list section
+            (the unnamed class <code>[object</code> key) render in teal <code>rgb(24,147,180)</code> against the white
+            card or page surface. The computed contrast ratio is <strong>3.55:1</strong>, below the WCAG AA 4.5:1
+            threshold required for link text at normal size.
+          </p>
+          <p>
+            The same teal is also used for <code>.header-logo__link</code> against the near-white header container
+            (<code>oklch(0.999994 …)</code> ≈ white), producing the same 3.55:1 ratio. The logo link wraps an image
+            so rendered text is absent there, but the computed colour is still out of range for any text fallback.
+          </p>
+          <div class="label">Luminance calculation</div>
+          <table class="computed-table">
+            <tr><th>Element</th><th>Foreground</th><th>Background</th><th>L (fg)</th><th>L (bg)</th><th>Ratio</th><th>Required</th><th>Result</th></tr>
+            <tr>
+              <td><code>.card__link</code></td>
+              <td><span class="swatch" style="background:rgb(24,147,180);"></span>rgb(24,147,180)</td>
+              <td><span class="swatch" style="background:#ffffff;"></span>rgb(255,255,255)</td>
+              <td>0.246</td>
+              <td>1.000</td>
+              <td class="fail">3.55:1</td>
+              <td>4.5:1</td>
+              <td class="fail">FAIL</td>
+            </tr>
+            <tr>
+              <td>icon-list inline link</td>
+              <td><span class="swatch" style="background:rgb(24,147,180);"></span>rgb(24,147,180)</td>
+              <td><span class="swatch" style="background:#ffffff;"></span>rgb(255,255,255)</td>
+              <td>0.246</td>
+              <td>1.000</td>
+              <td class="fail">3.55:1</td>
+              <td>4.5:1</td>
+              <td class="fail">FAIL</td>
+            </tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Darken the link colour token to at least <code>oklch(0.46 0.10 213)</code> (approximately
+            <code>rgb(0,110,140)</code>) so it achieves 4.5:1 against white. Apply the change via the
+            <code>--theme-link-color</code> token in the white and default theme-zone files, not with a
+            hardcoded value in component CSS.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding WC-3 -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">Footer column heading wrapper text is muted — verify it carries no meaningful label text</div>
+            <div class="finding-location">
+              .footer-column__heading (wrapper) — color: rgb(92,84,76) on white — 12px font
+            </div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            <code>.footer-column__heading</code> renders at 12px in <code>rgb(92,84,76)</code> against white,
+            giving a contrast of <strong>7.38:1</strong> which passes 4.5:1. However the font size is 12px
+            (9pt), which is smaller than body text and the heading element itself appears to be a visual grouping
+            label. The child <code>.footer-column__heading-link</code> element (also 12px, <code>rgb(42,37,32)</code>)
+            passes at 15.9:1.
+          </p>
+          <p>
+            This is a warning rather than a critical because the wrapper node's colour passes numerically. The concern
+            is that the 12px size places it just below the "large text" threshold where a 3.0:1 ratio would suffice —
+            at this size the 4.5:1 threshold is the governing requirement, and it passes. Flag for visual QA to
+            confirm the text carried in this element is decorative rather than informational.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            No immediate fix required. Confirm in visual QA (S) that <code>.footer-column__heading</code> nodes
+            contain only non-informational decoration; if they carry visible label text, increase the type size to
+            ≥ 14px to improve legibility at the current contrast level.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DIMENSION 3: RENDER-CASCADE RESPONSIVE -->
+  <div class="card">
+    <div class="card-header">
+      <span class="sh-badge critical">2 Critical</span>
+      <span class="sh-badge warning">7 Warning</span>
+      <span class="sh-badge info">1 Info</span>
+      <h2>render-cascade — Responsive Checks</h2>
+    </div>
+    <div class="card-body">
+      <p class="dimension-label">
+        Checks: navbar 992px breakpoint state, touch targets ≥ 44×44 at 375px, horizontal overflow.
+      </p>
+
+      <!-- Navbar: PASS -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge" style="background:#e8f5e9;color:#27ae60;border:1px solid #a5d6a7;">Pass</span>
+          <div>
+            <div class="finding-title">Navbar breakpoint behaviour is correct at all three viewports</div>
+            <div class="finding-location">nav.hamburgerVisible — 375px, 768px, 1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <table class="computed-table">
+            <tr><th>Viewport</th><th>hamburgerVisible</th><th>Expected</th><th>Result</th></tr>
+            <tr><td>375px</td><td>true</td><td>true (&lt;992)</td><td class="pass">PASS</td></tr>
+            <tr><td>768px</td><td>true</td><td>true (&lt;992)</td><td class="pass">PASS</td></tr>
+            <tr><td>1280px</td><td>false</td><td>false (≥992)</td><td class="pass">PASS</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Overflow: PASS -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge" style="background:#e8f5e9;color:#27ae60;border:1px solid #a5d6a7;">Pass</span>
+          <div>
+            <div class="finding-title">No horizontal overflow at any viewport</div>
+            <div class="finding-location">overflow.overflows — 375px, 768px, 1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <table class="computed-table">
+            <tr><th>Viewport</th><th>scrollWidth</th><th>innerWidth</th><th>Overflows</th><th>Result</th></tr>
+            <tr><td>375px</td><td>360</td><td>375</td><td>false</td><td class="pass">PASS</td></tr>
+            <tr><td>768px</td><td>753</td><td>768</td><td>false</td><td class="pass">PASS</td></tr>
+            <tr><td>1280px</td><td>1265</td><td>1280</td><td>false</td><td class="pass">PASS</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Finding RESP-1 — Critical: hamburger present at 768px -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge critical">Critical</span>
+          <div>
+            <div class="finding-title">Hamburger menu still visible at 768px — breakpoint does not fire until 1280px</div>
+            <div class="finding-location">nav.hamburgerVisible: true at 768px — expected: false at ≥ 992px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The <code>navbar-expand-lg</code> pattern is documented to switch from hamburger to full inline navigation
+            at 992px. At the 768px capture, <code>hamburgerVisible</code> is <code>true</code> — the hamburger
+            remains visible. At 1280px it is <code>false</code>. This means the navigation is in hamburger mode all
+            the way from the smallest mobile viewport through 768px (tablet landscape territory), and only collapses
+            to inline at ≥ 1280px.
+          </p>
+          <p>
+            This is a critical responsive regression: tablet users at 768–991px see the hamburger icon and must tap to
+            open a full-screen drawer rather than seeing the six inline nav labels. The design brief specifies the
+            breakpoint at 992px; the rendered output does not match.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Verify the <code>navbar-expand-lg</code> Bootstrap/Drupal breakpoint value in the theme's SCSS or CSS. The
+            <code>@media (min-width: 992px)</code> rule that hides the hamburger and shows the nav list must be in
+            effect; check for a conflicting override that raises the breakpoint beyond 992px and remove it.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-2 — Critical: skip-link touch target -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge critical">Critical</span>
+          <div>
+            <div class="finding-title">Skip-link is 42×18 px — too small and unreachable by touch when offscreen</div>
+            <div class="finding-location">.skip-link — a[cls="skip-link"] — w:42 h:18 at 375px and 1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The skip-to-main-content link has a rendered bounding box of <strong>42×18 CSS px</strong>. The 18px
+            height is critically below the 44×44 CSS px minimum. This is not a body inline link — it is an explicit
+            keyboard / assistive-technology navigation control that must be reachable by touch users (typically via
+            VoiceOver swipe gesture or external keyboard). Its rendered tap target falls below WCAG 2.5.5 (AAA) and
+            the practical 44px recommended minimum.
+          </p>
+          <p>
+            The width of 42px also narrowly misses the 44px minimum. Both dimensions need correction.
+          </p>
+          <div class="label">Dimensions (all viewports)</div>
+          <table class="computed-table">
+            <tr><th>Viewport</th><th>w</th><th>h</th><th>Min required</th><th>Result</th></tr>
+            <tr><td>375px</td><td>42</td><td class="fail">18</td><td>44×44</td><td class="fail">FAIL</td></tr>
+            <tr><td>1280px</td><td>42</td><td class="fail">18</td><td>44×44</td><td class="fail">FAIL</td></tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Add <code>min-height: 44px; min-width: 44px; padding: 10px 12px;</code> to the <code>.skip-link</code>
+            component CSS at Layer 5; the link is visually hidden until focused so the larger hit area has no layout
+            impact when not focused.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-3 — Warning: header-logo__link height -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">Logo link touch target height is 28px (below 44px) at mobile</div>
+            <div class="finding-location">.header-logo__link — w:172 h:28 at 375px and 768px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The site logo link has a rendered height of <strong>28px</strong> at 375px and 768px. Width is 172px so
+            horizontally it is adequate, but the 28px height means a fat-fingered tap on the logo in the header may
+            miss. This is a primary navigation control (returns user to homepage).
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Add a minimum block padding or explicit <code>min-height: 44px</code> to <code>.header-logo__link</code>
+            in the header component's Layer 5 CSS so the tap target meets the 44px threshold without changing the
+            visual logo size.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-4 — Warning: "See the workflow" link -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">"See the workflow →" inline link is 168×23 px — below 44px height</div>
+            <div class="finding-location">a[cls=""] text="See the workflow →" — w:168 h:23 at 375px, 768px, 1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            This is an inline text link within body content flow. Its 23px height falls short of 44px. Per the triage
+            guideline, inline body-text links are not the same severity as primary action controls; however this link
+            appears to be a standalone CTA (not embedded mid-sentence) given its arrow notation and 168px width, which
+            makes it functionally equivalent to a secondary button. Severity: Warning.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Wrap the link in a block-level container with <code>min-height: 44px; display: flex; align-items: center;</code>
+            or convert it to a secondary button style that already meets the height requirement.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-5 — Warning: footer-column__heading-link -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">Footer column heading links are 14px tall at 375px and 1280px</div>
+            <div class="finding-location">.footer-column__heading-link — h:14 at 375px and 1280px; h:14 at 768px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The footer category heading links ("Services", "Resources") measure only 14px in height at 375px and
+            1280px. These are navigation links to top-level site sections — a misfire on mobile dismisses them.
+            At 768px they remain at 14px.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Add <code>min-height: 44px</code> and vertical padding to <code>.footer-column__heading-link</code> so
+            the tap area meets the minimum without changing the visual type size.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-6 — Warning: footer-column__link at 375px and 1280px -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">Footer body links are 20px tall at 375px and 1280px (pass only at 768px)</div>
+            <div class="finding-location">.footer-column__link — h:20 at 375px; h:20–44 at 768px; h:20 at 1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            Footer navigation links ("Testing-suite takeover", "Articles", "About us", etc.) measure
+            <strong>20px</strong> in height at 375px and 1280px. At 768px some links measure 44px — the layout
+            changes appear to be giving them extra height mid-range only. The inconsistency suggests a layout-dependent
+            height rather than a deliberate min-height set on the link element.
+          </p>
+          <div class="label">Dimensions by viewport</div>
+          <table class="computed-table">
+            <tr><th>Viewport</th><th>h (example links)</th><th>Min required</th><th>Result</th></tr>
+            <tr><td>375px</td><td class="fail">20px</td><td>44px</td><td class="fail">FAIL</td></tr>
+            <tr><td>768px</td><td class="pass">44px (column layout)</td><td>44px</td><td class="pass">PASS</td></tr>
+            <tr><td>1280px</td><td class="fail">20px</td><td>44px</td><td class="fail">FAIL</td></tr>
+          </table>
+          <div class="label" style="margin-top:10px;">Remediation</div>
+          <div class="remediation">
+            Set <code>min-height: 44px; display: flex; align-items: center;</code> on
+            <code>.footer-column__link</code> unconditionally so the tap target meets the minimum at all viewports
+            regardless of the surrounding layout mode.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-7 — Warning: footer-signature__cta at 375px -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">"Get in touch →" signature CTA link is 24px tall at 375px</div>
+            <div class="finding-location">.footer-signature__cta — w:125 h:24 at 375px; w:147 h:28 at 768/1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The footer "Get in touch →" call-to-action link renders at 24px height at mobile (375px) and 28px at
+            larger viewports — both below the 44px minimum. This is a primary conversion link (equivalent to a CTA
+            button) rather than a body-text inline link, making the below-minimum height a meaningful usability risk
+            on touch devices.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Apply <code>min-height: 44px; display: inline-flex; align-items: center;</code> to
+            <code>.footer-signature__cta</code> in the footer component's Layer 5 CSS.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-8 — Warning: unnamed "Privacy Policy" link -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge warning">Warning</span>
+          <div>
+            <div class="finding-title">"Privacy Policy" bottom-bar link is 24–28px tall (below 44px)</div>
+            <div class="finding-location">a[cls=""] text="Privacy Policy" — h:24 at 375px; h:28 at 768px/1280px</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The bare <code>&lt;a&gt;</code> element in the footer bottom bar ("Privacy Policy", no CSS class) renders
+            at 24px height at 375px and 28px at wider viewports. Both fall below 44px. The lack of a BEM class also
+            means this link has no targeted Layer 5 styles and is the most difficult to increase in height without
+            side-effects.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Add a BEM class (e.g. <code>site-footer__policy-link</code>) to the Twig template, then add
+            <code>min-height: 44px; display: inline-flex; align-items: center;</code> to that class in the footer
+            component's Layer 5 CSS.
+          </div>
+        </div>
+      </div>
+
+      <!-- Finding RESP-9 — Info: heal-flow keyboard scrollable region -->
+      <div class="finding">
+        <div class="finding-header">
+          <span class="badge info">Info</span>
+          <div>
+            <div class="finding-title">.heal-flow scrollable region — cross-reference axe-core flag</div>
+            <div class="finding-location">.heal-flow — background: rgb(255,255,255); --theme-surface: #F5EFE2</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <p>
+            The known-context notes that axe-core flagged <code>.heal-flow</code> for lacking keyboard access on its
+            scrollable region. The computed style confirms that <code>--theme-surface</code> resolves to
+            <code>#F5EFE2</code> (warm cream) within this component's scope, while the rendered
+            <code>background</code> is <code>rgb(255,255,255)</code> (white). This surface mismatch suggests the
+            container's background is overriding the theme token, which may be related to the scrollable-region
+            structure. The axe-core finding should be addressed alongside any background correction.
+          </p>
+          <div class="label">Remediation</div>
+          <div class="remediation">
+            Investigate the <code>.heal-flow</code> component CSS: ensure the scrollable inner container uses
+            <code>background: var(--theme-surface)</code> rather than an opaque <code>#fff</code> override, and add
+            <code>tabindex="0"</code> with a visible focus style to the scrollable element as the axe-core fix.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OUT OF SCOPE BUT NOTICED -->
+  <div class="card">
+    <div class="card-header">
+      <h2>Out of Scope but Noticed</h2>
+    </div>
+    <div class="card-body">
+      <ul class="noticed-list">
+        <li>
+          <strong>Render key <code>[object</code> in JSON:</strong> the Playwright capture script serialises a DOM
+          object as a key name rather than the element's class string for one icon-list link entry. This means that
+          element's class is not captured cleanly. A future audit run should verify the selector extraction logic in
+          <code>scripts/render-inspect.cjs</code> to ensure <code>element.className</code> is coerced to a string
+          before use as a JSON key.
+        </li>
+        <li>
+          <strong>heal-flow theme-surface vs rendered background mismatch:</strong> <code>--theme-surface</code>
+          resolves to <code>#F5EFE2</code> (cream) within <code>.heal-flow</code>'s scope but the computed
+          <code>background</code> of the element is white. A targeted static audit of the heal-flow component CSS
+          would confirm whether an explicit <code>background: #fff</code> or <code>background: var(--white)</code>
+          is overriding the token.
+        </li>
+        <li>
+          <strong>footer-column__link height inconsistency across viewports:</strong> the 44px height at 768px
+          appears to be an accidental consequence of the column layout rather than an intentional design decision.
+          A future audit should verify whether this is grid-driven and whether it collapses at other intermediate
+          widths (e.g. 900px).
+        </li>
+        <li>
+          <strong>Unnamed bare <code>&lt;a&gt;</code> elements in footer:</strong> two interactive elements in the
+          footer carry no BEM class (<code>cls: ""</code>). These are invisible to the Layer 5 CSS system; any
+          future styling or touch-target fix requires a Twig template edit to add classes. A component-schema audit
+          of the footer Twig would identify whether these are template gaps or Canvas-rendered links without slot
+          class propagation.
+        </li>
+        <li>
+          <strong><code>--space-for-fixed-header: 160px</code> resolved everywhere:</strong> this value matches
+          what the JS-injected <code>--offset-from-header</code> pattern suggests, but it is a static fallback
+          value (not JS-measured). If the header height changes (e.g. on scroll or orientation change), components
+          relying on this token will not track the real header height. A future sprint should audit whether a
+          JS-updated property should replace the static fallback.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+</body>
+</html>

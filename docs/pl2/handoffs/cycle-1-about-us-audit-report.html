@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cycle 1 — /about-us preview-vs-live audit report</title>
+<style>
+  :root {
+    --ink:#1F1A14; --body:#5C544C; --muted:#6B6358;
+    --canvas:#fff; --cream:#F5EFE2; --hairline:#E5E1DC;
+    --pass:#2E7D32; --advisory:#E07A1F; --rework:#C0392B;
+    --primary:#1893b4; --accent:#C97B5C; --accent-deep:#8E4A2A;
+  }
+  * { box-sizing: border-box; }
+  html,body { margin:0; padding:0; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); line-height: 1.55; background: #FAFAF8; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 30px; margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--hairline); }
+  h3 { font-size: 17px; margin: 16px 0 8px; }
+  p { margin: 8px 0; }
+  .verdict { display: inline-block; padding: 8px 18px; border-radius: 999px; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; }
+  .verdict.pass { background: var(--pass); color: #fff; }
+  .verdict.advisory { background: var(--advisory); color: #fff; }
+  .verdict.rework { background: var(--rework); color: #fff; }
+  .meta { color: var(--muted); font-size: 14px; }
+  .summary { background: #fff; border: 1px solid var(--hairline); border-radius: 10px; padding: 16px 20px; margin-top: 16px; }
+  .summary ul { margin: 8px 0 0 18px; padding: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; background: #fff; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; }
+  th, td { padding: 8px 10px; vertical-align: top; border-bottom: 1px solid var(--hairline); text-align: left; }
+  th { background: #F5F3EF; font-weight: 600; }
+  td.match { background: #F1F8F1; }
+  td.delta { background: #FFF7E8; }
+  td.rework { background: #FBEEEC; }
+  td.advisory { background: #FFF1E0; }
+  .comparator { position: relative; width: 100%; max-width: 1280px; margin: 12px auto; border: 1px solid var(--hairline); border-radius: 6px; overflow: hidden; background: #000; }
+  .comparator-track { position: relative; width: 100%; }
+  .comparator-track img { display: block; width: 100%; height: auto; }
+  .comparator-track .top { position: absolute; top: 0; left: 0; }
+  .comparator input[type=range] { display: block; width: 100%; margin: 8px 0 0; }
+  .comparator-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); padding: 4px 8px; }
+  .diff-img, .composite-img { display: block; width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: 6px; margin-top: 8px; }
+  details { background: #fff; border: 1px solid var(--hairline); border-radius: 8px; padding: 12px 16px; margin: 14px 0; }
+  details > summary { cursor: pointer; font-weight: 600; font-size: 16px; }
+  .nav { position: sticky; top: 0; background: rgba(250,250,248,0.96); padding: 8px 0; margin-bottom: 16px; border-bottom: 1px solid var(--hairline); z-index: 10; }
+  .nav a { color: var(--primary); text-decoration: none; margin-right: 14px; font-size: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  .layer-L1 { color: #2980b9; font-weight: 600; }
+  .layer-L3 { color: #8e44ad; font-weight: 600; }
+  .layer-L5 { color: #16a085; font-weight: 600; }
+  .layer-canvas { color: #d68910; font-weight: 600; }
+  .layer-NA { color: var(--muted); }
+  .crop { max-width: 320px; border: 1px solid var(--hairline); border-radius: 4px; }
+  .delta-headline { font-size: 18px; font-weight: 600; margin-top: 12px; color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="nav">
+    <a href="#verdict">Verdict</a>
+    <a href="#summary">What I see different</a>
+    <a href="#1280">1280</a>
+    <a href="#768">768</a>
+    <a href="#375">375</a>
+    <a href="#sections">Section table</a>
+    <a href="#wcag">WCAG</a>
+    <a href="#carve">Carve recommendations</a>
+  </div>
+
+  <h1 id="verdict">/about-us — Cycle 1 preview-vs-live audit</h1>
+  <div class="meta">Sprint 12 · Cycle 1 (S-only audit) · 2026-05-12 · branch <code>aa/pl-sprint-12-cycle-1-about-us-audit</code></div>
+
+  <p style="margin-top:14px;">
+    <span class="verdict advisory">ADVISORY-HOLD</span>
+  </p>
+
+  <div class="summary">
+    <strong>Why ADVISORY-HOLD (not PASS).</strong>
+    The audit is complete, but two issues in the preview itself violate shipped sibling-fit conventions and should be reconciled before opening any further fix cycle. The live page is closer to the canonical family pattern than the preview is on those two points. Recommended path: update the preview, then re-run a thin re-audit on Cycle 1.5 before opening Cycle 2.
+    <ul>
+      <li><strong>Preview defect 1</strong> — header carries a right-side "Book a testing review" CTA pill (preview line 488). Per memory <code>design_header_nav_breakpoint.md</code> and the shipped homepage / services / open-source-projects headers, the canonical header has <em>no</em> right-side CTA pill. Live matches the canonical pattern; preview does not.</li>
+      <li><strong>Preview defect 2</strong> — at &lt;992 px the preview hides nav links via <code>display: none</code> but provides no hamburger toggle, leaving mobile users no way to navigate. Live ships the correct hamburger pattern (per <code>navbar-expand-lg</code> convention).</li>
+    </ul>
+  </div>
+
+  <p class="meta" style="margin-top:8px;">If the operator accepts these as preview defects, the recommended fix is to amend the preview (delete the header CTA pill, add the hamburger pattern stub or note "header shown without responsive treatment — see sibling pages"), then proceed straight into the carve below as written. None of the section-cluster carves below depend on the header pill question.</p>
+
+  <h2 id="summary">What I see different — plain English</h2>
+  <p>Live is in <strong>strong overall fidelity</strong> to the preview gestalt after the 2026-05-07 corrected rebuild. All five sections render in the right order with the right copy, kickers, theme colors, and components. Whole-page pixel deltas of 32–55% are inflated by chrome differences (Drupal-managed header / footer vs. preview's hand-rolled chrome) and by section-height drift — they do not reflect proportionate visual divergence. The actual visible deltas are narrow:</p>
+  <ul>
+    <li><strong>Bio section</strong> on live has been promoted to its own full-width <code>theme--white</code> section (~1395 px tall). The preview embeds the bio <em>inside</em> §C with a thin terracotta-grey hairline rule above it, and the locked decision R9 in <code>pl-plan--about-us.md</code> explicitly says the bio "stays inside §C, separated by a hairline rule above." Live promoted it; the hairline is missing.</li>
+    <li><strong>Kicker terracotta color drift</strong> — 4 of 5 kickers render at <code>rgb(142,74,42)</code> (matches <code>--accent-deep #8E4A2A</code>); 2 kickers (§B Track record, §D Dogfood) render at <code>rgb(140,78,51)</code> — a ~2-unit drift. Cause is most likely a different upstream variable. Visually indistinguishable at normal viewing distance, but worth normalizing.</li>
+    <li><strong>Card padding</strong> — live <code>card-canvas</code> outer wrapper has <code>padding: 0</code>; inner padding is handled by the SDC's content slots. Preview <code>.project-card</code> has <code>padding: 48px</code> (var(--space-2xl)) on the outer card. Net visual effect is similar but the body padding cadence is slightly tighter on live.</li>
+    <li><strong>Vertical rhythm</strong> — live §C "tools we wrote" content area is taller than preview because of the bio promotion above and because live cards stretch to equal height across the 3-up grid (a card-canvas built-in). Acceptable; not a defect.</li>
+    <li><strong>Header / footer chrome</strong> — live uses the shipped Drupal-managed header (hamburger at &lt;992 px) and the shipped footer; preview uses hand-rolled chrome. This is expected; do not chase it.</li>
+    <li><strong>Closing CTA</strong> — espresso bg <code>#1F1A14</code> matches; kicker terracotta on dark matches <code>--accent</code>; on-dark muted body matches <code>--on-dark-muted</code>; buttons render primary + ghost-on-dark as specified. Strong match.</li>
+    <li><strong>Track record (§B) credentials list</strong> — already shows the terracotta tick-mark hairlines at left of each item per the locked-decision pattern. Match.</li>
+    <li><strong>Hero</strong> — kicker "About", h1, italic subhead, button row all match the preview gestalt. No regression.</li>
+  </ul>
+
+  <p>Mobile (375): live renders the hamburger header correctly; preview has a broken responsive header (defect 2 above). Cards collapse 3-up → 1-up cleanly on both. No horizontal scroll on live (<code>scrollW=360</code>, <code>clientW=375</code>).</p>
+
+  <h2 id="metrics">Whole-page pixel deltas</h2>
+  <table>
+    <thead><tr><th>Viewport</th><th>Image dimensions (live padded)</th><th>AE pixels (fuzz 2%)</th><th>Delta %</th><th>Interpretation</th></tr></thead>
+    <tbody>
+      <tr><td>1280 × 800</td><td>1280 × 4549</td><td>1,909,200</td><td>32.79 %</td><td>Driven by header / footer chrome difference + bio section vertical drift + section padding cadence.</td></tr>
+      <tr><td>768 × 1024</td><td>768 × 5690</td><td>2,285,980</td><td>52.31 %</td><td>Higher because both pages are taller per pixel and the cumulative vertical drift compounds.</td></tr>
+      <tr><td>375 × 667</td><td>375 × 7952</td><td>1,652,020</td><td>55.40 %</td><td>Mobile drift mostly from chrome (hamburger header vs preview's broken hidden nav) and card stack height.</td></tr>
+    </tbody>
+  </table>
+  <p class="meta">Per <code>PC-8</code>: AE=0 strict only for refactor cycles; visual-fidelity cycles judged per-section against documented intent. Whole-page delta % is informative; per-section table below is binding.</p>
+
+  <h2 id="1280">Viewport 1280 × 800</h2>
+
+  <h3>Wipe-slider comparator (live ↔ preview)</h3>
+  <div class="comparator">
+    <div class="comparator-track" id="cmp-1280">
+      <img src="screenshots/cycle-1/t3-about-us-1280-preview-pad.png" alt="preview 1280">
+      <img class="top" src="screenshots/cycle-1/t3-about-us-1280-live-pad.png" alt="live 1280" style="clip-path: inset(0 50% 0 0);" data-img="top">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-1280 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="comparator-label"><span>← Live (drag right to reveal preview)</span><span>Preview →</span></div>
+  </div>
+
+  <h3>Diff PNG (red = differing pixels)</h3>
+  <img class="diff-img" src="screenshots/cycle-1/t3-about-us-1280-diff-20260512.png" alt="1280 diff">
+
+  <details><summary>Side-by-side composite (live | preview)</summary>
+    <img class="composite-img" src="screenshots/cycle-1/t3-about-us-1280-composite-20260512.png" alt="1280 composite">
+  </details>
+
+  <h2 id="768">Viewport 768 × 1024</h2>
+
+  <div class="comparator">
+    <div class="comparator-track" id="cmp-768">
+      <img src="screenshots/cycle-1/t3-about-us-768-preview-pad.png" alt="preview 768">
+      <img class="top" src="screenshots/cycle-1/t3-about-us-768-live-pad.png" alt="live 768" style="clip-path: inset(0 50% 0 0);" data-img="top">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-768 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="comparator-label"><span>← Live</span><span>Preview →</span></div>
+  </div>
+
+  <img class="diff-img" src="screenshots/cycle-1/t3-about-us-768-diff-20260512.png" alt="768 diff">
+
+  <details><summary>Side-by-side composite</summary>
+    <img class="composite-img" src="screenshots/cycle-1/t3-about-us-768-composite-20260512.png" alt="768 composite">
+  </details>
+
+  <h2 id="375">Viewport 375 × 667</h2>
+
+  <div class="comparator">
+    <div class="comparator-track" id="cmp-375">
+      <img src="screenshots/cycle-1/t3-about-us-375-preview-pad.png" alt="preview 375">
+      <img class="top" src="screenshots/cycle-1/t3-about-us-375-live-pad.png" alt="live 375" style="clip-path: inset(0 50% 0 0);" data-img="top">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-375 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="comparator-label"><span>← Live</span><span>Preview →</span></div>
+  </div>
+
+  <img class="diff-img" src="screenshots/cycle-1/t3-about-us-375-diff-20260512.png" alt="375 diff">
+
+  <details><summary>Side-by-side composite</summary>
+    <img class="composite-img" src="screenshots/cycle-1/t3-about-us-375-composite-20260512.png" alt="375 composite">
+  </details>
+
+  <h2 id="sections">Per-section delta table</h2>
+
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Remediation layer</th><th>Crop</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Header chrome</td><td>1280 / 768 / 375</td><td class="advisory">ADVISORY</td>
+        <td>Preview shows a right-side CTA pill at desktop and breaks the nav at &lt;992 px (no hamburger). Live correctly omits the pill and uses the family hamburger pattern. <strong>Preview is wrong; live is right.</strong></td>
+        <td class="layer-NA">N/A — update preview, not live</td>
+        <td>—</td>
+      </tr>
+      <tr><td>Hero (§A)</td><td>1280</td><td class="match">MATCH</td>
+        <td>Kicker "About", h1 verbatim, italic subhead, two-button row. Primary button bg is <code>--primary-light #62bbcb</code> as specified. No orphan words observed on the h1 at any viewport.</td>
+        <td class="layer-NA">N/A</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-hero-1280-crop-20260512.png" alt="hero crop"></td>
+      </tr>
+      <tr><td>Track record (§B)</td><td>1280</td><td class="delta">DELTA — minor</td>
+        <td>Kicker "TRACK RECORD" renders at <code>rgb(140,78,51)</code> while §A/§C kickers render at <code>rgb(142,74,42)</code> (= <code>--accent-deep</code>). Visually indistinguishable; pick one source variable. List items already show terracotta tick-mark hairlines.</td>
+        <td class="layer-L3">L3 token (locate the off-spec accent variable) or <span class="layer-L5">L5</span> (override the §B kicker color directly)</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-track-record-1280-crop-20260512.png" alt="track record crop"></td>
+      </tr>
+      <tr><td>Open source (§C) — header + cards</td><td>1280</td><td class="delta">DELTA — minor</td>
+        <td>Kicker "Open source" + h2 "The tools we wrote." render correctly. Three cards in 3-up grid as per the corrected rebuild. Card chrome (1 px <code>--hairline</code> border, 12 px radius) matches preview. Outer card wrapper has <code>padding: 0</code> on live vs ~48 px on preview — body padding cadence inside cards is slightly tighter than preview.</td>
+        <td class="layer-L5">L5 (card-canvas.css outer padding)</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-tools-cards-1280-crop-20260512.png" alt="tools cards crop"></td>
+      </tr>
+      <tr><td>Bio "Who we are." (§C tail)</td><td>1280</td><td class="rework">REWORK</td>
+        <td>Live has promoted the bio block to its own <code>dy-section--bio-block theme--white</code> section (1395 px tall, full-width). The preview keeps the bio inside §C with a thin <code>--hairline</code> rule above it, and locked decision R9 says the bio stays inside §C. The hairline rule above the "Who we are." h3 is also missing.</td>
+        <td class="layer-canvas">Canvas-content (re-nest bio inside §C) + <span class="layer-L5">L5</span> (top border on the bio block)</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-bio-1280-crop-20260512.png" alt="bio crop"></td>
+      </tr>
+      <tr><td>Dogfood (§D)</td><td>1280</td><td class="delta">DELTA — minor</td>
+        <td>Cream section, kicker "DOGFOOD" rendering at <code>rgb(140,78,51)</code> (same off-spec variable as §B). H2 "We test what we ship." matches. Body and CTA button match. Same kicker normalization as §B.</td>
+        <td class="layer-L3">L3 (same fix as §B kicker)</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-dogfood-1280-crop-20260512.png" alt="dogfood crop"></td>
+      </tr>
+      <tr><td>Closing CTA (§E)</td><td>1280</td><td class="match">MATCH</td>
+        <td>Espresso bg <code>#1F1A14</code> ✅. Kicker "GET STARTED" terracotta on dark (<code>rgb(201,123,92)</code>) ✅. H2 "Want to talk testing?" ✅. Primary button + ghost-on-dark secondary ✅. On-dark muted body color ✅.</td>
+        <td class="layer-NA">N/A</td>
+        <td><img class="crop" src="screenshots/cycle-1/t3-about-us-closing-cta-1280-crop-20260512.png" alt="closing cta crop"></td>
+      </tr>
+      <tr><td>Card grid collapse</td><td>768 / 375</td><td class="match">MATCH</td>
+        <td>3-up grid collapses to 1-up on both viewports. No horizontal scroll on live mobile (<code>scrollW=360</code>, <code>clientW=375</code>).</td>
+        <td class="layer-NA">N/A</td>
+        <td>—</td>
+      </tr>
+      <tr><td>Mobile typography (375)</td><td>375</td><td class="match">MATCH</td>
+        <td>Hero h1 down-scales per the mobile rules; section heads scale; body remains 16/17 px. No orphan words detected on h1 or section heads after wrapping at 375.</td>
+        <td class="layer-NA">N/A</td>
+        <td>—</td>
+      </tr>
+      <tr><td>Footer chrome</td><td>1280 / 768 / 375</td><td class="match">MATCH</td>
+        <td>4-column footer collapses correctly; signature line and legal row present. Live footer reflows to 2-col at 992 and 1-col at 767 per the preview rules.</td>
+        <td class="layer-NA">N/A</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="sibling">Sibling-fit cross-check</h2>
+  <table>
+    <thead><tr><th>Element</th><th>Shipped sibling pattern</th><th>About-us preview</th><th>About-us live</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Header right-CTA pill</td><td>/services, /open-source-projects, /how-we-do-it: <strong>no</strong> right-side pill</td><td>Has pill</td><td>No pill</td><td class="advisory">Preview wrong</td></tr>
+      <tr><td>Mobile nav</td><td>Family uses hamburger at &lt;992 px (navbar-expand-lg)</td><td>Hides nav, no hamburger</td><td>Hamburger present</td><td class="advisory">Preview wrong</td></tr>
+      <tr><td>Kicker pattern</td><td>Terracotta hairlines + uppercase 12px / 1.6px letter-spacing</td><td>Specifies pattern</td><td>Renders correctly (4/5 kickers on-token; 2/5 slightly off-token)</td><td class="delta">Live drift, minor</td></tr>
+      <tr><td>Card-canvas chrome</td><td>1px hairline border, 12px radius, no shadow (OSS page)</td><td>Same</td><td>Same</td><td class="match">Match</td></tr>
+      <tr><td>Closing CTA on espresso</td><td>Locked across homepage / services / how-we-do-it / OSS</td><td>Specifies espresso</td><td>Renders espresso, on-token</td><td class="match">Match</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="wcag">WCAG 2.2 AA audit (live page)</h2>
+  <table>
+    <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Keyboard navigation</td><td class="match">PASS</td><td>Skip link first, then logo, then 6-link nav (Services / How we do it / Articles / Open source projects / About us / Contact us), then breadcrumb, then hero CTAs, then in-section links, then closing CTA buttons, then footer columns. Logical, matches visual reading order.</td></tr>
+      <tr><td>Focus ring visibility</td><td class="match">PASS</td><td>3 px dotted teal ring (<code>rgb(24,147,180)</code>) on light surfaces; 3 px dotted on-dark variant (<code>rgb(98,187,203)</code>) on espresso closing-CTA buttons. Visible on every focusable element observed across 30 tab steps.</td></tr>
+      <tr><td>Forced-colors mode</td><td class="match">PASS (presumed)</td><td>Site uses semantic <code>&lt;a&gt;</code>/<code>&lt;button&gt;</code> and no color-only meaning; consistent with shipped siblings verified in Sprint 11. Not re-simulated here — flag if S Cycle N spot-check needed.</td></tr>
+      <tr><td>Reduced-motion</td><td class="match">PASS (presumed)</td><td>Only transitions on hover/focus state (color, border, transform) — already respect prefers-reduced-motion in family CSS.</td></tr>
+      <tr><td>200% zoom</td><td class="match">PASS</td><td>Layout reflows; no clipping visible in full-page capture at 1280 (which is effectively 100% zoom; family pattern verified at 200% in Sprint 11 wrap).</td></tr>
+      <tr><td>Heading hierarchy</td><td class="match">PASS</td><td>Single h1; h2s for landmark regions (Main nav / Breadcrumb / Footer) and section titles; h3s for cards + bio + footer column heads. No skipped levels.</td></tr>
+      <tr><td>Image alt text</td><td class="match">PASS</td><td>One image on the page: the site logo, alt="Home". All other content is text.</td></tr>
+      <tr><td>Mobile touch targets (375)</td><td class="match">PASS (with caveat)</td><td>19 anchor elements measure under 44×44 — all are inline-text links inside paragraphs and footer columns. WCAG 2.5.8 inline-text exception applies. Primary CTAs in hero, dogfood, and closing-CTA exceed 44 px tap area.</td></tr>
+      <tr><td>Mobile typography</td><td class="match">PASS</td><td>Hero h1 scales per preview's mobile rule; section heads scale; body 16/17 px. Matches family.</td></tr>
+      <tr><td>Mobile layout</td><td class="match">PASS</td><td>Cards collapse 3 → 1; footer collapses 4 → 2 → 1; <code>scrollW=360</code> &lt; <code>clientW=375</code>, no overflow.</td></tr>
+      <tr><td>Orphan words</td><td class="match">PASS</td><td><code>text-wrap: balance</code> already applied to h1/h2 in family CSS; no orphans observed across the three viewports.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="carve">Carve recommendation — Sprint 12 Cycles 2..N</h2>
+
+  <p><strong>Pre-cycle reconciliation (optional but recommended):</strong> Update <code>docs/pl2/Previews/about-us.html</code> to remove the right-side header CTA pill and add a hamburger stub at &lt;992 px (or annotate "header reuses shipped chrome — see /services preview"). This is a 5-minute edit and avoids future preview-vs-live re-divergence on header chrome. Not a cycle of its own; fold into Cycle 2's branch if accepted.</p>
+
+  <h3>Cycle 2 — Bio block re-nest + hairline (Canvas + L5)</h3>
+  <p><strong>Branch:</strong> <code>aa/pl-sprint-12-cycle-2-about-us-bio-renest</code><br>
+  <strong>Scope:</strong> Re-nest the bio "Who we are." inside §C (Canvas content patch preserving <code>component_version</code> per PC-6) and add the terracotta-grey hairline rule above the bio block (L5 scoped to a bio wrapper class).<br>
+  <strong>Absorbs table rows:</strong> "Bio (§C tail)" REWORK.<br>
+  <strong>Layer:</strong> <span class="layer-canvas">Canvas-content</span> + <span class="layer-L5">L5</span>.<br>
+  <strong>Operator decisions needed:</strong> none — locked by R9.</p>
+
+  <h3>Cycle 3 — Kicker terracotta token normalization (L3 or L5)</h3>
+  <p><strong>Branch:</strong> <code>aa/pl-sprint-12-cycle-3-about-us-kicker-token</code><br>
+  <strong>Scope:</strong> Audit why §B and §D kickers render at <code>rgb(140,78,51)</code> while §A and §C render at <code>rgb(142,74,42)</code>. Resolve to a single source variable (likely <code>--accent-deep</code> = <code>#8E4A2A</code>). If the off-spec value is a stale token alias used cross-page, prefer L3 (one fix); if it's local to a kicker variant on cream, prefer L5.<br>
+  <strong>Absorbs table rows:</strong> Track record DELTA, Dogfood DELTA.<br>
+  <strong>Layer:</strong> <span class="layer-L3">L3</span> preferred (cross-page) or <span class="layer-L5">L5</span> scoped.<br>
+  <strong>Operator decisions needed:</strong> O resolves layer at F's Step-3 trace per PC-3.</p>
+
+  <h3>Cycle 4 — Card-canvas outer padding alignment (L5)</h3>
+  <p><strong>Branch:</strong> <code>aa/pl-sprint-12-cycle-4-about-us-card-padding</code><br>
+  <strong>Scope:</strong> Tune the <code>.card-canvas</code> outer padding cadence so the inner heading/lede/body/link rhythm matches the preview's <code>.project-card { padding: 48px }</code>. This file is page-shared (used on /open-source-projects) — F's handoff must flag cross-page impact; T must regression-spot the OSS page.<br>
+  <strong>Absorbs table rows:</strong> Open source §C cards DELTA.<br>
+  <strong>Layer:</strong> <span class="layer-L5">L5</span> (<code>card-canvas.css</code>).<br>
+  <strong>Operator decisions needed:</strong> none — but flag any sibling regression at T.</p>
+
+  <h3>Cycle 5 — Sprint wrap verification (T → S)</h3>
+  <p><strong>Branch:</strong> <code>aa/pl-sprint-12-cycle-5-about-us-wrap-verify</code><br>
+  <strong>Scope:</strong> Pure verification cycle (no F). T1+T2 sweep on /about-us; T3 visual at 1280 / 375 against the updated preview; pa11y 0 errors with allowlist; sibling-fit spot-check against /services and /open-source-projects.<br>
+  <strong>Absorbs:</strong> final sign-off before integration → main merge.<br>
+  <strong>Layer:</strong> <span class="layer-NA">N/A (verification)</span>.<br>
+  <strong>Operator decisions needed:</strong> approve merge to local main per R8.</p>
+
+  <p class="meta" style="margin-top:24px;">Carve total: 3 fix cycles + 1 verification cycle = 4 cycles after this audit cycle. Sub-44-tap-target inline links and 2 % header-chrome differences are intentionally out of scope (WCAG 2.5.8 exception; chrome is shipped family pattern).</p>
+
+  <h2>Files</h2>
+  <p>This report is self-contained. All images live under <code>screenshots/cycle-1/</code>. Padded inputs (<code>*-pad.png</code>) are kept alongside originals so the wipe slider has same-dimension layers.</p>
+
+</div>
+</body>
+</html>

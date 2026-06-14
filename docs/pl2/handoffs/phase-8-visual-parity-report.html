@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 8 — Visual Parity Report (Performant Labs homepage)</title>
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --muted: #6a6a6a;
+    --rule: #e0e0e0;
+    --bg: #ffffff;
+    --cream: #f3eada;
+    --teal: #0e7c8a;
+    --terracotta: #c0593a;
+    --warn-bg: #fff4ec;
+    --warn-border: #f0b896;
+    --bad-bg: #fde8e2;
+    --bad-border: #e3927a;
+    --ok-bg: #e6f4ea;
+    --ok-border: #79b08a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    padding: 24px clamp(16px, 4vw, 56px) 96px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 28px; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.5px; }
+  h2 { font-size: 22px; line-height: 1.2; margin: 40px 0 12px; padding-top: 16px; border-top: 1px solid var(--rule); }
+  h3 { font-size: 18px; line-height: 1.25; margin: 24px 0 8px; }
+  p { margin: 0 0 12px; }
+  small, .small { color: var(--muted); font-size: 14px; }
+  code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: #f3f3f3; padding: 1px 6px; border-radius: 4px; }
+  ul { margin: 0 0 12px; padding-left: 20px; }
+  ul li { margin-bottom: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 24px; font-size: 14px; }
+  th, td { padding: 8px 10px; border: 1px solid var(--rule); text-align: left; vertical-align: top; }
+  th { background: #f7f7f7; font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .verdict {
+    display: flex; align-items: center; gap: 16px;
+    padding: 16px 20px; border-radius: 12px; margin: 16px 0 24px;
+    background: var(--bad-bg); border: 1px solid var(--bad-border);
+  }
+  .verdict-pill {
+    font-weight: 700; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 999px;
+    background: #c0392b; color: #fff;
+  }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 16px; padding: 12px 16px;
+    background: #f7f7f7; border: 1px solid var(--rule); border-radius: 8px; margin: 8px 0 24px;
+    font-size: 14px;
+  }
+  .meta div { min-width: 220px; }
+  .meta strong { color: var(--ink); }
+
+  .status-pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 0.3px; }
+  .status-rework { background: var(--bad-bg); color: #8b1f06; border: 1px solid var(--bad-border); }
+  .status-delta  { background: var(--warn-bg); color: #7a3a14; border: 1px solid var(--warn-border); }
+  .status-match  { background: var(--ok-bg);   color: #1f5b30; border: 1px solid var(--ok-border); }
+
+  /* Comparator (CSS-only wipe slider) */
+  .compare {
+    position: relative; width: 100%; max-width: 1200px; margin: 12px 0; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden;
+    background: #fafafa;
+  }
+  .compare .stack { position: relative; width: 100%; max-height: 75vh; overflow: auto; }
+  .compare img.bottom { display: block; width: 100%; height: auto; }
+  .compare .top-clip {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .compare img.top { display: block; width: 100%; height: auto; position: relative; }
+  .compare .label {
+    position: absolute; top: 8px; padding: 2px 8px; background: rgba(0,0,0,0.65); color: #fff;
+    font-size: 12px; border-radius: 4px; letter-spacing: 0.3px; pointer-events: none;
+  }
+  .compare .label.live    { left: 8px; }
+  .compare .label.preview { right: 8px; }
+  .compare .slider-row {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-top: 1px solid var(--rule); background: #fff; font-size: 13px;
+  }
+  .compare input[type=range] { flex: 1; }
+  .compare .handle {
+    position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+  .compare .handle::after {
+    content: "↔"; position: absolute; top: 12px; left: -12px;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #fff; color: #333; font-size: 14px;
+    display: grid; place-items: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .toggle-row { display: flex; gap: 8px; margin: 8px 0; }
+  .toggle-row button {
+    border: 1px solid var(--rule); background: #fff; padding: 4px 10px;
+    border-radius: 4px; cursor: pointer; font-size: 13px;
+  }
+  .toggle-row button.active { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+
+  .diff-block { margin: 16px 0 24px; }
+  .diff-block img { max-width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 4px; }
+
+  .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 8px 0 16px; }
+  .section-grid figure { margin: 0; }
+  .section-grid figcaption { font-size: 12px; color: var(--muted); padding: 4px 0; }
+  .section-grid img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 4px; }
+
+  details { border: 1px solid var(--rule); border-radius: 6px; padding: 8px 12px; margin: 8px 0; }
+  details > summary { cursor: pointer; font-weight: 600; }
+
+  .toc { font-size: 14px; column-count: 2; column-gap: 24px; }
+  .toc a { color: var(--teal); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Phase 8 — Visual parity audit</h1>
+  <p class="small">Live <code>https://pl-performantlabs.com.3.ddev.site:8493/</code> vs preview <code>docs/pl2/Previews/homepage.html</code>. Captured 2026-05-09 with Playwright + ImageMagick.</p>
+
+  <div class="verdict" id="verdict">
+    <span class="verdict-pill">REWORK</span>
+    <div>
+      <strong>The live homepage does not visually match the operator-approved preview at any of the three brief breakpoints.</strong>
+      All three viewports return whole-page deltas above the 5 % REWORK threshold (52 % / 45 % / 45 %), and the deltas are driven by structural divergences in the header, hero, logo grid, and feature-card grid — not just vertical offset.
+    </div>
+  </div>
+
+  <div class="meta">
+    <div><strong>Branch.</strong> <code>aa/pl-homepage-phase-8-visual-parity</code></div>
+    <div><strong>Default theme.</strong> <code>performant_labs_20260502</code> <small>(verified via <code>ddev drush cget system.theme default</code>)</small></div>
+    <div><strong>Tools.</strong> Playwright (chromium) + ImageMagick <code>compare</code> (AE) + <code>magick +append</code> composites</div>
+    <div><strong>Capture date.</strong> 2026-05-09</div>
+  </div>
+</header>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#summary">What I see different (plain English)</a></li>
+    <li><a href="#numbers">Numerical results per viewport</a></li>
+    <li><a href="#desktop">Desktop comparator (1280)</a></li>
+    <li><a href="#tablet">Tablet comparator (768)</a></li>
+    <li><a href="#mobile">Mobile comparator (375)</a></li>
+    <li><a href="#sections">Per-section delta table</a></li>
+    <li><a href="#methodology">Methodology &amp; reproduction</a></li>
+  </ul>
+</nav>
+
+<section id="summary">
+  <h2>What I see different</h2>
+  <p>Operator-readable list of every visible delta. Status pills indicate severity.</p>
+
+  <ul>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Header.</strong> Live (1280) is much taller and shows a full primary nav (Services, How we do it, Articles, Open source projects, About us, Contact us) plus a large "Book a testing review" pill. Preview shows only the wordmark and a compact "Call today" pill — no nav.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Header (mobile).</strong> Live shows hamburger only, no CTA. Preview shows wordmark + "Call today" pill, no hamburger. The two implementations have opposite responsive patterns.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Hero headline size (desktop).</strong> Live renders "Ship Drupal releases with confidence." at roughly 120 px (display-2xl-equivalent). Brief specifies display-xl ~72 px, which is what the preview uses.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Hero headline overflow (tablet, 768).</strong> Live's headline runs past the right viewport edge — the screenshot shows the word "releases" cut off mid-letter. Preview wraps cleanly within the container. This is a missing <code>max-width</code> or font-size cap on the heading at the tablet breakpoint.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Hero whitespace.</strong> Live adds ~600 px of empty whitespace below the hero CTAs at desktop, before the logo band. Preview has the logo band directly below.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Feature cards (desktop, 1280).</strong> Live renders cards in a 2 + 1 layout (Tools and AI on row 1, People alone on row 2). Brief and preview both use a single 3-column row at desktop.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Logo grid (mobile, 375).</strong> Live stacks bitmap logos vertically (one logo per row) into a very tall column. Preview uses a 3 × 2 grid of plain text names. The two implementations use entirely different responsive strategies — operator decision needed.</li>
+    <li><span class="status-pill status-rework">REWORK</span> <strong>Logo grid (tablet, 768).</strong> Live's bitmap logos overflow past the right viewport edge; only ~5 of 6 logos are visible, last one clipped. Preview shows the same six as text names in a single fitted row.</li>
+    <li><span class="status-pill status-delta">DELTA</span> <strong>Footer-CTA primary pill.</strong> Live's "Book a testing review" pill includes an inline arrow glyph (→). Preview's pill has no icon. Decide canonical treatment.</li>
+    <li><span class="status-pill status-delta">DELTA</span> <strong>FAQ accordion icons.</strong> Live uses chevron-down (∨), preview uses plus (+). Pick one.</li>
+    <li><span class="status-pill status-delta">DELTA</span> <strong>Footer link label casing.</strong> Live: "Test Suite Takeover", "Embedded Testing Engineer". Preview: "Testing-suite takeover", "Embedded testing engineer". Inconsistent casing scheme.</li>
+    <li><span class="status-pill status-delta">DELTA</span> <strong>Built-for-team checklist items.</strong> Preview ends each item with a period; live drops the period. Minor copy inconsistency.</li>
+    <li><span class="status-pill status-match">MATCH</span> <strong>Heal-flow ("We heal our own tests nightly.").</strong> The four-step pill row, terracotta step numbers, teal arrows, and the highlighted step-04 outline all render the same on both. Outer card chrome and dogfooding kicker also match.</li>
+    <li><span class="status-pill status-match">MATCH</span> <strong>Card kicker treatment.</strong> Where the cards do render, the terracotta short-rule plus "01 / TOOLS" eyebrow plus corner arrow icon match between live and preview. Phase 3 (kicker SDC) and Phase 4.1 (card override) are visually intact.</li>
+    <li><span class="status-pill status-match">MATCH</span> <strong>Hero CTA pair styling.</strong> Filled teal pill + outline teal pill with teal text — matches between live and preview at desktop.</li>
+    <li><span class="status-pill status-match">MATCH</span> <strong>Footer-CTA dark band &amp; "BOOK A REVIEW" kicker.</strong> Both render correctly with the espresso surface, terracotta kicker rules, and large headline.</li>
+  </ul>
+</section>
+
+<section id="numbers">
+  <h2>Numerical results per viewport</h2>
+  <p>Live and preview screenshots had different pixel dimensions at every viewport (live page is 1.30–1.40 × the preview height; live includes a vertical scrollbar in the screenshot at desktop and tablet widths). Both images were padded with <code>magick … -background white -gravity northwest -extent {maxW}x{maxH}</code> to a common canvas before <code>compare -metric AE</code>.</p>
+  <table>
+    <thead>
+      <tr><th>Viewport</th><th>Live (W×H)</th><th>Preview (W×H)</th><th class="num">Pixels different</th><th class="num">Whole-page delta %</th><th>Verdict</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1280×800</td><td>1294 × 5784</td><td>1280 × 4341</td><td class="num">3,897,740</td><td class="num">52.08 %</td><td><span class="status-pill status-rework">REWORK</span></td></tr>
+      <tr><td>768×1024</td><td>803 × 6404</td><td>768 × 4829</td><td class="num">2,337,580</td><td class="num">45.46 %</td><td><span class="status-pill status-rework">REWORK</span></td></tr>
+      <tr><td>375×667</td><td>375 × 7899</td><td>375 × 6166</td><td class="num">1,346,950</td><td class="num">45.47 %</td><td><span class="status-pill status-rework">REWORK</span></td></tr>
+    </tbody>
+  </table>
+  <p class="small">Threshold key (per <code>workflow-ofts.md</code> §S §"Verdict thresholds"): &lt; 2 % presumed MATCH; 2–5 % triaged; &gt; 5 % presumed REWORK.</p>
+</section>
+
+<section id="desktop">
+  <h2>Desktop comparator (1280×800 viewport)</h2>
+  <p>Drag the slider to wipe between live (left) and preview (right). The two screenshots are normalised to a common width; vertical extent reflects each rendered page's true height.</p>
+
+  <div class="compare" data-compare="1280">
+    <div class="stack">
+      <img class="bottom" src="screenshots/cycle-8/t3-homepage-1280-preview-20260509.png" alt="Preview homepage at 1280px (full page)">
+      <div class="top-clip">
+        <img class="top" src="screenshots/cycle-8/t3-homepage-1280-live-20260509.png" alt="Live homepage at 1280px (full page)">
+      </div>
+      <div class="handle"></div>
+      <span class="label live">live</span>
+      <span class="label preview">preview</span>
+    </div>
+    <div class="slider-row">
+      <span>← live</span>
+      <input type="range" min="0" max="100" value="50">
+      <span>preview →</span>
+    </div>
+  </div>
+
+  <details>
+    <summary>ImageMagick diff PNG (red = differing pixels)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-1280-diff-20260509.png" alt="Pixel diff between live and preview at 1280px — red areas mark differing pixels">
+    </div>
+  </details>
+
+  <details>
+    <summary>Side-by-side composite (live | preview)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-1280-composite-20260509.png" alt="Side-by-side composite at 1280px: live left, preview right">
+    </div>
+  </details>
+</section>
+
+<section id="tablet">
+  <h2>Tablet comparator (768×1024 viewport)</h2>
+  <p>Note especially the hero headline overflow on live: "Ship Drupal releases with confidence." extends past the right edge.</p>
+  <div class="compare" data-compare="768">
+    <div class="stack">
+      <img class="bottom" src="screenshots/cycle-8/t3-homepage-768-preview-20260509.png" alt="Preview homepage at 768px">
+      <div class="top-clip">
+        <img class="top" src="screenshots/cycle-8/t3-homepage-768-live-20260509.png" alt="Live homepage at 768px">
+      </div>
+      <div class="handle"></div>
+      <span class="label live">live</span>
+      <span class="label preview">preview</span>
+    </div>
+    <div class="slider-row">
+      <span>← live</span>
+      <input type="range" min="0" max="100" value="50">
+      <span>preview →</span>
+    </div>
+  </div>
+
+  <details>
+    <summary>ImageMagick diff PNG (768)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-768-diff-20260509.png" alt="Pixel diff at 768px">
+    </div>
+  </details>
+
+  <details>
+    <summary>Side-by-side composite (768)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-768-composite-20260509.png" alt="Composite at 768px">
+    </div>
+  </details>
+</section>
+
+<section id="mobile">
+  <h2>Mobile comparator (375×667 viewport)</h2>
+  <p>Note especially the header pattern divergence (live: hamburger only; preview: wordmark + "Call today" pill, no hamburger) and the logo grid pattern divergence (live: vertical bitmap stack; preview: 3 × 2 text grid).</p>
+  <div class="compare" data-compare="375">
+    <div class="stack">
+      <img class="bottom" src="screenshots/cycle-8/t3-homepage-375-preview-20260509.png" alt="Preview homepage at 375px">
+      <div class="top-clip">
+        <img class="top" src="screenshots/cycle-8/t3-homepage-375-live-20260509.png" alt="Live homepage at 375px">
+      </div>
+      <div class="handle"></div>
+      <span class="label live">live</span>
+      <span class="label preview">preview</span>
+    </div>
+    <div class="slider-row">
+      <span>← live</span>
+      <input type="range" min="0" max="100" value="50">
+      <span>preview →</span>
+    </div>
+  </div>
+
+  <details>
+    <summary>ImageMagick diff PNG (375)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-375-diff-20260509.png" alt="Pixel diff at 375px">
+    </div>
+  </details>
+
+  <details>
+    <summary>Side-by-side composite (375)</summary>
+    <div class="diff-block">
+      <img src="screenshots/cycle-8/t3-homepage-375-composite-20260509.png" alt="Composite at 375px">
+    </div>
+  </details>
+</section>
+
+<section id="sections">
+  <h2>Per-section delta table</h2>
+  <p>Each row pairs a section, viewport, status, plain-English description, and cropped thumbnails of live (left) and preview (right) for the section in question.</p>
+
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Crop preview (live | preview)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Header / nav</td>
+        <td>1280</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Live row is taller, has full primary nav and a large "Book a testing review" pill. Preview is compact: wordmark + small "Call today" pill, no nav.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-header-live.png" alt="Live header at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-header-preview.png" alt="Preview header at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Header / nav</td>
+        <td>375</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Opposite responsive patterns: live shows hamburger only with no CTA; preview shows wordmark wrapped to two lines plus a "Call today" pill, no hamburger.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-header-mob-live.png" alt="Live header at 375px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-header-mob-preview.png" alt="Preview header at 375px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Hero band</td>
+        <td>1280</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Live headline ~120 px (display-2xl-equivalent); brief and preview both use display-xl ~72 px. Live also adds ~600 px of empty whitespace below the CTA pair before the logo band.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-hero-live.png" alt="Live hero at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-hero-preview.png" alt="Preview hero at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Hero band</td>
+        <td>768</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Live's hero headline overflows the right viewport edge. Preview wraps cleanly. Indicates a missing max-width or responsive font-size cap.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-hero-tab-live.png" alt="Live hero at 768px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-hero-tab-preview.png" alt="Preview hero at 768px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Logo grid</td>
+        <td>1280</td>
+        <td><span class="status-pill status-delta">DELTA</span></td>
+        <td>Both render bitmap logos at desktop. Cell heights and spacing differ; live cells are taller. Visually similar but not pixel-identical.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-logos-live.png" alt="Live logo grid at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-logos-preview.png" alt="Preview logo grid at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Logo grid</td>
+        <td>375</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Live: vertical column of bitmap logos, one per row, very tall. Preview: 3 × 2 grid of text names. Different responsive strategy — operator decision needed.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-logos-mob-live.png" alt="Live logo grid at 375px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-logos-mob-preview.png" alt="Preview logo grid at 375px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Feature cards</td>
+        <td>1280</td>
+        <td><span class="status-pill status-rework">REWORK</span></td>
+        <td>Live: 2 + 1 layout (Tools/AI on row 1, People alone on row 2). Brief specifies a single 3-column row at desktop; preview matches the brief.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-cards-live.png" alt="Live feature cards at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-cards-preview.png" alt="Preview feature cards at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Heal-flow</td>
+        <td>1280</td>
+        <td><span class="status-pill status-match">MATCH</span></td>
+        <td>Four-step pill row, terracotta step numbers, teal connectors, and the highlighted step-04 outline render essentially identically. Outer card chrome and dogfooding kicker also match.</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-healflow-live.png" alt="Live heal-flow at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-healflow-preview.png" alt="Preview heal-flow at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+      <tr>
+        <td>Footer-CTA + footer</td>
+        <td>1280</td>
+        <td><span class="status-pill status-delta">DELTA</span></td>
+        <td>Dark espresso band, terracotta "BOOK A REVIEW" kicker, headline, two CTAs all match. Differences: live primary CTA includes inline arrow glyph (preview does not); live footer link labels are Title Case (preview is sentence case); live shows "© 2026 Performant Labs · Privacy Policy" (preview shows the "Preview build" notice — expected).</td>
+        <td class="section-grid">
+          <figure><img src="screenshots/cycle-8/sections/sec-footer-live.png" alt="Live footer at 1280px"><figcaption>live</figcaption></figure>
+          <figure><img src="screenshots/cycle-8/sections/sec-footer-preview.png" alt="Preview footer at 1280px"><figcaption>preview</figcaption></figure>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="methodology">
+  <h2>Methodology &amp; reproduction</h2>
+  <ol>
+    <li>Verified default theme: <code>ddev drush cget system.theme default</code> → <code>'system.theme:default': performant_labs_20260502</code>.</li>
+    <li>Started preview server: <code>cd docs/pl2/Previews &amp;&amp; python3 -m http.server 8765 &amp;</code>.</li>
+    <li>Captured six full-page PNGs via Playwright (<code>chromium.launch()</code> → <code>newContext({viewport})</code> → <code>page.goto({waitUntil:'networkidle'})</code> → 800 ms settle → <code>page.screenshot({fullPage:true})</code>) at 1280×800, 768×1024, 375×667 against the live URL and the local preview URL. Saved under <code>docs/pl2/handoffs/screenshots/cycle-8/</code>.</li>
+    <li>Padded each pair to a common canvas with <code>magick … -background white -gravity northwest -extent {W}x{H}</code> (because the live and preview heights differed).</li>
+    <li>Ran <code>compare -metric AE</code> to compute pixel differences and emit the diff PNG; computed delta % as <code>(pixels / (W*H)) * 100</code>.</li>
+    <li>Built side-by-side composites with <code>magick +append</code>.</li>
+    <li>Cropped section thumbnails (<code>magick … -crop WxH+X+Y</code>) and embedded them in this report.</li>
+    <li>Stopped preview server.</li>
+  </ol>
+  <p>Full handoff with verdict, rework list, and design-brief compliance table: <a href="phase-8-visual-parity-S.md"><code>phase-8-visual-parity-S.md</code></a>.</p>
+</section>
+
+<script>
+  // CSS-only-ish wipe slider — small JS to wire the range input to clip-path.
+  document.querySelectorAll('.compare').forEach(function(el) {
+    var clip = el.querySelector('.top-clip');
+    var handle = el.querySelector('.handle');
+    var range = el.querySelector('input[type=range]');
+    function apply(v) {
+      var pct = Number(v);
+      clip.style.clipPath = 'polygon(0 0, ' + pct + '% 0, ' + pct + '% 100%, 0 100%)';
+      handle.style.left = 'calc(' + pct + '% - 1px)';
+    }
+    range.addEventListener('input', function() { apply(range.value); });
+    apply(range.value);
+  });
+</script>
+
+</body>
+</html>

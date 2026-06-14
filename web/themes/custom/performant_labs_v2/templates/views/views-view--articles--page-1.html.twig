@@ -1,0 +1,94 @@
+{#
+/**
+ * @file
+ * Articles page_1 — main view wrapper.
+ *
+ * Phase 3: overrides dripyard_base's views-view.html.twig for the articles
+ * view page_1 display. Key difference: renders {{ exposed }} directly
+ * instead of wrapping it in the dripyard_base:views-exposed-filters SDC
+ * embed, which would add an unwanted <form> wrapper around our chip link
+ * list. The exposed form Twig template (views-exposed-form--articles--page-1)
+ * handles all the markup for the chip toolbar.
+ *
+ * Also wraps the view content area in <section class="articles-view"> with
+ * a .container wrapper for max-width constraint.
+ *
+ * Available variables:
+ *   - attributes: HTML attributes for the outer element.
+ *   - css_name: CSS-safe view name.
+ *   - header: Optional header.
+ *   - footer: Optional footer.
+ *   - rows: View query results.
+ *   - empty: Content when no rows.
+ *   - pager: Pager next/prev links.
+ *   - exposed: Exposed widget form/info.
+ *   - more: Optional next-page link.
+ *   - title: Admin preview title.
+ *   - title_prefix / title_suffix: Module output.
+ *   - attachment_before / attachment_after: Attachment views.
+ *   - dom_id: Unique DOM id.
+ *   - id: View machine name.
+ *   - display_id: Display machine name.
+ */
+#}
+{%
+  set classes = [
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
+    dom_id ? 'js-view-dom-id-' ~ dom_id,
+  ]
+%}
+<section class="articles-view">
+  <div class="container">
+    <div{{ attributes.addClass(classes) }}>
+      {{ title_prefix }}
+      {% if title %}
+        {{ title }}
+      {% endif %}
+      {{ title_suffix }}
+
+      {# Exposed filter — rendered directly, no <form> wrapper.
+         Our views-exposed-form--articles--page-1.html.twig emits the
+         chip toolbar as <a> links. #}
+      {% if exposed %}
+        {{ exposed }}
+      {% endif %}
+
+      {% if attachment_before %}
+        <div class="attachment attachment-before">
+          {{ attachment_before }}
+        </div>
+      {% endif %}
+
+      {% if rows %}
+        <div class="view-content">
+          {{ rows }}
+        </div>
+      {% elseif empty %}
+        <div class="view-empty">
+          {{ empty }}
+        </div>
+      {% endif %}
+
+      {% if pager %}
+        {{ pager }}
+      {% endif %}
+
+      {% if attachment_after %}
+        <div class="attachment attachment-after">
+          {{ attachment_after }}
+        </div>
+      {% endif %}
+      {% if more %}
+        {{ more }}
+      {% endif %}
+      {% if footer %}
+        <div class="view-footer">
+          {{ footer }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

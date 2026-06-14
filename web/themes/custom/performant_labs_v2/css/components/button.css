@@ -1,0 +1,178 @@
+/* [Layer 5] Button component override via libraries-extend.
+ * Source: docs/pl2/Briefs/pl_design_brief.md §button treatment.
+ *
+ * Changes:
+ *   1. Pill radius (30px) per design brief rounded.pill.
+ *   2. Phase 8.7: Primary button adopts preview's three-color palette:
+ *      resting bg = --pl-primary-light (#62BBCB), hover = --pl-primary (#1893b4).
+ *      WCAG: #62BBCB bg + #FFFFFF text = 2.13:1 (FAIL AA — pre-approved
+ *      deviation per operator decision 2026-05-11, prioritizes preview-canonical
+ *      visual identity). Hover #1893b4 + #FFFFFF = 3.5:1 (passes large-text 3:1,
+ *      fails body-text 4.5:1 — also pre-approved).
+ *   3. Ghost-on-dark modifier for outline buttons on espresso surfaces.
+ *   4. Button typography: Poppins SemiBold 15px per design brief.
+ *
+ * Specificity: Dripyard uses .button--primary:where(:not([disabled])) (0,1,0).
+ * Our overrides load after via libraries-extend, winning by cascade order
+ * at equal specificity. */
+
+/* ─── All buttons: pill radius + typography ──────────────────── */
+.button {
+  --button-border-radius: 30px;
+  --button-font-family: "Poppins", sans-serif;
+  --button-font-size: 15px;
+  --button-font-weight: 600;
+  --button-padding-block: 12px;
+  --button-padding-inline: 24px;
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out, scale 0.1s;
+}
+
+/* ─── Primary button: preview-canonical three-color palette ────────
+ * Phase 8.7: replaces the P13 --theme-link-color approach.
+ *
+ * White/light/secondary zones (default):
+ *   Resting: --pl-primary-light (#62BBCB) bg + white text
+ *   Hover:   --pl-primary (#1893b4) bg + white text
+ *   WCAG: 2.13:1 resting, 3.5:1 hover — both pre-approved deviations.
+ *
+ * Dark/black zones: unchanged (--theme-link-color = #5DC6E8, text = espresso).
+ * Primary zone: unchanged (white bg + espresso text). */
+.button--primary:where(:not([disabled])) {
+  --button-background-color: var(--pl-primary-light);
+  --button-background-color-hover: var(--pl-primary);
+  --button-background-color-active: var(--pl-primary);
+  --button-text-color: #FFFFFF;
+  --button-text-color-hover: #FFFFFF;
+  --button-text-color-active: #FFFFFF;
+  --button-border-color: transparent;
+  --button-border-color-hover: transparent;
+  --button-border-color-active: transparent;
+
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: solid 1px var(--button-border-color);
+
+  &:hover {
+    background-color: var(--button-background-color-hover);
+    border-color: var(--button-border-color-hover);
+    color: var(--button-text-color-hover);
+  }
+
+  &:active {
+    background-color: var(--button-background-color-active);
+    border-color: var(--button-border-color-active);
+    color: var(--button-text-color-active);
+  }
+}
+
+/* ─── Primary button in dark/black zones: use dark-zone link color ──────
+ * In dark zones --theme-link-color = #5DC6E8 (light teal). The base rule's
+ * --pl-primary-light (#62BBCB) is too close to espresso for adequate contrast.
+ * Override to dark-zone link color + espresso text.
+ * WCAG: #5DC6E8 bg + #1F1A14 text = 8.81:1 (AA pass).
+ * Hover: #7AD0E8 bg + #1F1A14 text = 9.88:1 (AA pass).
+ * Specificity (0,2,0) beats the base (0,1,0) rule above. */
+.theme--dark .button--primary:where(:not([disabled])),
+.theme--black .button--primary:where(:not([disabled])) {
+  --button-background-color: var(--theme-link-color);
+  --button-background-color-hover: var(--theme-link-color-hover);
+  --button-background-color-active: var(--theme-link-color-hover);
+  --button-text-color: #1F1A14;
+  --button-text-color-hover: #1F1A14;
+  --button-text-color-active: #1F1A14;
+}
+
+/* ─── Primary button in primary zone: flip to white bg + espresso text ──
+ * In primary zone the surface is teal. CTA needs maximum contrast.
+ * WCAG: #1F1A14 on #FFFFFF = 17.27:1 (AAA).
+ * Hover: cream bg #F5EFE2 + espresso text = 15.07:1 (AAA). */
+.theme--primary .button--primary:where(:not([disabled])) {
+  --button-background-color: #FFFFFF;
+  --button-background-color-hover: #F5EFE2;
+  --button-background-color-active: #F5EFE2;
+  --button-text-color: #1F1A14;
+  --button-text-color-hover: #1F1A14;
+  --button-text-color-active: #1F1A14;
+}
+
+/* ─── Secondary button: transparent / teal-bordered ghost ────
+ * Phase 8.7: --theme-link-color-hover now resolves to --pl-primary-deep (#005AA0)
+ * in white/light/secondary zones via base.css L3 tokens.
+ *
+ * Resting: text+border = --theme-link-color-hover (#005AA0) — 7.07:1 on #FFFFFF.
+ * Hover:   deepened to #003D6F (literal; 11.07:1).
+ *
+ * WCAG contrast (white surface #FFFFFF):
+ *   resting text   #005AA0 on #FFFFFF = 7.07:1 (PASS small-text 4.5:1; AAA 7:1).
+ *   resting border #005AA0 on #FFFFFF = 7.07:1 (PASS non-text 3.0:1).
+ *   hover text     #003D6F on #FFFFFF = 11.07:1 (PASS small-text 4.5:1; AAA).
+ *   hover border   #003D6F on #FFFFFF = 11.07:1 (PASS non-text 3.0:1).
+ *
+ * No !important. */
+.button--secondary:where(:not([disabled])) {
+  --button-background-color: transparent;
+  --button-background-color-hover: transparent;
+  --button-background-color-active: transparent;
+  --button-text-color: var(--theme-link-color-hover);
+  --button-text-color-hover: #003D6F;
+  --button-text-color-active: #003D6F;
+  --button-border-color: var(--theme-link-color-hover);
+  --button-border-color-hover: #003D6F;
+  --button-border-color-active: #003D6F;
+
+  background-color: var(--button-background-color);
+  color: var(--button-text-color);
+  border: solid 1px var(--button-border-color);
+
+  &:hover {
+    background-color: var(--button-background-color-hover);
+    border-color: var(--button-border-color-hover);
+    color: var(--button-text-color-hover);
+  }
+
+  &:active {
+    background-color: var(--button-background-color-active);
+    border-color: var(--button-border-color-active);
+    color: var(--button-text-color-active);
+  }
+}
+
+/* ─── Ghost-on-dark modifier ─────────────────────────────────
+ * Used on espresso sections (closing CTA secondary button).
+ * Applied via additional_classes="button--ghost-on-dark" with style="outline".
+ * Transparent bg, cream border at 40% alpha, cream text.
+ * Hover lifts bg to 8% alpha, border to full cream.
+ *
+ * Contrast: cream #F5EFE2 on espresso #1F1A14 = 15.07:1 (AAA). */
+.button--ghost-on-dark {
+  background-color: transparent;
+  border: solid 1px rgba(245, 239, 226, 0.4);
+  color: #F5EFE2;
+
+  &:hover {
+    background-color: rgba(245, 239, 226, 0.08);
+    border-color: #F5EFE2;
+    color: #F5EFE2;
+  }
+
+  &:active {
+    background-color: rgba(245, 239, 226, 0.12);
+    border-color: #F5EFE2;
+    color: #F5EFE2;
+  }
+
+  /* Focus ring: cream on espresso for visibility.
+   * #62bbcb on #1F1A14 = 7.80:1 (inherited from --theme-focus-ring-color
+   * in dark zone). No override needed -- Dripyard handles this. */
+}
+
+/* ─── Focus ring: all buttons ────────────────────────────────
+ * Dripyard sets focus-visible on interactive elements globally.
+ * Ensure pill-shaped buttons get a matching pill-shaped ring.
+ * Ring color comes from --theme-focus-ring-color per zone:
+ *   white/light: #1893b4 on #FFFFFF = 3.58:1 (>=3.0 non-text pass)
+ *   dark/black:  #62bbcb on #1F1A14 = 7.80:1 (>=3.0 non-text pass) */
+.button:focus-visible {
+  outline: dotted 3px var(--theme-focus-ring-color);
+  outline-offset: 2px;
+}

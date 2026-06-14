@@ -1,0 +1,91 @@
+{
+  "preview": {
+    "375": {
+      "chipActiveBg": "rgb(0, 90, 160)",
+      "chipActiveBorder": "rgb(0, 90, 160)",
+      "chipActiveColor": "rgb(255, 255, 255)",
+      "pagCurrentBg": "rgb(0, 90, 160)",
+      "cardBorder": "rgb(142, 134, 122)",
+      "h3aColor": "rgb(31, 26, 20)",
+      "chipOrder": [
+        "All",
+        "Automated Testing",
+        "Cypress",
+        "Open source",
+        "Talks"
+      ],
+      "skipHref": "#main-content",
+      "skipTargetTag": "A",
+      "skipTargetTabindex": "-1",
+      "mainHasId": null,
+      "chipHeights": [
+        46,
+        46,
+        46,
+        46,
+        46
+      ],
+      "h1Count": 1,
+      "h2VisuallyHidden": [],
+      "pageScrollWidth": 375,
+      "clientWidth": 375
+    },
+    "1280": {
+      "chipActiveBg": "rgb(0, 90, 160)",
+      "chipActiveBorder": "rgb(0, 90, 160)",
+      "chipActiveColor": "rgb(255, 255, 255)",
+      "pagCurrentBg": "rgb(0, 90, 160)",
+      "cardBorder": "rgb(142, 134, 122)",
+      "h3aColor": "rgb(31, 26, 20)",
+      "chipOrder": [
+        "All",
+        "Automated Testing",
+        "Cypress",
+        "Open source",
+        "Talks"
+      ],
+      "skipHref": "#main-content",
+      "skipTargetTag": "A",
+      "skipTargetTabindex": "-1",
+      "mainHasId": null,
+      "chipHeights": [
+        34,
+        34,
+        34,
+        34,
+        34
+      ],
+      "h1Count": 1,
+      "h2VisuallyHidden": [],
+      "pageScrollWidth": 1280,
+      "clientWidth": 1280
+    }
+  },
+  "live": {
+    "1280": {
+      "h2VisuallyHidden": [
+        {
+          "text": "Main navigation",
+          "classes": "visually-hidden h3 menu-block__title",
+          "offsetParent": "in-flow"
+        },
+        {
+          "text": "Breadcrumb",
+          "classes": "visually-hidden",
+          "offsetParent": "in-flow"
+        },
+        {
+          "text": "Articles",
+          "classes": "visually-hidden",
+          "offsetParent": "in-flow"
+        },
+        {
+          "text": "Footer",
+          "classes": "visually-hidden h3 menu-block__title",
+          "offsetParent": "in-flow"
+        }
+      ],
+      "articlesH2Present": true
+    }
+  }
+}

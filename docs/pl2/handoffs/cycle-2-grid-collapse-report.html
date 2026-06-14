@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 6 Cycle 2 — /services engagement grid 768 collapse — visual audit</title>
+<style>
+  :root { --rework:#b91c1c; --pass:#15803d; --ink:#111; --muted:#555; --line:#e5e7eb; --bg:#fafafa; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+  header.banner{padding:24px 32px;background:var(--rework);color:#fff;display:flex;align-items:baseline;gap:24px;flex-wrap:wrap}
+  header.banner h1{margin:0;font-size:32px}
+  header.banner .meta{font-size:14px;opacity:.95}
+  main{max-width:1400px;margin:0 auto;padding:24px 32px}
+  h2{margin-top:48px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+  h3{margin-top:32px}
+  nav.toc a{display:inline-block;margin-right:16px;color:#1d4ed8;text-decoration:none}
+  nav.toc a:hover{text-decoration:underline}
+  .summary ul{font-size:16px}
+  .summary li{margin-bottom:8px}
+  .vp-section{margin-top:32px;border:1px solid var(--line);background:#fff;padding:16px;border-radius:6px}
+  .vp-section h3{margin-top:0}
+  .vp-meta{font-size:13px;color:var(--muted);margin-bottom:16px}
+  .slider-wrap{position:relative;width:100%;overflow:hidden;border:1px solid var(--line);background:#fff;margin-bottom:16px}
+  .slider-wrap .frame{position:relative;width:100%}
+  .slider-wrap img{display:block;width:100%;height:auto}
+  .slider-wrap .top{position:absolute;top:0;left:0;width:100%;height:100%;clip-path:inset(0 50% 0 0);}
+  .slider-wrap .label{position:absolute;top:8px;padding:4px 8px;background:rgba(0,0,0,.7);color:#fff;font-size:12px;border-radius:3px;z-index:5}
+  .slider-wrap .lbl-live{left:8px}
+  .slider-wrap .lbl-prev{right:8px}
+  .slider-range{width:100%;margin-top:8px}
+  .imgrow{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+  .imgrow figure{margin:0}
+  .imgrow figcaption{font-size:13px;color:var(--muted);margin-bottom:4px}
+  .imgrow img{display:block;width:100%;border:1px solid var(--line)}
+  table{border-collapse:collapse;width:100%;background:#fff;margin-top:12px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;font-size:14px;vertical-align:top}
+  th{background:#f3f4f6}
+  .status-match{color:var(--pass);font-weight:600}
+  .status-rework{color:var(--rework);font-weight:600}
+  .status-delta{color:#a16207;font-weight:600}
+  code{background:#f3f4f6;padding:2px 6px;border-radius:3px;font-size:13px}
+  ol.recs li{margin-bottom:12px}
+</style>
+</head>
+<body>
+<header class="banner">
+  <h1>REWORK</h1>
+  <div class="meta">
+    Sprint 6 Cycle 2 — <code>/services</code> § engagements grid collapse (FU-S5-1)<br>
+    Branch <code>aa/pl-sprint-6-cycle-2-grid-collapse</code> · 2026-05-11<br>
+    Whole-page pixel delta: 1280 = 0.36% · 768 = 0.46% · 375 = 0.34% (all sub-1%)
+  </div>
+</header>
+
+<main>
+
+<section class="summary">
+<h2>What I see different</h2>
+<ul>
+  <li><strong>768 — engagements cards have content trapped in the left ~44% of each card.</strong> The grid correctly collapses to one card per row (the cycle's stated goal), but each card's inner column (<code>.card__bottom</code>, ~305 px wide on a 693 px card) does not expand to fill its parent. Title and body wrap inside a narrow column with a wide empty area to the right. The preview shows title/body filling the full card width.</li>
+  <li><strong>1280 — unchanged.</strong> 2 × 2 grid renders as expected; card content fills each card's column. Matches preview.</li>
+  <li><strong>375 — unchanged.</strong> 1-col stack; card content fills the card width. Matches preview.</li>
+  <li><strong>Net.</strong> The L5 rule added in this cycle does exactly what the issue specifies for the grid container. The visible regression is downstream, inside <code>.card__layout</code>, and is exposed (not caused) by the grid collapse — it was previously masked because the 2-col grid kept cards at half-width.</li>
+</ul>
+
+<nav class="toc">
+<strong>Jump to:</strong>
+<a href="#vp-1280">1280</a>
+<a href="#vp-768">768 (binding)</a>
+<a href="#vp-375">375</a>
+<a href="#section-table">Section table</a>
+<a href="#recs">Sub-issue recommendations</a>
+</nav>
+</section>
+
+<h2 id="viewports">Per-viewport visual comparators</h2>
+
+<section class="vp-section" id="vp-1280">
+<h3>1280 × 800 — desktop (unchanged target)</h3>
+<div class="vp-meta">Whole-page AE = 2,034,640 px (0.36%). Engagements section MATCH — 2 × 2 grid as expected.</div>
+<div class="slider-wrap">
+  <span class="label lbl-live">live</span>
+  <span class="label lbl-prev">preview</span>
+  <div class="frame">
+    <img src="screenshots/sprint-6-cycle-2/t3-services-engagements-1280-preview-20260511.png" alt="preview engagements 1280">
+    <img class="top" id="top-1280" src="screenshots/sprint-6-cycle-2/t3-services-engagements-1280-live-20260511.png" alt="live engagements 1280">
+  </div>
+</div>
+<input type="range" class="slider-range" min="0" max="100" value="50" oninput="document.getElementById('top-1280').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+<div class="imgrow">
+  <figure><figcaption>Diff PNG (red = pixel-level delta)</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-1280-diff-20260511.png" alt="diff 1280"></figure>
+  <figure><figcaption>Composite — live (left) | preview (right)</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-1280-composite-20260511.png" alt="composite 1280"></figure>
+</div>
+</section>
+
+<section class="vp-section" id="vp-768">
+<h3>768 × 1024 — tablet (binding viewport for this cycle)</h3>
+<div class="vp-meta">Whole-page AE = 1,888,560 px (0.46%). Engagements: <strong class="status-rework">REWORK</strong> — grid collapses to 1-col as required, but card content does not fill card width.</div>
+<div class="slider-wrap">
+  <span class="label lbl-live">live</span>
+  <span class="label lbl-prev">preview</span>
+  <div class="frame">
+    <img src="screenshots/sprint-6-cycle-2/t3-services-engagements-768-preview-20260511.png" alt="preview engagements 768">
+    <img class="top" id="top-768" src="screenshots/sprint-6-cycle-2/t3-services-engagements-768-live-20260511.png" alt="live engagements 768">
+  </div>
+</div>
+<input type="range" class="slider-range" min="0" max="100" value="50" oninput="document.getElementById('top-768').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+<div class="imgrow">
+  <figure><figcaption>Diff PNG (red = pixel-level delta) — note the wide red column at right of every card on live</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-768-diff-20260511.png" alt="diff 768"></figure>
+  <figure><figcaption>Composite — live (left) | preview (right)</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-768-composite-20260511.png" alt="composite 768"></figure>
+</div>
+<p style="margin-top:12px;font-size:14px;color:var(--muted)"><strong>DOM evidence at 768.</strong> On live, the grid item <code>article.card</code> measures 693 px wide; nested <code>.card__layout</code> = 691 px (full width); inside it, <code>.card__bottom</code> = <strong>305 px</strong> (≈ 44 % of card). Title and body inherit the 305 px column. The narrow inner column was acceptable while cards were half-width (1280 / 2-col layout); it is now visibly under-filled because the L5 collapse made each card full-width.</p>
+</section>
+
+<section class="vp-section" id="vp-375">
+<h3>375 × 667 — mobile (unchanged target)</h3>
+<div class="vp-meta">Whole-page AE = 825,909 px (0.34%). Engagements MATCH — 1-col stack, card content fills width.</div>
+<div class="slider-wrap">
+  <span class="label lbl-live">live</span>
+  <span class="label lbl-prev">preview</span>
+  <div class="frame">
+    <img src="screenshots/sprint-6-cycle-2/t3-services-engagements-375-preview-20260511.png" alt="preview engagements 375">
+    <img class="top" id="top-375" src="screenshots/sprint-6-cycle-2/t3-services-engagements-375-live-20260511.png" alt="live engagements 375">
+  </div>
+</div>
+<input type="range" class="slider-range" min="0" max="100" value="50" oninput="document.getElementById('top-375').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+<div class="imgrow">
+  <figure><figcaption>Diff PNG (red = pixel-level delta)</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-375-diff-20260511.png" alt="diff 375"></figure>
+  <figure><figcaption>Composite — live (left) | preview (right)</figcaption><img src="screenshots/sprint-6-cycle-2/t3-services-engagements-375-composite-20260511.png" alt="composite 375"></figure>
+</div>
+</section>
+
+<h2 id="section-table">Per-section delta table</h2>
+<table>
+  <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>§ engagements (cards)</td><td>1280</td><td class="status-match">MATCH</td><td>2 × 2 grid; card content fills each card. Unchanged by this cycle, as targeted.</td></tr>
+    <tr><td>§ engagements (cards)</td><td>768</td><td class="status-rework">REWORK</td><td>Grid collapses to 1-col (cycle goal met). But card inner column is ~44 % of card width — title and body wrap inside the left half, with a wide empty zone on the right. Preview shows full-bleed content.</td></tr>
+    <tr><td>§ engagements (cards)</td><td>375</td><td class="status-match">MATCH</td><td>1-col; card content fills the card. Unchanged by this cycle, as targeted.</td></tr>
+    <tr><td>Other page sections</td><td>all</td><td class="status-match">MATCH</td><td>No changes; cycle scope was limited to <code>.grid-wrapper--2col</code>.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="wcag">WCAG 2.2 AA audit</h2>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Keyboard navigation</td><td class="status-match">PASS</td><td>Cards are <code>&lt;article&gt;</code> blocks with normal link/heading flow; no tab traps introduced. Layout-only change.</td></tr>
+    <tr><td>Focus ring visibility</td><td class="status-match">PASS</td><td>No focus styles altered.</td></tr>
+    <tr><td>Forced-colors mode</td><td class="status-match">PASS</td><td>No color or border changes; pre-existing forced-colors behavior preserved.</td></tr>
+    <tr><td>Reduced-motion</td><td class="status-match">PASS</td><td>No animation/transition changes.</td></tr>
+    <tr><td>200% zoom</td><td class="status-match">PASS</td><td>No horizontal scroll at 1280 or 375 zoomed 200%; engagements section reflows cleanly.</td></tr>
+    <tr><td>Heading hierarchy</td><td class="status-match">PASS</td><td>H1 → H2 → H3 unchanged (per T's grep).</td></tr>
+    <tr><td>Image alt text</td><td class="status-match">PASS</td><td>No image changes.</td></tr>
+    <tr><td>Mobile touch targets (375)</td><td class="status-match">PASS</td><td>Cards block-level; no touch-target shrink.</td></tr>
+    <tr><td>Mobile typography scale</td><td class="status-match">PASS</td><td>No typography changes.</td></tr>
+    <tr><td>Mobile layout (375)</td><td class="status-match">PASS</td><td>1-col stack; no horizontal scroll.</td></tr>
+    <tr><td>Tablet layout (768)</td><td class="status-delta">PASS-with-note</td><td>Grid collapse is correct; card-internal content width is the only visual delta (covered as REWORK above, not a WCAG failure — content remains legible at a wider line length than the preview, just under-fills the container).</td></tr>
+  </tbody>
+</table>
+
+<h2 id="recs">Sub-issue recommendation (REWORK)</h2>
+<ol class="recs">
+  <li>
+    <strong>Proposed branch:</strong> <code>aa/pl-sprint-6-cycle-3-card-internal-fill-768</code><br>
+    <strong>Problem:</strong> On <code>/services</code> at 768, <code>.card__layout</code> &gt; <code>.card__bottom</code> renders at ~305 px inside a 693 px <code>article.card</code>, leaving the right ~55% of every card empty. Preview fills the card. Fix the card-internal layout (likely a <code>grid-template-columns</code> or <code>max-width</code> on <code>.card__layout</code> sized for the prior 2-col context) so that at <code>(max-width: 991px)</code>, <code>.card__bottom</code> spans the full card width — matching the 375 behavior, which is already correct.<br>
+    <strong>Operator decision needed:</strong> Confirm <em>preview is canonical</em> for the card internal layout at 768. If brief/preview later say "constrain to optical line-length" the fix would instead be a centered/max-width-with-margin treatment rather than full-bleed. Recommend preview-canonical fix unless brief overrides.<br>
+    <strong>Out of scope of cycle 2:</strong> the L5 rule added in this cycle is correct and should remain. The fix in cycle 3 is to <code>.card__layout</code>, not <code>.grid-wrapper--2col</code>.
+  </li>
+</ol>
+
+<p style="margin-top:32px;color:var(--muted);font-size:13px">Generated 2026-05-11 by S (Spec Auditor). Screenshots: <code>docs/pl2/handoffs/screenshots/sprint-6-cycle-2/</code>. Markdown handoff: <code>docs/pl2/handoffs/cycle-2-grid-collapse-S.md</code>.</p>
+
+</main>
+</body>
+</html>

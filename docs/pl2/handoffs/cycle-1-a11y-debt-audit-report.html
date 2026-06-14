@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 9 — Cycle 1 — A11y debt audit (S report)</title>
+<style>
+  :root { --teal: #2fa2b6; --teal-deep: #288191; --cream: #fcfbf7; --ink: #0e1820; --warn: #c64a2e; --ok: #2e7d4f; }
+  body { font: 15px/1.55 -apple-system, "SF Pro Text", "Segoe UI", system-ui, sans-serif; max-width: 1080px; margin: 0 auto; padding: 2rem 1.25rem 6rem; color: var(--ink); background: var(--cream); }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { font-size: 2rem; margin: 0 0 .25rem; }
+  h2 { margin-top: 2.5rem; border-bottom: 2px solid var(--teal); padding-bottom: .3rem; }
+  h3 { margin-top: 1.75rem; color: var(--teal-deep); }
+  .verdict { display: inline-block; padding: .35rem .9rem; border-radius: 4px; font-weight: 600; font-size: 1.05rem; }
+  .verdict.pass { background: var(--ok); color: #fff; }
+  .meta { color: #555; margin-bottom: 1.5rem; }
+  .meta a { color: var(--teal-deep); }
+  table { border-collapse: collapse; width: 100%; margin: .75rem 0 1.5rem; font-size: .92rem; }
+  th, td { border: 1px solid #d6d2c4; padding: .45rem .6rem; text-align: left; vertical-align: top; }
+  th { background: #efeadb; }
+  code { background: #eee6d2; padding: 1px 5px; border-radius: 3px; font-size: .9em; }
+  pre { background: #1e1e1e; color: #f0f0f0; padding: .9rem 1rem; border-radius: 5px; overflow-x: auto; font-size: .85rem; line-height: 1.45; }
+  .badge { display: inline-block; padding: 1px 7px; border-radius: 3px; font-size: .78rem; font-weight: 600; }
+  .badge.fail { background: var(--warn); color: #fff; }
+  .badge.ok { background: var(--ok); color: #fff; }
+  .badge.warn { background: #c89200; color: #fff; }
+  .toc { background: #fff; border: 1px solid #d6d2c4; padding: 1rem 1.25rem; border-radius: 5px; }
+  .toc ul { margin: .3rem 0; padding-left: 1.4rem; }
+  .toc a { color: var(--teal-deep); text-decoration: none; }
+  .key-finding { background: #fff; border-left: 4px solid var(--teal); padding: .8rem 1rem; margin: .8rem 0 1.2rem; }
+  .key-finding strong { color: var(--teal-deep); }
+  nav.skip { position: absolute; left: -9999px; }
+  nav.skip:focus-within { left: auto; }
+</style>
+</head>
+<body>
+
+<nav class="skip"><a href="#main">Skip to main content</a></nav>
+
+<header>
+  <h1>Sprint 9 — Cycle 1 — A11y debt audit</h1>
+  <div class="meta">
+    Audit date: 2026-05-12 · Branch: <code>aa/pl-sprint-9-cycle-1-audit</code> · Mode: autonomous, audit-only ·
+    Markdown handoff: <a href="cycle-1-a11y-debt-audit-S.md"><code>cycle-1-a11y-debt-audit-S.md</code></a>
+  </div>
+  <p><span class="verdict pass">PASS</span> &nbsp; All three audit threads have actionable findings. Carve recommendation: single Cycle 2 (bundled).</p>
+</header>
+
+<section class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#summary">Executive summary</a></li>
+    <li><a href="#fu3">Thread 1 — FU-3 pa11y-ci install path</a></li>
+    <li><a href="#fu7b">Thread 2 — FU-7b heading skip root cause</a></li>
+    <li><a href="#sweep">Thread 3 — Site-wide a11y sweep</a></li>
+    <li><a href="#brand">Brand-exception re-eval</a></li>
+    <li><a href="#carve">Cycle 2 carve</a></li>
+  </ul>
+</section>
+
+<main id="main">
+
+<h2 id="summary">Executive summary</h2>
+
+<div class="key-finding">
+  <strong>FU-3.</strong> No <code>package.json</code> at repo root or in the custom theme. Recommend a <strong>config-only</strong> <code>.pa11yci.json</code> at repo root (no npm install required). Allowlist needs exactly <strong>two</strong> entries — both already known brand exceptions. Run via <code>npx --yes pa11y-ci --config .pa11yci.json</code>.
+</div>
+
+<div class="key-finding">
+  <strong>FU-7b.</strong> Root cause is at the Views template layer, not the SDC. The <code>article-card</code> SDC's <code>&lt;h3&gt;</code> is correct in every other context (5 pages have a section H2 above it). Only <code>/articles</code> renders the SDC directly under H1. <strong>Fix:</strong> add a visually-hidden <code>&lt;h2&gt;</code> in <code>views-view-unformatted--articles--page-1.html.twig</code>. Single template, one element, zero conditionals.
+</div>
+
+<div class="key-finding">
+  <strong>Site-wide sweep.</strong> 12 total pa11y errors across 7 pages — <strong>every single one</strong> maps to one of the two already-known brand exceptions. No new contrast issues, no new heading issues (other than FU-7b), no alt-text issues, no landmark issues, no form-label issues.
+</div>
+
+<div class="key-finding">
+  <strong>Cycle 2 carve.</strong> Bundle FU-3 + FU-7b into a single cycle. Total = 2 files modified. Runbook pre-commits the single-cycle option at ≤ 4 files.
+</div>
+
+<h2 id="fu3">Thread 1 — FU-3 pa11y-ci install path</h2>
+
+<h3>Tooling probe results</h3>
+<table>
+  <tr><th>Probe</th><th>Result</th></tr>
+  <tr><td><code>pa11y</code> binary</td><td><code>/opt/homebrew/bin/pa11y</code> — works against ddev HTTPS</td></tr>
+  <tr><td><code>pa11y-ci</code> binary</td><td>Not installed</td></tr>
+  <tr><td><code>package.json</code> at repo root</td><td><span class="badge warn">NONE</span></td></tr>
+  <tr><td><code>package.json</code> in custom theme (<code>performant_labs_20260502</code>)</td><td><span class="badge warn">NONE</span></td></tr>
+  <tr><td>Other <code>package.json</code></td><td>Only inside <code>web/core/</code>, contrib themes, contrib modules, <code>web/libraries/</code> — not relevant</td></tr>
+  <tr><td><code>.pa11yci*</code> files</td><td>None</td></tr>
+</table>
+
+<h3>Install path recommendation: config-only artifact</h3>
+
+<p>No existing JS toolchain at project root. Adding <code>package.json</code> + <code>node_modules</code> solely to host <code>pa11y-ci</code> would import the entire npm lifecycle into a repo that otherwise has none. A config-only <code>.pa11yci.json</code> plus a documented <code>npx</code> invocation keeps the artifact a docs/config asset.</p>
+
+<h3><code>.pa11yci.json</code> sketch (repo root)</h3>
+
+<pre>{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 30000,
+    "wait": 500,
+    "chromeLaunchConfig": { "args": ["--ignore-certificate-errors"] }
+  },
+  "urls": [
+    "https://pl-performantlabs.com.3.ddev.site:8493/",
+    "https://pl-performantlabs.com.3.ddev.site:8493/services",
+    "https://pl-performantlabs.com.3.ddev.site:8493/about-us",
+    "https://pl-performantlabs.com.3.ddev.site:8493/articles",
+    "https://pl-performantlabs.com.3.ddev.site:8493/contact-us",
+    "https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it",
+    "https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects"
+  ]
+}</pre>
+
+<h3>Allowlist entries</h3>
+
+<table>
+  <tr><th>#</th><th>Source</th><th>Selector</th><th>WCAG rule ID</th><th>Measured</th></tr>
+  <tr>
+    <td>1</td><td>ADV-S5</td>
+    <td><code>a.button.button--primary, button.button.button--primary, #edit-actions-submit.button--primary</code></td>
+    <td><code>…G18.Fail</code></td>
+    <td>2.21:1</td>
+  </tr>
+  <tr>
+    <td>2</td><td>brk-3</td>
+    <td><code>.breadcrumb__link</code></td>
+    <td><code>…G18.Fail</code></td>
+    <td>3.12:1</td>
+  </tr>
+</table>
+
+<h3>Invocation lines</h3>
+<pre># Preferred — no install, run from repo root:
+npx --yes pa11y-ci --config .pa11yci.json
+
+# Global-install alternative:
+npm install -g pa11y-ci
+pa11y-ci --config .pa11yci.json</pre>
+
+<h2 id="fu7b">Thread 2 — FU-7b root cause</h2>
+
+<h3>Why the skip only manifests on <code>/articles</code></h3>
+
+<table>
+  <tr><th>Page</th><th>H1</th><th>Section H2 before cards?</th><th>Card H3 source</th><th>Hierarchy</th></tr>
+  <tr><td><code>/articles</code></td><td>Articles.</td><td><span class="badge fail">NO</span></td><td><code>article-card</code> SDC</td><td><span class="badge fail">H1 → H3 skip</span></td></tr>
+  <tr><td><code>/</code> (home)</td><td>Hero</td><td>Yes</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/services</code></td><td>Services H1</td><td>Yes</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/about-us</code></td><td>About H1</td><td>Yes</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/contact-us</code></td><td>Contact H1</td><td>Yes (one H2 visually-styled as <code>.h3</code>)</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/how-we-do-it</code></td><td>H1</td><td>Yes</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/open-source-projects</code></td><td>H1</td><td>Yes</td><td><code>card__title</code></td><td><span class="badge ok">clean</span></td></tr>
+</table>
+
+<h3>Emitting file</h3>
+<p><code>web/themes/custom/performant_labs_20260502/components/article-card/article-card.twig</code> line 37:</p>
+<pre>&lt;h3&gt;&lt;a href="{{ url }}"&gt;{{ title }}&lt;/a&gt;&lt;/h3&gt;</pre>
+
+<p>The SDC itself is <strong>not the bug</strong>. The SDC's H3 is correct in 5 other consuming pages because each wraps the card in a section H2. The skip only manifests where the Views render path inserts cards directly under H1 — <code>/articles</code>.</p>
+
+<h3>Recommended fix (deviates from runbook default)</h3>
+
+<p>Edit <code>web/themes/custom/performant_labs_20260502/templates/views/views-view-unformatted--articles--page-1.html.twig</code> to insert a visually-hidden <code>&lt;h2&gt;</code> above <code>.article-grid</code>:</p>
+
+<pre>{% if title %}
+  &lt;h2&gt;{{ title }}&lt;/h2&gt;
+{% else %}
+  &lt;h2 class="visually-hidden"&gt;Articles&lt;/h2&gt;
+{% endif %}
+&lt;div class="article-grid"&gt;
+  {% for row in rows %}
+    {{- row.content -}}
+  {% endfor %}
+&lt;/div&gt;</pre>
+
+<p><strong>Why not "promote h3 to h2"</strong> (the runbook default): the SDC is shared by 5 unrelated pages. Promoting in-SDC cascades hierarchy changes to all of them. Per-page conditionals inside the SDC add prop sprawl. The Views template override is the per-page scoping mechanism Drupal provides for exactly this case.</p>
+
+<h2 id="sweep">Thread 3 — Site-wide a11y sweep</h2>
+
+<h3>pa11y WCAG2AA results</h3>
+
+<table>
+  <tr><th>Page</th><th>Total</th><th>brk-3 (breadcrumb 3.12:1)</th><th>ADV-S5 (button 2.21:1)</th><th>NEW</th></tr>
+  <tr><td><code>/</code></td><td>1</td><td>0 (no breadcrumb)</td><td>1</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/services</code></td><td>3</td><td>1</td><td>2</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/about-us</code></td><td>3</td><td>1</td><td>2</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/articles</code></td><td>1</td><td>1</td><td>0</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/contact-us</code></td><td>2</td><td>1</td><td>1 (<code>#edit-actions-submit</code>)</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/how-we-do-it</code></td><td>1</td><td>1</td><td>0</td><td><span class="badge ok">0</span></td></tr>
+  <tr><td><code>/open-source-projects</code></td><td>1</td><td>1</td><td>0</td><td><span class="badge ok">0</span></td></tr>
+  <tr><th>Total</th><th>12</th><th>6</th><th>6</th><th><strong>0</strong></th></tr>
+</table>
+
+<h3>Heading hierarchy</h3>
+<table>
+  <tr><th>Page</th><th>Single H1</th><th>H2 before first H3</th><th>Result</th></tr>
+  <tr><td><code>/</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/services</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/about-us</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/articles</code></td><td>Yes</td><td><span class="badge fail">NO</span></td><td><span class="badge fail">FU-7b</span></td></tr>
+  <tr><td><code>/contact-us</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/how-we-do-it</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+  <tr><td><code>/open-source-projects</code></td><td>Yes</td><td>Yes</td><td><span class="badge ok">clean</span></td></tr>
+</table>
+
+<h3>Other a11y axes</h3>
+<table>
+  <tr><th>Axis</th><th>Result</th><th>Notes</th></tr>
+  <tr><td>Landmarks (header / nav / main / footer)</td><td><span class="badge ok">clean</span></td><td>All <code>&lt;nav&gt;</code> elements distinguished by <code>aria-label</code> or <code>aria-labelledby</code></td></tr>
+  <tr><td>Image alt text</td><td><span class="badge ok">clean</span></td><td>All <code>&lt;img&gt;</code> have descriptive alt; no "image" / "img" generics</td></tr>
+  <tr><td>Form labels (contact form)</td><td><span class="badge ok">clean</span></td><td>All inputs have stable <code>id</code>; pa11y emits no label errors</td></tr>
+  <tr><td>Link discernibility</td><td><span class="badge ok">clean</span></td><td>No "click here" / "read more" patterns</td></tr>
+  <tr><td>Focus visibility</td><td>deferred</td><td>Requires interactive verification; Sprint 8 confirmed clean; defer to final cycle</td></tr>
+</table>
+
+<h2 id="brand">Brand-exception re-eval</h2>
+
+<p><strong>Position: KEEP both exceptions; document via allowlist (FU-3). No token tweak in Sprint 9.</strong></p>
+
+<ul>
+  <li><strong>ADV-S5</strong> — Reaching 4.5:1 white-on-teal needs the teal to drop to roughly <code>#288191</code> (~13% L decrease). Visible brand shift. Operator already declined in Sprint 5.</li>
+  <li><strong>brk-3</strong> — Breadcrumb is a low-prominence element; operator approved as live. No new evidence to overturn.</li>
+</ul>
+
+<p><strong>Future tech-debt suggestion</strong> (not Sprint 9): introduce a <code>teal-deep</code> token at ~<code>#288191</code> as an opt-in <code>.button--primary--aaa</code> variant for strict-AA contexts, without retroactively changing existing button visuals.</p>
+
+<h2 id="carve">Cycle 2 carve</h2>
+
+<p><strong>Recommendation: SINGLE CYCLE (Cycle 2 bundled).</strong></p>
+
+<table>
+  <tr><th>Item</th><th>File(s)</th></tr>
+  <tr><td>FU-3</td><td><code>.pa11yci.json</code> (new, repo root)</td></tr>
+  <tr><td>FU-7b</td><td><code>web/themes/custom/performant_labs_20260502/templates/views/views-view-unformatted--articles--page-1.html.twig</code> (edit)</td></tr>
+  <tr><th>Total files</th><th>2 — well under the 4-file single-cycle threshold</th></tr>
+</table>
+
+<h3>Cycle 2 acceptance (combined)</h3>
+<ul>
+  <li><code>.pa11yci.json</code> at repo root with the two allowlist entries.</li>
+  <li>F demos <code>npx --yes pa11y-ci --config .pa11yci.json</code> emitting 0 unallowlisted errors.</li>
+  <li>Views template adds a visually-hidden <code>&lt;h2&gt;</code> above <code>.article-grid</code>.</li>
+  <li><code>/articles</code> heading dump shows H1 → H2 → H3 sequence (no skip).</li>
+  <li>No <code>!important</code>.</li>
+  <li>No regression on the other 6 pages.</li>
+</ul>
+
+<p>After Cycle 2 lands, the runbook's <strong>Final cycle</strong> (T + S baseline) runs to confirm pa11y-0-errors-with-allowlist and the full WCAG 2.2 AA table.</p>
+
+</main>
+
+<footer style="margin-top:4rem;border-top:1px solid #d6d2c4;padding-top:1rem;color:#666;font-size:.85rem">
+  Generated by S agent (audit-only). Raw probe artifacts: <code>docs/pl2/handoffs/screenshots/sprint-9-cycle-1/</code>.
+</footer>
+
+</body>
+</html>

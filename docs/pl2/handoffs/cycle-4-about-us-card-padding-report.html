@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 4 — /about-us card-canvas padding: NO-OP VERIFIED</title>
+<style>
+  :root { --ok:#1f7a3a; --warn:#b27300; --bad:#a8201a; --ink:#2A2520; --hairline:#E5E1DC; --cream:#F5EFE2; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.55 -apple-system, system-ui, sans-serif; color: var(--ink); max-width: 1320px; margin: 0 auto; padding: 24px; }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { margin-top: 0; }
+  .verdict { display:inline-block; padding:12px 18px; border-radius:8px; background:var(--ok); color:#fff; font-weight:700; font-size:18px; letter-spacing:.5px; }
+  .verdict.rework { background: var(--bad); }
+  .verdict.advisory { background: var(--warn); }
+  .meta { background: var(--cream); border:1px solid var(--hairline); border-radius:8px; padding:14px 18px; margin: 16px 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { border:1px solid var(--hairline); padding:7px 10px; text-align:left; vertical-align: top; }
+  th { background:#f7f3ec; }
+  td.ok { color: var(--ok); font-weight:600; }
+  td.warn { color: var(--warn); font-weight:600; }
+  td.bad { color: var(--bad); font-weight:600; }
+  .comparator { position: relative; width: 100%; max-width: 1200px; margin: 14px 0 6px; border:1px solid var(--hairline); overflow:hidden; background:#fff; }
+  .comparator .imgwrap { position:relative; }
+  .comparator img { display:block; width:100%; user-select:none; -webkit-user-drag:none; }
+  .comparator .top { position:absolute; top:0; left:0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width:100%; }
+  .crop-row { display:flex; gap: 18px; flex-wrap: wrap; margin: 12px 0; }
+  .crop-row figure { margin:0; flex:1 1 360px; }
+  .crop-row img { width:100%; border:1px solid var(--hairline); }
+  figcaption { font-size: 12px; color: #5C544C; padding: 4px 0; }
+  nav.toc a { display:inline-block; margin-right: 12px; }
+  details { margin: 8px 0; }
+  code { background: #f3eee5; padding: 1px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+  <h1>Cycle 4 — <code>/about-us</code> card-canvas outer padding</h1>
+  <span class="verdict">NO-OP VERIFIED — PASS</span>
+
+  <div class="meta">
+    <strong>Date:</strong> 2026-05-12 &nbsp;|&nbsp;
+    <strong>Branch:</strong> <code>aa/pl-sprint-12-cycle-4-about-us-card-padding</code> &nbsp;|&nbsp;
+    <strong>Mode:</strong> autonomous &nbsp;|&nbsp;
+    <strong>F handoff:</strong> <a href="cycle-4-about-us-card-padding-F.md">cycle-4-about-us-card-padding-F.md</a> (no-op resolution)
+    <br><br>
+    <strong>Cycle 1 row resolved:</strong> "Open source §C cards — outer card wrapper padding 0 vs preview 48 px" <strong>DELTA → MATCH</strong> at 1280/768/375.
+  </div>
+
+  <nav class="toc">
+    <a href="#summary">Plain-English summary</a>
+    <a href="#measure">Pixel inset measurements</a>
+    <a href="#viewports">Per-viewport comparators</a>
+    <a href="#table">Per-section table</a>
+    <a href="#cross">Cross-page</a>
+    <a href="#brief">Brief discrepancy</a>
+  </nav>
+
+  <h2 id="summary">What I see different</h2>
+  <ul>
+    <li><strong>Card content-to-border spacing is identical on live and preview at every viewport.</strong> Both pages render text 49 px inside the card border (1 px border + 48 px padding). The difference is purely structural — preview applies the 48 px on the outer <code>.project-card</code>, live applies it on the inner <code>.card__bottom</code> which fills the entire card interior. Pixel-equivalent on screen.</li>
+    <li>Region-level pixel diffs of the §C card grid show 10–15% AE. The deltas concentrate on (a) card content (live and preview have different copy / link text inside each card), and (b) grid arrangement (live keeps a 3-up grid at 768 while preview drops to 1-up at the same viewport). <strong>None of these deltas are about card padding cadence.</strong></li>
+    <li>OSS sibling page card grid renders the same 49 px cadence (F's <code>getComputedStyle</code> across all 7 cards confirms the same <code>.card__bottom { padding: 3rem }</code> rule applies). 1280 gestalt capture confirms.</li>
+    <li>Cross-page consumers (homepage, /services, /how-we-do-it) all return 200 and the L5 padding rule is still served. No code changed, so no regression is mathematically possible.</li>
+  </ul>
+
+  <h2 id="measure">Pixel inset measurements (binding evidence)</h2>
+  <p>Measured via Playwright's <code>getBoundingClientRect()</code> on the rendered DOM. "Inset" = distance from card outer border edge to the first non-empty text node inside the card.</p>
+  <table>
+    <thead><tr><th>Viewport</th><th>Source</th><th>Left inset</th><th>Top inset</th><th>Right inset</th><th>Border</th><th>Outer padding</th><th>Inner (<code>.card__bottom</code>) padding</th></tr></thead>
+    <tbody>
+      <tr><td>1280×800</td><td>Live</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>0 px</td><td>48 px</td></tr>
+      <tr><td>1280×800</td><td>Preview</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>48 px</td><td>—</td></tr>
+      <tr><td>768×1024</td><td>Live</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>0 px</td><td>48 px</td></tr>
+      <tr><td>768×1024</td><td>Preview</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>48 px</td><td>—</td></tr>
+      <tr><td>375×667</td><td>Live</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>0 px</td><td>48 px</td></tr>
+      <tr><td>375×667</td><td>Preview</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td class="ok">49.0 px</td><td>1 px</td><td>48 px</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Verdict on inset:</strong> exact parity at every viewport. F's no-op claim is empirically confirmed by independent pixel measurement.</p>
+
+  <h2 id="viewports">Per-viewport comparators</h2>
+  <p>Wipe-slider compares the §C card-grid region of <code>/about-us</code> live (left of slider) against the preview's same region (right). Drag the handle to reveal the underlying image.</p>
+
+  <h3>1280 × 800</h3>
+  <div class="comparator">
+    <div class="imgwrap">
+      <img src="screenshots/cycle-4/t3-about-us-cards-1280-preview-pad-20260512.png" alt="preview 1280">
+      <img class="top" id="top1280" src="screenshots/cycle-4/t3-about-us-cards-1280-live-pad-20260512.png" alt="live 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('top1280').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  </div>
+  <p>Region AE (fuzz 2%): <strong>108,811 px = 0.128% × area</strong> — concentrated in card copy / link text differences, NOT in cadence. <a href="screenshots/cycle-4/t3-about-us-cards-1280-diff-20260512.png">Diff PNG</a> · <a href="screenshots/cycle-4/t3-about-us-cards-1280-composite-20260512.png">Side-by-side</a></p>
+
+  <h3>768 × 1024</h3>
+  <div class="comparator">
+    <div class="imgwrap">
+      <img src="screenshots/cycle-4/t3-about-us-cards-768-preview-pad-20260512.png" alt="preview 768">
+      <img class="top" id="top768" src="screenshots/cycle-4/t3-about-us-cards-768-live-pad-20260512.png" alt="live 768">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('top768').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  </div>
+  <p>Region AE: <strong>114,963 px = 0.108% × area</strong>. Note: live keeps 3-up at 768; preview drops to 1-up. That is grid-layout behaviour, not padding. The per-card inset still measures 49 px on both. <a href="screenshots/cycle-4/t3-about-us-cards-768-diff-20260512.png">Diff PNG</a> · <a href="screenshots/cycle-4/t3-about-us-cards-768-composite-20260512.png">Side-by-side</a></p>
+
+  <h3>375 × 667</h3>
+  <div class="comparator">
+    <div class="imgwrap">
+      <img src="screenshots/cycle-4/t3-about-us-cards-375-preview-pad-20260512.png" alt="preview 375">
+      <img class="top" id="top375" src="screenshots/cycle-4/t3-about-us-cards-375-live-pad-20260512.png" alt="live 375">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('top375').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  </div>
+  <p>Region AE: <strong>106,660 px = 0.145% × area</strong>. Both stack 1-up. Inset 49 px on both. <a href="screenshots/cycle-4/t3-about-us-cards-375-diff-20260512.png">Diff PNG</a> · <a href="screenshots/cycle-4/t3-about-us-cards-375-composite-20260512.png">Side-by-side</a></p>
+
+  <h2 id="table">Per-section delta table</h2>
+  <table>
+    <thead><tr><th>Section / row</th><th>Viewport</th><th>Status</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>Open source §C cards (Cycle 1 DELTA row)</td><td>1280</td><td class="ok">MATCH</td><td>Content-to-border inset 49 px on both. Structural source differs (inner padding vs outer padding) but visually identical.</td></tr>
+      <tr><td>Open source §C cards (Cycle 1 DELTA row)</td><td>768</td><td class="ok">MATCH</td><td>Inset 49 px on both. Grid count differs (live 3-up, preview 1-up) but that is a separate layout decision out of scope here.</td></tr>
+      <tr><td>Open source §C cards (Cycle 1 DELTA row)</td><td>375</td><td class="ok">MATCH</td><td>Inset 49 px on both. Both stack 1-up.</td></tr>
+      <tr><td>OSS sibling page card grid (gestalt)</td><td>1280</td><td class="ok">MATCH</td><td>F's getComputedStyle on all 7 OSS cards: padding 48 px on .card__bottom, identical to /about-us. Gestalt screenshot confirms.</td></tr>
+      <tr><td>Homepage / /services / /how-we-do-it (no-regression)</td><td>—</td><td class="ok">200</td><td>No code changed; all pages return 200; L5 rule (.card__bottom { padding: 3rem }) still served.</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="cross">Cross-page consumer 200-check</h2>
+  <pre style="background:#f3eee5;padding:10px;border-radius:6px;">
+/                     -> 200
+/about-us             -> 200
+/services             -> 200
+/open-source-projects -> 200
+/how-we-do-it         -> 200
+
+L5 served:  .card[class*="theme"] .card__bottom { padding: 3rem; /* 48px */ }
+  </pre>
+
+  <h2 id="brief">Brief-vs-preview discrepancy (noted, out of Sprint-12 scope)</h2>
+  <p>F's handoff flagged a pre-existing tension: the design brief specifies 32 px card internal padding (lines 335 / 355 / 488) while the preview and live both use 48 px. This pre-dates Sprint 12 (established Sprint 5 Cycle 2 with explicit audit justification). Per the cycle prompt this is logged to follow-up backlog FB-8 and is not acted on here. <strong>Live (48 px) matches preview (48 px). That is the binding spec for Cycle 4.</strong></p>
+
+  <h2>Verdict</h2>
+  <p><strong>PASS — NO-OP VERIFIED.</strong> F's no-op resolution is correct: the 48 px cadence is already empirically achieved via Sprint 5 Cycle 2's <code>.card__bottom { padding: 3rem }</code> rule. Pixel-level measurement at three viewports confirms 49 px content-to-border inset on both live and preview. Cycle 1's "Open source §C cards" DELTA row flips to MATCH at 1280 / 768 / 375. O may close the cycle and merge.</p>
+</body>
+</html>

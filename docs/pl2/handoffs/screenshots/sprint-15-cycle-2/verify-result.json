@@ -1,0 +1,42 @@
+{
+  "preview_url": "file:///Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/Previews/how-we-do-it.html",
+  "closing_cta_primary": {
+    "found": true,
+    "text": "Book a testing review",
+    "background": "rgb(93, 198, 232)",
+    "color": "rgb(31, 26, 20)",
+    "width": 220.140625,
+    "height": 45,
+    "top": 4601.515625,
+    "left": 388.734375
+  },
+  "all_btn_primary": [
+    {
+      "text": "Book a testing review",
+      "bg": "rgb(93, 198, 232)",
+      "color": "rgb(31, 26, 20)",
+      "inClosing": true
+    }
+  ],
+  "closing_cta_crop_box": {
+    "x": 0,
+    "y": 8232,
+    "w": 2560,
+    "h": 1300,
+    "css_top": 4116,
+    "css_h": 650
+  },
+  "diff_prefix_vs_postfix": {
+    "ae_raw": "38000 (0.0114183)",
+    "ae_num": 38000,
+    "total_px": 3328000,
+    "ae_pct": 1.142
+  },
+  "artifacts": {
+    "fullShot": "/Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/handoffs/screenshots/sprint-15-cycle-2/how-we-do-it-1280-preview-post-fix.png",
+    "postFixCrop": "/Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/handoffs/screenshots/sprint-15-cycle-2/closing-cta-1280-preview-post-fix.png",
+    "preFixCrop": "/Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/handoffs/screenshots/sprint-15-cycle-2/closing-cta-1280-preview-pre-fix.png",
+    "diffOut": "/Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/handoffs/screenshots/sprint-15-cycle-2/closing-cta-1280-diff-prefix-vs-postfix.png",
+    "composite": "/Users/andreangelantoni/Sites/pl-performantlabs.com.3/docs/pl2/handoffs/screenshots/sprint-15-cycle-2/closing-cta-1280-composite-prefix-postfix.png"
+  }
+}

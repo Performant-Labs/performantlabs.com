@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 16 Cycle 3 — /contact-us scoped re-audit</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1F1A14; background: #fafaf8; line-height: 1.5; }
+  header { padding: 24px 32px; border-bottom: 1px solid #e5e1dc; background: #fff; position: sticky; top: 0; z-index: 10; }
+  h1 { margin: 0 0 8px; font-size: 22px; }
+  .verdict { display: inline-block; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 18px; letter-spacing: 0.4px; }
+  .pass { background: #1f7a3a; color: #fff; }
+  nav.toc { font-size: 13px; padding: 8px 32px; background: #fff; border-bottom: 1px solid #e5e1dc; }
+  nav.toc a { color: #0b5fa3; text-decoration: none; margin-right: 16px; }
+  main { padding: 24px 32px 80px; max-width: 1400px; margin: 0 auto; }
+  section { margin-bottom: 56px; }
+  h2 { font-size: 18px; border-bottom: 1px solid #e5e1dc; padding-bottom: 6px; }
+  h3 { font-size: 15px; margin-top: 28px; }
+  .summary ul { margin: 8px 0; padding-left: 22px; }
+  .deltas-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  .deltas-table th, .deltas-table td { border: 1px solid #e5e1dc; padding: 8px 10px; vertical-align: top; text-align: left; }
+  .deltas-table th { background: #f3efe9; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+  .b-match { background: #d9f0e0; color: #155228; }
+  .b-intentional { background: #e2ecfb; color: #0b3f86; }
+  .wipe { position: relative; margin: 12px 0 8px; border: 1px solid #cfc8be; overflow: hidden; max-width: 100%; background: #fff; }
+  .wipe img { display: block; max-width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+  .wipe .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .wipe .top img { width: 100%; height: 100%; object-fit: contain; object-position: top left; }
+  .wipe .slider { position: absolute; left: 0; right: 0; bottom: 8px; width: 90%; margin: 0 5%; }
+  .wipe .labels { position: absolute; top: 6px; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 12px; font-size: 11px; font-weight: 700; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.6); pointer-events: none; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0; }
+  .pair figure { margin: 0; }
+  .pair figcaption { font-size: 11px; color: #555; margin-top: 4px; }
+  .pair img, .single img { max-width: 100%; height: auto; border: 1px solid #cfc8be; }
+  details { background: #fff; border: 1px solid #e5e1dc; padding: 12px 16px; border-radius: 6px; margin: 12px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  .ok { color: #1f7a3a; font-weight: 600; }
+  .meta-table { font-size: 13px; border-collapse: collapse; }
+  .meta-table td { padding: 4px 12px 4px 0; }
+  code { font-family: ui-monospace, Menlo, monospace; background: #f3efe9; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sprint 16 Cycle 3 — /contact-us scoped re-audit</h1>
+  <div><span class="verdict pass">VERDICT: PASS</span> &nbsp; <span style="font-size:13px;color:#555">Sidebar H2 (F-NEW-16-A), sidebar card chrome (F-NEW-16-D, pre-existing), closing-CTA row (F-NEW-16-G)</span></div>
+  <table class="meta-table" style="margin-top:10px">
+    <tr><td><b>Branch</b></td><td><code>aa/pl-sprint-16-cycle-3-sidebar</code></td></tr>
+    <tr><td><b>Date</b></td><td>2026-05-13</td></tr>
+    <tr><td><b>Live</b></td><td><code>https://pl-performantlabs.com.3.ddev.site:8493/contact-us</code></td></tr>
+    <tr><td><b>Handoff-T</b></td><td><a href="sprint-16-cycle-3-T.md">sprint-16-cycle-3-T.md</a></td></tr>
+    <tr><td><b>Handoff-F</b></td><td><a href="sprint-16-cycle-3-F.md">sprint-16-cycle-3-F.md</a></td></tr>
+    <tr><td><b>Handoff-S</b></td><td><a href="sprint-16-cycle-3-S.md">sprint-16-cycle-3-S.md</a></td></tr>
+  </table>
+</header>
+<nav class="toc">
+  <a href="#summary">What changed</a>
+  <a href="#sidebar">Sidebar §B comparator</a>
+  <a href="#cta">Closing-CTA §D comparator</a>
+  <a href="#mobile">Mobile spot-check</a>
+  <a href="#crosspage">Cross-page sanity</a>
+  <a href="#table">Per-section delta table</a>
+</nav>
+<main>
+
+<section id="summary" class="summary">
+  <h2>What you see different (plain English)</h2>
+  <ul>
+    <li><b>Sidebar H2 “Prefer a quick call?”</b> drops from 32&nbsp;px down to 22&nbsp;px at desktop. Title now matches preview. Verified at 1280/768/375 — 22&nbsp;px / 27.5&nbsp;px line-height / -0.2&nbsp;px tracking / 500 weight.</li>
+    <li><b>Sidebar card wrapper</b> renders with hairline border (#E5E1DC), 12&nbsp;px radius, 32&nbsp;px padding. Sticky at ≥&nbsp;992&nbsp;px (top = 48&nbsp;px), static below. Pre-existing webform.css D5 rules bind to the live <code>.contact-sidebar</code> element.</li>
+    <li><b>Closing-CTA buttons</b> ("Book a testing review" + "View services") now render side-by-side at 1280 and 768; stack vertically at 375. Marker class <code>dy-section--cta-pair</code> activates existing dy-section.css rules.</li>
+    <li><b>No regression</b> on <code>/services</code> (cross-page CTA pair preserved: top = 3850 / 3856 — same row).</li>
+    <li><b>Orphan-word check:</b> new 22&nbsp;px H2 fits on a single line at all viewports inside the 256&nbsp;px usable sidebar width. No orphan-word risk.</li>
+  </ul>
+</section>
+
+<section id="sidebar">
+  <h2>§B Sidebar — wipe-slider comparator (1280, pre vs post Cycle 3)</h2>
+  <p style="font-size:13px;color:#555">Drag the slider to wipe between Cycle 1 baseline (pre-fix live) and Cycle 3 (post-fix live). Red diff PNG shows the regions ImageMagick flagged as different — these are <b>intentional</b> deltas: H2 size drop + card chrome appearance.</p>
+
+  <div class="wipe" style="aspect-ratio: 736/1039;">
+    <img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-sidebar-cyc1-20260513.png" alt="Cycle 1 baseline sidebar">
+    <div class="top"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-sidebar-cyc3-20260513.png" alt="Cycle 3 post-fix sidebar"></div>
+    <div class="labels"><span>Cycle 3 (post-fix)</span><span>Cycle 1 (pre-fix)</span></div>
+    <input class="slider" type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  </div>
+
+  <h3>ImageMagick diff (red = pixels changed)</h3>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-sidebar-diff-20260513.png" alt="1280 sidebar pre/post diff"></div>
+  <p style="font-size:13px;color:#555">Red regions land on the H2 baseline shift (32 → 22 px), the kicker line shifted within new padding, the body-copy reflow (sidebar gained 32 px inner padding so text moved), and the card-edge hairline (faint red around the bounding rectangle). No bleed into adjacent sections.</p>
+
+  <h3>Side-by-side composite</h3>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-sidebar-cyc1-20260513.png" style="max-width:48%;margin-right:8px" alt="pre"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-sidebar-cyc3-20260513.png" style="max-width:48%" alt="post"></div>
+</section>
+
+<section id="cta">
+  <h2>§D Closing-CTA — wipe-slider comparator (1280, pre vs post Cycle 3)</h2>
+  <p style="font-size:13px;color:#555">Drag the slider. The closing-CTA section in Cycle 1 had buttons stacked vertically (single column). In Cycle 3, the <code>dy-section--cta-pair</code> marker activates side-by-side row layout.</p>
+
+  <div class="wipe" style="aspect-ratio: 2530/1159;">
+    <img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-closing-cta-cyc1-20260513.png" alt="Cycle 1 baseline CTA">
+    <div class="top"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-closing-cta-cyc3-20260513.png" alt="Cycle 3 post-fix CTA"></div>
+    <div class="labels"><span>Cycle 3 (post-fix)</span><span>Cycle 1 (pre-fix)</span></div>
+    <input class="slider" type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  </div>
+
+  <h3>ImageMagick diff (red = pixels changed)</h3>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-closing-cta-diff-20260513.png" alt="1280 CTA pre/post diff"></div>
+  <p style="font-size:13px;color:#555">Red regions show two buttons in row layout (post-fix) overlapping single-column stack (baseline). H2 + body text shift vertically because the section is now shorter. No bleed beyond the section's red footer strip.</p>
+
+  <h3>Side-by-side composite</h3>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-closing-cta-cyc1-20260513.png" style="max-width:48%;margin-right:8px" alt="pre"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-1280-closing-cta-cyc3-20260513.png" style="max-width:48%" alt="post"></div>
+</section>
+
+<section id="mobile">
+  <h2>Mobile spot-check (375)</h2>
+  <h3>Sidebar at 375 — post-fix live crop</h3>
+  <p style="font-size:13px;color:#555">Sticky dropped (<code>position: static</code>), card chrome retained (hairline + 12&nbsp;px radius + 32&nbsp;px padding). H2 fits on one line at 22&nbsp;px. Ghost CTA height = 56&nbsp;px (≥&nbsp;44&nbsp;px touch target).</p>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-375-sidebar-live-crop-20260513.png" style="max-width:380px" alt="sidebar 375 live"></div>
+
+  <h3>Sidebar diff at 375 (pre vs post)</h3>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-375-sidebar-diff-20260513.png" style="max-width:380px" alt="sidebar 375 diff"></div>
+
+  <h3>Closing-CTA at 375 (post-fix)</h3>
+  <p style="font-size:13px;color:#555">Buttons stacked (vertical 76&nbsp;px gap between tops 5014 vs 5090). Both at 56&nbsp;px height ≥&nbsp;44&nbsp;px. T verified via Playwright bounding boxes.</p>
+  <div class="single"><img src="screenshots/sprint-16-cycle-3/t3-contact-us-375-closing-cta-live-crop-20260513.png" style="max-width:380px" alt="CTA 375 live"></div>
+</section>
+
+<section id="crosspage">
+  <h2>Cross-page sanity</h2>
+  <p>S corroborated T's cross-page result with a fresh Playwright probe of <code>/services</code> at 1280:</p>
+  <table class="deltas-table">
+    <thead><tr><th>Page</th><th>Viewport</th><th>Btn 1 top</th><th>Btn 2 top</th><th>Same row?</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>/about-us (T)</td><td>1280</td><td>3976.31</td><td>3976.31</td><td>YES</td><td><span class="badge b-match">MATCH</span></td></tr>
+      <tr><td>/services (S)</td><td>1280</td><td>3850.20</td><td>3856.20</td><td>YES (6&nbsp;px sub-pixel; multi-line button)</td><td><span class="badge b-match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="table">
+  <h2>Per-section delta table (Cycle 3 scope only)</h2>
+  <table class="deltas-table">
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Pre vs post AE</th><th>Delta %</th><th>Status</th><th>What changed</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sidebar H2 + card</td><td>1280</td><td>77,680</td><td>10.16%</td><td><span class="badge b-intentional">INTENTIONAL</span></td><td>H2 32→22; card padding pushed text down; hairline border visible.</td></tr>
+      <tr><td>Sidebar H2 + card</td><td>768</td><td>82,779</td><td>6.34%</td><td><span class="badge b-intentional">INTENTIONAL</span></td><td>H2 size + padding reflow; static (no sticky) confirmed.</td></tr>
+      <tr><td>Sidebar H2 + card</td><td>375</td><td>49,468</td><td>6.44%</td><td><span class="badge b-intentional">INTENTIONAL</span></td><td>H2 24→22; padding; sticky drop unchanged below 992.</td></tr>
+      <tr><td>Closing-CTA row</td><td>1280</td><td>266,787</td><td>9.10%</td><td><span class="badge b-intentional">INTENTIONAL</span></td><td>Buttons re-laid out side-by-side; section height shrunk; text re-centered.</td></tr>
+      <tr><td>Closing-CTA row</td><td>768</td><td>215,611</td><td>11.21%</td><td><span class="badge b-intentional">INTENTIONAL</span></td><td>Buttons side-by-side at 768 (existing 577 px breakpoint).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Notes</h2>
+  <ul style="font-size:13px;color:#333">
+    <li>F-NEW-16-D classified as no-op: webform.css D5 rules (lines 179–209) already implement card chrome and bind to the live <code>.contact-sidebar</code> element. T confirmed all five properties via Playwright; S re-confirmed by reading the source. No new code needed.</li>
+    <li>CTA breakpoint preserved at the existing 577 px (cross-page canonical from Sprint 10). At 768 the row layout already engages — issue AC ("side-by-side at ≥ 768") satisfied without introducing a new breakpoint that would diverge from /about-us and /services.</li>
+    <li>Pre-existing pa11y allowlist for #62BBCB primary CTA contrast carries forward (F-NEW-16-F, deferred to Cycle 4). Not a Cycle 3 regression.</li>
+    <li>Canvas script <code>scripts/sprint16-cycle3-contact-us-cta-pair-marker.php</code> exists on disk and was executed; Canvas DB is patched (component_version <code>e6079b189d228dad</code>). O stages it at the gate per workflow standard.</li>
+  </ul>
+</section>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — open source projects preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with webinars/email */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --ink-strong: #1F1A14;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+    a:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    .container--prose { max-width: var(--prose-max); margin: 0 auto; padding: 0 var(--space-lg); }
+
+    /* ---------- Skip link ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 1000;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+    .btn--ghost-on-dark {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: rgba(245,239,226,0.4);
+    }
+    .btn--ghost-on-dark:hover {
+      background: rgba(245,239,226,0.08);
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+      text-decoration: none;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .site-header__brand:hover { text-decoration: none; color: var(--ink); }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__nav a.is-current { color: var(--primary); font-weight: 500; }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Breadcrumb ---------- */
+    .breadcrumb {
+      padding: var(--space-lg) 0 0;
+      background: var(--canvas);
+    }
+    .breadcrumb__list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; gap: var(--space-sm);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb__list li:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--hairline);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    /* ---------- Sections ---------- */
+    section { padding: var(--space-section) 0; }
+    .section--canvas { background: var(--canvas); color: var(--ink); }
+    .section--cream { background: var(--cream); color: var(--ink); }
+    .section--espresso { background: var(--espresso); color: var(--on-dark); }
+    .section--espresso h1, .section--espresso h2, .section--espresso h3 { color: var(--on-dark); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 96px 0 var(--space-section); background: var(--canvas); }
+    .hero__inner { max-width: 1040px; margin: 0 auto; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__kicker::before, .hero__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 500;
+      color: var(--ink-strong);
+      margin-bottom: var(--space-xl);
+      text-wrap: balance;
+    }
+    .hero__subhead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Section heads ---------- */
+    .section-head { text-align: center; margin-bottom: var(--space-2xl); max-width: 800px; margin-inline: auto; }
+    .section-head h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-weight: 500;
+      margin-bottom: var(--space-base);
+      text-wrap: balance;
+    }
+    .section-head p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .section-head__kicker {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-base);
+    }
+
+    /* ---------- Project cards (3-up grid) ---------- */
+    .projects__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+    .project-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 150ms ease-out;
+    }
+    .project-card:hover { border-color: var(--primary); }
+    .project-card__logo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--surface-warm);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-lg);
+    }
+    .project-card__logo-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--hairline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-card__logo-placeholder svg {
+      width: 24px;
+      height: 24px;
+      color: var(--muted);
+    }
+    .project-card h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      color: var(--ink-strong);
+      margin-bottom: var(--space-md);
+      text-wrap: balance;
+    }
+    .project-card__title-link {
+      color: inherit;
+      text-decoration: none;
+    }
+    .project-card__title-link:hover {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    .project-card__lead {
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-base);
+    }
+    .project-card__body {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--body);
+      margin-bottom: var(--space-lg);
+      flex: 1;
+    }
+
+    /* ---------- Thin band (other modules) ---------- */
+    .other-modules { padding: var(--space-3xl) 0; background: var(--canvas); }
+    .other-modules h2 {
+      font-size: 30px;
+      line-height: 1.15;
+      letter-spacing: -0.6px;
+      margin-bottom: var(--space-lg);
+      text-align: center;
+      text-wrap: balance;
+    }
+    .other-modules__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ---------- Closing CTA ---------- */
+    .closing-cta { padding: 120px 0; text-align: center; background: var(--espresso); }
+    .closing-cta__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-xl);
+    }
+    .closing-cta__kicker::before, .closing-cta__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .closing-cta h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 500;
+      color: var(--on-dark);
+      margin: 0 auto var(--space-xl);
+      max-width: 880px;
+      text-wrap: balance;
+    }
+    .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .projects__grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 767px) {
+      section, .hero { padding: var(--space-3xl) 0; }
+      .hero h1 { font-size: 44px; letter-spacing: -1px; }
+      .hero__subhead { font-size: 17px; }
+      .section-head h2 { font-size: 30px; letter-spacing: -0.8px; }
+      .other-modules h2 { font-size: 24px; letter-spacing: -0.4px; }
+      .closing-cta { padding: var(--space-3xl) 0; }
+      .closing-cta h2 { font-size: 36px; letter-spacing: -0.8px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+    }
+    @media (max-width: 575px) {
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="/services">Services</a>
+        <a href="/how-we-do-it">How we do it</a>
+        <a href="/articles">Articles</a>
+        <a href="/open-source-projects" class="is-current">Open source projects</a>
+        <a href="/about-us">About us</a>
+        <a href="/contact-us">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li><a href="/">Home</a></li>
+        <li>Open source projects</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+
+  <!-- HERO (Section 1) — theme--white -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__kicker">Open source</span>
+      <h1>What we maintain in the open</h1>
+      <p class="hero__subhead">
+        Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quality-process initiative, a few content / commerce kits, and a payment integration. All maintained on drupal.org under <a href="https://www.drupal.org/u/aangel">aangel</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- OUR TESTING TOOLS (Section 2) — theme--light (cream) -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Testing tools</span>
+        <h2>Our testing tools</h2>
+      </div>
+
+      <div class="projects__grid">
+        <!-- Card 1: ATK -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+          </div>
+          <a href="/automated-testing-kit" class="project-card__title-link"><h3>Automated Testing Kit (ATK)</h3></a>
+          <p class="project-card__lead">A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.</p>
+          <p class="project-card__body">Why it exists: every Drupal site re-writes the same twenty login / entity-reference / permissions tests in each new project. ATK ships them pre-written, together with the helper functions needed to make them reliable against Drupal's specific quirks. Maintained on drupal.org as a supported module, including a Drupal 7 backport and a demonstration recipe.</p>
+        </article>
+
+        <!-- Card 2: Testor -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
+          </div>
+          <a href="/testor" class="project-card__title-link"><h3>Testor</h3></a>
+          <p class="project-card__lead">A command-line companion to ATK for running tests outside the Drupal admin UI.</p>
+          <p class="project-card__body">Why it exists: teams running ATK in CI and local dev want the same test suite accessible from a terminal, not only from the Drupal admin. Testor provides that surface. Maintained in the open on GitHub, updated through late 2025.</p>
+        </article>
+
+        <!-- Card 3: CTRFHub -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+          </div>
+          <a href="/articles" class="project-card__title-link"><h3>CTRFHub (in active development)</h3></a>
+          <p class="project-card__lead">A test reporting and analytics platform built exclusively around CTRF (Common Test Report Format). CTRF-native by design, on a modern architecture from scratch. AI features are part of the core product.</p>
+          <p class="project-card__body">Why it exists: existing test reporting tools either ignore CTRF or treat it as one of many ingestion formats. CTRFHub assumes CTRF as the primary input and builds the analysis surface on top of that single, well-defined contract. <em>Public release in progress.</em> Build notes are published on the blog.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY CONTRIBUTIONS (Section 3) — theme--white -->
+  <section class="section--canvas">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Community</span>
+        <h2>Community contributions</h2>
+      </div>
+
+      <div class="projects__grid">
+        <!-- Card 1: DQI -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+          </div>
+          <a href="https://www.drupal.org/project/dqi" class="project-card__title-link"><h3>Drupal Quality Initiative</h3></a>
+          <p class="project-card__lead">Building the community capacity for quality.</p>
+          <p class="project-card__body">This community initiative was born when we were faced with the question of when to move a project from alpha to beta. Andr&eacute; presented the project at the Bay Area Drupal Camp. Visit the project page on Drupal.org and watch the presentation to learn our thoughts on what it takes to create quality software.</p>
+        </article>
+
+        <!-- Card 2: Campaign Kit -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+            </div>
+          </div>
+          <a href="https://www.drupal.org/project/campaign_kit" class="project-card__title-link"><h3>Campaign Kit</h3></a>
+          <p class="project-card__lead">A flexible donation system.</p>
+          <p class="project-card__body">Campaign Kit allows non-profits to create standalone and peer-to-peer donation campaigns on their site. Currently in beta. Visit the project page on Drupal.org, which has a video tour.</p>
+        </article>
+
+        <!-- Card 3: Layout Builder Kit -->
+        <article class="project-card">
+          <div class="project-card__logo">
+            <div class="project-card__logo-placeholder">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+          </div>
+          <a href="https://www.drupal.org/project/layout_builder_kit" class="project-card__title-link"><h3>Layout Builder Kit</h3></a>
+          <p class="project-card__lead">Ready-to-use Layout Builder Components.</p>
+          <p class="project-card__body">With Layout Builder quickly becoming the preferred way of creating flexible page layouts, the community needs components to build pages quickly. Currently in Beta. Visit the project page on Drupal.org.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER MODULES (Section 4) — theme--white, thin band -->
+  <section class="other-modules">
+    <div class="container">
+      <h2>Other modules we maintain</h2>
+      <div class="other-modules__grid">
+        <article class="project-card">
+          <a href="https://www.drupal.org/project/payment_stripe" class="project-card__title-link"><h3>Payment Stripe</h3></a>
+          <p class="project-card__body">Stripe plugin for the Payment module.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA (Section 5) — theme--espresso -->
+  <section class="closing-cta">
+    <div class="container">
+      <span class="closing-cta__kicker">Contribute</span>
+      <h2>Found a bug or want to contribute?</h2>
+      <div class="closing-cta__ctas">
+        <a href="/contact-us?intent=oss" class="btn btn--ghost-on-dark">Drop us a line</a>
+      </div>
+    </div>
+  </section>
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services#test-suite-takeover">Test-suite takeover</a></li>
+            <li><a href="/services#embedded-testing-engineer">Embedded testing engineer</a></li>
+            <li><a href="/services#autonomous-healing-pilot">Autonomous-healing pilot</a></li>
+            <li><a href="/services#accessibility-testing">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/articles">Articles</a></li>
+            <li><a href="/open-source-projects">Open source projects</a></li>
+            <li><a href="/automated-testing-kit">ATK docs</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="/contact-us">Contact us</a></li>
+            <li><a href="/privacy-policy">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="/contact-us">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; Performant Labs</span>
+        <span>Preview build — not yet implemented in Drupal</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

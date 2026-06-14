@@ -1,0 +1,40 @@
+{
+  "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+  "tool": "perturb.cjs",
+  "coverage": {
+    "total_suspects": 2,
+    "waived": 1,
+    "perturbed": 1,
+    "deferred": 0,
+    "elapsed_seconds": 0,
+    "budget_seconds": 120,
+    "max_targets": 1,
+    "complete": true
+  },
+  "results": [
+    {
+      "selector": ".header-navigation-wrapper:not(.is-expanded) .primary-menu",
+      "scopedTo": "primary-menu",
+      "escapeComponents": [
+        "menu-block"
+      ],
+      "highRiskProps": [
+        "display"
+      ],
+      "escapedCount": 1,
+      "rulesFound": 1,
+      "verdict": "DORMANT (masked — bites later)",
+      "severity": "WARNING",
+      "changes": []
+    }
+  ],
+  "waived": [
+    {
+      "selector": ".primary-menu",
+      "scopedTo": "primary-menu",
+      "reason": "primary-menu intentionally sets --top-level-link-* custom props its composed menu-block consumes; by-design composition, not a leak",
+      "authority": "operator"
+    }
+  ],
+  "deferred": []
+}

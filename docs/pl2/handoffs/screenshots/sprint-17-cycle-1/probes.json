@@ -1,0 +1,3164 @@
+{
+  "375": {
+    "live": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "44px",
+        "lh": "46.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 14,
+          "y": 424,
+          "w": 331,
+          "h": 131
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "the open",
+          "lastLineWordCount": 2,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "30px",
+          "lh": "33.9px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.8px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 62,
+            "y": 1071,
+            "w": 235,
+            "h": 29
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "30px",
+          "lh": "33.9px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.8px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 14,
+            "y": 5278,
+            "w": 331,
+            "h": 63
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "contributions",
+            "lastLineWordCount": 1,
+            "orphan": true
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "24px",
+          "lh": "27.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.4px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 28,
+            "y": 7858,
+            "w": 305,
+            "h": 23
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "36px",
+          "lh": "37.8px",
+          "ff": "Rubik, Poppins, sans-serif",
+          "fw": "500",
+          "ls": "-1.2px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 14,
+            "y": 8261,
+            "w": 331,
+            "h": 70
+          },
+          "section": "closing-cta :: dy-section theme--dark full-width dy-section--section-edge-to-edge margin-top--0 margin-bottom--0 padding-top--l padding",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 111,
+            "y": 1391,
+            "w": 137,
+            "h": 80
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 111,
+            "y": 2834,
+            "w": 137,
+            "h": 23
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 111,
+            "y": 3874,
+            "w": 137,
+            "h": 80
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 63,
+            "y": 5704,
+            "w": 233,
+            "h": 52
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 63,
+            "y": 6615,
+            "w": 233,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 63,
+            "y": 7323,
+            "w": 233,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 39,
+            "y": 7974,
+            "w": 281,
+            "h": 20
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Services",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 14,
+            "y": 8575,
+            "w": 331,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--services"
+        },
+        {
+          "text": "Resources",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 14,
+            "y": 8752,
+            "w": 331,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--resources"
+        },
+        {
+          "text": "Company",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 14,
+            "y": 8866,
+            "w": 331,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--company"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/automated_testing_kit",
+          "titleLinkText": "Automated Testing Kit (ATK)",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://github.com/Performant-Labs/testor",
+          "titleLinkText": "Testor",
+          "h3Text": "Testor",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "/articles",
+          "titleLinkText": "CTRFHub (in active development)",
+          "h3Text": "CTRFHub (in active development)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/dqi",
+          "titleLinkText": "Drupal Quality Initiative",
+          "h3Text": "Drupal Quality Initiative",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "titleLinkText": "Campaign Kit",
+          "h3Text": "Campaign Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "titleLinkText": "Layout Builder Kit",
+          "h3Text": "Layout Builder Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/payment_stripe",
+          "titleLinkText": "Payment Stripe",
+          "h3Text": "Payment Stripe",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 90,
+          "y": 343,
+          "w": 181,
+          "h": 17
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "17px",
+        "lh": "30.6px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "pretty",
+        "display": "block",
+        "rect": {
+          "x": 14,
+          "y": 615,
+          "w": 331,
+          "h": 266
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "on drupal.org under aangel .",
+          "lastLineWordCount": 5,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": ".dy-section.landing-hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "17px",
+          "lh": "30.6px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "on drupal.org under aangel .",
+            "lastLineWordCount": 5,
+            "orphan": false
+          }
+        },
+        {
+          "sel": ".dy-section.dy-section--centered-white.theme--white",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "17px",
+          "lh": "30.6px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "on drupal.org under aangel .",
+            "lastLineWordCount": 5,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 360,
+        "clientW": 375,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "36px",
+        "lh": "37.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.2px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 14,
+          "y": 8261,
+          "w": 331,
+          "h": 70
+        }
+      }
+    },
+    "preview": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "44px",
+        "lh": "46.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 20,
+          "y": 241,
+          "w": 335,
+          "h": 139
+        },
+        "section": "SECTION.hero",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "the open",
+          "lastLineWordCount": 2,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "30px",
+          "lh": "33px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.8px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 20,
+            "y": 823,
+            "w": 335,
+            "h": 33
+          },
+          "section": "SECTION.section--cream",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "30px",
+          "lh": "33px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.8px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 20,
+            "y": 3647,
+            "w": 335,
+            "h": 66
+          },
+          "section": "SECTION.section--canvas",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "contributions",
+            "lastLineWordCount": 1,
+            "orphan": true
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "24px",
+          "lh": "27.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.4px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 20,
+            "y": 6011,
+            "w": 335,
+            "h": 28
+          },
+          "section": "SECTION.other-modules",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "36px",
+          "lh": "37.8px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.8px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 20,
+            "y": 6393,
+            "w": 335,
+            "h": 76
+          },
+          "section": "SECTION.closing-cta",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 1155,
+            "w": 237,
+            "h": 57
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 2077,
+            "w": 237,
+            "h": 29
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 2815,
+            "w": 237,
+            "h": 57
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 4012,
+            "w": 237,
+            "h": 57
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 4833,
+            "w": 237,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 69,
+            "y": 5470,
+            "w": 237,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "rect": {
+            "x": 45,
+            "y": 6088,
+            "w": 285,
+            "h": 25
+          },
+          "section": "SECTION.other-modules",
+          "parentTag": "ARTICLE.module-chip"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "h3IsLink": false,
+          "footerLinkHref": "/automated-testing-kit",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Testor",
+          "h3IsLink": false,
+          "footerLinkHref": "/testor",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "CTRFHub (in active development)",
+          "h3IsLink": false,
+          "footerLinkHref": "/articles",
+          "footerLinkText": "Read the build notes",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Drupal Quality Initiative",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/dqi",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Campaign Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Layout Builder Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 97,
+          "y": 190,
+          "w": 181,
+          "h": 19
+        },
+        "section": "SECTION.hero"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "17px",
+        "lh": "27.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "block",
+        "rect": {
+          "x": 20,
+          "y": 411,
+          "w": 335,
+          "h": 245
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "drupal.org under aangel .",
+          "lastLineWordCount": 4,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": "section.hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "17px",
+          "lh": "27.2px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "drupal.org under aangel .",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--cream",
+          "text": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+            "lastLine": "Playwright and Cypress.",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--canvas",
+          "text": "Building the community capacity for quality.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Building the community capacity for quality.",
+            "lastLine": "capacity for quality.",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 375,
+        "clientW": 375,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "36px",
+        "lh": "37.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-0.8px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 20,
+          "y": 6393,
+          "w": 335,
+          "h": 76
+        }
+      }
+    }
+  },
+  "768": {
+    "live": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 30,
+          "y": 454,
+          "w": 693,
+          "h": 140
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "in the open",
+          "lastLineWordCount": 3,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "40px",
+          "lh": "45.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 78,
+            "y": 1075,
+            "w": 597,
+            "h": 37
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "40px",
+          "lh": "45.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 30,
+            "y": 3863,
+            "w": 693,
+            "h": 37
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "Community contributions",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "30px",
+          "lh": "34.5px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.6px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 187,
+            "y": 5789,
+            "w": 379,
+            "h": 29
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "56px",
+          "lh": "58.8px",
+          "ff": "Rubik, Poppins, sans-serif",
+          "fw": "500",
+          "ls": "-1.6px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 30,
+            "y": 6229,
+            "w": 693,
+            "h": 109
+          },
+          "section": "closing-cta :: dy-section theme--dark full-width dy-section--section-edge-to-edge margin-top--0 margin-bottom--0 padding-top--l padding",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 127,
+            "y": 1433,
+            "w": 176,
+            "h": 52
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 450,
+            "y": 1433,
+            "w": 176,
+            "h": 23
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 127,
+            "y": 2646,
+            "w": 176,
+            "h": 80
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 79,
+            "y": 4274,
+            "w": 220,
+            "h": 52
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 454,
+            "y": 4274,
+            "w": 220,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 79,
+            "y": 5194,
+            "w": 220,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 55,
+            "y": 5911,
+            "w": 257,
+            "h": 20
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Services",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 30,
+            "y": 6626,
+            "w": 125,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--services"
+        },
+        {
+          "text": "Resources",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 195,
+            "y": 6626,
+            "w": 125,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--resources"
+        },
+        {
+          "text": "Company",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 360,
+            "y": 6626,
+            "w": 125,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--company"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/automated_testing_kit",
+          "titleLinkText": "Automated Testing Kit (ATK)",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://github.com/Performant-Labs/testor",
+          "titleLinkText": "Testor",
+          "h3Text": "Testor",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "/articles",
+          "titleLinkText": "CTRFHub (in active development)",
+          "h3Text": "CTRFHub (in active development)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/dqi",
+          "titleLinkText": "Drupal Quality Initiative",
+          "h3Text": "Drupal Quality Initiative",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "titleLinkText": "Campaign Kit",
+          "h3Text": "Campaign Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "titleLinkText": "Layout Builder Kit",
+          "h3Text": "Layout Builder Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/payment_stripe",
+          "titleLinkText": "Payment Stripe",
+          "h3Text": "Payment Stripe",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 286,
+          "y": 373,
+          "w": 181,
+          "h": 17
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "pretty",
+        "display": "block",
+        "rect": {
+          "x": 30,
+          "y": 654,
+          "w": 693,
+          "h": 169
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "integration. All maintained on drupal.org under aangel .",
+          "lastLineWordCount": 8,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": ".dy-section.landing-hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "20px",
+          "lh": "36px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "integration. All maintained on drupal.org under aangel .",
+            "lastLineWordCount": 8,
+            "orphan": false
+          }
+        },
+        {
+          "sel": ".dy-section.dy-section--centered-white.theme--white",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "20px",
+          "lh": "36px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "integration. All maintained on drupal.org under aangel .",
+            "lastLineWordCount": 8,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 753,
+        "clientW": 768,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 30,
+          "y": 6229,
+          "w": 693,
+          "h": 109
+        }
+      }
+    },
+    "preview": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 24,
+          "y": 273,
+          "w": 720,
+          "h": 151
+        },
+        "section": "SECTION.hero",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "in the open",
+          "lastLineWordCount": 3,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "40px",
+          "lh": "44px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 24,
+            "y": 839,
+            "w": 720,
+            "h": 44
+          },
+          "section": "SECTION.section--cream",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "40px",
+          "lh": "44px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 24,
+            "y": 3774,
+            "w": 720,
+            "h": 44
+          },
+          "section": "SECTION.section--canvas",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "Community contributions",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "30px",
+          "lh": "34.5px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.6px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 24,
+            "y": 6516,
+            "w": 720,
+            "h": 35
+          },
+          "section": "SECTION.other-modules",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "56px",
+          "lh": "58.8px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1.6px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 24,
+            "y": 6961,
+            "w": 720,
+            "h": 118
+          },
+          "section": "SECTION.closing-cta",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 1471,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 2368,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 3212,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 4406,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 5279,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 73,
+            "y": 6099,
+            "w": 622,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "rect": {
+            "x": 49,
+            "y": 6599,
+            "w": 298,
+            "h": 25
+          },
+          "section": "SECTION.other-modules",
+          "parentTag": "ARTICLE.module-chip"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "h3IsLink": false,
+          "footerLinkHref": "/automated-testing-kit",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Testor",
+          "h3IsLink": false,
+          "footerLinkHref": "/testor",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "CTRFHub (in active development)",
+          "h3IsLink": false,
+          "footerLinkHref": "/articles",
+          "footerLinkText": "Read the build notes",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Drupal Quality Initiative",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/dqi",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Campaign Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Layout Builder Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 294,
+          "y": 222,
+          "w": 181,
+          "h": 19
+        },
+        "section": "SECTION.hero"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "19px",
+        "lh": "30.4px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "block",
+        "rect": {
+          "x": 24,
+          "y": 456,
+          "w": 720,
+          "h": 152
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "drupal.org under aangel .",
+          "lastLineWordCount": 4,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": "section.hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "19px",
+          "lh": "30.4px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "drupal.org under aangel .",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--cream",
+          "text": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+            "lastLine": "both Playwright and Cypress.",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--canvas",
+          "text": "Building the community capacity for quality.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Building the community capacity for quality.",
+            "lastLine": "Building the community capacity for quality.",
+            "lastLineWordCount": 6,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 768,
+        "clientW": 768,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 24,
+          "y": 6961,
+          "w": 720,
+          "h": 118
+        }
+      }
+    }
+  },
+  "1280": {
+    "live": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 153,
+          "y": 454,
+          "w": 959,
+          "h": 64
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "What we maintain in the open",
+          "lastLineWordCount": 6,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "40px",
+          "lh": "45.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 222,
+            "y": 908,
+            "w": 820,
+            "h": 37
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "40px",
+          "lh": "45.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 222,
+            "y": 2331,
+            "w": 820,
+            "h": 37
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "Community contributions",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "30px",
+          "lh": "34.5px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.6px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 443,
+            "y": 3396,
+            "w": 379,
+            "h": 29
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "56px",
+          "lh": "58.8px",
+          "ff": "Rubik, Poppins, sans-serif",
+          "fw": "500",
+          "ls": "-1.6px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 232,
+            "y": 3773,
+            "w": 800,
+            "h": 109
+          },
+          "section": "closing-cta :: dy-section theme--dark full-width dy-section--section-edge-to-edge margin-top--0 margin-bottom--0 padding-top--l padding",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 148,
+            "y": 1315,
+            "w": 215,
+            "h": 52
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 525,
+            "y": 1315,
+            "w": 215,
+            "h": 23
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 902,
+            "y": 1315,
+            "w": 215,
+            "h": 52
+          },
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 100,
+            "y": 2763,
+            "w": 247,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 509,
+            "y": 2763,
+            "w": 247,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 918,
+            "y": 2763,
+            "w": 247,
+            "h": 23
+          },
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(31, 26, 20)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 207,
+            "y": 3497,
+            "w": 361,
+            "h": 20
+          },
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "parentTag": "A.card__link"
+        },
+        {
+          "text": "Services",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 51,
+            "y": 4170,
+            "w": 230,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--services"
+        },
+        {
+          "text": "Resources",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 320,
+            "y": 4170,
+            "w": 230,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--resources"
+        },
+        {
+          "text": "Company",
+          "fs": "12px",
+          "lh": "18px",
+          "ff": "Rubik, sans-serif",
+          "fw": "600",
+          "ls": "1.6px",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 590,
+            "y": 4170,
+            "w": 230,
+            "h": 13
+          },
+          "section": "FOOTER.site-footer theme--white",
+          "parentTag": "DIV.footer-column footer-column--company"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/automated_testing_kit",
+          "titleLinkText": "Automated Testing Kit (ATK)",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://github.com/Performant-Labs/testor",
+          "titleLinkText": "Testor",
+          "h3Text": "Testor",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "testing-tools-or-drupal-qa :: dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "/articles",
+          "titleLinkText": "CTRFHub (in active development)",
+          "h3Text": "CTRFHub (in active development)",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/dqi",
+          "titleLinkText": "Drupal Quality Initiative",
+          "h3Text": "Drupal Quality Initiative",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--white",
+          "titleLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "titleLinkText": "Campaign Kit",
+          "h3Text": "Campaign Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "white-section :: dy-section dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "titleLinkText": "Layout Builder Kit",
+          "h3Text": "Layout Builder Kit",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        },
+        {
+          "section": "other-modules :: dy-section dy-section--other-modules theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0",
+          "tag": "ARTICLE",
+          "cls": "card theme--light",
+          "titleLinkHref": "https://www.drupal.org/project/payment_stripe",
+          "titleLinkText": "Payment Stripe",
+          "h3Text": "Payment Stripe",
+          "footerLinkHref": null,
+          "footerLinkText": null,
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 542,
+          "y": 373,
+          "w": 181,
+          "h": 17
+        },
+        "section": "hero :: dy-section landing-hero dy-section--centered-white theme--white container dy-section--section-max-width margin-top--0 ma"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "pretty",
+        "display": "block",
+        "rect": {
+          "x": 51,
+          "y": 578,
+          "w": 1164,
+          "h": 97
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "content / commerce kits, and a payment integration. All maintained on drupal.org under aangel .",
+          "lastLineWordCount": 15,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": ".dy-section.landing-hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "20px",
+          "lh": "36px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "content / commerce kits, and a payment integration. All maintained on drupal.org under aangel .",
+            "lastLineWordCount": 15,
+            "orphan": false
+          }
+        },
+        {
+          "sel": ".dy-section.dy-section--centered-white.theme--white",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "20px",
+          "lh": "36px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "pretty",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "content / commerce kits, and a payment integration. All maintained on drupal.org under aangel .",
+            "lastLineWordCount": 15,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 1265,
+        "clientW": 1280,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 232,
+          "y": 3773,
+          "w": 800,
+          "h": 109
+        }
+      }
+    },
+    "preview": {
+      "h1": {
+        "text": "What we maintain in the open",
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 204,
+          "y": 273,
+          "w": 872,
+          "h": 151
+        },
+        "section": "SECTION.hero",
+        "lastLine": {
+          "full": "What we maintain in the open",
+          "lastLine": "in the open",
+          "lastLineWordCount": 3,
+          "orphan": false
+        }
+      },
+      "h2": [
+        {
+          "text": "Our testing tools",
+          "fs": "40px",
+          "lh": "44px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 240,
+            "y": 839,
+            "w": 800,
+            "h": 44
+          },
+          "section": "SECTION.section--cream",
+          "lastLine": {
+            "full": "Our testing tools",
+            "lastLine": "Our testing tools",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Community contributions",
+          "fs": "40px",
+          "lh": "44px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 240,
+            "y": 2052,
+            "w": 800,
+            "h": 44
+          },
+          "section": "SECTION.section--canvas",
+          "lastLine": {
+            "full": "Community contributions",
+            "lastLine": "Community contributions",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Other modules we maintain",
+          "fs": "30px",
+          "lh": "34.5px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.6px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 64,
+            "y": 3045,
+            "w": 1152,
+            "h": 35
+          },
+          "section": "SECTION.other-modules",
+          "lastLine": {
+            "full": "Other modules we maintain",
+            "lastLine": "Other modules we maintain",
+            "lastLineWordCount": 4,
+            "orphan": false
+          }
+        },
+        {
+          "text": "Found a bug or want to contribute?",
+          "fs": "56px",
+          "lh": "58.8px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-1.6px",
+          "color": "rgb(245, 239, 226)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 200,
+            "y": 3512,
+            "w": 880,
+            "h": 118
+          },
+          "section": "SECTION.closing-cta",
+          "lastLine": {
+            "full": "Found a bug or want to contribute?",
+            "lastLine": "want to contribute?",
+            "lastLineWordCount": 3,
+            "orphan": false
+          }
+        }
+      ],
+      "h3": [
+        {
+          "text": "Automated Testing Kit (ATK)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 113,
+            "y": 1207,
+            "w": 270,
+            "h": 57
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Testor",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 505,
+            "y": 1207,
+            "w": 270,
+            "h": 29
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "CTRFHub (in active development)",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 897,
+            "y": 1207,
+            "w": 270,
+            "h": 57
+          },
+          "section": "SECTION.section--cream",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Drupal Quality Initiative",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 113,
+            "y": 2420,
+            "w": 270,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Campaign Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 505,
+            "y": 2420,
+            "w": 270,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Layout Builder Kit",
+          "fs": "22px",
+          "lh": "28.6px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "-0.2px",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "balance",
+          "display": "block",
+          "rect": {
+            "x": 897,
+            "y": 2420,
+            "w": 270,
+            "h": 29
+          },
+          "section": "SECTION.section--canvas",
+          "parentTag": "ARTICLE.project-card"
+        },
+        {
+          "text": "Payment Stripe",
+          "fs": "18px",
+          "lh": "25.2px",
+          "ff": "Rubik, sans-serif",
+          "fw": "500",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "rect": {
+            "x": 215,
+            "y": 3129,
+            "w": 234,
+            "h": 25
+          },
+          "section": "SECTION.other-modules",
+          "parentTag": "ARTICLE.module-chip"
+        }
+      ],
+      "cardCTAs": [
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Automated Testing Kit (ATK)",
+          "h3IsLink": false,
+          "footerLinkHref": "/automated-testing-kit",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Testor",
+          "h3IsLink": false,
+          "footerLinkHref": "/testor",
+          "footerLinkText": "Read the docs",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--cream",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "CTRFHub (in active development)",
+          "h3IsLink": false,
+          "footerLinkHref": "/articles",
+          "footerLinkText": "Read the build notes",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Drupal Quality Initiative",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/dqi",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Campaign Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/campaign_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        },
+        {
+          "section": "SECTION.section--canvas",
+          "tag": "ARTICLE",
+          "cls": "project-card",
+          "h3Text": "Layout Builder Kit",
+          "h3IsLink": false,
+          "footerLinkHref": "https://www.drupal.org/project/layout_builder_kit",
+          "footerLinkText": "View on Drupal.org",
+          "totalLinks": 1
+        }
+      ],
+      "heroKicker": {
+        "text": "Open source",
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "inline-flex",
+        "rect": {
+          "x": 550,
+          "y": 222,
+          "w": 181,
+          "h": 19
+        },
+        "section": "SECTION.hero"
+      },
+      "heroSubhead": {
+        "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+        "fs": "19px",
+        "lh": "30.4px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "wrap",
+        "display": "block",
+        "rect": {
+          "x": 260,
+          "y": 456,
+          "w": 760,
+          "h": 152
+        },
+        "lastLine": {
+          "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+          "lastLine": "aangel .",
+          "lastLineWordCount": 2,
+          "orphan": false
+        }
+      },
+      "closingCTAPrimary": null,
+      "bodyPSamples": [
+        {
+          "sel": "section.hero",
+          "text": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is curr",
+          "fs": "19px",
+          "lh": "30.4px",
+          "ff": "Poppins, sans-serif",
+          "fw": "400",
+          "ls": "normal",
+          "color": "rgb(92, 84, 76)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Performant Labs ships the open-source Drupal testing tools the rest of this site is about — ATK and Testor — and is currently building CTRFHub. The work below extends that into adjacent areas: a quali",
+            "lastLine": "aangel .",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--cream",
+          "text": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.",
+            "lastLine": "and Cypress.",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        },
+        {
+          "sel": "section.section--canvas",
+          "text": "Building the community capacity for quality.",
+          "fs": "15px",
+          "lh": "24px",
+          "ff": "Poppins, sans-serif",
+          "fw": "600",
+          "ls": "normal",
+          "color": "rgb(42, 37, 32)",
+          "bg": "rgba(0, 0, 0, 0)",
+          "padding": "0px",
+          "borderRadius": "0px",
+          "textWrap": "wrap",
+          "display": "block",
+          "lastLine": {
+            "full": "Building the community capacity for quality.",
+            "lastLine": "for quality.",
+            "lastLineWordCount": 2,
+            "orphan": false
+          }
+        }
+      ],
+      "pageHorizScroll": {
+        "pageW": 1280,
+        "clientW": 1280,
+        "has": false
+      },
+      "closingCTAH2": {
+        "text": "Found a bug or want to contribute?",
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "padding": "0px",
+        "borderRadius": "0px",
+        "textWrap": "balance",
+        "display": "block",
+        "rect": {
+          "x": 200,
+          "y": 3512,
+          "w": 880,
+          "h": 118
+        }
+      }
+    }
+  }
+}

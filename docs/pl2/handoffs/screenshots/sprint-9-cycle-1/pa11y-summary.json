@@ -1,0 +1,76 @@
+{
+  "home": [
+    {
+      "sel": "#block-performant-labs-20260502-content > div:nth-child(1) > div:nth-child(2) > div > div > a:nth-child(4)",
+      "ctx": "<a data-component-id=\"dripyard_base:button\" class=\"button button--primary button--large\" href=\"/contact-us?intent=testing-review\" target=\"\"> Book a testing revi",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    }
+  ],
+  "services": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    },
+    {
+      "sel": "#block-performant-labs-20260502-content > div:nth-child(1) > div > div:nth-child(2) > div > a:nth-child(4)",
+      "ctx": "<a data-component-id=\"dripyard_base:button\" class=\"button button--primary button--large\" href=\"/contact-us?intent=testing-review\" target=\"\"> Book a testing revi",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    },
+    {
+      "sel": "#block-performant-labs-20260502-content > div:nth-child(3) > div > div:nth-child(2) > div > a",
+      "ctx": "<a data-component-id=\"dripyard_base:button\" class=\"button button--primary button--large\" href=\"/contact-us?intent=nearshore-capacity\" target=\"\"> Talk about capa",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    }
+  ],
+  "about-us": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    },
+    {
+      "sel": "#block-performant-labs-20260502-content > div:nth-child(1) > div > div:nth-child(2) > div > a:nth-child(3)",
+      "ctx": "<a data-component-id=\"dripyard_base:button\" class=\"button button--primary button--large\" href=\"/contact-us?intent=testing-review\" target=\"\"> Book a testing revi",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    },
+    {
+      "sel": "#block-performant-labs-20260502-content > div:nth-child(4) > div > div:nth-child(2) > div > a",
+      "ctx": "<a data-component-id=\"dripyard_base:button\" class=\"button button--primary button--large\" href=\"/how-we-built-this-site\" target=\"\"> Read how the workflow is wire",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    }
+  ],
+  "articles": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    }
+  ],
+  "contact-us": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    },
+    {
+      "sel": "#edit-actions-submit",
+      "ctx": "<button class=\"webform-button--submit button button--primary js-form-submit form-submit button--default\" data-drupal-selector=\"edit-actions-submit\" type=\"submit",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 2.21:1. Recommendati"
+    }
+  ],
+  "how-we-do-it": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    }
+  ],
+  "open-source-projects": [
+    {
+      "sel": "#block-performant-labs-20260502-breadcrumbs > nav > div > ol > li:nth-child(1) > a",
+      "ctx": "<a class=\"breadcrumb__link\" href=\"/\">Home</a>",
+      "msg": "This element has insufficient contrast at this conformance level. Expected a contrast ratio of at least 4.5:1, but text in this element has a contrast ratio of 3.12:1. Recommendati"
+    }
+  ]
+}

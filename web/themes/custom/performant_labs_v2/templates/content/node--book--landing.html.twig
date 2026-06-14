@@ -1,0 +1,51 @@
+{#
+/**
+ * @file
+ * Theme override for the book root (landing) page.
+ *
+ * Fires only when hook_theme_suggestions_node_alter() adds
+ * 'node__book__landing' — i.e. the rendered node IS the book root
+ * (book.bid === node.id()). Interior chapters fall through to
+ * node.html.twig or node--book--full.html.twig (Cycle 2).
+ *
+ * Layout:
+ *   1. .book-landing wraps {{ content.body }} (hero band + features + caveat)
+ *   2. chapter-index SDC renders the 19 child pages as numbered cards
+ *   3. Closing CTA section (hardcoded in template — not a block placement)
+ *   4. {{ content|without('body') }} renders the book-traversal pager etc.
+ *
+ * The book-landing library is attached for hero/features/closing-CTA CSS.
+ * The chapter-index SDC loads its own CSS via libraryOverrides.
+ */
+#}
+{{ attach_library('performant_labs_20260502/book-landing') }}
+
+<article{{ attributes.addClass(['node', 'node--type-book', 'node--view-mode-full', 'book-landing']) }}>
+  <div class="node__content">
+
+    {# Body field: hero band (kicker + deck + lede + CTAs) + features + caveat #}
+    {{ content.body }}
+
+    {# Chapter index SDC — populated by preprocess_node__book__landing #}
+    {% if chapter_index_props is not empty %}
+      {% include 'performant_labs_20260502:chapter-index' with {
+        chapters: chapter_index_props.chapters,
+        book_title: chapter_index_props.book_title,
+        total: chapter_index_props.total,
+      } only %}
+    {% endif %}
+
+    {# Closing CTA — h2 + paragraph + button per preview #}
+    <section class="closing-cta">
+      <div class="closing-cta__inner">
+        <h2>Want a second pair of eyes on your suite?</h2>
+        <p>If your tests are slow, flaky, or missing the cases that matter, we can help. We wrote the kit you&rsquo;re reading about &mdash; and we run it on production sites every day.</p>
+        <a class="button button--primary button--large" href="/contact-us?intent=testing-review">Book a testing review</a>
+      </div>
+    </section>
+
+    {# Remaining content children: book-traversal pager, links #}
+    {{ content|without('body') }}
+
+  </div>
+</article>

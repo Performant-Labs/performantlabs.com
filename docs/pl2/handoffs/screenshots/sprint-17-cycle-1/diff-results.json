@@ -1,0 +1,454 @@
+{
+  "viewports": {
+    "375": {
+      "width": 375,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 271,
+          "liveH_css": 694,
+          "prevTop_css": 118,
+          "prevH_css": 602,
+          "cropH_css": 602,
+          "cropH_img": 1204,
+          "totalPx": 903000,
+          "AE": {
+            "raw": "155187 (0.171857)",
+            "num": 155187,
+            "pct": 17.186
+          },
+          "AEfuzz3": {
+            "raw": "149948 (0.166055)",
+            "num": 149948,
+            "pct": 16.606
+          },
+          "PSNR": "12.5097 (0.104248)",
+          "DSSIM": "16478.2 (0.251441)"
+        },
+        "testing-tools": {
+          "liveTop_css": 966,
+          "liveH_css": 4207,
+          "prevTop_css": 720,
+          "prevH_css": 2824,
+          "cropH_css": 2824,
+          "cropH_img": 5648,
+          "totalPx": 4236000,
+          "AE": {
+            "raw": "2.23977e+06 (0.528746)",
+            "num": 2,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "2.20106e+06 (0.519609)",
+            "num": 2,
+            "pct": 0
+          },
+          "PSNR": "16.2778 (0.135648)",
+          "DSSIM": "13616.3 (0.207772)"
+        },
+        "drupal-qa": {
+          "liveTop_css": 5173,
+          "liveH_css": 2621,
+          "prevTop_css": 3544,
+          "prevH_css": 2403,
+          "cropH_css": 2403,
+          "cropH_img": 4806,
+          "totalPx": 3604500,
+          "AE": {
+            "raw": "830704 (0.230463)",
+            "num": 830704,
+            "pct": 23.046
+          },
+          "AEfuzz3": {
+            "raw": "814150 (0.22587)",
+            "num": 814150,
+            "pct": 22.587
+          },
+          "PSNR": "16.7764 (0.139803)",
+          "DSSIM": "13442.3 (0.205116)"
+        },
+        "other-modules": {
+          "liveTop_css": 7794,
+          "liveH_css": 366,
+          "prevTop_css": 5947,
+          "prevH_css": 323,
+          "cropH_css": 323,
+          "cropH_img": 646,
+          "totalPx": 484500,
+          "AE": {
+            "raw": "37962 (0.0783529)",
+            "num": 37962,
+            "pct": 7.835
+          },
+          "AEfuzz3": {
+            "raw": "36523 (0.0753829)",
+            "num": 36523,
+            "pct": 7.538
+          },
+          "PSNR": "16.9673 (0.141394)",
+          "DSSIM": "12261.8 (0.187103)"
+        },
+        "closing-cta": {
+          "liveTop_css": 8160,
+          "liveH_css": 351,
+          "prevTop_css": 6270,
+          "prevH_css": 340,
+          "cropH_css": 340,
+          "cropH_img": 680,
+          "totalPx": 510000,
+          "AE": {
+            "raw": "78899 (0.154704)",
+            "num": 78899,
+            "pct": 15.47
+          },
+          "AEfuzz3": {
+            "raw": "77560 (0.152078)",
+            "num": 77560,
+            "pct": 15.208
+          },
+          "PSNR": "11.7063 (0.0975526)",
+          "DSSIM": "14745.9 (0.225008)"
+        },
+        "footer": {
+          "liveTop_css": 8511,
+          "liveH_css": 709,
+          "prevTop_css": 6610,
+          "prevH_css": 844,
+          "cropH_css": 709,
+          "cropH_img": 1418,
+          "totalPx": 1063500,
+          "AE": {
+            "raw": "87911 (0.082662)",
+            "num": 87911,
+            "pct": 8.266
+          },
+          "AEfuzz3": {
+            "raw": "84085 (0.0790644)",
+            "num": 84085,
+            "pct": 7.906
+          },
+          "PSNR": "15.9226 (0.132689)",
+          "DSSIM": "12998.4 (0.198342)"
+        }
+      },
+      "wholePage": {
+        "liveH": 18440,
+        "prevH": 14908,
+        "commonH": 14908,
+        "totalPx": 11181000,
+        "AE": "5.07191e+06 (0.453619)",
+        "AEfuzz3": "4.99918e+06 (0.447114)",
+        "PSNR": "12.9203 (0.107669)",
+        "DSSIM": "14478.7 (0.220931)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 63,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 750,
+        "imgY2": 446
+      }
+    },
+    "768": {
+      "width": 768,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 669,
+          "prevTop_css": 118,
+          "prevH_css": 586,
+          "cropH_css": 586,
+          "cropH_img": 1172,
+          "totalPx": 1800192,
+          "AE": {
+            "raw": "272856 (0.15157)",
+            "num": 272856,
+            "pct": 15.157
+          },
+          "AEfuzz3": {
+            "raw": "264567 (0.146966)",
+            "num": 264567,
+            "pct": 14.697
+          },
+          "PSNR": "12.69 (0.10575)",
+          "DSSIM": "14739.5 (0.224911)"
+        },
+        "testing-tools": {
+          "liveTop_css": 938,
+          "liveH_css": 2788,
+          "prevTop_css": 704,
+          "prevH_css": 2935,
+          "cropH_css": 2788,
+          "cropH_img": 5576,
+          "totalPx": 8564736,
+          "AE": {
+            "raw": "6.14758e+06 (0.717778)",
+            "num": 6,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "6.12711e+06 (0.715388)",
+            "num": 6,
+            "pct": 0
+          },
+          "PSNR": "18.2931 (0.152443)",
+          "DSSIM": "11645.7 (0.177702)"
+        },
+        "drupal-qa": {
+          "liveTop_css": 3726,
+          "liveH_css": 1999,
+          "prevTop_css": 3639,
+          "prevH_css": 2813,
+          "cropH_css": 1999,
+          "cropH_img": 3998,
+          "totalPx": 6140928,
+          "AE": {
+            "raw": "2.7027e+06 (0.440113)",
+            "num": 2,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "2.67281e+06 (0.435245)",
+            "num": 2,
+            "pct": 0
+          },
+          "PSNR": "17.1789 (0.143158)",
+          "DSSIM": "11951.1 (0.182362)"
+        },
+        "other-modules": {
+          "liveTop_css": 5725,
+          "liveH_css": 371,
+          "prevTop_css": 6452,
+          "prevH_css": 330,
+          "cropH_css": 330,
+          "cropH_img": 660,
+          "totalPx": 1013760,
+          "AE": {
+            "raw": "47642 (0.0469953)",
+            "num": 47642,
+            "pct": 4.7
+          },
+          "AEfuzz3": {
+            "raw": "46102 (0.0454762)",
+            "num": 46102,
+            "pct": 4.548
+          },
+          "PSNR": "18.9439 (0.157866)",
+          "DSSIM": "10564.6 (0.161205)"
+        },
+        "closing-cta": {
+          "liveTop_css": 6096,
+          "liveH_css": 434,
+          "prevTop_css": 6782,
+          "prevH_css": 494,
+          "cropH_css": 434,
+          "cropH_img": 868,
+          "totalPx": 1333248,
+          "AE": {
+            "raw": "137233 (0.102931)",
+            "num": 137233,
+            "pct": 10.293
+          },
+          "AEfuzz3": {
+            "raw": "135517 (0.101644)",
+            "num": 135517,
+            "pct": 10.164
+          },
+          "PSNR": "13.2264 (0.11022)",
+          "DSSIM": "11991.9 (0.182985)"
+        },
+        "footer": {
+          "liveTop_css": 6530,
+          "liveH_css": 511,
+          "prevTop_css": 7275,
+          "prevH_css": 544,
+          "cropH_css": 511,
+          "cropH_img": 1022,
+          "totalPx": 1569792,
+          "AE": {
+            "raw": "112527 (0.0716827)",
+            "num": 112527,
+            "pct": 7.168
+          },
+          "AEfuzz3": {
+            "raw": "107816 (0.0686817)",
+            "num": 107816,
+            "pct": 6.868
+          },
+          "PSNR": "16.7751 (0.139792)",
+          "DSSIM": "12298.6 (0.187665)"
+        }
+      },
+      "wholePage": {
+        "liveH": 14082,
+        "prevH": 15640,
+        "commonH": 14082,
+        "totalPx": 21629952,
+        "AE": "1.38108e+07 (0.638504)",
+        "AEfuzz3": "1.37343e+07 (0.634967)",
+        "PSNR": "11.3176 (0.0943134)",
+        "DSSIM": "13547.2 (0.206717)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 61,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 1536,
+        "imgY2": 442
+      }
+    },
+    "1280": {
+      "width": 1280,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 502,
+          "prevTop_css": 118,
+          "prevH_css": 586,
+          "cropH_css": 502,
+          "cropH_img": 1004,
+          "totalPx": 2570240,
+          "AE": {
+            "raw": "268581 (0.104496)",
+            "num": 268581,
+            "pct": 10.45
+          },
+          "AEfuzz3": {
+            "raw": "260957 (0.10153)",
+            "num": 260957,
+            "pct": 10.153
+          },
+          "PSNR": "14.1761 (0.118134)",
+          "DSSIM": "12575.3 (0.191887)"
+        },
+        "testing-tools": {
+          "liveTop_css": 771,
+          "liveH_css": 1424,
+          "prevTop_css": 704,
+          "prevH_css": 1213,
+          "cropH_css": 1213,
+          "cropH_img": 2426,
+          "totalPx": 6210560,
+          "AE": {
+            "raw": "2.1335e+06 (0.343528)",
+            "num": 2,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "2.10608e+06 (0.339112)",
+            "num": 2,
+            "pct": 0
+          },
+          "PSNR": "17.2586 (0.143821)",
+          "DSSIM": "12386.6 (0.189008)"
+        },
+        "drupal-qa": {
+          "liveTop_css": 2194,
+          "liveH_css": 1137,
+          "prevTop_css": 1917,
+          "prevH_css": 1064,
+          "cropH_css": 1064,
+          "cropH_img": 2128,
+          "totalPx": 5447680,
+          "AE": {
+            "raw": "1.12962e+06 (0.207358)",
+            "num": 1,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "1.08395e+06 (0.198974)",
+            "num": 1,
+            "pct": 0
+          },
+          "PSNR": "15.4674 (0.128895)",
+          "DSSIM": "13174.1 (0.201024)"
+        },
+        "other-modules": {
+          "liveTop_css": 3332,
+          "liveH_css": 309,
+          "prevTop_css": 2981,
+          "prevH_css": 352,
+          "cropH_css": 309,
+          "cropH_img": 618,
+          "totalPx": 1582080,
+          "AE": {
+            "raw": "51125 (0.0323151)",
+            "num": 51125,
+            "pct": 3.232
+          },
+          "AEfuzz3": {
+            "raw": "49355 (0.0311963)",
+            "num": 49355,
+            "pct": 3.12
+          },
+          "PSNR": "20.5688 (0.171407)",
+          "DSSIM": "9906.44 (0.151163)"
+        },
+        "closing-cta": {
+          "liveTop_css": 3641,
+          "liveH_css": 434,
+          "prevTop_css": 3333,
+          "prevH_css": 494,
+          "cropH_css": 434,
+          "cropH_img": 868,
+          "totalPx": 2222080,
+          "AE": {
+            "raw": "141378 (0.0636242)",
+            "num": 141378,
+            "pct": 6.362
+          },
+          "AEfuzz3": {
+            "raw": "139654 (0.0628483)",
+            "num": 139654,
+            "pct": 6.285
+          },
+          "PSNR": "15.2724 (0.12727)",
+          "DSSIM": "10636.5 (0.162303)"
+        },
+        "footer": {
+          "liveTop_css": 4074,
+          "liveH_css": 415,
+          "prevTop_css": 3827,
+          "prevH_css": 376,
+          "cropH_css": 376,
+          "cropH_img": 752,
+          "totalPx": 1925120,
+          "AE": {
+            "raw": "117072 (0.0608128)",
+            "num": 117072,
+            "pct": 6.081
+          },
+          "AEfuzz3": {
+            "raw": "112333 (0.0583512)",
+            "num": 112333,
+            "pct": 5.835
+          },
+          "PSNR": "17.6932 (0.147443)",
+          "DSSIM": "11680.2 (0.178229)"
+        }
+      },
+      "wholePage": {
+        "liveH": 8980,
+        "prevH": 8406,
+        "commonH": 8406,
+        "totalPx": 21519360,
+        "AE": "8.41531e+06 (0.391058)",
+        "AEfuzz3": "8.3224e+06 (0.38674)",
+        "PSNR": "10.185 (0.0848749)",
+        "DSSIM": "14349 (0.218952)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 61,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 2560,
+        "imgY2": 442
+      }
+    }
+  }
+}

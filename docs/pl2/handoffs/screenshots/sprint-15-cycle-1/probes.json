@@ -1,0 +1,866 @@
+{
+  "375": {
+    "live": {
+      "h1": {
+        "fs": "44px",
+        "lh": "46.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 3,
+        "lastLine": "runs."
+      },
+      "heroSubhead": {
+        "fs": "17px",
+        "lh": "30.6px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 9,
+        "lastLine": "on the day we read it."
+      },
+      "h2_first": {
+        "fs": "40px",
+        "lh": "45.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "36px",
+        "lh": "37.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.2px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 3,
+        "lastLine": "testing surface?"
+      },
+      "bodyP": {
+        "fs": "17px",
+        "lh": "30.6px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "text": "Most clients arrive with a Drupal site that already works and a test suite that "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgb(93, 198, 232)",
+        "textWrap": "nowrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 331,
+          "h": 56
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H3",
+          "t": "Services"
+        },
+        {
+          "l": "H3",
+          "t": "Resources"
+        },
+        {
+          "l": "H3",
+          "t": "Company"
+        }
+      ]
+    },
+    "preview": {
+      "h1": {
+        "fs": "44px",
+        "lh": "46.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 3,
+        "lastLine": "runs."
+      },
+      "heroSubhead": {
+        "fs": "19px",
+        "lh": "30.4px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 10,
+        "lastLine": "day we read it."
+      },
+      "h2_first": {
+        "fs": "30px",
+        "lh": "33px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-0.6px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "36px",
+        "lh": "37.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-0.8px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 3,
+        "lastLine": "testing surface?"
+      },
+      "bodyP": {
+        "fs": "17px",
+        "lh": "28.9px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "A senior testing engineer reads your existing Playwright or Cypress suite, runs "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(98, 187, 203)",
+        "textWrap": "wrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 220,
+          "h": 45
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H3",
+          "t": "What changes from \"we monitor your site\""
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H4",
+          "t": "Services"
+        },
+        {
+          "l": "H4",
+          "t": "Resources"
+        },
+        {
+          "l": "H4",
+          "t": "Company"
+        }
+      ]
+    }
+  },
+  "768": {
+    "live": {
+      "h1": {
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 2,
+        "lastLine": "engagement runs."
+      },
+      "heroSubhead": {
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 5,
+        "lastLine": "what your suite is doing on the day we read it."
+      },
+      "h2_first": {
+        "fs": "40px",
+        "lh": "45.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 2,
+        "lastLine": "of your testing surface?"
+      },
+      "bodyP": {
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "text": "Most clients arrive with a Drupal site that already works and a test suite that "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgb(93, 198, 232)",
+        "textWrap": "nowrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 233,
+          "h": 56
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H3",
+          "t": "Services"
+        },
+        {
+          "l": "H3",
+          "t": "Resources"
+        },
+        {
+          "l": "H3",
+          "t": "Company"
+        }
+      ]
+    },
+    "preview": {
+      "h1": {
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 2,
+        "lastLine": "engagement runs."
+      },
+      "heroSubhead": {
+        "fs": "19px",
+        "lh": "30.4px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 5,
+        "lastLine": "read it."
+      },
+      "h2_first": {
+        "fs": "40px",
+        "lh": "44px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 2,
+        "lastLine": "of your testing surface?"
+      },
+      "bodyP": {
+        "fs": "17px",
+        "lh": "28.9px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "A senior testing engineer reads your existing Playwright or Cypress suite, runs "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(98, 187, 203)",
+        "textWrap": "wrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 220,
+          "h": 45
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H3",
+          "t": "What changes from \"we monitor your site\""
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H4",
+          "t": "Services"
+        },
+        {
+          "l": "H4",
+          "t": "Resources"
+        },
+        {
+          "l": "H4",
+          "t": "Company"
+        }
+      ]
+    }
+  },
+  "1280": {
+    "live": {
+      "h1": {
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 2,
+        "lastLine": "engagement runs."
+      },
+      "heroSubhead": {
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 4,
+        "lastLine": "the work is determined by what your suite is doing on the day we read it."
+      },
+      "h2_first": {
+        "fs": "40px",
+        "lh": "45.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, Poppins, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 2,
+        "lastLine": "of your testing surface?"
+      },
+      "bodyP": {
+        "fs": "20px",
+        "lh": "36px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "text": "Most clients arrive with a Drupal site that already works and a test suite that "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(31, 26, 20)",
+        "bg": "rgb(93, 198, 232)",
+        "textWrap": "nowrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 233,
+          "h": 56
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "16.8px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H3",
+          "t": "Services"
+        },
+        {
+          "l": "H3",
+          "t": "Resources"
+        },
+        {
+          "l": "H3",
+          "t": "Company"
+        }
+      ]
+    },
+    "preview": {
+      "h1": {
+        "fs": "72px",
+        "lh": "75.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-2px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "How a testing engagement runs.",
+        "lines": 2,
+        "lastLine": "engagement runs."
+      },
+      "heroSubhead": {
+        "fs": "19px",
+        "lh": "30.4px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "pretty",
+        "lines": 4,
+        "lastLine": "the work is determined by what your suite is doing on the day we read it."
+      },
+      "h2_first": {
+        "fs": "40px",
+        "lh": "44px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px",
+        "color": "rgb(42, 37, 32)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Audit.",
+        "lines": 1,
+        "lastLine": "Audit."
+      },
+      "h2_closing": {
+        "fs": "56px",
+        "lh": "58.8px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px",
+        "color": "rgb(245, 239, 226)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "balance",
+        "text": "Want a one-page audit of your testing surface?",
+        "lines": 2,
+        "lastLine": "of your testing surface?"
+      },
+      "bodyP": {
+        "fs": "17px",
+        "lh": "28.9px",
+        "ff": "Poppins, sans-serif",
+        "fw": "400",
+        "ls": "normal",
+        "color": "rgb(92, 84, 76)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "A senior testing engineer reads your existing Playwright or Cypress suite, runs "
+      },
+      "primaryBtn": {
+        "fs": "15px",
+        "lh": "15px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "normal",
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(98, 187, 203)",
+        "textWrap": "wrap",
+        "text": "Book a testing review",
+        "rect": {
+          "w": 220,
+          "h": 45
+        }
+      },
+      "kicker": {
+        "fs": "12px",
+        "lh": "19.2px",
+        "ff": "Poppins, sans-serif",
+        "fw": "600",
+        "ls": "1.6px",
+        "color": "rgb(142, 74, 42)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "textWrap": "wrap",
+        "text": "Process"
+      },
+      "htmlLang": "en",
+      "headingHierarchy": [
+        {
+          "l": "H1",
+          "t": "How a testing engagement runs."
+        },
+        {
+          "l": "H2",
+          "t": "Audit."
+        },
+        {
+          "l": "H2",
+          "t": "Stand up the dogfood loop."
+        },
+        {
+          "l": "H3",
+          "t": "What changes from \"we monitor your site\""
+        },
+        {
+          "l": "H2",
+          "t": "Take over or hand back."
+        },
+        {
+          "l": "H3",
+          "t": "Hand back, green."
+        },
+        {
+          "l": "H3",
+          "t": "Take over, ongoing."
+        },
+        {
+          "l": "H3",
+          "t": "Embed, instead."
+        },
+        {
+          "l": "H2",
+          "t": "What we don't do."
+        },
+        {
+          "l": "H2",
+          "t": "Want a one-page audit of your testing su"
+        },
+        {
+          "l": "H4",
+          "t": "Services"
+        },
+        {
+          "l": "H4",
+          "t": "Resources"
+        },
+        {
+          "l": "H4",
+          "t": "Company"
+        }
+      ]
+    }
+  }
+}

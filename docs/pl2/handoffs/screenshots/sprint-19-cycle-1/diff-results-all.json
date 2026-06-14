@@ -1,0 +1,815 @@
+{
+  "automated-testing-kit": {
+    "viewports": {
+      "375": {
+        "width": 375,
+        "dpr": 2,
+        "sections": {
+          "hero": {
+            "liveTop_css": 240,
+            "liveH_css": 70,
+            "prevTop_css": 0,
+            "prevH_css": 73,
+            "cropH_css": 70,
+            "cropH_img": 140,
+            "totalPx": 105000,
+            "AE": {
+              "raw": "6972 (0.0664)",
+              "num": 6972,
+              "pct": 6.64
+            },
+            "AEfuzz3": {
+              "raw": "6700 (0.0638095)",
+              "num": 6700,
+              "pct": 6.381
+            },
+            "PSNR": "14.2947 (0.119122)",
+            "DSSIM": "4229.58 (0.0645393)"
+          },
+          "features": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "chapters": {
+            "liveTop_css": 2601,
+            "liveH_css": 2456,
+            "prevTop_css": 2425,
+            "prevH_css": 2564,
+            "cropH_css": 2456,
+            "cropH_img": 4912,
+            "totalPx": 3684000,
+            "AE": {
+              "raw": "1.77147e+06 (0.480855)",
+              "num": 1,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "1.74968e+06 (0.47494)",
+              "num": 1,
+              "pct": 0
+            },
+            "PSNR": "16.3943 (0.136619)",
+            "DSSIM": "15160.5 (0.231335)"
+          },
+          "closing-cta": {
+            "liveTop_css": 5113,
+            "liveH_css": 379,
+            "prevTop_css": 4988,
+            "prevH_css": 350,
+            "cropH_css": 350,
+            "cropH_img": 700,
+            "totalPx": 525000,
+            "AE": {
+              "raw": "147253 (0.280482)",
+              "num": 147253,
+              "pct": 28.048
+            },
+            "AEfuzz3": {
+              "raw": "142869 (0.272131)",
+              "num": 142869,
+              "pct": 27.213
+            },
+            "PSNR": "14.0445 (0.117037)",
+            "DSSIM": "16127.7 (0.246093)"
+          },
+          "footer": {
+            "liveTop_css": 5756,
+            "liveH_css": 709,
+            "prevTop_css": 5338,
+            "prevH_css": 852,
+            "cropH_css": 709,
+            "cropH_img": 1418,
+            "totalPx": 1063500,
+            "AE": {
+              "raw": "89411 (0.0840724)",
+              "num": 89411,
+              "pct": 8.407
+            },
+            "AEfuzz3": {
+              "raw": "85541 (0.0804335)",
+              "num": 85541,
+              "pct": 8.043
+            },
+            "PSNR": "15.8528 (0.132107)",
+            "DSSIM": "13093.8 (0.199798)"
+          }
+        },
+        "wholePage": {
+          "liveH": 12930,
+          "prevH": 12380,
+          "commonH": 12380,
+          "totalPx": 9285000,
+          "AE": "4.16661e+06 (0.448747)",
+          "AEfuzz3": "4.12155e+06 (0.443894)",
+          "PSNR": "15.9752 (0.133127)",
+          "DSSIM": "14576.2 (0.222419)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 349,
+          "imgY1": 320,
+          "imgY2": 698
+        }
+      },
+      "768": {
+        "width": 768,
+        "dpr": 2,
+        "sections": {
+          "hero": {
+            "liveTop_css": 240,
+            "liveH_css": 50,
+            "prevTop_css": 0,
+            "prevH_css": 73,
+            "cropH_css": 50,
+            "cropH_img": 100,
+            "totalPx": 153600,
+            "AE": {
+              "raw": "6716 (0.043724)",
+              "num": 6716,
+              "pct": 4.372
+            },
+            "AEfuzz3": {
+              "raw": "6487 (0.0422331)",
+              "num": 6487,
+              "pct": 4.223
+            },
+            "PSNR": "15.9489 (0.132907)",
+            "DSSIM": "2767.64 (0.0422314)"
+          },
+          "features": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "chapters": {
+            "liveTop_css": 1879,
+            "liveH_css": 2092,
+            "prevTop_css": 1833,
+            "prevH_css": 1464,
+            "cropH_css": 1464,
+            "cropH_img": 2928,
+            "totalPx": 4497408,
+            "AE": {
+              "raw": "2.24492e+06 (0.49916)",
+              "num": 2,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "2.22695e+06 (0.495164)",
+              "num": 2,
+              "pct": 0
+            },
+            "PSNR": "17.5588 (0.146324)",
+            "DSSIM": "13744.1 (0.209722)"
+          },
+          "closing-cta": {
+            "liveTop_css": 4027,
+            "liveH_css": 328,
+            "prevTop_css": 3297,
+            "prevH_css": 332,
+            "cropH_css": 328,
+            "cropH_img": 656,
+            "totalPx": 1007616,
+            "AE": {
+              "raw": "123924 (0.122987)",
+              "num": 123924,
+              "pct": 12.299
+            },
+            "AEfuzz3": {
+              "raw": "119110 (0.11821)",
+              "num": 119110,
+              "pct": 11.821
+            },
+            "PSNR": "16.543 (0.137858)",
+            "DSSIM": "12851.9 (0.196107)"
+          },
+          "footer": {
+            "liveTop_css": 4651,
+            "liveH_css": 511,
+            "prevTop_css": 3629,
+            "prevH_css": 544,
+            "cropH_css": 511,
+            "cropH_img": 1022,
+            "totalPx": 1569792,
+            "AE": {
+              "raw": "114305 (0.0728154)",
+              "num": 114305,
+              "pct": 7.282
+            },
+            "AEfuzz3": {
+              "raw": "109541 (0.0697806)",
+              "num": 109541,
+              "pct": 6.978
+            },
+            "PSNR": "16.6954 (0.139128)",
+            "DSSIM": "12361.8 (0.188629)"
+          }
+        },
+        "wholePage": {
+          "liveH": 10324,
+          "prevH": 8346,
+          "commonH": 8346,
+          "totalPx": 12819456,
+          "AE": "6.40308e+06 (0.499482)",
+          "AEfuzz3": "6.33507e+06 (0.494176)",
+          "PSNR": "16.6862 (0.139052)",
+          "DSSIM": "13360.4 (0.203867)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 327,
+          "imgY1": 320,
+          "imgY2": 654
+        }
+      },
+      "1280": {
+        "width": 1280,
+        "dpr": 2,
+        "sections": {
+          "hero": {
+            "liveTop_css": 240,
+            "liveH_css": 50,
+            "prevTop_css": 0,
+            "prevH_css": 73,
+            "cropH_css": 50,
+            "cropH_img": 100,
+            "totalPx": 256000,
+            "AE": {
+              "raw": "15285 (0.059707)",
+              "num": 15285,
+              "pct": 5.971
+            },
+            "AEfuzz3": {
+              "raw": "14615 (0.0570898)",
+              "num": 14615,
+              "pct": 5.709
+            },
+            "PSNR": "15.0573 (0.125478)",
+            "DSSIM": "4498.24 (0.0686388)"
+          },
+          "features": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "chapters": {
+            "liveTop_css": 1602,
+            "liveH_css": 1210,
+            "prevTop_css": 1484,
+            "prevH_css": 1217,
+            "cropH_css": 1210,
+            "cropH_img": 2420,
+            "totalPx": 6195200,
+            "AE": {
+              "raw": "1.82986e+06 (0.295367)",
+              "num": 1,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "1.80816e+06 (0.291865)",
+              "num": 1,
+              "pct": 0
+            },
+            "PSNR": "18.752 (0.156267)",
+            "DSSIM": "12802.7 (0.195356)"
+          },
+          "closing-cta": {
+            "liveTop_css": 2868,
+            "liveH_css": 328,
+            "prevTop_css": 2701,
+            "prevH_css": 332,
+            "cropH_css": 328,
+            "cropH_img": 656,
+            "totalPx": 1679360,
+            "AE": {
+              "raw": "124675 (0.0742396)",
+              "num": 124675,
+              "pct": 7.424
+            },
+            "AEfuzz3": {
+              "raw": "119929 (0.0714135)",
+              "num": 119929,
+              "pct": 7.141
+            },
+            "PSNR": "18.682 (0.155683)",
+            "DSSIM": "10988.5 (0.167674)"
+          },
+          "footer": {
+            "liveTop_css": 3492,
+            "liveH_css": 415,
+            "prevTop_css": 3033,
+            "prevH_css": 376,
+            "cropH_css": 376,
+            "cropH_img": 752,
+            "totalPx": 1925120,
+            "AE": {
+              "raw": "119211 (0.0619239)",
+              "num": 119211,
+              "pct": 6.192
+            },
+            "AEfuzz3": {
+              "raw": "114410 (0.0594301)",
+              "num": 114410,
+              "pct": 5.943
+            },
+            "PSNR": "17.5923 (0.146602)",
+            "DSSIM": "11749.9 (0.179292)"
+          }
+        },
+        "wholePage": {
+          "liveH": 7814,
+          "prevH": 6818,
+          "commonH": 6818,
+          "totalPx": 17454080,
+          "AE": "8.64848e+06 (0.495499)",
+          "AEfuzz3": "8.60386e+06 (0.492942)",
+          "PSNR": "17.8648 (0.148873)",
+          "DSSIM": "12224.5 (0.186535)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 327,
+          "imgY1": 320,
+          "imgY2": 654
+        }
+      }
+    }
+  },
+  "automated-testing-kit-introduction": {
+    "viewports": {
+      "375": {
+        "width": 375,
+        "dpr": 2,
+        "sections": {
+          "docs-page": {
+            "liveTop_css": 271,
+            "liveH_css": 2566,
+            "prevTop_css": 118,
+            "prevH_css": 2924,
+            "cropH_css": 2566,
+            "cropH_img": 5132,
+            "totalPx": 3849000,
+            "AE": {
+              "raw": "1.14332e+06 (0.297042)",
+              "num": 1,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "1.12554e+06 (0.292425)",
+              "num": 1,
+              "pct": 0
+            },
+            "PSNR": "14.1449 (0.117874)",
+            "DSSIM": "16093 (0.245563)"
+          },
+          "article": {
+            "liveTop_css": 492,
+            "liveH_css": 1930,
+            "prevTop_css": 1040,
+            "prevH_css": 1625,
+            "cropH_css": 1625,
+            "cropH_img": 3250,
+            "totalPx": 2437500,
+            "AE": {
+              "raw": "875086 (0.35901)",
+              "num": 875086,
+              "pct": 35.901
+            },
+            "AEfuzz3": {
+              "raw": "862250 (0.353744)",
+              "num": 862250,
+              "pct": 35.374
+            },
+            "PSNR": "13.2069 (0.110058)",
+            "DSSIM": "17458.3 (0.266396)"
+          },
+          "footer": {
+            "liveTop_css": 2901,
+            "liveH_css": 709,
+            "prevTop_css": 3042,
+            "prevH_css": 852,
+            "cropH_css": 709,
+            "cropH_img": 1418,
+            "totalPx": 1063500,
+            "AE": {
+              "raw": "89305 (0.0839727)",
+              "num": 89305,
+              "pct": 8.397
+            },
+            "AEfuzz3": {
+              "raw": "85435 (0.0803338)",
+              "num": 85435,
+              "pct": 8.033
+            },
+            "PSNR": "15.8623 (0.132186)",
+            "DSSIM": "13082.1 (0.19962)"
+          }
+        },
+        "wholePage": {
+          "liveH": 7220,
+          "prevH": 7788,
+          "commonH": 7220,
+          "totalPx": 5415000,
+          "AE": "1.33103e+06 (0.245804)",
+          "AEfuzz3": "1.30859e+06 (0.241661)",
+          "PSNR": "14.8431 (0.123693)",
+          "DSSIM": "15084.5 (0.230174)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 223,
+          "imgY1": 320,
+          "imgY2": 446
+        }
+      },
+      "768": {
+        "width": 768,
+        "dpr": 2,
+        "sections": {
+          "docs-page": {
+            "liveTop_css": 269,
+            "liveH_css": 1881,
+            "prevTop_css": 118,
+            "prevH_css": 2465,
+            "cropH_css": 1881,
+            "cropH_img": 3762,
+            "totalPx": 5778432,
+            "AE": {
+              "raw": "1.05263e+06 (0.182165)",
+              "num": 1,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "1.03632e+06 (0.179342)",
+              "num": 1,
+              "pct": 0
+            },
+            "PSNR": "15.6738 (0.130615)",
+            "DSSIM": "13528.9 (0.206438)"
+          },
+          "article": {
+            "liveTop_css": 551,
+            "liveH_css": 1295,
+            "prevTop_css": 1103,
+            "prevH_css": 1212,
+            "cropH_css": 1212,
+            "cropH_img": 2424,
+            "totalPx": 3723264,
+            "AE": {
+              "raw": "797676 (0.214241)",
+              "num": 797676,
+              "pct": 21.424
+            },
+            "AEfuzz3": {
+              "raw": "780090 (0.209518)",
+              "num": 780090,
+              "pct": 20.952
+            },
+            "PSNR": "14.1256 (0.117713)",
+            "DSSIM": "15340.5 (0.234082)"
+          },
+          "footer": {
+            "liveTop_css": 2246,
+            "liveH_css": 511,
+            "prevTop_css": 2583,
+            "prevH_css": 544,
+            "cropH_css": 511,
+            "cropH_img": 1022,
+            "totalPx": 1569792,
+            "AE": {
+              "raw": "114543 (0.072967)",
+              "num": 114543,
+              "pct": 7.297
+            },
+            "AEfuzz3": {
+              "raw": "109767 (0.0699246)",
+              "num": 109767,
+              "pct": 6.992
+            },
+            "PSNR": "16.6825 (0.13902)",
+            "DSSIM": "12374.8 (0.188827)"
+          }
+        },
+        "wholePage": {
+          "liveH": 5516,
+          "prevH": 6254,
+          "commonH": 5516,
+          "totalPx": 8472576,
+          "AE": "1.78914e+06 (0.211168)",
+          "AEfuzz3": "1.7666e+06 (0.208508)",
+          "PSNR": "15.9624 (0.13302)",
+          "DSSIM": "13322.4 (0.203287)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 221,
+          "imgY1": 320,
+          "imgY2": 442
+        }
+      },
+      "1280": {
+        "width": 1280,
+        "dpr": 2,
+        "sections": {
+          "docs-page": {
+            "liveTop_css": 269,
+            "liveH_css": 1732,
+            "prevTop_css": 118,
+            "prevH_css": 1676,
+            "cropH_css": 1676,
+            "cropH_img": 3352,
+            "totalPx": 8581120,
+            "AE": {
+              "raw": "991000 (0.115486)",
+              "num": 991000,
+              "pct": 11.549
+            },
+            "AEfuzz3": {
+              "raw": "965768 (0.112546)",
+              "num": 965768,
+              "pct": 11.255
+            },
+            "PSNR": "16.9237 (0.141031)",
+            "DSSIM": "12480.8 (0.190445)"
+          },
+          "article": {
+            "liveTop_css": 457,
+            "liveH_css": 1259,
+            "prevTop_css": 314,
+            "prevH_css": 1212,
+            "cropH_css": 1212,
+            "cropH_img": 2424,
+            "totalPx": 6205440,
+            "AE": {
+              "raw": "887073 (0.142951)",
+              "num": 887073,
+              "pct": 14.295
+            },
+            "AEfuzz3": {
+              "raw": "863842 (0.139207)",
+              "num": 863842,
+              "pct": 13.921
+            },
+            "PSNR": "15.9374 (0.132811)",
+            "DSSIM": "13384.2 (0.20423)"
+          },
+          "footer": {
+            "liveTop_css": 2097,
+            "liveH_css": 415,
+            "prevTop_css": 1794,
+            "prevH_css": 376,
+            "cropH_css": 376,
+            "cropH_img": 752,
+            "totalPx": 1925120,
+            "AE": {
+              "raw": "118878 (0.061751)",
+              "num": 118878,
+              "pct": 6.175
+            },
+            "AEfuzz3": {
+              "raw": "114077 (0.0592571)",
+              "num": 114077,
+              "pct": 5.926
+            },
+            "PSNR": "17.6131 (0.146776)",
+            "DSSIM": "11735.4 (0.17907)"
+          }
+        },
+        "wholePage": {
+          "liveH": 5024,
+          "prevH": 4340,
+          "commonH": 4340,
+          "totalPx": 11110400,
+          "AE": "2.12859e+06 (0.191585)",
+          "AEfuzz3": "2.10426e+06 (0.189395)",
+          "PSNR": "17.1882 (0.143235)",
+          "DSSIM": "12112 (0.184818)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 221,
+          "imgY1": 320,
+          "imgY2": 442
+        }
+      }
+    }
+  },
+  "article-introducing-layout-builder-kit-beta-1": {
+    "viewports": {
+      "375": {
+        "width": 375,
+        "dpr": 2,
+        "sections": {
+          "article": {
+            "liveTop_css": 292,
+            "liveH_css": 5704,
+            "prevTop_css": 139,
+            "prevH_css": 5366,
+            "cropH_css": 5366,
+            "cropH_img": 10732,
+            "totalPx": 8049000,
+            "AE": {
+              "raw": "2.63906e+06 (0.327874)",
+              "num": 2,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "2.48684e+06 (0.308963)",
+              "num": 2,
+              "pct": 0
+            },
+            "PSNR": "11.3491 (0.0945756)",
+            "DSSIM": "19023.7 (0.290283)"
+          },
+          "article-cta": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "footer": {
+            "liveTop_css": 6060,
+            "liveH_css": 709,
+            "prevTop_css": 5505,
+            "prevH_css": 819,
+            "cropH_css": 709,
+            "cropH_img": 1418,
+            "totalPx": 1063500,
+            "AE": {
+              "raw": "84718 (0.0796596)",
+              "num": 84718,
+              "pct": 7.966
+            },
+            "AEfuzz3": {
+              "raw": "81102 (0.0762595)",
+              "num": 81102,
+              "pct": 7.626
+            },
+            "PSNR": "16.1187 (0.134322)",
+            "DSSIM": "12750.7 (0.194563)"
+          }
+        },
+        "wholePage": {
+          "liveH": 13540,
+          "prevH": 12648,
+          "commonH": 12648,
+          "totalPx": 9486000,
+          "AE": "3.07144e+06 (0.323787)",
+          "AEfuzz3": "2.92556e+06 (0.308408)",
+          "PSNR": "11.7191 (0.0976592)",
+          "DSSIM": "18466.2 (0.281776)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 244,
+          "imgY1": 320,
+          "imgY2": 488
+        }
+      },
+      "768": {
+        "width": 768,
+        "dpr": 2,
+        "sections": {
+          "article": {
+            "liveTop_css": 269,
+            "liveH_css": 5891,
+            "prevTop_css": 118,
+            "prevH_css": 4075,
+            "cropH_css": 4075,
+            "cropH_img": 8150,
+            "totalPx": 12518400,
+            "AE": {
+              "raw": "4.23132e+06 (0.338008)",
+              "num": 4,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "3.49826e+06 (0.27945)",
+              "num": 3,
+              "pct": 0
+            },
+            "PSNR": "11.9614 (0.0996785)",
+            "DSSIM": "16628.4 (0.253733)"
+          },
+          "article-cta": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "footer": {
+            "liveTop_css": 6256,
+            "liveH_css": 511,
+            "prevTop_css": 4193,
+            "prevH_css": 544,
+            "cropH_css": 511,
+            "cropH_img": 1022,
+            "totalPx": 1569792,
+            "AE": {
+              "raw": "110684 (0.0705087)",
+              "num": 110684,
+              "pct": 7.051
+            },
+            "AEfuzz3": {
+              "raw": "106072 (0.0675707)",
+              "num": 106072,
+              "pct": 6.757
+            },
+            "PSNR": "16.8513 (0.140427)",
+            "DSSIM": "12231.8 (0.186645)"
+          }
+        },
+        "wholePage": {
+          "liveH": 13536,
+          "prevH": 9474,
+          "commonH": 9474,
+          "totalPx": 14552064,
+          "AE": "4.94947e+06 (0.340122)",
+          "AEfuzz3": "4.62811e+06 (0.318038)",
+          "PSNR": "11.1755 (0.0931288)",
+          "DSSIM": "16413.8 (0.250459)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 221,
+          "imgY1": 320,
+          "imgY2": 442
+        }
+      },
+      "1280": {
+        "width": 1280,
+        "dpr": 2,
+        "sections": {
+          "article": {
+            "liveTop_css": 269,
+            "liveH_css": 4596,
+            "prevTop_css": 118,
+            "prevH_css": 4318,
+            "cropH_css": 4318,
+            "cropH_img": 8636,
+            "totalPx": 22108160,
+            "AE": {
+              "raw": "7.18753e+06 (0.325108)",
+              "num": 7,
+              "pct": 0
+            },
+            "AEfuzz3": {
+              "raw": "5.56307e+06 (0.25163)",
+              "num": 5,
+              "pct": 0
+            },
+            "PSNR": "12.868 (0.107233)",
+            "DSSIM": "14443.2 (0.22039)"
+          },
+          "article-cta": {
+            "missing": {
+              "live": true,
+              "preview": false
+            }
+          },
+          "footer": {
+            "liveTop_css": 4961,
+            "liveH_css": 415,
+            "prevTop_css": 4436,
+            "prevH_css": 376,
+            "cropH_css": 376,
+            "cropH_img": 752,
+            "totalPx": 1925120,
+            "AE": {
+              "raw": "115650 (0.0600742)",
+              "num": 115650,
+              "pct": 6.007
+            },
+            "AEfuzz3": {
+              "raw": "111010 (0.0576639)",
+              "num": 111010,
+              "pct": 5.766
+            },
+            "PSNR": "17.7519 (0.147932)",
+            "DSSIM": "11627 (0.177417)"
+          }
+        },
+        "wholePage": {
+          "liveH": 10752,
+          "prevH": 9624,
+          "commonH": 9624,
+          "totalPx": 24637440,
+          "AE": "8.41226e+06 (0.341442)",
+          "AEfuzz3": "7.85642e+06 (0.318882)",
+          "PSNR": "11.4569 (0.0954744)",
+          "DSSIM": "14907.5 (0.227474)"
+        },
+        "chromeMask": {
+          "cssTop": 160,
+          "cssBottom": 221,
+          "imgY1": 320,
+          "imgY2": 442
+        }
+      }
+    }
+  }
+}

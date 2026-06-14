@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 2b.1 /about-us selector-class refactor — S visual report</title>
+<style>
+  :root { --bg:#faf8f3; --ink:#1f1a14; --muted:#5c544c; --accent:#2c7a4e; --bad:#c24a3b; --warn:#c97b5c; }
+  body { font: 15px/1.55 -apple-system,Segoe UI,Helvetica,Arial,sans-serif; color:var(--ink); background:var(--bg); margin:0; padding:0; }
+  header { background:var(--ink); color:#f5efe2; padding:20px 32px; }
+  header h1 { margin:0 0 4px; font-size:22px; }
+  header .meta { font-size:13px; opacity:.8; }
+  .verdict { display:inline-block; padding:6px 14px; border-radius:4px; font-weight:700; letter-spacing:.5px; margin-top:8px; }
+  .verdict.pass { background:var(--accent); color:#fff; }
+  main { max-width:1320px; margin:0 auto; padding:24px 32px 64px; }
+  h2 { border-bottom:2px solid #e3dccc; padding-bottom:6px; margin-top:36px; }
+  h3 { margin-top:28px; }
+  table { border-collapse:collapse; margin:12px 0; font-size:14px; }
+  th, td { border:1px solid #d4ccba; padding:6px 10px; text-align:left; vertical-align:top; }
+  th { background:#efe9d8; }
+  td.ok { color:var(--accent); font-weight:600; }
+  td.bad { color:var(--bad); font-weight:600; }
+  .summary { background:#fff; border:1px solid #e3dccc; border-radius:6px; padding:16px 22px; margin:16px 0; }
+  .summary ul { margin:6px 0 0 18px; padding:0; }
+  .comparator { position:relative; overflow:hidden; border:1px solid #d4ccba; border-radius:4px; margin-top:8px; background:#fff; }
+  .comparator img { display:block; width:100%; height:auto; }
+  .comparator .top { position:absolute; inset:0; clip-path:inset(0 50% 0 0); }
+  .comparator input[type=range] { position:absolute; left:6px; right:6px; bottom:8px; width:calc(100% - 12px); }
+  details { margin:10px 0; }
+  summary { cursor:pointer; padding:8px 12px; background:#efe9d8; border-radius:4px; font-weight:600; }
+  .panel { padding:14px 4px 8px; }
+  .composite img { max-width:100%; border:1px solid #d4ccba; }
+  nav.toc { background:#fff; border:1px solid #e3dccc; padding:12px 18px; border-radius:4px; margin-bottom:18px; }
+  nav.toc a { color:var(--ink); margin-right:18px; text-decoration:none; border-bottom:1px solid var(--muted); }
+  code { background:#efe9d8; padding:1px 6px; border-radius:3px; font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cycle 2b.1 — /about-us selector-class refactor</h1>
+  <div class="meta">Branch <code>aa/pl-sprint-10-cycle-2b1-about-us</code> · Date 2026-05-12 · Sprint 10 architecture cleanup</div>
+  <div class="verdict pass">VERDICT: PASS — pixel-identical (AE = 0 across all 12 page × viewport pairs)</div>
+</header>
+<main>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#summary">Summary</a>
+  <a href="#diff-table">Pixel-diff table</a>
+  <a href="#about-us">/about-us</a>
+  <a href="#services">/services</a>
+  <a href="#how-we-do-it">/how-we-do-it</a>
+  <a href="#osp">/open-source-projects</a>
+  <a href="#wcag">WCAG</a>
+</nav>
+
+<section id="summary">
+  <h2>What I see different</h2>
+  <div class="summary">
+    <strong>No visible differences detected at any viewport, on any of the four pages tested.</strong>
+    <ul>
+      <li>/about-us — pixel-identical at 1280, 768, 375</li>
+      <li>/services — pixel-identical at 1280, 768, 375 (cross-page regression check)</li>
+      <li>/how-we-do-it — pixel-identical at 1280, 768, 375 (cross-page regression check)</li>
+      <li>/open-source-projects — pixel-identical at 1280, 768, 375 (cross-page regression check)</li>
+    </ul>
+    <p style="margin:10px 0 0">Baseline was captured by reverting F's CSS edits (via <code>git stash</code>) and reverting the 4 Canvas marker classes (via a one-shot drush script), clearing cache, then capturing full-page Playwright screenshots. F's changes were then restored, cache re-cleared, and live screenshots captured under identical conditions. ImageMagick <code>compare -metric AE -fuzz 1%</code> reports zero differing pixels for every pair.</p>
+    <p style="margin:10px 0 0">This is the expected and best possible outcome for a refactor cycle whose explicit AC is pixel-identical output. The transition comma-selector pattern (P1/P7/P8) guarantees both old <code>:has()</code> rules and new marker rules apply to the same DOM nodes; P9's direct swap targets a DOM pattern unique to /about-us. Equivalence is by construction, and pixel diffs confirm it empirically.</p>
+  </div>
+</section>
+
+<section id="diff-table">
+  <h2>Pixel-diff table</h2>
+  <table>
+    <thead><tr><th>Page</th><th>Viewport</th><th>Baseline (pre)</th><th>Live (post)</th><th>Dimensions</th><th>Pixels different (AE)</th><th>Delta %</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>/about-us</td><td>1280×800</td><td>baseline PNG</td><td>live PNG</td><td>1280×4549</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/about-us</td><td>768×1024</td><td>baseline PNG</td><td>live PNG</td><td>768×5690</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/about-us</td><td>375×667</td><td>baseline PNG</td><td>live PNG</td><td>375×7952</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/services</td><td>1280×800</td><td>baseline PNG</td><td>live PNG</td><td>1280×4418</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/services</td><td>768×1024</td><td>baseline PNG</td><td>live PNG</td><td>768×5249</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/services</td><td>375×667</td><td>baseline PNG</td><td>live PNG</td><td>375×6555</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>1280×800</td><td>baseline PNG</td><td>live PNG</td><td>1280×5378</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>768×1024</td><td>baseline PNG</td><td>live PNG</td><td>768×6471</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>375×667</td><td>baseline PNG</td><td>live PNG</td><td>375×8174</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>1280×800</td><td>baseline PNG</td><td>live PNG</td><td>1280×4490</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>768×1024</td><td>baseline PNG</td><td>live PNG</td><td>768×7041</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>375×667</td><td>baseline PNG</td><td>live PNG</td><td>375×9293</td><td>0</td><td>0.00%</td><td class="ok">MATCH</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<script>
+function makeComparator(id, base, live) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = `
+    <img src="${base}" alt="baseline">
+    <img class="top" src="${live}" alt="live">
+    <input type="range" min="0" max="100" value="50">
+  `;
+  const top = el.querySelector('.top');
+  const range = el.querySelector('input');
+  range.addEventListener('input', () => {
+    top.style.clipPath = 'inset(0 ' + (100 - range.value) + '% 0 0)';
+  });
+}
+</script>
+
+<section id="about-us">
+  <h2>/about-us — wipe-slider comparators</h2>
+  <p>Drag the slider on each comparator. Left half of slider position = baseline (pre-refactor). Right half = live (post-refactor). At AE=0, the two halves are pixel-identical regardless of slider position.</p>
+
+  <h3>1280 × 800</h3>
+  <div id="cmp-au-1280" class="comparator"></div>
+  <details><summary>Side-by-side composite (baseline | live)</summary><div class="panel composite"><img src="screenshots/sprint-10-cycle-2b1/t3-about-us-1280-composite-20260512.png" alt=""></div></details>
+  <script>makeComparator('cmp-au-1280', 'screenshots/sprint-10-cycle-2b1/t3-about-us-1280-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-about-us-1280-live-20260512.png');</script>
+
+  <h3>768 × 1024</h3>
+  <div id="cmp-au-768" class="comparator"></div>
+  <details><summary>Side-by-side composite</summary><div class="panel composite"><img src="screenshots/sprint-10-cycle-2b1/t3-about-us-768-composite-20260512.png" alt=""></div></details>
+  <script>makeComparator('cmp-au-768', 'screenshots/sprint-10-cycle-2b1/t3-about-us-768-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-about-us-768-live-20260512.png');</script>
+
+  <h3>375 × 667</h3>
+  <div id="cmp-au-375" class="comparator"></div>
+  <details><summary>Side-by-side composite</summary><div class="panel composite"><img src="screenshots/sprint-10-cycle-2b1/t3-about-us-375-composite-20260512.png" alt=""></div></details>
+  <script>makeComparator('cmp-au-375', 'screenshots/sprint-10-cycle-2b1/t3-about-us-375-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-about-us-375-live-20260512.png');</script>
+</section>
+
+<section id="services">
+  <h2>/services — cross-page regression check</h2>
+  <p>P8 (<code>.dy-section.theme--dark</code> two-button row) is shared with /services. Cycle 2b.1 used the comma-selector transition pattern, so the old <code>:has(&gt; .button + .button)</code> selector still applies to /services' closing CTA. Expected: AE=0. Confirmed.</p>
+
+  <h3>1280 × 800</h3>
+  <div id="cmp-sv-1280" class="comparator"></div>
+  <script>makeComparator('cmp-sv-1280', 'screenshots/sprint-10-cycle-2b1/t3-services-1280-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-services-1280-live-20260512.png');</script>
+
+  <h3>768 × 1024</h3>
+  <div id="cmp-sv-768" class="comparator"></div>
+  <script>makeComparator('cmp-sv-768', 'screenshots/sprint-10-cycle-2b1/t3-services-768-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-services-768-live-20260512.png');</script>
+
+  <h3>375 × 667</h3>
+  <div id="cmp-sv-375" class="comparator"></div>
+  <script>makeComparator('cmp-sv-375', 'screenshots/sprint-10-cycle-2b1/t3-services-375-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-services-375-live-20260512.png');</script>
+</section>
+
+<section id="how-we-do-it">
+  <h2>/how-we-do-it — cross-page regression check</h2>
+  <p>P1 (<code>theme--light + .kicker--centered</code>) is shared with /how-we-do-it. The comma-selector transition keeps the old <code>:has(.kicker--centered)</code> rule live for this page. Expected: AE=0. Confirmed.</p>
+
+  <h3>1280 × 800</h3>
+  <div id="cmp-hw-1280" class="comparator"></div>
+  <script>makeComparator('cmp-hw-1280', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-1280-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-1280-live-20260512.png');</script>
+
+  <h3>768 × 1024</h3>
+  <div id="cmp-hw-768" class="comparator"></div>
+  <script>makeComparator('cmp-hw-768', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-768-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-768-live-20260512.png');</script>
+
+  <h3>375 × 667</h3>
+  <div id="cmp-hw-375" class="comparator"></div>
+  <script>makeComparator('cmp-hw-375', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-375-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-how-we-do-it-375-live-20260512.png');</script>
+</section>
+
+<section id="osp">
+  <h2>/open-source-projects — cross-page regression check</h2>
+  <p>P1 also applies to /open-source-projects. Same expected outcome. Confirmed AE=0.</p>
+
+  <h3>1280 × 800</h3>
+  <div id="cmp-op-1280" class="comparator"></div>
+  <script>makeComparator('cmp-op-1280', 'screenshots/sprint-10-cycle-2b1/t3-osp-1280-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-osp-1280-live-20260512.png');</script>
+
+  <h3>768 × 1024</h3>
+  <div id="cmp-op-768" class="comparator"></div>
+  <script>makeComparator('cmp-op-768', 'screenshots/sprint-10-cycle-2b1/t3-osp-768-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-osp-768-live-20260512.png');</script>
+
+  <h3>375 × 667</h3>
+  <div id="cmp-op-375" class="comparator"></div>
+  <script>makeComparator('cmp-op-375', 'screenshots/sprint-10-cycle-2b1/t3-osp-375-baseline-20260512.png', 'screenshots/sprint-10-cycle-2b1/t3-osp-375-live-20260512.png');</script>
+</section>
+
+<section id="wcag">
+  <h2>WCAG 2.2 AA</h2>
+  <p>This cycle is a selector refactor. Every CSS declaration is byte-identical to pre-refactor; no color, contrast, focus-ring, motion, font-size, or touch-target value changed. WCAG status carries forward from prior cycles unchanged.</p>
+  <table>
+    <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Heading hierarchy</td><td class="ok">PASS</td><td>Single H1; sequence H1 → H2 → H2 → H3×3 → H3 → H2 → H2 on /about-us (T verified)</td></tr>
+      <tr><td>Color contrast (5 pairs)</td><td class="ok">PASS</td><td>All pairs meet 4.5:1 / 3:1 thresholds (T re-computed independently)</td></tr>
+      <tr><td>Touch targets (.dy-section--cta-pair buttons)</td><td class="ok">PASS</td><td><code>min-height: 44px</code> preserved at desktop and mobile (WCAG 2.5.8)</td></tr>
+      <tr><td>Keyboard navigation</td><td class="ok">PASS</td><td>No DOM order changes; tab order unchanged from pre-refactor</td></tr>
+      <tr><td>Focus rings</td><td class="ok">PASS</td><td>No focus styles touched in this cycle</td></tr>
+      <tr><td>Forced-colors</td><td class="ok">PASS</td><td>No new color rules; existing forced-colors handling unchanged</td></tr>
+      <tr><td>Reduced-motion</td><td class="ok">PASS</td><td>No animation/transition added or removed</td></tr>
+      <tr><td>200% zoom</td><td class="ok">PASS</td><td>Layout unchanged at all viewports; zoom behavior unchanged</td></tr>
+      <tr><td>Image alt text</td><td class="ok">PASS</td><td>No img elements added/changed</td></tr>
+      <tr><td>ARIA landmarks (header/main/nav/footer)</td><td class="ok">PASS</td><td>T verified all four landmark elements present</td></tr>
+      <tr><td>No <code>!important</code></td><td class="ok">PASS</td><td>0 occurrences in declarations (2 in comments only)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+</body>
+</html>

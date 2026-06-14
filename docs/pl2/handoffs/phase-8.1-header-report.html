@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 8.1 — Site header parity — visual audit report</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #2a2520; background: #fafafa; padding: 24px 32px 80px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  h1 { font-size: 28px; margin: 0 0 6px; }
+  h2 { font-size: 22px; margin: 36px 0 12px; padding-top: 12px; border-top: 1px solid #ddd; }
+  h3 { font-size: 17px; margin: 24px 0 10px; }
+  .verdict {
+    background: #d3edd6; border: 2px solid #2f7a3a; border-radius: 8px;
+    padding: 18px 22px; margin: 12px 0 8px;
+  }
+  .verdict.rework { background: #fde2e2; border-color: #b9342f; }
+  .verdict h1 { color: #1f5928; font-size: 30px; margin: 0; }
+  .verdict.rework h1 { color: #8a201b; }
+  .verdict .meta { color: #355c3a; margin-top: 4px; font-size: 14px; }
+  .verdict.rework .meta { color: #6a221e; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 24px; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e5e5e5; vertical-align: top; }
+  th { background: #f0f0f0; font-weight: 600; }
+  tr:nth-child(even) td { background: #fff; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .pill.match { background: #d3edd6; color: #1f5928; }
+  .pill.delta { background: #fff3cd; color: #856404; }
+  .pill.rework { background: #fde2e2; color: #8a201b; }
+  .pill.oos { background: #e0e0e0; color: #555; }
+  ul.deltas li { margin-bottom: 6px; }
+  .comparator {
+    position: relative; width: 100%; max-width: 1280px;
+    margin: 12px 0 16px; border: 1px solid #ddd; overflow: hidden;
+  }
+  .comparator-stage { position: relative; width: 100%; }
+  .comparator-stage img { display: block; width: 100%; height: auto; }
+  .comparator-stage .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type="range"] { width: 100%; margin: 6px 0; }
+  .comparator .labels { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 0 4px; }
+  .crop-thumb { max-width: 320px; max-height: 80px; border: 1px solid #ddd; }
+  details { margin: 8px 0 16px; }
+  details > summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+  .nav { position: sticky; top: 0; background: #fafafa; padding: 8px 0;
+         border-bottom: 1px solid #ddd; margin-bottom: 12px; z-index: 10; font-size: 14px; }
+  .nav a { margin-right: 14px; color: #0F6F8A; text-decoration: none; }
+  .nav a:hover { text-decoration: underline; }
+  img.diff-img, img.composite-img { width: 100%; max-width: 1280px; border: 1px solid #ddd; }
+  .meta-row { color: #666; font-size: 13px; margin: 4px 0 12px; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .twocol > div { font-size: 12px; color: #555; }
+  .twocol img { width: 100%; height: auto; border: 1px solid #ddd; }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="#verdict">Verdict</a>
+  <a href="#deltas">What's different</a>
+  <a href="#v1280">1280</a>
+  <a href="#v768">768</a>
+  <a href="#v375">375</a>
+  <a href="#sections">Per-section table</a>
+  <a href="#regressions">Regression checks</a>
+</div>
+
+<h1 id="top">Phase 8.1 — Site header parity</h1>
+<div class="meta-row">2026-05-10 · branch <code>aa/pl-homepage-phase-8.1-header</code> · audit by S</div>
+
+<div id="verdict" class="verdict">
+  <h1>PASS — site header parity met</h1>
+  <div class="meta">
+    Header-band crop deltas (top 150 px): <strong>1280 = 3.54%</strong> · <strong>768 = 2.46%</strong> · <strong>375 = 4.42%</strong> ·
+    down from baseline 11.98 / 14.53 / 16.22%.
+    Whole-page deltas (~47–51%) are dominated by remaining out-of-scope sections (8.3 logo-grid text, 8.6 footer/FAQ) — see "What's different" below.
+  </div>
+</div>
+
+<h2 id="deltas">What I see different (plain-English)</h2>
+
+<h3>In scope (sub-cycle 8.1) — all PASS or non-blocking</h3>
+<ul class="deltas">
+  <li><strong>Header height:</strong> live measures ~73 px at all three viewports (T's Playwright bbox); preview is 73 px. <span class="pill match">MATCH</span></li>
+  <li><strong>1280 header layout:</strong> wordmark + 6 nav links inline, no CTA pill, no nav-label wrapping. <span class="pill match">MATCH</span></li>
+  <li><strong>768 / 375 header layout:</strong> wordmark + hamburger button. <span class="pill match">MATCH</span></li>
+  <li><strong>1280 nav cluster horizontal positioning:</strong> live's 6 nav links sit slightly left of preview (live nav cluster spans roughly x=325–1056; preview spans ~530–1200). The empty <code>header-navigation-wrapper__third</code> div on live no longer carries the pill but doesn't add a flex-grow spacer, so the nav doesn't get pushed as far right as the preview. Visually subtle; no wrap, no overlap, no missing affordance. Drives ~3.54% of header-crop diff at 1280. <span class="pill delta">DELTA, non-blocking</span></li>
+  <li><strong>Hamburger button frame at 768 / 375:</strong> live renders the hamburger glyph as a borderless icon; preview wraps it in a rounded-rectangle button outline. Touch target is 44×44 on both per T's measurement. Visually subtle; meets WCAG 2.5.5 either way. Drives the small remaining 2.46% / 4.42% header crop deltas. <span class="pill delta">DELTA, non-blocking</span></li>
+  <li><strong>Phantom whitespace check (T flag):</strong> the empty <code>header-navigation-wrapper__third</code> div renders as zero width. No phantom whitespace, no extra divider line. <span class="pill match">MATCH</span></li>
+</ul>
+
+<h3>Out of scope for 8.1 (still expected DELTA against preview; tracked for 8.3 / 8.6)</h3>
+<ul class="deltas">
+  <li><strong>Logo grid text-fallback at 768/375:</strong> still differs from preview. Tracked in sub-cycle 8.3. <span class="pill oos">OUT OF SCOPE</span></li>
+  <li><strong>Footer CTA polish, FAQ icons, footer casing:</strong> still differ. Tracked in sub-cycle 8.6. <span class="pill oos">OUT OF SCOPE</span></li>
+  <li><strong>Total page height:</strong> live full page 5348 / 6418 / 7804 px vs preview 4341 / 4829 / 6166 px. The cumulative ~1000–1600 px difference is what drives the 47–51% whole-page diff scores; once 8.3 and 8.6 land, this should close substantially.</li>
+</ul>
+
+<h3>Regression checks (8.2 / 8.4 / 8.5)</h3>
+<ul class="deltas">
+  <li><strong>8.2 hero <code>padding-inline: 0</code> at 768:</strong> hero content fills viewport edge-to-edge; no horizontal overflow. <span class="pill match">PASS</span></li>
+  <li><strong>8.4 feature cards 1-col stack at 768:</strong> three cards (01 / 02 / 03) stack vertically full-width as expected. <span class="pill match">PASS</span></li>
+  <li><strong>8.5 hero <code>min-height: auto</code> + <code>padding-block</code>:</strong> hero is no longer over-tall; CTA-to-next-band gap is tight. <span class="pill match">PASS</span></li>
+</ul>
+
+<!-- ============================== 1280 ============================== -->
+<h2 id="v1280">1280 × 800 — header band wipe-slider</h2>
+<div class="meta-row">Whole-page diff 50.67% (driven by out-of-scope sections); header crop (top 150 px) <strong>3.54%</strong> (was 11.98% in baseline).</div>
+
+<div class="comparator">
+  <div class="comparator-stage" id="stage-1280">
+    <img src="screenshots/cycle-8.1/t3-homepage-1280-header-preview-20260510.png" alt="preview header at 1280">
+    <img src="screenshots/cycle-8.1/t3-homepage-1280-header-live-20260510.png" alt="live header at 1280" class="top" id="top-1280">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="range-1280">
+  <div class="labels"><span>← live (top, drag right to reveal)</span><span>preview (bottom) →</span></div>
+</div>
+
+<details><summary>Header diff PNG (red overlay) — 1280</summary>
+  <img class="diff-img" src="screenshots/cycle-8.1/t3-homepage-1280-header-diff-20260510.png" alt="diff PNG 1280 header">
+</details>
+<details><summary>Header side-by-side composite — 1280 (live | preview)</summary>
+  <img class="composite-img" src="screenshots/cycle-8.1/t3-homepage-1280-header-composite-20260510.png" alt="composite 1280">
+</details>
+
+<!-- ============================== 768 ============================== -->
+<h2 id="v768">768 × 1024 — header band wipe-slider</h2>
+<div class="meta-row">Whole-page diff 47.00%; header crop (top 150 px) <strong>2.46%</strong> (was 14.53%).</div>
+
+<div class="comparator">
+  <div class="comparator-stage" id="stage-768">
+    <img src="screenshots/cycle-8.1/t3-homepage-768-header-preview-20260510.png" alt="preview header at 768">
+    <img src="screenshots/cycle-8.1/t3-homepage-768-header-live-20260510.png" alt="live header at 768" class="top" id="top-768">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="range-768">
+  <div class="labels"><span>← live</span><span>preview →</span></div>
+</div>
+
+<details><summary>Header diff PNG — 768</summary>
+  <img class="diff-img" src="screenshots/cycle-8.1/t3-homepage-768-header-diff-20260510.png" alt="diff PNG 768 header">
+</details>
+<details><summary>Header composite — 768</summary>
+  <img class="composite-img" src="screenshots/cycle-8.1/t3-homepage-768-header-composite-20260510.png" alt="composite 768">
+</details>
+
+<!-- ============================== 375 ============================== -->
+<h2 id="v375">375 × 667 — header band wipe-slider</h2>
+<div class="meta-row">Whole-page diff 46.90%; header crop (top 150 px) <strong>4.42%</strong> (was 16.22%).</div>
+
+<div class="comparator">
+  <div class="comparator-stage" id="stage-375">
+    <img src="screenshots/cycle-8.1/t3-homepage-375-header-preview-20260510.png" alt="preview header at 375">
+    <img src="screenshots/cycle-8.1/t3-homepage-375-header-live-20260510.png" alt="live header at 375" class="top" id="top-375">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="range-375">
+  <div class="labels"><span>← live</span><span>preview →</span></div>
+</div>
+
+<details><summary>Header diff PNG — 375</summary>
+  <img class="diff-img" src="screenshots/cycle-8.1/t3-homepage-375-header-diff-20260510.png" alt="diff PNG 375 header">
+</details>
+<details><summary>Header composite — 375</summary>
+  <img class="composite-img" src="screenshots/cycle-8.1/t3-homepage-375-header-composite-20260510.png" alt="composite 375">
+</details>
+
+<!-- ============================== Regression spot-checks ============================== -->
+<h2 id="regressions">Regression spot-checks (8.2 / 8.4 / 8.5)</h2>
+
+<h3>Hero band at 768 (8.2 padding-inline + 8.5 min-height/padding-block)</h3>
+<div class="twocol">
+  <div>
+    <strong>Live</strong>
+    <img src="screenshots/cycle-8.1/t3-homepage-768-hero-live-20260510.png" alt="live hero 768">
+  </div>
+  <div>
+    <strong>Preview</strong>
+    <img src="screenshots/cycle-8.1/t3-homepage-768-hero-preview-20260510.png" alt="preview hero 768">
+  </div>
+</div>
+<p>Live hero band at 768 fills viewport edge-to-edge; no horizontal scroll, eyebrow + H1 + body + dual CTAs render correctly. <span class="pill match">8.2 + 8.5 hold</span></p>
+
+<h3>Feature cards at 768 (8.4 1-col stack of 3)</h3>
+<img class="diff-img" src="screenshots/cycle-8.1/t3-homepage-768-features-live-20260510.png" alt="feature cards 768 live">
+<p>Three cards (01 Tools, 02 Tests that heal themselves, 03 Experts alongside) stack vertically full-width on live at 768. <span class="pill match">8.4 holds</span></p>
+
+<!-- ============================== Per-section table ============================== -->
+<h2 id="sections">Per-section delta table</h2>
+<table>
+  <tr>
+    <th>Section</th><th>Viewport</th><th>Status</th><th>Description</th>
+  </tr>
+  <tr>
+    <td>Site header (band)</td><td>1280</td>
+    <td><span class="pill match">MATCH</span></td>
+    <td>Wordmark + 6 inline nav, no pill, no wrap, ~73 px tall. Minor horizontal offset of nav cluster vs preview (non-blocking).</td>
+  </tr>
+  <tr>
+    <td>Site header (band)</td><td>768</td>
+    <td><span class="pill match">MATCH</span></td>
+    <td>Wordmark + hamburger, ~73 px tall. Hamburger renders as borderless icon vs preview's bordered button (non-blocking).</td>
+  </tr>
+  <tr>
+    <td>Site header (band)</td><td>375</td>
+    <td><span class="pill match">MATCH</span></td>
+    <td>Wordmark + hamburger, ~73 px tall. Same hamburger framing delta as 768 (non-blocking).</td>
+  </tr>
+  <tr>
+    <td>Hero band</td><td>768</td>
+    <td><span class="pill match">MATCH (8.2 + 8.5 regression)</span></td>
+    <td>padding-inline 0 holds, no horizontal overflow, tight vertical rhythm.</td>
+  </tr>
+  <tr>
+    <td>Feature cards</td><td>768</td>
+    <td><span class="pill match">MATCH (8.4 regression)</span></td>
+    <td>1-col stack of 3 cards confirmed.</td>
+  </tr>
+  <tr>
+    <td>Logo grid</td><td>768 / 375</td>
+    <td><span class="pill oos">OUT OF SCOPE</span></td>
+    <td>Text-fallback at narrow widths still differs — tracked in sub-cycle 8.3.</td>
+  </tr>
+  <tr>
+    <td>Footer CTA / FAQ icons / footer casing</td><td>all</td>
+    <td><span class="pill oos">OUT OF SCOPE</span></td>
+    <td>Tracked in sub-cycle 8.6.</td>
+  </tr>
+</table>
+
+<h2>Files captured</h2>
+<p>Screenshots, diffs, composites under <code>docs/pl2/handoffs/screenshots/cycle-8.1/</code>:</p>
+<ul style="font-family: ui-monospace, Menlo, monospace; font-size: 12px;">
+  <li>t3-homepage-{1280,768,375}-{live,preview}-20260510.png — full-page</li>
+  <li>t3-homepage-{1280,768,375}-header-{live,preview}-20260510.png — header crop (150 px)</li>
+  <li>t3-homepage-{1280,768,375}-{header,}-{diff,composite}-20260510.png — diffs &amp; composites</li>
+  <li>t3-homepage-768-hero-{live,preview}-20260510.png — hero crop for 8.2/8.5 regression</li>
+  <li>t3-homepage-768-features-live-20260510.png — feature-cards crop for 8.4 regression</li>
+</ul>
+
+<script>
+(function(){
+  function wireSlider(stageId, rangeId, topId) {
+    var range = document.getElementById(rangeId);
+    var top = document.getElementById(topId);
+    if (!range || !top) return;
+    function update() {
+      var v = range.value;
+      // value 0 → top fully clipped from right (show 0% of top)
+      // value 100 → top fully shown (clip 0 from right)
+      // We want value 50 → reveal half of top from left.
+      // clip-path inset(0 RIGHT 0 0) where RIGHT% is hidden on the right.
+      var hide = 100 - v;
+      top.style.clipPath = 'inset(0 ' + hide + '% 0 0)';
+      top.style.webkitClipPath = 'inset(0 ' + hide + '% 0 0)';
+    }
+    range.addEventListener('input', update);
+    update();
+  }
+  wireSlider('stage-1280', 'range-1280', 'top-1280');
+  wireSlider('stage-768',  'range-768',  'top-768');
+  wireSlider('stage-375',  'range-375',  'top-375');
+})();
+</script>
+
+</body>
+</html>

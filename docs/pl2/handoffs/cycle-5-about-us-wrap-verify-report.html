@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 12 Wrap Verification — /about-us — Operator Report</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #2A2520; margin: 0; padding: 0 24px 64px; background: #F5EFE2; }
+  .container { max-width: 1320px; margin: 0 auto; }
+  .verdict { background: #1F5128; color: #fff; padding: 24px 32px; margin: 24px -24px 32px; border-radius: 4px; }
+  .verdict h1 { margin: 0; font-size: 28px; letter-spacing: 1.2px; text-transform: uppercase; }
+  .verdict p { margin: 8px 0 0; font-size: 16px; }
+  h2 { font-size: 22px; border-bottom: 2px solid #8E4A2A; padding-bottom: 6px; margin-top: 40px; }
+  h3 { font-size: 17px; color: #8E4A2A; margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; background: #fff; }
+  th, td { border: 1px solid #E5E1DC; padding: 8px 12px; text-align: left; vertical-align: top; font-size: 14px; }
+  th { background: #F5EFE2; }
+  .match { color: #1F5128; font-weight: 600; }
+  .delta { color: #B57224; font-weight: 600; }
+  .silent { color: #5C544C; font-style: italic; }
+  .pass { color: #1F5128; font-weight: 600; }
+  ul.summary li { margin-bottom: 8px; }
+  .comparator { position: relative; width: 100%; max-width: 1280px; margin: 16px auto; border: 1px solid #E5E1DC; background: #fff; user-select: none; }
+  .comparator .frame { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; top: 0; left: 0; right: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin: 8px 0; }
+  .comparator .labels { display: flex; justify-content: space-between; font-size: 12px; color: #5C544C; padding: 4px 8px; background: #F5EFE2; }
+  .nav { position: sticky; top: 0; background: #F5EFE2; padding: 8px 0; border-bottom: 1px solid #E5E1DC; z-index: 10; }
+  .nav a { color: #8E4A2A; margin-right: 16px; text-decoration: none; font-weight: 600; font-size: 13px; }
+  .diff-img, .composite-img { width: 100%; max-width: 1280px; border: 1px solid #E5E1DC; margin: 8px auto; display: block; }
+  .composite-img { max-width: none; }
+  .composite-wrap { overflow-x: auto; }
+  .note { background: #FFF8E1; padding: 12px 16px; border-left: 4px solid #B57224; margin: 12px 0; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="verdict">
+  <h1>SPRINT 12 WRAP — READY FOR INTEGRATION → MAIN</h1>
+  <p>Verdict: <strong>PASS</strong>. All Cycle 1 deltas resolved; only the preview-side header defect (silent-parked FB-1, FB-2) remains, which is NOT a sprint regression. Sibling pages clean. WCAG 2.2 AA clean.</p>
+  <p style="font-size: 14px; opacity: 0.9;">Per-viewport AE (preview vs live, fuzz 2%) — 1280: 1,909,210 px (32.79%) · 768: 2,285,980 px (52.31%) · 375: 1,652,020 px (55.40%). PC-8: whole-page AE informative only; per-section deltas binding.</p>
+</div>
+
+<div class="nav">
+  <a href="#summary">Summary</a>
+  <a href="#viewports">Comparators</a>
+  <a href="#flip">Section flip table</a>
+  <a href="#siblings">Siblings</a>
+  <a href="#wcag">WCAG 2.2 AA</a>
+  <a href="#followup">Follow-up backlog</a>
+</div>
+
+<h2 id="summary">What I see different</h2>
+<ul class="summary">
+  <li><strong>Header chrome (all viewports):</strong> the preview shows a right-side "Book a testing review" CTA pill and (at &lt;992 px) hides the nav with no hamburger toggle. The live page is correct — no CTA pill, hamburger toggle at &lt;992 px per the canonical family pattern. <em>This is a preview-side defect (silent-parked FB-1 + FB-2), not a sprint regression. Live wins per memory `design_header_nav_breakpoint.md` and sibling-fit.</em></li>
+  <li><strong>Vertical rhythm drift:</strong> the live page is taller than the preview at every viewport (live 4549 vs preview 4390 at 1280; 5690 vs 5045 at 768; 7952 vs 6723 at 375). The drift accumulates from Drupal-rendered chrome (header + breadcrumb + footer) being slightly different in height than the preview's hand-rolled chrome, and from minor section-padding differences carried forward from Sprint 5 audit decisions. This is why the whole-page AE % is high; per PC-8 it is informative only. <em>Not a regression.</em></li>
+  <li><strong>Cycle 1 deltas all resolved:</strong>
+    <ul>
+      <li>§B Track record kicker → terracotta `rgb(142, 74, 42)` (Cycle 3) ✅</li>
+      <li>§D Dogfood kicker → terracotta `rgb(142, 74, 42)` (Cycle 3) ✅</li>
+      <li>§C card cadence → 49 px content-to-edge inset matches preview exactly (Cycle 4 NO-OP verified) ✅</li>
+      <li>Bio "Who we are." → inside §C below the cards with hairline above (Cycle 2) ✅</li>
+    </ul>
+  </li>
+  <li><strong>No new defects surfaced</strong> by this audit. No orphan words on any heading at any viewport (`text-wrap: balance` is applied site-wide). Sibling pages (homepage, /services, /open-source-projects) all render terracotta kickers correctly.</li>
+</ul>
+
+<h2 id="viewports">Per-viewport comparators</h2>
+<p>Drag the slider on each comparator to wipe between live (top) and preview (bottom).</p>
+
+<h3>1280 × 800</h3>
+<div class="comparator" id="cmp-1280">
+  <div class="frame">
+    <img src="screenshots/cycle-5/t3-about-us-1280-preview-pad.png" alt="preview 1280">
+    <img class="top" src="screenshots/cycle-5/t3-about-us-1280-live-pad.png" alt="live 1280">
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-1280 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)';">
+  <div class="labels"><span>← live</span><span>preview →</span></div>
+</div>
+<p><strong>Diff (red overlay):</strong></p>
+<img class="diff-img" src="screenshots/cycle-5/t3-about-us-1280-diff-20260512.png" alt="1280 diff">
+<p><strong>Composite (live | preview):</strong></p>
+<div class="composite-wrap"><img class="composite-img" src="screenshots/cycle-5/t3-about-us-1280-composite-20260512.png" alt="1280 composite"></div>
+
+<h3>768 × 1024</h3>
+<div class="comparator" id="cmp-768">
+  <div class="frame">
+    <img src="screenshots/cycle-5/t3-about-us-768-preview-pad.png" alt="preview 768">
+    <img class="top" src="screenshots/cycle-5/t3-about-us-768-live-pad.png" alt="live 768">
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-768 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)';">
+  <div class="labels"><span>← live</span><span>preview →</span></div>
+</div>
+<p><strong>Diff (red overlay):</strong></p>
+<img class="diff-img" src="screenshots/cycle-5/t3-about-us-768-diff-20260512.png" alt="768 diff">
+<p><strong>Composite (live | preview):</strong></p>
+<div class="composite-wrap"><img class="composite-img" src="screenshots/cycle-5/t3-about-us-768-composite-20260512.png" alt="768 composite"></div>
+
+<h3>375 × 667</h3>
+<div class="comparator" id="cmp-375">
+  <div class="frame">
+    <img src="screenshots/cycle-5/t3-about-us-375-preview-pad.png" alt="preview 375">
+    <img class="top" src="screenshots/cycle-5/t3-about-us-375-live-pad.png" alt="live 375">
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-375 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)';">
+  <div class="labels"><span>← live</span><span>preview →</span></div>
+</div>
+<p><strong>Diff (red overlay):</strong></p>
+<img class="diff-img" src="screenshots/cycle-5/t3-about-us-375-diff-20260512.png" alt="375 diff">
+<p><strong>Composite (live | preview):</strong></p>
+<div class="composite-wrap"><img class="composite-img" src="screenshots/cycle-5/t3-about-us-375-composite-20260512.png" alt="375 composite"></div>
+
+<h2 id="flip">Per-section flip table (Cycle 1 → Cycle 5)</h2>
+<table>
+  <thead><tr><th>Section</th><th>Cycle 1 status</th><th>Cycle 5 status</th><th>Resolved by</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td>Header</td><td class="delta">DELTA — preview defective</td><td class="silent">UNCHANGED — silent-parked (FB-1, FB-2). NOT a regression.</td><td>N/A (silent-park per PC-9)</td><td>Preview header CTA pill + missing &lt;992px hamburger are preview-side defects; live is correct per memory `design_header_nav_breakpoint.md` and sibling-fit pattern.</td></tr>
+    <tr><td>Hero (§A)</td><td class="match">MATCH</td><td class="match">MATCH</td><td>N/A</td><td>Kicker "About" → `rgb(142, 74, 42)`; h1 verbatim; italic subhead; two-button CTA row — unchanged.</td></tr>
+    <tr><td>Track record (§B)</td><td class="delta">DELTA (kicker drift `rgb(140, 78, 51)`)</td><td class="match">MATCH</td><td><strong>Cycle 3</strong></td><td>Playwright `getComputedStyle` on §B kicker = `rgb(142, 74, 42)`. L3 token `--pl-accent-deep-on-light` aligned to `#8E4A2A` in base.css.</td></tr>
+    <tr><td>Open source (§C) header</td><td class="match">MATCH</td><td class="match">MATCH</td><td>N/A</td><td>Kicker "Open source" + h2 "The tools we wrote." unchanged.</td></tr>
+    <tr><td>Open source (§C) cards</td><td class="delta">DELTA (outer padding read)</td><td class="match">MATCH</td><td><strong>Cycle 4 (NO-OP verified)</strong></td><td>Card-edge-to-content inset 49 px (1 px border + 48 px `.card__bottom` padding) on both live and preview at 1280/768/375.</td></tr>
+    <tr><td>Bio "Who we are."</td><td class="delta">REWORK (R9 violation)</td><td class="match">MATCH</td><td><strong>Cycle 2</strong></td><td>`dy-section--bio-block` marker removed (Canvas patch); L5 selector rewritten to `.dy-section--centered-white`. Heading H3 "Who we are." sits inside §C after `.grid-wrapper__grid` (T positional check confirmed pos 35503 > pos 32425).</td></tr>
+    <tr><td>Dogfood (§D)</td><td class="delta">DELTA (kicker drift)</td><td class="match">MATCH</td><td><strong>Cycle 3</strong></td><td>Playwright `getComputedStyle` on §D kicker = `rgb(142, 74, 42)`.</td></tr>
+    <tr><td>Closing CTA (§E)</td><td class="match">MATCH</td><td class="match">MATCH</td><td>N/A</td><td>Espresso bg `rgb(31, 26, 20)`; kicker "Get started" `rgb(201, 123, 92)` = `#C97B5C`; primary + ghost-on-dark buttons.</td></tr>
+    <tr><td>Footer</td><td class="match">MATCH (gestalt)</td><td class="match">MATCH (gestalt)</td><td>N/A</td><td>4-col desktop → 2-col 992 → 1-col 767 reflow unchanged.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="siblings">Sibling-fit gestalt at 1280</h2>
+<table>
+  <thead><tr><th>Page</th><th>Kicker</th><th>Computed color</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>/ (homepage)</td><td>Drupal testing, What we ship, Dogfooding, Book a review (dark)</td><td>`rgb(142, 74, 42)` × 3, `rgb(201, 123, 92)` × 1</td><td class="match">MATCH — no regression</td></tr>
+    <tr><td>/services</td><td>Engagements, Four ways we engage, Capacity, Dogfooding, Book a review (dark)</td><td>`rgb(142, 74, 42)` × 4, `rgb(201, 123, 92)` × 1</td><td class="match">MATCH — no regression</td></tr>
+    <tr><td>/open-source-projects</td><td>Open source, Testing tools, Community, Contribute (dark)</td><td>`rgb(142, 74, 42)` × 3, `rgb(201, 123, 92)` × 1</td><td class="match">MATCH — no regression</td></tr>
+  </tbody>
+</table>
+<p>Sibling screenshots saved at `screenshots/cycle-5/t3-{homepage,services,osp}-1280-live-20260512.png`. No formal diffs required — Cycle 3 S already ran formal cross-page diffs (AE 310–504 px per page, kicker-glyph-only).</p>
+
+<h2 id="brief">Brief-token compliance (Cycle 5 update)</h2>
+<table>
+  <thead><tr><th>Token</th><th>Brief</th><th>Cycle 1</th><th>Cycle 5</th><th>Resolved by</th></tr></thead>
+  <tbody>
+    <tr><td>`--primary-light`</td><td>`#62bbcb`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--accent-deep` (kicker on white)</td><td>`#8E4A2A`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--accent-deep` (kicker on cream §B + §D)</td><td>`#8E4A2A`</td><td>⚠ partial</td><td>✅</td><td>Cycle 3</td></tr>
+    <tr><td>`--accent-deep` (kicker on cream sibling pages)</td><td>`#8E4A2A`</td><td>n/a</td><td>✅</td><td>Cycle 3</td></tr>
+    <tr><td>`--accent` (kicker on dark §E)</td><td>`#C97B5C`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--cream`</td><td>`#F5EFE2`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--espresso`</td><td>`#1F1A14`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--body`</td><td>`#5C544C`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--on-dark-muted`</td><td>`#B8AFA0`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>`--hairline`</td><td>`#E5E1DC`</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>Card radius / border</td><td>12 px / 1 px</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>Card content-to-edge inset</td><td>49 px (1 + 48)</td><td>⚠ misread DELTA</td><td>✅</td><td>Cycle 4 (NO-OP verified)</td></tr>
+    <tr><td>Kicker font-size / letter-spacing</td><td>12 / 1.6 px</td><td>✅</td><td>✅</td><td>—</td></tr>
+    <tr><td>Bio prose max-width</td><td>720 px</td><td>n/a (REWORK)</td><td>✅</td><td>Cycle 2</td></tr>
+  </tbody>
+</table>
+
+<h2 id="wcag">WCAG 2.2 AA — full enumerated table</h2>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td>Keyboard navigation — logical tab order</td><td class="pass">PASS</td><td>Tab walk 1–12 via Playwright: skip-link → header logo → 6 nav items (Services, How we do it, Articles, Open source projects, About us, Contact us) → logo "Home" → hero CTAs (Book a testing review, See the site test itself) → first in-body link. Matches visual reading order.</td></tr>
+    <tr><td>Focus ring — light surface</td><td class="pass">PASS</td><td>3 px dotted teal `rgb(24, 147, 180)` = `#1893B4` on all 9 light-surface focusables tested. Contrast 3.58:1 on white, 3.12:1 on cream — both ≥ 3:1.</td></tr>
+    <tr><td>Focus ring — skip link</td><td class="pass">PASS</td><td>3 px dotted espresso `rgb(31, 26, 20)` on skip link (espresso paint).</td></tr>
+    <tr><td>Forced-colors mode</td><td class="pass">PASS (family-verified)</td><td>Sprint 11 verification holds; no Cycle 2/3/4 change introduced color-only signal. Semantic anchors/buttons throughout.</td></tr>
+    <tr><td>Reduced-motion</td><td class="pass">PASS (family-verified, advisory)</td><td>No new transitions introduced in Sprint 12. Pre-existing 46-element transition-duration observation remains; carry as tech-debt advisory (not Sprint 12).</td></tr>
+    <tr><td>200% zoom</td><td class="pass">PASS</td><td>No clipping in full-page capture at 640×400 / DSF 2 (= 200% of 1280). Cycle 3 S re-verified.</td></tr>
+    <tr><td>Heading hierarchy</td><td class="pass">PASS</td><td>Single H1 ("Drupal testing, done by the people who wrote the tools."); 7 visible H2s (drupal.org 2006, The tools we wrote, We test what we ship, Want to talk testing, plus 3 VH landmark labels); 6 H3s (ATK, Testor, Other tools, Who we are, Services, Resources, Company). No skipped levels.</td></tr>
+    <tr><td>Image alt text</td><td class="pass">PASS</td><td>Single `<img>` on page (logo `alt="Home"`). No decorative images.</td></tr>
+    <tr><td>Mobile touch targets (375)</td><td class="pass">PASS (with WCAG 2.5.8 inline exception)</td><td>Primary CTAs (hero, dogfood, closing CTA) ≥ 44×44. Inline-text anchors covered by WCAG 2.5.8 exception. Hamburger toggle present and operable.</td></tr>
+    <tr><td>Mobile typography scale</td><td class="pass">PASS</td><td>H1 width 331 px at 375 (lh 39.6); H2 widths 235–331 (lh 45.2); H3 widths 132–331 (lh 27.6/28.6). Kicker remains 12 / 1.6 px. Matches typography-mobile block.</td></tr>
+    <tr><td>Mobile layout (no horizontal scroll at 375)</td><td class="pass">PASS</td><td>scrollW=360 &lt; clientW=375; bodyScrollW=360.</td></tr>
+    <tr><td>Orphan words on h1/h2/h3 (all viewports)</td><td class="pass">PASS</td><td>`text-wrap: balance` applied to every h1/h2/h3 (Playwright getComputedStyle confirmed). No single-word last lines observed at 1280/768/375.</td></tr>
+    <tr><td>Contrast — kicker on white</td><td class="pass">PASS</td><td>`#8E4A2A` on `#FFFFFF` = 6.64:1 (T-computed) ≥ 4.5:1.</td></tr>
+    <tr><td>Contrast — kicker on cream</td><td class="pass">PASS</td><td>`#8E4A2A` on `#F5EFE2` = 5.79:1 (T-computed) ≥ 4.5:1.</td></tr>
+    <tr><td>Contrast — kicker on espresso</td><td class="pass">PASS</td><td>`#C97B5C` on `#1F1A14` = 5.32:1 (T-computed) ≥ 4.5:1. FB-6 advisory: F reported 4.71:1; both pass.</td></tr>
+    <tr><td>Contrast — bio h3 on white</td><td class="pass">PASS</td><td>`#2A2520` on `#FFFFFF` = 15.17:1 ≥ 4.5:1.</td></tr>
+    <tr><td>Contrast — bio body on white</td><td class="pass">PASS</td><td>`#5C544C` on `#FFFFFF` = 7.43:1 ≥ 4.5:1.</td></tr>
+    <tr><td>Pa11y-ci (PC-5)</td><td class="pass">PASS</td><td>7/7 URLs, 0 errors, `.pa11yci.json` unmodified.</td></tr>
+    <tr><td>ARIA landmarks</td><td class="pass">PASS</td><td>banner / nav (main + breadcrumb + footer with `aria-labelledby`) / main / contentinfo all present.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="followup">Carried follow-up backlog</h2>
+<p>Acknowledged as silent-parked / pre-existing / advisory. <strong>None raised as regressions.</strong></p>
+<ul>
+  <li><strong>FB-1</strong> (Cycle 1) — Preview `about-us.html` line 488 has a right-side "Book a testing review" CTA pill that contradicts canonical no-pill header pattern. Preview-side defect; live correct.</li>
+  <li><strong>FB-2</strong> (Cycle 1) — Preview hides nav at &lt;992 px with no hamburger. Preview-side defect; live correct per `navbar-expand-lg` family pattern.</li>
+  <li><strong>FB-3</strong> (Cycle 1, advisory) — Whole-page AE deltas 32–55% dominated by chrome + bio vertical drift; per PC-8 informative only.</li>
+  <li><strong>FB-5</strong> (Cycle 2, advisory) — Dead selector at `dy-section.css:483` predates Sprint 12. Future housekeeping cycle.</li>
+  <li><strong>FB-6</strong> (Cycle 3, advisory) — §E kicker contrast 5.32:1 (T) vs 4.71:1 (F). Both pass AA; tool calibration issue.</li>
+  <li><strong>FB-7</strong> (Cycle 3, procedural) — PC-1 supersedes-scope-split precedent for autonomous mode. Workflow refinement candidate.</li>
+  <li><strong>FB-8</strong> (Cycle 4, brief reconciliation) — Brief specifies 32 px card padding; preview and live both use 48 px (Sprint 5 Cycle 2 audit-justified). Three resolution paths; <strong>operator decision at sprint wrap.</strong></li>
+</ul>
+
+<h2>Verdict reasoning</h2>
+<p>All four cycle objectives delivered: bio re-nested under §C with hairline (Cycle 2), §B/§D + sibling kickers on token (Cycle 3), §C card cadence verified at 49 px (Cycle 4, NO-OP), and end-to-end visual + WCAG verified clean (Cycle 5, this). Every Cycle 1 row except Header now reads MATCH; Header stays silent-parked per PC-9 because the defect is preview-side and live is canonical. No new regressions. Sibling pages clean. No `!important` introduced. Pa11y 0 errors. The integration branch `aa/pl-sprint-12-about-us-fidelity` is ready to merge into local main per R8 (`--no-ff`, local-only per project posture).</p>
+
+<p style="margin-top: 32px; font-size: 13px; color: #5C544C;">Generated 2026-05-12 · S (Spec Auditor) · Sprint 12 Cycle 5</p>
+
+</div>
+</body>
+</html>

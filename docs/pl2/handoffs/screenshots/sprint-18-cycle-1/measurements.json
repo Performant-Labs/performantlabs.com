@@ -1,0 +1,653 @@
+{
+  "375": {
+    "live": {
+      "pageH": 4252,
+      "pageW": 360,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 271,
+          "h": 306
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 578,
+          "h": 2901
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "view-content",
+          "top": 861,
+          "h": 2446
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 3371,
+          "h": 44
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 3543,
+          "h": 709
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 63
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 23
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 23
+        }
+      ],
+      "h2All": [
+        {
+          "text": "Main navigation",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 81,
+          "h": 1
+        },
+        {
+          "text": "Breadcrumb",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 240,
+          "h": 1
+        },
+        {
+          "text": "Articles",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 941,
+          "h": 1
+        },
+        {
+          "text": "Footer",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 3607,
+          "h": 1
+        }
+      ],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 861,
+          "h": 454
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1346,
+          "h": 404
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1782,
+          "h": 404
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 2218,
+          "h": 384
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 2634,
+          "h": 293
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 2959,
+          "h": 348
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 4015,
+      "pageW": 375,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 118,
+          "h": 322
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 440,
+          "h": 2765
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "article-grid",
+          "top": 645,
+          "h": 2392
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 3101,
+          "h": 40
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 3205,
+          "h": 811
+        }
+      ],
+      "chromeMask": null,
+      "h2All": [],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 645,
+          "h": 408
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1084,
+          "h": 408
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1524,
+          "h": 408
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 1964,
+          "h": 273
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 2269,
+          "h": 328
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 2629,
+          "h": 408
+        }
+      ]
+    }
+  },
+  "768": {
+    "live": {
+      "pageH": 4522,
+      "pageW": 753,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 269,
+          "h": 299
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 568,
+          "h": 3347
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "view-content",
+          "top": 747,
+          "h": 2968
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 3778,
+          "h": 40
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 4010,
+          "h": 511
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "h2All": [
+        {
+          "text": "Main navigation",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 81,
+          "h": 1
+        },
+        {
+          "text": "Breadcrumb",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 240,
+          "h": 1
+        },
+        {
+          "text": "Articles",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 827,
+          "h": 1
+        },
+        {
+          "text": "Footer",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 4106,
+          "h": 1
+        }
+      ],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 747,
+          "h": 609
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1388,
+          "h": 579
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1999,
+          "h": 579
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 2611,
+          "h": 579
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 3222,
+          "h": 242
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 3496,
+          "h": 218
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 4465,
+      "pageW": 768,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 118,
+          "h": 317
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 435,
+          "h": 3485
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "article-grid",
+          "top": 614,
+          "h": 3106
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 3784,
+          "h": 40
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 3920,
+          "h": 544
+        }
+      ],
+      "chromeMask": null,
+      "h2All": [],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 614,
+          "h": 609
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1255,
+          "h": 609
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1895,
+          "h": 609
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 2536,
+          "h": 256
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 2824,
+          "h": 256
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 3112,
+          "h": 609
+        }
+      ]
+    }
+  },
+  "1280": {
+    "live": {
+      "pageH": 2866,
+      "pageW": 1265,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 269,
+          "h": 299
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 568,
+          "h": 1787
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "view-content",
+          "top": 747,
+          "h": 1408
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 2218,
+          "h": 40
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 2450,
+          "h": 415
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "h2All": [
+        {
+          "text": "Main navigation",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 25,
+          "h": 1
+        },
+        {
+          "text": "Breadcrumb",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 240,
+          "h": 1
+        },
+        {
+          "text": "Articles",
+          "visuallyHidden": true,
+          "cls": "visually-hidden",
+          "offsetH": 1,
+          "top": 827,
+          "h": 1
+        },
+        {
+          "text": "Footer",
+          "visuallyHidden": true,
+          "cls": "visually-hidden h3 menu-block__title",
+          "offsetH": 1,
+          "top": 2546,
+          "h": 1
+        }
+      ],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 747,
+          "h": 533
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 747,
+          "h": 533
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1328,
+          "h": 503
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1328,
+          "h": 503
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 1880,
+          "h": 275
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 1880,
+          "h": 275
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 2859,
+      "pageW": 1280,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "page-title",
+          "tag": "SECTION",
+          "cls": "page-title",
+          "top": 118,
+          "h": 317
+        },
+        {
+          "label": "articles-view",
+          "tag": "SECTION",
+          "cls": "articles-view",
+          "top": 435,
+          "h": 2048
+        },
+        {
+          "label": "grid",
+          "tag": "DIV",
+          "cls": "article-grid",
+          "top": 614,
+          "h": 1669
+        },
+        {
+          "label": "pagination",
+          "tag": "NAV",
+          "cls": "pagination",
+          "top": 2347,
+          "h": 40
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 2483,
+          "h": 376
+        }
+      ],
+      "chromeMask": null,
+      "h2All": [],
+      "cards": [
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 614,
+          "h": 544
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 614,
+          "h": 544
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1206,
+          "h": 514
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 1206,
+          "h": 514
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card article-card--text",
+          "top": 1768,
+          "h": 514
+        },
+        {
+          "tag": "ARTICLE",
+          "cls": "article-card",
+          "top": 1768,
+          "h": 514
+        }
+      ]
+    }
+  }
+}

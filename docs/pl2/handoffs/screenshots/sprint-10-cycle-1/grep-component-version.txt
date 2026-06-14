@@ -1,0 +1,49 @@
+# Probe artifact: component_version doc grep
+# Sprint 10 cycle 1 — 2026-05-12
+# Command:
+#   grep -rn 'component_version' docs/pl2/ ~/.claude/agents/
+
+CANONICAL WORKFLOW DOCS (says "set to NULL" — NEEDS FIX):
+  ~/.claude/agents/feature-implementor.md:123  — "8. Set Canvas `component_version` to `NULL` in any assembly script."
+  docs/pl2/workflow-ofts.md:116                — "- Set Canvas `component_version` to `NULL`" (reference copy of F prompt)
+  docs/pl2/workflow-ofts.md:313                — "8. **Set Canvas `component_version` to `NULL`** in any assembly script." (full agent prompt copy)
+  docs/pl2/pl-plan--homepage-overhaul.md:20    — "5. Set Canvas `component_version` to `NULL` in every assembly script. Never hard-code a version hash."
+  docs/pl2/pl-plan--homepage-overhaul.md:437   — "Canvas `component_version` must be NULL: hard-coding a hash breaks future component updates silently. (Phase 6 trap.)"
+  docs/pl2/pl-plan--sprint-1-conversion-repair.md:48 — "set `component_version: NULL`"
+
+PER-PAGE RUNBOOKS (says "set to NULL" in checklists — NEEDS FIX):
+  docs/pl2/pl-plan--about-us.md:48, :92
+  docs/pl2/pl-plan--book-pages.md:85
+  docs/pl2/pl-plan--contact-us.md:87, :105, :161
+  docs/pl2/pl-plan--open-source-projects.md:46, :94
+  docs/pl2/pl-plan--services.md:53, :93, :131
+
+NOT-FOUND in scope (theme-change docs):
+  docs/pl2/theme-change.md            — no hits
+  docs/pl2/theme-change--workflow.md  — no hits
+  docs/pl2/theme-change--audit.md     — no hits
+
+DESCRIBES CONSTRAINT CORRECTLY (no fix needed):
+  docs/pl2/tech-debt-register.md:62          — describes the bug itself
+  docs/pl2/pl-plan--sprint-10-architecture-cleanup.md (this sprint's plan)
+  docs/pl2/handoffs/sprint-5-orchestrator-log.md:67
+  docs/pl2/handoffs/sprint-5-wrap.md:62
+  docs/pl2/handoffs/phase-8.4-* (F/T/S documented deviation)
+  docs/pl2/handoffs/cycle-2-engagements-* (F/T documented deviation)
+  docs/pl2/handoffs/cycle-3-closing-cta-* (F documented deviation; AC pre-allows constraint)
+  docs/pl2/handoffs/cycle-3-nearshore-cap-* (AC explicitly notes non-NULL constraint)
+  docs/pl2/handoffs/cycle-4-proof-* (AC pre-allows constraint)
+  docs/pl2/handoffs/sprint-10-orchestrator-log.md:15 (PC-6)
+
+Historical handoffs that say "set to NULL" but are immutable history (NO FIX — never edit completed handoffs):
+  phase-8.4-card-grid-desktop-issue.md, phase-8.4-card-grid-desktop-rework-issue.md,
+  phase-8.6-polish-issue.md, phase-8.6-polish-rework-issue.md, phase-8.1-header-issue.md,
+  phase-8.2-hero-overflow-issue.md, phase-8.3-logo-grid-issue.md,
+  phase-8.5-hero-spacing-issue.md, cycle-2-engagements-issue.md,
+  cycle-3-closing-cta-issue.md, cycle-4-proof-issue.md.
+
+Fix-target count:
+- Canonical workflow files (2 separate physical files; 4 hit-locations): feature-implementor.md + workflow-ofts.md.
+- Per-page runbooks: 5 files, 11 hit-locations.
+- Total fix-target files: 7 (assuming we update both canonical + the 5 per-page runbooks).
+- Trivial doc-only cycle. No code touched.

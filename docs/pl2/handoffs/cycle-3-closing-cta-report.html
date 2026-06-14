@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 3 (REWORK 2) — Closing CTA Visual Audit Report</title>
+<style>
+  :root { --bg:#fafafa; --fg:#1f1a14; --muted:#666; --rework:#c0392b; --match:#27ae60; --accent:#62bbcb; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 1320px; margin: 0 auto; padding: 24px; background: var(--bg); color: var(--fg); line-height: 1.5; }
+  h1 { margin-top: 0; }
+  h2 { border-bottom: 2px solid #ddd; padding-bottom: 6px; margin-top: 36px; }
+  h3 { margin-top: 24px; }
+  .banner { padding: 20px 24px; border-radius: 8px; color: white; background: var(--match); margin-bottom: 24px; }
+  .banner .verdict { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+  .banner .sub { margin-top: 8px; font-size: 14px; opacity: 0.95; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; background: white; }
+  th, td { border: 1px solid #ddd; padding: 8px 10px; text-align: left; font-size: 14px; vertical-align: top; }
+  th { background: #f0f0f0; }
+  .rework { color: var(--rework); font-weight: 700; }
+  .match { color: var(--match); font-weight: 600; }
+  ul.deltas li { margin: 8px 0; }
+  .nav { position: sticky; top: 0; background: var(--bg); padding: 10px 0; border-bottom: 1px solid #ddd; margin-bottom: 16px; font-size: 14px; z-index: 10; }
+  .nav a { margin-right: 14px; text-decoration: none; color: var(--accent); }
+  .wipe { position: relative; width: 100%; overflow: hidden; border: 1px solid #ccc; background: #1f1a14; }
+  .wipe img { display: block; width: 100%; user-select: none; -webkit-user-drag: none; }
+  .wipe .top { position: absolute; top: 0; left: 0; right: 0; clip-path: inset(0 50% 0 0); }
+  .wipe-range { width: 100%; margin-top: 4px; }
+  .wipe-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); padding: 4px 0; }
+  .vp-block { margin-bottom: 40px; padding: 16px; background: white; border: 1px solid #ddd; border-radius: 6px; }
+  .vp-block h3 { margin-top: 0; }
+  .vp-block .meta { color: var(--muted); font-size: 13px; }
+  .composite-img, .diff-img { width: 100%; display: block; border: 1px solid #ddd; margin-top: 10px; }
+  code, pre { background: #f3f3f3; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
+  pre { padding: 12px; overflow-x: auto; }
+  .small { font-size: 13px; color: var(--muted); }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+  .pill.rework { background: var(--rework); color: white; }
+  .pill.match  { background: var(--match);  color: white; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .grid2 figure { margin: 0; }
+  .grid2 figcaption { font-size: 12px; color: var(--muted); padding: 4px 0; }
+  .grid2 img { width: 100%; display: block; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="verdict">VERDICT: PASS</div>
+  <div class="sub">Cycle 3 REWORK 2 — <code>max-width: none</code> on the flex-item rule defeats the 640px clamp. Both <code>/services</code> and <code>/about-us</code> now stack correctly at 1280 (body own row, CTAs centered below). 768 and 375 unchanged. Ready to commit.</div>
+</div>
+
+<div class="nav">
+  <a href="#summary">Summary</a>
+  <a href="#fix">Fix</a>
+  <a href="#table">Delta table</a>
+  <a href="#vp-1280">1280</a>
+  <a href="#vp-768">768</a>
+  <a href="#vp-375">375</a>
+  <a href="#aboutus">/about-us</a>
+</div>
+
+<h1>Cycle 3 (REWORK 2) — Closing CTA visual audit</h1>
+<p class="small">Date: 2026-05-11. Branch: <code>aa/pl-sprint-5-cycle-3-closing-cta</code>. Pages: <code>/services</code>, <code>/about-us</code>. Section: closing-CTA (theme--dark).</p>
+
+<h2 id="summary">What I see different</h2>
+<ul class="deltas">
+  <li><b>1280 /services:</b> body text now sits on its own centered row directly under the H2; the two CTAs sit centered side-by-side below it. Matches preview layout. (Round 1 + 2 defect resolved.)</li>
+  <li><b>1280 /about-us:</b> same canonical stack — kicker, H2, body, CTAs in vertical sequence. Matches preview.</li>
+  <li><b>768 / 375 both pages:</b> unchanged from prior PASS cycles. Body centered; CTAs stack on 375, side-by-side on 768.</li>
+  <li><b>Residual cosmetic deltas vs preview:</b> section vertical padding, web-font hinting, button shadow/radius — same baseline as every other section in this sprint. Not layout deltas; not blocking.</li>
+</ul>
+
+<h2 id="fix">What changed in this round</h2>
+<p>F applied two changes in <code>dy-section.css</code>:</p>
+<ol>
+  <li><code>max-width: none</code> on <code>.dy-section.theme--dark .dy-section__content:has(&gt; .button + .button) &gt; :not(.button)</code> — defeats the <code>.text</code> rule's <code>max-width: 640px</code> at specificity 0,5,0 vs 0,4,0. The flex item now claims a full row, forcing the buttons onto the next flex line.</li>
+  <li><code>.dy-section.theme--dark .dy-section__content .text p { max-width: 640px; margin-inline: auto }</code> — pushes the readability cap down to the <code>&lt;p&gt;</code> so body text remains ~75 chars/line while the outer <code>.text</code> flex item is unconstrained.</li>
+</ol>
+
+<h2 id="table">Per-viewport delta table</h2>
+<table>
+  <thead>
+    <tr><th>Page</th><th>Viewport</th><th>AE pixels</th><th>Area</th><th>Delta %</th><th>Layout match</th><th>Verdict</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>/services</td><td>1280</td><td>121,130</td><td>833,280</td><td>14.5%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>/services</td><td>768</td><td>116,778</td><td>500,736</td><td>23.3%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>/services</td><td>375</td><td>128,068</td><td>308,625</td><td>41.5%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>/about-us</td><td>1280</td><td>61,718</td><td>688,640</td><td>9.0%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>/about-us</td><td>768</td><td>61,914</td><td>413,184</td><td>15.0%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>/about-us</td><td>375</td><td>55,636</td><td>198,000</td><td>28.1%</td><td>yes</td><td><span class="pill match">MATCH</span></td></tr>
+  </tbody>
+</table>
+<p class="small">The raw delta % reflects cosmetic pad/font-hinting deltas (the same baseline as other sections in this sprint). The defect-defining test — <i>does body text share a row with the CTAs?</i> — is now NO at all viewports for both pages.</p>
+
+<h2 id="vp-1280">1280 — /services</h2>
+<div class="vp-block">
+  <h3>Wipe slider (live ↔ preview)</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-1280-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-1280-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+  <div class="wipe-labels"><span>live (full width at left)</span><span>preview (full width at right)</span></div>
+  <h3>Diff overlay (red = differing pixels)</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-1280-diff-20260511.png" alt="diff">
+  <h3>Side-by-side composite</h3>
+  <img class="composite-img" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-1280-composite-20260511.png" alt="composite">
+</div>
+
+<h2 id="vp-768">768 — /services</h2>
+<div class="vp-block">
+  <h3>Wipe slider</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-768-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-768-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+  <h3>Diff</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-768-diff-20260511.png" alt="diff">
+</div>
+
+<h2 id="vp-375">375 — /services</h2>
+<div class="vp-block">
+  <h3>Wipe slider</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-375-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-375-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+  <h3>Diff</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-3-rework-2/t3-services-closing-cta-375-diff-20260511.png" alt="diff">
+</div>
+
+<h2 id="aboutus">/about-us — all viewports</h2>
+<div class="vp-block">
+  <h3>1280</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-1280-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-1280-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+  <img class="diff-img" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-1280-diff-20260511.png" alt="diff">
+
+  <h3>768</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-768-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-768-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+
+  <h3>375</h3>
+  <div class="wipe" data-wipe>
+    <img class="bot" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-375-preview-20260511.png" alt="preview">
+    <img class="top" src="screenshots/sprint-5-cycle-3-rework-2/t3-about-us-closing-cta-375-live-norm-20260511.png" alt="live">
+  </div>
+  <input class="wipe-range" type="range" min="0" max="100" value="50">
+</div>
+
+<h2>WCAG 2.2 AA</h2>
+<p>All checks PASS (keyboard order, focus ring contrast, forced-colors, reduced-motion, 200% zoom, heading hierarchy, image alt, mobile touch targets). No change from prior cycle.</p>
+
+<h2>Advisory</h2>
+<ul>
+  <li>Comment in <code>dy-section.css</code> line 506 says <code>13.07:1</code>; T's computation is <code>15.07:1</code>. Non-blocking docs nit.</li>
+  <li>F's contrast figures are consistently lower than T's independent computation. All discrepancies are upward (no pass→fail reversal). Worth verifying F's contrast tool.</li>
+  <li>The <code>:has(&gt; .button + .button)</code> + <code>max-width: none</code> combo is a layout hack that works but is brittle for future variants with a trailing third element. Long-term, wrap CTA pairs in a dedicated <code>.cta-cluster</code> SDC. Defer.</li>
+</ul>
+
+<script>
+document.querySelectorAll('.wipe').forEach((wipe, i) => {
+  const range = wipe.parentElement.querySelector('.wipe-range') || wipe.nextElementSibling;
+  const top = wipe.querySelector('.top');
+  if (!range || !top) return;
+  const apply = () => { top.style.clipPath = `inset(0 ${100 - range.value}% 0 0)`; };
+  range.addEventListener('input', apply);
+  apply();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+{#
+  Chapter Index — renders book children as numbered cards.
+
+  Props (read from chapter-index.component.yml — do not guess):
+    chapters   : array of { url, title, summary, index }, required
+    book_title : string, optional — parent book title
+    total      : integer, optional — chapter count for caption
+#}
+<section{{ attributes.addClass('chapters') }}>
+  <header class="chapters__heading">
+    <h2>Chapters</h2>
+    {% if total %}
+      <p>{{ total }} chapters &middot; read in order or jump to what you need</p>
+    {% endif %}
+  </header>
+  <div class="chapters__container">
+    <nav class="chapter-grid" aria-label="Book chapters">
+      {% for chapter in chapters %}
+        <a href="{{ chapter.url }}" class="chapter-card">
+          <span class="chapter-card__num">{{ chapter.index }}</span>
+          <span class="chapter-card__body">
+            <span class="chapter-card__title">{{ chapter.title }}</span>
+            {% if chapter.summary %}
+              <span class="chapter-card__meta">{{ chapter.summary }}</span>
+            {% endif %}
+          </span>
+          <span class="chapter-card__arrow" aria-hidden="true">&rsaquo;</span>
+        </a>
+      {% endfor %}
+    </nav>
+  </div>
+</section>

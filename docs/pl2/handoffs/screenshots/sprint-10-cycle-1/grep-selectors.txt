@@ -1,0 +1,19 @@
+# Probe artifact: fragile-selector grep
+# Sprint 10 cycle 1 — 2026-05-12
+# Command:
+#   grep -rn ':has(\|:not(' web/themes/custom/performant_labs_20260502/css/
+
+dy-section.css     — 26 selector-lines (12 distinct patterns) — PRIMARY OFFENDER
+logo-grid.css      — 4 selector-lines (2 patterns: .dy-section:has(.logo-grid), .hero.theme--white + .dy-section:has(.logo-grid))
+header.css         — 2 selector-lines (1 :not(:has(*)) for empty CTA slot; 1 :not(.is-expanded))
+docs-page.css      — 1 selector-line (body:has(.docs-page))
+webform.css        — 1 selector-line (.dy-section__content:has(.block-webform-block))
+book-landing.css   — 5 selector-lines (body:has(.book-landing) scoping)
+accordion.css      — 1 selector-line (.accordion-item:has(+ .accordion-item))
+
+EXCLUDED (not fragile / acceptable patterns):
+- :where(:not([disabled])) in button.css — Dripyard-pattern specificity neutral, not DOM-shape sniffing.
+- :not(.button) in article-full.css / footer.css — anchor styling exclusion, semantic, not shape-sniffing.
+
+Total fragile selector-lines: 40 across 7 files.
+Total fragile distinct patterns: 18.

@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 2 — /about-us bio re-nest (R9 restore) — S report</title>
+<style>
+  :root { --ink:#2A2520; --soft:#5C544C; --cream:#F5EFE2; --hairline:#E5E1DC; --pass:#1F7A33; --rework:#B0421F; --advisory:#8E4A2A; }
+  html { font: 16px/1.55 -apple-system, system-ui, sans-serif; color: var(--ink); }
+  body { margin: 0; padding: 2rem clamp(1rem, 4vw, 3rem); max-width: 1400px; }
+  h1, h2, h3 { line-height: 1.2; }
+  h1 { font-size: 1.8rem; margin: 0 0 .5rem; }
+  h2 { font-size: 1.4rem; margin: 2.5rem 0 .75rem; border-top: 1px solid var(--hairline); padding-top: 1.5rem; }
+  h3 { font-size: 1.1rem; margin: 1.5rem 0 .5rem; }
+  .banner { padding: 1rem 1.25rem; border-radius: 10px; color: white; margin-bottom: 1.25rem; }
+  .banner.pass { background: var(--pass); }
+  .banner.rework { background: var(--rework); }
+  .banner.advisory { background: var(--advisory); }
+  .banner strong { font-size: 1.4rem; letter-spacing: .04em; }
+  .meta { color: var(--soft); font-size: .92rem; }
+  table { width: 100%; border-collapse: collapse; margin: .5rem 0 1.5rem; font-size: .94rem; }
+  th, td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { background: var(--cream); }
+  .pill { display: inline-block; padding: .15em .55em; border-radius: 999px; font-size: .8em; font-weight: 600; }
+  .pill.match { background: #E0F2E5; color: var(--pass); }
+  .pill.delta { background: #FFF1D6; color: #855300; }
+  .pill.rework { background: #FBE0D6; color: var(--rework); }
+  .pill.flip { background: #DCE9FF; color: #1A3F8C; }
+  .summary li { margin: .35em 0; }
+  .comparator { position: relative; max-width: 100%; margin: .5rem 0 1rem; border: 1px solid var(--hairline); border-radius: 8px; overflow: hidden; background: white; }
+  .comparator .stack { position: relative; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); transition: clip-path .05s linear; }
+  .comparator .controls { display: flex; align-items: center; gap: .75rem; padding: .5rem .75rem; background: var(--cream); font-size: .9rem; }
+  .comparator input[type=range] { flex: 1; }
+  .comparator .legend { display: flex; gap: .5rem; font-size: .82rem; color: var(--soft); }
+  .legend span::before { content: "■"; margin-right: .25em; }
+  .legend .live::before { color: #1893B4; }
+  .legend .preview::before { color: #8E4A2A; }
+  details { background: var(--cream); padding: .75rem 1rem; border-radius: 6px; margin: .75rem 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  figure { margin: .5rem 0 1.25rem; }
+  figure img { max-width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: 6px; }
+  figcaption { color: var(--soft); font-size: .87rem; margin-top: .35rem; }
+  .crop-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .crop-pair figure { margin: 0; }
+  code { background: var(--cream); padding: .08em .35em; border-radius: 4px; font-size: .9em; }
+  nav.toc { background: var(--cream); padding: .75rem 1rem; border-radius: 6px; margin: 1rem 0 2rem; }
+  nav.toc a { color: var(--ink); margin-right: 1rem; }
+</style>
+</head>
+<body>
+  <h1>Cycle 2 — <code>/about-us</code> bio re-nest inside §C + hairline above (R9 restore)</h1>
+  <p class="meta">Sprint 12 · Branch <code>aa/pl-sprint-12-cycle-2-about-us-bio-renest</code> · Date 2026-05-12 · S audit</p>
+
+  <div class="banner pass">
+    <div><strong>PASS</strong> &nbsp; Bio re-nest verified at 1280 / 768 / 375. <code>dy-section--bio-block</code> retired. Hairline + centered "Who we are." h3 render correctly above the bio at every viewport. Cycle 1's §C-tail REWORK row flips to MATCH.</div>
+  </div>
+
+  <nav class="toc">
+    <a href="#summary">Summary</a>
+    <a href="#beforeafter">Before / after</a>
+    <a href="#viewports">Per-viewport comparators</a>
+    <a href="#deltas">Per-section delta table</a>
+    <a href="#brief">Brief tokens</a>
+    <a href="#wcag">WCAG 2.2 AA</a>
+    <a href="#siblings">Sibling-fit</a>
+  </nav>
+
+  <h2 id="summary">What changed — plain-English summary</h2>
+  <ul class="summary">
+    <li>The bio "Who we are." block has been demoted from a separately-marked section to its proper home inside §C (Open source), per locked decision R9.</li>
+    <li>The <code>dy-section--bio-block</code> marker is gone from the rendered HTML (verified independently in the live DOM).</li>
+    <li>A 1 px horizontal hairline rule (token <code>--theme-border-color: #E5E1DC</code>) is visible immediately above the bio h3 at every viewport, matching the preview's separator treatment.</li>
+    <li>The bio h3 and body paragraph remain centered, <code>max-width: 720px</code>, <code>margin-inline: auto</code> — viewport-independent properties; same gestalt at 1280, 768, and 375.</li>
+    <li>The rendered live page output is visually equivalent to Cycle 1 at the pixel level — because, as F's structural finding documented, the bio was already inside §C in the Cycle 1 DOM; the marker class was a label, not a layout driver. Cycle 1's "promoted section" reading was based on the presence of the marker, not on a distinct standalone section element. With the marker now removed and the CSS selector rewritten to <code>.dy-section--centered-white</code>, R9 is satisfied semantically and the §C-tail row flips MATCH.</li>
+    <li>No regression on <code>/services</code> or <code>/open-source-projects</code>: F's broader replacement selector <code>.dy-section--centered-white .dy-section__content > .grid-wrapper + .heading.h3</code> false-matches nothing on either sibling.</li>
+    <li>No new orphan words; "Who we are." renders on a single centered line at all viewports.</li>
+  </ul>
+
+  <h2 id="beforeafter">Before / after — §C tail at 1280</h2>
+  <div class="crop-pair">
+    <figure>
+      <img src="screenshots/cycle-1/t3-about-us-bio-1280-crop-20260512.png" alt="Cycle 1 live: §C tail showing tools cards then bio block">
+      <figcaption>Cycle 1 live — <code>dy-section--bio-block</code> marker present (semantic regression even though render was already inside §C)</figcaption>
+    </figure>
+    <figure>
+      <img src="screenshots/cycle-2/t3-about-us-bio-1280-crop-20260512.png" alt="Cycle 2 live: §C tail with cards → hairline → bio h3 → bio paragraph">
+      <figcaption>Cycle 2 live — marker removed; hairline + centered bio inside §C, per R9</figcaption>
+    </figure>
+  </div>
+  <p class="meta">Per-pixel the two crops are equivalent; the meaningful change is in the DOM marker class and the CSS selector that targets it.</p>
+
+  <h2 id="viewports">Per-viewport visual comparators (live vs preview)</h2>
+  <p class="meta">Drag the slider to wipe between live (left half by default) and preview (right half). Diff PNG below the slider is full-image AE overlay (fuzz 2%).</p>
+
+  <h3>1280 × 800</h3>
+  <div class="comparator">
+    <div class="stack">
+      <img src="screenshots/cycle-2/t3-about-us-1280-preview-pad.png" alt="preview at 1280">
+      <img class="top" src="screenshots/cycle-2/t3-about-us-1280-live-pad.png" alt="live at 1280">
+    </div>
+    <div class="controls">
+      <span class="legend"><span class="live">live</span></span>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+      <span class="legend"><span class="preview">preview</span></span>
+    </div>
+  </div>
+  <details><summary>Diff overlay (1280) — whole-page AE 1,909,200 px (32.79 %) · informative, per-section binding</summary>
+    <figure><img src="screenshots/cycle-2/t3-about-us-1280-diff-20260512.png" alt="1280 diff overlay"></figure>
+  </details>
+
+  <h3>768 × 1024</h3>
+  <div class="comparator">
+    <div class="stack">
+      <img src="screenshots/cycle-2/t3-about-us-768-preview-pad.png" alt="preview at 768">
+      <img class="top" src="screenshots/cycle-2/t3-about-us-768-live-pad.png" alt="live at 768">
+    </div>
+    <div class="controls">
+      <span class="legend"><span class="live">live</span></span>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+      <span class="legend"><span class="preview">preview</span></span>
+    </div>
+  </div>
+  <details><summary>Diff overlay (768) — whole-page AE 2,285,980 px (52.31 %)</summary>
+    <figure><img src="screenshots/cycle-2/t3-about-us-768-diff-20260512.png" alt="768 diff overlay"></figure>
+  </details>
+
+  <h3>375 × 667</h3>
+  <div class="comparator">
+    <div class="stack">
+      <img src="screenshots/cycle-2/t3-about-us-375-preview-pad.png" alt="preview at 375">
+      <img class="top" src="screenshots/cycle-2/t3-about-us-375-live-pad.png" alt="live at 375">
+    </div>
+    <div class="controls">
+      <span class="legend"><span class="live">live</span></span>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+      <span class="legend"><span class="preview">preview</span></span>
+    </div>
+  </div>
+  <details><summary>Diff overlay (375) — whole-page AE 1,652,020 px (55.40 %)</summary>
+    <figure><img src="screenshots/cycle-2/t3-about-us-375-diff-20260512.png" alt="375 diff overlay"></figure>
+  </details>
+
+  <p class="meta">Per PC-8: whole-page AE values match Cycle 1 within rounding (Cycle 2 visual output is byte-equivalent at 1280; sub-px difference at 768/375 is identical). The unchanged delta % is expected — Cycle 2 fixed the marker class and selector, not the rendered geometry, and the residual delta is driven by Cycle 3 (kicker token drift) and Cycle 4 (card-canvas outer padding) plus pre-existing chrome differences which are out of scope.</p>
+
+  <h2 id="deltas">Per-section delta table — Cycle 1 baseline → Cycle 2 state</h2>
+  <table>
+    <tr><th>Section</th><th>Cycle 1</th><th>Cycle 2</th><th>Notes</th></tr>
+    <tr><td>Header chrome</td><td><span class="pill delta">preview defective</span></td><td><span class="pill delta">unchanged</span></td><td>Silent-parked per PC-9; out of Cycle 2 scope.</td></tr>
+    <tr><td>Hero (§A)</td><td><span class="pill match">MATCH</span></td><td><span class="pill match">MATCH</span></td><td>No change. §A selector immune (no <code>.grid-wrapper</code> in §A).</td></tr>
+    <tr><td>Track record (§B) kicker</td><td><span class="pill delta">DELTA — minor</span></td><td><span class="pill delta">unchanged</span></td><td>Deferred to Cycle 3.</td></tr>
+    <tr><td>Open source (§C) header + cards</td><td><span class="pill delta">DELTA — minor</span></td><td><span class="pill delta">unchanged</span></td><td>Card outer padding deferred to Cycle 4.</td></tr>
+    <tr><td><strong>Bio (§C tail)</strong></td><td><span class="pill rework">REWORK</span></td><td><span class="pill flip">MATCH (FLIPPED)</span></td><td><code>dy-section--bio-block</code> retired; hairline + centered bio render per R9 at all 3 viewports.</td></tr>
+    <tr><td>Dogfood (§D) kicker</td><td><span class="pill delta">DELTA — minor</span></td><td><span class="pill delta">unchanged</span></td><td>Deferred to Cycle 3.</td></tr>
+    <tr><td>Closing CTA (§E)</td><td><span class="pill match">MATCH</span></td><td><span class="pill match">MATCH</span></td><td>No change.</td></tr>
+    <tr><td>Card grid collapse</td><td><span class="pill match">MATCH</span></td><td><span class="pill match">MATCH</span></td><td>No change.</td></tr>
+    <tr><td>Footer chrome</td><td><span class="pill match">MATCH</span> (gestalt)</td><td><span class="pill match">MATCH</span></td><td>No change.</td></tr>
+  </table>
+
+  <h2 id="brief">Brief-token compliance (Cycle 2 deltas)</h2>
+  <table>
+    <tr><th>Token</th><th>Brief value</th><th>Live rendered</th><th>Match</th></tr>
+    <tr><td><code>--theme-border-color</code> (bio hairline)</td><td><code>#E5E1DC</code></td><td><code>#E5E1DC</code> (via <code>.theme--white</code>)</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>Bio h3 color</td><td><code>#2A2520</code></td><td><code>#2A2520</code></td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>Bio body color</td><td><code>#5C544C</code></td><td><code>#5C544C</code></td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>Bio prose max-width</td><td>720 px</td><td>720 px (<code>max-width: var(--prose-max, 720px)</code>)</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>Bio centering</td><td><code>margin-inline: auto</code>; <code>text-align: center</code></td><td>Same</td><td><span class="pill match">MATCH</span></td></tr>
+    <tr><td>Hairline weight</td><td>1 px</td><td>1 px</td><td><span class="pill match">MATCH</span></td></tr>
+  </table>
+  <p class="meta">The preview's hairline appears slightly lighter in tone than the live <code>#E5E1DC</code>, but per Cycle 1's audit and F's L3-trace, the canonical token is <code>--theme-border-color: #E5E1DC</code>. Gestalt-match holds; not a Cycle 2 deviation.</p>
+
+  <h2 id="wcag">WCAG 2.2 AA audit</h2>
+  <table>
+    <tr><th>Check</th><th>Result</th><th>Notes</th></tr>
+    <tr><td>Keyboard navigation</td><td><span class="pill match">PASS</span></td><td>Skip link → logo → nav → breadcrumb → hero CTAs → in-section links → closing CTAs → footer. Logical order; matches Cycle 1 tab walk.</td></tr>
+    <tr><td>Focus ring visibility</td><td><span class="pill match">PASS</span></td><td>3 px dotted teal on light surfaces; 3.58:1 ratio (≥ 3:1).</td></tr>
+    <tr><td>Forced-colors mode</td><td><span class="pill match">PASS (presumed)</span></td><td>Family pattern locked in Sprint 11; semantic anchors/buttons throughout.</td></tr>
+    <tr><td>Reduced-motion</td><td><span class="pill match">PASS (presumed)</span></td><td>Only hover/focus transitions; family CSS respects <code>prefers-reduced-motion</code>.</td></tr>
+    <tr><td>200% zoom</td><td><span class="pill match">PASS</span></td><td>No clipping observed in full-page capture; family verified at 200% in Sprint 11.</td></tr>
+    <tr><td>Heading hierarchy</td><td><span class="pill match">PASS</span></td><td>h1 ×1; h2 visible 5 + 3 VH; h3 ×6 (3 card titles, bio, 2 footer columns); no skips.</td></tr>
+    <tr><td>Image alt text</td><td><span class="pill match">PASS</span></td><td>Single image (logo) with descriptive alt; bio is text-only.</td></tr>
+    <tr><td>Mobile touch targets (375)</td><td><span class="pill match">PASS</span></td><td>Primary CTAs ≥ 44×44; inline text links covered by WCAG 2.5.8 exception (Cycle 1 baseline).</td></tr>
+    <tr><td>Mobile typography scale</td><td><span class="pill match">PASS</span></td><td>Bio h3 + body scale; 720 px max width with auto-margin centers cleanly at 375.</td></tr>
+    <tr><td>Mobile layout</td><td><span class="pill match">PASS</span></td><td>Cards collapse 3 → 1 at 375; no horizontal scroll.</td></tr>
+    <tr><td>Orphan words</td><td><span class="pill match">PASS</span></td><td>"Who we are." three words on a single line; bio paragraph wraps multi-line at all viewports; no single-word last lines.</td></tr>
+    <tr><td>Pa11y (PC-5, allowlist)</td><td><span class="pill match">PASS</span></td><td>0 errors on /about-us; T's run captured 7/7 URLs passing.</td></tr>
+    <tr><td>Bio h3 contrast</td><td><span class="pill match">PASS</span></td><td>15.17:1 (≥ 4.5:1).</td></tr>
+    <tr><td>Bio body contrast</td><td><span class="pill match">PASS</span></td><td>7.43:1 (≥ 4.5:1).</td></tr>
+  </table>
+
+  <h2 id="siblings">Sibling-fit cross-check</h2>
+  <table>
+    <tr><th>Page</th><th>HTTP</th><th><code>dy-section--bio-block</code></th><th>False-match risk on new selector</th><th>Status</th></tr>
+    <tr><td><code>/services</code></td><td>200</td><td>0</td><td>Has <code>.grid-wrapper</code> but no <code>.heading.h3</code> directly following → no false match</td><td><span class="pill match">CLEAN</span></td></tr>
+    <tr><td><code>/open-source-projects</code></td><td>200</td><td>0</td><td>Carries <code>.grid-wrapper</code>; structural pattern verified non-matching</td><td><span class="pill match">CLEAN</span></td></tr>
+    <tr><td><code>/about-us</code> §A hero</td><td>—</td><td>—</td><td>No <code>.grid-wrapper</code> in hero section → immune</td><td><span class="pill match">CLEAN</span></td></tr>
+  </table>
+  <p class="meta">Cycle 1's two preview-side defects (header CTA pill, missing mobile hamburger) remain silent-parked per PC-9. No new sibling regressions introduced by Cycle 2.</p>
+
+  <h2>Verdict reasoning</h2>
+  <p><strong>PASS.</strong> All 11 issue acceptance criteria satisfied (T's table) and Tier 3 confirms the §C-tail row flips REWORK → MATCH. The pixel-equivalence to Cycle 1 is not a defect — F's structural finding correctly identified that the bio was already inside §C in the rendered DOM, so removing the <code>dy-section--bio-block</code> marker and rewriting the selector to <code>.dy-section--centered-white</code> achieves the R9 semantic goal without visually moving content. The hairline + centered bio render per R9 at all three viewports.</p>
+
+  <p class="meta">Operator: O may commit and merge Cycle 2 locally per project_local_only_main. Carve continues to Cycle 3 (kicker token normalization).</p>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 10 Cycle 2b.2 (rework) — Visual Audit Report</title>
+<style>
+  :root { --ok:#137d3f; --bad:#b3261e; --bg:#fafafa; --fg:#111; --muted:#666; --card:#fff; --line:#e3e3e3; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg); background:var(--bg); margin:0; }
+  header { padding: 24px 32px; background:#fff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 6px; font-size: 24px; }
+  h2 { margin: 32px 0 12px; font-size: 20px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { margin: 24px 0 8px; font-size: 16px; }
+  main { padding: 0 32px 64px; max-width: 1500px; margin: 0 auto; }
+  .verdict { display:inline-block; padding: 6px 14px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; font-size: 14px; }
+  .verdict.pass { background: #def7e7; color: var(--ok); }
+  .verdict.fail { background: #fde2e1; color: var(--bad); }
+  table { border-collapse: collapse; width: 100%; background: var(--card); }
+  th, td { border:1px solid var(--line); padding: 6px 10px; text-align: left; vertical-align: top; font-size: 14px; }
+  th { background:#f3f3f3; }
+  td.match { color: var(--ok); font-weight: 600; }
+  td.delta { color: var(--bad); font-weight: 600; }
+  .nav { font-size: 14px; margin-top: 8px; }
+  .nav a { color:#225; margin-right: 12px; }
+  .summary li { margin: 4px 0; }
+  .comparator { position: relative; width: 100%; max-width: 100%; overflow: hidden; border: 1px solid var(--line); background:#000; }
+  .comparator img { display:block; width: 100%; height:auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { position: absolute; left: 0; right: 0; bottom: 8px; width: calc(100% - 16px); margin: 0 8px; }
+  .vp-block { background: var(--card); padding: 16px; border: 1px solid var(--line); border-radius: 6px; margin: 20px 0; }
+  .vp-label { font-weight: 700; margin-bottom: 8px; }
+  details { margin: 8px 0; background:#fff; padding: 8px 14px; border:1px solid var(--line); border-radius: 4px; }
+  details summary { cursor: pointer; font-weight: 600; }
+  img.full { width: 100%; height: auto; display:block; margin-top: 8px; border:1px solid var(--line); }
+  .small { font-size: 13px; color: var(--muted); }
+  .page-block { margin: 30px 0 40px; padding: 16px 18px; background: #fff; border:1px solid var(--line); border-radius: 8px; }
+  .page-block h2 { margin-top: 0; border:none; }
+  code { background:#eee; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="verdict pass">PASS</div>
+  <h1 style="display:inline-block; margin-left: 12px;">Sprint 10 Cycle 2b.2 — /services selector-class refactor (rework)</h1>
+  <p class="small">Branch <code>aa/pl-sprint-10-cycle-2b2-services</code> · Captured 2026-05-12 · 5 pages × 3 viewports = 15 pairs, AE=0 on every pair.</p>
+  <nav class="nav">
+    <a href="#summary">Summary</a>
+    <a href="#matrix">AE matrix</a>
+    <a href="#services">/services</a>
+    <a href="#about-us">/about-us</a>
+    <a href="#how-we-do-it">/how-we-do-it</a>
+    <a href="#open-source-projects">/open-source-projects</a>
+    <a href="#home">/</a>
+  </nav>
+</header>
+
+<main>
+
+<section id="summary">
+  <h2>What I see different</h2>
+  <ul class="summary">
+    <li><strong>No visible differences detected at any viewport on any page.</strong></li>
+    <li>The two regressions from the prior S cycle are resolved:
+      <ul>
+        <li>/about-us hero CTAs render side-by-side at desktop again, matching the pre-refactor baseline pixel-for-pixel.</li>
+        <li>/services wordmark-strip padding restored — page is no longer 96 px taller than baseline.</li>
+      </ul>
+    </li>
+    <li>No new regression introduced on /how-we-do-it, /open-source-projects, or / (home).</li>
+  </ul>
+</section>
+
+<section id="matrix">
+  <h2>AE matrix (ImageMagick <code>compare -metric AE</code>)</h2>
+  <table>
+    <thead>
+      <tr><th>Page</th><th>Viewport</th><th>Baseline dims</th><th>Live dims</th><th>Pixels differing</th><th>%</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>/services</td><td>1280×800</td><td>1280×4418</td><td>1280×4418</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/services</td><td>768×1024</td><td>768×5249</td><td>768×5249</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/services</td><td>375×667</td><td>375×6555</td><td>375×6555</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/about-us</td><td>1280×800</td><td>1280×4549</td><td>1280×4549</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/about-us</td><td>768×1024</td><td>768×5690</td><td>768×5690</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/about-us</td><td>375×667</td><td>375×7952</td><td>375×7952</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>1280×800</td><td>1280×5378</td><td>1280×5378</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>768×1024</td><td>768×6471</td><td>768×6471</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/how-we-do-it</td><td>375×667</td><td>375×8174</td><td>375×8174</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>1280×800</td><td>1280×4490</td><td>1280×4490</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>768×1024</td><td>768×7041</td><td>768×7041</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/open-source-projects</td><td>375×667</td><td>375×9293</td><td>375×9293</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/</td><td>1280×800</td><td>1280×4754</td><td>1280×4754</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/</td><td>768×1024</td><td>768×5658</td><td>768×5658</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+      <tr><td>/</td><td>375×667</td><td>375×7065</td><td>375×7065</td><td>0</td><td>0.00%</td><td class="match">MATCH</td></tr>
+    </tbody>
+  </table>
+  <p class="small">All sections match on every page.</p>
+</section>
+
+<script>
+function buildBlock(page, vp) {
+  const slug = page === '/' ? 'home' : page.replace(/^\//, '');
+  const base = `screenshots/sprint-10-cycle-2b2-rework/t3-${slug}-${vp}`;
+  const id = `${slug}-${vp}`;
+  return `
+  <div class="vp-block">
+    <div class="vp-label">Viewport ${vp}px — AE = 0 (MATCH)</div>
+    <div class="comparator" id="cmp-${id}">
+      <img src="${base}-baseline-20260512.png" alt="${slug} ${vp} baseline">
+      <img class="top" src="${base}-live-20260512.png" alt="${slug} ${vp} live">
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-${id} .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    </div>
+    <details>
+      <summary>Diff PNG (red = pixel differences) and side-by-side composite</summary>
+      <img class="full" src="${base}-diff-20260512.png" alt="${slug} ${vp} diff">
+      <img class="full" src="${base}-composite-20260512.png" alt="${slug} ${vp} composite">
+    </details>
+  </div>`;
+}
+function buildPage(page, anchor, label) {
+  const html = ['1280', '768', '375'].map(vp => buildBlock(page, vp)).join('');
+  return `<section id="${anchor}" class="page-block"><h2>${label}</h2>${html}</section>`;
+}
+document.write(
+  buildPage('/services', 'services', '/services') +
+  buildPage('/about-us', 'about-us', '/about-us') +
+  buildPage('/how-we-do-it', 'how-we-do-it', '/how-we-do-it') +
+  buildPage('/open-source-projects', 'open-source-projects', '/open-source-projects') +
+  buildPage('/', 'home', '/ (homepage)')
+);
+</script>
+
+<section>
+  <h2>Verification method</h2>
+  <ol>
+    <li>Captured the live rendered pages with F's rework fixes in place (about-us hero marker + wordmark-strip specificity bump).</li>
+    <li>Stashed F's <code>dy-section.css</code> edits; ran a temporary undo script to strip the 4 service markers and the about-us hero marker; cleared cache; captured pre-refactor baseline.</li>
+    <li>Restored F's CSS and re-applied both marker scripts; cleared cache; deleted the temp undo script.</li>
+    <li>Ran <code>compare -metric AE</code> on each baseline/live pair (15 pairs total). All zero.</li>
+  </ol>
+</section>
+
+</main>
+</body>
+</html>

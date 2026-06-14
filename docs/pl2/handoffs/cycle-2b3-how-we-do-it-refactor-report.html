@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S report — Sprint 10 Cycle 2b.3 /how-we-do-it selector-class refactor</title>
+<style>
+  :root { --ok:#0a7d2a; --bad:#b00020; --bg:#fafafa; --fg:#222; --muted:#666; --accent:#0b66c2; }
+  html,body { margin:0; padding:0; font-family: -apple-system, "Segoe UI", Roboto, sans-serif; color:var(--fg); background:var(--bg); }
+  body { max-width: 1400px; margin: 0 auto; padding: 24px; line-height: 1.5; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  h2 { margin-top: 36px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { margin-top: 24px; }
+  .verdict { display:flex; align-items:center; gap:16px; padding:16px; background:#e8f5ed; border-left: 6px solid var(--ok); margin: 16px 0; }
+  .verdict .label { font-size: 36px; font-weight: 800; color: var(--ok); letter-spacing: 1px; }
+  .ae-summary { font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+  th { background: #f0f0f0; }
+  .status-match { color: var(--ok); font-weight: 600; }
+  .status-delta { color: var(--bad); font-weight: 600; }
+  nav.toc { background: #fff; border:1px solid #ddd; padding: 10px 16px; border-radius: 6px; margin-bottom: 16px; }
+  nav.toc a { display: inline-block; margin-right: 12px; color: var(--accent); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  .comparator { position: relative; width: 100%; max-width: 1280px; margin: 12px 0; border: 1px solid #ccc; overflow: hidden; background: #fff; }
+  .comparator img { display: block; width: 100%; }
+  .comparator .top { position: absolute; top:0; left:0; width:100%; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { position:absolute; bottom: 8px; left: 4%; width: 92%; z-index: 5; }
+  .comparator .labels { position:absolute; top: 6px; left: 0; right: 0; display:flex; justify-content: space-between; padding: 0 10px; pointer-events: none; }
+  .comparator .labels span { background: rgba(0,0,0,0.55); color: #fff; padding: 2px 8px; font-size: 12px; border-radius: 3px; }
+  .imgrow { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0; }
+  .imgrow figure { margin:0; flex: 1 1 600px; min-width: 280px; }
+  .imgrow figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .imgrow img { width: 100%; border: 1px solid #ccc; display:block; }
+  details { background: #fff; border:1px solid #ddd; border-radius:6px; padding: 8px 14px; margin: 10px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+  .pillok { background: var(--ok); color: #fff; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>S report — Sprint 10 Cycle 2b.3</h1>
+<div class="ae-summary"><strong>/how-we-do-it selector-class refactor</strong> · branch <code>aa/pl-sprint-10-cycle-2b3-how-we-do-it</code> · 2026-05-12 · autonomous mode</div>
+
+<div class="verdict">
+  <div class="label">PASS</div>
+  <div>
+    <div><strong>AE = 0</strong> at every page × every viewport (15/15 MATCH).</div>
+    <div class="ae-summary">/how-we-do-it 1280/768/375 = 0/0/0 px · cross-page /services /about-us /open-source-projects / = 0 px each viewport</div>
+  </div>
+</div>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#summary">Summary</a>
+  <a href="#matrix">AE matrix</a>
+  <a href="#hwdi">/how-we-do-it</a>
+  <a href="#services">/services</a>
+  <a href="#aboutus">/about-us</a>
+  <a href="#osp">/open-source-projects</a>
+  <a href="#home">/</a>
+  <a href="#method">Method</a>
+</nav>
+
+<h2 id="summary">What I see different — plain English</h2>
+<p><strong>No visible differences detected at any viewport on any page.</strong> The refactor (canvas marker classes <code>dy-section--kicker-inline</code> ×3 and <code>dy-section--tight-header</code> ×1 on /how-we-do-it, plus the two CSS selector rewrites in <code>dy-section.css</code>) is pixel-identical to the pre-refactor shipped state on /how-we-do-it and on every cross-page check. Full-page PNGs at 1280×800, 768×1024, and 375×667 produce ImageMagick AE=0 against the reconstructed baseline.</p>
+
+<h2 id="matrix">AE matrix</h2>
+<table>
+  <thead><tr><th>Page</th><th>Viewport</th><th>Baseline dims</th><th>Live dims</th><th>AE (pixels)</th><th>%</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>/how-we-do-it</td><td>1280</td><td>1280×5378</td><td>1280×5378</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/how-we-do-it</td><td>768</td><td>768×6471</td><td>768×6471</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/how-we-do-it</td><td>375</td><td>375×8174</td><td>375×8174</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/services</td><td>1280</td><td>1280×4418</td><td>1280×4418</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/services</td><td>768</td><td>768×5249</td><td>768×5249</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/services</td><td>375</td><td>375×6555</td><td>375×6555</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/about-us</td><td>1280</td><td>1280×4549</td><td>1280×4549</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/about-us</td><td>768</td><td>768×5690</td><td>768×5690</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/about-us</td><td>375</td><td>375×7952</td><td>375×7952</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>1280</td><td>1280×4490</td><td>1280×4490</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>768</td><td>768×7041</td><td>768×7041</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>375</td><td>375×9293</td><td>375×9293</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/</td><td>1280</td><td>1280×4754</td><td>1280×4754</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/</td><td>768</td><td>768×5658</td><td>768×5658</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+    <tr><td>/</td><td>375</td><td>375×7065</td><td>375×7065</td><td>0</td><td>0.00%</td><td class="status-match">MATCH</td></tr>
+  </tbody>
+</table>
+<p><span class="pillok">All sections match</span> — refactor cycle, no visual deltas observed.</p>
+
+<script>
+  // Wipe-slider behaviour: range input controls the top image's clip-path inset-right %.
+  document.addEventListener('input', (e) => {
+    if (e.target.matches('.comparator input[type=range]')) {
+      const root = e.target.closest('.comparator');
+      const top = root.querySelector('img.top');
+      const v = e.target.value;
+      top.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+    }
+  });
+</script>
+
+<!-- Per-page comparator blocks -->
+<!-- Helper macro inline below: comparator(slug, page-id, vp) -->
+
+<h2 id="hwdi">/how-we-do-it</h2>
+<p>Primary target page. 4 marker classes added to canvas_page id=4 (indices 4, 10, 14, 22). Two selectors rewritten in <code>dy-section.css</code>.</p>
+
+<h3>1280×800</h3>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-1280-baseline-20260512.png" alt="baseline">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-1280-live-20260512.png" alt="live">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE (left)</span><span>LIVE (right)</span></div>
+</div>
+<details><summary>Diff PNG + side-by-side composite</summary>
+<div class="imgrow">
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-1280-diff-20260512.png"><figcaption>ImageMagick AE diff (red where pixels differ; AE=0 → no red)</figcaption></figure>
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-1280-composite-20260512.png"><figcaption>Side-by-side: baseline | live</figcaption></figure>
+</div>
+</details>
+
+<h3>768×1024</h3>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-768-baseline-20260512.png" alt="baseline">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-768-live-20260512.png" alt="live">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE</span><span>LIVE</span></div>
+</div>
+<details><summary>Diff + composite</summary>
+<div class="imgrow">
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-768-diff-20260512.png"><figcaption>AE diff</figcaption></figure>
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-768-composite-20260512.png"><figcaption>Composite</figcaption></figure>
+</div>
+</details>
+
+<h3>375×667</h3>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-375-baseline-20260512.png" alt="baseline">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-375-live-20260512.png" alt="live">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE</span><span>LIVE</span></div>
+</div>
+<details><summary>Diff + composite</summary>
+<div class="imgrow">
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-375-diff-20260512.png"><figcaption>AE diff</figcaption></figure>
+  <figure><img src="screenshots/sprint-10-cycle-2b3/t3-how-we-do-it-375-composite-20260512.png"><figcaption>Composite</figcaption></figure>
+</div>
+</details>
+
+<h2 id="services">/services (cross-page check)</h2>
+<details><summary>1280 / 768 / 375 comparators</summary>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-services-1280-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-services-1280-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 1280</span><span>LIVE 1280</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-services-768-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-services-768-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 768</span><span>LIVE 768</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-services-375-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-services-375-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 375</span><span>LIVE 375</span></div>
+</div>
+</details>
+
+<h2 id="aboutus">/about-us (cross-page check)</h2>
+<details><summary>1280 / 768 / 375 comparators</summary>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-about-us-1280-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-about-us-1280-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 1280</span><span>LIVE 1280</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-about-us-768-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-about-us-768-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 768</span><span>LIVE 768</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-about-us-375-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-about-us-375-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 375</span><span>LIVE 375</span></div>
+</div>
+</details>
+
+<h2 id="osp">/open-source-projects (cross-page check)</h2>
+<details><summary>1280 / 768 / 375 comparators</summary>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-1280-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-1280-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 1280</span><span>LIVE 1280</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-768-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-768-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 768</span><span>LIVE 768</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-375-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-open-source-projects-375-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 375</span><span>LIVE 375</span></div>
+</div>
+</details>
+
+<h2 id="home">/ (cross-page check)</h2>
+<details><summary>1280 / 768 / 375 comparators</summary>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-home-1280-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-home-1280-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 1280</span><span>LIVE 1280</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-home-768-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-home-768-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 768</span><span>LIVE 768</span></div>
+</div>
+<div class="comparator">
+  <img class="bottom" src="screenshots/sprint-10-cycle-2b3/t3-home-375-baseline-20260512.png">
+  <img class="top" src="screenshots/sprint-10-cycle-2b3/t3-home-375-live-20260512.png">
+  <input type="range" min="0" max="100" value="50">
+  <div class="labels"><span>BASELINE 375</span><span>LIVE 375</span></div>
+</div>
+</details>
+
+<h2 id="method">Verification method</h2>
+<ol>
+  <li>Captured LIVE PNGs at 3 viewports for 5 pages with F's intended state applied.</li>
+  <li><code>git stash</code> set aside F's <code>dy-section.css</code> edits.</li>
+  <li><code>scripts/undo-markers-2b3-tmp.php</code> (idempotent, one-shot temp) removed the 4 markers on canvas_page id=4 (indices 4/10/14/22). <code>component_version</code> preserved.</li>
+  <li><code>ddev drush cr</code>; captured BASELINE PNGs under identical viewports.</li>
+  <li><code>git stash pop</code>; re-ran <code>scripts/sprint10-cycle2b3-how-we-do-it-markers.php</code>; <code>ddev drush cr</code>; temp undo script deleted.</li>
+  <li><code>compare -metric AE</code> on all 15 baseline/live pairs; composites generated with <code>magick +append</code>.</li>
+</ol>
+<p>Working tree restored to F's intended state at S exit. The temp undo script was deleted. The reusable Playwright capture script <code>scripts/capture-cycle-2b3.js</code> is retained for reproducibility.</p>
+
+</body>
+</html>

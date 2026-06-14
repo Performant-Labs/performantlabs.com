@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 8.4 — Feature-card Grid Desktop — Visual Audit Report</title>
+<style>
+  :root {
+    --green: #1a7f37;
+    --red:   #c0392b;
+    --amber: #b7791f;
+    --ink:   #1f2328;
+    --mute:  #57606a;
+    --line:  #d0d7de;
+    --bg:    #ffffff;
+    --panel: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 1500px; margin: 0 auto; padding: 32px 24px 72px; }
+  h1 { font-size: 1.75rem; margin: 0 0 8px; letter-spacing: -0.01em; }
+  h2 { font-size: 1.35rem; margin: 48px 0 12px; padding-top: 18px; border-top: 1px solid var(--line); }
+  h3 { font-size: 1.05rem; margin: 24px 0 8px; }
+  h4 { font-size: .95rem; margin: 18px 0 6px; color: var(--mute); }
+  p, li { font-size: .95rem; }
+  code { background: var(--panel); padding: 1px 6px; border-radius: 4px; font-size: .85em; }
+
+  .verdict {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 24px;
+    padding: 22px 26px;
+    border: 2px solid var(--green);
+    background: #f0fdf4;
+    border-radius: 10px;
+    margin: 18px 0 24px;
+  }
+  .verdict.rework { border-color: var(--red); background: #fef2f2; }
+  .verdict__label {
+    font-size: 2.1rem; font-weight: 700; letter-spacing: -.02em;
+    color: var(--green);
+  }
+  .verdict.rework .verdict__label { color: var(--red); }
+  .verdict__numbers { display: flex; gap: 32px; flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+  .verdict__numbers .n { display: flex; flex-direction: column; }
+  .verdict__numbers .n-label { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--mute); }
+  .verdict__numbers .n-val   { font-size: 1.05rem; font-weight: 600; }
+  .meta { color: var(--mute); font-size: .9rem; margin-bottom: 4px; }
+
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: .9rem; }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); font-weight: 600; }
+  td.match { color: var(--green); font-weight: 600; }
+  td.delta { color: var(--amber); font-weight: 600; }
+  td.rework { color: var(--red); font-weight: 600; }
+  td.oos { color: var(--mute); font-style: italic; }
+
+  ul { padding-left: 22px; }
+  ul li { margin-bottom: 6px; }
+
+  .nav { background: var(--panel); border: 1px solid var(--line); padding: 12px 16px; border-radius: 8px; margin-bottom: 24px; }
+  .nav a { color: var(--ink); margin-right: 16px; }
+
+  /* wipe slider */
+  .wipe {
+    position: relative;
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 12px 0 8px;
+  }
+  .wipe img { display: block; max-width: 100%; height: auto; }
+  .wipe .ref { width: 100%; }
+  .wipe .live {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: top left;
+  }
+  .wipe input[type=range] {
+    position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+    width: 80%; max-width: 600px; z-index: 10;
+  }
+  .wipe-labels { display: flex; justify-content: space-between; font-size: .8rem; color: var(--mute); margin-top: 4px; }
+  .legend { font-size: .85rem; color: var(--mute); margin-bottom: 6px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .pair > div { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .pair img { display: block; width: 100%; height: auto; }
+  .caption { font-size: .8rem; color: var(--mute); padding: 4px 8px; background: var(--panel); border-top: 1px solid var(--line); }
+  .diffimg { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; max-width: 100%; }
+  .diffimg img { display: block; width: 100%; height: auto; }
+
+  .layout-table td.col-pattern { font-family: monospace; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; color: var(--mute); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="meta">Phase 8.4 — Feature-card Grid Desktop — Spec Auditor (S) report</p>
+  <h1>Visual Audit: Feature-card grid renders 3-column at desktop</h1>
+  <p class="meta">Branch <code>aa/pl-homepage-phase-8.4-card-grid-desktop</code> &nbsp;·&nbsp; Date 2026-05-09 &nbsp;·&nbsp; Audit scope: feature-card section only (8.4 sub-cycle)</p>
+
+  <div class="verdict">
+    <div class="verdict__label">PASS</div>
+    <div class="verdict__numbers">
+      <div class="n"><span class="n-label">1280 feature-card crop</span><span class="n-val">9.56% — content height delta only</span></div>
+      <div class="n"><span class="n-label">768 feature-card crop</span><span class="n-val">7.53% — content height delta only</span></div>
+      <div class="n"><span class="n-label">375 feature-card crop</span><span class="n-val">10.73% — content height delta only</span></div>
+      <div class="n"><span class="n-label">Hero 768 regression vs 8.2</span><span class="n-val">0.0000% — no regression</span></div>
+    </div>
+  </div>
+
+  <p>
+    The feature-card grid now renders as a single 3-column row at desktop (1280),
+    a 2 + 1 layout at tablet (768), and a 1-column stack at mobile (375).
+    The Phase 8.2 hero-band and logo-grid fixes are preserved at 768 (live screenshots are byte-identical between 8.2 and 8.4 at 768 and 375).
+    Whole-page deltas remain in the same range as the 8.2 audit because other deltas (header, hero whitespace, footer-CTA polish, FAQ icons, footer casing) belong to other unrun sub-cycles (8.1, 8.5, 8.6) and are out of scope for this verdict.
+  </p>
+
+  <div class="nav">
+    <a href="#summary">Summary</a>
+    <a href="#layouts">Card layouts per viewport</a>
+    <a href="#viewport-1280">1280 comparator</a>
+    <a href="#viewport-768">768 comparator</a>
+    <a href="#viewport-375">375 comparator</a>
+    <a href="#regression">Regression check (8.2)</a>
+    <a href="#section-table">Per-section delta table</a>
+  </div>
+
+  <h2 id="summary">What I see different — plain-English summary</h2>
+
+  <h3>In scope (feature-card section)</h3>
+  <ul>
+    <li><strong>1280 desktop:</strong> live now renders three feature cards in a single row, matching the preview and the brief. Cards land at left positions 71, 480, 889 px (each 305 px wide) — three columns confirmed.</li>
+    <li><strong>768 tablet:</strong> live renders 2 cards on row 1 (cards 01 + 02) and 1 card on row 2 (card 03), matching the brief's 2-column responsive spec. Note the static preview at 768 actually stacks all three cards in a single column; this is a preview/brief contradiction. The brief and the issue both say 2-column at 768, and the live correctly follows the brief.</li>
+    <li><strong>375 mobile:</strong> live stacks all three cards in a single column, matching the preview and the brief.</li>
+    <li>The live cards are visually <em>taller</em> than the preview cards in every viewport because the live cards include richer chrome (top kicker bar, "01 / TOOLS"-style eyebrows, corner arrow icons) and the preview HTML is a simpler mockup without that chrome. This drives the per-section pixel deltas (7–11%); it is a content-height delta, not a layout problem.</li>
+    <li>No horizontal overflow at any viewport (live document widths: 1265 / 753 / 360 — all under their viewport widths).</li>
+  </ul>
+
+  <h3>Out of scope (other sub-cycles, expected DELTA)</h3>
+  <ul>
+    <li>Header / nav (sub-cycle 8.1).</li>
+    <li>Hero whitespace and CTA spacing at 1280 (sub-cycle 8.5).</li>
+    <li>Footer CTA polish, FAQ icons, footer casing (sub-cycle 8.6).</li>
+    <li>These render the whole-page deltas at 44–55%, but contributing sections were not addressed in this sub-cycle and they must not block the 8.4 verdict.</li>
+  </ul>
+
+  <h2 id="layouts">Feature-card layouts measured at each viewport</h2>
+  <table class="layout-table">
+    <thead>
+      <tr><th>Viewport</th><th>Live layout</th><th>Card 1 / 2 / 3 top-y (px)</th><th>Card widths</th><th>Brief / issue spec</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1280</td><td class="col-pattern">3-column single row</td><td>1744 / 1744 / 1744</td><td>305 / 305 / 305</td><td>3 columns, one row</td><td class="match">MATCH</td></tr>
+      <tr><td>768</td><td class="col-pattern">2 + 1 (cards 01 & 02 row 1, card 03 row 2)</td><td>1926 / 1926 / 2476</td><td>278 / 278 / 278</td><td>2 columns</td><td class="match">MATCH</td></tr>
+      <tr><td>375</td><td class="col-pattern">1 column stacked</td><td>2245 / 2771 / 3273</td><td>291 / 291 / 291</td><td>1 column</td><td class="match">MATCH</td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="viewport-1280">1280 — feature-card section</h2>
+  <p class="legend">Drag the slider to wipe between the live render (left) and the static preview (right). Colors and chrome differ; the layout (three cards in a single row) matches.</p>
+  <div class="wipe" style="aspect-ratio: 1280/462;">
+    <img class="ref" src="screenshots/cycle-8.4/t3-homepage-features-1280-preview-crop-20260509-padded.png" alt="preview reference">
+    <img class="live" id="wipe-1280" src="screenshots/cycle-8.4/t3-homepage-features-1280-live-crop-20260509-padded.png" alt="live render" style="clip-path: inset(0 50% 0 0)">
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-1280').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+  </div>
+  <div class="wipe-labels"><span>← live (drag slider)</span><span>preview →</span></div>
+
+  <h4>Diff (red = pixels that differ)</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-1280-diff-20260509.png" alt="diff at 1280"></div>
+  <p class="caption">Red bands track the card-content height difference (live cards are taller because of additional chrome and content); the column structure itself shows no horizontal misalignment.</p>
+
+  <h4>Side-by-side composite</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-1280-composite-20260509.png" alt="composite at 1280"></div>
+
+  <details>
+    <summary>Whole-page composite and diff at 1280 (out-of-scope sections expected to differ)</summary>
+    <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-1280-composite-20260509.png" alt="whole-page composite at 1280"></div>
+    <div class="diffimg" style="margin-top:8px"><img src="screenshots/cycle-8.4/t3-homepage-1280-diff-20260509.png" alt="whole-page diff at 1280"></div>
+  </details>
+
+  <h2 id="viewport-768">768 — feature-card section</h2>
+  <p class="legend">Live shows 2 + 1 (per brief). Preview at this viewport stacks all three cards into 1 column; this is a preview/brief contradiction — the brief and issue specify 2 columns at 768, and the live correctly follows the brief.</p>
+  <div class="wipe" style="aspect-ratio: 768/1028;">
+    <img class="ref" src="screenshots/cycle-8.4/t3-homepage-features-768-preview-crop-20260509-padded.png" alt="preview reference">
+    <img class="live" id="wipe-768" src="screenshots/cycle-8.4/t3-homepage-features-768-live-crop-20260509-padded.png" alt="live render" style="clip-path: inset(0 50% 0 0)">
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-768').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+  </div>
+  <div class="wipe-labels"><span>← live (drag slider)</span><span>preview →</span></div>
+
+  <h4>Diff</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-768-diff-20260509.png" alt="diff at 768"></div>
+
+  <h4>Side-by-side composite</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-768-composite-20260509.png" alt="composite at 768"></div>
+
+  <h2 id="viewport-375">375 — feature-card section</h2>
+  <p class="legend">Live and preview both stack all three cards in a single column. Live cards are taller due to additional chrome; column structure matches.</p>
+  <div class="wipe" style="aspect-ratio: 375/1467;">
+    <img class="ref" src="screenshots/cycle-8.4/t3-homepage-features-375-preview-crop-20260509-padded.png" alt="preview reference">
+    <img class="live" id="wipe-375" src="screenshots/cycle-8.4/t3-homepage-features-375-live-crop-20260509-padded.png" alt="live render" style="clip-path: inset(0 50% 0 0)">
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-375').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+  </div>
+  <div class="wipe-labels"><span>← live (drag slider)</span><span>preview →</span></div>
+
+  <h4>Diff</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-375-diff-20260509.png" alt="diff at 375"></div>
+
+  <h4>Side-by-side composite</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-features-375-composite-20260509.png" alt="composite at 375"></div>
+
+  <h2 id="regression">Regression check — Phase 8.2 fixes preserved</h2>
+
+  <p>Hero band at 768 (8.2 baseline vs 8.4 live), pixel-by-pixel:
+    <strong>0 differing pixels (0.0000% delta)</strong>. The live screenshots are byte-identical between cycle-8.2 and cycle-8.4 at 768 and 375;
+    only the 1280 view differs, and the differences are isolated to the y-band starting at row 1744 (the feature-card section)
+    and below — that band is the intentional collapse from 2-row to 1-row layout. No new visual changes appear elsewhere on the page.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Check</th><th>Result</th><th>Evidence</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Hero band 768: <code>.hero.theme--white { padding-inline: 0 }</code> still in effect</td><td class="match">PASS — no regression</td><td>0 differing pixels in hero crop, 8.2 vs 8.4 live</td></tr>
+      <tr><td>Logo grid 768: <code>flex-wrap: nowrap</code> at <code>min-width: 992px</code> preserved</td><td class="match">PASS — no regression</td><td>Whole-page 768 live image is byte-identical between 8.2 and 8.4</td></tr>
+      <tr><td>No horizontal overflow at 1280 / 768 / 375</td><td class="match">PASS</td><td>Document widths 1265 / 753 / 360 vs viewports 1280 / 768 / 375</td></tr>
+    </tbody>
+  </table>
+
+  <h4>Hero band 768 — composite (live left, preview right) — for visual reference only; regression is the live-vs-live comparison above</h4>
+  <div class="diffimg"><img src="screenshots/cycle-8.4/t3-homepage-hero-768-composite-20260509.png" alt="hero 768 composite"></div>
+
+  <h2 id="section-table">Per-section delta table</h2>
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Crop</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Feature cards</td><td>1280</td><td class="match">MATCH</td>
+        <td>3 cards in a single row, matching brief and preview. Card-content height differs from the simpler preview HTML (this is a content delta, not a layout problem).</td>
+        <td><img src="screenshots/cycle-8.4/t3-homepage-features-1280-diff-20260509.png" alt="" style="max-width:300px"></td>
+      </tr>
+      <tr>
+        <td>Feature cards</td><td>768</td><td class="match">MATCH (per brief)</td>
+        <td>2 + 1 layout, matching brief's 2-column spec at 768. The static preview shows 1-column at 768; this is a preview/brief contradiction and the live correctly follows the brief.</td>
+        <td><img src="screenshots/cycle-8.4/t3-homepage-features-768-diff-20260509.png" alt="" style="max-width:300px"></td>
+      </tr>
+      <tr>
+        <td>Feature cards</td><td>375</td><td class="match">MATCH</td>
+        <td>1-column stack, matching brief and preview.</td>
+        <td><img src="screenshots/cycle-8.4/t3-homepage-features-375-diff-20260509.png" alt="" style="max-width:300px"></td>
+      </tr>
+      <tr>
+        <td>Hero band (regression)</td><td>768</td><td class="match">MATCH (no regression)</td>
+        <td>0 differing pixels between cycle-8.2 live and cycle-8.4 live in the hero region. Phase 8.2 horizontal-overflow fix preserved.</td>
+        <td><img src="screenshots/cycle-8.4/t3-homepage-hero-768-regression-vs-8.2-20260509.png" alt="" style="max-width:300px"></td>
+      </tr>
+      <tr>
+        <td>Header / nav</td><td>1280 / 768 / 375</td><td class="oos">DELTA — out of scope</td>
+        <td>Header treatment differences belong to sub-cycle 8.1. Not addressed in 8.4. Does not block this verdict.</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Hero whitespace / CTAs</td><td>1280</td><td class="oos">DELTA — out of scope</td>
+        <td>Hero spacing tuning belongs to sub-cycle 8.5. Not addressed in 8.4.</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Footer CTA / FAQ icons / footer casing</td><td>all</td><td class="oos">DELTA — out of scope</td>
+        <td>Belongs to sub-cycle 8.6. Not addressed in 8.4.</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Verdict</h2>
+  <p><strong>PASS</strong> for sub-cycle 8.4. The feature-card grid section now renders 3 / 2+1 / 1 columns at 1280 / 768 / 375 respectively, matching the brief's responsive spec. The Phase 8.2 hero-band and logo-grid fixes are preserved (0 px regression). No horizontal overflow at any viewport. Ready for O to commit and merge.</p>
+
+</div>
+</body>
+</html>

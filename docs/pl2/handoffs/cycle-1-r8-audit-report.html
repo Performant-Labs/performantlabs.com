@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 7 Cycle 1 — R8 mobile-hero overflow audit (S report)</title>
+<style>
+  :root {
+    --ok: #1f7a3a;
+    --warn: #b15a00;
+    --bad: #b00020;
+    --ink: #1a1a1a;
+    --muted: #5c5c5c;
+    --rule: #d8d8d8;
+    --bg: #fafafa;
+    --card: #ffffff;
+    --accent: #c0492b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
+  h1 { font-size: 1.75rem; margin: 0 0 0.25rem; }
+  h2 { font-size: 1.25rem; margin: 2rem 0 0.75rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--rule); }
+  h3 { font-size: 1.05rem; margin: 1.25rem 0 0.5rem; }
+  .meta { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .meta code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 0.85em; }
+  .banner { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 1.5rem; border-radius: 8px; background: #ecf7ee; border: 2px solid var(--ok); margin-bottom: 1.5rem; }
+  .banner .verdict { font-size: 1.75rem; font-weight: 700; color: var(--ok); letter-spacing: 0.5px; }
+  .banner .subtitle { color: var(--ink); font-size: 0.95rem; }
+  table { border-collapse: collapse; width: 100%; margin: 0.5rem 0 1rem; background: var(--card); }
+  th, td { padding: 0.5rem 0.65rem; border: 1px solid var(--rule); text-align: left; font-size: 0.9rem; vertical-align: top; }
+  th { background: #f1f1f1; font-weight: 600; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .status-ok { color: var(--ok); font-weight: 600; }
+  .status-bad { color: var(--bad); font-weight: 600; }
+  .status-info { color: var(--warn); font-weight: 600; }
+  .summary-list li { margin-bottom: 0.35rem; }
+  .pages { display: grid; gap: 2rem; }
+  .page-card { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 1.25rem 1.25rem 1.5rem; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .shot { border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; background: #fff; }
+  .shot-head { padding: 0.35rem 0.6rem; background: #f7f7f7; border-bottom: 1px solid var(--rule); font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; }
+  .shot img { width: 100%; height: auto; display: block; }
+  .badge { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+  .badge.ok { background: #d6efdb; color: var(--ok); }
+  .badge.bad { background: #ffd9df; color: var(--bad); }
+  .nav { background: var(--card); padding: 0.65rem 1rem; border: 1px solid var(--rule); border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.9rem; }
+  .nav a { color: var(--accent); text-decoration: none; margin-right: 1rem; }
+  .nav a:hover { text-decoration: underline; }
+  details { margin: 0.5rem 0; }
+  details summary { cursor: pointer; color: var(--muted); font-size: 0.9rem; padding: 0.25rem 0; }
+  pre { background: #1a1a1a; color: #f5f5f5; padding: 0.75rem; border-radius: 4px; font-size: 0.8rem; overflow-x: auto; }
+  .lead { font-size: 1rem; color: var(--ink); margin-bottom: 0.75rem; }
+  .key-takeaway { background: #fff8e9; border-left: 4px solid var(--accent); padding: 0.85rem 1rem; margin: 0.75rem 0 1.25rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Sprint 7 — Cycle 1 — R8 / ADV-S1 mobile-hero overflow audit</h1>
+  <div class="meta">
+    Date: 2026-05-12 &nbsp;·&nbsp; Branch: <code>aa/pl-sprint-7-cycle-1-audit</code> &nbsp;·&nbsp; Mode: autonomous, audit-only<br>
+    Source-of-truth: WCAG 2.1 SC 1.4.10 (Reflow). Binding signal: <code>documentElement.scrollWidth</code> vs <code>clientWidth</code> at 375 + 320 CSS px.
+  </div>
+
+  <div class="banner">
+    <div class="verdict">PASS</div>
+    <div class="subtitle">No page-level horizontal scroll on any of the four landing pages at either 375 or 320 CSS px. R8 / ADV-S1 is resolved on shipped state. <strong>Recommendation: skip Cycle 2; mark tech-debt R8 / ADV-S1 RESOLVED.</strong></div>
+  </div>
+
+  <div class="nav">
+    <a href="#summary">What I found</a>
+    <a href="#measurements">Measurements</a>
+    <a href="#offenders">Offenders</a>
+    <a href="#screenshots">Screenshots</a>
+    <a href="#carve">Cycle 2 carve</a>
+  </div>
+
+  <h2 id="summary">What I see — plain-English summary</h2>
+  <p class="lead">Probed all four landing pages at 375 px and 320 px in Playwright. Measured the page's reflow signal and tried to scroll the document horizontally. Findings:</p>
+  <ul class="summary-list">
+    <li><strong>No page horizontally scrolls.</strong> On every page at both viewports, <code>window.scrollTo(9999, 0)</code> leaves <code>scrollX = 0</code>. WCAG 2.1 SC 1.4.10 (Reflow) passes.</li>
+    <li><strong>Three of four pages have zero overflowing elements.</strong> Services, How-We-Do-It, and Open-Source-Projects: zero descendants exceed the viewport's right edge at either 375 or 320.</li>
+    <li><strong>Homepage has an intentional internal-scroll diagram.</strong> The heal-flow process-diagram SVG extends to ~1049 px right at 375 (and similar at 320). It is contained inside <code>div.heal-flow { overflow-x: auto }</code>, so the user can scroll the diagram horizontally inside its own box, while the page itself does NOT scroll horizontally. This is brief-authorized behavior, resolved in commit <code>d8622f6</code>.</li>
+    <li><strong>No hero-section overflow exists on any page.</strong> No hero H1 letterform, hero image / SVG, hero CTA pair, or hero-adjacent element appears in the offender list at 375 or 320 on any page.</li>
+    <li><strong>The original R8 / ADV-S1 finding is empirically resolved</strong> by intervening commits — primarily <code>d8622f6</code> (heal-flow), with supporting fixes in <code>26026741d</code>, <code>40a4b0511</code>, and FU-2 hero reconciliation <code>51b2ba340</code>.</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <strong>Do not carve a Cycle 2 fix cycle.</strong> There is no defect to fix. Either close Sprint 7 with this audit as the resolution record, or proceed directly to the runbook's pre-committed final-cycle WCAG 1.4.10 sweep (T+S only) as regression-prevention.
+  </div>
+
+  <h2 id="measurements">Page-level reflow measurements</h2>
+  <p>A page passes WCAG 2.1 SC 1.4.10 when its horizontal-scroll capacity is zero at 320 CSS px. The −15 px delta below (docScroll < docClient) is the vertical-scrollbar gutter that Chromium subtracts from <code>scrollWidth</code>; the <code>scrollX</code> column confirms no horizontal scrollability.</p>
+
+  <table>
+    <thead>
+      <tr><th>Page</th><th>Viewport</th><th>docScroll</th><th>docClient</th><th>bodyScroll</th><th>scrollX after scrollTo(9999,0)</th><th>Page-level overflow</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>/ (homepage)</td><td class="num">375</td><td class="num">360</td><td class="num">375</td><td class="num">360</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/services</td><td class="num">375</td><td class="num">360</td><td class="num">375</td><td class="num">360</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/how-we-do-it</td><td class="num">375</td><td class="num">360</td><td class="num">375</td><td class="num">360</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/open-source-projects</td><td class="num">375</td><td class="num">360</td><td class="num">375</td><td class="num">360</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/ (homepage)</td><td class="num">320</td><td class="num">305</td><td class="num">320</td><td class="num">305</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/services</td><td class="num">320</td><td class="num">305</td><td class="num">320</td><td class="num">305</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/how-we-do-it</td><td class="num">320</td><td class="num">305</td><td class="num">320</td><td class="num">305</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+      <tr><td>/open-source-projects</td><td class="num">320</td><td class="num">305</td><td class="num">320</td><td class="num">305</td><td class="num">0</td><td><span class="status-ok">NONE</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2 id="offenders">Offender enumeration (descendants exceeding viewport.right)</h2>
+  <p>This is a diagnostic table only — page-level overflow is the binding signal and is zero everywhere above. Offenders below indicate elements visually wider than the viewport but contained by an ancestor with <code>overflow-x: hidden</code> or <code>auto</code>.</p>
+
+  <table>
+    <thead>
+      <tr><th>Page</th><th>375 offenders</th><th>320 offenders</th><th>Nature</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>/services</td><td class="num">0</td><td class="num">0</td><td>—</td><td><span class="status-ok">CLEAN</span></td></tr>
+      <tr><td>/how-we-do-it</td><td class="num">0</td><td class="num">0</td><td>—</td><td><span class="status-ok">CLEAN</span></td></tr>
+      <tr><td>/open-source-projects</td><td class="num">0</td><td class="num">0</td><td>—</td><td><span class="status-ok">CLEAN</span></td></tr>
+      <tr><td>/ (homepage)</td><td class="num">13</td><td class="num">16</td><td>All inside <code>div.heal-flow</code> (process diagram, internal <code>overflow-x: auto</code>). Intentional.</td><td><span class="status-info">INTENTIONAL</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Homepage top offenders @ 375</h3>
+  <table>
+    <thead><tr><th>#</th><th>Selector</th><th>rect.right</th><th>width</th><th>overflowBy</th><th>min-width</th><th>overflow-x</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>svg</code></td><td class="num">1049</td><td class="num">970</td><td class="num">674</td><td><code>970px</code></td><td><code>hidden</code></td></tr>
+      <tr><td>2</td><td><code>rect</code> (inside svg)</td><td class="num">1039</td><td class="num">200</td><td class="num">664</td><td><code>0px</code></td><td><code>visible</code></td></tr>
+      <tr><td>3</td><td><code>text</code> (inside svg)</td><td class="num">991</td><td class="num">132</td><td class="num">616</td><td><code>0px</code></td><td><code>visible</code></td></tr>
+    </tbody>
+  </table>
+  <p><em>Parent chain of offender #1:</em> <code>div.heal-flow</code> (<code>overflow-x: auto</code>) → <code>div.dy-section__content</code> (<code>display: flex</code>) → <code>div.grid</code>. The heal-flow ancestor's <code>overflow-x: auto</code> stops the svg from contributing to <code>documentElement.scrollWidth</code>. This is the d8622f6 fix doing exactly what it was designed to do.</p>
+
+  <details>
+    <summary>Reproducer script (Playwright)</summary>
+<pre>node docs/pl2/handoffs/screenshots/sprint-7-cycle-1/probe.mjs
+node docs/pl2/handoffs/screenshots/sprint-7-cycle-1/probe-scroll.mjs</pre>
+    <p>Raw JSON results at <code>docs/pl2/handoffs/screenshots/sprint-7-cycle-1/probe-results.json</code>.</p>
+  </details>
+
+  <h2 id="screenshots">Per-page screenshots (375 vs 320)</h2>
+
+  <div class="pages">
+    <div class="page-card">
+      <h3>/ (homepage) <span class="badge ok">no page overflow</span></h3>
+      <p>Heal-flow internal-scroll diagram visible (intentional). No hero overflow.</p>
+      <div class="shots">
+        <div class="shot"><div class="shot-head">375 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-home-375-live-20260512.png" alt="homepage at 375"></div>
+        <div class="shot"><div class="shot-head">320 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-home-320-live-20260512.png" alt="homepage at 320"></div>
+      </div>
+    </div>
+
+    <div class="page-card">
+      <h3>/services <span class="badge ok">no page overflow</span></h3>
+      <p>Zero offenders at either viewport.</p>
+      <div class="shots">
+        <div class="shot"><div class="shot-head">375 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-services-375-live-20260512.png" alt="services at 375"></div>
+        <div class="shot"><div class="shot-head">320 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-services-320-live-20260512.png" alt="services at 320"></div>
+      </div>
+    </div>
+
+    <div class="page-card">
+      <h3>/how-we-do-it <span class="badge ok">no page overflow</span></h3>
+      <p>Zero offenders at either viewport.</p>
+      <div class="shots">
+        <div class="shot"><div class="shot-head">375 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-how-we-do-it-375-live-20260512.png" alt="how-we-do-it at 375"></div>
+        <div class="shot"><div class="shot-head">320 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-how-we-do-it-320-live-20260512.png" alt="how-we-do-it at 320"></div>
+      </div>
+    </div>
+
+    <div class="page-card">
+      <h3>/open-source-projects <span class="badge ok">no page overflow</span></h3>
+      <p>Zero offenders at either viewport.</p>
+      <div class="shots">
+        <div class="shot"><div class="shot-head">375 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-open-source-projects-375-live-20260512.png" alt="open-source-projects at 375"></div>
+        <div class="shot"><div class="shot-head">320 px <span class="badge ok">PASS 1.4.10</span></div><img src="screenshots/sprint-7-cycle-1/t3-open-source-projects-320-live-20260512.png" alt="open-source-projects at 320"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="carve">Cycle 2 carve recommendation</h2>
+  <p><strong>Recommendation: do not carve any Cycle 2 fix cycle.</strong> The page-level overflow measured at 375 and 320 is zero on all four landing pages; the R8 / ADV-S1 finding has been empirically resolved by prior commits. Carving a fix cycle against a non-defect would consume an F-T-S round producing no measurable improvement.</p>
+
+  <p>Operator decisions:</p>
+  <ol>
+    <li><strong>Tech-debt register:</strong> mark R8 / ADV-S1 RESOLVED, citing primary fix <code>d8622f6</code> and this audit as verification (<code>cycle-1-r8-audit-S.md</code>).</li>
+    <li><strong>Sprint 7 close vs final-cycle WCAG sweep:</strong> either (a) close Sprint 7 with this audit as the resolution record, or (b) proceed to the runbook's pre-committed final-cycle WCAG 1.4.10 sweep (T+S only; no F) as regression-prevention. Option (b) has marginal value (~30 min of T+S) and would harden the result against future hero or heal-flow restructuring.</li>
+  </ol>
+
+  <p style="color: var(--muted); font-size: 0.85rem; margin-top: 2.5rem;">Generated 2026-05-12. See <code>docs/pl2/handoffs/cycle-1-r8-audit-S.md</code> for the full markdown handoff. Screenshots and reproducer scripts in <code>docs/pl2/handoffs/screenshots/sprint-7-cycle-1/</code>.</p>
+
+</div>
+</body>
+</html>

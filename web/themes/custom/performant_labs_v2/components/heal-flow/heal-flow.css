@@ -1,0 +1,51 @@
+/*
+ * [Layer 5] heal-flow SDC — process-flow diagram wrapper.
+ *
+ * Card frame on cream (#F5EFE2):
+ *   - background: white (#FFFFFF) via --theme-surface-alt in cream zone
+ *   - 1px hairline border via --theme-border-color (#E5E1DC)
+ *   - 12px border-radius, 48×32 padding, max-width 1040px, centered
+ *   - vertical margin-block-start so card clears section heading
+ *
+ * Mobile (≤768px) horizontal scroll:
+ *   - The SVG min-width prevents label text from shrinking below readable size.
+ *   - Right-edge fade via inset box-shadow signals scrollability.
+ *   - Card padding tightens to 24×16 at mobile for a usable side gutter.
+ *
+ * No !important. No hardcoded hex values in CSS (SVG inline attributes are exempt).
+ */
+
+.heal-flow {
+  background: var(--theme-surface-alt, #FFFFFF);
+  border: 1px solid var(--theme-border-color, #E5E1DC);
+  border-radius: 12px;
+  padding: 48px 32px;
+  max-width: 1040px;
+  margin: 2.5rem auto 0;
+  overflow-x: auto;
+  min-width: 0; /* prevent flex min-content from growing the page when SVG min-width exceeds viewport — see post-homepage-next.md P10 */
+  width: 100%; /* constrain to flex parent so overflow-x: auto engages for internal scroll */
+}
+
+/* The inner SVG keeps its full editorial width so node text stays readable.
+   At desktop, width:100% within the 1040px card stays close to the viewBox
+   width. At mobile (≤768px) the card narrows and overflow-x: auto kicks in —
+   the SVG's inline min-width forces it to keep its intrinsic size so the
+   viewport scrolls horizontally rather than shrinking node labels. */
+.heal-flow > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Contrast watch: arrow #1893b4 on cream #F5EFE2 = 3.12:1 (passes 3:1 non-text by 0.12 margin). Recheck if the cream surface is ever lightened. */
+
+@media (max-width: 768px) {
+  .heal-flow {
+    padding: 24px 16px;
+    /* Right-edge fade indicator for horizontal scroll affordance.
+       Inset box-shadow rendered above the scrolling content; no mask-image
+       so the SVG itself remains crisp. */
+    box-shadow: inset -16px 0 16px -16px rgba(0, 0, 0, 0.15);
+  }
+}

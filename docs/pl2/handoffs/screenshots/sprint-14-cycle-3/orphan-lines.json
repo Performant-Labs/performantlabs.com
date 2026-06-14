@@ -1,0 +1,92 @@
+{
+  "home": {
+    "text": "Ship Drupal releases with confidence.",
+    "lines": [
+      [
+        "Ship",
+        "Drupal"
+      ],
+      [
+        "releases",
+        "with"
+      ],
+      [
+        "confidence."
+      ]
+    ]
+  },
+  "services": {
+    "text": "Testing engagements for Drupal teams.",
+    "lines": [
+      [
+        "Testing"
+      ],
+      [
+        "engagements"
+      ],
+      [
+        "for",
+        "Drupal"
+      ],
+      [
+        "teams."
+      ]
+    ]
+  },
+  "how-we-do-it": {
+    "text": "How a testing engagement runs.",
+    "lines": [
+      [
+        "How",
+        "a",
+        "testing"
+      ],
+      [
+        "engagement"
+      ],
+      [
+        "runs."
+      ]
+    ]
+  },
+  "opensource": {
+    "text": "What we maintain in the open",
+    "lines": [
+      [
+        "What",
+        "we"
+      ],
+      [
+        "maintain",
+        "in"
+      ],
+      [
+        "the",
+        "open"
+      ]
+    ]
+  },
+  "about-us": {
+    "text": "Drupal testing, done by the people who wrote the tools.",
+    "lines": [
+      [
+        "Drupal",
+        "testing,"
+      ],
+      [
+        "done",
+        "by",
+        "the"
+      ],
+      [
+        "people",
+        "who"
+      ],
+      [
+        "wrote",
+        "the",
+        "tools."
+      ]
+    ]
+  }
+}

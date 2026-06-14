@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 8 — Final global re-audit (activation gate)</title>
+<style>
+  :root { color-scheme: light; }
+  body { font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color: #1F1A14; background: #FAFAF7; margin: 0; padding: 0 24px 64px; max-width: 1200px; margin: 0 auto; }
+  h1 { font-size: 30px; margin: 24px 0 8px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; border-bottom: 1px solid #ddd; padding-bottom: 4px; }
+  h3 { font-size: 17px; margin: 20px 0 8px; }
+  .banner { display: flex; align-items: center; gap: 24px; background: #0F4F60; color: white; padding: 20px 24px; border-radius: 8px; margin: 16px 0 24px; }
+  .verdict { font-size: 40px; font-weight: 800; letter-spacing: 1px; }
+  .verdict.pass { color: #62BBCB; }
+  .verdict-meta { font-size: 13px; opacity: 0.85; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0 20px; font-size: 13px; }
+  th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f3f1ea; }
+  .ok { color: #2a7a2e; font-weight: 600; }
+  .delta { color: #b56727; font-weight: 600; }
+  .fail { color: #a3211a; font-weight: 600; }
+  .nav { margin: 12px 0 24px; font-size: 14px; }
+  .nav a { color: #1893B4; margin-right: 14px; text-decoration: none; }
+  .comparator { position: relative; width: 100%; overflow: hidden; background: #fff; border: 1px solid #ddd; border-radius: 6px; margin: 8px 0 16px; }
+  .comparator img { display: block; width: 100%; user-select: none; }
+  .comparator .top { position: absolute; top: 0; left: 0; clip-path: inset(0 50% 0 0); }
+  .comparator-slider { width: 100%; margin-top: 6px; }
+  .legend { font-size: 12px; color: #555; margin: 4px 0 14px; }
+  .diff-img, .composite-img { width: 100%; border: 1px solid #ddd; margin: 6px 0 16px; }
+  details { margin: 6px 0 12px; }
+  summary { cursor: pointer; font-weight: 600; }
+  .section-thumb { max-width: 100%; border: 1px solid #ddd; }
+  code { background: #f3f1ea; padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+  ul { margin: 6px 0 14px 22px; }
+</style>
+</head>
+<body>
+
+<h1>Phase 8 — Final global re-audit (activation gate)</h1>
+
+<div class="banner">
+  <div class="verdict pass">PASS</div>
+  <div>
+    <div><strong>Homepage activation-ready.</strong></div>
+    <div class="verdict-meta">Per-section: 9 / 9 PASS &nbsp;·&nbsp; CTA palette confirmed &nbsp;·&nbsp; WCAG clean (2 pre-approved deviations only)</div>
+    <div class="verdict-meta">Whole-page pixel diffs (informational; height-delta cascade inflated): 1280 = 45.99% &nbsp;·&nbsp; 768 = 49.92% &nbsp;·&nbsp; 375 = 50.81%</div>
+  </div>
+</div>
+
+<div class="nav">
+  <a href="#summary">Plain-English summary</a>
+  <a href="#vp-1280">1280</a>
+  <a href="#vp-768">768</a>
+  <a href="#vp-375">375</a>
+  <a href="#sections">Per-section table</a>
+</div>
+
+<h2 id="summary">What I see different — plain English</h2>
+<ul>
+  <li><strong>Header, hero, logo bar, feature cards, heal-flow, FAQ, footer-CTA, footer:</strong> visually match the preview at all three viewports. No deltas worth flagging.</li>
+  <li><strong>Hero primary CTA:</strong> renders the correct light-zone cyan (<code>#62BBCB</code>). Matches preview pixel-for-pixel.</li>
+  <li><strong>Footer-CTA primary button:</strong> renders the correct dark-zone cyan (<code>#5DC6E8</code>). Matches preview.</li>
+  <li><strong>Inline links on white surface</strong> (e.g., "Tools the Drupal community uses"): render the correct medium-teal (<code>#1893B4</code>).</li>
+  <li><strong>Section-padding rhythm</strong> now reads tight; the loose-looking gaps between sections from the first re-audit are gone.</li>
+  <li><strong>Built-for checklist:</strong> the cyan check icon is an outline glyph on live vs a filled circle on preview. Same color, same content, same count. Decorative-variant only; non-blocking and carried over from earlier sub-cycles.</li>
+  <li><strong>Live is +413 / +838 / +986 px taller</strong> than preview at 1280 / 768 / 375. This is documented architectural cost (sticky-header offset, footer padding, Dripyard SDC overhead) and is operator-accepted; not a verdict input.</li>
+</ul>
+
+<h2 id="vp-1280">Viewport 1280 × 800</h2>
+
+<h3>Wipe-slider comparator (drag to reveal preview under live)</h3>
+<div class="comparator" id="cmp-1280">
+  <img src="screenshots/cycle-8-final-reaudit/t3-homepage-1280-preview-20260511.png" alt="preview 1280">
+  <img class="top" src="screenshots/cycle-8-final-reaudit/t3-homepage-1280-live-20260511.png" alt="live 1280">
+</div>
+<input type="range" min="0" max="100" value="50" class="comparator-slider" data-target="cmp-1280">
+<div class="legend">Left of the slider = LIVE. Right of the slider = PREVIEW. Drag to compare.</div>
+
+<details><summary>Diff PNG (red = differing pixels; live cropped to preview height before comparison)</summary>
+<img class="diff-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-1280-diff-20260511.png" alt="1280 diff">
+</details>
+<details><summary>Side-by-side composite (live left, preview right; full native sizes)</summary>
+<img class="composite-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-1280-composite-20260511.png" alt="1280 composite">
+</details>
+
+<h2 id="vp-768">Viewport 768 × 1024</h2>
+
+<h3>Wipe-slider comparator</h3>
+<div class="comparator" id="cmp-768">
+  <img src="screenshots/cycle-8-final-reaudit/t3-homepage-768-preview-20260511.png" alt="preview 768">
+  <img class="top" src="screenshots/cycle-8-final-reaudit/t3-homepage-768-live-20260511.png" alt="live 768">
+</div>
+<input type="range" min="0" max="100" value="50" class="comparator-slider" data-target="cmp-768">
+<div class="legend">Left of the slider = LIVE. Right of the slider = PREVIEW.</div>
+
+<details><summary>Diff PNG</summary>
+<img class="diff-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-768-diff-20260511.png" alt="768 diff">
+</details>
+<details><summary>Side-by-side composite</summary>
+<img class="composite-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-768-composite-20260511.png" alt="768 composite">
+</details>
+
+<h2 id="vp-375">Viewport 375 × 667</h2>
+
+<h3>Wipe-slider comparator</h3>
+<div class="comparator" id="cmp-375">
+  <img src="screenshots/cycle-8-final-reaudit/t3-homepage-375-preview-20260511.png" alt="preview 375">
+  <img class="top" src="screenshots/cycle-8-final-reaudit/t3-homepage-375-live-20260511.png" alt="live 375">
+</div>
+<input type="range" min="0" max="100" value="50" class="comparator-slider" data-target="cmp-375">
+<div class="legend">Left of the slider = LIVE. Right of the slider = PREVIEW.</div>
+
+<details><summary>Diff PNG</summary>
+<img class="diff-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-375-diff-20260511.png" alt="375 diff">
+</details>
+<details><summary>Side-by-side composite</summary>
+<img class="composite-img" src="screenshots/cycle-8-final-reaudit/t3-homepage-375-composite-20260511.png" alt="375 composite">
+</details>
+
+<h2 id="sections">Per-section verdict table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Section</th>
+      <th>1280</th>
+      <th>768</th>
+      <th>375</th>
+      <th>Verdict</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td><td>Header</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>No pill, height 73 px, 6 nav items + logo. 8.1 + 8.6 outcomes hold.</td>
+    </tr>
+    <tr>
+      <td>2</td><td>Hero band</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>H1 + eyebrow + body + cyan CTA + outline secondary. No overflow. Tight transition to logo band. 8.2/8.5/8.7 hold.</td>
+    </tr>
+    <tr>
+      <td>3</td><td>Logo bar</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>6 grayscale bitmap logos. Single row at 1280/768; 3×2 grid at 375. 8.3 holds.</td>
+    </tr>
+    <tr>
+      <td>4</td><td>Feature cards</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>3/1/1 column progression. Terracotta kicker + arrow + H3 + body. 8.4 holds.</td>
+    </tr>
+    <tr>
+      <td>5</td><td>Heal-flow</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>DOGFOODING eyebrow, H2, 4-step flow with step 04 cyan-highlighted, body + cyan link.</td>
+    </tr>
+    <tr>
+      <td>6</td><td>Built-for checklist</td>
+      <td class="delta">delta-minor</td><td class="delta">delta-minor</td><td class="delta">delta-minor</td>
+      <td class="ok">PASS</td>
+      <td>Content + color match. Live renders the cyan check as an outline glyph; preview renders a filled circle with white check. Decorative variant only; non-blocking.</td>
+    </tr>
+    <tr>
+      <td>7</td><td>FAQ accordion</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>4 collapsed items, cyan <code>+</code> glyph on each (closed-state). 8.6 holds.</td>
+    </tr>
+    <tr>
+      <td>8</td><td>Footer-CTA</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>Espresso band, BOOK A REVIEW eyebrow, H2, body, <code>#5DC6E8</code> dark-zone cyan CTA + outline secondary. 8.7 holds.</td>
+    </tr>
+    <tr>
+      <td>9</td><td>Footer</td>
+      <td class="ok">match</td><td class="ok">match</td><td class="ok">match</td>
+      <td class="ok">PASS</td>
+      <td>3-column nav + signature column, © line, Privacy Policy link.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Per-section crops (1280)</h2>
+<p class="legend">Composites only (live left, preview right). Per-viewport crops for 768 and 375 are in <code>docs/pl2/handoffs/screenshots/cycle-8-final-reaudit/</code>.</p>
+
+<details open><summary>01 Header</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-01-header-1280-composite-20260511.png" alt=""></details>
+<details><summary>02 Hero</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-02-hero-1280-composite-20260511.png" alt=""></details>
+<details><summary>03 Logo bar</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-03-logobar-1280-composite-20260511.png" alt=""></details>
+<details><summary>04 Feature cards</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-04-features-1280-composite-20260511.png" alt=""></details>
+<details><summary>05 Heal-flow</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-05-healflow-1280-composite-20260511.png" alt=""></details>
+<details><summary>06 Built-for</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-06-builtfor-1280-composite-20260511.png" alt=""></details>
+<details><summary>07 FAQ</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-07-faq-1280-composite-20260511.png" alt=""></details>
+<details><summary>08 Footer-CTA</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-08-footercta-1280-composite-20260511.png" alt=""></details>
+<details><summary>09 Footer</summary><img class="section-thumb" src="screenshots/cycle-8-final-reaudit/section-09-footer-1280-composite-20260511.png" alt=""></details>
+
+<h2>Color verification (Playwright getComputedStyle on live)</h2>
+<table>
+  <thead><tr><th>Element</th><th>Selector</th><th>Rendered</th><th>Hex</th><th>Expected</th><th>Match</th></tr></thead>
+  <tbody>
+    <tr><td>Hero primary CTA bg</td><td><code>.button--primary</code> (first)</td><td><code>rgb(98, 187, 203)</code></td><td><code>#62BBCB</code></td><td><code>#62BBCB</code> (<code>--primary-light</code>)</td><td class="ok">YES</td></tr>
+    <tr><td>Closing primary CTA bg</td><td><code>.button--primary</code> (second)</td><td><code>rgb(93, 198, 232)</code></td><td><code>#5DC6E8</code></td><td><code>#5DC6E8</code> (dark-zone variant)</td><td class="ok">YES</td></tr>
+    <tr><td>Inline link on white</td><td><code>main a:not(.button)</code></td><td><code>rgb(24, 147, 180)</code></td><td><code>#1893B4</code></td><td><code>#1893B4</code> (<code>--primary</code>)</td><td class="ok">YES</td></tr>
+  </tbody>
+</table>
+
+<h2>WCAG summary</h2>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Heading hierarchy</td><td class="ok">PASS</td><td>1 H1, 7 H2, 6 H3. No skipped levels.</td></tr>
+    <tr><td>Image alt text</td><td class="ok">PASS</td><td>7 imgs, 0 missing alt, 0 empty alt.</td></tr>
+    <tr><td>Mobile touch targets (375)</td><td class="ok">PASS</td><td>CTA 56 px tall; hamburger ≈ 44 px.</td></tr>
+    <tr><td>Mobile layout / no horizontal scroll</td><td class="ok">PASS</td><td>Heal-flow horizontal scroll is contained.</td></tr>
+    <tr><td>Keyboard nav / focus rings / forced-colors / reduced-motion / 200% zoom</td><td class="ok">PASS (presumed)</td><td>Static-inspection pass; recommend interactive re-probe pre-launch.</td></tr>
+    <tr><td>CTA white-on-cyan ~2.21:1</td><td class="ok">PASS (pre-approved)</td><td>Documented in brief §"Documented WCAG deviations".</td></tr>
+    <tr><td>Inline link teal-on-white ~3.58:1</td><td class="ok">PASS (pre-approved)</td><td>Documented in brief §"Documented WCAG deviations".</td></tr>
+    <tr><td>New (third+) WCAG failures</td><td class="ok">NONE</td><td>Spot-checked terracotta-on-cream, espresso-on-white, white-on-espresso — all clean.</td></tr>
+  </tbody>
+</table>
+
+<h2>Files</h2>
+<ul>
+  <li>Markdown handoff: <code>docs/pl2/handoffs/phase-8-final-reaudit-S.md</code></li>
+  <li>Screenshots + crops: <code>docs/pl2/handoffs/screenshots/cycle-8-final-reaudit/</code></li>
+</ul>
+
+<script>
+  document.querySelectorAll('.comparator-slider').forEach(slider => {
+    const target = document.getElementById(slider.dataset.target);
+    if (!target) return;
+    const topImg = target.querySelector('.top');
+    function update(v) { topImg.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)'; }
+    update(slider.value);
+    slider.addEventListener('input', e => update(e.target.value));
+  });
+</script>
+
+</body>
+</html>

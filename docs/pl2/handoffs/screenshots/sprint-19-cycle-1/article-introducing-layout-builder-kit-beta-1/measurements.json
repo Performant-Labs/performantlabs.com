@@ -1,0 +1,1856 @@
+{
+  "375": {
+    "live": {
+      "pageH": 6770,
+      "pageW": 360,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "article article-full node",
+          "top": 292,
+          "h": 5704
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 6060,
+          "h": 709
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 84
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 44
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 44
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "24px",
+          "lineHeight": "27.6px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)",
+          "top": 81,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "30px",
+          "lineHeight": "33.9px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 240,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "header-article__title",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "32px",
+          "lineHeight": "35.2px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 455,
+          "h": 65
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1692,
+          "h": 24
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2974,
+          "h": 24
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3851,
+          "h": 52
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "24px",
+          "lineHeight": "27.6px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 6124,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6124,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6302,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6415,
+          "h": 13
+        }
+      ],
+      "ctas": [],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 143,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 111,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 123,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 106,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 124,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 149,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 149,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Testing-suite takeover",
+          "w": 157,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 194,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous healing pilot",
+          "w": 180,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 138,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 125,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 119,
+          "h": 24
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 6324,
+      "pageW": 375,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "node node--type-article node--view-mode-full",
+          "top": 139,
+          "h": 5366
+        },
+        {
+          "label": "article-cta",
+          "tag": "ASIDE",
+          "cls": "article-cta",
+          "top": 4974,
+          "h": 467
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 5505,
+          "h": 819
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "",
+          "ancestor": "HEADER.article-masthead",
+          "fontSize": "32px",
+          "lineHeight": "35.2px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 218,
+          "h": 70
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1166,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2293,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "24px",
+          "lineHeight": "28.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3107,
+          "h": 58
+        },
+        {
+          "tag": "H3",
+          "text": "Working on a Layout Builder site?",
+          "cls": "",
+          "ancestor": "ASIDE.article-cta",
+          "fontSize": "22px",
+          "lineHeight": "28.6px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 5006,
+          "h": 57
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5570,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5772,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5906,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Talk to us",
+          "cls": "btn btn--primary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 5311,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "More articles",
+          "cls": "btn btn--secondary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 5364,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 47,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 169,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 137,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 112,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 97,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 114,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 136,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 117,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        }
+      ]
+    }
+  },
+  "768": {
+    "live": {
+      "pageH": 6768,
+      "pageW": 753,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "article article-full node",
+          "top": 269,
+          "h": 5891
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 6256,
+          "h": 511
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)",
+          "top": 81,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "40px",
+          "lineHeight": "45.2px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 240,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "header-article__title",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "48px",
+          "lineHeight": "52.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 411,
+          "h": 97
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1863,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3166,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 4028,
+          "h": 65
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 6352,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6352,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6352,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6352,
+          "h": 13
+        }
+      ],
+      "ctas": [],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 143,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 111,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 145,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 124,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 146,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 176,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 176,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 147,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 140,
+          "h": 28
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 4737,
+      "pageW": 768,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "node node--type-article node--view-mode-full",
+          "top": 118,
+          "h": 4075
+        },
+        {
+          "label": "article-cta",
+          "tag": "ASIDE",
+          "cls": "article-cta",
+          "top": 3832,
+          "h": 266
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 4193,
+          "h": 544
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "",
+          "ancestor": "HEADER.article-masthead",
+          "fontSize": "48px",
+          "lineHeight": "52.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 213,
+          "h": 106
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1305,
+          "h": 36
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2010,
+          "h": 36
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2668,
+          "h": 36
+        },
+        {
+          "tag": "H3",
+          "text": "Working on a Layout Builder site?",
+          "cls": "",
+          "ancestor": "ASIDE.article-cta",
+          "fontSize": "22px",
+          "lineHeight": "28.6px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3864,
+          "h": 29
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4258,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4258,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4460,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Talk to us",
+          "cls": "btn btn--primary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 4020,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "More articles",
+          "cls": "btn btn--secondary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 4020,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 47,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 169,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 137,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 119,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 103,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 121,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 144,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 144,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 117,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 100,
+          "h": 18
+        }
+      ]
+    }
+  },
+  "1280": {
+    "live": {
+      "pageH": 5376,
+      "pageW": 1265,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "article article-full node",
+          "top": 269,
+          "h": 4596
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 4961,
+          "h": 415
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 25,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "40px",
+          "lineHeight": "45.2px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 240,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "header-article__title",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "48px",
+          "lineHeight": "52.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 411,
+          "h": 97
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1930,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2765,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.article article-full node",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3483,
+          "h": 29
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 5057,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 5057,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 5057,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 5057,
+          "h": 13
+        }
+      ],
+      "ctas": [],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 62,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "How we do it",
+          "w": 95,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 143,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 111,
+          "h": 8
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 145,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 124,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 146,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 176,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 176,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Testing-suite takeover",
+          "w": 157,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 194,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous healing pilot",
+          "w": 180,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 138,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 147,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 140,
+          "h": 28
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 4812,
+      "pageW": 1280,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "article",
+          "tag": "ARTICLE",
+          "cls": "node node--type-article node--view-mode-full",
+          "top": 118,
+          "h": 4318
+        },
+        {
+          "label": "article-cta",
+          "tag": "ASIDE",
+          "cls": "article-cta",
+          "top": 4075,
+          "h": 266
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 4436,
+          "h": 376
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Introducing Layout Builder Kit Beta 1",
+          "cls": "",
+          "ancestor": "HEADER.article-masthead",
+          "fontSize": "48px",
+          "lineHeight": "52.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 213,
+          "h": 106
+        },
+        {
+          "tag": "H2",
+          "text": "Commercial Offerings",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1548,
+          "h": 36
+        },
+        {
+          "tag": "H2",
+          "text": "Layout Builder Kit",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2253,
+          "h": 36
+        },
+        {
+          "tag": "H2",
+          "text": "Component Placement and Storage",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-article node--view-mode-full",
+          "fontSize": "30px",
+          "lineHeight": "36px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2911,
+          "h": 36
+        },
+        {
+          "tag": "H3",
+          "text": "Working on a Layout Builder site?",
+          "cls": "",
+          "ancestor": "ASIDE.article-cta",
+          "fontSize": "22px",
+          "lineHeight": "28.6px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 4107,
+          "h": 29
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4501,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4501,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 4501,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Talk to us",
+          "cls": "btn btn--primary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 4263,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "More articles",
+          "cls": "btn btn--secondary",
+          "ancestor": "ASIDE.article-cta",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 4263,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 62,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "How we do it",
+          "w": 95,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 56,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 47,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 169,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Drupal Planet",
+          "w": 137,
+          "h": 31
+        },
+        {
+          "tag": "A",
+          "text": "Talks",
+          "w": 36,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder",
+          "w": 119,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "CohesionDX",
+          "w": 103,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Glazed Builder",
+          "w": 121,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 144,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Layout Builder Kit",
+          "w": 144,
+          "h": 25
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 117,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 100,
+          "h": 18
+        }
+      ]
+    }
+  }
+}
