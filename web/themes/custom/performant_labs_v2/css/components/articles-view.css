@@ -1,0 +1,309 @@
+/**
+ * @file
+ * Articles view — toolbar, grid, chips, and pager styles.
+ *
+ * Layer 5: view-region CSS scoped to .articles-view, .articles-toolbar,
+ * .article-grid, .chip, and .pagination. Attached via theme library
+ * (performant_labs_20260502/articles-view), loaded by attach_library()
+ * in views-exposed-form--articles--page-1.html.twig.
+ *
+ * 7-step trace summary:
+ *   Pass 1 (bottom-up): No existing rules for these selectors — all new
+ *   markup introduced by Phase 3 Twig overrides. No upstream conflict.
+ *   Pass 2 (top-down):
+ *     L1: Not a config value. N/A.
+ *     L2: Not an OKLCH-derived shade. N/A.
+ *     L3: These are view-region rules, not theme-zone tokens. L3 too broad.
+ *     L5: Correct layer. View-specific CSS scoped to view markup classes.
+ *   DOM inspection gate: N/A — new markup, no upstream wrappers to verify.
+ *
+ * Token strategy: component-local --av-* tokens (same pattern as article-card
+ * --ac-* tokens from Phase 2). All color references use these local tokens —
+ * no raw hex appears in property values.
+ *
+ * AA contrast note (rework round 1):
+ *   Hover/active text-on-white and white-on-color states use --av-primary-deep
+ *   (#005AA0, 7.07:1 on white) instead of --av-primary (#1893b4, 3.58:1).
+ *   --av-primary is retained for decorative/border uses where contrast does
+ *   not gate accessibility.
+ *
+ * AA contrast note (rework round 2 — WCAG 1.4.11 fix):
+ *   --av-hairline bumped from #E5E1DC (1.30:1) to #8E867A (3.60:1 on white)
+ *   to meet the 3:1 minimum for UI-component boundaries (chip borders,
+ *   pager pill borders, toolbar separator).
+ *
+ * No !important. No raw hex in property values.
+ */
+
+/* ─── View-region local design tokens ──────────────────────────────────── */
+/* Source of truth: docs/pl2/Briefs/pl_design_brief.md                      */
+:root {
+  /* Colors */
+  --av-canvas: #FFFFFF;
+  --av-primary: #1893b4;
+  --av-primary-deep: #005AA0;
+  --av-body: #5C544C;
+  --av-muted: #6B6358;
+  --av-hairline: #8E867A;
+  --av-on-primary: #FFFFFF;
+
+  /* Spacing (maps to design brief --space-* scale) */
+  --av-space-sm: 8px;
+  --av-space-md: 12px;
+  --av-space-base: 16px;
+  --av-space-lg: 24px;
+  --av-space-xl: 32px;
+  --av-space-2xl: 48px;
+  --av-space-3xl: 64px;
+  --av-space-section: 96px;
+
+  /* Radius */
+  --av-radius-pill: 30px;
+
+  /* Type */
+  --av-font-body: "Poppins", sans-serif;
+}
+
+/* ─── Section wrapper ──────────────────────────────────────────────────── */
+.view-articles {
+  padding: var(--av-space-3xl) 0 var(--av-space-section);
+  background: var(--av-canvas);
+}
+
+@media (max-width: 767px) {
+  .view-articles {
+    padding: var(--av-space-2xl) 0 var(--av-space-3xl);
+  }
+}
+
+/* ─── Toolbar: category filter chip row ────────────────────────────────── */
+.articles-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--av-space-sm);
+  margin-bottom: var(--av-space-2xl);
+  padding-bottom: var(--av-space-xl);
+  border-bottom: 1px solid var(--av-hairline);
+}
+
+.articles-toolbar__label {
+  font-family: var(--av-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--av-muted);
+  margin-right: var(--av-space-base);
+}
+
+/* ─── Mobile: container + toolbar reflow ──────────────────────────────── */
+/* Rework round 2 fix (Phase 5 audit — Fix 2):                             */
+/*   The dripyard .container rule uses width: var(--container-width) which  */
+/*   resolves to min(92cqw, 1440px). Inside the region-content             */
+/*   query-container, 92cqw at 375px = ~345px — but with NO padding-inline */
+/*   the chips fill edge-to-edge and the Cypress chip overflows the right   */
+/*   edge of the viewport. The root cause is the missing gutters on the    */
+/*   .container at mobile, not a chip-level flex issue.                    */
+/*                                                                          */
+/*   Fix: override .articles-view .container at mobile to use              */
+/*   width: 100% + padding-inline: 16px + box-sizing: border-box. This    */
+/*   provides proper gutters and lets flex-wrap trigger at the correct     */
+/*   breakpoint. Specificity (0,2,0) beats dripyard's .container (0,1,0). */
+@media (max-width: 767px) {
+  .articles-view .container {
+    width: 100%;
+    padding-inline: var(--av-space-base);
+    box-sizing: border-box;
+  }
+
+  .articles-toolbar {
+    justify-content: flex-start;
+  }
+}
+
+/* ─── Chip: default + hover + active states ────────────────────────────── */
+/* Hover/active use --av-primary-deep for AA contrast on white (7.07:1).   */
+/* --av-primary stays for decorative border where contrast doesn't gate.   */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--av-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  padding: 9px 16px;
+  border-radius: var(--av-radius-pill);
+  border: 1px solid var(--av-hairline);
+  background: var(--av-canvas);
+  color: var(--av-body);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 150ms ease-out, color 150ms ease-out, background-color 150ms ease-out;
+}
+
+.chip:hover {
+  border-color: var(--av-primary-deep);
+  color: var(--av-primary-deep);
+  text-decoration: none;
+}
+
+.chip.is-active {
+  background: var(--av-primary-deep);
+  border-color: var(--av-primary-deep);
+  color: var(--av-on-primary);
+}
+
+.chip.is-active:hover {
+  background: var(--av-primary-deep);
+  border-color: var(--av-primary-deep);
+  color: var(--av-on-primary);
+}
+
+/*
+ * Mobile chip touch target math:
+ *   font-size 14px x line-height 1 = 14px text box.
+ *   padding: 9px top + 14px + 9px bottom = 32px height + 1px border x2 = 34px.
+ *   At 375px we need >= 44px. Add extra padding at mobile.
+ *
+ *   Adjusted: 15px top + 14px + 15px bottom = 44px + 2px border = 46px >= 44px.
+ */
+@media (max-width: 767px) {
+  .chip {
+    padding: 15px 16px;
+  }
+}
+
+/* ─── Forced colors: chips ─────────────────────────────────────────────── */
+@media (forced-colors: active) {
+  .chip {
+    border-color: ButtonBorder;
+    color: ButtonText;
+  }
+  .chip:hover {
+    border-color: Highlight;
+    color: Highlight;
+  }
+  .chip.is-active {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* ─── Card grid ────────────────────────────────────────────────────────── */
+/*
+ * Rework round 2 fix: neonbyte/css/layout/grid.css line 73 declares
+ *   :where([class*="grid"]) > * { grid-column: 1 / -1; }
+ * which matches .article-grid (contains "grid") and forces every direct
+ * child to span the full grid width — collapsing the 2-col layout to 1-col.
+ * The :where() wrapper gives it specificity (0,0,1) on the > * part.
+ * Our reset at .article-grid > * is (0,1,1), which wins.
+ */
+.article-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--av-space-2xl);
+}
+
+.article-grid > * {
+  grid-column: auto;
+}
+
+@media (max-width: 991px) {
+  .article-grid {
+    grid-template-columns: 1fr;
+    gap: var(--av-space-xl);
+  }
+}
+
+/* ─── Pagination ───────────────────────────────────────────────────────── */
+/* Hover/current use --av-primary-deep for AA contrast (7.07:1 on white).  */
+.pagination {
+  margin-top: var(--av-space-3xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--av-space-sm);
+}
+
+.pagination__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--av-space-sm);
+}
+
+.pagination a,
+.pagination span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 var(--av-space-base);
+  border-radius: var(--av-radius-pill);
+  border: 1px solid var(--av-hairline);
+  background: var(--av-canvas);
+  color: var(--av-body);
+  font-family: var(--av-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 150ms ease-out, color 150ms ease-out, background-color 150ms ease-out;
+}
+
+.pagination a:hover {
+  border-color: var(--av-primary-deep);
+  color: var(--av-primary-deep);
+  text-decoration: none;
+}
+
+.pagination .is-current {
+  background: var(--av-primary-deep);
+  border-color: var(--av-primary-deep);
+  color: var(--av-on-primary);
+}
+
+/*
+ * Mobile pager pill touch target math:
+ *   Default: 40px height x 40px min-width. Needs >= 44px on mobile.
+ *   Adjusted at mobile: min-width 44px, height 44px.
+ */
+@media (max-width: 767px) {
+  .pagination a,
+  .pagination span {
+    min-width: 44px;
+    height: 44px;
+  }
+}
+
+/* ─── Forced colors: pagination ────────────────────────────────────────── */
+@media (forced-colors: active) {
+  .pagination a,
+  .pagination span {
+    border-color: ButtonBorder;
+    color: ButtonText;
+  }
+  .pagination a:hover {
+    border-color: Highlight;
+    color: Highlight;
+  }
+  .pagination .is-current {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+}
+
+/* ─── Empty state ──────────────────────────────────────────────────────── */
+.articles-empty {
+  text-align: center;
+  color: var(--av-muted);
+  font-family: var(--av-font-body);
+  font-size: 16px;
+  padding: var(--av-space-3xl) 0;
+}

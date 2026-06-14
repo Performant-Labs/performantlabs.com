@@ -1,0 +1,60 @@
+{#
+/**
+ * @file
+ * Article teaser — renders the article-card SDC.
+ *
+ * Phase 3: replaces the previous dripyard_base:card include with the
+ * purpose-built article-card SDC (built in Phase 2). Props are mapped
+ * from node fields and entity data.
+ *
+ * Rework round 2 (Phase 5 audit — Fix 3): title and excerpt extraction
+ * moved to performant_labs_20260502_preprocess_node() where
+ * html_entity_decode() is applied. This prevents double-escaping of
+ * entities like &quot; &#039; &nbsp; that are stored literally in the
+ * database. The decoded plain text is then safely auto-escaped ONCE by
+ * Twig on output.
+ *
+ * Note: the previous implementation (in performant_labs_20260418) used
+ * {{ include('dripyard_base:card', ...) }}. That SDC is still consumed by
+ * upstream dripyard_base default templates and any other content types
+ * that have not been overridden. Removing it from this teaser does NOT
+ * orphan it.
+ *
+ * Props (from article-card.component.yml — do not guess):
+ *   url            : string, required — article path
+ *   category_label : string, required — taxonomy term display name
+ *   date_iso       : string, required — YYYY-MM-DD for <time>
+ *   date_display   : string, required — human-readable date
+ *   title          : string, required — article title
+ *   excerpt        : string, required — summary text (2-line clamp via CSS)
+ *   image_src      : string|null, optional — thumbnail URL
+ *   image_alt      : string, optional — alt text (default "")
+ *
+ * Available variables (from node.html.twig context + preprocess_node):
+ *   - node:           The full node entity.
+ *   - label:          Rendered node title.
+ *   - url:            Canonical node URL object (cast to string for href).
+ *   - content:        Render array for all view-mode fields.
+ *   - card_image_url: Computed image URL (article_card_16_9 style) from preprocess.
+ *   - card_image_alt: Image alt text from preprocess.
+ *   - card_title:     Decoded title string (html_entity_decode applied).
+ *   - card_excerpt:   Decoded excerpt string (html_entity_decode applied).
+ */
+#}
+
+{# Extract the category term name. #}
+{% set category_name = '' %}
+{% if node.field_category.entity %}
+  {% set category_name = node.field_category.entity.name.value %}
+{% endif %}
+
+{{ include('performant_labs_20260502:article-card', {
+  url: url,
+  category_label: category_name,
+  date_iso: node.created.value|date('Y-m-d'),
+  date_display: node.created.value|date('j M Y'),
+  title: card_title,
+  excerpt: card_excerpt,
+  image_src: card_image_url|default(''),
+  image_alt: card_image_alt|default(''),
+}, with_context = false) }}

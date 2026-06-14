@@ -1,0 +1,102 @@
+{#
+  heal-flow.twig — inline SVG process-flow diagram (rectangle nodes).
+
+  Props (parallel arrays — Canvas stores each array as a multi-value field):
+    step_numbers      (array<string>, required) — e.g. ["01","02","03","04"]
+    step_labels       (array<string>, required) — short step labels
+    step_is_endpoints (array<boolean>, optional) — true = human-in-the-loop,
+                       renders step with thicker teal border (default: false)
+
+  SVG layout (x_center = i * 250 + 110):
+    • Rectangle node:  x=x_center-100  y=60  width=200  height=80  rx=8
+    • Step number:     text at y=92  (upper-left of node, monospace terracotta)
+    • Step label:      text at y=118 (lower row inside node, Rubik ink)
+    • Arrow + head:    line from previous node right-edge to current left-edge at y=100
+    • viewBox width:   (step_count * 250) - 30  (e.g. 4 steps → 970)
+    • SVG height:      220
+
+  Accessibility: aria-label lists all step labels joined by ", ".
+  All decorative SVG elements carry aria-hidden="true".
+
+  Note: step_is_endpoints is optional. If absent or shorter than step_numbers,
+  missing positions default to false.
+#}
+
+{# Build aria-label from step_labels #}
+{% set aria_label = step_labels | join(', ') %}
+
+{% set step_count = step_numbers | length %}
+{% set svg_width = (step_count * 250) - 30 %}
+
+<div class="heal-flow">
+  <svg
+    role="img"
+    aria-label="{{ aria_label }}"
+    viewBox="0 0 {{ svg_width }} 220"
+    xmlns="http://www.w3.org/2000/svg"
+    style="display:block;width:100%;min-width:{{ svg_width }}px">
+
+    {% for i in 0..(step_count - 1) %}
+      {% set x_center = i * 250 + 110 %}
+      {% set x_left   = x_center - 100 %}
+      {% set is_ep    = step_is_endpoints[i] ?? false %}
+      {% set stroke_c = is_ep ? '#1893b4' : '#E5E1DC' %}
+      {% set stroke_w = is_ep ? '2' : '1' %}
+
+      {# Connector arrow from previous node — skip on first step #}
+      {% if i > 0 %}
+        {% set prev_right = (i - 1) * 250 + 110 + 100 %}
+        {% set arrow_end  = x_left %}
+        <line
+          x1="{{ prev_right }}"
+          y1="100"
+          x2="{{ arrow_end - 7 }}"
+          y2="100"
+          stroke="#1893b4"
+          stroke-width="1.5"
+          aria-hidden="true"/>
+        {# Arrowhead pointing right #}
+        <polygon
+          points="{{ arrow_end - 7 }},95 {{ arrow_end }},100 {{ arrow_end - 7 }},105"
+          fill="#1893b4"
+          aria-hidden="true"/>
+      {% endif %}
+
+      {# Rectangle node #}
+      <rect
+        x="{{ x_left }}"
+        y="60"
+        width="200"
+        height="80"
+        rx="8"
+        ry="8"
+        fill="#FFFFFF"
+        stroke="{{ stroke_c }}"
+        stroke-width="{{ stroke_w }}"
+        aria-hidden="true"/>
+
+      {# Step number — monospace, terracotta-deep, upper-left inside node #}
+      <text
+        x="{{ x_left + 20 }}"
+        y="92"
+        font-family="Consolas, Monaco, monospace"
+        font-size="11"
+        fill="#8E4A2A"
+        font-weight="500"
+        letter-spacing="1"
+        aria-hidden="true">{{ step_numbers[i] }}</text>
+
+      {# Step label — Rubik, ink, lower row inside node #}
+      <text
+        x="{{ x_left + 20 }}"
+        y="118"
+        font-family="Rubik, sans-serif"
+        font-size="16"
+        fill="#2A2520"
+        font-weight="500"
+        aria-hidden="true">{{ step_labels[i] }}</text>
+
+    {% endfor %}
+
+  </svg>
+</div>

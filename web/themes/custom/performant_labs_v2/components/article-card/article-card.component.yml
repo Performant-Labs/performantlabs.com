@@ -1,0 +1,77 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Article Card
+status: stable
+group: Performant Labs Articles
+description: >
+  Renders one article teaser as a card. Two variants: image card (default)
+  and text-only (article-card--text modifier when image_src is empty/null).
+  The text-only variant uses a cream background so the absence of an image
+  looks intentional, not broken. Consumed by node--article--teaser.html.twig
+  in Phase 3.
+
+props:
+  type: object
+  required:
+    - url
+    - category_label
+    - date_iso
+    - date_display
+    - title
+    - excerpt
+  properties:
+    url:
+      title: Article URL
+      description: Path to the full article (e.g. /articles/my-article).
+      type: string
+      format: uri-reference
+      examples:
+        - /articles/version-10-automated-testing-kit-ready
+    category_label:
+      title: Category label
+      description: Display name of the article's category (e.g. "Automated Testing").
+      type: string
+      examples:
+        - Automated Testing
+    date_iso:
+      title: Date (ISO)
+      description: Machine-readable date in YYYY-MM-DD format for the <time> element.
+      type: string
+      examples:
+        - '2023-11-20'
+    date_display:
+      title: Date (display)
+      description: Human-readable date string shown in the eyebrow.
+      type: string
+      examples:
+        - 20 Nov 2023
+    title:
+      title: Title
+      description: Article title rendered inside the h3.
+      type: string
+      examples:
+        - Version 1.0 of Automated Testing Kit is ready.
+    excerpt:
+      title: Excerpt
+      description: >
+        Short summary of the article. Always rendered (no conditional wrapper).
+        Clamped to 2 lines via CSS.
+      type: string
+      examples:
+        - After many months of development, ATK has settled down enough to release version 1.0.
+    image_src:
+      title: Image source
+      description: >
+        URL to the card thumbnail. When empty or null the component renders the
+        text-only variant (article-card--text) with a cream background. Typed as
+        string (not [string, null]) for sdc_styleguide compatibility; Twig uses
+        {% if image_src %} which treats both empty string and null as falsy.
+      type: string
+      examples:
+        - /sites/default/files/styles/article_card_16_9/public/image.jpg
+    image_alt:
+      title: Image alt text
+      description: Alt text for the thumbnail. Defaults to empty string for decorative images.
+      type: string
+      default: ''
+      examples:
+        - Robot in a factory setting

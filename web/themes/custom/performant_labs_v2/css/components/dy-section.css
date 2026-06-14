@@ -1,0 +1,1045 @@
+/**
+ * @file
+ * [Layer 5] Section (dy-section) component overrides for performant_labs_20260502.
+ *
+ * Loaded via libraries-extend on core/components.dripyard_base--section.
+ *
+ * Scope: services §3 nearshore (theme--light + kicker--centered),
+ * services §4 dogfooding (theme--white + kicker--centered),
+ * services §1 hero (theme--white, CTA pair),
+ * services §6 closing-CTA (theme--dark, standalone heading + buttons),
+ * services § proof wordmark strip (Sprint 5 Cycle 4),
+ * how-we-do-it §B graph card container,
+ * how-we-do-it header gap reduction (Batch 2 Issue 3),
+ * open-source-projects §4 "Other modules" thin band (Cycle 2 M5),
+ * about-us §C bio hairline separator (about-us Cycle 2 Item 1, Sprint 12 Cycle 2 R9 restore),
+ * about-us §B credentials tick-marks (about-us Cycle 2 Item 2),
+ * FU-2: landing-hero H1 display-xl reconciliation (services, how-we-do-it,
+ *   open-source-projects).
+ *
+ * Layer ruling:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH-derived. RULED OUT.
+ *   L3: text-align and max-width are not theme tokens. RULED OUT.
+ *   L5: component-scoped. CORRECT LAYER.
+ *
+ * Rework round 2 (2026-05-05):
+ *
+ *   The theme--light centering rules originally applied to ALL theme--light
+ *   sections. With the how-we-do-it page gaining theme--light sections
+ *   (Week 1 Audit, What We Don't Do) that should be LEFT-aligned, the
+ *   centering rules are now scoped via :has(.kicker--centered) to target
+ *   only sections with a centered kicker (services Capacity section).
+ *   Sections with kicker--inline or no kicker remain left-aligned.
+ *
+ *   Added how-we-do-it graph card container styling: the canvas-image in
+ *   the Week 1 Audit section gets a hairline border + padding to look
+ *   like a card per the preview spec.
+ *
+ * Sprint 10 Cycle 2b.1 (2026-05-12):
+ *   Selector-class refactor for /about-us consumers. Patterns P1, P7, P8, P9
+ *   rewritten to use marker-class selectors (.dy-section--centered-light,
+ *   .dy-section--cta-pair) applied via Canvas
+ *   additional_classes. Transition state: comma-separated selector lists
+ *   retain old :has() selectors alongside new markers until cycle 2b.2
+ *   applies markers to /services and remaining pages.
+ *
+ * Sprint 10 Cycle 2b.2 (2026-05-12):
+ *   Selector-class refactor for /services consumers. Patterns P2, P3, P4,
+ *   P8, P10 rewritten:
+ *     P2: transition selector (.dy-section--centered-white + old :has()).
+ *         Old :has() retained for /open-source-projects "Community" section
+ *         until cycle 2b.3+ applies markers there.
+ *     P3: removed (covered by P2 marker omission on cards section).
+ *     P4: direct swap to .dy-section--cta-pair (/services-only consumer).
+ *     P8: old :has(> .button + .button) half dropped. Both /about-us and
+ *         /services now have .dy-section--cta-pair marker.
+ *     P10: direct swap to .dy-section--wordmark-strip (/services-only).
+ *
+ * Cycle 2b.2 rework (2026-05-12):
+ *   P4: /about-us hero also needs dy-section--cta-pair marker (hero has
+ *       two .button children in theme--white). Added via rework script.
+ *   P10: specificity fix. .dy-section--wordmark-strip (0,1,0) lost to
+ *        .padding-top--l (0,1,0) by source order. Bumped to
+ *        .dy-section.dy-section--wordmark-strip (0,2,0) to match the
+ *        old :has() selector's specificity.
+ *
+ * Sprint 10 Cycle 2b.3 (2026-05-12):
+ *   Selector-class refactor for /how-we-do-it consumers. Patterns P5, P6
+ *   rewritten:
+ *     P5: direct swap to .dy-section--kicker-inline. Cross-page check
+ *         confirmed /how-we-do-it-only (kicker--inline also on /contact-us
+ *         but inside flex-wrapper, not dy-section -- P5 selector never
+ *         matched there).
+ *     P6: direct swap to .dy-section--tight-header. Cross-page check
+ *         confirmed theme--secondary is /how-we-do-it-only.
+ *   Both use doubled-class pattern (.dy-section.dy-section--*) for
+ *   specificity safety (0,2,0) matching the :has() specificity of old
+ *   selectors.
+ *
+ * Sprint 11 Cycle 2c (2026-05-12):
+ *   P2 architectural close. All remaining P2 consumers across all pages
+ *   now have .dy-section--centered-white marker applied:
+ *     /services "Four ways we engage", /how-we-do-it hero, /about-us hero,
+ *     /about-us §C (bio), / "What we ship", /contact-us hero.
+ *   Old :has(.dy-section__header .kicker--centered) transition selectors
+ *   DROPPED from P2 rules and mobile rule. Marker-only selectors remain.
+ *   Content centering retains :not(:has(.grid-wrapper)) guard for sections
+ *   that have grid-wrapper card content (services "Four ways", homepage
+ *   "What we ship").
+ *
+ * Sprint 11 Cycle 2d (2026-05-12):
+ *   P1 architectural close. All remaining P1 consumers across all pages
+ *   now have .dy-section--centered-light marker applied:
+ *     /services "Capacity" nearshore, /open-source-projects "Testing tools",
+ *     /contact-us "After you send", / "Dogfooding".
+ *   Old :has(.kicker--centered) transition selectors DROPPED from P1 rules,
+ *   mobile rule, and ul list centering rule. Marker-only selectors remain
+ *   (doubled-class form, specificity 0,2,0).
+ *
+ * No !important. No hardcoded hex (except graph card border matching
+ * --theme-border-color). No --theme-* overrides.
+ */
+
+/* ─── Centered sections: theme--light + kicker--centered (P1) ─────────
+ * Center H2, body text within 820px max-width container.
+ *
+ * Sprint 11 Cycle 2d: architectural close. All consumers now have the
+ * .dy-section--centered-light marker. Old :has(.kicker--centered)
+ * transition selectors DROPPED. Marker-only selectors remain
+ * (doubled-class, specificity 0,2,0) per Sprint 10 codification.
+ *
+ * Consumers: /services "Capacity" nearshore, /about-us "Track record"
+ * + "Dogfood", /open-source-projects "Testing tools",
+ * /contact-us "After you send", / "Dogfooding". */
+.dy-section.dy-section--centered-light .dy-section__header {
+  max-width: 820px;
+  margin-inline: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.dy-section.dy-section--centered-light .dy-section__header.grid {
+  display: block;
+}
+
+/* Content centering for centered-kicker theme--light sections.
+ * The services Nearshore section has a CTA button in content that needs
+ * centering. */
+.dy-section.dy-section--centered-light .dy-section__content {
+  align-items: center;
+  text-align: center;
+}
+
+/* ─── Centered sections: theme--white + kicker--centered (P2) ──────────
+ * Center H2, body text within 820px max-width container.
+ *
+ * Sprint 11 Cycle 2c: architectural close. All consumers now have the
+ * .dy-section--centered-white marker. Old :has() transition selectors
+ * dropped. Marker-only selectors (doubled-class, specificity 0,2,0)
+ * per Sprint 10 codification.
+ *
+ * Consumers: /services "Dogfooding" + "Four ways we engage",
+ * /how-we-do-it hero, /about-us hero + §C (bio),
+ * /open-source-projects hero + Community, / "What we ship",
+ * /contact-us hero. */
+.dy-section.dy-section--centered-white .dy-section__header {
+  max-width: 820px;
+  margin-inline: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.dy-section.dy-section--centered-white .dy-section__header.grid {
+  display: block;
+}
+
+/* Content centering for marker-bearing sections without grid-wrapper.
+ * Sections with grid-wrapper card content (services "Four ways we engage",
+ * homepage "What we ship") receive the marker for header centering but
+ * must NOT have their content centered (cards would collapse).
+ * The :not(:has(.grid-wrapper)) guard preserves the old P3 behavior. */
+.dy-section.dy-section--centered-white:not(:has(.grid-wrapper)) .dy-section__content {
+  align-items: center;
+  text-align: center;
+}
+
+/* ─── §1 Services hero — CTA pill-pair flex row (P4) ───────────────────
+ * CRIT-3 fix: /services renders its hero via dripyard_base:section, not
+ * neonbyte:hero. The two CTAs are direct .button children of
+ * .dy-section__content alongside kicker, h1, and text elements.
+ *
+ * Sprint 10 Cycle 2b.2: direct swap to .dy-section--cta-pair marker.
+ * P4 is /services-only (verified: no other page has two consecutive
+ * .button direct children in a theme--white section's content).
+ *
+ * WCAG: layout change only; no color or contrast impact.
+ * No !important. */
+@media (min-width: 577px) {
+  .dy-section.theme--white.dy-section--cta-pair .dy-section__content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.75rem;    /* 12px — matches preview CTA gap spec */
+    row-gap: 1.5rem;        /* breathing room between stacked rows */
+  }
+
+  /* Full-width rows for non-button children */
+  .dy-section.theme--white.dy-section--cta-pair .dy-section__content > :not(.button) {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  /* Buttons sit side-by-side at natural width */
+  .dy-section.theme--white.dy-section--cta-pair .dy-section__content > .button {
+    flex-shrink: 0;
+    min-height: 44px;       /* WCAG 2.5.8 touch target minimum */
+  }
+}
+
+/* Mobile: preserve column stack */
+@media (max-width: 576px) {
+  .dy-section.theme--white.dy-section--cta-pair .dy-section__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dy-section.theme--white.dy-section--cta-pair .dy-section__content > .button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+/* ─── Mobile: full-width headers at <=576px ─────────────────────────
+ * At narrow viewports the 820px cap is irrelevant. */
+@media (max-width: 576px) {
+  .dy-section.dy-section--centered-light .dy-section__header,
+  .dy-section.dy-section--centered-white .dy-section__header {
+    max-width: 100%;
+  }
+}
+
+/* ─── How-we-do-it §B: Graph card container ───────────────────────────
+ * The canvas-image in the Week 1 Audit section (theme--light) should
+ * render inside a card-like container with a hairline border, 12px radius,
+ * and padding, per the preview's .graph-block style.
+ *
+ * Target: .canvas-image inside a theme--light section's content. Currently
+ * only appears on the how-we-do-it page. Safe: no canvas-images exist in
+ * theme--light sections on other pages (verified on /services).
+ *
+ * Layer ruling: L5 (component-scoped to canvas-image within section).
+ *
+ * WCAG: decorative border — no contrast requirement. Background inherits
+ * theme zone surface. */
+.dy-section.theme--light .dy-section__content .canvas-image {
+  border: 1px solid var(--theme-border-color);
+  border-radius: 12px;
+  padding: 3rem;          /* 48px per preview */
+  max-width: 720px;
+  overflow: clip;
+}
+
+/* Graph caption following the image: italic, smaller, muted.
+ * The text component after canvas-image in this section serves as caption.
+ * The italic and color are already set via component inputs (style: body_s,
+ * color: medium). This rule adds top margin to separate caption from image. */
+.dy-section.theme--light .dy-section__content .canvas-image + .text {
+  margin-block-start: 1rem;  /* 16px */
+}
+
+/* ─── ADV-S1: Mobile horizontal overflow containment (WCAG 1.4.10) ─────
+ * Set min-width: 0 on .grid wrappers to prevent intrinsic minimum
+ * propagation through CSS Grid tracks. */
+.dy-section .grid {
+  min-width: 0;
+}
+
+.dy-section {
+  overflow-x: clip;
+}
+
+/* ─── How-we-do-it: left-aligned header for kicker--inline sections ─────
+ * Sections with inline kickers (Week 1, 2, 3+) should have left-aligned
+ * headers. The .dy-section__header.grid uses CSS Grid by default, which
+ * can interfere with layout. Override to block for kicker--inline sections
+ * to ensure proper left-alignment.
+ *
+ * Sprint 10 Cycle 2b.3: direct swap to .dy-section--kicker-inline marker.
+ * Cross-page check: kicker--inline only appears on /how-we-do-it (in
+ * dy-section) and /contact-us (in flex-wrapper, not dy-section -- old
+ * selector never matched there). Direct swap safe.
+ * Specificity: .dy-section.dy-section--kicker-inline (0,2,0) +
+ * .dy-section__header.grid (0,2,0) = (0,4,0). Matches old
+ * .dy-section:has(.kicker--inline) (0,2,0) + .dy-section__header.grid
+ * (0,2,0) = (0,4,0). */
+.dy-section.dy-section--kicker-inline .dy-section__header.grid {
+  display: block;
+}
+
+/* ─── Batch 2 Issue 3: Reduce header-to-content gap ─────────────────────
+ * Dripyard's default --spacing-component-internal resolves to 80px at
+ * >700px viewport. The preview uses tighter spacing (~32px).
+ *
+ * Scope: sections with kicker--inline (Week 1, Week 2, Week 3+) PLUS
+ * the "What we don't do" section (theme--light following theme--secondary,
+ * which has no kicker).
+ *
+ * Verification of scope safety (2026-05-05):
+ *   /services — no kicker--inline, no theme--secondary sections. NOT matched.
+ *   / (homepage) — no kicker--inline, no theme--secondary sections. NOT matched.
+ *   /how-we-do-it — Week 1, Week 2, Week 3+, "What we don't do". MATCHED (4 sections).
+ *
+ * Does NOT affect:
+ *   - Hero section (kicker--centered in header — excluded by selector)
+ *   - CTA section (theme--dark, kicker--centered in content — excluded)
+ *
+ * Layer ruling: L5 — component-scoped structural override.
+ * WCAG: spacing change only; no color or contrast impact.
+ *
+ * Sprint 10 Cycle 2b.3: direct swap to marker-based selectors.
+ *   P5: .dy-section.dy-section--kicker-inline (0,2,0) + .dy-section__header
+ *       (0,1,0) = (0,3,0). Old: .dy-section:has(.kicker--inline)
+ *       .dy-section__header = (0,3,0). Match.
+ *   P6: .dy-section.dy-section--tight-header (0,2,0) + .dy-section__header
+ *       (0,1,0) = (0,3,0). Old: .dy-section.theme--secondary + .dy-section
+ *       .dy-section__header = (0,4,0). Reduced but safe — no competing
+ *       selector at (0,2,0)+ targets margin-bottom on this element. */
+.dy-section.dy-section--kicker-inline .dy-section__header,
+.dy-section.dy-section--tight-header .dy-section__header {
+  margin-bottom: 2rem;  /* 32px — down from 80px default */
+}
+
+/* ─── Cycle 2.6: horizontal inset on themed sections ──────────────────
+ * The section's inner container (.dy-section__container) had zero
+ * horizontal padding, so cards inside a 3-up grid sat flush with the
+ * section's left and right edges. On theme--white sections this is
+ * invisible (outer page chrome is also white), but on theme--light
+ * (cream) the cream extends edge-to-edge and the cards visually look
+ * like they've broken out of their container.
+ *
+ * Fix: add horizontal padding inside themed-non-white sections so the
+ * cards' bounding box insets from the colored surface edges. Uses the
+ * Dripyard --sp6 (48px) token. Scoped to non-white themes so canvas-
+ * white sections (and existing pages that depend on flush-edge layout
+ * on white) are not affected.
+ *
+ * Verification target: on /open-source-projects "Our testing tools"
+ * (theme--light), card.left should land at section.left + 48px and
+ * card.right at section.right − 48px. Other 3-up grids on theme--white
+ * pages (e.g. /how-we-do-it) remain flush — visually identical because
+ * outer surface is also white.
+ *
+ * Layer ruling: L5 — component-scoped structural inset.
+ * WCAG: spacing change only; no color or contrast impact. */
+.dy-section.theme--light .dy-section__container {
+  padding-inline: var(--sp6);  /* 48px */
+}
+
+/* ─── M5 Cycle 2: "Other modules" thin band ───────────────────────────
+ * Preview spec: thin band with 64px padding (--space-3xl), 30px h2,
+ * chip-style card (24px padding, 18px h3, 15px body).
+ *
+ * Content patch (applied via overlay): section padding changed from
+ * "large" (--spacing-component = 120px desktop / 80px mobile) to
+ * "medium" (--spacing-component-internal = 80px desktop / 64px mobile).
+ * AC requires <=80px each — medium satisfies this.
+ *
+ * CSS below handles:
+ *   (a) H2 font-size: 30px (preview .other-modules h2), down from site-wide 40px.
+ *   (b) Card chip styling: reduced padding (24px), smaller h3 (18px), smaller body (15px).
+ *   (c) Grid max-width: 900px centered (preview .other-modules__grid).
+ *   (d) Header-to-content gap: tighter (24px) since the section is compact.
+ *
+ * Scoped via .dy-section--other-modules modifier class added to the section
+ * via Canvas additional_classes input (overlay). Only matches this one section.
+ *
+ * Bottom-up trace:
+ *   H2 font-size: --h2-size = 2.5rem (40px) from base.css :root.
+ *   Card padding: 3rem (48px) from card.css .card[class*="theme"] .card__bottom.
+ *   Both too large for the thin-band preview spec.
+ *
+ * Top-down trace:
+ *   L1: section padding patched via content (padding_top/bottom: medium). DONE.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: --h2-size is site-wide; changing to 30px would break all other h2s. RULED OUT.
+ *   L5: component-scoped to .dy-section--other-modules. CORRECT LAYER.
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: section at line 776 has class "dy-section theme--white container..."
+ *   [x] After overlay: will gain "dy-section--other-modules" class.
+ *   [x] H2 at line 780: "heading h2 heading--centered..."
+ *   [x] Card at line 792: "card theme--light"
+ *
+ * WCAG:
+ *   H2 30px at weight 500 = large text (>=18pt). Contrast #1F1A14 on #FFFFFF = 17.27:1.
+ *   Threshold 3:1 for large text — pass.
+ *   Card h3 18px at weight 500 (Rubik) = 13.5pt at 500 weight. NOT bold-large by WCAG
+ *   definition (14pt bold OR 18pt). Threshold 4.5:1. #1F1A14 on #FFFFFF = 17.27:1 — pass.
+ *   Card body 15px at weight 400 = small text. #5C544C on #FFFFFF = 7.43:1 — pass (4.5:1).
+ *   No color changes — all existing token pairs preserved. */
+
+/* Cycle 2.5: Tighter top padding for the thin band. The prior
+ * community-contributions section's padding-bottom (120px from
+ * `large` enum) plus this section's `medium`-enum padding-top
+ * (80px) compounded to ~200px between the community cards and
+ * the "Other modules" h2 — too loose vs the preview's intent.
+ * Reducing own padding-top to 48px (--space-2xl) brings the
+ * cumulative gap to ~168px, in line with the preview rhythm
+ * without cramming the section. Bottom padding stays at 80px
+ * (medium enum) so the rhythm to the espresso closing CTA below
+ * is unchanged. Specificity (0,2,0) beats Canvas's
+ * `.padding-top--m` (0,1,0). */
+.dy-section--other-modules.padding-top--m {
+  padding-top: var(--sp8);  /* 64px (Dripyard --sp8) — was 80px; S 2.6 Minor-2 prefers 64/64 symmetric */
+}
+
+/* S Cycle 2.6 Minor-2: section padding bottom 80 -> 64 for symmetric
+ * thin-band rhythm matching preview's --space-3xl (64px) on both top
+ * and bottom. */
+.dy-section--other-modules.padding-bottom--m {
+  padding-bottom: var(--sp8);  /* 64px — was 80px */
+}
+
+/* (a) Smaller H2: 30px / -0.6px tracking (preview .other-modules h2) */
+.dy-section--other-modules .heading.h2 {
+  font-size: 1.875rem;          /* 30px */
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;        /* 24px = --space-lg per preview */
+}
+
+/* (d) Tighter header-to-content gap for the compact section */
+.dy-section--other-modules .dy-section__header {
+  margin-bottom: 1.5rem;        /* 24px — down from 80px default */
+}
+
+/* (c) Grid max-width: centered at 900px per preview .other-modules__grid */
+.dy-section--other-modules .grid-wrapper {
+  max-width: 900px;
+  margin-inline: auto;
+}
+
+/* (b) Chip card: reduced padding (24px), smaller h3 (18px), smaller body (15px).
+ * Preview .module-chip: padding 24px, h3 18px/1.4, p 15px/1.5.
+ * Scoped to .dy-section--other-modules .card so only the "Other modules"
+ * Payment Stripe card is affected, not project cards in other sections. */
+.dy-section--other-modules .card[class*="theme"] .card__bottom {
+  padding: 1.5rem;              /* 24px — down from 48px */
+}
+
+.dy-section--other-modules .card .card__title {
+  font-size: 1.125rem;         /* 18px */
+  line-height: 1.4;
+}
+
+.dy-section--other-modules .card .card__body {
+  font-size: 0.9375rem;        /* 15px */
+  line-height: 1.5;
+}
+
+/* Mobile: smaller h2 at <=767px (preview: 24px / -0.4px) */
+@media (max-width: 767px) {
+  .dy-section--other-modules .heading.h2 {
+    font-size: 1.5rem;          /* 24px */
+    letter-spacing: -0.4px;
+  }
+}
+
+/* ─── About-us Cycle 2 Item 1: Bio-block hairline separator ──────────
+ * Preview spec (.bio): border-top 1px solid var(--hairline), margin-top
+ * 64px (--space-3xl), padding-top 48px (--space-2xl). Separates the
+ * "Who we are." h3 + bio paragraph from the OSS card content above it.
+ *
+ * Target: the .heading.h3 that follows a .text block inside
+ * dy-section__content of a theme--white section. On /about-us this
+ * uniquely targets the bio heading in §C (Open source). No other page
+ * renders a dripyard_base:heading h3 in section content (verified across
+ * /, /services, /how-we-do-it, /articles, /open-source-projects).
+ *
+ * Bottom-up trace:
+ *   h3 at line 730: class "heading h3 margin-top--m margin-bottom--s color--primary"
+ *   No border-top exists. Dripyard margin-top--m = ~32px.
+ *   Preceding sibling: .text.body-s ("Other OSS we ship.")
+ *   Parent: .dy-section__content inside .dy-section.theme--white
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: border-top / margin-top are not --theme-* tokens. RULED OUT.
+ *   L5: component-scoped structural override. CORRECT LAYER.
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: .text at line 726 (body-s), .heading.h3 at line 730
+ *   [x] Tier 1: parent .dy-section__content, section .dy-section.theme--white
+ *   [x] N/A — no JS rendering involved
+ *
+ * WCAG: decorative hairline border (#E5E1DC on #FFFFFF). Spacing-only
+ * change to margin and padding. No color or contrast impact. */
+.dy-section.theme--white .dy-section__content > .text + .heading.h3 {
+  border-top: 1px solid var(--theme-border-color);
+  margin-top: 4rem;             /* 64px = --space-3xl per preview */
+  padding-top: 3rem;            /* 48px = --space-2xl per preview */
+}
+
+/* ─── About-us Cycle 2 Item 2: Credentials tick-marks ────────────────
+ * Preview spec (.creds): list-style none, each li with padding-left 28px
+ * and a ::before pseudo-element (16px x 1px terracotta hairline at left).
+ * Replaces default <ul> bullets in §B (Track record) credentials list.
+ *
+ * Currently only matches §B Track record on /about-us; if a future
+ * theme--light section adds a <ul> in a text block, this selector will
+ * pick it up too — review at that time.
+ *
+ * Target: ul inside .text inside .dy-section__content of a theme--light
+ * section. Verified across /, /services, /how-we-do-it, /articles,
+ * /open-source-projects — no other page has a <ul> in theme--light
+ * section content.
+ *
+ * Bottom-up trace:
+ *   ul at line 630: inside .text.body-m.color--soft
+ *   Default browser bullets (list-style: disc)
+ *   Parent: .dy-section__content inside .dy-section.theme--light
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: list-style is not a --theme-* token. RULED OUT.
+ *   L5: component-scoped structural override. CORRECT LAYER.
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: ul at line 630, 3x li at lines 631-633
+ *   [x] Tier 1: parent .dy-section__content in .dy-section.theme--light
+ *   [x] N/A — no JS rendering involved
+ *
+ * WCAG: terracotta hairline (#C97B5C) is decorative (not a contrast-
+ * bearing element — it replaces a bullet, which is also decorative).
+ * On cream (#F5EFE2): #C97B5C contrast ratio = 2.46:1 — decorative
+ * mark, not required to meet 3:1. Text contrast unchanged. */
+.dy-section.theme--light .dy-section__content .text ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 2rem 0 0;            /* 32px top margin per preview --space-xl */
+  display: grid;
+  gap: 1rem;                   /* 16px = --space-base per preview */
+}
+
+.dy-section.theme--light .dy-section__content .text ul li {
+  position: relative;
+  padding-left: 28px;
+}
+
+.dy-section.theme--light .dy-section__content .text ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 16px;
+  height: 0;
+  border-top: 1px solid var(--pl-accent);  /* #C97B5C terracotta */
+}
+
+/* In centered theme--light sections, the surrounding content is
+ * text-align: center (set by the centered-kicker rule above). The
+ * credentials <ul> needs to render as a centered block but with its
+ * <li> text LEFT-aligned, so the terracotta tick-mark and the text
+ * baseline line up cleanly. Without this override, each <li> would
+ * be center-aligned and the tick-mark (positioned at left:0) would
+ * float off in empty space to the left of the text.
+ *
+ * Sprint 11 Cycle 2d: old :has(.kicker--centered) half dropped.
+ * Only /about-us "Track record" has a <ul> in a theme--light
+ * section with kicker--centered (verified cross-page). */
+.dy-section.dy-section--centered-light .dy-section__content .text ul {
+  max-width: 600px;
+  margin-inline: auto;
+  text-align: left;
+}
+
+/* ─── Closing CTA (theme--dark) — layout and content styling ──────────
+ *
+ * Cycle 3 (Sprint 5): /services closing CTA restructured from title-cta
+ * SDC to standalone heading + button components in Canvas. Both /services
+ * and /about-us now place kicker + h2 + body + 2 buttons directly into
+ * a theme--dark section's content slot. The homepage still uses title-cta
+ * SDC (handled by title-cta.css).
+ *
+ * Layout: buttons are inline-flex at their natural width; the two-button
+ * layout uses flex-direction: row + flex-wrap: wrap to sit them
+ * side-by-side at desktop and stacked at mobile.
+ *
+ * Content: standalone H2 gets display-lg sizing (56px desktop / 36px
+ * mobile), cream color, and text-wrap: balance. Body text is capped at
+ * 640px max-width with muted color. Kicker is centered.
+ *
+ * Scope: .dy-section.theme--dark .dy-section__content.
+ * WCAG: layout-only changes plus token reuse — no new contrast pairs. */
+.dy-section.theme--dark .dy-section__content {
+  text-align: center;
+}
+
+/* ─── Standalone H2 in dark section: display-lg sizing ─────────────────
+ * Design brief: display-lg = 56px / weight 500 / tracking -1.6px desktop.
+ * The heading SDC's .h2 style maps to --h2-size (40px site-wide), which is
+ * too small. Override to 56px matching the preview .closing-cta h2 spec.
+ *
+ * Bottom-up trace:
+ *   Property: font-size on .heading.h2 inside .theme--dark .dy-section__content
+ *   Current: var(--h2-size) = 2.5rem (40px) from .h2 utility class
+ *   Declared by: dripyard_base/typography-utilities.css
+ *   Traces to: --h2-size at :root (Layer 2 auto-derived)
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: --h2-size is auto-derived from the type scale. RULED OUT.
+ *   L3: changing --h2-size site-wide to 56px would break all H2s. RULED OUT.
+ *   L5: component-scoped to .dy-section.theme--dark .heading.h2. CORRECT.
+ *
+ * WCAG: cream #F5EFE2 on espresso #1F1A14 = 13.07:1 — AAA pass.
+ *   56px at weight 500 = large text (42pt). Threshold 3:1. Exceeds by 4.36x. */
+.dy-section.theme--dark .dy-section__content > .heading {
+  font-size: 3.5rem;        /* 56px — brief display-lg desktop */
+  font-weight: 500;         /* Rubik Medium per brief */
+  letter-spacing: -1.6px;   /* brief display-lg desktop tracking */
+  line-height: 1.05;        /* brief display-lg line-height */
+  font-family: "Rubik", var(--font-sans);
+  color: var(--theme-text-color-primary); /* cream #F5EFE2, not pure white */
+  text-wrap: balance;        /* prevent orphan words */
+}
+
+/* ─── Body text in dark section: max-width + muted color ───────────────
+ * Preview .closing-cta p: max-width 640px, margin 0 auto, color muted.
+ * WCAG: #B8AFA0 on #1F1A14 = 7.39:1 — AA pass. */
+.dy-section.theme--dark .dy-section__content .text {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.dy-section.theme--dark .dy-section__content .text,
+.dy-section.theme--dark .dy-section__content .field--type-text,
+.dy-section.theme--dark .dy-section__content p {
+  color: var(--theme-text-color-medium);
+}
+
+/* Rework 2: the max-width: none on :not(.button) (see button-row layout
+ * below) defeats the .text max-width: 640px clamp so the flex item claims
+ * the full row. Push the 640px visual cap down to the <p> inside .text
+ * so body text remains readable at ~75 chars/line. */
+.dy-section.theme--dark .dy-section__content .text p {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* ─── Kicker centering in dark section ─────────────────────────────────
+ * .kicker is inline-flex but .dy-section__content's flex column uses
+ * align-items: stretch. align-self: center shrinks the kicker to its
+ * natural inline-flex width. */
+.dy-section.theme--dark .dy-section__content .kicker {
+  align-self: center;
+}
+
+/* ─── Buttons in dark section: inline pill at natural width ──────────── */
+.dy-section.theme--dark .dy-section__content > a.button,
+.dy-section.theme--dark .dy-section__content > .button {
+  display: inline-flex;
+  width: auto;
+  align-self: center;             /* defeat parent flex column align-items:stretch */
+  flex: 0 0 auto;                 /* don't grow, don't shrink, sized by content */
+  margin: 0.5rem 0.25rem 0;
+}
+
+/* ─── Closing CTA button-row layout (theme--dark, marker-based) ────────
+ * When a theme--dark section has the .dy-section--cta-pair marker,
+ * lay buttons side-by-side with justify-content: center, falling back
+ * to a stacked column at mobile.
+ *
+ * Sprint 10 Cycle 2b.2: old :has(> .button + .button) half removed.
+ * Both /about-us (cycle 2b.1) and /services (this cycle) now have the
+ * .dy-section--cta-pair marker. No other page has two consecutive
+ * .button direct children in a theme--dark section (verified: /,
+ * /how-we-do-it, /open-source-projects, /contact-us all use title-cta
+ * SDC which nests buttons inside .title-cta--container). */
+@media (min-width: 577px) {
+  .dy-section.theme--dark.dy-section--cta-pair .dy-section__content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 1.5rem;
+  }
+  .dy-section.theme--dark.dy-section--cta-pair .dy-section__content > :not(.button) {
+    flex-basis: 100%;
+    width: 100%;
+    max-width: none;          /* defeat .text max-width: 640px clamp */
+    text-align: center;
+  }
+  .dy-section.theme--dark.dy-section--cta-pair .dy-section__content > .button {
+    flex-shrink: 0;
+    min-height: 44px;       /* WCAG 2.5.8 touch target minimum */
+  }
+}
+@media (max-width: 576px) {
+  .dy-section.theme--dark.dy-section--cta-pair .dy-section__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .dy-section.theme--dark.dy-section--cta-pair .dy-section__content > .button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  /* Mobile: standalone heading reduces to display-lg mobile */
+  .dy-section.theme--dark .dy-section__content > .heading {
+    font-size: 2.25rem;       /* 36px — brief display-lg mobile */
+    letter-spacing: -1.2px;   /* brief display-lg mobile tracking */
+  }
+}
+
+/* ─── §C bio block (Who we are.) — centered with hairline separator ────
+ * §C ends with a bio block: heading h3 + text. After the corrected rebuild,
+ * the h3 follows the .grid-wrapper directly (the cards).
+ *
+ * Sprint 10 Cycle 2b.1: selector originally .dy-section--bio-block.
+ * Sprint 12 Cycle 2: dy-section--bio-block marker removed from §C per R9
+ *   (bio stays inside §C, not promoted to its own named section). Selector
+ *   rewritten to .dy-section--centered-white, which the §C section already
+ *   carries. The .grid-wrapper + .heading.h3 structural pattern remains
+ *   unique to /about-us §C (verified: no other page has heading.h3 in
+ *   section content). */
+.dy-section--centered-white .dy-section__content > .grid-wrapper + .heading.h3 {
+  border-top: 1px solid var(--theme-border-color);
+  margin-top: 4rem;
+  padding-top: 3rem;
+  text-align: center;
+  max-width: var(--prose-max, 720px);
+  margin-inline: auto;
+}
+.dy-section--centered-white .dy-section__content > .grid-wrapper + .heading.h3 + .text {
+  text-align: center;
+  max-width: var(--prose-max, 720px);
+  margin-inline: auto;
+}
+
+/* ─── FU-2: Landing-hero H1 — display-xl typography reconciliation ────────
+ * Sprint 4 Cycle 3 found /services, /how-we-do-it, /open-source-projects
+ * render hero H1 at letter-spacing: -1.8px / line-height: 1.10 (neonbyte
+ * defaults from --h1-letter-spacing: -0.025em / --h1-line-height: 1.1),
+ * while the brief's display-xl token specifies -2px / 1.05 and the
+ * homepage (via neonbyte:hero) already matches.
+ *
+ * These three pages use dripyard_base:section (not neonbyte:hero) for their
+ * hero area. Canvas additional_classes "landing-hero" added to each page's
+ * hero section via fu2-landing-hero-class-patch.php (same pattern as
+ * contact-us-hero on /contact-us).
+ *
+ * Bottom-up trace (2026-05-11):
+ *   DOM: .dy-section.landing-hero.theme--white > ... > h1.heading.h1
+ *   letter-spacing: .h1 { letter-spacing: var(--h1-letter-spacing) }
+ *     neonbyte variables-typography.css :root --h1-letter-spacing: -0.025em
+ *     At 72px: -0.025 * 72 = -1.8px. Brief wants -2px.
+ *   line-height: .h1 { line-height: var(--h1-line-height) }
+ *     neonbyte :root --h1-line-height: 1.1. Brief wants 1.05.
+ *
+ * Top-down trace:
+ *   L1: not config-driven. RULED OUT.
+ *   L2: not OKLCH-derived. RULED OUT.
+ *   L3: html .theme--white { --h1-letter-spacing: -2px } would change
+ *       every .h1-class element in white zones site-wide (all h1 headings
+ *       on all pages). The brief's display-xl is specifically for landing-
+ *       page hero H1s, not all h1s. TOO BROAD. RULED OUT.
+ *   L5: .landing-hero .heading.h1 (specificity 0,3,0) — component-scoped
+ *       to sections marked as landing-hero via additional_classes.
+ *       CORRECT LAYER.
+ *
+ * DOM inspection evidence (Tier 1, 2026-05-11):
+ *   [x] /services: dy-section.landing-hero.theme--white > ... > h1.heading.h1
+ *   [x] /how-we-do-it: same structure
+ *   [x] /open-source-projects: same structure
+ *   [x] /about-us: no .landing-hero class — NOT matched (correct: about-us
+ *       has display-md spec at 64px, not display-xl)
+ *   [x] /contact-us: .contact-us-hero (no .landing-hero) — NOT matched
+ *       (correct: contact-us has display-lg spec at 56px)
+ *
+ * WCAG:
+ *   Headline color #1F1A14 (--theme-text-color-loud) on #FFFFFF: 17.29:1 (AAA).
+ *   72px at weight 500 = large text (42pt). Threshold 3:1 — exceeds by 5.76x.
+ *   No color change; letter-spacing and line-height are not contrast-bearing.
+ *
+ * Mobile (included because the fix is in the same selector family):
+ *   Brief typography-mobile.display-xl: 44px / -1px (line-height unspecified
+ *   at mobile — inherits 1.05 from desktop). The three pages currently get
+ *   --h1-size: 2.25rem (36px) at <=576px from base.css and --h1-letter-spacing:
+ *   -1.2px. The mobile override asserts 2.75rem (44px) / -1px / 1.05 to match
+ *   the brief exactly (same approach as hero.css for homepage).
+ */
+.landing-hero .heading.h1 {
+  letter-spacing: -2px;           /* display-xl per design brief */
+  line-height: 1.05;             /* display-xl per design brief */
+  text-wrap: balance;
+}
+
+/* Desktop: assert display-xl 72px explicitly. At 577-600px neonbyte's
+ * --h1-size gives 52px (3.25rem); from 601px up we assert 72px. The
+ * letter-spacing assertion here guards against token shadowing at the
+ * media-query boundary. */
+@media (min-width: 577px) {
+  .landing-hero .heading.h1 {
+    font-size: 4.5rem;             /* 72px display-xl */
+    letter-spacing: -2px;
+  }
+}
+
+/* Mobile: display-xl mobile = 44px / -1px per typography-mobile block.
+ * Explicit assertion needed because the desktop 4.5rem at specificity
+ * (0,3,0) beats the base.css :root --h1-size (2.25rem) consumed by
+ * .h1 (0,1,0). Without this, the H1 would stay 72px on mobile.
+ *
+ * WCAG: 44px at weight 500 = large text (33pt). Threshold 3:1.
+ * #1F1A14 on #FFFFFF = 17.29:1 — pass. */
+@media (max-width: 576px) {
+  .landing-hero .heading.h1 {
+    font-size: 2.75rem;            /* 44px display-xl mobile */
+    letter-spacing: -1px;          /* relaxed from -2px per typography-mobile */
+    line-height: 1.05;
+  }
+}
+
+/* ─── D4: Contact-us hero H1 — display-lg 56px ────────────────────────────
+ * Preview spec: 56px / line-height 1.05 / letter-spacing -1.4px.
+ * Scoped via additional_classes: contact-us-hero on Section A (Canvas patch).
+ * Does NOT affect /about-us (64px spec) or other pages (72px display-xl).
+ *
+ * Bottom-up:
+ *   h1.heading.h1 inside .dy-section.contact-us-hero
+ *   font-size: var(--h1-size) -> 4.5rem (72px) at >600px (neonbyte)
+ *   .h1 utility selector (0,1,0) in typography-utilities.css
+ *
+ * Top-down:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: html .theme--white would hit all H1s in white zones. TOO BROAD.
+ *   L5: .contact-us-hero .heading.h1 (specificity 0,3,0). CORRECT LAYER.
+ *
+ * WCAG:
+ *   #1F1A14 on #FFFFFF = 17.29:1 (AAA). Font-size 56px at 500 weight = large text.
+ *   Threshold 3:1 — exceeds by 5.7x. No contrast impact from size change. */
+.contact-us-hero .heading.h1 {
+  font-size: 3.5rem;              /* 56px = display-lg per contact-us preview */
+  letter-spacing: -1.4px;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* Mobile: display-lg mobile = 36px / -1.2px per design brief typography-mobile.
+ * Explicit override needed because the desktop assertion (3.5rem) at specificity
+ * (0,3,0) beats the base.css :root --h1-size (2.25rem) consumed by .h1 (0,1,0).
+ * Without this, the H1 would stay 56px on mobile. */
+@media (max-width: 576px) {
+  .contact-us-hero .heading.h1 {
+    font-size: 2.25rem;           /* 36px = display-lg mobile */
+    letter-spacing: -1.2px;
+  }
+}
+
+/* ─── Sprint 5 Cycle 4: Wordmark strip (§ proof "We Speak") ──────────────
+ * Replaces the raster logo-grid SDC with a text-only wordmark strip
+ * matching preview's .logo-bar spec. Six wordmarks: Drupal, Playwright,
+ * Cypress, PHP, JavaScript, React.
+ *
+ * The HTML lives inside a dripyard_base:text component with
+ * modifier_classes="wordmark-strip-wrapper". The text SDC emits:
+ *   <div class="text text-content wordmark-strip-wrapper body-m color--inherit">
+ *     <div class="wordmark-strip">
+ *       <div class="wordmark-strip__label">We speak</div>
+ *       <div class="wordmark-strip__row">
+ *         <div class="wordmark-strip__item">Drupal</div>
+ *         ...
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * Note: Canvas's canvas_html_block text filter strips <span> tags but
+ * allows <div class>. The wordmark items use <div class="wordmark-strip__item">
+ * styled as inline flex items.
+ *
+ * Bottom-up trace:
+ *   The wordmark strip is new markup inside a text SDC. No existing
+ *   variable chain — we are writing new structural CSS.
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: not a theme token. RULED OUT.
+ *   L5: component-scoped structural styling for the wordmark strip
+ *       within a section. CORRECT LAYER.
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: .wordmark-strip-wrapper exists in rendered HTML (post-patch)
+ *   [x] Tier 1: .wordmark-strip__item divs render with text content
+ *   [x] Tier 1: parent .dy-section__content in .dy-section.theme--white
+ *   [x] N/A — no JS rendering
+ *
+ * WCAG:
+ *   Label: --theme-text-color-medium (#5C544C) on #FFFFFF = 7.43:1 (AA pass).
+ *   Wordmarks: --theme-text-color-medium (#5C544C) on #FFFFFF = 7.43:1 (AA pass).
+ *     18px at weight 500 = 13.5pt at medium weight. Treating as normal text
+ *     (conservative). 7.43:1 >= 4.5:1 (AA pass).
+ *     Rework: opacity: 0.8 removed per T blocker (effective contrast was 4.47:1,
+ *     below 4.5:1 AA threshold). Full opacity yields 7.43:1.
+ *   Touch targets: items are not interactive — no touch target requirement.
+ *   Hairline borders: decorative — no contrast requirement. */
+
+/* ─── Section padding override for the wordmark strip section ───────────
+ * Preview spec: .logo-bar { padding: var(--space-2xl) 0 } = 48px.
+ * Live section has padding-top--l / padding-bottom--l = --spacing-component
+ * (120px at desktop). Override to 48px.
+ *
+ * Sprint 10 Cycle 2b.2: direct swap to .dy-section--wordmark-strip marker.
+ * P10 is /services-only (verified: no other page has .wordmark-strip-wrapper).
+ * Specificity (0,2,0) beats .padding-top--l (0,1,0) and .padding-bottom--l
+ * (0,1,0).
+ * Rework: original .dy-section--wordmark-strip was (0,1,0), losing to
+ * .padding-top--l (0,1,0) by source order. Doubled class
+ * (.dy-section.dy-section--wordmark-strip) restores (0,2,0).
+ *
+ * Also collapse the .dy-section__header (empty after removing the H2)
+ * and the default header margin-bottom. */
+.dy-section.dy-section--wordmark-strip {
+  padding-top: 3rem;          /* 48px — preview --space-2xl */
+  padding-bottom: 3rem;       /* 48px — preview --space-2xl */
+}
+
+.dy-section.dy-section--wordmark-strip .dy-section__header {
+  display: none;              /* header slot is empty — collapse it */
+}
+
+/* ─── Wordmark strip: hairline-bounded container ─────────────────────── */
+.wordmark-strip {
+  border-top: 1px solid var(--theme-border-color);    /* #E5E1DC */
+  border-bottom: 1px solid var(--theme-border-color);
+  padding-block: 3rem;        /* 48px — preview --space-2xl internal */
+}
+
+/* ─── "We speak" label ─────────────────────────────────────────────────
+ * Preview: 12px / 600 weight / 1.6px tracking / uppercase / centered /
+ * color --muted / margin-bottom --space-xl (32px). */
+.wordmark-strip__label {
+  font-size: 0.75rem;         /* 12px */
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--theme-text-color-medium);   /* #5C544C on white: 7.43:1 */
+  margin-bottom: 2rem;        /* 32px — preview --space-xl */
+  line-height: 1.5;
+}
+
+/* ─── Wordmark row: flex, space-between at desktop ─────────────────── */
+.wordmark-strip__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;                  /* 48px — preview --space-2xl */
+  flex-wrap: wrap;
+}
+
+/* ─── Individual wordmark items ────────────────────────────────────────
+ * Using <div> elements (Canvas filter strips <span>). Display as
+ * flex items within the row. */
+.wordmark-strip__item {
+  font-family: "Rubik", var(--font-sans);  /* preview --font-display */
+  font-weight: 500;
+  font-size: 1.125rem;        /* 18px */
+  color: var(--theme-text-color-medium);   /* #5C544C */
+  letter-spacing: -0.4px;
+  white-space: nowrap;
+}
+
+/* ─── Mobile (<=576px): wordmark row wraps ───────────────────────────
+ * At 375px with gap 1.5rem (24px) and items at natural inline width,
+ * wrapping to 2-3 per row is acceptable. Center the row so wrapped
+ * lines are balanced.
+ *
+ * WCAG: no touch target concern (items are not interactive). */
+@media (max-width: 576px) {
+  .wordmark-strip__row {
+    justify-content: center;
+    gap: 1rem 2rem;           /* 16px row gap, 32px column gap */
+  }
+
+  .wordmark-strip__item {
+    font-size: 1rem;          /* 16px — slightly smaller on mobile */
+  }
+
+  .wordmark-strip {
+    padding-block: 2rem;      /* 32px — tighter on mobile */
+  }
+
+  .wordmark-strip__label {
+    margin-bottom: 1.5rem;    /* 24px on mobile */
+  }
+}
+
+/* ─── Tablet (577px-991px): centered wrap ───────────────────────────── */
+@media (min-width: 577px) and (max-width: 991px) {
+  .wordmark-strip__row {
+    justify-content: center;
+    gap: 1.5rem 2.5rem;       /* moderate gap for tablet */
+  }
+}
+
+/* ─── Sprint 6 Cycle 3: § nearshore content-cap (FU-S5-5) ───────────────
+ * The nearshore section H2 wraps at the page-level container width at
+ * 1280 instead of matching the preview's tighter content-cap. The
+ * preview's .nearshore__inner uses max-width: 820px (already applied
+ * by the .dy-section--centered-light marker rule above) and .nearshore p uses
+ * max-width: 720px. Adding a tighter cap on the H2 and body paragraph
+ * brings the wrap pattern into alignment with the preview.
+ *
+ * Scoped via .nearshore-section marker class added to the section's
+ * additional_classes prop via Canvas content edit (entity id=3, /services).
+ * Only matches the nearshore section on /services.
+ *
+ * Bottom-up trace:
+ *   H2: .heading.h2 inside .dy-section__header, max-width inherited from
+ *   parent (.dy-section__header at 820px via .dy-section--centered-light rule).
+ *   At 54px font-size (--h2-size at >600px), "Senior testing capacity,
+ *   when you need more hands." occupies ~900px, wrapping at 820px but not
+ *   matching the preview's tighter wrap.
+ *   Body: .text .body-l inside .dy-section__header, no max-width set.
+ *   Preview: .nearshore p { max-width: 720px }.
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: not a theme token. RULED OUT.
+ *   L5: component-scoped to .nearshore-section marker class. CORRECT LAYER.
+ *
+ * WCAG:
+ *   No color change — text/surface tokens unchanged.
+ *   H2 #2A2520 on cream #F5EFE2 = 12.26:1 (AAA pass).
+ *   Body #5C544C on cream #F5EFE2 = 5.53:1 (AA pass, >=4.5:1).
+ *   text-wrap: balance is layout-only — no contrast impact.
+ *   max-width reduction does not affect touch targets (CTA is in content
+ *   slot, not in header). */
+
+/* H2: content-cap + text-wrap balance to prevent orphan words */
+.nearshore-section .dy-section__header .heading.h2 {
+  max-width: 640px;
+  margin-inline: auto;
+  text-wrap: balance;
+}
+
+/* Body paragraph: 720px cap per preview .nearshore p */
+.nearshore-section .dy-section__header .text p {
+  max-width: 720px;
+  margin-inline: auto;
+}

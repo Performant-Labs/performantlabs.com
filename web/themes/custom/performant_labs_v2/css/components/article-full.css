@@ -1,0 +1,280 @@
+/**
+ * @file
+ * Article body — prose typography and rhythm overrides.
+ *
+ * Layer 5: component CSS via libraries-extend on neonbyte/article-full.
+ * Scoped to .article-full and children.
+ *
+ * 7-step trace summary:
+ *   Pass 1 (bottom-up): upstream article-full.css sets only
+ *   .article-full .text-content { --wide-item-indentation: 100px; }
+ *   No typography or prose styling exists upstream.
+ *   Pass 2 (top-down):
+ *     L1: Not config. N/A.
+ *     L2: Not OKLCH-derived. N/A.
+ *     L3: These are component-scoped prose rules (body font size, heading
+ *         sizes, list markers, link treatment). L3 too broad — would bleed
+ *         into every text region site-wide.
+ *     L5: Correct layer. Scoped to .article-full only.
+ *   DOM inspection gate: Tier 1 curl confirms .article-full,
+ *     .container.node__content, .grid, .grid-area--content,
+ *     .field--name-field-category.field--label-above,
+ *     .text-content.field--name-body all render in production HTML.
+ *
+ * Token strategy: component-local --af-* tokens mapped from pl_design_brief.md.
+ * All color references use these local tokens. No raw hex in property values.
+ *
+ * AA contrast notes:
+ *   Inline link text: --af-link (#0F6F8A) on white = 5.74:1 (pass AA normal text).
+ *   Link border: --af-link-border (#1893b4) on white = 3.58:1 (pass WCAG 1.4.11 3:1).
+ *   Link hover: --af-primary-deep (#005AA0) on white = 7.07:1 (pass AA normal text).
+ *   Body text: --af-ink (#2A2520) on white = 15.17:1 (pass).
+ *   Code text: --af-espresso (#1F1A14) on --af-surface-warm (#F2EFED) = 15.08:1 (pass).
+ *   Pre text: --af-on-dark (#F5EFE2) on --af-espresso (#1F1A14) = 15.07:1 (pass).
+ *
+ * No !important. No raw hex in property values.
+ */
+
+/* --- Component-local design tokens --- */
+:root {
+  /* Colors — sourced from pl_design_brief.md */
+  --af-ink: #2A2520;
+  --af-body: #5C544C;
+  --af-muted: #6B6358;
+  --af-link: #0F6F8A;
+  --af-link-border: #1893b4;
+  --af-primary-deep: #005AA0;
+  --af-accent: #C97B5C;
+  --af-accent-deep: #8E4A2A;
+  --af-hairline: #E5E1DC;
+  --af-surface-warm: #F2EFED;
+  --af-espresso: #1F1A14;
+  --af-on-dark: #F5EFE2;
+  --af-canvas: #FFFFFF;
+
+  /* Spacing */
+  --af-space-xs: 4px;
+  --af-space-sm: 8px;
+  --af-space-md: 12px;
+  --af-space-base: 16px;
+  --af-space-lg: 24px;
+  --af-space-xl: 32px;
+  --af-space-2xl: 48px;
+  --af-space-3xl: 64px;
+  --af-space-section: 96px;
+
+  /* Radius */
+  --af-radius-sm: 4px;
+  --af-radius-md: 8px;
+
+  /* Type */
+  --af-font-body: "Poppins", sans-serif;
+  --af-font-display: "Rubik", sans-serif;
+  --af-font-mono: Consolas, Monaco, "Andale Mono", monospace;
+}
+
+/* --- Content area: constrain to prose-max width (720px) --- */
+.article-full .grid-area--content {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+/* --- Article body section padding --- */
+.article-full .node__content {
+  padding-top: var(--af-space-3xl);
+  padding-bottom: var(--af-space-section);
+}
+
+/* --- field_category: label-above with hairline separator --- */
+.article-full .field--name-field-category {
+  display: flex;
+  align-items: baseline;
+  gap: var(--af-space-sm);
+  margin-bottom: var(--af-space-2xl);
+  padding-bottom: var(--af-space-lg);
+  border-bottom: 1px solid var(--af-hairline);
+}
+
+.article-full .field--name-field-category .field__label {
+  font-family: var(--af-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--af-muted);
+}
+
+.article-full .field--name-field-category .field__item {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* --- Prose body: typography and rhythm --- */
+.article-full .text-content.field--name-body {
+  font-family: var(--af-font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--af-ink);
+}
+
+/* Vertical rhythm between block elements */
+.article-full .text-content.field--name-body > * + * {
+  margin-top: var(--af-space-lg);
+}
+
+/* --- Headings inside prose --- */
+.article-full .text-content.field--name-body h2 {
+  font-family: var(--af-font-display);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  color: var(--af-ink);
+  margin-top: var(--af-space-2xl);
+  text-wrap: balance;
+}
+
+.article-full .text-content.field--name-body h3 {
+  font-family: var(--af-font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--af-ink);
+  margin-top: var(--af-space-xl);
+  text-wrap: balance;
+}
+
+.article-full .text-content.field--name-body h4 {
+  font-family: var(--af-font-display);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: var(--af-ink);
+  margin-top: var(--af-space-lg);
+  text-wrap: balance;
+}
+
+/* --- Inline links (exclude .button elements from prose link styling) ---
+   AA: #0F6F8A on white = 5.74:1 (pass). Border #1893b4 on white = 3.58:1
+   (passes WCAG 1.4.11 UI boundary 3:1). Hover #005AA0 on white = 7.07:1. */
+.article-full .text-content.field--name-body a:not(.button) {
+  color: var(--af-link);
+  text-decoration: none;
+  border-bottom: 1px solid var(--af-link-border);
+  transition: color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.article-full .text-content.field--name-body a:not(.button):hover {
+  color: var(--af-primary-deep);
+  border-bottom-color: var(--af-primary-deep);
+  text-decoration: none;
+}
+
+/* --- Lists --- */
+.article-full .text-content.field--name-body ul,
+.article-full .text-content.field--name-body ol {
+  padding-left: var(--af-space-xl);
+  margin: 0;
+}
+
+.article-full .text-content.field--name-body ul {
+  list-style: disc;
+}
+
+.article-full .text-content.field--name-body ul li::marker {
+  color: var(--af-accent);
+}
+
+.article-full .text-content.field--name-body ol {
+  list-style: decimal;
+}
+
+.article-full .text-content.field--name-body ol li::marker {
+  color: var(--af-accent-deep);
+  font-weight: 600;
+}
+
+.article-full .text-content.field--name-body li + li {
+  margin-top: var(--af-space-sm);
+}
+
+.article-full .text-content.field--name-body li > p:first-child {
+  margin-top: 0;
+}
+
+/* --- Blockquote --- */
+.article-full .text-content.field--name-body blockquote {
+  margin: 0;
+  padding: var(--af-space-md) var(--af-space-xl);
+  border-left: 3px solid var(--af-accent);
+  color: var(--af-body);
+  font-style: italic;
+}
+
+/* --- Inline code --- */
+.article-full .text-content.field--name-body code {
+  font-family: var(--af-font-mono);
+  font-size: 0.92em;
+  background: var(--af-surface-warm);
+  color: var(--af-espresso);
+  padding: 2px 6px;
+  border-radius: var(--af-radius-sm);
+}
+
+/* --- Code blocks (pre) --- */
+.article-full .text-content.field--name-body pre {
+  font-family: var(--af-font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  background: var(--af-espresso);
+  color: var(--af-on-dark);
+  padding: var(--af-space-lg);
+  border-radius: var(--af-radius-md);
+  overflow-x: auto;
+}
+
+.article-full .text-content.field--name-body pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* --- Inline images --- */
+.article-full .text-content.field--name-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--af-radius-md);
+  margin: var(--af-space-xl) auto;
+}
+
+/* --- Horizontal rule --- */
+.article-full .text-content.field--name-body hr {
+  border: 0;
+  height: 1px;
+  background: var(--af-hairline);
+  margin: var(--af-space-2xl) 0;
+}
+
+/* --- Mobile: sm breakpoint (576px per design brief) --- */
+@media (max-width: 576px) {
+  .article-full .node__content {
+    padding-top: var(--af-space-2xl);
+    padding-bottom: var(--af-space-3xl);
+  }
+
+  .article-full .text-content.field--name-body {
+    font-size: 16px;
+  }
+
+  .article-full .text-content.field--name-body h2 {
+    font-size: 24px;
+  }
+
+  .article-full .text-content.field--name-body h3 {
+    font-size: 20px;
+  }
+}

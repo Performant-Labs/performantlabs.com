@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Articles page_1 — exposed filter rendered as a chip link list.
+ *
+ * Phase 3: replaces the default <form> submission with an accessible
+ * link list. Each category is an <a class="chip"> whose href carries
+ * ?category=<term-slug>. The synthetic "All" chip links to /articles
+ * (no category param). .is-active marks the chip matching the current
+ * request state.
+ *
+ * Decision: render-as-links (option 1, no JS). Documented in the
+ * Phase 3 F handoff. Simpler, no JS dependency, works with disabled JS.
+ *
+ * Variables (from preprocess_views_exposed_form in .theme):
+ *   - category_chips: array of { label, slug, is_active }
+ *   - active_category: string (current ?category value, '' if none)
+ *   - all_is_active: bool (true when no category filter is active)
+ *   - form: the original form render array (not rendered — we replace it)
+ */
+#}
+{{ attach_library('performant_labs_20260502/articles-view') }}
+<div class="articles-toolbar" role="group" aria-label="Filter articles by category">
+  <span class="articles-toolbar__label">Filter</span>
+  <a href="/articles" class="chip{{ all_is_active ? ' is-active' : '' }}">All</a>
+  {% for chip in category_chips %}
+    <a href="/articles?category={{ chip.slug }}" class="chip{{ chip.is_active ? ' is-active' : '' }}">{{ chip.label }}</a>
+  {% endfor %}
+</div>

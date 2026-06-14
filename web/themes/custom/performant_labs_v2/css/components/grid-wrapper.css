@@ -1,0 +1,248 @@
+/**
+ * @file
+ * [Layer 5] Grid wrapper component override for performant_labs_20260502.
+ *
+ * Loaded via libraries-extend on core/components.dripyard_base--grid-wrapper.
+ *
+ * Fixes audit TOP-3 / row 2.7: engagement cards stack 1-per-row at 1280px
+ * instead of a 2x2 grid.
+ *
+ * Root cause: Dripyard's grid-wrapper uses a 12-column grid at >600px (via
+ * container query). The .grid-wrapper--2col class exists on the wrapper but
+ * has no matching CSS rule. Card children have no col-span class, so each
+ * occupies 1 of 12 columns (~8.3% width) and wraps to 1 per line.
+ *
+ * Fix: for .grid-wrapper--2col, make direct children span 6 of 12 columns
+ * (50% width each) at container width > 600px -> 2 items per row.
+ *
+ * Layer ruling:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH-derived. RULED OUT.
+ *   L3: not a theme token. RULED OUT.
+ *   L5: component-scoped via libraries-extend. CORRECT LAYER.
+ *
+ * DOM evidence (Tier 1, 2026-05-05):
+ *   .grid-wrapper.grid-wrapper--2col
+ *     .grid-wrapper__grid.gutter-column--l.gutter-row--l
+ *       article.card.theme--light x 4 (no col-span class)
+ *
+ * Mobile: at <=576px (container < 600px threshold), the grid reverts to
+ * 6-col per Dripyard base; child span becomes moot -- each child spans
+ * all 6 columns (full-width), giving natural 1-col stack.
+ *
+ * WCAG: layout change only; no color or contrast impact.
+ */
+
+/* ─── 2-column grid: children span 6 of 12 columns ─────────────────
+ * Dripyard's container query kicks in at width > 600px (12-column grid).
+ * At <=600px the grid is 6-column; children span all 6 (full-width).
+ * The gutter gap is already set by .gutter-column--l on the grid element.
+ *
+ * NOTE: The --2col pattern works despite neonbyte's
+ * :where([class*="grid"]) > * { grid-column: 1 / -1 } catch-all because
+ * this rule's class-based selector has higher specificity than :where()
+ * (which contributes zero specificity). The explicit span 6 overrides
+ * the catch-all's 1 / -1. */
+@container (width > 600px) {
+  .grid-wrapper--2col .grid-wrapper__grid > * {
+    grid-column: span 6;
+  }
+}
+
+/* Mobile: ensure single-column stacking below sm ─────────────────── */
+@media (max-width: 576px) {
+  .grid-wrapper--2col .grid-wrapper__grid > * {
+    grid-column: span 6;  /* span all 6 (mobile grid is 6-col) */
+  }
+}
+
+/* ─── E6: 2-column grid row gap — match preview ────────────────────
+ * Sprint 5 Cycle 2.
+ *
+ * Dripyard's utility .gutter-row--l sets row-gap: var(--spacing-xl) = 64px.
+ * Preview engagements grid uses gap: var(--space-lg) = 24px.
+ *
+ * Trace:
+ *   Pass 1 (bottom-up): .gutter-row--l (0,1,0) → row-gap: var(--spacing-xl).
+ *   Pass 2 (top-down):
+ *     L1: not config. RULED OUT.
+ *     L3: --spacing-xl is a Dripyard layout token; overriding it at :root
+ *         would affect all gutter-row--l elements site-wide (too broad). RULED OUT.
+ *     L5: override row-gap on .grid-wrapper--2col .grid-wrapper__grid.
+ *         Selector (0,2,0) beats .gutter-row--l (0,1,0). CORRECT LAYER.
+ *
+ * Cross-page: .grid-wrapper--2col is only used on /services (confirmed via
+ * T1 grep on / and /articles — zero matches). No cross-page risk.
+ *
+ * WCAG: layout change only; no color or contrast impact. */
+.grid-wrapper--2col .grid-wrapper__grid {
+  row-gap: 1.5rem; /* 24px = --space-lg per preview + brief */
+}
+
+/* ─── FU-S5-1: 2-column grid 768 collapse — match preview ─────────
+ * Sprint 6 Cycle 2.
+ *
+ * At 768px viewport, the container is >600px so the @container rule
+ * above fires and children get grid-column: span 6 (2-per-row). But
+ * the canonical preview collapses to 1-col at max-width: 991px.
+ *
+ * Fix: override grid-template-columns to 1fr below 992px. The
+ * grid-column: auto on children defeats neonbyte's
+ * :where([class*="grid"]) > * { grid-column: 1 / -1 } catch-all
+ * and also overrides the @container span 6 rule, because @media
+ * with a class selector (0,2,0) beats @container with the same
+ * selector — both match, but the @media rule appears later in
+ * source order and wins the cascade tie.
+ *
+ * Trace:
+ *   Pass 1 (bottom-up): @container (width > 600px) sets
+ *     grid-column: span 6 on .grid-wrapper--2col .grid-wrapper__grid > *.
+ *     At 768px viewport, container width ~700px, rule fires → 2-col.
+ *   Pass 2 (top-down):
+ *     L1: not config. RULED OUT.
+ *     L3: not a theme token. RULED OUT.
+ *     L5: component-scoped override on .grid-wrapper--2col.
+ *         Selector (0,2,0) on both container and grid children.
+ *         CORRECT LAYER.
+ *
+ * Cross-page: .grid-wrapper--2col confirmed services-only
+ *   (T1 grep 2026-05-11: /, /articles, /about-us, /open-source-projects,
+ *   /how-we-do-it, /contact-us — zero matches). No cross-page risk.
+ *
+ * WCAG: layout change only; no color or contrast impact. */
+@media (max-width: 991px) {
+  .grid-wrapper--2col .grid-wrapper__grid {
+    grid-template-columns: 1fr;
+  }
+  .grid-wrapper--2col .grid-wrapper__grid > * {
+    grid-column: auto;
+  }
+}
+
+/* ─── 3-column grid: explicit grid-template-columns override ────────
+ * Used on how-we-do-it Week 3+ section (3 engagement-shape cards)
+ * and open-source-projects (Testing tools section).
+ *
+ * REWORK 2 (2026-05-05): Prior attempts using grid-column: span N and
+ * grid-template-columns alone both failed due to two compounding issues:
+ *
+ * 1. The contrib nested @container rule that switches .grid-wrapper__grid
+ *    from 6-col to 12-col does NOT fire on this page (CDP-verified:
+ *    computed grid-template-columns = repeat(6, ~194px)). Likely CSS
+ *    aggregation or native-nesting compat issue in the pipeline.
+ *
+ * 2. Neonbyte's grid.css (line 73) declares:
+ *      :where([class*="grid"]) > * { grid-column: 1 / -1; }
+ *    This catch-all forces ALL direct children of any element with "grid"
+ *    in a class name to span from column 1 to the last column — full-width.
+ *    Despite :where() having zero specificity, without an explicit
+ *    grid-column override on children, the cards inherit 1 / -1 and render
+ *    one-per-row regardless of grid-template-columns.
+ *
+ * Fix: override BOTH grid-template-columns on the grid container AND
+ * grid-column on children (reset to auto) at each breakpoint. The
+ * grid-template-columns defines the column count; the grid-column: auto
+ * neutralizes neonbyte's catch-all so children auto-flow into the
+ * defined columns.
+ *
+ * Responsive behavior per design brief:
+ *   Desktop (>=992px viewport): 3-up — repeat(3, 1fr)
+ *   Tablet (768px–991px viewport): 2-up — repeat(2, 1fr)
+ *   Mobile (<768px viewport): 1-up — 1fr (single column)
+ *
+ * Layer ruling: L5 — component-scoped. Same ruling as --2col above.
+ *
+ * DOM evidence (Tier 1 + CDP, 2026-05-05):
+ *   .grid-wrapper.grid-wrapper--3col
+ *     .grid-wrapper__grid.gutter-column--l.gutter-row--l
+ *       article.card.theme--white x 3
+ *   neonbyte catch-all matched: :where([class*="grid"]) > * { grid-column: 1 / -1 }
+ *
+ * WCAG: layout change only; no color or contrast impact. */
+
+/* Defensive: ensure the wrapper fills its parent's cross-axis. Some
+ * Canvas section configurations apply align-items: center to
+ * .dy-section__content, which collapses block-level flex children to
+ * their content's intrinsic width — and grid-template-columns: 1fr
+ * resolves to 0 inside a 0-width parent, producing 2px-wide columns.
+ * Forcing width: 100% makes this rule independent of the section's
+ * align-items setting. Applies to ALL grid-wrapper variants —
+ * unscoped because the same trap caught both --3col grids and the
+ * plain grid-wrapper used by the "Other modules" Payment Stripe card
+ * on /open-source-projects (2026-05-07). */
+.grid-wrapper {
+  width: 100%;
+}
+
+/* Desktop: 3 cards per row */
+@media (min-width: 992px) {
+  .grid-wrapper--3col .grid-wrapper__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid-wrapper--3col .grid-wrapper__grid > * {
+    grid-column: auto;
+  }
+}
+
+/* Tablet: 2 cards per row */
+@media (min-width: 768px) and (max-width: 991px) {
+  .grid-wrapper--3col .grid-wrapper__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid-wrapper--3col .grid-wrapper__grid > * {
+    grid-column: auto;
+  }
+}
+
+/* Mobile: 1 card per row (natural single-column flow).
+ * grid-column: 1 / -1 from neonbyte's catch-all is fine here — it
+ * produces full-width on a 1fr grid. No override needed. */
+@media (max-width: 767px) {
+  .grid-wrapper--3col .grid-wrapper__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── 3-column grid, stack-at-md variant ───────────────────────────
+ * Used on the homepage feature-card section only.
+ *
+ * Identical to --3col except the tablet (768-991) range renders 1-col
+ * instead of 2-col. This matches the canonical preview at 768.
+ *
+ * Phase 8.4 rework (2026-05-09): Preview is canonical at 768 (1-col).
+ * Brief updated 2026-05-11 to document the `--3col-stack-md` variant
+ * and its distinction from `--3col`.
+ *
+ * Why a separate class: --3col is shared by open-source-projects and
+ * how-we-do-it, which depend on the 2-col-at-tablet behavior. Modifying
+ * --3col directly (path 1) would regress those pages.
+ *
+ * Layer ruling: L5 — component-scoped. Same as --3col above.
+ * WCAG: layout change only; no color or contrast impact. */
+
+/* Desktop: 3 cards per row */
+@media (min-width: 992px) {
+  .grid-wrapper--3col-stack-md .grid-wrapper__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grid-wrapper--3col-stack-md .grid-wrapper__grid > * {
+    grid-column: auto;
+  }
+}
+
+/* Tablet: 1 card per row (skip 2-col stage — matches preview at 768) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .grid-wrapper--3col-stack-md .grid-wrapper__grid {
+    grid-template-columns: 1fr;
+  }
+  .grid-wrapper--3col-stack-md .grid-wrapper__grid > * {
+    grid-column: auto;
+  }
+}
+
+/* Mobile: 1 card per row (same as --3col) */
+@media (max-width: 767px) {
+  .grid-wrapper--3col-stack-md .grid-wrapper__grid {
+    grid-template-columns: 1fr;
+  }
+}

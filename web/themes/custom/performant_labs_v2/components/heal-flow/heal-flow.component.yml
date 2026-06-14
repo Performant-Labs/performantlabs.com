@@ -1,0 +1,50 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/11.x/core/assets/schemas/v1/metadata.schema.json
+name: Heal flow
+status: experimental
+group: Performant Labs
+props:
+  type: object
+  required:
+    - step_numbers
+    - step_labels
+  properties:
+    step_numbers:
+      type: array
+      title: Step numbers (e.g. "01", "02", …)
+      maxItems: 6
+      examples:
+        - - '01'
+          - '02'
+          - '03'
+          - '04'
+      items:
+        type: string
+        title: 'Step number (e.g. "01")'
+        examples:
+          - '01'
+    step_labels:
+      type: array
+      title: Step labels
+      maxItems: 6
+      examples:
+        - - Test fails in CI
+          - Claude diagnoses
+          - PR opens with fix
+          - Engineer reviews
+      items:
+        type: string
+        title: Step label text
+        examples:
+          - Test fails in CI
+    step_is_endpoints:
+      type: array
+      title: Human-in-the-loop flags (true = thicker teal border)
+      maxItems: 6
+      examples:
+        - - false
+          - false
+          - false
+          - true
+      items:
+        type: boolean
+        title: Is human-in-the-loop step

@@ -1,0 +1,276 @@
+/**
+ * @file
+ * [Layer 5] logo-grid overrides for performant_labs_20260502.
+ *
+ * Loaded via libraries-extend on core/components.dripyard_base--logo-grid.
+ *
+ * Layer ruling (per docs/pl2/theme-change--workflow.md):
+ *   - L1 not config. L3 tokens (--theme-text-color-medium, --theme-border-color)
+ *     already correct. Remaining changes are component-structural visual rules.
+ *   - L5 correct: scoped to the logo-grid component via libraries-extend.
+ *
+ * Cycle 2 additions (2026-05-04):
+ *   - Audit 5.1: "We Speak" label demoted from H2 (default ~30px) to 12px tracked
+ *     uppercase muted label matching preview spec.
+ *   - Audit 5.2: Single-row layout for 8 logos at desktop via flex-wrap: nowrap.
+ *
+ * Phase 8.2 fix (2026-05-09):
+ *   - flex-wrap: nowrap breakpoint raised from 577px to 992px.
+ *
+ * Phase 8.3 fix (2026-05-11):
+ *   - Presentation parity with preview's .logo-bar: max-height 28px, grayscale(100%),
+ *     opacity 0.7, tight cell sizing, justify-content: space-between at desktop.
+ *   - Responsive wrapping: 2 rows at tablet (768), 3 rows of 2 at mobile (375).
+ *   - Constraint: Canvas responsive images use sizes="auto 100vw" on <img> tags.
+ *     The browser resolves "auto" from the img's CSS layout width. Dripyard's
+ *     logo-item.css sets overflow: clip on .logo-item and uses calc() for img height.
+ *     When .logo-item shrinks too small, the auto-sizes resolution can collapse to 0
+ *     and no srcset entry loads. Fix: override overflow to visible at (0,2,0)
+ *     specificity (.logo-grid .logo-item) to beat Dripyard's (0,1,0), and set an
+ *     explicit width: 140px + height: 28px + object-fit: contain on .logo-item img
+ *     so the img has a definite layout size for srcset resolution.
+ *   - justify-content overrides at (0,3,0) to beat Dripyard's
+ *     .logo-grid--layout-center .logo-grid__content (0,2,0).
+ *   - Previous M7 ruling (no grayscale because Orange loses identity) is reversed by
+ *     operator directive: preview is canonical and applies grayscale(100%) + opacity 0.7
+ *     to all logos including Orange. The operator has accepted this treatment.
+ *
+ * Phase 8.5 fix (2026-05-10):
+ *   - Reduced dy-section padding-top and header margin-bottom when logo-grid
+ *     section immediately follows the hero.
+ *
+ * Sprint 10 Cycle 2b.4 (2026-05-12):
+ *   - Replaced fragile :has(.logo-grid) and sibling-combinator selectors with
+ *     marker-class-based selectors per ADV-3 architecture audit.
+ *   - .dy-section:has(.logo-grid) -> .dy-section.dy-section--logo-grid
+ *   - .hero.theme--white + .dy-section:has(.logo-grid) -> .dy-section.dy-section--post-hero-logos
+ *   - Cross-page check: logo-grid only appears on homepage (canvas_page id=20).
+ *     No other pages affected. Direct swap safe.
+ *
+ * See css-change-log.md for the full ruling.
+ */
+
+/* ─── Section hairline borders ─────────────────────────────────────
+ * Brief: hairline top + bottom borders delineate the logo section.
+ * Borders sit on the .logo-grid wrapper itself (not individual logos).
+ * Internal padding keeps logos clear of the rules. */
+.logo-grid {
+  border-top: 1px solid var(--theme-border-color);
+  border-bottom: 1px solid var(--theme-border-color);
+  padding-block: var(--sp6);
+}
+
+/* ─── Logo cell sizing reset ──────────────────────────────────────
+ * Phase 8.3: Dripyard's logo-grid.css sets --logo-grid-logo-size: 110px
+ * on .logo-grid--size-medium, which flows into .logo-item height (110px)
+ * and .logo-item img height (calc(110px - padding*2)). The preview has no
+ * cell wrapper — imgs sit directly in a flex row at max-height 28px.
+ *
+ * Override --logo-grid-logo-size on the size-medium variant to collapse
+ * the height chain. Set to 28px (matching the target max-height) so the
+ * calc() in logo-item.css resolves to height: calc(28px - 0*2) = 28px.
+ *
+ * Bottom-up trace:
+ *   .logo-item height = 110px <- var(--logo-item-height) <- var(--logo-grid-logo-size)
+ *   .logo-grid--size-medium { --logo-grid-logo-size: 110px } (Dripyard logo-grid.css:18)
+ *   .logo-item padding: var(--sp2) var(--sp4) = 16px 32px (Dripyard logo-item.css:17)
+ *   .logo-item { overflow: clip } (Dripyard logo-item.css:21)
+ *   .logo-item img { width: auto; height: calc(var(--logo-grid-logo-size) - padding*2) }
+ *
+ * Top-down:
+ *   L1: --logo-grid-logo-size is a Dripyard CSS variable, not Drupal config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: not a theme token. RULED OUT.
+ *   L5: component-scoped override on .logo-grid--size-medium. CORRECT LAYER.
+ *
+ * The specificity .logo-grid.logo-grid--size-medium (0,2,0) beats Dripyard's
+ * .logo-grid--size-medium (0,1,0) without !important. */
+.logo-grid.logo-grid--size-medium {
+  --logo-grid-logo-size: 28px;
+}
+
+/* Collapse .logo-item height and padding. Must use .logo-grid .logo-item
+ * (specificity 0,2,0) to beat Dripyard's logo-item.css declarations at
+ * (0,1,0) since that file loads AFTER this one in the cascade.
+ *
+ * overflow: visible is critical for Canvas responsive images: the
+ * sizes="auto" attribute resolves from the img's CSS layout width, which
+ * requires the containing block to not clip the intrinsic size negotiation.
+ * With overflow: clip (Dripyard default), Chromium's auto-sizes resolver
+ * can produce 0px, causing no srcset entry to load. */
+.logo-grid .logo-item {
+  --logo-item-height: auto;
+  --logo-item-padding-block: 0px;
+  --logo-item-padding-inline: 0px;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+}
+
+/* ─── Logo image presentation ─────────────────────────────────────
+ * Phase 8.3: match preview's .logo-bar__row img rules exactly.
+ * Preview spec: max-height 28px, width auto, object-fit contain,
+ * filter grayscale(100%), opacity 0.7.
+ *
+ * Previous M7 ruling raised max-height to 40px and removed grayscale.
+ * That is now superseded: operator directive says "preview is canonical".
+ * Preview applies grayscale + opacity to all logos including Orange.
+ *
+ * Set explicit width: 140px and height: 28px with object-fit: contain so:
+ *   (a) The img has a definite CSS layout size (140x28), allowing the
+ *       sizes="auto" attribute to resolve to 140px and pick the 256w
+ *       srcset entry.
+ *   (b) object-fit: contain scales the image content proportionally within
+ *       the 140x28 box. Wide logos fill the width; narrow logos like Tesla
+ *       center within the box.
+ *   (c) This differs slightly from preview where imgs have variable widths
+ *       (width: auto). The fixed 140x28 box is required by Canvas's
+ *       sizes="auto" srcset system — without an explicit CSS width, the
+ *       auto-sizes resolver fails to select a srcset entry and images
+ *       render at 0x0. The visual difference is minimal: each logo's
+ *       content is proportionally scaled within the box via object-fit.
+ *
+ * Must use .logo-grid .logo-item img (0,2,1) to beat Dripyard's
+ * .logo-item img (0,1,1) which loads later in cascade.
+ *
+ * WCAG: filter and opacity are decorative treatment on logos — no text
+ * contrast impact. Alt text remains descriptive. */
+.logo-grid .logo-item img {
+  width: 140px;
+  height: 28px;
+  max-height: 28px;
+  max-width: 140px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+/* ─── Flex layout at desktop ──────────────────────────────────────
+ * Single row of 6, evenly spaced via space-between.
+ *
+ * Dripyard's logo-grid.css sets justify-content via:
+ *   .logo-grid--layout-center .logo-grid__content { justify-content: center }
+ * at specificity (0,2,0). Our media query rule needs (0,3,0) to win.
+ * Using .logo-grid .logo-grid__container .logo-grid__content matches the
+ * DOM structure (.logo-grid > .logo-grid__container > .logo-grid__content)
+ * at (0,3,0), beating the layout-center rule.
+ *
+ * Phase 8.2: nowrap at min-width: 992px.
+ * Phase 8.3: justify-content: space-between (preview spec).
+ *
+ * WCAG: layout change only; no color or contrast impact. */
+@media (min-width: 992px) {
+  .logo-grid .logo-grid__container .logo-grid__content {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: center;
+  }
+}
+
+/* Tablet: centered wrap with moderate gap
+ * At 693px container width, 6 logo cells at 140px + gap 2rem wrap to
+ * 2 rows. Preview also shows 4+2 at 768; brief says "2 rows of 3" but
+ * preview is canonical and renders 4+2. */
+@media (min-width: 577px) and (max-width: 991px) {
+  .logo-grid .logo-grid__container .logo-grid__content {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+  }
+}
+
+/* Mobile (xs, <576px): enforce 3 rows of 2 per brief spec.
+ * At 375px the .logo-grid__content container is ~331px wide.
+ * With gap 1.5rem (24px), two items per row need: item + gap + item <= 331px.
+ * Each item at 140px needs 140+24+140 = 304px <= 331px. Fits.
+ *
+ * However, .logo-item flex-basis defaults to auto, and the content (140px img)
+ * might cause uneven wrapping. Set explicit flex-basis to ensure 2-per-row.
+ * Also set img width: 100% so images scale to the smaller cell width. */
+@media (max-width: 576px) {
+  .logo-grid .logo-grid__container .logo-grid__content {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .logo-grid .logo-item {
+    flex: 0 1 calc(50% - 0.75rem);
+    max-width: calc(50% - 0.75rem);
+  }
+
+  .logo-grid .logo-item img {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* ─── "We Speak" label ─────────────────────────────────────────────
+ * Audit 5.1: the label is rendered as an H2 (~30px) instead of a 12px
+ * tracked uppercase muted label matching the preview spec.
+ *
+ * Selector scope: the homepage logo-grid section, identified by the
+ * .dy-section--logo-grid marker class (applied via Canvas additional_classes).
+ *
+ * Previous selector: .dy-section:has(.logo-grid) .dy-section__header > *
+ * Replaced by marker-based selector per ADV-3 (Sprint 10 Cycle 2b.4).
+ * Cross-page check: logo-grid only on homepage. Direct swap safe.
+ *
+ * Preview spec: 12px / 600 weight / 1.6px letter-spacing / uppercase /
+ * color #6B6358 (muted label color).
+ * We use --theme-text-color-medium (#5C544C) as the label color; this is
+ * the muted body-text token and passes WCAG AA on all our surfaces.
+ * WCAG: #5C544C on #FFFFFF = 7.43:1 (AA large ✓).
+ *
+ * The selector targets ALL child elements of .dy-section__header so it
+ * works whether the label is emitted as <h2>, <p>, <span>, etc.
+ *
+ * Specificity: .dy-section.dy-section--logo-grid (0,2,0) + .dy-section__header > * (0,1,0)
+ * = (0,3,0). Matches prior :has-based selector effective specificity. */
+.dy-section.dy-section--logo-grid .dy-section__header > * {
+  font-size: 0.75rem;      /* 12px — preview spec label-xs */
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--theme-text-color-medium);  /* #5C544C on white: 7.43:1 (AA ✓) */
+  line-height: 1.5;
+  margin-block-end: 1.5rem;  /* breathing room between label and logo row */
+}
+
+/* ─── Hero-to-logo-grid transition spacing ─────────────────────────
+ * Preview spec: .logo-bar sits immediately after .hero with padding-top
+ * 48px (--space-2xl) and label margin-bottom 32px (--space-xl). Total gap
+ * from hero bottom-edge to label: 48px. From label to logos: 32px.
+ *
+ * On live, the logo-grid is wrapped in a dy-section with:
+ *   - padding-top: 80px (from .padding-top--m utility via Canvas)
+ *   - .dy-section__header margin-bottom: 80px (dripyard_base section.css default)
+ * This creates 80+80=160px of wrapper spacing vs preview's 48+32=80px.
+ *
+ * Fix: override both on the logo-grid section that follows the hero.
+ *
+ * Previous selector: .hero.theme--white + .dy-section:has(.logo-grid) (0,4,0)
+ * Replaced by marker-based: .dy-section.dy-section--post-hero-logos (0,2,0)
+ * per ADV-3 (Sprint 10 Cycle 2b.4).
+ * Specificity reduced from (0,4,0) to (0,2,0) but safe: only needs to beat
+ * .padding-top--m (0,1,0) and .dy-section__header (0,1,0).
+ * Cross-page check: logo-grid + hero only on homepage. Direct swap safe.
+ *
+ * Layer ruling:
+ *   L1: padding-top--m is set via Canvas layout prop. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: not a theme token. RULED OUT.
+ *   L5: component-scoped structural override. CORRECT LAYER.
+ *
+ * WCAG: spacing-only change, no color or contrast impact. */
+.dy-section.dy-section--post-hero-logos {
+  padding-top: 3rem;         /* 48px — matches preview's .logo-bar padding-top */
+}
+
+.dy-section.dy-section--post-hero-logos .dy-section__header {
+  margin-bottom: 2rem;       /* 32px — matches preview's label margin-bottom (--space-xl) */
+}
