@@ -20,6 +20,8 @@
     "playwright-ctrf-json-reporter": "^0.0.18",
     "playwright-lighthouse": "^4.0",
     "slack-ctrf": "^0.0",
+    "stylelint": "^17.13.0",
+    "stylelint-config-standard": "^40.0.0",
     "winston": "^3.17.0",
     "yaml": "^2.6.1"
   },

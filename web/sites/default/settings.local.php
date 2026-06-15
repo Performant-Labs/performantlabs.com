@@ -162,9 +162,6 @@ $config['environment_indicator.indicator']['name'] = 'Local';
 $config['environment_indicator.indicator']['bg_color'] = '#990034';
 $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 
-// Activate V2 theme locally while Pantheon is pinned to V1 via settings.php.
-$config['system.theme']['default'] = 'performant_labs_v2';
-
 /**
  * Trusted local host patterns.
  */
