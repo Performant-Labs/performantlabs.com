@@ -1,0 +1,102 @@
+{#
+/**
+ * @file
+ * Theme override for interior book chapter pages.
+ *
+ * Fires when hook_theme_suggestions_node_alter() adds 'node__book__full' —
+ * i.e. the rendered node is a non-root child in a book hierarchy
+ * (book.bid !== node.id()) in full view mode.
+ *
+ * Layout:
+ *   1. Compact chapter header: kicker "Chapter NN . Book Title" + h1
+ *   2. .docs-grid wrapper: sidebar column + content column
+ *      - Sidebar: chapter navigation rendered inline from preprocess
+ *        (block-book-navigation relocated out of header_first)
+ *      - Content: body field wrapped in .docs-prose + book-traversal pager
+ *        restyled as tile cards
+ *   3. Mobile <992px: sidebar collapses to <details> disclosure
+ *
+ * Variables from performant_labs_v2_preprocess_node__book__full():
+ *   - chapter_index: zero-padded position (e.g. "01")
+ *   - book_title: the book root's title
+ *   - book_root_url: path alias for the book root
+ *   - sidebar_chapters: array of {url, title, nid}
+ *   - current_nid: the current node's ID
+ *
+ * The docs-page library is attached for all interior chapter CSS.
+ */
+#}
+{{ attach_library('performant_labs_v2/docs-page') }}
+
+{# Compact chapter header — no cream band, flush on canvas #}
+<header class="chapter-header">
+  <div class="chapter-header__inner">
+    <span class="chapter-header__kicker">Chapter {{ chapter_index }} &middot; {{ book_title }}</span>
+    <h1>{{ label }}</h1>
+  </div>
+</header>
+
+{# Docs layout: sidebar + prose #}
+<section class="docs-page">
+  <div class="docs-grid">
+
+    {# LEFT: chapter sidebar — rendered inline from preprocess data.
+       Uses <details> so mobile gets a disclosure widget. Desktop forces
+       the panel open via an inline script that toggles the open attribute
+       based on viewport width (see bottom of template). Renders without
+       the open attribute so mobile starts collapsed. #}
+    <details class="docs-sidebar">
+      <summary class="docs-sidebar__summary">
+        <span>Chapter {{ chapter_index }} &middot; {{ label }}</span>
+      </summary>
+      <nav aria-label="Chapters">
+        <p class="docs-sidebar__heading">Chapters</p>
+        <div class="docs-sidebar__list-wrap">
+          <ol class="docs-sidebar__list">
+            {% for chapter in sidebar_chapters %}
+              <li>
+                <a href="{{ chapter.url }}"{{ chapter.nid == current_nid ? ' class="is-active" aria-current="page"' : '' }}>{{ chapter.title }}</a>
+              </li>
+            {% endfor %}
+          </ol>
+        </div>
+      </nav>
+    </details>
+
+    {# RIGHT: body content + pager #}
+    <div class="docs-content">
+
+      <article{{ attributes.addClass(['node', 'node--type-book', 'node--view-mode-full']) }}>
+        <div class="docs-prose">
+          {{ content.body }}
+        </div>
+      </article>
+
+      {# Book pager — prev / up / next tile cards.
+         Wraps the existing book_navigation_without_tree extra-field markup
+         in a .book-pager div to satisfy the AC marker requirement. The inner
+         <ul class="book-traversal__list"> markup stays intact (per K8: keep
+         the markup, restyle via CSS). #}
+      <div class="book-pager">
+        {{ content|without('body') }}
+      </div>
+
+    </div>{# /.docs-content #}
+
+  </div>
+</section>
+
+{# Viewport-conditional <details> toggle.
+   Desktop (>=992px): opens the sidebar so the chapter list is visible.
+   Mobile (<992px): leaves the sidebar collapsed; user taps <summary> to expand.
+   Listens for viewport changes so resize / orientation change is handled. #}
+<script>
+(function() {
+  var sidebar = document.querySelector('.docs-sidebar');
+  if (!sidebar) return;
+  var mq = window.matchMedia('(min-width: 992px)');
+  var sync = function() { sidebar.toggleAttribute('open', mq.matches); };
+  mq.addEventListener('change', sync);
+  sync();
+})();
+</script>

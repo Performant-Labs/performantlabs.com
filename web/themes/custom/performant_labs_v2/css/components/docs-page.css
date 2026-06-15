@@ -1,0 +1,632 @@
+/* ============================================================
+   Docs Page — interior book chapter layout
+   Layer 5: scoped to .docs-grid, .docs-sidebar, .docs-content,
+   .docs-prose, .chapter-header, .book-pager. Loaded via
+   attach_library('performant_labs_v2/docs-page') from
+   node--book--full.html.twig.
+
+   Cycle 2 of the /automated-testing-kit book-pages overhaul.
+   Visual reference: Previews/automated-testing-kit-introduction.html
+   Prose typography mirrors: Previews/article-introducing-layout-builder-kit-beta-1.html
+   ============================================================ */
+
+/* ---- Compact chapter header ----
+   No cream band. Kicker "Chapter NN . Book Title" + h1 flush on canvas.
+   Hairline bottom border separates from docs grid below.
+   ============================================================ */
+
+.chapter-header {
+  padding: 48px 0 24px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E1DC; /* --hairline */
+}
+
+.chapter-header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.chapter-header__kicker {
+  display: inline-block;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #8E4A2A; /* --accent-deep */
+  margin-bottom: 8px;
+}
+
+.chapter-header h1 {
+  font-family: "Rubik", sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: #2A2520; /* --ink */
+  margin: 0;
+  text-wrap: balance;
+}
+
+/* ---- Hide the default page-title-block on interior book pages ----
+   The compact chapter header replaces it. Scoped to pages that have
+   .docs-page (interior chapters only). */
+body:has(.docs-page) .block-page-title-block {
+  display: none;
+}
+
+/* ---- Docs layout: two-column grid ----
+   Sidebar 260px + content 1fr, gap 48px.
+   Max-width 1200px centered.
+
+   Fix (Cycle 2 round 2): explicit grid-column on children to override
+   neonbyte parent theme's :where([class*="grid"]) > * { grid-column: 1 / -1 }
+   in themes/contrib/neonbyte/css/layout/grid.css:73. The :where() selector
+   has zero specificity, but still wins against an unspecified value. Declaring
+   grid-column explicitly on the children defeats the cascade.
+   ============================================================ */
+
+.docs-page {
+  padding: 48px 0 96px;
+  background: #FFFFFF;
+}
+
+.docs-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Override neonbyte :where([class*="grid"]) > * { grid-column: 1 / -1 } */
+.docs-grid > .docs-sidebar {
+  grid-column: 1;
+}
+
+.docs-grid > .docs-content {
+  grid-column: 2;
+}
+
+/* ---- Sidebar: chapter navigation ----
+   Sticky, hairline-card chrome, CSS counter numbering.
+   Active item: left amber border + accent-deep text + 500 weight.
+   ============================================================ */
+
+.docs-sidebar {
+  position: sticky;
+  top: 88px;
+  max-height: calc(100vh - 88px - 24px);
+  overflow-y: auto;
+  padding: 24px;
+  background: #F2EFED; /* --surface-warm */
+  border: 1px solid #E5E1DC; /* --hairline */
+  border-radius: 12px;
+}
+
+.docs-sidebar__heading {
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #6B6358; /* --muted */
+  margin: 0 0 16px;
+}
+
+.docs-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: chapter;
+}
+
+.docs-sidebar__list li {
+  counter-increment: chapter;
+}
+
+.docs-sidebar__list a {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  color: #5C544C; /* --body */
+  font-size: 14px;
+  line-height: 1.4;
+  border-left: 3px solid transparent;
+  margin-left: -3px;
+  text-decoration: none;
+  transition: color 150ms ease-out, background-color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.docs-sidebar__list a::before {
+  content: counter(chapter, decimal-leading-zero);
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  color: #6B6358; /* --muted */
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.docs-sidebar__list a:hover {
+  color: #1893b4; /* --primary */
+  background: #FFFFFF; /* --canvas */
+  text-decoration: none;
+}
+
+/* Active item: amber left border + accent-deep text + 500 weight */
+.docs-sidebar__list a.is-active {
+  color: #8E4A2A; /* --accent-deep */
+  font-weight: 500;
+  background: #FFFFFF; /* --canvas */
+  border-left-color: #C97B5C; /* --accent */
+}
+
+.docs-sidebar__list a.is-active::before {
+  color: #C97B5C; /* --accent */
+}
+
+/* Focus state for sidebar links */
+.docs-sidebar__list a:focus-visible {
+  outline: 2px solid #1893b4; /* --primary */
+  outline-offset: 2px;
+}
+
+/* Mobile-only <summary> wrapper. Hidden on desktop. */
+.docs-sidebar__summary {
+  display: none;
+}
+
+/* ---- Content column ---- */
+
+.docs-content {
+  min-width: 0;
+}
+
+/* Remove the default .container class max-width on interior book articles */
+.docs-content .node.container {
+  max-width: none;
+  padding: 0;
+}
+
+/* ---- Prose typography ----
+   Mirrors article-introducing-layout-builder-kit-beta-1.html lines 256-394.
+   Width capped at 720px for legibility.
+   ============================================================ */
+
+.docs-prose {
+  max-width: 720px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #2A2520; /* --ink */
+}
+
+.docs-prose > * + * {
+  margin-top: 24px;
+}
+
+.docs-prose p {
+  color: #2A2520; /* --ink */
+}
+
+.docs-prose strong {
+  color: #2A2520; /* --ink */
+}
+
+.docs-prose h2 {
+  font-family: "Rubik", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  color: #2A2520;
+  margin-top: 48px;
+  text-wrap: balance;
+}
+
+.docs-prose h3 {
+  font-family: "Rubik", sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: #2A2520;
+  margin-top: 32px;
+  text-wrap: balance;
+}
+
+.docs-prose h4 {
+  font-family: "Rubik", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: #2A2520;
+  margin-top: 24px;
+  text-wrap: balance;
+}
+
+/* Inline links: underline via border-bottom */
+.docs-prose a {
+  color: #1893b4; /* --primary */
+  text-decoration: none;
+  border-bottom: 1px solid #62bbcb; /* --primary-light */
+  transition: color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.docs-prose a:hover {
+  color: #005AA0; /* --primary-deep / --link-hover */
+  border-bottom-color: #005AA0;
+  text-decoration: none;
+}
+
+.docs-prose a:focus-visible {
+  outline: 2px solid #1893b4;
+  outline-offset: 2px;
+}
+
+/* Lists */
+.docs-prose ul,
+.docs-prose ol {
+  padding-left: 32px;
+  margin: 0;
+}
+
+.docs-prose ul {
+  list-style: disc;
+}
+
+.docs-prose ul li::marker {
+  color: #C97B5C; /* --accent */
+}
+
+.docs-prose ol {
+  list-style: decimal;
+}
+
+.docs-prose ol li::marker {
+  color: #8E4A2A; /* --accent-deep */
+  font-weight: 600;
+}
+
+.docs-prose li + li {
+  margin-top: 8px;
+}
+
+.docs-prose li > p:first-child {
+  margin-top: 0;
+}
+
+/* Blockquote */
+.docs-prose blockquote {
+  margin: 0;
+  padding: 12px 32px;
+  border-left: 3px solid #C97B5C; /* --accent */
+  color: #5C544C; /* --body */
+  font-style: italic;
+}
+
+/* Inline code */
+.docs-prose code {
+  font-family: Consolas, Monaco, "Andale Mono", monospace;
+  font-size: 0.92em;
+  background: #F2EFED; /* --surface-warm */
+  color: #1F1A14; /* --espresso */
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Code blocks */
+.docs-prose pre {
+  font-family: Consolas, Monaco, "Andale Mono", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  background: #1F1A14; /* --espresso */
+  color: #F5EFE2; /* --on-dark */
+  padding: 24px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.docs-prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* "Note" callout — auto-detected via preprocess hook (wraps NOTE: paragraphs
+   in <aside class="callout">). Also supports editor-applied class="callout"
+   on <p> in source view. Cream bg, terracotta left-rule, accent-deep "Note:"
+   strong-text. */
+.docs-prose .callout {
+  margin: 0;
+  padding: 16px 24px;
+  background: #F5EFE2; /* --cream */
+  border-left: 3px solid #C97B5C; /* --accent */
+  border-radius: 0 8px 8px 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #5C544C; /* --body */
+}
+
+.docs-prose .callout strong {
+  color: #8E4A2A; /* --accent-deep */
+}
+
+/* When the callout wraps a <p> (via <aside class="callout"><p>...</p></aside>),
+   reset the paragraph margin so it does not add extra spacing inside. */
+.docs-prose .callout p {
+  margin: 0;
+  color: inherit;
+}
+
+/* ---- Book pager: prev / up / next tile cards ----
+   Restyles the existing <nav aria-label="Book traversal links for ...">
+   <ul class="book-traversal__list"> markup. Per K8: keep the markup, restyle.
+   ============================================================ */
+
+/* Wrapper: the <nav> that contains the book traversal */
+.docs-content nav[aria-label^="Book traversal"] {
+  max-width: 720px;
+  margin: 64px 0 0;
+  padding-top: 32px;
+  border-top: 1px solid #E5E1DC; /* --hairline */
+}
+
+.docs-content .book-traversal__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+}
+
+/* Position items in the 3-col grid */
+.docs-content .book-traversal__item:nth-child(1) {
+  grid-column: 1;
+}
+
+.docs-content .book-traversal__item:nth-child(2) {
+  grid-column: 2;
+}
+
+.docs-content .book-traversal__item:nth-child(3) {
+  grid-column: 3;
+  text-align: right;
+}
+
+.docs-content .book-traversal__item a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 24px;
+  border: 1px solid #E5E1DC; /* --hairline */
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #2A2520; /* --ink */
+  text-decoration: none;
+  transition: border-color 150ms ease-out, transform 150ms ease-out, color 150ms ease-out;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.docs-content .book-traversal__item a:hover {
+  border-color: #1893b4; /* --primary */
+  color: #1893b4;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.docs-content .book-traversal__item a:focus-visible {
+  outline: 2px solid #1893b4;
+  outline-offset: 2px;
+}
+
+/* "Up" tile — compact centered */
+.docs-content .book-traversal__item:nth-child(2) a {
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 16px;
+  gap: 0;
+}
+
+/* Hide the <b> directional arrows from the default markup — we'll use
+   CSS-generated content for cleaner typography */
+.docs-content .book-traversal__item a b {
+  font-weight: inherit;
+}
+
+/* ---- Pager kicker labels ----
+   CSS-only injection via ::before pseudo-elements. Uses the rel attribute
+   (rel="prev", rel="next") and title attribute (title="Go to parent page")
+   on the Drupal-rendered <a> elements as selectors. Typography matches the
+   preview: Poppins 11px/1 600 weight, 1.4px letter-spacing, uppercase, muted.
+
+   Accessibility note: kicker text inserted via ::before is not accessible to
+   screen readers. This is acceptable because the link text itself is already
+   meaningful (chapter title + arrow for prev/next, "Up" for parent). The
+   kickers are purely decorative labels for sighted users.
+   ============================================================ */
+
+.docs-content .book-traversal__item a[rel="prev"]::before {
+  content: "Previous";
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #6B6358; /* --muted */
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.docs-content .book-traversal__item a[rel="next"]::before {
+  content: "Next chapter";
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #6B6358; /* --muted */
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.docs-content .book-traversal__item a[title="Go to parent page"]::before {
+  content: "\2022\00a0 Up";
+  display: block;
+  font-family: "Poppins", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #6B6358; /* --muted */
+  line-height: 1;
+}
+
+/* Kicker inherits hover color from the parent <a> */
+.docs-content .book-traversal__item a:hover::before {
+  color: #1893b4; /* --primary */
+}
+
+/* ---- Mobile responsive ----
+   <992px: sidebar collapses to <details> disclosure, single column.
+   <768px: typography + padding drops, pager stacks.
+   ============================================================ */
+
+@media (max-width: 991px) {
+  .docs-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* Reset grid-column on children when grid collapses to 1-col.
+     Without this, grid-column: 2 on .docs-content would be out-of-bounds
+     since the single-column grid only has column 1. */
+  .docs-grid > .docs-sidebar,
+  .docs-grid > .docs-content {
+    grid-column: 1;
+  }
+
+  .docs-sidebar {
+    position: static;
+    max-height: none;
+    padding: 0;
+    background: transparent;
+    border: 1px solid #E5E1DC;
+    border-radius: 8px;
+    overflow: visible;
+  }
+
+  .docs-sidebar__heading {
+    display: none;
+  }
+
+  .docs-sidebar__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #2A2520; /* --ink */
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .docs-sidebar__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .docs-sidebar__summary::after {
+    content: "\203A"; /* rsaquo */
+    font-size: 24px;
+    color: #6B6358; /* --muted */
+    transition: transform 150ms ease-out;
+  }
+
+  .docs-sidebar[open] .docs-sidebar__summary::after {
+    transform: rotate(90deg);
+  }
+
+  .docs-sidebar__list-wrap {
+    padding: 0 16px 16px;
+  }
+
+  /* Ensure sidebar touch targets are >= 44px on mobile */
+  .docs-sidebar__list a {
+    min-height: 44px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .chapter-header {
+    padding: 32px 0 12px;
+  }
+
+  .chapter-header h1 {
+    font-size: 30px;
+    letter-spacing: -0.6px;
+  }
+
+  .chapter-header__inner {
+    padding: 0 16px;
+  }
+
+  .docs-page {
+    padding: 24px 0 64px;
+  }
+
+  .docs-grid {
+    padding: 0 16px;
+  }
+
+  /* Prose typography drops */
+  .docs-prose {
+    font-size: 16px;
+  }
+
+  .docs-prose h2 {
+    font-size: 24px;
+  }
+
+  .docs-prose h3 {
+    font-size: 20px;
+  }
+
+  /* Pager stacks to single column */
+  .docs-content .book-traversal__list {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .docs-content .book-traversal__item:nth-child(1),
+  .docs-content .book-traversal__item:nth-child(2),
+  .docs-content .book-traversal__item:nth-child(3) {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  .docs-content .book-traversal__item:nth-child(2) a {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  /* Ensure pager touch targets >= 44px on mobile */
+  .docs-content .book-traversal__item a {
+    min-height: 44px;
+  }
+}

@@ -1,0 +1,107 @@
+/*
+ * [Layer 5] kicker SDC — bespoke editorial label.
+ * New component; no higher-layer override needed.
+ * Typography: Poppins 12px SemiBold per design brief §caption.
+ * Consolas/mono is reserved for card eyebrows only.
+ */
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+/* ─── Theme: light (terracotta-deep on canvas) ──────────────── */
+.kicker--light {
+  color: var(--pl-accent-deep);
+}
+
+/* On warm canvas sections, use --pl-accent-deep-on-light for kicker colour —
+   --pl-accent-deep-on-light (#8E4A2A, 5.79:1 on cream #F5EFE2, AA pass). */
+.theme--light .kicker--light,
+.theme--secondary .kicker--light {
+  color: var(--pl-accent-deep-on-light);
+}
+
+/* ─── Theme: dark (terracotta on espresso) ───────────────────── */
+.kicker--dark {
+  color: var(--pl-accent);
+}
+
+/* ─── Variant: centered (accent rules flanking text) ─────────── */
+.kicker--centered::before,
+.kicker--centered::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 0;
+  border-top: 1px solid;
+  flex-shrink: 0;
+}
+
+/* [D1] Centered kicker — center internal content (text + flanking rules)
+ * within the kicker's own flex container.
+ *
+ * REWORK round 3 — corrected fix:
+ *   Round 1 added align-self: center, which was a no-op. The parent
+ *   dy-section__content is display: flex with flex-direction: ROW (not
+ *   column as F assumed). In a flex-row, the cross axis is vertical, so
+ *   align-self: center only centers vertically (invisible with one item
+ *   per row). The kicker itself stretches to full parent width (1440px)
+ *   in either case.
+ *
+ *   The actual problem: the kicker IS full-width but its internal flex
+ *   content (::before rule + text + ::after rule) sits at flex-start
+ *   (left). The kicker is a flex container (display: inline-flex from
+ *   the base .kicker rule, promoted to display: flex by the parent's
+ *   stretching). Its children need justify-content: center to center
+ *   horizontally within the kicker's own width.
+ *
+ * Cross-context safety:
+ *   - Hero kicker (dy-section__header, display: inline-flex): content-
+ *     width container with no spare space. justify-content: center has
+ *     no visible effect. No regression.
+ *   - Cream kicker (same header context): same. No regression.
+ *   - Sidebar kicker (kicker--inline, NOT kicker--centered): different
+ *     class. Not affected.
+ *   - Closing CTA kicker (display: flex in content slot): NOW centers
+ *     the text + flanking rules within the full-width kicker. FIXED.
+ *   - /about-us closing CTA: same pattern. Same fix. Benefit.
+ *
+ * Layer: L5 component-scoped. L1/L2/L3 ruled out.
+ * WCAG: layout change only; no color or contrast impact. */
+.kicker--centered {
+  justify-content: center;
+}
+
+.kicker--centered.kicker--light::before,
+.kicker--centered.kicker--light::after {
+  border-color: var(--pl-accent);
+}
+
+.kicker--centered.kicker--dark::before,
+.kicker--centered.kicker--dark::after {
+  border-color: var(--pl-accent-tint);
+}
+
+/* ─── Variant: inline (left-aligned, no rules) ──────────────── */
+.kicker--inline {
+  display: inline-block;
+}
+
+/* ─── Section-head context: gap between kicker and the heading below.
+ * When a kicker sits in a section's `header` slot above an h2/h1, the
+ * default 0 margin makes them touch. Static preview rendered the same
+ * relationship at 16px (`var(--space-base)`). Scope this rule to the
+ * dy-section header context so it doesn't affect kickers placed in
+ * `content` slots (e.g. closing-CTA kicker, which gets its rhythm
+ * from the title-cta SDC). */
+.dy-section__header .kicker {
+  margin-bottom: var(--space-base, 16px);
+}

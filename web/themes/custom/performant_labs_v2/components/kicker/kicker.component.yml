@@ -1,0 +1,36 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/11.x/core/assets/schemas/v1/metadata.schema.json
+name: Kicker
+status: stable
+group: Performant Labs
+props:
+  type: object
+  required:
+    - text
+  properties:
+    text:
+      type: string
+      title: Label text
+      examples:
+        - Drupal testing
+    variant:
+      type: string
+      title: Variant
+      enum:
+        - centered
+        - inline
+      default: inline
+      meta:enum:
+        centered: Centered (with rules on both sides)
+        inline: Inline (left-aligned, no rules)
+      examples:
+        - inline
+    theme:
+      type: string
+      title: Theme
+      enum:
+        - light
+        - dark
+      default: light
+      description: 'light → terracotta-deep on canvas. dark → terracotta on espresso.'
+      examples:
+        - light

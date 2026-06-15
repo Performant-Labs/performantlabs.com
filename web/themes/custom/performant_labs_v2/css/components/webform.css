@@ -1,0 +1,271 @@
+/**
+ * @file
+ * [Layer 5] Webform + form-section overrides for performant_labs_v2.
+ *
+ * Loaded via libraries-extend on core/components.dripyard_base--section.
+ * Covers:
+ *   - D2: Two-column form-grid layout at >= 992px
+ *   - D3: Form-input chrome (border radius, focus ring, padding, required marker)
+ *   - D5: Sidebar card styling (.contact-sidebar)
+ *   - F-NEW-16-A: Sidebar H2 sizing (22px / 1.25 / -0.2px)
+ *
+ * Layer ruling (all items):
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: form tokens are not --theme-* variables; changing site-wide too broad. RULED OUT.
+ *   L5: component-scoped. CORRECT LAYER.
+ *
+ * No !important. No hardcoded hex (uses CSS custom properties for all colors).
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * D2: Two-column form-grid at >= 992px
+ *
+ * After D5 Canvas patch, Section B's dy-section__content has two children:
+ *   1. .block-webform-block (the form)
+ *   2. .contact-sidebar (the flex-wrapper sidebar)
+ *
+ * CSS Grid auto-places by source order. No explicit grid-column needed.
+ *
+ * Bottom-up: dy-section__content uses display:flex (Dripyard section default).
+ * Top-down: L5 component-scoped layout override. CORRECT.
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: .block-webform-block at line 624
+ *   [x] Tier 1: .contact-sidebar wrapper (after Canvas patch)
+ *   [x] Parent: .dy-section__content inside .dy-section.theme--white
+ *
+ * WCAG: layout change only. No color or contrast impact.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 992px) {
+  .dy-section__content:has(.block-webform-block) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 64px;
+    align-items: start;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * D3: Form-input chrome
+ *
+ * Scoped to .block-webform-block ancestor so only webform inputs are affected
+ * (not login forms, admin forms, etc.).
+ *
+ * Overrides:
+ *   --form-border-radius: 4px -> 8px (--radius-md per preview)
+ *   --focus-ring-style: dotted -> solid (per design brief §Elevation)
+ *   Input padding: min-height centering -> explicit 12px 14px
+ *   Textarea padding: var(--spacing-xxs) -> 12px 14px
+ *   Required marker color: currentColor -> var(--pl-accent-deep) (#8E4A2A)
+ *   Input width: size-attribute intrinsic -> 100% (fill column)
+ *
+ * Bottom-up:
+ *   form-text.css: border-radius via --form-border-radius -> --radius-sm (4px)
+ *   form-text.css: outline via --focus-ring-style (dotted) + --theme-focus-ring-color
+ *   form-text.css: max-width: 100% (caps at container, does NOT expand past size attr)
+ *   form.css: .form-required::after { background-color: currentColor }
+ *
+ * REWORK round 1 — BLOCKER 1 fix:
+ *   --form-border-radius was set on .block-webform-block (block wrapper div).
+ *   Dripyard's variables-forms.css re-declares --form-border-radius on the
+ *   <form> element selector, which is a closer ancestor to inputs than
+ *   .block-webform-block. CSS custom property inheritance means the closer
+ *   ancestor wins. Fix: set the variable on the <form> element itself via
+ *   `.block-webform-block form`.
+ *
+ * REWORK round 2 — S BLOCKER fix:
+ *   Inputs rendered at HTML size-attribute width (498px for size=60, 269px
+ *   for size=30) instead of filling the form column (1056px). Dripyard's
+ *   form-text.css sets max-width: 100% but NOT width: 100%. The size
+ *   attribute sets intrinsic width that max-width cannot raise. Fix: add
+ *   width: 100% to the input rule.
+ *
+ * WCAG:
+ *   Focus ring: #1893b4 (solid, 2px) on #FFFFFF = 3.58:1 (>= 3:1 non-text UI). PASS.
+ *   Required marker: #8E4A2A on #FFFFFF = 6.69:1 (>= 4.5:1 AA text). PASS.
+ *   Input text: #2A2520 on #FFFFFF = 14.87:1. PASS.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Override form tokens — MUST target the <form> element, not just the block
+ * wrapper. Dripyard's variables-forms.css sets --form-border-radius on `form`
+ * (a closer DOM ancestor to inputs). Our override on `.block-webform-block form`
+ * (specificity 0,1,1) beats Dripyard's `form` (specificity 0,0,1) AND is on
+ * the same DOM element, so the custom property inheritance is correct. */
+.block-webform-block,
+.block-webform-block form {
+  --form-border-radius: 8px;
+  --focus-ring-style: solid;
+}
+
+/* Input and textarea: full-width + explicit padding (preview: 12px 14px).
+ * width: 100% overrides the HTML size-attribute intrinsic width that
+ * max-width: 100% (Dripyard default) cannot raise.
+ * Does NOT affect the submit button (<button>, not targeted by these selectors)
+ * or the honeypot input (hidden via .visually-hidden wrapper — width is moot). */
+.block-webform-block [type="text"],
+.block-webform-block [type="email"],
+.block-webform-block [type="tel"],
+.block-webform-block [type="url"],
+.block-webform-block [type="number"],
+.block-webform-block [type="password"],
+.block-webform-block [type="search"],
+.block-webform-block textarea {
+  width: 100%;
+  padding: 12px 14px;
+  min-height: auto;
+}
+
+/* Textarea specific: ensure minimum height for message field */
+.block-webform-block textarea {
+  min-height: 168px;
+  resize: vertical;
+}
+
+/* Required marker color: terracotta accent-deep */
+.block-webform-block .form-item__label.form-required::after,
+.block-webform-block .fieldset__label.form-required::after {
+  background-color: var(--pl-accent-deep);
+}
+
+/* Form item spacing: increase from default --spacing-xs to preview-matching gap */
+.block-webform-block .form-item {
+  margin-block: 12px;
+}
+
+/* Submit button: full-width below sm breakpoint (per mobile responsive spec) */
+@media (max-width: 576px) {
+  .block-webform-block .webform-button--submit {
+    width: 100%;
+    min-height: 44px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * D5: Sidebar card styling (.contact-sidebar)
+ *
+ * The flex-wrapper with additional_classes "contact-sidebar" renders as:
+ *   <div class="flex-wrapper contact-sidebar padding-top--0 padding-bottom--0 ...">
+ *     <div class="flex-wrapper__container">
+ *       <div class="flex-wrapper__layout ...">
+ *         [kicker, heading, text, button, text]
+ *       </div>
+ *     </div>
+ *   </div>
+ *
+ * We style .contact-sidebar with border/radius/padding (card appearance)
+ * and sticky positioning at desktop. The inner .flex-wrapper__layout gets
+ * flex-direction: column with gap for child spacing.
+ *
+ * REWORK round 1 — BLOCKER 2 fix:
+ *   The flex-wrapper schema requires `padding_top` and `padding_bottom` props.
+ *   Setting them to "zero" emits `.padding-top--0` and `.padding-bottom--0`
+ *   utility classes. These have specificity (0,1,0) and load after our
+ *   `.contact-sidebar { padding: 32px }` (also 0,1,0), winning by cascade order.
+ *   Fix: compound selector `.contact-sidebar.padding-top--0` (specificity 0,2,0)
+ *   beats the utility's (0,1,0). This is architecturally sound: the flex-wrapper
+ *   schema requires those props (they cannot be omitted), and no Twig override
+ *   can suppress the utility classes. Compound selector is the correct fix.
+ *
+ * Bottom-up: flex-wrapper renders with theme: inherit (no background set).
+ *   No border, no radius, no padding by default.
+ * Top-down: L5 component-scoped on .contact-sidebar. CORRECT.
+ *
+ * WCAG:
+ *   Background: #FFFFFF. Card appears white-on-white with hairline border.
+ *   Text inside inherits zone colors — no contrast change.
+ *   Sticky at >= 992px: does not trap focus or hide content.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.contact-sidebar {
+  border: 1px solid var(--theme-border-color);
+  border-radius: 12px;
+  padding-inline: 32px;
+  background: #FFFFFF;
+}
+
+/* Override Dripyard padding utilities that the flex-wrapper schema forces.
+ * Compound selector (0,2,0) beats .padding-top--0 / .padding-bottom--0 (0,1,0). */
+.contact-sidebar.padding-top--0 {
+  padding-top: 32px;
+}
+
+.contact-sidebar.padding-bottom--0 {
+  padding-bottom: 32px;
+}
+
+/* Sticky positioning at desktop */
+@media (min-width: 992px) {
+  .contact-sidebar {
+    position: sticky;
+    top: 48px;
+  }
+}
+
+/* Drop sticky at mobile (already handled by no media query, but explicit) */
+@media (max-width: 991px) {
+  .contact-sidebar {
+    position: static;
+  }
+}
+
+/* Reset flex-wrapper internal layout to a column with 16px gap */
+.contact-sidebar .flex-wrapper__layout {
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Sidebar kicker: remove section-head margin (not in a dy-section__header context) */
+.contact-sidebar .kicker {
+  margin-bottom: 0;
+}
+
+/* Sidebar divider effect: hairline between button and response-time meta.
+ * The button is followed by the response-time text. Add a top border to
+ * the last .text child (body-s style = response-time meta). */
+.contact-sidebar .flex-wrapper__layout > .text.body-s {
+  border-top: 1px solid var(--theme-border-color);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * F-NEW-16-A: Sidebar H2 sizing — 22px / 1.25 / -0.2px
+ *
+ * Sprint 16 Cycle 3. The sidebar heading ("Prefer a quick call?") is an
+ * <h2> element with Dripyard utility class .h3, which consumes --h3-size.
+ * At desktop neonbyte sets --h3-size: 2rem (32px) — too large for the
+ * contained sidebar card. Preview specifies 22px / 1.25 / -0.2px.
+ *
+ * Bottom-up trace:
+ *   Property: font-size on h2.heading.h3 inside .contact-sidebar
+ *   Current value: 32px (2rem) at 1280px; 24px (1.5rem) at <=576px
+ *   Declared by: .h3 { font-size: var(--h3-size); } [dripyard typography-utilities.css]
+ *   Comes from: --h3-size: 2rem at >600px (neonbyte variables-typography.css)
+ *               --h3-size: 1.5rem at <=576px (base.css mobile block)
+ *
+ * DOM inspection evidence:
+ *   [x] Tier 1: h2.heading.h3 at line 913 inside .contact-sidebar wrapper
+ *   [x] Parent: .flex-wrapper__layout inside .contact-sidebar
+ *   [x] N/A — no JS rendering
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: --h3-size is site-wide; 22px would break all H3 headings. RULED OUT.
+ *   L5: .contact-sidebar .heading (specificity 0,2,0) — component-scoped
+ *       to the sidebar card only. CORRECT LAYER.
+ *
+ * WCAG:
+ *   #1F1A14 (--theme-text-color-loud) on #FFFFFF = 17.29:1.
+ *   22px at weight 500 = ~16.5pt (medium weight). Treating as normal text
+ *   (conservative). Threshold 4.5:1 — 17.29:1 exceeds by 3.84x. PASS.
+ *   At 22px on 320px sidebar, "Prefer a quick call?" fits on a single line
+ *   (measured: ~230px at 22px Rubik 500, sidebar padding 64px = usable 256px).
+ *   No orphan-word risk — single line at all viewports.
+ * ═══════════════════════════════════════════════════════════════════════════ */
+.contact-sidebar .heading {
+  font-size: 1.375rem;          /* 22px — preview .contact-sidebar h2 spec */
+  line-height: 1.25;            /* 27.5px — preview spec */
+  letter-spacing: -0.2px;       /* preview spec */
+  font-weight: 500;             /* Rubik Medium per brief */
+}

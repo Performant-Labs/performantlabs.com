@@ -9,6 +9,7 @@ dependencies:
     - field.storage.node.body
     - field.storage.node.field_summary
     - node.type.article
+    - taxonomy.vocabulary.article_category
     - taxonomy.vocabulary.tags
   content:
     - 'taxonomy_term:tags:545ece50-8ef0-4a00-8972-0e10e9a8c404'
@@ -148,6 +149,51 @@ display:
           expose:
             operator_limit_selection: false
             operator_list: {  }
+        field_category_target_id:
+          id: field_category_target_id
+          table: node__field_category
+          field: field_category_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_category_target_id_op
+            label: Category
+            description: ''
+            use_operator: false
+            operator: field_category_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: category
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: article_category
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       style:
         type: default
       row:
@@ -182,6 +228,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -217,6 +264,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -250,6 +298,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
@@ -466,6 +515,7 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - 'user.node_grants:view'
         - user.permissions
       tags:
@@ -1134,7 +1184,46 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - 'user.node_grants:view'
         - user.permissions
       tags:
         - 'config:field.storage.node.body'
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 1
+    display_options:
+      title: Articles
+      pager:
+        type: none
+        options:
+          offset: 0
+      defaults:
+        title: false
+        pager: false
+        header: false
+      header:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text_custom
+          empty: false
+          content: '<p><em>Notes from the testing engineers at Performant Labs — release announcements for our open-source tools, conference talks, and the occasional cheat sheet.</em></p>'
+          tokenize: false
+      display_extenders: {  }
+      path: articles
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }

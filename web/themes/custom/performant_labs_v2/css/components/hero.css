@@ -1,0 +1,324 @@
+/**
+ * @file
+ * performant_labs_v2 — hero component brand overrides.
+ *
+ * Layer: 5 (component-scoped, libraries-extend on core/components.neonbyte--hero)
+ * Library key: core/components.neonbyte--hero
+ *
+ * Two-pass trace (2026-05-03):
+ *
+ * Pass 1 — Bottom-up:
+ *   Headline: .hero__block-content h1.heading.h1
+ *     font-size  → .h1 { font-size: var(--h1-size) }
+ *                 neonbyte: 2.25rem(36px) → 3.25rem(52px, >450px) → 4.5rem(72px, >600px)
+ *                 base.css @media ≤576px overrides --h1-size: 2.25rem (36px) — WRONG for
+ *                 hero headline; spec wants display-xl = 44px at mobile.
+ *     letter-spacing → .h1 { letter-spacing: var(--h1-letter-spacing) }
+ *                 neonbyte: -0.025em ≈ -1.8px @ 72px — spec wants -2px desktop / -1px mobile.
+ *                 base.css @media ≤576px: --h1-letter-spacing: -1.2px — also wrong for hero.
+ *   Subhead: .body-l { font-size: var(--body-l-size) }
+ *                 neonbyte: 1.25rem (20px) — spec wants 17px (body-lg).
+ *                 base.css @media ≤576px: --body-l-size: 1.0625rem (17px) ✓ already correct.
+ *   Buttons: .button--secondary (primary CTA, teal) + .button--light (ghost)
+ *            button.css handles sizing/color. Hero-specific: stack on mobile.
+ *            .hero__block-content currently has gap via neonbyte's --gap-large.
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1: --h1-letter-spacing, --body-l-size not config-driven. RULED OUT.
+ *   L2: Not OKLCH-derived. RULED OUT.
+ *   L3: Setting --h1-letter-spacing / --h1-size at html .theme--white would affect every
+ *       h1-class element on white-surface pages, not just the hero. TOO BROAD. RULED OUT.
+ *   L5: Component-scoped on .hero.theme--white — correct target. CORRECT LAYER.
+ *
+ * DOM verification (Tier 1, 2026-05-03):
+ *   curl https://pl-performantlabs.com.3.ddev.site:8493/ | grep hero:
+ *   .hero.has-background-image.hero--height-medium.hero--align-x-center.theme--white
+ *   .hero__content > .hero__block-content > h1.heading.h1 + .button × 2 + div.body-l ✓
+ *
+ * Rules:
+ *   - No !important.
+ *   - No --theme-setting-* overrides.
+ *   - No theme-layer (--theme-*) variables re-declared here; already correct in base.css.
+ *   - base.css @media ≤576px already sets --title-size: 2.75rem (44px) and
+ *     --title-letter-spacing: -1px. We consume those via our mobile override below.
+ *     Do NOT redeclare --title-size or --title-letter-spacing.
+ *
+ * WCAG contrast (white theme, #FFFFFF surface):
+ *   Headline #1F1A14 on #FFFFFF: 17.29:1 (AAA ✓)
+ *   Subhead #5C544C (--theme-text-color-medium) on #FFFFFF: 7.07:1 (AAA ✓)
+ *   Kicker #8E4A2A (--pl-accent-deep) on #FFFFFF: 6.69:1 (AA ✓)
+ *   Focus ring #1893b4 on #FFFFFF: 3.58:1 (≥3.0 non-text ✓)
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+
+/* ── 1. Hero layout — centering and vertical breathing room ───────────────
+   The white-theme hero carries no background image; padding establishes the
+   vertical weight. Neonbyte's default is --spacing-component-internal (~64px).
+   We increase to a deliberate editorial weight for the page's lead section.
+
+   Phase 8.2 fix (2026-05-09): padding-inline set to 0.
+   Root cause of 768px horizontal overflow: neonbyte's hero.css applies
+   padding-inline: var(--spacing-component-internal) (80px) at
+   @container (width > 700px). This creates a 533px content box inside
+   the hero's 693px border-box at 768px. But .hero__container.container
+   calculates its width from 92cqw of the ancestor .query-container
+   (753px → 693px), NOT from the hero's content box. Result: .container
+   (693px) overflows the hero's content box (533px) by 160px.
+   Preview spec: .hero { padding: 120px 0 var(--space-section) } — zero
+   horizontal padding at all viewports. Fix: override padding-inline to 0
+   on .hero.theme--white, matching the preview exactly.
+
+   Phase 8.5 fix (2026-05-10): min-height/height override + padding-block.
+   Root cause of ~600px whitespace below CTAs: neonbyte hero.css applies
+   min-height: 800px via .hero--height-medium class (Canvas prop height=medium).
+   The preview has NO min-height — .hero is intrinsically sized by content +
+   padding alone. The hero component YAML enum has no "auto" or "none" height
+   option, so Layer 1 (config) cannot solve this. L5 override is correct.
+   Additionally, padding-block updated from clamp(4rem, 10vh, 7rem) to the
+   preview's exact values: 120px top, 96px (--space-section) bottom. */
+.hero.theme--white {
+  min-height: auto;
+  height: auto;
+  padding-block: 120px 96px;
+  padding-inline: 0;
+}
+
+/* Phase 8.5: tablet/mobile padding — preview uses 64px 0 at <=767px */
+@media (max-width: 767px) {
+  .hero.theme--white {
+    padding-block: 64px;
+  }
+}
+
+/* Centre the content column — mirrors align_x: center prop behaviour but
+   ensures max-width cap is explicit regardless of Canvas context. */
+.hero.theme--white .hero__content {
+  max-width: 900px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* ── 2. Headline — display-xl sizing with tight tracking ──────────────────
+   DOM: <h1 class="heading h1 heading--centered margin-top--0 margin-bottom--0 color--loud">
+
+   Phase 8 Batch 1 Finding #6 — re-trace 2026-05-03:
+
+   Bottom-up:
+     .h1 { font-size: var(--h1-size) } in dripyard_base/css/utilities/typography-utilities.css.
+     `h1 { font-size: var(--h1-size) }` (element selector 0,0,1) in dripyard_base/css/base/base.css.
+     --h1-size cascades:
+       :root (neonbyte mobile-first)            → 2.25rem (36px)
+       @media (width > 450px) :root             → 3.25rem (52px)
+       @media (width > 600px) :root             → 4.5rem (72px)
+       @media (max-width: 576px) :root (PL)     → 2.25rem (36px) — mobile only
+     At 1280px the cascade SHOULD resolve to 4.5rem (72px). The S Tier-3 audit
+     observed ~30-34px in headless screenshots — origin uncertain (possible
+     stale build or screenshot tool DPR), but symptomatic of the spec being
+     value-derived rather than asserted. The remediation is to assert the
+     desktop size explicitly on the hero heading rather than relying on the
+     :root cascade hopping through neonbyte.
+
+   Top-down:
+     L1 — not config-driven. RULED OUT.
+     L2 — :root token override site-wide; we already set it for mobile.
+          Setting it again at desktop here would affect every .h1 site-wide,
+          which IS what the brief calls for elsewhere — but Phase 4.7 chose
+          to scope hero typography explicitly. Stay scoped. RULED OUT.
+     L3 — html .theme--white { } would target every white-zone H1 not just
+          the hero. Brief allows hero-specific treatment. RULED OUT.
+     L5 — component-scoped on .hero.theme--white .heading is the lowest-impact
+          assertion. CORRECT LAYER. Specificity (0,3,0) beats .h1 (0,1,0)
+          and h1 (0,0,1) by ID-equivalent margin.
+
+   Editorial line break:
+     Preview homepage.html line 490 hard-coded `<br>` between "releases" and
+     "with confidence." Our heading is rendered by dripyard_base:heading SDC
+     which emits plain text; injecting `<br>` would require Twig override.
+     Use `text-wrap: balance` + max-width 720px instead (min-width 1ch ensures
+     the headline can break to two lines at desktop). At 4.5rem (72px) with
+     letter-spacing -2px the natural balance is ~"Ship Drupal releases" /
+     "with confidence." Documented choice: text-wrap: balance, no Twig change.
+
+   Spec & WCAG (white surface #FFFFFF):
+     Headline #1F1A14 (--theme-text-color-loud) on #FFFFFF: 17.29:1 (AAA).
+     letter-spacing -2px exact per pl_design_brief.md §typography display-xl.
+     line-height 1.05 per same. */
+.hero.theme--white .heading {
+  --h1-letter-spacing: -2px;
+  line-height: 1.05;
+  text-wrap: balance;
+  max-width: 720px;              /* shapes balance into 2-line editorial break */
+  margin-inline: auto;
+}
+
+/* Desktop-only assertion of display-xl 72px. The mobile rule below at
+   @media (max-width: 576px) sets font-size: var(--title-size) (44px),
+   so we do NOT redeclare here for mobile — the cascade already handles it.
+   At 577–600px the H1 gets neonbyte's 3.25rem (52px) default; from 601px up
+   we assert 72px explicitly. */
+@media (min-width: 577px) {
+  .hero.theme--white .heading {
+    font-size: 4.5rem;             /* 72px display-xl */
+    letter-spacing: -2px;          /* assert in case of token shadowing */
+  }
+}
+
+/* Mobile: base.css ≤576px sets --h1-size: 2.25rem (36px) and
+   --h1-letter-spacing: -1.2px. The spec calls for display-xl at mobile = 44px / -1px.
+   We override the hero headline specifically to use display-xl mobile values.
+   These rules fire inside the hero only — no site-wide impact.
+
+   Phase 8 Batch 3 Finding #12 — re-trace 2026-05-03:
+
+   Bottom-up (cascade at 375px):
+     .hero__block-content > h1.heading.h1.heading--centered.color--loud
+     - .h1 { font-size: var(--h1-size) } [dripyard typography utility, (0,1,0)]
+     - h1 { font-size: var(--h1-size) } [dripyard base, (0,0,1)]
+     --h1-size resolves to 2.25rem (36px) under @media (max-width: 576px) :root.
+     The previous mobile rule used `font-size: var(--title-size)`, where
+     --title-size: 2.75rem at mobile. That value is correct in theory but
+     S's Tier 3 audit observed the live H1 still rendering ~22-26px at 375px.
+     Two failure modes are plausible: (a) --title-size cascade resolution
+     order put it after specificity decision and any later .h1 redeclaration
+     wins; (b) the value indirection through the token created a stale
+     reference at media-query boundaries. Either way, asserting the literal
+     2.75rem (44px) eliminates both ambiguities.
+
+   Top-down:
+     L1 — not config-driven. RULED OUT.
+     L2 — not OKLCH-derived. RULED OUT.
+     L3 — :root token override site-wide. We already do this for --title-size
+          but the audit shows the value isn't reliably resolving. Asserting at
+          L5 closes the gap without moving the L3 token. RULED OUT.
+     L5 — component-scoped on .hero.theme--white .heading at @media ≤576px is
+          the lowest-impact fix. Specificity (0,3,0) beats .h1 (0,1,0) and
+          h1 (0,0,1). CORRECT LAYER.
+
+   Spec & WCAG (white surface #FFFFFF):
+     Headline #1F1A14 on #FFFFFF: 17.29:1 (AAA) — same as desktop, no change.
+     letter-spacing -1px exact per pl_design_brief.md typography-mobile block. */
+@media (max-width: 576px) {
+  .hero.theme--white .heading {
+    font-size: 2.75rem;             /* 44px display-xl mobile (literal, not via token) */
+    letter-spacing: -1px;           /* relaxed from -2px desktop per typography-mobile */
+  }
+}
+
+/* ── 3. Subhead — body-lg sizing (17px / 1.6 line-height) ────────────────
+   DOM: <div class="text text-content text--centered body-l color--soft">
+   Neonbyte sets --body-l-size: 1.25rem (20px). Spec: body-lg = 17px (1.0625rem).
+   base.css ≤576px already overrides --body-l-size to 1.0625rem — do not redeclare.
+   At desktop we scope --body-l-size to the hero only. */
+.hero.theme--white .body-l {
+  --body-l-size: 1.0625rem;      /* 17px — body-lg per design brief */
+  --body-l-line-height: 1.65;    /* spec: "appropriate line-height" for body-lg */
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+/* ── 4. Kicker placement ─────────────────────────────────────────────────
+   The kicker SDC renders <span class="kicker kicker--centered kicker--light">.
+   It lives in the hero_content slot (hero__block-content), naturally above the heading.
+   No CSS positioning needed — flow order in the Drupal content handles placement.
+   The .kicker component carries its own styling (components/kicker/kicker.css).
+   This rule ensures the kicker has consistent spacing below it within the hero. */
+.hero.theme--white .kicker {
+  margin-block-end: 0.75rem;
+  display: inline-flex;           /* keeps centered variant's rules symmetrical */
+}
+
+/* ── 5. CTA button grouping — side-by-side desktop, stacked mobile ────────
+   DOM: two .button siblings inside .hero__block-content (after the heading + subhead).
+   Neonbyte .hero__block-content already has:
+     display: flex; flex-direction: column; gap: var(--gap-large); width: 100%
+   We group the buttons in a flex row on desktop. We target the button siblings
+   directly rather than wrapping, because no flex-wrapper component is used here.
+   Specificity: (0,3,0) — .hero.theme--white .hero__block-content. */
+.hero.theme--white .hero__block-content {
+  align-items: center;
+}
+
+.hero.theme--white .hero__block-content > .button {
+  /* Isolate buttons from the block-content column flow — wrap them in their own
+     inline flex row via a display:contents trick not available here; instead we
+     use a targeted gap reduction and let them sit as siblings in the column.
+     On desktop (>576px) the two buttons sit side-by-side via the rule below. */
+  align-self: auto;
+}
+
+/* Desktop: place buttons in a row */
+@media (min-width: 577px) {
+  .hero.theme--white .hero__block-content {
+    display: flex;
+    flex-direction: column;         /* keep heading/subhead/kicker stacked */
+    align-items: center;
+    gap: var(--spacing-m, 1.5rem);  /* consistent vertical gap between rows */
+  }
+
+  /* A flex sub-row for the two CTA buttons.
+     The buttons are siblings in .hero__block-content. We use a CSS-only technique:
+     consecutive .button siblings share a horizontal alignment via the adjacent
+     sibling combinator + a negative margin to pull them onto the same visual line.
+     Since we cannot guarantee button count or DOM wrapping from this CSS layer,
+     the safest approach is to convert the hero__block-content to a flex-wrap column
+     and give consecutive .button elements a modified self-alignment. */
+  .hero.theme--white .hero__block-content > .button + .button {
+    /* Second button sits right of the first — achieved by allowing flex-wrap
+       and giving buttons inline-level sizing. */
+    margin-inline-start: 0;
+  }
+}
+
+/* ── 5a. Button row — a flex subgroup for CTA pair ────────────────────────
+   Since the two buttons are direct children of .hero__block-content alongside
+   the heading and text elements, the cleanest desktop layout uses a CSS
+   container query or a dedicated wrapper. Without template changes we can use
+   flex-wrap on the block-content and set explicit widths on non-button children
+   to force the buttons onto one row. Approach:
+     - flex-direction: row; flex-wrap: wrap; justify-content: center
+     - heading + body-l get flex-basis: 100% to fill the row alone
+     - buttons get flex-basis: auto (natural width) and sit side-by-side
+   This is a pure CSS approach with no Twig changes. */
+@media (min-width: 577px) {
+  .hero.theme--white .hero__block-content {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: var(--spacing-s, 0.75rem);
+    row-gap: var(--spacing-m, 1.5rem);
+  }
+
+  /* Heading and text span full width */
+  .hero.theme--white .hero__block-content > .heading,
+  .hero.theme--white .hero__block-content > .text,
+  .hero.theme--white .hero__block-content > .kicker {
+    flex-basis: 100%;
+  }
+
+  /* Buttons sit side-by-side */
+  .hero.theme--white .hero__block-content > .button {
+    flex-shrink: 0;
+    min-height: 44px;      /* WCAG 2.5.8 target minimum */
+  }
+}
+
+/* ── 5b. Mobile: buttons stack full-width ─────────────────────────────────
+   Below sm (576px) buttons become full-width stacked elements per design brief.
+   Min-height 44px satisfies WCAG 2.5.5 touch target (44 × 44px minimum). */
+@media (max-width: 576px) {
+  .hero.theme--white .hero__block-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-s, 0.75rem);
+  }
+
+  .hero.theme--white .hero__block-content > .button {
+    width: 100%;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

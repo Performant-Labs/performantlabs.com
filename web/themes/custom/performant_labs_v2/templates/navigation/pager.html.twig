@@ -1,0 +1,63 @@
+{#
+/**
+ * @file
+ * Theme override to display a pager as pill buttons.
+ *
+ * Phase 3: replaces the dripyard_base pager template with the pill-button
+ * pagination markup from the static preview. Wraps in a <nav> with the
+ * aria-label "Articles pagination". Current page uses <span> with
+ * aria-current="page". Pager automatically preserves query params (including
+ * ?category=...) because Drupal's pager_query_add_page() preserves all
+ * existing GET parameters.
+ *
+ * Note: this overrides the pager site-wide for the front-end theme.
+ * Admin views use the gin admin theme and are unaffected.
+ *
+ * Available variables:
+ *   - heading_id: Pagination heading ID.
+ *   - pagination_heading_level: Heading level for the pager.
+ *   - items: List of pager items (first, previous, next, last, pages).
+ *   - current: Current page number.
+ *   - ellipses: Ellipsis indicators.
+ *
+ * @see \Drupal\Core\Pager\PagerPreprocess::preprocessPager()
+ */
+#}
+{% if items %}
+  <nav class="pagination" aria-label="Articles pagination">
+    <ul class="pagination__list">
+      {# Previous link — only shown when not on first page #}
+      {% if items.previous %}
+        <li>
+          <a href="{{ items.previous.href }}" aria-label="Previous page" rel="prev">&larr; Prev</a>
+        </li>
+      {% endif %}
+
+      {# Page numbers #}
+      {% if ellipses.previous %}
+        <li><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
+      {% endif %}
+
+      {% for key, item in items.pages %}
+        <li>
+          {% if current == key %}
+            <span class="is-current" aria-current="page">{{ key }}</span>
+          {% else %}
+            <a href="{{ item.href }}" aria-label="Page {{ key }}">{{ key }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% if ellipses.next %}
+        <li><span class="pagination__ellipsis" aria-hidden="true">&hellip;</span></li>
+      {% endif %}
+
+      {# Next link — only shown when not on last page #}
+      {% if items.next %}
+        <li>
+          <a href="{{ items.next.href }}" aria-label="Next page" rel="next">Next &rarr;</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

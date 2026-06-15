@@ -1,0 +1,122 @@
+base:
+  css:
+    base:
+      css/fonts-google.css: { external: true }
+      css/base.css: {}
+
+card:
+  css:
+    component:
+      css/components/card.css: {}
+
+accordion:
+  css:
+    component:
+      css/components/accordion.css: {}
+
+icon-list:
+  css:
+    component:
+      css/components/icon-list.css: {}
+
+logo-grid:
+  css:
+    component:
+      css/components/logo-grid.css: {}
+
+button:
+  css:
+    component:
+      css/components/button.css: {}
+
+title-cta:
+  css:
+    component:
+      css/components/title-cta.css: {}
+
+hero:
+  css:
+    component:
+      css/components/hero.css: {}
+
+header:
+  css:
+    component:
+      css/components/header.css: {}
+
+footer:
+  css:
+    component:
+      css/components/footer.css: {}
+
+grid-wrapper:
+  css:
+    component:
+      css/components/grid-wrapper.css: {}
+
+dy-section:
+  css:
+    component:
+      css/components/dy-section.css: {}
+
+# Articles view — toolbar, grid, chips, pager.
+# Phase 3: view-region CSS attached via attach_library() from
+# views-exposed-form--articles--page-1.html.twig.
+# Layer 5: scoped to .articles-toolbar, .chip, .article-grid, .pagination.
+# No upstream conflict — all selectors are new Phase 3 markup.
+articles-view:
+  css:
+    component:
+      css/components/articles-view.css: {}
+
+# Page title cream band — kicker + H1 + lede.
+# Phase 4: attached via attach_library() from page--articles.html.twig.
+# Layer 5: scoped to .page-title, .page-title__inner, .page-title__lede.
+# Route-scoped to /articles only (template is page--articles.html.twig).
+page-title:
+  css:
+    component:
+      css/components/page-title.css: {}
+
+# Article detail masthead — header-article SDC overrides.
+# Layer 5: scoped to .header-article and children.
+# Loaded via libraries-extend on core/components.neonbyte--header-article.
+header-article:
+  css:
+    component:
+      css/components/header-article.css: {}
+
+# Article detail body — prose typography and rhythm.
+# Layer 5: scoped to .article-full and children.
+# Loaded via libraries-extend on neonbyte/article-full.
+article-full:
+  css:
+    component:
+      css/components/article-full.css: {}
+
+# Webform + form-section chrome — two-column grid, input chrome, sidebar card.
+# Layer 5: scoped to .block-webform-block, .form-item, .contact-sidebar.
+# Loaded via libraries-extend on core/components.dripyard_base--section
+# (webforms render inside sections; CSS selectors prevent bleed to non-form sections).
+webform:
+  css:
+    component:
+      css/components/webform.css: {}
+
+# Book landing page — hero band, features grid, closing CTA.
+# Cycle 1: attached via attach_library() from node--book--landing.html.twig.
+# Layer 5: scoped to .book-landing, .closing-cta, .page-node-type-book.
+# Chapter-index SDC manages its own CSS via libraryOverrides.
+book-landing:
+  css:
+    component:
+      css/components/book-landing.css: {}
+
+# Interior book chapter page — docs grid, sidebar, compact header, tile pager.
+# Cycle 2: attached via attach_library() from node--book--full.html.twig.
+# Layer 5: scoped to .docs-grid, .docs-sidebar, .docs-content, .docs-prose,
+# .chapter-header, .book-pager.
+docs-page:
+  css:
+    component:
+      css/components/docs-page.css: {}

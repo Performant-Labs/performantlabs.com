@@ -1,0 +1,566 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming.
+ */
+
+if (file_exists(__DIR__ . '/dripyard-classloader.php')) {
+  require_once __DIR__ . '/dripyard-classloader.php';
+}
+
+/**
+ * Implements hook_theme_suggestions_views_view_alter().
+ *
+ * Phase 3: adds view-specific template suggestions for the main view wrapper
+ * so views-view--articles--page-1.html.twig is discovered.
+ */
+function performant_labs_v2_theme_suggestions_views_view_alter(array &$suggestions, array $variables): void {
+  $view = $variables['view'] ?? NULL;
+  if ($view instanceof \Drupal\views\ViewExecutable) {
+    $suggestions[] = 'views_view__' . $view->id();
+    $suggestions[] = 'views_view__' . $view->id() . '__' . $view->current_display;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_views_exposed_form_alter().
+ *
+ * Phase 3: adds view-specific template suggestions for the exposed form.
+ */
+function performant_labs_v2_theme_suggestions_views_exposed_form_alter(array &$suggestions, array $variables): void {
+  $form_id = $variables['form']['#id'] ?? '';
+  if (!str_starts_with($form_id, 'views-exposed-form-')) {
+    return;
+  }
+  $suffix = substr($form_id, strlen('views-exposed-form-'));
+  $suggestion_base = str_replace('-', '_', $suffix);
+  $suggestions[] = 'views_exposed_form__' . $suggestion_base;
+}
+
+/**
+ * Implements hook_theme_suggestions_views_view_unformatted_alter().
+ *
+ * Phase 3: adds view-specific template suggestions for the unformatted rows.
+ */
+function performant_labs_v2_theme_suggestions_views_view_unformatted_alter(array &$suggestions, array $variables): void {
+  $view = $variables['view'] ?? NULL;
+  if ($view instanceof \Drupal\views\ViewExecutable) {
+    $suggestions[] = 'views_view_unformatted__' . $view->id();
+    $suggestions[] = 'views_view_unformatted__' . $view->id() . '__' . $view->current_display;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Adds path-alias-based page template suggestions so that templates like
+ * page--articles.html.twig are picked up even when the underlying route is
+ * a node (not a Views page). Mirrors the convention used in the reference
+ * theme where /articles is a native Views page that auto-generates the
+ * suggestion; here we generate the same suggestion from the path alias.
+ */
+function performant_labs_v2_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  // Skip path-based suggestions for node routes: they would override
+  // node-specific page templates and cause the articles listing header
+  // to render on individual article (and other node) pages.
+  $route = \Drupal::routeMatch()->getRouteName();
+  if (str_starts_with($route, 'entity.node.')) {
+    return;
+  }
+
+  $path_alias = \Drupal::service('path_alias.manager')
+    ->getAliasByPath(\Drupal::service('path.current')->getPath());
+  // Strip leading slash, convert remaining slashes to double-dash.
+  $alias_clean = ltrim($path_alias, '/');
+  if (!empty($alias_clean)) {
+    $parts = explode('/', $alias_clean);
+    $cumulative = '';
+    foreach ($parts as $part) {
+      $cumulative = $cumulative === '' ? $part : $cumulative . '--' . $part;
+      $suggestions[] = 'page__' . str_replace('-', '_', $cumulative);
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Two concerns:
+ *
+ * A. Phase 3 — articles exposed form:
+ *    1. Strips the <form> theme wrapper (chip toolbar uses <a> links).
+ *    2. Translates slug -> TID for taxonomy filter.
+ *    3. Sanitizes invalid slugs to TID 0 for zero-rows + empty-state.
+ *
+ * B. Sprint 16 Cycle 2 — contact webform WCAG 1.3.5 (F-NEW-16-B):
+ *    Adds HTML5 autocomplete tokens to the contact form fields so assistive
+ *    technology can identify input purpose. Drupal's webform module does not
+ *    set autocomplete by default; this hook injects the attributes at render
+ *    time without modifying config YAML.
+ *
+ *    Mapping (per HTML spec autofill tokens):
+ *      name         -> autocomplete="name"
+ *      email        -> autocomplete="email"
+ *      company_name -> autocomplete="organization"
+ *      phone_number -> autocomplete="tel"
+ *      message      -> (no token — free-text, no semantic mapping)
+ */
+function performant_labs_v2_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, string $form_id): void {
+  // --- A. Articles exposed form (Phase 3) ---
+  if ($form_id === 'views_exposed_form'
+      && ($form['#id'] ?? '') === 'views-exposed-form-articles-page-1') {
+    // 1. Remove the <form> wrapper.
+    $form['#theme_wrappers'] = [];
+
+    // 2+3. Translate slug -> TID, or sanitize invalid slugs.
+    $request = \Drupal::request();
+    $slug = $request->query->get('category', '');
+    if (!empty($slug) && !is_numeric($slug)) {
+      /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+      $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+      $tids = $term_storage->getQuery()
+        ->condition('vid', 'article_category')
+        ->condition('status', 1)
+        ->accessCheck(TRUE)
+        ->execute();
+
+      $terms = $term_storage->loadMultiple($tids);
+      $matched_tid = NULL;
+      foreach ($terms as $term) {
+        $term_slug = str_replace(' ', '-', strtolower($term->getName()));
+        if ($term_slug === $slug) {
+          $matched_tid = (string) $term->id();
+          break;
+        }
+      }
+
+      if ($matched_tid !== NULL) {
+        // Valid slug: translate to TID.
+        $request->query->set('category', $matched_tid);
+        $user_input = $form_state->getUserInput();
+        $user_input['category'] = $matched_tid;
+        $form_state->setUserInput($user_input);
+      }
+      else {
+        // Invalid slug (rework round 2): set to TID 0 (no term will match)
+        // so the View returns zero rows and the empty-state text renders.
+        // Add 0 to the select element's #options so the validator accepts it.
+        $request->query->set('category', '0');
+        $user_input = $form_state->getUserInput();
+        $user_input['category'] = '0';
+        $form_state->setUserInput($user_input);
+        if (isset($form['category']['#options'])) {
+          $form['category']['#options']['0'] = '';
+        }
+      }
+    }
+    return;
+  }
+
+  // --- B. Contact webform: autocomplete tokens (Sprint 16 Cycle 2) ---
+  // Match the contact_form webform on any Canvas page placement. The form_id
+  // follows the pattern webform_submission_contact_form_*_add_form.
+  if (str_starts_with($form_id, 'webform_submission_contact_form_')
+      && str_ends_with($form_id, '_add_form')) {
+    // Map webform element keys to HTML5 autofill tokens.
+    // Per https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
+    $autocomplete_map = [
+      'name' => 'name',
+      'email' => 'email',
+      'company_name' => 'organization',
+      'phone_number' => 'tel',
+    ];
+
+    foreach ($autocomplete_map as $element_key => $token) {
+      if (isset($form['elements'][$element_key])) {
+        $form['elements'][$element_key]['#attributes']['autocomplete'] = $token;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Phase 3: for article teasers, computes the article_card_16_9 image URL
+ * and passes it to the template as `card_image_url`.
+ *
+ * Rework round 2 (Phase 5 audit — Fix 3): also extracts the card title and
+ * excerpt at the preprocess boundary, applying html_entity_decode() to each.
+ *
+ * Why this is safe:
+ *   The source data (node title, field_summary, body) may contain HTML
+ *   entities like &quot; &amp; &#039; &nbsp; stored literally in the
+ *   database. Without decoding, Twig auto-escape encodes them AGAIN,
+ *   producing double-encoded output visible to the user (e.g. literal
+ *   "&quot;" instead of a quotation mark). Decoding here converts entities
+ *   back to their literal characters. Twig auto-escape then encodes them
+ *   ONCE on output, producing the correct user-visible string.
+ *
+ *   The decoded text is plain text (striptags has already removed HTML
+ *   markup), so there is no XSS risk from decoding entities — the only
+ *   characters affected are punctuation (" ' & and non-breaking spaces).
+ */
+function performant_labs_v2_preprocess_node(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+  if ($node->getType() !== 'article' || $variables['view_mode'] !== 'teaser') {
+    return;
+  }
+
+  // Image URL and alt text (unchanged from Phase 3).
+  $variables['card_image_url'] = '';
+  $variables['card_image_alt'] = '';
+
+  if ($node->hasField('field_image') && !$node->get('field_image')->isEmpty()) {
+    /** @var \Drupal\file\FileInterface|null $file */
+    $file = $node->get('field_image')->entity;
+    if ($file) {
+      $image_style = \Drupal\image\Entity\ImageStyle::load('article_card_16_9');
+      if ($image_style) {
+        $variables['card_image_url'] = $image_style->buildUrl($file->getFileUri());
+      }
+      $variables['card_image_alt'] = $node->get('field_image')->alt ?? '';
+    }
+  }
+
+  // Card title: use label() directly — renderPlain() requires an array in D11.
+  $variables['card_title'] = html_entity_decode(trim($node->label() ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+  // Card excerpt: field_summary > body.summary > trimmed body.
+  // Strip tags first, then decode entities.
+  $excerpt = '';
+  if ($node->hasField('field_summary') && !$node->get('field_summary')->isEmpty()) {
+    $excerpt = strip_tags($node->get('field_summary')->value);
+  }
+  elseif ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+    $body_item = $node->get('body')->first();
+    if (!empty($body_item->summary)) {
+      $excerpt = strip_tags($body_item->summary);
+    }
+    elseif (!empty($body_item->value)) {
+      $stripped = strip_tags($body_item->value);
+      $excerpt = (mb_strlen($stripped) > 200)
+        ? mb_substr($stripped, 0, 200) . '...'
+        : $stripped;
+    }
+  }
+  $variables['card_excerpt'] = html_entity_decode(trim($excerpt), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+}
+
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ *
+ * Phase 3: passes article category terms and the active category slug to the
+ * exposed form Twig template so it can render the chip toolbar as a link list.
+ */
+function performant_labs_v2_preprocess_views_exposed_form(array &$variables): void {
+  $form_id = $variables['form']['#id'] ?? '';
+  if ($form_id !== 'views-exposed-form-articles-page-1') {
+    return;
+  }
+
+  $request = \Drupal::request();
+  $active_category = $request->query->get('category', '');
+
+  // The category param might be a TID (after form_alter translation), a slug,
+  // or '0' (invalid slug sentinel). For chip active-state detection, we always
+  // compare against slugs. If $active_category is numeric, reverse-map to slug.
+  // '0' (invalid slug) will not match any term, so no chip gets is-active.
+  if (is_numeric($active_category) && $active_category !== '0') {
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($active_category);
+    if ($term) {
+      $active_category = str_replace(' ', '-', strtolower($term->getName()));
+    }
+  }
+  elseif ($active_category === '0') {
+    // Invalid slug was sanitized to '0'. No chip should be active.
+    // Set to a value that won't match any slug or trigger "All".
+    $active_category = '__invalid__';
+  }
+
+  /** @var \Drupal\taxonomy\TermStorageInterface $term_storage */
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $tids = $term_storage->getQuery()
+    ->condition('vid', 'article_category')
+    ->condition('status', 1)
+    ->sort('name', 'ASC')
+    ->accessCheck(TRUE)
+    ->execute();
+
+  $terms = $term_storage->loadMultiple($tids);
+  $category_chips = [];
+  foreach ($terms as $term) {
+    $name = $term->getName();
+    $slug = str_replace(' ', '-', strtolower($name));
+    $category_chips[] = [
+      'label' => $name,
+      'slug' => $slug,
+      'tid'  => $term->id(),
+      'is_active' => ($slug === $active_category),
+    ];
+  }
+
+  $variables['category_chips'] = $category_chips;
+  $variables['active_category'] = $active_category;
+  $variables['all_is_active'] = empty($active_category);
+}
+
+/**
+ * Implements hook_theme_suggestions_node_alter().
+ *
+ * Book pages: adds template suggestions based on the node's position in the
+ * book hierarchy.
+ *
+ * - Book root (bid === nid): 'node__book__landing' (Cycle 1)
+ * - Interior chapters (bid !== nid): 'node__book__full' (Cycle 2)
+ *
+ * Uses book.manager->loadBookLink() to query the book table directly, because
+ * $node->book is not reliably populated at theme-suggestion time (it is set
+ * later in the rendering pipeline by the book module's node_view hook).
+ *
+ * Cache contexts include 'route' for clean route-swap behavior.
+ */
+function performant_labs_v2_theme_suggestions_node_alter(array &$suggestions, array $variables): void {
+  $node = $variables['elements']['#node'] ?? NULL;
+  if (!$node instanceof \Drupal\node\NodeInterface) {
+    return;
+  }
+  if ($node->bundle() !== 'book') {
+    return;
+  }
+  $view_mode = $variables['elements']['#view_mode'] ?? '';
+  if ($view_mode !== 'full') {
+    return;
+  }
+
+  // Query the book table via book.manager to get the book link data.
+  /** @var \Drupal\book\BookManagerInterface $book_manager */
+  $book_manager = \Drupal::service('book.manager');
+  $book_link = $book_manager->loadBookLink((int) $node->id());
+  if (empty($book_link) || empty($book_link['bid'])) {
+    return;
+  }
+
+  if ((int) $book_link['bid'] === (int) $node->id()) {
+    // Book root: fire the landing page template.
+    $suggestions[] = 'node__book__landing';
+  }
+  else {
+    // Interior chapter: fire the docs-page template.
+    $suggestions[] = 'node__book__full';
+  }
+}
+
+/**
+ * Implements hook_preprocess_node__book__landing().
+ *
+ * Builds the chapter_index_props variable for the chapter-index SDC.
+ * Queries book.manager for the immediate children (depth 2) of the book root,
+ * sorts by weight, and assembles the SDC-expected shape from node titles
+ * and field_chapter_summary values.
+ */
+function performant_labs_v2_preprocess_node__book__landing(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  // Load book link data via book.manager (reliable at preprocess time).
+  /** @var \Drupal\book\BookManagerInterface $book_manager */
+  $book_manager = \Drupal::service('book.manager');
+  $book_link = $book_manager->loadBookLink((int) $node->id());
+  if (empty($book_link) || empty($book_link['bid'])) {
+    $variables['chapter_index_props'] = ['chapters' => [], 'book_title' => $node->getTitle(), 'total' => 0];
+    return;
+  }
+  $bid = (int) $book_link['bid'];
+
+  // Get the full book tree.
+  $tree = $book_manager->bookTreeAllData($bid);
+
+  // The tree is nested: top level is the root, children are under 'below'.
+  $chapters = [];
+  $index = 1;
+
+  // Walk the tree to find depth-2 entries (immediate children of root).
+  foreach ($tree as $root_item) {
+    if (empty($root_item['below'])) {
+      continue;
+    }
+    foreach ($root_item['below'] as $child_item) {
+      $child_nid = $child_item['link']['nid'] ?? NULL;
+      if (!$child_nid) {
+        continue;
+      }
+
+      $child_node = \Drupal::entityTypeManager()->getStorage('node')->load($child_nid);
+      if (!$child_node) {
+        continue;
+      }
+
+      $summary = '';
+      if ($child_node->hasField('field_chapter_summary') && !$child_node->get('field_chapter_summary')->isEmpty()) {
+        $summary = $child_node->get('field_chapter_summary')->value;
+      }
+
+      // Get the path alias.
+      $url = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $child_nid);
+
+      $chapters[] = [
+        'url' => $url,
+        'title' => $child_node->getTitle(),
+        'summary' => $summary,
+        'index' => str_pad((string) $index, 2, '0', STR_PAD_LEFT),
+      ];
+      $index++;
+    }
+  }
+
+  $variables['chapter_index_props'] = [
+    'chapters' => $chapters,
+    'book_title' => $node->getTitle(),
+    'total' => count($chapters),
+  ];
+}
+
+/**
+ * Implements hook_preprocess_node__book__full().
+ *
+ * Cycle 2: builds variables for the interior chapter page template.
+ *
+ * 1. chapter_index: zero-padded 2-digit position of this node in book.weight
+ *    order among the book root's immediate children (depth 2). Used in the
+ *    compact header kicker "Chapter NN".
+ * 2. book_title: the book root's title, for "Chapter NN . Book Title" kicker.
+ * 3. sidebar_chapters: array of {url, title, nid} for all depth-2 siblings,
+ *    used to render the sidebar chapter list in the template (since we are
+ *    rendering the sidebar inline rather than relying on the block placement).
+ * 4. current_nid: the current node's ID, for active-item detection in the
+ *    sidebar template.
+ */
+function performant_labs_v2_preprocess_node__book__full(array &$variables): void {
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  /** @var \Drupal\book\BookManagerInterface $book_manager */
+  $book_manager = \Drupal::service('book.manager');
+  $book_link = $book_manager->loadBookLink((int) $node->id());
+
+  if (empty($book_link) || empty($book_link['bid'])) {
+    $variables['chapter_index'] = '01';
+    $variables['book_title'] = '';
+    $variables['sidebar_chapters'] = [];
+    $variables['current_nid'] = (int) $node->id();
+    return;
+  }
+
+  $bid = (int) $book_link['bid'];
+
+  // Load the book root node for its title.
+  $root_node = \Drupal::entityTypeManager()->getStorage('node')->load($bid);
+  $variables['book_title'] = $root_node ? $root_node->getTitle() : '';
+  $variables['book_root_url'] = $root_node
+    ? \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $bid)
+    : '/';
+
+  // Get the full book tree to find siblings at depth 2.
+  $tree = $book_manager->bookTreeAllData($bid);
+
+  $sidebar_chapters = [];
+  $chapter_index = '01';
+  $position = 1;
+  $current_nid = (int) $node->id();
+
+  foreach ($tree as $root_item) {
+    if (empty($root_item['below'])) {
+      continue;
+    }
+    foreach ($root_item['below'] as $child_item) {
+      $child_nid = $child_item['link']['nid'] ?? NULL;
+      if (!$child_nid) {
+        continue;
+      }
+
+      $child_node = \Drupal::entityTypeManager()->getStorage('node')->load($child_nid);
+      if (!$child_node) {
+        continue;
+      }
+
+      $url = \Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $child_nid);
+
+      $sidebar_chapters[] = [
+        'url' => $url,
+        'title' => $child_node->getTitle(),
+        'nid' => (int) $child_nid,
+      ];
+
+      if ((int) $child_nid === $current_nid) {
+        $chapter_index = str_pad((string) $position, 2, '0', STR_PAD_LEFT);
+      }
+
+      $position++;
+    }
+  }
+
+  $variables['chapter_index'] = $chapter_index;
+  $variables['sidebar_chapters'] = $sidebar_chapters;
+  $variables['current_nid'] = $current_nid;
+}
+
+/**
+ * Implements hook_preprocess_field().
+ *
+ * Cycle 2, round 2: auto-wraps paragraphs that begin with "NOTE:" (plain text
+ * or bold) in <aside class="callout">...</aside> for book body fields.
+ *
+ * Why #post_render instead of modifying #text:
+ *   The content_format text format has filter_html enabled. Its allowed-tag
+ *   list does not include <aside>. If we injected <aside> into the stored #text
+ *   before filter processing, filter_html would strip it. By attaching a
+ *   #post_render callback, we transform the FINAL rendered HTML after all text
+ *   format filters have run — the <aside> wrapper is added at the theme layer,
+ *   outside the filter pipeline.
+ *
+ * Why an anonymous function:
+ *   Drupal 10+ requires #post_render callbacks to either implement
+ *   TrustedCallbackInterface or be anonymous functions. An anonymous closure
+ *   is the simplest approach that avoids creating a standalone service class.
+ *
+ * Pattern matched (case-insensitive):
+ *   <p>NOTE:...</p>                (plain text, as on /introduction)
+ *   <p><strong>Note:</strong>...</p> (bold label, editorial variant)
+ *
+ * The resulting <aside class="callout"><p>...</p></aside> is styled by
+ * .docs-prose .callout in docs-page.css.
+ */
+function performant_labs_v2_preprocess_field(array &$variables): void {
+  $element = $variables['element'];
+
+  // Only target the body field on book nodes in full view mode.
+  if (($element['#field_name'] ?? '') !== 'body') {
+    return;
+  }
+  if (($element['#bundle'] ?? '') !== 'book') {
+    return;
+  }
+  if (($element['#view_mode'] ?? '') !== 'full') {
+    return;
+  }
+
+  // Attach a #post_render anonymous callback to each field item's render array.
+  // The callback transforms the rendered HTML string after all filters run.
+  // Anonymous functions are explicitly allowed by Drupal's TrustedCallback
+  // security policy (see Drupal\Core\Security\DoTrustedCallbackTrait).
+  foreach ($variables['items'] as $delta => &$item) {
+    $item['content']['#post_render'][] = function (string $markup, array $element): string {
+      // Match <p> tags whose text content starts with "NOTE:" — either as
+      // plain text or wrapped in <strong>. Case-insensitive, dotall for
+      // multiline paragraphs.
+      return preg_replace(
+        '~(<p(?:\s[^>]*)?>(?:\s*<strong>)?(?:Note|NOTE):.*?</p>)~is',
+        '<aside class="callout">$1</aside>',
+        $markup
+      );
+    };
+  }
+}

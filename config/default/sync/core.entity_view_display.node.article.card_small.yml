@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.card_small
     - field.field.node.article.body
+    - field.field.node.article.field_category
     - field.field.node.article.field_image
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
@@ -12,9 +13,9 @@ dependencies:
     - node.type.article
   module:
     - layout_builder
+    - manage_display
     - svg_image
     - text
-    - user
 third_party_settings:
   layout_builder:
     enabled: false
@@ -32,12 +33,12 @@ content:
     settings:
       image_link: ''
       image_style: medium
+      image_loading:
+        attribute: lazy
       svg_attributes:
         width: null
         height: null
       svg_render_as_image: true
-      image_loading:
-        attribute: lazy
     third_party_settings: {  }
     weight: 0
     region: content
@@ -48,8 +49,20 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  title:
+    type: title
+    label: hidden
+    settings:
+      link_to_entity: true
+      tag: h2
+    third_party_settings: {  }
+    weight: -49
+    region: content
 hidden:
   body: true
+  created: true
+  field_category: true
   field_tags: true
   links: true
   published_at: true
+  uid: true
