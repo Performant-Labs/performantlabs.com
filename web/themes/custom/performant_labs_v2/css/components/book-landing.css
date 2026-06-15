@@ -390,9 +390,6 @@ body:has(.book-landing) .page-title {
   text-decoration: underline;
 }
 
-.book-traversal__item--next {
-  margin-left: auto;
-}
 
 /* Legacy selector kept for backwards compat */
 .book-landing nav[aria-label^="Book traversal"] {
