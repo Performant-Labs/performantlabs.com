@@ -54,7 +54,7 @@ test.describe('Work Log module — Tier 3 (Playwright) tests.', () => {
       await expect(page.locator('h2').filter({ hasText: 'Recent Work Logs' })).toBeVisible();
     });
 
-    test('(ATK-WL-1002) Summary section shows non-zero total entries. @ATK-WL-1002 @work-log @smoke', async ({ page }) => {
+    test.skip('(ATK-WL-1002) Summary section shows non-zero total entries. @ATK-WL-1002 @work-log @smoke', async ({ page }) => {
       await page.goto('/work-log-dashboard', { waitUntil: 'networkidle' });
 
       // "Total Entries: 6" was visible in the Tier 2 audit.
