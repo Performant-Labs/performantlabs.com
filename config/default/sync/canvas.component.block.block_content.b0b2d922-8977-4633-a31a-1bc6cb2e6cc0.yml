@@ -1,0 +1,25 @@
+uuid: 65541421-02bd-4f68-a49d-a19909e1319e
+langcode: en
+status: false
+dependencies:
+  content:
+    - 'block_content:basic:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'
+  module:
+    - block_content
+active_version: 4ff18b605f59e9f2
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'block_content:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'
+        label: 'Layout Builder Kit Logo'
+        label_display: '0'
+        provider: block_content
+        view_mode: full
+    fallback_metadata:
+      slot_definitions: null
+label: 'Layout Builder Kit Logo'
+id: block.block_content.b0b2d922-8977-4633-a31a-1bc6cb2e6cc0
+provider: block_content
+source: block
+source_local_id: 'block_content:b0b2d922-8977-4633-a31a-1bc6cb2e6cc0'

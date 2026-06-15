@@ -1,0 +1,69 @@
+uuid: 76b5ce7a-67ef-4362-a54e-69eafbef43c0
+langcode: en
+status: true
+dependencies:
+  theme:
+    - performant_labs_v2
+active_version: 8a45e3ac33869cad
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        step_numbers:
+          required: true
+          field_type: string
+          cardinality: 6
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: '01'
+            -
+              value: '02'
+            -
+              value: '03'
+            -
+              value: '04'
+          expression: ℹ︎string␟value
+        step_labels:
+          required: true
+          field_type: string
+          cardinality: 6
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Test fails in CI'
+            -
+              value: 'Claude diagnoses'
+            -
+              value: 'PR opens with fix'
+            -
+              value: 'Engineer reviews'
+          expression: ℹ︎string␟value
+        step_is_endpoints:
+          required: false
+          field_type: boolean
+          cardinality: 6
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: boolean_checkbox
+          default_value:
+            -
+              value: false
+            -
+              value: false
+            -
+              value: false
+            -
+              value: true
+          expression: ℹ︎boolean␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Heal flow'
+id: sdc.performant_labs_v2.heal-flow
+provider: performant_labs_v2
+source: sdc
+source_local_id: 'performant_labs_v2:heal-flow'

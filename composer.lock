@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a2eee1a977b5e8e5ed7b3718d43febc",
+    "content-hash": "535b38d59ea4cb735e879505b59bc0c9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6412,6 +6412,74 @@
             "homepage": "https://www.drupal.org/project/symfony_mailer_lite",
             "support": {
                 "source": "https://git.drupalcode.org/project/symfony_mailer_lite"
+            }
+        },
+        {
+            "name": "drupal/theme_selector",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/theme_selector.git",
+                "reference": "2.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/theme_selector-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "c7cce872c9f17ed4dca89f90dd51d0a5f7332929"
+            },
+            "require": {
+                "drupal/core": "^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.0",
+                    "datestamp": "1731757636",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "dgaspara",
+                    "homepage": "https://www.drupal.org/user/3557179"
+                },
+                {
+                    "name": "joaomarques736",
+                    "homepage": "https://www.drupal.org/user/3557181"
+                },
+                {
+                    "name": "nsalves",
+                    "homepage": "https://www.drupal.org/user/3557178"
+                },
+                {
+                    "name": "pmaiacar",
+                    "homepage": "https://www.drupal.org/user/3575425"
+                },
+                {
+                    "name": "ricardotenreiro",
+                    "homepage": "https://www.drupal.org/user/213132"
+                },
+                {
+                    "name": "sara_asb",
+                    "homepage": "https://www.drupal.org/user/3673657"
+                },
+                {
+                    "name": "tmiguelv",
+                    "homepage": "https://www.drupal.org/user/3612421"
+                }
+            ],
+            "description": "This module allows to change the page theme with a query string",
+            "homepage": "https://www.drupal.org/project/theme_selector",
+            "support": {
+                "source": "https://git.drupalcode.org/project/theme_selector"
             }
         },
         {

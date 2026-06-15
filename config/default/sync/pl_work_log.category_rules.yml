@@ -1,0 +1,53 @@
+_core:
+  default_config_hash: CzkeuXDMi1eVHC5iGrwk4BwA46sLuQGMJQn5wMJutcQ
+override_source: false
+fallback_category: development
+rules:
+  -
+    label: Meetings
+    field: title
+    match_type: contains
+    pattern: meeting
+    category: meeting
+  -
+    label: Standups
+    field: title
+    match_type: contains
+    pattern: standup
+    category: meeting
+  -
+    label: 'Sprint planning'
+    field: title
+    match_type: contains
+    pattern: planning
+    category: meeting
+  -
+    label: 'Code review'
+    field: title
+    match_type: contains
+    pattern: review
+    category: development
+  -
+    label: 'Testing / QA'
+    field: title
+    match_type: contains
+    pattern: test
+    category: testing
+  -
+    label: 'Research tasks'
+    field: title
+    match_type: contains
+    pattern: research
+    category: research
+  -
+    label: 'Admin tasks'
+    field: title
+    match_type: contains
+    pattern: admin
+    category: admin
+  -
+    label: Invoicing
+    field: title
+    match_type: contains
+    pattern: invoice
+    category: admin

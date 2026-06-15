@@ -1,0 +1,19 @@
+uuid: 776136af-af99-43d1-a35d-dd5cb4f055b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_chapter_summary
+    - node.type.book
+id: node.book.field_chapter_summary
+field_name: field_chapter_summary
+entity_type: node
+bundle: book
+label: 'Chapter summary'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

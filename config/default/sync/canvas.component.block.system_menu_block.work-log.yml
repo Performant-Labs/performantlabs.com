@@ -1,0 +1,27 @@
+uuid: 7920ada0-a6dc-417a-b715-f95e8362ff99
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.work-log
+  module:
+    - system
+active_version: 8ef027a776b5bc98
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'system_menu_block:work-log'
+        label: 'Work Log'
+        label_display: '0'
+        provider: system
+        level: 1
+        depth: null
+        expand_all_items: false
+    fallback_metadata:
+      slot_definitions: null
+label: 'Work Log'
+id: block.system_menu_block.work-log
+provider: system
+source: block
+source_local_id: 'system_menu_block:work-log'

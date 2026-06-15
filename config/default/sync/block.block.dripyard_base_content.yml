@@ -1,0 +1,22 @@
+uuid: f5860bf1-6900-4e2e-875f-e6a300092074
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dripyard_base
+_core:
+  default_config_hash: QTwkfDaGeBUk6aerktJBDXso4fCsqLTQOuWKXE1xMPU
+id: dripyard_base_content
+theme: dripyard_base
+region: content
+weight: -3
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,29 @@
+uuid: f32f702a-a860-4236-948c-a9c1ad345074
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:d1a27489-a98e-4ecc-9178-d2d7d82a44b4'
+  module:
+    - block_content
+    - system
+  theme:
+    - dripyard_base
+id: dripyard_base_campaignkitlogo
+theme: dripyard_base
+region: sidebar_first
+weight: -7
+provider: null
+plugin: 'block_content:d1a27489-a98e-4ecc-9178-d2d7d82a44b4'
+settings:
+  id: 'block_content:d1a27489-a98e-4ecc-9178-d2d7d82a44b4'
+  label: 'Campaign Kit Logo'
+  label_display: '0'
+  provider: block_content
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/campaign-kit/*'

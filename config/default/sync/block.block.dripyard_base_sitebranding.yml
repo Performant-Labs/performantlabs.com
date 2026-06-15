@@ -1,0 +1,23 @@
+uuid: 19c9b9e3-1437-4958-b69c-deb8467706af
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dripyard_base
+id: dripyard_base_sitebranding
+theme: dripyard_base
+region: header
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: false
+  use_site_slogan: false
+visibility: {  }

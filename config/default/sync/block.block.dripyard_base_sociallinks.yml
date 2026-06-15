@@ -1,0 +1,25 @@
+uuid: 7faec1f9-19ec-4746-bc76-95c513ab97f2
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.social-links
+  module:
+    - system
+  theme:
+    - dripyard_base
+id: dripyard_base_sociallinks
+theme: dripyard_base
+region: footer
+weight: -6
+provider: null
+plugin: 'system_menu_block:social-links'
+settings:
+  id: 'system_menu_block:social-links'
+  label: 'Social Links'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: null
+  expand_all_items: false
+visibility: {  }

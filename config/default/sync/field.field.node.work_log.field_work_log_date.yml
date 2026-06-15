@@ -1,0 +1,23 @@
+uuid: 1a1f0bef-d879-4bc8-a641-e90116478c3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_log_date
+    - node.type.work_log
+  module:
+    - datetime
+_core:
+  default_config_hash: OH5eoWKXTOAeR3XOKyw0bg9Ux14eBdXDRyalrNMKWkI
+id: node.work_log.field_work_log_date
+field_name: field_work_log_date
+entity_type: node
+bundle: work_log
+label: Date
+description: 'The date of the work log entry.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

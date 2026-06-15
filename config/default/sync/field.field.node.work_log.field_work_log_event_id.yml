@@ -1,0 +1,21 @@
+uuid: 04ac1a7e-156c-4fd5-960d-6c5b24bb3713
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_log_event_id
+    - node.type.work_log
+_core:
+  default_config_hash: G_FIN7KJOWhDiXa1FYFfQ0lxBI_UfB9zSuDGOg0QubY
+id: node.work_log.field_work_log_event_id
+field_name: field_work_log_event_id
+entity_type: node
+bundle: work_log
+label: 'Event ID'
+description: 'Google Calendar event ID used for sync.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

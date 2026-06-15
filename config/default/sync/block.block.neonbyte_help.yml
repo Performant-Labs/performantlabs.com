@@ -1,0 +1,22 @@
+uuid: 0c883b31-ec28-4388-ba0f-645bf43975b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - neonbyte
+_core:
+  default_config_hash: _Ns113g0PMp62kees8Uq6Lv_WwRNazVCdRBagaZSQP0
+id: neonbyte_help
+theme: neonbyte
+region: highlighted
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

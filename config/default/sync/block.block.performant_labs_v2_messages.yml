@@ -1,0 +1,22 @@
+uuid: e764fe3e-7171-48a7-9e4c-3b13765369f9
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - performant_labs_v2
+_core:
+  default_config_hash: 9acEm2rbDsbjWBQo0w1NoIlSJEvbRYXx3QYH2UVzyzo
+id: performant_labs_v2_messages
+theme: performant_labs_v2
+region: fixed_bottom_right
+weight: -5
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Status messages'
+  label_display: '0'
+  provider: system
+visibility: {  }

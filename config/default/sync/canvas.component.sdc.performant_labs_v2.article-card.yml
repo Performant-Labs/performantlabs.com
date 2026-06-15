@@ -1,0 +1,103 @@
+uuid: f6cf8412-f9f7-45c6-a270-b2f156fdeb61
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+  theme:
+    - performant_labs_v2
+active_version: e5b21a91005e11b1
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        url:
+          required: true
+          field_type: link
+          field_storage_settings: {  }
+          field_instance_settings:
+            title: 0
+            link_type: 17
+          field_widget: link_default
+          default_value:
+            -
+              uri: /articles/version-10-automated-testing-kit-ready
+              options: {  }
+          expression: ℹ︎link␟url
+        category_label:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Automated Testing'
+          expression: ℹ︎string␟value
+        date_iso:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: '2023-11-20'
+          expression: ℹ︎string␟value
+        date_display:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: '20 Nov 2023'
+          expression: ℹ︎string␟value
+        title:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Version 1.0 of Automated Testing Kit is ready.'
+          expression: ℹ︎string␟value
+        excerpt:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'After many months of development, ATK has settled down enough to release version 1.0.'
+          expression: ℹ︎string␟value
+        image_src:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: /sites/default/files/styles/article_card_16_9/public/image.jpg
+          expression: ℹ︎string␟value
+        image_alt:
+          required: false
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Robot in a factory setting'
+          expression: ℹ︎string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: 'Article Card'
+id: sdc.performant_labs_v2.article-card
+provider: performant_labs_v2
+source: sdc
+source_local_id: 'performant_labs_v2:article-card'

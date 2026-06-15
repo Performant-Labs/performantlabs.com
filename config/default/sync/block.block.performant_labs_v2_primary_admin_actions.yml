@@ -1,0 +1,20 @@
+uuid: fff6e815-b268-474b-917f-45ba33e0881a
+langcode: en
+status: true
+dependencies:
+  theme:
+    - performant_labs_v2
+_core:
+  default_config_hash: NZyomYGbrAG4IFn-3EOF3JXKj4-gk2dq1p0MRDrhZ1U
+id: performant_labs_v2_primary_admin_actions
+theme: performant_labs_v2
+region: highlighted
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

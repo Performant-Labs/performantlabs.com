@@ -1,0 +1,28 @@
+uuid: 45da5a70-99ee-4bcb-aee5-495302f6cb31
+langcode: en
+status: false
+dependencies:
+  module:
+    - webform
+active_version: 75298500addde82f
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: webform_block
+        label: Webform
+        label_display: '0'
+        provider: webform
+        webform_id: ''
+        default_data: ''
+        redirect: false
+        lazy: false
+      prop_field_definitions: {  }
+      prop_expressions: {  }
+    fallback_metadata:
+      slot_definitions: null
+label: Webform
+id: block.webform_block
+provider: canvas
+source: block
+source_local_id: webform_block

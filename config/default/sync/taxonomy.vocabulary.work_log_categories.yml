@@ -1,0 +1,14 @@
+uuid: ee41344c-3ba1-48d3-a7fc-97651f99da9f
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: ahN4kgHTw3LUfe9cP7hM_Y_HdcJ1jd8qHA2Joz8gKfo
+name: 'Work Log Categories'
+vid: work_log_categories
+description: 'Categories for work log entries (e.g., development, meeting, admin).'
+weight: 0
+new_revision: false

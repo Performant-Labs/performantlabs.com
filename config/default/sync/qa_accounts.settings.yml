@@ -1,0 +1,4 @@
+_core:
+  default_config_hash: LO55kUL4nqJU2bgBr_cgjg3qx1aLi8TvqHlatUASexs
+auto_create_user_per_new_role: false
+auto_delete_user_per_deleted_role: false

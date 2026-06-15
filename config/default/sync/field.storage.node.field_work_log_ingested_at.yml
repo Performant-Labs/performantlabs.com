@@ -1,0 +1,25 @@
+uuid: c266e5b5-1a79-4574-b16a-22fa3c96b9b2
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: t4FFAc_L3C9fR-Wo_DT-cGnicv2Z6IxHf0M29-1nvsw
+id: node.field_work_log_ingested_at
+field_name: field_work_log_ingested_at
+entity_type: node
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

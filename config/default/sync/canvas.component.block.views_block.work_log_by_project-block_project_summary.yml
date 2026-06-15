@@ -1,0 +1,26 @@
+uuid: f6b654bf-33a4-4c6f-8fb3-0ba9b573e8dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.work_log_by_project
+  module:
+    - views
+active_version: 07a0a06c18ad6c20
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:work_log_by_project-block_project_summary'
+        label: 'Work Log by Project: Project Summary Block'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Work Log by Project: Project Summary Block'
+id: block.views_block.work_log_by_project-block_project_summary
+provider: views
+source: block
+source_local_id: 'views_block:work_log_by_project-block_project_summary'

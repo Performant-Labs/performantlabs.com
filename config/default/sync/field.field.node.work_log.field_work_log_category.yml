@@ -1,0 +1,31 @@
+uuid: 6f67979d-626d-43bf-8f6c-a5fb0cabadf8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_log_category
+    - node.type.work_log
+    - taxonomy.vocabulary.work_log_categories
+_core:
+  default_config_hash: CWzjpt00FY2AK38lwdNvnrMpK0N7xGpiAi8yG1B-lWo
+id: node.work_log.field_work_log_category
+field_name: field_work_log_category
+entity_type: node
+bundle: work_log
+label: Category
+description: 'Work category (e.g., development, meeting, admin).'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      work_log_categories: work_log_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: work_log_categories
+field_type: entity_reference
