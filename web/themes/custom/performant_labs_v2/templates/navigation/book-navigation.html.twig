@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Book traversal nav — prev/parent/next links only (tree omitted).
+ *
+ * The full chapter tree is redundant on landing pages (replaced by the
+ * chapter-index SDC) and on interior pages (replaced by .docs-sidebar).
+ * This override suppresses the tree and the "Book traversal links for"
+ * heading, exposing only the directional link row used by both templates.
+ *
+ * Variables: prev_url, prev_title, parent_url, parent_title,
+ *            next_url, next_title, has_links, book_id, book_title.
+ */
+#}
+{% if has_links %}
+  <nav class="book-traversal" role="navigation" aria-label="Book traversal links for {{ book_title }}">
+    <ul class="book-traversal__list">
+      {% if prev_url %}
+        <li class="book-traversal__item book-traversal__item--prev">
+          <a href="{{ prev_url }}" rel="prev">&#8249; {{ prev_title }}</a>
+        </li>
+      {% endif %}
+      {% if parent_url %}
+        <li class="book-traversal__item book-traversal__item--up">
+          <a href="{{ parent_url }}">{{ 'Up'|t }}</a>
+        </li>
+      {% endif %}
+      {% if next_url %}
+        <li class="book-traversal__item book-traversal__item--next">
+          <a href="{{ next_url }}" rel="next">{{ next_title }} &#8250;</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

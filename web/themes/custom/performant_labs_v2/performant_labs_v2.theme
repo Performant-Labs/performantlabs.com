@@ -52,6 +52,38 @@ function performant_labs_v2_theme_suggestions_views_view_unformatted_alter(array
 }
 
 /**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Adds path-alias-based page template suggestions so that templates like
+ * page--articles.html.twig are picked up even when the underlying route is
+ * a node (not a Views page). Mirrors the convention used in the reference
+ * theme where /articles is a native Views page that auto-generates the
+ * suggestion; here we generate the same suggestion from the path alias.
+ */
+function performant_labs_v2_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  // Skip path-based suggestions for node routes: they would override
+  // node-specific page templates and cause the articles listing header
+  // to render on individual article (and other node) pages.
+  $route = \Drupal::routeMatch()->getRouteName();
+  if (str_starts_with($route, 'entity.node.')) {
+    return;
+  }
+
+  $path_alias = \Drupal::service('path_alias.manager')
+    ->getAliasByPath(\Drupal::service('path.current')->getPath());
+  // Strip leading slash, convert remaining slashes to double-dash.
+  $alias_clean = ltrim($path_alias, '/');
+  if (!empty($alias_clean)) {
+    $parts = explode('/', $alias_clean);
+    $cumulative = '';
+    foreach ($parts as $part) {
+      $cumulative = $cumulative === '' ? $part : $cumulative . '--' . $part;
+      $suggestions[] = 'page__' . str_replace('-', '_', $cumulative);
+    }
+  }
+}
+
+/**
  * Implements hook_form_alter().
  *
  * Two concerns:
@@ -193,17 +225,8 @@ function performant_labs_v2_preprocess_node(array &$variables): void {
     }
   }
 
-  // Card title: render the label, strip tags, decode entities.
-  $title_render = $variables['label'] ?? [];
-  $title_text = '';
-  if ($title_render) {
-    $title_text = \Drupal\Core\Render\Markup::create(
-      \Drupal::service('renderer')->renderPlain($title_render)
-    );
-    $title_text = strip_tags((string) $title_text);
-    $title_text = html_entity_decode(trim($title_text), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-  }
-  $variables['card_title'] = $title_text;
+  // Card title: use label() directly — renderPlain() requires an array in D11.
+  $variables['card_title'] = html_entity_decode(trim($node->label() ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
   // Card excerpt: field_summary > body.summary > trimmed body.
   // Strip tags first, then decode entities.
@@ -274,6 +297,7 @@ function performant_labs_v2_preprocess_views_exposed_form(array &$variables): vo
     $category_chips[] = [
       'label' => $name,
       'slug' => $slug,
+      'tid'  => $term->id(),
       'is_active' => ($slug === $active_category),
     ];
   }

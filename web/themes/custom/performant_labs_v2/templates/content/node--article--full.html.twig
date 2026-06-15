@@ -1,0 +1,50 @@
+{#
+/**
+ * @file
+ * Article full view — overrides neonbyte's node--article--full.html.twig.
+ *
+ * D11.3+ compat: `label` is NULL when enable_base_field_custom_preprocess_skipping
+ * is true and the title field is display-configurable. Use node.label() instead.
+ */
+#}
+
+{{ attach_library('neonbyte/article-full') }}
+
+<article{{ attributes.addClass('article', 'article-full', 'node') }}>
+
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% embed 'neonbyte:header-article' with {
+    title: node.label(),
+    tags: content.field_tags|default(''),
+    author_name: author_name|default(''),
+    date: date|default(''),
+    display_submitted: display_submitted|default(false),
+    image: content.field_image is defined ? content.field_image|add_suggestion('bare') : '',
+  } only %}
+    {% block image_content %}
+      {{ image }}
+    {% endblock %}
+
+    {% block meta_content %}
+      {% if display_submitted %}
+        {% set formatted_date = node.created.value|date('F j, Y') %}
+        {% trans %}By {{ author_name }} on {{ formatted_date }}{% endtrans %}
+      {% endif %}
+    {% endblock %}
+  {% endembed %}
+
+  <div{{ content_attributes.addClass('container', 'node__content') }}>
+    <div class="grid">
+      <div class="grid-area--content">
+        {% if not node.isPublished() %}
+          {{ include('dripyard_base:unpublished-badge', with_context = false) }}
+        {% endif %}
+
+        {{ content|without('field_tags', 'field_image', 'comment') }}
+      </div>
+      {{ content.comment }}
+    </div>
+  </div>
+</article>

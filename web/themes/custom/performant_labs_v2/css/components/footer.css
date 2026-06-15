@@ -1,6 +1,6 @@
 /**
  * @file
- * performant_labs_20260502 — footer component brand overrides.
+ * performant_labs_v2 — footer component brand overrides.
  *
  * Layer: 5 (component-scoped, libraries-extend on core/components.neonbyte--footer)
  * Library key: core/components.neonbyte--footer
@@ -12,7 +12,7 @@
  *   The K watermark pseudo-element was introduced in performant_labs_20260411/css/base.css
  *   as .site-footer::before { content: 'K'; … } at specificity (0,1,0). The
  *   performant_labs_20260418/css/components/footer.css evolved it to 'PL'. Neither of
- *   those files is loaded by this theme (performant_labs_20260502 is a direct child of
+ *   those files is loaded by this theme (performant_labs_v2 is a direct child of
  *   neonbyte, not of the 20260418 theme). Neonbyte's own footer.css carries no
  *   ::before pseudo-element on .site-footer. The watermark does not exist in the
  *   current cascade — no suppression rule is strictly required. However, defensive

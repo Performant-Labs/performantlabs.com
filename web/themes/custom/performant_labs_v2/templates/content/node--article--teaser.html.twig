@@ -8,7 +8,7 @@
  * from node fields and entity data.
  *
  * Rework round 2 (Phase 5 audit — Fix 3): title and excerpt extraction
- * moved to performant_labs_20260502_preprocess_node() where
+ * moved to performant_labs_v2_preprocess_node() where
  * html_entity_decode() is applied. This prevents double-escaping of
  * entities like &quot; &#039; &nbsp; that are stored literally in the
  * database. The decoded plain text is then safely auto-escaped ONCE by
@@ -48,7 +48,7 @@
   {% set category_name = node.field_category.entity.name.value %}
 {% endif %}
 
-{{ include('performant_labs_20260502:article-card', {
+{{ include('performant_labs_v2:article-card', {
   url: url,
   category_label: category_name,
   date_iso: node.created.value|date('Y-m-d'),
