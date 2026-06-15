@@ -1,7 +1,7 @@
 /* ============================================================
    Book Landing Page — hero band, features grid, closing CTA
    Layer 5: scoped to .book-landing and siblings. Loaded via
-   attach_library('performant_labs_20260502/book-landing') from
+   attach_library('performant_labs_v2/book-landing') from
    node--book--landing.html.twig.
    ============================================================ */
 
@@ -362,6 +362,39 @@ body:has(.book-landing) .page-title {
 
 /* ---- Book traversal nav styling ---- */
 
+.book-traversal {
+  padding: 32px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.book-traversal__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.book-traversal__item a {
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1893b4; /* --primary */
+  text-decoration: none;
+}
+
+.book-traversal__item a:hover {
+  color: #005AA0; /* --link-hover */
+  text-decoration: underline;
+}
+
+.book-traversal__item--next {
+  margin-left: auto;
+}
+
+/* Legacy selector kept for backwards compat */
 .book-landing nav[aria-label^="Book traversal"] {
   padding: 32px 24px;
   max-width: 1200px;

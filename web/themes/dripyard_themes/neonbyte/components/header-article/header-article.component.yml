@@ -4,7 +4,25 @@ status: stable
 noUi: true
 props:
   type: object
-  properties: {}
+  properties:
+    title:
+      type: string
+      title: Article title (rendered as h1)
+    tags:
+      type: string
+      title: Taxonomy tags (render array accepted)
+    author_name:
+      type: string
+      title: Author name
+    date:
+      type: string
+      title: Formatted date
+    display_submitted:
+      type: boolean
+      title: Whether to display submission info
+    image:
+      type: string
+      title: Featured image (render array accepted)
 slots:
   meta_content:
     title: Author and date metadata

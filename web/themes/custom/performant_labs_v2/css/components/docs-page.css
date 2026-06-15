@@ -2,7 +2,7 @@
    Docs Page — interior book chapter layout
    Layer 5: scoped to .docs-grid, .docs-sidebar, .docs-content,
    .docs-prose, .chapter-header, .book-pager. Loaded via
-   attach_library('performant_labs_20260502/docs-page') from
+   attach_library('performant_labs_v2/docs-page') from
    node--book--full.html.twig.
 
    Cycle 2 of the /automated-testing-kit book-pages overhaul.

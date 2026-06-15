@@ -19,11 +19,11 @@
  *   - form: the original form render array (not rendered — we replace it)
  */
 #}
-{{ attach_library('performant_labs_20260502/articles-view') }}
+{{ attach_library('performant_labs_v2/articles-view') }}
 <div class="articles-toolbar" role="group" aria-label="Filter articles by category">
   <span class="articles-toolbar__label">Filter</span>
   <a href="/articles" class="chip{{ all_is_active ? ' is-active' : '' }}">All</a>
   {% for chip in category_chips %}
-    <a href="/articles?category={{ chip.slug }}" class="chip{{ chip.is_active ? ' is-active' : '' }}">{{ chip.label }}</a>
+    <a href="/articles?category={{ chip.tid }}" class="chip{{ chip.is_active ? ' is-active' : '' }}">{{ chip.label }}</a>
   {% endfor %}
 </div>

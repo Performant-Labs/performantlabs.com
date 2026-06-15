@@ -1,0 +1,32 @@
+{#
+/**
+ * @file
+ * Articles page_1 — unformatted rows wrapped in a 2-col grid.
+ *
+ * Phase 3: overrides the default views-view-unformatted.html.twig to wrap
+ * rendered article teasers in <div class="article-grid"> for the CSS grid.
+ * Removes the per-row <div class="views-row"> wrapper — the article-card
+ * SDC already provides its own <article> wrapper.
+ *
+ * Sprint 9, FU-7b: Added visually-hidden <h2> to restore H1 → H2 → H3
+ * heading hierarchy on /articles. The article-card SDC emits <h3>; this
+ * page has no section <h2> between the page-title <h1> and the cards.
+ *
+ * Available variables:
+ *   - title: Group title (empty for this view).
+ *   - rows:  List of { attributes, content } row items.
+ *   - view:  The view object.
+ *   - default_row_class: Whether to add 'views-row' class.
+ */
+#}
+{{ attach_library('performant_labs_v2/articles-view') }}
+{% if title %}
+  <h2>{{ title }}</h2>
+{% else %}
+  <h2 class="visually-hidden">{{ 'Articles'|t }}</h2>
+{% endif %}
+<div class="article-grid">
+  {% for row in rows %}
+    {{- row.content -}}
+  {% endfor %}
+</div>

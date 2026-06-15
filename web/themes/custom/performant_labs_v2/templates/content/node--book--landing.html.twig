@@ -18,7 +18,7 @@
  * The chapter-index SDC loads its own CSS via libraryOverrides.
  */
 #}
-{{ attach_library('performant_labs_20260502/book-landing') }}
+{{ attach_library('performant_labs_v2/book-landing') }}
 
 <article{{ attributes.addClass(['node', 'node--type-book', 'node--view-mode-full', 'book-landing']) }}>
   <div class="node__content">
@@ -28,7 +28,7 @@
 
     {# Chapter index SDC — populated by preprocess_node__book__landing #}
     {% if chapter_index_props is not empty %}
-      {% include 'performant_labs_20260502:chapter-index' with {
+      {% include 'performant_labs_v2:chapter-index' with {
         chapters: chapter_index_props.chapters,
         book_title: chapter_index_props.book_title,
         total: chapter_index_props.total,

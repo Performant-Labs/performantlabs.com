@@ -4,7 +4,7 @@
  *
  * Layer 5: view-region CSS scoped to .articles-view, .articles-toolbar,
  * .article-grid, .chip, and .pagination. Attached via theme library
- * (performant_labs_20260502/articles-view), loaded by attach_library()
+ * (performant_labs_v2/articles-view), loaded by attach_library()
  * in views-exposed-form--articles--page-1.html.twig.
  *
  * 7-step trace summary:
