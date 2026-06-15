@@ -751,9 +751,6 @@ else {
       break;
   }
 
-  // Pin the active theme on Pantheon. The V2 theme config is deployed but not
-  // activated here — remove this override when ready to cut over to V2.
-  $config['system.theme']['default'] = 'performant_labs';
 
   #
   # Set up redis.
