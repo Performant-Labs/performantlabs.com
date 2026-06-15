@@ -1,0 +1,15 @@
+uuid: 21ba2e83-69fc-466e-99c5-44813a900d26
+langcode: en
+status: true
+dependencies: {  }
+name: 'Dripyard Basic'
+configEntityTypeId: component
+weight: 0
+items:
+  - sdc.dripyard_base.background-image
+  - sdc.dripyard_base.canvas-image
+  - sdc.dripyard_base.heading
+  - sdc.dripyard_base.horizontal-line
+  - sdc.dripyard_base.text
+  - sdc.dripyard_base.video-player-canvas
+  - sdc.neonbyte.icon

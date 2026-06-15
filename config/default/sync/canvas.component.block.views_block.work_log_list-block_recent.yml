@@ -1,0 +1,26 @@
+uuid: f116de39-7e44-4ee5-96de-f3e03447b5f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.work_log_list
+  module:
+    - views
+active_version: 3df5dcb3868e7ad7
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:work_log_list-block_recent'
+        label: 'Work Log List: Recent Work Logs Block'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Work Log List: Recent Work Logs Block'
+id: block.views_block.work_log_list-block_recent
+provider: views
+source: block
+source_local_id: 'views_block:work_log_list-block_recent'

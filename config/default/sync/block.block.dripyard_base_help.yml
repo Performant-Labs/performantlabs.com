@@ -1,0 +1,22 @@
+uuid: 90020b26-68a0-44c9-bc9c-041266f45fcc
+langcode: en
+status: false
+dependencies:
+  module:
+    - help
+  theme:
+    - dripyard_base
+_core:
+  default_config_hash: bMLNWPKf3uHuqgmVszMb5zhM205c4Y-r7j5Tw6NDo-o
+id: dripyard_base_help
+theme: dripyard_base
+region: content
+weight: -2
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

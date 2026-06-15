@@ -333,6 +333,7 @@
         "drupal/stage_file_proxy": "^3.1",
         "drupal/svg_image": "^3.2",
         "drupal/symfony_mailer_lite": "^2.0",
+        "drupal/theme_selector": "^2.0",
         "drupal/token": "~1.0",
         "drupal/twig_tweak": "^3.0",
         "drupal/ui_patterns": "^2.0.15",

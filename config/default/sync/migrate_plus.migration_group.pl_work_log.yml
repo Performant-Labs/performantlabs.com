@@ -1,0 +1,10 @@
+uuid: b314c5a4-09ea-4227-9c17-b596440a7d21
+langcode: en
+status: true
+dependencies: {  }
+id: pl_work_log
+label: pl_work_log
+description: ''
+source_type: null
+module: null
+shared_configuration: null

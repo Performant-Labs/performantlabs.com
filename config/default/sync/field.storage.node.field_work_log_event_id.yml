@@ -1,0 +1,26 @@
+uuid: 350eb410-4b65-49e2-8799-1d6725c0d5ab
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: r2lksRKJsqSZ2vxOENJp7cKymKbtdN91XA9axCX22l4
+id: node.field_work_log_event_id
+field_name: field_work_log_event_id
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: true
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

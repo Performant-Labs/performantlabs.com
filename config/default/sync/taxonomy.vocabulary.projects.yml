@@ -1,0 +1,14 @@
+uuid: 66a7f78f-721c-4584-9b07-00fc3db3ae3a
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: qvMDOM_HWHtNUw-_Tq7KEXWMBE6ENiPnz9thYCsdJlQ
+name: Projects
+vid: projects
+description: 'Projects for work log tracking.'
+weight: 0
+new_revision: false

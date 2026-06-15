@@ -1,0 +1,31 @@
+uuid: 4751879f-f837-4d9a-8ea7-1f7ce82701d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_log_project
+    - node.type.work_log
+    - taxonomy.vocabulary.projects
+_core:
+  default_config_hash: jSGvzMmcnIhm-_JM0wz0YnK5saIxImLN1agIR1iOe44
+id: node.work_log.field_work_log_project
+field_name: field_work_log_project
+entity_type: node
+bundle: work_log
+label: Project
+description: 'The project this work log entry belongs to.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      projects: projects
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: projects
+field_type: entity_reference

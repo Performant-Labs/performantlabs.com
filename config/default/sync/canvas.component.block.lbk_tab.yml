@@ -1,0 +1,25 @@
+uuid: 90c23d82-8e31-42bc-a47b-1bb605021fc0
+langcode: en
+status: true
+dependencies:
+  module:
+    - layout_builder_kit
+active_version: 8f4354b00b2f7762
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: lbk_tab
+        label: 'Tab (LBK)'
+        label_display: '0'
+        provider: layout_builder_kit
+        lbk_tab:
+          tab_content: {  }
+        tabs_default_text: 'No tabs.'
+    fallback_metadata:
+      slot_definitions: null
+label: 'Tab (LBK)'
+id: block.lbk_tab
+provider: layout_builder_kit
+source: block
+source_local_id: lbk_tab

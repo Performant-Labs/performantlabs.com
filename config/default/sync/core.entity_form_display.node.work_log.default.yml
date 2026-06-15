@@ -1,0 +1,115 @@
+uuid: 6544ddf6-c0c0-403e-af31-77fc51747bae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.work_log.field_work_log_category
+    - field.field.node.work_log.field_work_log_date
+    - field.field.node.work_log.field_work_log_event_id
+    - field.field.node.work_log.field_work_log_hours
+    - field.field.node.work_log.field_work_log_ingested_at
+    - field.field.node.work_log.field_work_log_project
+    - node.type.work_log
+  module:
+    - datetime
+    - path
+    - publication_date
+_core:
+  default_config_hash: 17bdh2IOuQN_Ve2w8E0rFrvEBHbCT4jnI8rlJqajiPk
+id: node.work_log.default
+targetEntityType: node
+bundle: work_log
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_work_log_category:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_work_log_date:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_work_log_event_id:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_work_log_hours:
+    type: number
+    weight: 2
+    region: content
+    settings:
+      placeholder: '0.0'
+    third_party_settings: {  }
+  field_work_log_ingested_at:
+    type: datetime_default
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_work_log_project:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  published_at:
+    type: publication_date_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 100
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: '60'
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  promote: true
+  publish_on: true
+  sticky: true
+  unpublish_on: true

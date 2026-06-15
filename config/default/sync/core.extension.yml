@@ -16,6 +16,7 @@ module:
   block_content: 0
   book: 0
   breakpoint: 0
+  canvas: 0
   ckeditor5: 0
   comment: 0
   config: 0
@@ -62,6 +63,9 @@ module:
   media_entity_browser_media_library: 0
   media_library: 0
   menu_ui: 0
+  migrate: 0
+  migrate_plus: 0
+  migrate_tools: 0
   mini_layouts: 0
   mysql: 0
   node: 0
@@ -72,6 +76,8 @@ module:
   phone_number: 0
   phpass: 0
   pl_main: 0
+  pl_work_log: 0
+  qa_accounts: 0
   redirect: 0
   responsive_image: 0
   responsive_menu: 0
@@ -80,11 +86,13 @@ module:
   shortcut: 0
   sitemap: 0
   sitemap_book: 0
+  sqlite: 0
   svg_image: 0
   symfony_mailer_lite: 0
   system: 0
   taxonomy: 0
   text: 0
+  theme_selector: 0
   token: 0
   toolbar: 0
   user: 0
@@ -109,4 +117,7 @@ theme:
   stable9: 0
   stable: 0
   classy: 0
+  dripyard_base: 0
+  neonbyte: 0
+  performant_labs_v2: 0
 profile: standard

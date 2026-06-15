@@ -1,0 +1,22 @@
+uuid: 9216c031-de8c-4f30-a034-190a02efd8fc
+langcode: en
+status: true
+dependencies:
+  module:
+    - responsive_menu
+active_version: 9da70e70746ac53e
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: responsive_menu_horizontal_menu
+        label: 'Horizontal menu'
+        label_display: '0'
+        provider: responsive_menu
+    fallback_metadata:
+      slot_definitions: null
+label: 'Horizontal menu'
+id: block.responsive_menu_horizontal_menu
+provider: responsive_menu
+source: block
+source_local_id: responsive_menu_horizontal_menu

@@ -1,0 +1,9 @@
+uuid: 63a8d91c-424e-4938-b84e-461986e0094e
+langcode: en
+status: true
+dependencies: {  }
+name: 'Performant Labs Articles'
+configEntityTypeId: component
+weight: 0
+items:
+  - sdc.performant_labs_v2.article-card

@@ -1,0 +1,21 @@
+uuid: 6becccb0-66ca-4d7c-ab18-5c2fdd95ce95
+langcode: en
+status: true
+dependencies: {  }
+name: 'Lists (Views)'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.views_block.articles-block_1
+  - block.views_block.articles-block_2
+  - block.views_block.articles-block_3
+  - block.views_block.articles-block_4
+  - block.views_block.articles-block_5
+  - block.views_block.articles-block_6
+  - block.views_block.comments_recent-block_1
+  - block.views_block.content_recent-block_1
+  - block.views_block.view_jobs-block_1
+  - block.views_block.view_jobs-block_2
+  - block.views_block.who_s_online-who_s_online_block
+  - block.views_block.work_log_by_project-block_project_summary
+  - block.views_block.work_log_list-block_recent

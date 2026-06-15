@@ -1,0 +1,27 @@
+uuid: fd9578e7-db73-4445-ad3d-153f3bfde874
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - dripyard_base
+_core:
+  default_config_hash: b6mUaCq5YPapRUABXRHfNTT6fxWIj5lgf0Mg4HaRJ_I
+id: dripyard_base_breadcrumbs
+theme: dripyard_base
+region: content
+weight: -8
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: '<front>'

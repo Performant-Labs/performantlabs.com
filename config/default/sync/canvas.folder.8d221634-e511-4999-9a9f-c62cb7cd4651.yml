@@ -1,0 +1,15 @@
+uuid: 8d221634-e511-4999-9a9f-c62cb7cd4651
+langcode: en
+status: true
+dependencies: {  }
+name: 'Layout Builder Kit'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.lbk_book_navigation
+  - block.lbk_icon_text
+  - block.lbk_image
+  - block.lbk_render
+  - block.lbk_rich_text
+  - block.lbk_tab
+  - block.lbk_video

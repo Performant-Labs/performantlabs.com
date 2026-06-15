@@ -1,0 +1,9 @@
+uuid: 5fd62e94-2a47-436c-9330-6a32c504f76d
+langcode: en
+status: true
+dependencies: {  }
+name: Announcements
+configEntityTypeId: component
+weight: 0
+items:
+  - block.announce_block

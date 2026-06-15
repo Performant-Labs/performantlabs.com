@@ -1,0 +1,16 @@
+uuid: 5800de48-900d-4311-ab21-84a177a0c8dd
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: hd5q0gxk0Uz2jxchh2VZoNrJSeaZrtdhXIYqaQfTPfU
+name: 'Work Log'
+type: work_log
+description: 'A work log entry tracking hours spent on projects.'
+help: ''
+new_revision: false
+preview_mode: 1
+display_submitted: false

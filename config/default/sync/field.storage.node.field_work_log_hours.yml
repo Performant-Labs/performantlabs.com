@@ -1,0 +1,25 @@
+uuid: 72693897-53c7-4690-804f-d8473124cac0
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: Oc3PPz3pTwZG1D2LjQX3tqQWq30ObjSmufezbHHaD0Q
+id: node.field_work_log_hours
+field_name: field_work_log_hours
+entity_type: node
+type: decimal
+settings:
+  precision: 5
+  scale: 1
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

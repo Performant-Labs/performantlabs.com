@@ -1,0 +1,23 @@
+uuid: 55c09a10-2642-468a-9bf9-1f4669f0c05b
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:3d8e6029-74d9-47c0-bd5a-8aeac3175439'
+  module:
+    - block_content
+  theme:
+    - dripyard_base
+id: dripyard_base_copyright
+theme: dripyard_base
+region: footer
+weight: -5
+provider: null
+plugin: 'block_content:3d8e6029-74d9-47c0-bd5a-8aeac3175439'
+settings:
+  id: 'block_content:3d8e6029-74d9-47c0-bd5a-8aeac3175439'
+  label: Copyright
+  label_display: '0'
+  provider: block_content
+  view_mode: full
+visibility: {  }

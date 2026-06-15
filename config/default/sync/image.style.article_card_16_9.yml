@@ -1,0 +1,15 @@
+uuid: a293ef3d-a60d-4dae-8d98-c788343e73d3
+langcode: en
+status: true
+dependencies: {  }
+name: article_card_16_9
+label: 'Article Card 16:9 | 800x450'
+effects:
+  793934ee-541f-4740-9ec8-771430eedc44:
+    uuid: 793934ee-541f-4740-9ec8-771430eedc44
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 800
+      height: 450
+      anchor: center-center

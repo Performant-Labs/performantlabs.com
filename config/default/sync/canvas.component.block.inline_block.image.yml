@@ -1,0 +1,28 @@
+uuid: 59b50a4d-5d50-424b-aaad-6fa875618736
+langcode: en
+status: false
+dependencies:
+  config:
+    - block_content.type.image
+  module:
+    - layout_builder
+active_version: 7d563dca5f4b8a21
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'inline_block:image'
+        label: Image
+        label_display: '0'
+        provider: layout_builder
+        view_mode: full
+        block_id: null
+        block_revision_id: null
+        block_serialized: null
+    fallback_metadata:
+      slot_definitions: null
+label: Image
+id: block.inline_block.image
+provider: layout_builder
+source: block
+source_local_id: 'inline_block:image'

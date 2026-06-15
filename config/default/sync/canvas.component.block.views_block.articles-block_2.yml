@@ -1,0 +1,26 @@
+uuid: 001d0131-7218-435e-a898-8722c227e979
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.articles
+  module:
+    - views
+active_version: 0874642e16c4ae6c
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:articles-block_2'
+        label: 'Articles: Second, Third Articles'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'Articles: Second, Third Articles'
+id: block.views_block.articles-block_2
+provider: views
+source: block
+source_local_id: 'views_block:articles-block_2'

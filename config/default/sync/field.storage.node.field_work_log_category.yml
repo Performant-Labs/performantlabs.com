@@ -1,0 +1,25 @@
+uuid: b8069cf8-fc4f-4276-9f0a-77644894fcec
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: bu6C6bWTaagkga8ZBbN1XbQU9CrjLRyghzfm0z-t0es
+id: node.field_work_log_category
+field_name: field_work_log_category
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: false
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

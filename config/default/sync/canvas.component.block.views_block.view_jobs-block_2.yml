@@ -1,0 +1,26 @@
+uuid: f83d416a-a4c3-447f-bb8e-29906dc3c6ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.view_jobs
+  module:
+    - views
+active_version: d4c73283fffb5a8d
+versioned_properties:
+  active:
+    settings:
+      default_settings:
+        id: 'views_block:view_jobs-block_2'
+        label: 'View: Jobs: Full Content'
+        label_display: '0'
+        provider: views
+        views_label: ''
+        items_per_page: null
+    fallback_metadata:
+      slot_definitions: null
+label: 'View: Jobs: Full Content'
+id: block.views_block.view_jobs-block_2
+provider: views
+source: block
+source_local_id: 'views_block:view_jobs-block_2'

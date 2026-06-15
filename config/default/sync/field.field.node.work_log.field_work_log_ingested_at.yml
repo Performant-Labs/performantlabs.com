@@ -1,0 +1,23 @@
+uuid: 0f2e910b-3c9b-4fa0-a7f7-fc82268d2409
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_work_log_ingested_at
+    - node.type.work_log
+  module:
+    - datetime
+_core:
+  default_config_hash: dCSu56kWhxPe1ovPvMVSKbY8_qhoNC4OOlULgdAJWvM
+id: node.work_log.field_work_log_ingested_at
+field_name: field_work_log_ingested_at
+entity_type: node
+bundle: work_log
+label: 'Ingested At'
+description: 'ISO-8601 UTC timestamp of last ingest from Hermes.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

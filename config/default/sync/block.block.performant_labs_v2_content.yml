@@ -1,0 +1,22 @@
+uuid: 84d2c8d5-4b0a-4847-b42e-6e6bd6365bd8
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - performant_labs_v2
+_core:
+  default_config_hash: ZRdHA6BsNL1n3QUGX7NAOkVrNDAAuid8dvTujatzQOs
+id: performant_labs_v2_content
+theme: performant_labs_v2
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

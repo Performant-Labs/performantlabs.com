@@ -1,0 +1,30 @@
+uuid: 2c513cae-1bc5-426b-903c-3fbd5c5480b9
+langcode: en
+status: true
+dependencies:
+  module:
+    - book
+    - node
+  theme:
+    - dripyard_base
+id: dripyard_base_booknavigation_2
+theme: dripyard_base
+region: sidebar_first
+weight: 0
+provider: null
+plugin: book_navigation
+settings:
+  id: book_navigation
+  label: 'Book navigation'
+  label_display: '0'
+  provider: book
+  block_mode: 'book pages'
+  use_top_level_title: false
+visibility:
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      book: book

@@ -1,0 +1,52 @@
+uuid: 25c82412-a02a-46d4-885d-b8938985a43d
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+  theme:
+    - performant_labs_v2
+active_version: 73c54ed8d1d2775b
+versioned_properties:
+  active:
+    settings:
+      prop_field_definitions:
+        text:
+          required: true
+          field_type: string
+          field_storage_settings: {  }
+          field_instance_settings: {  }
+          field_widget: string_textfield
+          default_value:
+            -
+              value: 'Drupal testing'
+          expression: ℹ︎string␟value
+        variant:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value:
+            -
+              value: inline
+          expression: ℹ︎list_string␟value
+        theme:
+          required: false
+          field_type: list_string
+          field_storage_settings:
+            allowed_values_function: canvas_load_allowed_values_for_component_prop
+          field_instance_settings: {  }
+          field_widget: options_select
+          default_value:
+            -
+              value: light
+          expression: ℹ︎list_string␟value
+    fallback_metadata:
+      slot_definitions: {  }
+label: Kicker
+id: sdc.performant_labs_v2.kicker
+provider: performant_labs_v2
+source: sdc
+source_local_id: 'performant_labs_v2:kicker'

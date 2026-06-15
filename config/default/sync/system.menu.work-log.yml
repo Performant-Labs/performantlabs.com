@@ -1,0 +1,13 @@
+uuid: 8194b36f-ebdd-43ba-bde1-ace3c65e9c4d
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - pl_work_log
+_core:
+  default_config_hash: 6wmNkFdpX7aM6ppJjarJ-gHZJEzNgG6iSVqe0NOx9FI
+id: work-log
+label: 'Work Log'
+description: 'Navigation for work log pages.'
+locked: false

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.article.body
+    - field.field.node.article.field_category
     - field.field.node.article.field_image
     - field.field.node.article.field_summary
     - field.field.node.article.field_tags
@@ -126,6 +127,7 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_category: true
   promote: true
   publish_on: true
   sticky: true

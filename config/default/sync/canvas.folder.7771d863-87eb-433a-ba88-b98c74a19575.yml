@@ -1,0 +1,11 @@
+uuid: 7771d863-87eb-433a-ba88-b98c74a19575
+langcode: en
+status: true
+dependencies: {  }
+name: 'Inline blocks'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.inline_block.basic
+  - block.inline_block.image
+  - block.inline_block.render_node

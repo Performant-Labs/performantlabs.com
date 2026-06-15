@@ -1,0 +1,15 @@
+uuid: bf905c60-1382-4bf8-8bf3-2c2b377ec741
+langcode: en
+status: true
+dependencies: {  }
+name: 'Content block'
+configEntityTypeId: component
+weight: 0
+items:
+  - block.block_content.3d8e6029-74d9-47c0-bd5a-8aeac3175439
+  - block.block_content.41a5c3d9-62df-4e10-9668-097ff92874af
+  - block.block_content.91972ce8-60f5-417f-9586-83a01766f581
+  - block.block_content.981637eb-7f49-4087-9893-fed9da4e7572
+  - block.block_content.a94c6226-9638-4b7e-943d-358967c2f6de
+  - block.block_content.b0b2d922-8977-4633-a31a-1bc6cb2e6cc0
+  - block.block_content.d1a27489-a98e-4ecc-9178-d2d7d82a44b4

@@ -1,0 +1,23 @@
+uuid: 5b859f0f-aeb3-44bb-b7f4-896ece43b212
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:981637eb-7f49-4087-9893-fed9da4e7572'
+  module:
+    - block_content
+  theme:
+    - dripyard_base
+id: dripyard_base_performantlabs
+theme: dripyard_base
+region: footer
+weight: -7
+provider: null
+plugin: 'block_content:981637eb-7f49-4087-9893-fed9da4e7572'
+settings:
+  id: 'block_content:981637eb-7f49-4087-9893-fed9da4e7572'
+  label: 'Performant Labs'
+  label_display: visible
+  provider: block_content
+  view_mode: full
+visibility: {  }
