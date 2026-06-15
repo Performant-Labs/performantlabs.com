@@ -1,0 +1,183 @@
+/* [Layer 5] Header component override via libraries-extend on
+ * core/components.neonbyte--header.
+ * Source: docs/pl2/Briefs/pl_design_brief.md Header, typography.
+ *
+ * Changes:
+ *   1. Nav typography: Poppins 15px for top-level links (wide).
+ *      Mobile nav links: Poppins 18px / weight 500 (matches neonbyte mobile default
+ *      size but switches family from Instrument Sans to Poppins).
+ *   2. Nav link color: --theme-text-color-primary (ink #2A2520) via token.
+ *      Hover: --theme-link-color (teal #0F6F8A) via direct color rule.
+ *   3. Active-trail (current page): --theme-link-color + underline.
+ *   4. (Phase 8.1) CTA slot removed via config (status: false).
+ *   5. (Phase 4 / P9) Chrome alignment: flush flat header tokens.
+ *   6. (Phase 4 / P12) Hover cascade fix at specificity (0,2,1).
+ *   7. (Phase 8.1) Header height parity: mobile padding 14px, button 44px.
+ *   8. (Phase 8.6) Hamburger button border: 1px hairline + 8px radius.
+ *   9. (Phase 8.6 rework) Nav-cluster horizontal alignment at 1280.
+ *      Four-part root cause and fix:
+ *      (a) Font-size: neonbyte's .primary-menu__link--level-1[class] at (0,2,0)
+ *          overrides to 16px via token. Fixed at (0,3,0) via .site-header .X[class].
+ *      (b) Link padding: neonbyte sets 8px 16px. Fixed by zeroing padding + gap 32px.
+ *      (c) Container-width delta: neonbyte 1178px vs preview 1200px at 1280.
+ *          Closed by --header-padding-inline: 14px (from 20px).
+ *      (d) Third flex child: empty __third CTA slot. Hidden via :not(:has(*)).
+ *      (e) Header height: zeroing link padding reduced height from 73px to 61px.
+ *          Restored via --header-padding-block: 22px at wide (22+28+22=72 +1 border).
+ *
+ * Specificity notes:
+ *   [class] is an ATTRIBUTE selector with weight (0,1,0) -- same as a class.
+ *   Therefore .X[class] = (0,2,0), equal to .Y .X = (0,2,0).
+ *   To beat neonbyte's later-loading (0,2,0) we need (0,3,0):
+ *   .site-header .primary-menu__link--level-1[class] = (0,3,0). */
+
+/* --- P9 Chrome override: flush flat header --- */
+.site-header {
+  --site-header-fixed-offset: 0px;
+  --header-background-color-percent: 100%;
+  --header-border-radius: 0;
+  --header-box-shadow: none;
+  --header-padding-block: 16px;
+}
+
+/* Disable backdrop blur -- neonbyte sets this directly, not via token. */
+.site-header__container {
+  backdrop-filter: none;
+}
+
+/* P20: border-radius override on __content. */
+.site-header__content {
+  border-radius: 0;
+}
+
+/* Hairline bottom border. (0,2,0) matches neonbyte; our later load wins. */
+.site-header__shadow[class] {
+  border-top: 0;
+  border-inline: 0;
+  border-bottom: 1px solid var(--theme-border-color);
+}
+
+/* --- Wide nav: Poppins 15px, nav-cluster alignment ---
+ *
+ * Phase 8.6 rework trace (round 2):
+ *
+ *   Pass 1 -- Bottom-up:
+ *     font-size: 16px from primary-menu-wide.theme.css:66
+ *       .primary-menu__link--level-1[class] at (0,2,0), token -> 1rem.
+ *     padding: 8px 16px from primary-menu-wide.css:149 .primary-menu__link.
+ *     No gap on .primary-menu__list--level-1.
+ *     Empty .header-navigation-wrapper__third is 3rd flex child in space-between.
+ *
+ *   DOM inspection evidence:
+ *     T1: 6x .primary-menu__link--level-1 in rendered HTML. CONFIRMED.
+ *     T1: padding 8px 16px on links. CONFIRMED.
+ *     T1: font-size resolves to 16px (1rem). CONFIRMED.
+ *     T1: .primary-menu__list--level-1 display: flex, gap: normal. CONFIRMED.
+ *     T1: .header-navigation-wrapper__third exists, 0px wide. CONFIRMED.
+ *
+ *   Pass 2 -- Top-down:
+ *     L1: not config. RULED OUT.
+ *     L2: not OKLCH. RULED OUT.
+ *     L3: not a theme token. RULED OUT.
+ *     L5: correct. Header-scoped overrides at (0,3,0). */
+@media (width > 1000px) {
+  /* Header token adjustments at wide viewports.
+   * --header-padding-inline: 14px (from 20px) -- closes container-width delta.
+   * --header-padding-block: 22px (from 16px) -- restores 73px header height
+   *   after zeroing link padding. 22 + 28 (logo) + 22 = 72 + 1px border = 73. */
+  .site-header {
+    --header-padding-inline: 14px;
+    --header-padding-block: 22px;
+  }
+
+  /* Token overrides retained for dropdown menus that read them. */
+  .primary-menu {
+    --top-level-link-font-size: 15px;
+    --top-level-link-font-weight: 500;
+    --top-level-link-color: var(--theme-text-color-primary);
+  }
+
+  /* Inter-item gap. Preview: gap 32px. (0,2,0) beats neonbyte's (0,1,0). */
+  .site-header .primary-menu__list--level-1 {
+    gap: 32px;
+  }
+
+  /* Hide empty CTA slot from flex layout. :not(:has(*)) matches when the
+   * slot has no element children (whitespace text nodes don't count).
+   * When CTA is re-enabled, children appear and this rule stops matching. */
+  .site-header .header-navigation-wrapper__third:not(:has(*)) {
+    display: none;
+  }
+
+  /* Direct property overrides on level-1 nav links at (0,3,0).
+   * Beats neonbyte's .primary-menu__link--level-1[class] at (0,2,0). */
+  .site-header .primary-menu__link--level-1[class] {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    color: var(--theme-text-color-primary);
+    padding: 0;
+  }
+
+  /* P12 Hover fix. (0,2,1) beats (0,2,0). */
+  .theme--white .primary-menu__link--level-1:hover {
+    color: var(--theme-link-color);
+  }
+
+  /* Active-trail. (0,3,0) or higher depending on selector. */
+  .theme--white .primary-menu__link--level-1.primary-menu__link--active-trail,
+  .theme--white .primary-menu__list-item--active-trail > .primary-menu__link--level-1 {
+    color: var(--theme-link-color);
+    text-decoration: underline;
+    text-decoration-color: var(--theme-link-color);
+    text-underline-offset: 3px;
+  }
+}
+
+/* --- Narrow nav: Poppins for mobile menu links --- */
+@media (width <= 1000px) {
+  .primary-menu__link--level-1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+  }
+
+  .primary-menu__link--level-1.primary-menu__link--active-trail,
+  .primary-menu__list-item--active-trail > .primary-menu__link--level-1 {
+    color: var(--theme-link-color);
+    text-decoration: underline;
+    text-decoration-color: var(--theme-link-color);
+    text-underline-offset: 3px;
+  }
+}
+
+/* --- CTA slot (retained for future re-enable) --- */
+.header-navigation-wrapper__third {
+  flex-shrink: 0;
+  margin-inline-start: var(--spacing-m, 12px);
+}
+
+.header-navigation-wrapper__third .button {
+  white-space: nowrap;
+}
+
+/* --- Phase 8.1 + 8.6: Mobile header height + hamburger border --- */
+@media (max-width: 991px) {
+  .site-header {
+    --header-padding-block: 14px;
+  }
+
+  .site-header .mobile-nav-button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--theme-border-color);
+    border-radius: 8px;
+  }
+}
+
+/* --- Mobile primary nav collapse ---
+ * Defensive display: none prevents inline nav links from showing
+ * alongside the hamburger when JS hydration is delayed. */
+@media (max-width: 991px) {
+  .header-navigation-wrapper:not(.is-expanded) .primary-menu {
+    display: none;
+  }
+}

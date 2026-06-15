@@ -1,0 +1,160 @@
+/**
+ * @file
+ * Article masthead — header-article SDC overrides.
+ *
+ * Layer 5: component CSS via libraries-extend on
+ * core/components.neonbyte--header-article.
+ * Scoped to .header-article and children.
+ *
+ * 7-step trace summary:
+ *   Pass 1 (bottom-up): upstream header-article.css sets gradient via
+ *   var(--neutral-300), image margin-top -150px, spacing via --spacing-xl/xxl.
+ *   Pass 2 (top-down):
+ *     L1: Not config. N/A.
+ *     L2: Not OKLCH-derived. N/A.
+ *     L3: These are component-scoped visual changes (masthead gradient,
+ *         pill chip colors, H1 sizing, hero overlap), not theme-zone tokens.
+ *         L3 too broad — would affect all .theme--white zones globally.
+ *     L5: Correct layer. Scoped to .header-article only.
+ *   DOM inspection gate: Tier 1 curl confirms .header-article, .header-article__above,
+ *     .tags, .tags__list, .tags__item, .pill, .header-article__title,
+ *     .header-article__image all render in production HTML.
+ *
+ * Token strategy: component-local --ha-* tokens mapped from pl_design_brief.md.
+ * All color references use these local tokens. No raw hex in property values.
+ *
+ * AA contrast notes:
+ *   Tag chip text: --ha-chip-text (#6B3A1A) on --ha-accent-tint (#EBC0AB) = 5.64:1.
+ *   Tag chip hover: white on --ha-accent-deep (#8E4A2A) = 6.64:1.
+ *   Both pass WCAG 2.1 AA for normal text (4.5:1 required).
+ *
+ * Elevation: per pl_design_brief.md, "never shadows." Hero image uses a 1px
+ * hairline border per the design system. O approved this replacement 2026-05-06.
+ *
+ * No !important. No raw hex in property values.
+ */
+
+/* --- Component-local design tokens --- */
+:root {
+  /* Colors — sourced from pl_design_brief.md */
+  --ha-accent: #C97B5C;
+  --ha-accent-deep: #8E4A2A;
+  --ha-accent-tint: #EBC0AB;
+  --ha-chip-text: #6B3A1A;
+  --ha-cream: #F5EFE2;
+  --ha-ink: #2A2520;
+  --ha-on-accent: #FFFFFF;
+  --ha-hairline: #E5E1DC;
+
+  /* Spacing */
+  --ha-space-sm: 8px;
+  --ha-space-base: 16px;
+  --ha-space-lg: 24px;
+  --ha-space-xl: 32px;
+  --ha-space-2xl: 48px;
+
+  /* Radius */
+  --ha-radius-pill: 30px;
+  --ha-radius-lg: 12px;
+
+  /* Type */
+  --ha-font-body: "Poppins", sans-serif;
+  --ha-font-display: "Rubik", sans-serif;
+}
+
+/* --- Masthead wrapper: gradient band + bottom padding for hero overlap --- */
+.header-article[class] {
+  padding-top: var(--ha-space-2xl);
+  padding-bottom: 180px;
+  background: linear-gradient(to bottom, transparent, var(--ha-cream));
+}
+
+/* --- Inner container: prose-max width --- */
+.header-article__container.container {
+  max-width: 720px;
+}
+
+/* --- Tag chips: terracotta pill overrides --- */
+/* Upstream .pill uses dark bg + light text. We override within
+   .header-article__above to terracotta-tint bg + darker terracotta text.
+   AA: #6B3A1A on #EBC0AB = 5.64:1 (pass). Hover: white on #8E4A2A = 6.64:1 (pass). */
+.header-article__above .pill[class] {
+  --pill-padding-block: 6px;
+  --pill-padding-inline: 12px;
+  --pill-background-color: var(--ha-accent-tint);
+  --pill-background-color-hover: var(--ha-accent-deep);
+  --pill-text-color: var(--ha-chip-text);
+  --pill-text-color-hover: var(--ha-on-accent);
+  --pill-border-radius: var(--ha-radius-pill);
+  --pill-font-size: 12px;
+
+  font-family: var(--ha-font-body);
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+/* Ensure the tags list has bottom margin before H1 */
+.header-article__above .tags {
+  margin-bottom: var(--ha-space-base);
+}
+
+.header-article__above .tags__list {
+  gap: var(--ha-space-sm);
+}
+
+/* --- H1 title --- */
+.header-article__title {
+  font-family: var(--ha-font-display);
+  font-size: 48px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1.2px;
+  color: var(--ha-ink);
+  text-wrap: balance;
+}
+
+/* --- Meta: empty on PL articles (display_submitted = FALSE) --- */
+.header-article__meta:empty {
+  display: none;
+}
+
+/* --- Hero image: overlap, radius, hairline border --- */
+/* Per design brief: "Elevation is expressed entirely through hairline borders,
+   never shadows." Shadow replaced with 1px hairline per O ruling 2026-05-06. */
+.header-article__image[class] {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--ha-space-lg);
+}
+
+.header-article__image img {
+  margin-top: -120px;
+  border-radius: var(--ha-radius-lg);
+  border: 1px solid var(--ha-hairline);
+}
+
+/* --- Mobile: sm breakpoint (576px per design brief) --- */
+@media (max-width: 576px) {
+  .header-article[class] {
+    padding-top: var(--ha-space-xl);
+    padding-bottom: var(--ha-space-2xl);
+  }
+
+  .header-article__title {
+    font-size: 32px;
+    letter-spacing: -0.6px;
+  }
+
+  .header-article__image img {
+    margin-top: -60px;
+  }
+
+  /* Touch target: pill must be >= 44px tall.
+     12px font x 1 line-height = 12px text.
+     Need 44 - 12 = 32px total vertical padding + border.
+     16px top + 12px text + 16px bottom = 44px + 2px border = 46px. */
+  .header-article__above .pill[class] {
+    --pill-padding-block: 16px;
+  }
+}

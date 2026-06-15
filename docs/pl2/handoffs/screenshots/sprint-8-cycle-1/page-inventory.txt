@@ -1,0 +1,285 @@
+
+========== about-us.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (15 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : Drupal testing, done by the people who wrote the tools.
+  H2 : On drupal.org since 2006.
+  H2 : The tools we wrote.
+  H3 : Automated Testing Kit (ATK)
+  H3 : Testor
+  H3 : Other tools we maintain
+  H3 : Who we are.
+  H2 : We test what we ship.
+  H2 : Want to talk testing?
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== articles.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (13 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : Articles.
+  H3 : CTRFHub: building a CTRF-native test reporting platform in the open
+  H3 : Version 1.0 of Automated Testing Kit Is Ready!
+  H3 : Introducing Automated Testing Kit
+  H3 : Cypress on Drupal Cheat Sheet
+  H3 : BADCamp 2020-Components Can Break Your Site—Part 2
+  H3 : Our talk at DrupalCon: "Layout Builder components can break your site. Here's how."
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== contact-us.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (13 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : Let’s talk about your quality and testing goals.
+  H2 : Prefer a quick call?
+  H2 : What to expect from the other side of this form.
+  H3 : A real reply, by a real engineer.
+  H3 : Thirty minutes, screen-share if helpful.
+  H3 : A short proposal, not a slide deck.
+  H2 : Skip the form — book the review.
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== home.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (14 total) --
+  H2 [header]: Main navigation
+  H1 : Ship Drupal releases with confidence.
+  H2 : Tools, AI, and experts. All there.
+  H3 : Tools the Drupal community uses
+  H3 : Tests that heal themselves
+  H3 : Experts alongside your team
+  H2 : We heal our own tests nightly.
+  H2 : Built for the whole Drupal team.
+  H2 : Frequently asked questions.
+  H2 : Ready for a release you don’t have to babysit?
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== how-we-do-it.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (15 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : How a testing engagement runs.
+  H2 : Audit.
+  H2 : Stand up the dogfood loop.
+  H2 : Take over or hand back.
+  H3 : Hand back, green.
+  H3 : Take over, ongoing.
+  H3 : Embed, instead.
+  H2 : What we don't do.
+  H2 : Want a one-page audit of your testing surface?
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== open-source-projects.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (18 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : What we maintain in the open
+  H2 : Our testing tools
+  H3 : Automated Testing Kit (ATK)
+  H3 : Testor
+  H3 : CTRFHub (in active development)
+  H2 : Community contributions
+  H3 : Drupal Quality Initiative
+  H3 : Campaign Kit
+  H3 : Layout Builder Kit
+  H2 : Other modules we maintain
+  H3 : Payment Stripe
+  H2 : Found a bug or want to contribute?
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --
+
+========== services.html ==========
+-- HEADER LINKS (7) --
+  [hdr] /  ::  
+  [nav] /services  ::  Services
+  [nav] /how-we-do-it  ::  How we do it
+  [nav] /articles  ::  Articles
+  [nav] /open-source-projects  ::  Open source projects
+  [nav] /about-us  ::  About us
+  [nav] /contact-us  ::  Contact us
+-- FOOTER LINKS (13) --
+  /services  ::  Services
+  /services#test-suite-takeover  ::  Testing-suite takeover
+  /services#embedded-testing-engineer  ::  Embedded testing engineer
+  /services#autonomous-healing-pilot  ::  Autonomous healing pilot
+  /services#accessibility-testing  ::  Accessibility testing
+  /articles  ::  Resources
+  /articles  ::  Articles
+  /docs  ::  Documentation
+  /about-us  ::  About us
+  /contact-us  ::  Contact us
+  /privacy-policy  ::  Privacy policy
+  /contact-us  ::  Get in touch →
+  /privacy-policy  ::  Privacy Policy
+-- HEADING HIERARCHY (15 total) --
+  H2 [header]: Main navigation
+  H2 : Breadcrumb
+  H1 : Testing engagements for Drupal teams.
+  H2 : Four ways we engage.
+  H3 : Test-suite takeover.
+  H3 : Embedded testing engineer.
+  H3 : Autonomous-healing pilot.
+  H3 : Accessibility testing.
+  H2 : Senior testing capacity, when you need more hands.
+  H2 : These aren't services we're spinning up. They're how we already work.
+  H2 : Not sure which shape fits? Start with a testing review.
+  H2 : Footer
+  H3 : Services
+  H3 : Resources
+  H3 : Company
+-- H1 IN BODY: 1; H1 IN HEADER: 0 --

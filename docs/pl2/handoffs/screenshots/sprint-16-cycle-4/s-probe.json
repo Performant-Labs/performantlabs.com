@@ -1,0 +1,120 @@
+{
+  "url": "https://pl-performantlabs.com.3.ddev.site:8493/contact-us",
+  "runAt": "2026-05-13T13:28:52.004Z",
+  "viewports": {
+    "375": {
+      "sectionC_H2": {
+        "text": "What to expect from the other side of this form.",
+        "className": "heading h2 heading--centered margin-top--0 margin-bottom--s color--primary",
+        "fontSize": "30px",
+        "lineHeight": "33.9px",
+        "letterSpacing": "-0.8px",
+        "fontWeight": "500",
+        "color": "rgb(42, 37, 32)"
+      },
+      "sectionD_primaryCTA": {
+        "text": "Book a testing review",
+        "tag": "A",
+        "className": "button button--primary button--large",
+        "backgroundColor": "rgb(93, 198, 232)",
+        "color": "rgb(31, 26, 20)",
+        "height": 56,
+        "width": 331
+      },
+      "formSubmit": {
+        "tag": "BUTTON",
+        "backgroundColor": "rgb(98, 187, 203)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "sectionD_ghostCTA": {
+        "text": "View services",
+        "className": "button button--outline button--large button--ghost-on-dark",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(245, 239, 226)"
+      },
+      "allH2s": [
+        {
+          "text": "Main navigation",
+          "fontSize": "24px"
+        },
+        {
+          "text": "Breadcrumb",
+          "fontSize": "30px"
+        },
+        {
+          "text": "Prefer a quick call?",
+          "fontSize": "22px"
+        },
+        {
+          "text": "What to expect from the other side of this form.",
+          "fontSize": "30px"
+        },
+        {
+          "text": "Skip the form — book the review.",
+          "fontSize": "36px"
+        },
+        {
+          "text": "Footer",
+          "fontSize": "24px"
+        }
+      ]
+    },
+    "1280": {
+      "sectionC_H2": {
+        "text": "What to expect from the other side of this form.",
+        "className": "heading h2 heading--centered margin-top--0 margin-bottom--s color--primary",
+        "fontSize": "40px",
+        "lineHeight": "45.2px",
+        "letterSpacing": "-1px",
+        "fontWeight": "500",
+        "color": "rgb(42, 37, 32)"
+      },
+      "sectionD_primaryCTA": {
+        "text": "Book a testing review",
+        "tag": "A",
+        "className": "button button--primary button--large",
+        "backgroundColor": "rgb(93, 198, 232)",
+        "color": "rgb(31, 26, 20)",
+        "height": 56,
+        "width": 233
+      },
+      "formSubmit": {
+        "tag": "BUTTON",
+        "backgroundColor": "rgb(98, 187, 203)",
+        "color": "rgb(255, 255, 255)"
+      },
+      "sectionD_ghostCTA": {
+        "text": "View services",
+        "className": "button button--outline button--large button--ghost-on-dark",
+        "backgroundColor": "rgba(0, 0, 0, 0)",
+        "color": "rgb(245, 239, 226)"
+      },
+      "allH2s": [
+        {
+          "text": "Main navigation",
+          "fontSize": "32px"
+        },
+        {
+          "text": "Breadcrumb",
+          "fontSize": "40px"
+        },
+        {
+          "text": "Prefer a quick call?",
+          "fontSize": "22px"
+        },
+        {
+          "text": "What to expect from the other side of this form.",
+          "fontSize": "40px"
+        },
+        {
+          "text": "Skip the form — book the review.",
+          "fontSize": "56px"
+        },
+        {
+          "text": "Footer",
+          "fontSize": "32px"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$comment": "Machine-readable slice of the project profile for the audit UI (serve.py). Copy into the project repo and fill in. The UI runs the deterministic chain from the project dir.",
+  "name": "performantlabs.com (canonical)",
+  "project": "~/Sites/pl-performantlabs.com",
+  "siteBaseUrl": "https://performant-labs.ddev.site:8493",
+  "roots": ["web/themes/custom/performant_labs_v2", "web/themes/dripyard_themes/neonbyte", "web/themes/dripyard_themes/dripyard_base"],
+  "injectedPrefixes": ["--theme-setting-", "--drupal-displace-", "--offset-from-header"],
+  "componentAttr": "data-component-id",
+  "renderThemeVars": ["--theme-surface", "--theme-text-color-loud", "--space-for-fixed-header", "--spacing-component-internal"],
+  "navSelector": "[data-drupal-selector=\"mobile-nav-button\"]",
+  "auditDir": "docs/pl2/handoffs/audits",
+  "toolsDir": "~/Sites/ai_guidance/pipelines/website-audit/core/tools",
+  "pages": [
+    ["homepage", "/"],
+    ["articles", "/articles"]
+  ]
+}

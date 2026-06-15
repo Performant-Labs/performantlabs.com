@@ -1,0 +1,391 @@
+{
+  "viewports": {
+    "375": {
+      "width": 375,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 271,
+          "liveH_css": 487,
+          "prevTop_css": 118,
+          "prevH_css": 420,
+          "cropH_css": 420,
+          "cropH_img": 840,
+          "totalPx": 630000,
+          "AE": {
+            "raw": "102202 (0.162225)",
+            "num": 102202,
+            "pct": 16.223
+          },
+          "AEfuzz3": {
+            "raw": "99085 (0.157278)",
+            "num": 99085,
+            "pct": 15.728
+          },
+          "PSNR": "12.0339 (0.100282)",
+          "DSSIM": "15724.4 (0.239938)"
+        },
+        "form": {
+          "liveTop_css": 758,
+          "liveH_css": 1207,
+          "prevTop_css": 538,
+          "prevH_css": 1484,
+          "cropH_css": 1207,
+          "cropH_img": 2414,
+          "totalPx": 1810500,
+          "AE": {
+            "raw": "258835 (0.142963)",
+            "num": 258835,
+            "pct": 14.296
+          },
+          "AEfuzz3": {
+            "raw": "252470 (0.139448)",
+            "num": 252470,
+            "pct": 13.945
+          },
+          "PSNR": "16.8558 (0.140465)",
+          "DSSIM": "13670.2 (0.208594)"
+        },
+        "whattoexpect": {
+          "liveTop_css": 1966,
+          "liveH_css": 2703,
+          "prevTop_css": 2022,
+          "prevH_css": 1555,
+          "cropH_css": 1555,
+          "cropH_img": 3110,
+          "totalPx": 2332500,
+          "AE": {
+            "raw": "993409 (0.425899)",
+            "num": 993409,
+            "pct": 42.59
+          },
+          "AEfuzz3": {
+            "raw": "981071 (0.420609)",
+            "num": 981071,
+            "pct": 42.061
+          },
+          "PSNR": "15.182 (0.126517)",
+          "DSSIM": "14876.9 (0.227007)"
+        },
+        "closing-cta": {
+          "liveTop_css": 4668,
+          "liveH_css": 596,
+          "prevTop_css": 3577,
+          "prevH_css": 553,
+          "cropH_css": 553,
+          "cropH_img": 1106,
+          "totalPx": 829500,
+          "AE": {
+            "raw": "176333 (0.212577)",
+            "num": 176333,
+            "pct": 21.258
+          },
+          "AEfuzz3": {
+            "raw": "172957 (0.208508)",
+            "num": 172957,
+            "pct": 20.851
+          },
+          "PSNR": "11.9885 (0.0999045)",
+          "DSSIM": "15514.2 (0.236732)"
+        },
+        "footer": {
+          "liveTop_css": 5264,
+          "liveH_css": 709,
+          "prevTop_css": 4131,
+          "prevH_css": 844,
+          "cropH_css": 709,
+          "cropH_img": 1418,
+          "totalPx": 1063500,
+          "AE": {
+            "raw": "88743 (0.0834443)",
+            "num": 88743,
+            "pct": 8.344
+          },
+          "AEfuzz3": {
+            "raw": "84883 (0.0798148)",
+            "num": 84883,
+            "pct": 7.981
+          },
+          "PSNR": "15.8832 (0.13236)",
+          "DSSIM": "13050.9 (0.199144)"
+        }
+      },
+      "wholePage": {
+        "liveH": 11948,
+        "prevH": 9950,
+        "commonH": 9950,
+        "totalPx": 7462500,
+        "AE": "3.16053e+06 (0.423522)",
+        "AEfuzz3": "3.13256e+06 (0.419773)",
+        "PSNR": "9.59393 (0.0799494)",
+        "DSSIM": "16529.5 (0.252223)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 63,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 750,
+        "imgY2": 446
+      }
+    },
+    "768": {
+      "width": 768,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 531,
+          "prevTop_css": 118,
+          "prevH_css": 461,
+          "cropH_css": 461,
+          "cropH_img": 922,
+          "totalPx": 1416192,
+          "AE": {
+            "raw": "187544 (0.132428)",
+            "num": 187544,
+            "pct": 13.243
+          },
+          "AEfuzz3": {
+            "raw": "183039 (0.129247)",
+            "num": 183039,
+            "pct": 12.925
+          },
+          "PSNR": "12.5517 (0.104598)",
+          "DSSIM": "13377.9 (0.204133)"
+        },
+        "form": {
+          "liveTop_css": 800,
+          "liveH_css": 1148,
+          "prevTop_css": 579,
+          "prevH_css": 1387,
+          "cropH_css": 1148,
+          "cropH_img": 2296,
+          "totalPx": 3526656,
+          "AE": {
+            "raw": "257926 (0.0731361)",
+            "num": 257926,
+            "pct": 7.314
+          },
+          "AEfuzz3": {
+            "raw": "250736 (0.0710974)",
+            "num": 250736,
+            "pct": 7.11
+          },
+          "PSNR": "19.7833 (0.164861)",
+          "DSSIM": "11930.5 (0.182048)"
+        },
+        "whattoexpect": {
+          "liveTop_css": 1947,
+          "liveH_css": 1692,
+          "prevTop_css": 1967,
+          "prevH_css": 1195,
+          "cropH_css": 1195,
+          "cropH_img": 2390,
+          "totalPx": 3671040,
+          "AE": {
+            "raw": "1.3855e+06 (0.377414)",
+            "num": 1,
+            "pct": 0
+          },
+          "AEfuzz3": {
+            "raw": "1.37225e+06 (0.373805)",
+            "num": 1,
+            "pct": 0
+          },
+          "PSNR": "15.9026 (0.132522)",
+          "DSSIM": "13622.9 (0.207872)"
+        },
+        "closing-cta": {
+          "liveTop_css": 3639,
+          "liveH_css": 663,
+          "prevTop_css": 3161,
+          "prevH_css": 596,
+          "cropH_css": 596,
+          "cropH_img": 1192,
+          "totalPx": 1830912,
+          "AE": {
+            "raw": "236995 (0.129441)",
+            "num": 236995,
+            "pct": 12.944
+          },
+          "AEfuzz3": {
+            "raw": "232996 (0.127257)",
+            "num": 232996,
+            "pct": 12.726
+          },
+          "PSNR": "13.6271 (0.113559)",
+          "DSSIM": "12732 (0.194279)"
+        },
+        "footer": {
+          "liveTop_css": 4302,
+          "liveH_css": 511,
+          "prevTop_css": 3757,
+          "prevH_css": 544,
+          "cropH_css": 511,
+          "cropH_img": 1022,
+          "totalPx": 1569792,
+          "AE": {
+            "raw": "113841 (0.0725198)",
+            "num": 113841,
+            "pct": 7.252
+          },
+          "AEfuzz3": {
+            "raw": "109003 (0.0694379)",
+            "num": 109003,
+            "pct": 6.944
+          },
+          "PSNR": "16.7302 (0.139418)",
+          "DSSIM": "12351.2 (0.188468)"
+        }
+      },
+      "wholePage": {
+        "liveH": 9628,
+        "prevH": 8604,
+        "commonH": 8604,
+        "totalPx": 13215744,
+        "AE": "5.26384e+06 (0.3983)",
+        "AEfuzz3": "5.23666e+06 (0.396244)",
+        "PSNR": "8.49881 (0.0708234)",
+        "DSSIM": "16184.2 (0.246955)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 61,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 1536,
+        "imgY2": 442
+      }
+    },
+    "1280": {
+      "width": 1280,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 511,
+          "prevTop_css": 118,
+          "prevH_css": 461,
+          "cropH_css": 461,
+          "cropH_img": 922,
+          "totalPx": 2360320,
+          "AE": {
+            "raw": "187558 (0.079463)",
+            "num": 187558,
+            "pct": 7.946
+          },
+          "AEfuzz3": {
+            "raw": "183015 (0.0775382)",
+            "num": 183015,
+            "pct": 7.754
+          },
+          "PSNR": "14.7703 (0.123086)",
+          "DSSIM": "11307.3 (0.172538)"
+        },
+        "form": {
+          "liveTop_css": 780,
+          "liveH_css": 726,
+          "prevTop_css": 579,
+          "prevH_css": 965,
+          "cropH_css": 726,
+          "cropH_img": 1452,
+          "totalPx": 3717120,
+          "AE": {
+            "raw": "223211 (0.0600494)",
+            "num": 223211,
+            "pct": 6.005
+          },
+          "AEfuzz3": {
+            "raw": "216225 (0.05817)",
+            "num": 216225,
+            "pct": 5.817
+          },
+          "PSNR": "20.4989 (0.170824)",
+          "DSSIM": "11393 (0.173846)"
+        },
+        "whattoexpect": {
+          "liveTop_css": 1506,
+          "liveH_css": 927,
+          "prevTop_css": 1544,
+          "prevH_css": 783,
+          "cropH_css": 783,
+          "cropH_img": 1566,
+          "totalPx": 4008960,
+          "AE": {
+            "raw": "960448 (0.239575)",
+            "num": 960448,
+            "pct": 23.958
+          },
+          "AEfuzz3": {
+            "raw": "944123 (0.235503)",
+            "num": 944123,
+            "pct": 23.55
+          },
+          "PSNR": "16.6441 (0.138701)",
+          "DSSIM": "12824 (0.195682)"
+        },
+        "closing-cta": {
+          "liveTop_css": 2432,
+          "liveH_css": 604,
+          "prevTop_css": 2327,
+          "prevH_css": 537,
+          "cropH_css": 537,
+          "cropH_img": 1074,
+          "totalPx": 2749440,
+          "AE": {
+            "raw": "255130 (0.0927934)",
+            "num": 255130,
+            "pct": 9.279
+          },
+          "AEfuzz3": {
+            "raw": "251154 (0.0913473)",
+            "num": 251154,
+            "pct": 9.135
+          },
+          "PSNR": "14.9292 (0.12441)",
+          "DSSIM": "11422.9 (0.174302)"
+        },
+        "footer": {
+          "liveTop_css": 3036,
+          "liveH_css": 415,
+          "prevTop_css": 2864,
+          "prevH_css": 376,
+          "cropH_css": 376,
+          "cropH_img": 752,
+          "totalPx": 1925120,
+          "AE": {
+            "raw": "118834 (0.0617281)",
+            "num": 118834,
+            "pct": 6.173
+          },
+          "AEfuzz3": {
+            "raw": "113962 (0.0591973)",
+            "num": 113962,
+            "pct": 5.92
+          },
+          "PSNR": "17.6262 (0.146885)",
+          "DSSIM": "11732.2 (0.179022)"
+        }
+      },
+      "wholePage": {
+        "liveH": 6904,
+        "prevH": 6482,
+        "commonH": 6482,
+        "totalPx": 16593920,
+        "AE": "3.9923e+06 (0.240588)",
+        "AEfuzz3": "3.95478e+06 (0.238327)",
+        "PSNR": "11.6725 (0.0972709)",
+        "DSSIM": "13334.1 (0.203466)"
+      },
+      "chromeMask": {
+        "cssTop": 160,
+        "cssH": 61,
+        "imgX1": 0,
+        "imgY1": 320,
+        "imgX2": 2560,
+        "imgY2": 442
+      }
+    }
+  }
+}

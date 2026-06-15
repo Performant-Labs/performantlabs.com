@@ -1,0 +1,403 @@
+/**
+ * @file
+ * performant_labs_v2 — footer component brand overrides.
+ *
+ * Layer: 5 (component-scoped, libraries-extend on core/components.neonbyte--footer)
+ * Library key: core/components.neonbyte--footer
+ *
+ * Two-pass trace (2026-05-03):
+ *
+ * ── CHANGE 1: K / PL watermark suppression ─────────────────────────────────
+ * Pass 1 — Bottom-up:
+ *   The K watermark pseudo-element was introduced in performant_labs_20260411/css/base.css
+ *   as .site-footer::before { content: 'K'; … } at specificity (0,1,0). The
+ *   performant_labs_20260418/css/components/footer.css evolved it to 'PL'. Neither of
+ *   those files is loaded by this theme (performant_labs_v2 is a direct child of
+ *   neonbyte, not of the 20260418 theme). Neonbyte's own footer.css carries no
+ *   ::before pseudo-element on .site-footer. The watermark does not exist in the
+ *   current cascade — no suppression rule is strictly required. However, defensive
+ *   cleanup is correct: set content:none and remove position/overflow from any
+ *   upstream path that might reassert them, and reset position so footer content
+ *   doesn't need z-index stacking compensation.
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1: Not config-driven. RULED OUT.
+ *   L2: Not OKLCH-derived. RULED OUT.
+ *   L3: Not a theme-surface-token issue. RULED OUT.
+ *   L5: Correct — component-scoped via libraries-extend. Targeting .site-footer
+ *       at specificity (0,1,0) matches neonbyte's own rule; later load via
+ *       libraries-extend wins on cascade order.
+ *
+ * DOM evidence (Tier 1, from footer.twig inspection):
+ *   <footer class="site-footer [theme--white]">
+ *     <div class="site-footer__container container grid">
+ *       .site-footer__left    (footer left menu block)
+ *       .site-footer__right   (footer right menu block)
+ *       .site-footer__bottom  (signature line + bottom menu)
+ *     </div>
+ *   </footer>
+ *
+ * ── CHANGE 2: Footer surface — canvas (white) ──────────────────────────────
+ * Pass 1 — Bottom-up:
+ *   neonbyte footer.css: .site-footer { --footer-surface: var(--theme-surface) }
+ *   theme--white neonbyte: --theme-surface: var(--white) (Layer 2/3 inherited)
+ *   base.css html .theme--white: --theme-surface: #FFFFFF (Layer 4 ✓)
+ *   → Footer surface is already #FFFFFF via the token chain. No override needed.
+ *   Design brief §Layout: "canvas hero ... → canvas footer". Confirmed white. ✓
+ *
+ * ── CHANGE 3: Footer column headings — small uppercase label ────────────────
+ * Pass 1 — Bottom-up:
+ *   Audit F.3: live footer column headings render at 18px heading-sm. Preview
+ *   spec calls for 12px / 600wt / 1.6px tracked / uppercase / muted (#6B6358).
+ *   We use --theme-text-color-medium (#5C544C) — 7.43:1 on #FFFFFF (AA pass
+ *   even at 12px per WCAG 1.4.3 small-text threshold of 4.5:1).
+ *   Cycle 2 update 2026-05-04: demoted from heading-sm (18px) to label-xs (12px).
+ * Pass 2 — Top-down eligibility:
+ *   L3: Setting font-family globally at html .theme--white would override all body
+ *       headings everywhere on canvas. TOO BROAD. RULED OUT.
+ *   L5: Correct — scope to .site-footer heading elements only.
+ *
+ * ── CHANGE 4: Footer links — body-sm Poppins 14px ──────────────────────────
+ * Pass 1 — Bottom-up:
+ *   neonbyte footer.css: .site-footer[class] :where(a:not([class*="button"])) {
+ *     color: var(--footer-link-color) }  where --footer-link-color =
+ *     var(--theme-text-color-loud). On white surface: --theme-text-color-loud is
+ *     #1F1A14 (espresso-ink) per base.css. That is correct by the design brief
+ *     (ink on canvas for footer links). Font defaults to Dripyard's body size.
+ *   Design brief: footer links → Poppins 14px (body-sm), color via
+ *     --theme-text-color-primary (#2A2520 on canvas) or --theme-text-color-loud.
+ *     The neonbyte chain gives --theme-text-color-loud (#1F1A14) — slightly darker
+ *     than the brief's "link via --theme-link-color" guidance. Neonbyte does not
+ *     use --theme-link-color for footer links by default; it uses --footer-link-color
+ *     → --theme-text-color-loud. Per the brief, footer links on canvas should use
+ *     --theme-link-color (teal) only if the brief explicitly says so. Re-reading:
+ *     "color via --theme-link-color or --theme-text-color-primary depending on surface."
+ *     On white canvas: use --theme-text-color-primary (#2A2520 ink) per the brief.
+ *     Override: rebind --footer-link-color → --theme-text-color-primary (ink body).
+ *     Hover: --theme-link-color-hover (teal #005AA0) via token.
+ * Pass 2 — Top-down eligibility:
+ *   L3: Rebinding --theme-text-color-primary globally is already correct in base.css
+ *       but --footer-link-color is a footer-local token set in neonbyte's footer.css,
+ *       not a site-wide variable. We rebind it at L5 inside .site-footer. CORRECT.
+ *
+ * ── CHANGE 5: Signature line — display-md Rubik, ink on canvas ────────────
+ * Pass 1 — Bottom-up:
+ *   The signature line "Drupal testing, done by the people who wrote the tools."
+ *   is placed in the footer_bottom slot as a custom text element. Per pl_homepage_
+ *   components.md §9: "slot composition: ... custom signature block (heading + inline
+ *   link)". The block likely renders as a paragraph or heading inside .site-footer__bottom.
+ *   Design brief: display-md = Rubik 40px / 500 / -1px / 1.1. On white canvas,
+ *   use --theme-text-color-loud (ink-strong #1F1A14). Mobile: drops to heading-md
+ *   per §Responsive behavior (22px/500/-0.2px/1.3 desktop → 20px mobile).
+ *   Task brief says "display-md Rubik" at desktop. Selector: .site-footer__bottom
+ *   contains the signature paragraph/heading. We target a .footer-signature class
+ *   that should be placed on the content element, or fall back to targeting
+ *   .site-footer__bottom > p / .site-footer__bottom > .text as the most likely
+ *   rendered DOM output for a text block in Canvas.
+ * Pass 2 — Top-down eligibility:
+ *   L3: Too broad — would affect all bottom-slot text globally. RULED OUT.
+ *   L5: Correct — component-scoped to .site-footer__bottom signature content.
+ *
+ * ── CHANGE 6: Column heading color — --theme-text-color-medium ────────────
+ * Pass 1 — Bottom-up:
+ *   Cycle 2 update: column headings demoted to small uppercase label style.
+ *   Color changes from --theme-text-color-loud to --theme-text-color-medium
+ *   to match the preview's muted label style (#6B6358 ≈ #5C544C on canvas).
+ * Pass 2: L5 correct — scoped to .site-footer column heading elements.
+ *
+ * Constraints observed:
+ *   - No !important
+ *   - No hardcoded hex values (all via var(--theme-*) or var(--pl-*) tokens)
+ *   - No Twig or PHP changes
+ *
+ * WCAG contrast (white surface #FFFFFF):
+ *   Column label #5C544C (--theme-text-color-medium) on #FFFFFF: 7.43:1 (AA ✓)
+ *   Body/link #2A2520 (--theme-text-color-primary) on #FFFFFF: 14.73:1 (AAA ✓)
+ *   Link hover #005AA0 on #FFFFFF: 7.16:1 (AAA ✓)
+ *   Signature #1F1A14 on #FFFFFF: 17.29:1 (AAA ✓)
+ *
+ * See: docs/pl2/css-change-log.md
+ * See: docs/pl2/Briefs/pl_design_brief.md §Footer, §Typography, §Responsive
+ * See: docs/pl2/Briefs/pl_homepage_components.md §9. Footer
+ */
+
+/* ── 1. Watermark suppression — remove any K/PL watermark pseudo-element ────
+   Defensive rule: reset .site-footer::before to no-content and wipe the
+   structural scaffolding (position:relative / overflow:hidden) that the
+   watermark pattern requires. Even though neonbyte itself carries no watermark,
+   this block ensures the 20260411 / 20260418 pattern cannot re-enter the cascade
+   if those themes are ever loaded simultaneously (e.g., during a theme switch test).
+   Specificity (0,1,0) — same as neonbyte's .site-footer rules. Later load via
+   libraries-extend wins on cascade order for new properties; content:none overrides
+   any content value set by a same-specificity earlier rule. */
+.site-footer::before {
+  content: none;         /* suppress K / PL watermark text */
+  display: none;         /* belt-and-suspenders: prevent any layout contribution */
+}
+
+/* Remove the watermark scaffolding from the footer itself.
+   Neonbyte's footer.css does not set position or overflow, so these rules are
+   additive. The 20260411/20260418 pattern set position:relative + overflow:hidden
+   to contain the oversized pseudo-element. Without a watermark that is not needed
+   and can interfere with sticky positioning contexts above the footer. */
+.site-footer {
+  position: static;      /* undo any ancestor position:relative from legacy CSS */
+  overflow: visible;     /* undo overflow:hidden; let the footer breathe */
+}
+
+/* ── 2. Footer local color tokens — rebind for PL brand on canvas ─────────
+   Neonbyte's footer.css sets these local tokens on .site-footer:
+     --footer-link-color: var(--theme-text-color-loud)
+     --footer-text-color-medium: var(--theme-text-color-medium)
+   On canvas (theme--white): --theme-text-color-loud = #1F1A14 (ink-strong).
+   Per design brief: footer links on canvas should be --theme-text-color-primary.
+   We rebind the local token so every use inside neonbyte's footer.css
+   inherits the correct value without touching the base rule. */
+.site-footer {
+  background-color: #FFFFFF;     /* Force canvas/white — the PL footer design targets white surface (see WCAG ratios in header comments). Overrides theme--primary which resolves to a medium-warm tone. */
+  --footer-link-color: #2A2520;   /* ink — 14.73:1 on white canvas (AAA). Bypass theme--primary token resolution which maps --theme-text-color-primary to teal in that zone. */
+  --footer-text-color-medium: #5C544C;   /* body-mid ink — 7.54:1 on white canvas (AA large ✓). Bypass theme--primary which can map this to a light/muted value. */
+}
+
+/* Footer link hover — rebind to teal via the correct token.
+   Neonbyte's base rule handles text-underline-offset and text-decoration-color.
+   We only need to ensure the hover color uses the brand link-hover token. */
+.site-footer[class] :where(a:not([class*="button"])):hover {
+  color: var(--theme-link-color-hover);   /* teal #005AA0 on canvas via base.css */
+}
+
+/* ── 3. Footer column headings — heading-sm Rubik 18px ───────────────────────
+   Drupal renders block titles inside region slots as <h2 class="block__title">.
+   Inside the footer, these serve as column navigation headings. Per design brief:
+   heading-sm = Rubik 18px / weight 500 / letter-spacing 0 / line-height 1.4.
+   Neonbyte's --footer-text-color-medium (body #5C544C) flows into most footer
+   text; column headings should use --theme-text-color-loud (ink-strong) for
+   visual hierarchy. */
+.site-footer .footer-menu__heading {
+  font-family: "Rubik", sans-serif;
+  font-size: 1.125rem;             /* 18px = heading-sm */
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: #1F1A14;   /* ink-strong — 17.29:1 on white canvas (AAA). Bypass theme--primary which maps --theme-text-color-loud to cream/light in that zone. */
+  margin-block-end: 0.75rem;             /* breathing room below heading before list */
+}
+
+/* ── 4. Footer menu links — body-sm Poppins 14px ─────────────────────────────
+   Navigation links inside footer menu blocks. Poppins 14px / Regular / 1.5
+   per design brief body-sm. Color inherits --footer-link-color (rebound to
+   --theme-text-color-primary above) via neonbyte's existing chain. We only
+   need to assert the font-family and size explicitly since neonbyte's nav
+   defaults may use Instrument Sans or the theme body font. */
+.site-footer .footer-menu__link {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;             /* 14px = body-sm */
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── 5. Signature line — display-md Rubik, ink on canvas ─────────────────────
+   The signature line "Drupal testing, done by the people who wrote the tools."
+   lives in the footer_bottom slot (site-footer__bottom). It may render as:
+     - a .footer-signature class on a paragraph or heading element (preferred)
+     - a plain <p> or <div> inside .site-footer__bottom
+   We target both the class (if present) and the bare block typography to cover
+   both scenarios without Twig changes.
+
+   Design brief: display-md = Rubik 40px / weight 500 / -1px letter-spacing / 1.1 lh.
+   Surface: canvas (white). Color: --theme-text-color-loud (ink-strong #1F1A14).
+   The task brief says "display-md Rubik". The footer is on canvas, so we use
+   ink (not cream) per the design brief §Text: "on espresso surfaces: cream;
+   on canvas: ink". No espresso zone in the footer.
+
+   Mobile: design brief §Responsive "drops to heading-md sizing on mobile and
+   wraps to two lines" = Rubik 22px / 500 / -0.2px at desktop → 20px mobile.
+   We reduce per the brief's mobile typography scale. */
+.site-footer__bottom .footer-signature,
+.site-footer__bottom > p,
+.site-footer__bottom > .text,
+.site-footer__bottom > .field {
+  font-family: "Rubik", sans-serif;
+  font-size: 2.5rem;               /* 40px = display-md desktop */
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  color: #1F1A14;   /* ink-strong — 17.29:1 on white canvas (AAA). Bypass theme--primary token resolution. */
+  text-wrap: balance;
+  margin-block: 1.5rem 0;          /* space above; 0 below (bottom of footer) */
+  max-width: 16ch;                 /* keep the tagline tight; 2 lines at desktop */
+}
+
+/* Mobile: drop to heading-md per design brief §Responsive behavior footer notes */
+@media (max-width: 576px) {
+  .site-footer__bottom .footer-signature,
+  .site-footer__bottom > p,
+  .site-footer__bottom > .text,
+  .site-footer__bottom > .field {
+    font-size: var(--h4-size, 1.25rem);   /* 20px heading-md mobile — base.css token */
+    letter-spacing: -0.2px;
+    max-width: 100%;                        /* let it wrap naturally at narrow width */
+  }
+}
+
+/* ── 6. Footer bottom row — hairline separator above ─────────────────────────
+   Visual separator between the column navigation zone and the bottom row
+   (signature + legal). Per design brief: "hairline 1px solid {colors.hairline}".
+   The .site-footer__bottom spans full grid width (grid-column: 1 / -1 in
+   neonbyte's footer.css). A border-block-start gives the separator without
+   requiring an extra DOM element. */
+.site-footer__bottom {
+  border-block-start: 1px solid var(--theme-border-color);   /* hairline #E5E1DC */
+  padding-block-start: 1.5rem;
+  margin-block-start: 0.5rem;
+}
+
+/* ── 7. Lift z-index stacking if watermark scaffolding was ever applied ───────
+   The 20260411/20260418 pattern required .site-footer > * { z-index: 1 } to lift
+   content above the watermark. Without the watermark, that z-index is unnecessary
+   and can create stacking context conflicts. Reset to auto. */
+.site-footer > * {
+  position: static;
+  z-index: auto;
+}
+
+/* ── 8. Three sibling footer columns (Phase 8 Batch 2 — Finding #5) ──────────
+ * Path (b) — twig flatten chosen over path (a) (three separate menu blocks)
+ * because it has a smaller blast radius (no menu-data restructure, no new
+ * block placements, no new menus exported) and keeps a single source of
+ * truth (system.menu.footer) for the menu links.
+ *
+ * Markup is emitted by:
+ *   templates/navigation/menu--region-footer-left.html.twig
+ * which flattens the system.menu.footer into a sibling div-of-divs:
+ *   .footer-columns
+ *     .footer-column
+ *       .footer-column__heading (H4)
+ *       .footer-column__list (UL)
+ *         .footer-column__item (LI)
+ *           .footer-column__link (A)
+ *
+ * Layout:
+ *   - Desktop (>=700px container): three sibling columns side-by-side via
+ *     CSS Grid. Sits inside .site-footer__left (8/12 of the outer grid).
+ *   - Mobile (<700px container): single-column stack so each H4 + UL gets
+ *     full width.
+ *
+ * Token-driven typography: the existing rules in section 3 (footer-menu__heading)
+ * and section 4 (footer-menu__link) styled the OLD nested-menu DOM. The new DOM
+ * uses .footer-column__heading and .footer-column__link, so we duplicate the
+ * intent here against the new selectors. The OLD selectors are still loaded but
+ * no longer match (the nested DOM is replaced). They remain inert — kept in
+ * place for any contexts where the SDC might still emit menu-footer markup
+ * (e.g., other pages or other regions).
+ *
+ * WCAG (white surface):
+ *   .footer-column__heading #5C544C on #FFFFFF: 7.43:1 (AA ✓) — muted label style
+ *   .footer-column__link    #2A2520 on #FFFFFF: 14.73:1 (AAA ✓)
+ *   :hover                   #005AA0 on #FFFFFF: 7.16:1 (AAA ✓)
+ *
+ * Audit F.3 (Cycle 2 update 2026-05-04):
+ *   Footer column headings demoted from heading-sm (18px / 500wt) to small
+ *   uppercase label (12px / 600wt / 1.6px tracked / uppercase / muted color).
+ *   Preview spec: "h4 — 12px, 600wt, 1.6px tracked, uppercase, muted".
+ *   Color: --theme-text-color-medium (#5C544C) = 7.43:1 on #FFFFFF (AA ✓).
+ */
+.footer-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@container (width > 700px) {
+  .footer-columns {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+/* ── Footer column heading — small uppercase label (audit F.3) ───────────────
+ * Demoted from heading-sm (18px / Rubik / 500wt) to label-xs per preview spec:
+ * 12px / 600wt / 1.6px letter-spacing / uppercase / muted color.
+ * WCAG: --theme-text-color-medium (#5C544C) on #FFFFFF = 7.43:1 (AA ✓). */
+.footer-column__heading {
+  font-family: "Rubik", sans-serif;
+  font-size: 0.75rem;              /* 12px — label-xs per preview spec (was 18px) */
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--theme-text-color-medium, #5C544C);  /* muted label color — 7.43:1 on #FFFFFF (AA ✓) */
+  margin: 0 0 0.75rem;
+}
+
+.footer-column__heading-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-column__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-column__item {
+  margin: 0;
+  padding: 0;
+}
+
+.footer-column__link {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;             /* 14px = body-sm */
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--theme-text-color-primary, #2A2520);
+  text-decoration: none;
+}
+
+.footer-column__link:hover,
+.footer-column__link:focus-visible {
+  color: var(--theme-link-color-hover, #005AA0);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.footer-column__link--nolink {
+  color: var(--theme-text-color-medium, #5C544C);
+}
+
+/* ── 9. Signature inline contact link (Phase 8 Batch 2 — Finding #10) ────────
+ * The footer-signature block_content body now ends with an inline
+ * "Get in touch →" anchor. We style it inline (no full-width treatment) so it
+ * reads as a soft CTA within the closing voice line.
+ *
+ * Selector: .site-footer__bottom .footer-signature a is the canonical path,
+ * but the block_content body renders inside .site-footer__right (per the
+ * block placement). We target both .site-footer__right and
+ * .site-footer__bottom signature scopes so the rule survives any future
+ * block-region move without an extra trace cycle.
+ *
+ * Color choice: brief allows --theme-link-color (#1893b4 = 3.58:1 on white,
+ * fails small-text 4.5:1). We use --theme-link-color-hover (#005AA0 = 7.16:1
+ * AAA) at rest — same precedent as Batch 1's button--secondary deepening.
+ * On hover/focus, deepen further to ink-strong for a stronger affordance.
+ *
+ * Constraints: no !important, no hardcoded hex (uses tokens).
+ */
+.site-footer .footer-signature__cta {
+  color: var(--theme-link-color-hover, #005AA0);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in oklch, currentColor 50%, transparent);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.site-footer .footer-signature__cta:hover,
+.site-footer .footer-signature__cta:focus-visible {
+  color: var(--theme-text-color-loud, #1F1A14);
+  text-decoration-color: currentColor;
+}

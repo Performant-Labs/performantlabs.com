@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — how we do it preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with webinars/email */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    .container--prose { max-width: var(--prose-max); margin: 0 auto; padding: 0 var(--space-lg); }
+
+    /* ---------- Skip link ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 1000;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+    .btn--ghost-on-dark {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: rgba(245,239,226,0.4);
+    }
+    .btn--ghost-on-dark:hover {
+      background: rgba(245,239,226,0.08);
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+      text-decoration: none;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__nav a.is-current { color: var(--primary); font-weight: 500; }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Breadcrumb ---------- */
+    .breadcrumb {
+      padding: var(--space-lg) 0 0;
+      background: var(--canvas);
+    }
+    .breadcrumb__list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; gap: var(--space-sm);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb__list li:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--hairline);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    /* ---------- Sections ---------- */
+    section { padding: var(--space-section) 0; }
+    .section--canvas { background: var(--canvas); color: var(--ink); }
+    .section--cream { background: var(--cream); color: var(--ink); }
+    .section--warm { background: var(--surface-warm); color: var(--ink); }
+    .section--espresso { background: var(--espresso); color: var(--on-dark); }
+    .section--espresso h1, .section--espresso h2, .section--espresso h3 { color: var(--on-dark); }
+
+    /* ---------- Hero (interior page — shorter than homepage) ---------- */
+    .hero { padding: 96px 0 var(--space-section); background: var(--canvas); }
+    .hero__inner { max-width: 920px; margin: 0 auto; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__kicker::before, .hero__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__subhead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 760px;
+      margin: 0 auto;
+      text-wrap: pretty;
+    }
+
+    /* ---------- Section heads ---------- */
+    .section-head { margin-bottom: var(--space-2xl); max-width: 800px; }
+    .section-head--center { text-align: center; margin-inline: auto; }
+    .section-head h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-weight: 500;
+      margin-bottom: var(--space-base);
+    }
+    .section-head p {
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 720px;
+    }
+    .section-head__kicker {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-base);
+    }
+
+    /* ---------- Prose block ---------- */
+    .prose { max-width: var(--prose-max); }
+    .prose p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--body);
+      margin-bottom: var(--space-lg);
+    }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose h3 {
+      font-size: 20px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-top: var(--space-2xl);
+      margin-bottom: var(--space-md);
+    }
+
+    /* ---------- Graph placeholder ---------- */
+    .graph-block {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      margin: var(--space-2xl) 0;
+      max-width: 720px;
+    }
+    .graph-block__placeholder {
+      background: var(--surface-warm);
+      border-radius: var(--radius-md);
+      height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: var(--space-lg);
+    }
+    .graph-block__caption {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--body);
+      font-style: italic;
+    }
+
+    /* ---------- Engagement-shape cards (3-up) ---------- */
+    .shapes__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-2xl);
+    }
+    .shape-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      transition: border-color 150ms ease-out;
+    }
+    .shape-card:hover { border-color: var(--primary); }
+    .shape-card__num {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-deep);
+      letter-spacing: 1px;
+      margin-bottom: var(--space-lg);
+    }
+    .shape-card__num::before {
+      content: "";
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+    .shape-card h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-bottom: var(--space-md);
+    }
+    .shape-card p {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--body);
+    }
+
+    /* ---------- Guardrail list ---------- */
+    .guardrail { max-width: var(--prose-max); }
+    .guardrail p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--body);
+      margin-bottom: var(--space-lg);
+    }
+    .guardrail p:last-child { margin-bottom: 0; }
+
+    /* ---------- Closing CTA ---------- */
+    .closing-cta { padding: 120px 0; text-align: center; background: var(--espresso); }
+    .closing-cta__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-xl);
+    }
+    .closing-cta__kicker::before, .closing-cta__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .closing-cta h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 500;
+      color: var(--on-dark);
+      margin: 0 auto var(--space-xl);
+      max-width: 880px;
+    }
+    .closing-cta p {
+      max-width: 640px;
+      margin: 0 auto var(--space-2xl);
+      color: var(--on-dark-muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+    .closing-cta .btn--primary { background: #5DC6E8; color: #1F1A14; }
+    .closing-cta .btn--primary:hover { background: #4AB8DA; color: #1F1A14; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .shapes__grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 767px) {
+      section, .hero { padding: var(--space-3xl) 0; }
+      .hero h1 { font-size: 44px; letter-spacing: -1px; }
+      .section-head h2 { font-size: 30px; letter-spacing: -0.8px; }
+      .closing-cta { padding: var(--space-3xl) 0; }
+      .closing-cta h2 { font-size: 36px; letter-spacing: -0.8px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="/services">Services</a>
+        <a href="/how-we-do-it" class="is-current">How we do it</a>
+        <a href="/articles">Articles</a>
+        <a href="/open-source-projects">Open source projects</a>
+        <a href="/about-us">About us</a>
+        <a href="/contact-us">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li><a href="/">Home</a></li>
+        <li>How we do it</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+
+  <!-- HERO / LEAD (§A) -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__kicker">Process</span>
+      <h1>How a testing engagement runs.</h1>
+      <p class="hero__subhead">
+        Most clients arrive with a Drupal site that already works and a test suite that doesn't. The engagement is sized to the gap — not to a headcount target, not to a fixed-fee deliverable, and not to a methodology brand-name. The shape of the work is determined by what your suite is doing on the day we read it.
+      </p>
+    </div>
+  </section>
+
+  <!-- WEEK 1 — AUDIT (§B) -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Week 1</span>
+        <h2>Audit.</h2>
+      </div>
+
+      <div class="prose">
+        <p>A senior testing engineer reads your existing Playwright or Cypress suite, runs it against your environments, and produces a one-page audit. The audit names which tests are flaky, which are abandoned, which are missing, and which CI gates would benefit most from autonomous healing.</p>
+
+        <p>The audit is the deliverable. If you stop here, you walk away with an honest read on the state of your test surface — written by someone who maintains the tools the rest of the Drupal community uses, not by someone selling you a fix.</p>
+      </div>
+
+      <div class="graph-block">
+        <div class="graph-block__placeholder">Relative cost of fixing bugs graph</div>
+        <p class="graph-block__caption">Bugs that escape the test suite cost an order of magnitude more to fix in production than in CI. The audit identifies which gaps in your suite are letting them through.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK 2 — DOGFOOD LOOP (§C) -->
+  <section class="section--canvas">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Week 2</span>
+        <h2>Stand up the dogfood loop.</h2>
+      </div>
+
+      <div class="prose">
+        <p>We install ATK helpers where the audit identified gaps, then wire the autonomous-healing workflow against a single CI lane on your repository. The Claude agent watches that lane during one full release cycle. Every failure it sees is either fixed in a pull request you review and merge, or routed to a human as a website-issue ticket.</p>
+
+        <p>Two things matter about this stage. First, we run on real failures, not seeded ones — the dogfood loop is supposed to be a representative sample of what your team would actually see week to week. Second, scope is one CI lane, not the whole pipeline. You see the workflow behave under load before broader rollout, and you can pull the plug after one cycle if it isn't earning its keep.</p>
+
+        <h3>What changes from "we monitor your site"</h3>
+
+        <p>Performant Labs does not run infrastructure monitoring. We don't replace your hosting team, we don't watch your synthetics, and we don't take pages. The autonomous-healing loop runs against your <em>test suite</em> — not against production. When tests fail at 2am, the agent diagnoses, classifies, and either opens a PR with a candidate fix or files a website-issue ticket. The release stays release-ready.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK 3+ — TAKE OVER OR HAND BACK (§D) -->
+  <section class="section--warm">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Week 3+</span>
+        <h2>Take over or hand back.</h2>
+      </div>
+
+      <div class="prose" style="margin-bottom: var(--space-2xl);">
+        <p>After the dogfood loop has run for a release cycle, the engagement settles into one of three shapes. Two of them are equally good outcomes; the third is occasionally what's right.</p>
+      </div>
+
+      <div class="shapes__grid">
+        <article class="shape-card">
+          <div class="shape-card__num">01 / Hand back</div>
+          <h3>Hand back, green.</h3>
+          <p>Your team takes the suite back, fixed. We deliver the cleaned-up tests, the autonomous-healing workflow as a code-owned subdirectory in your repo, and a short runbook your engineers can keep operating. We don't lock you in. If your team wants to own this, that is the correct outcome and we are not going to fight you on it.</p>
+        </article>
+
+        <article class="shape-card">
+          <div class="shape-card__num">02 / Take over</div>
+          <h3>Take over, ongoing.</h3>
+          <p>We keep running the suite for you. The Claude agent stays wired to the CI lane it learned on, broadens to additional lanes on a schedule we agree on, and a senior testing engineer stays on the engagement as the human counterpart. Engagements are sized to the work — not to a headcount target.</p>
+        </article>
+
+        <article class="shape-card">
+          <div class="shape-card__num">03 / Embed</div>
+          <h3>Embed, instead.</h3>
+          <p>If the bottleneck is people rather than tooling, we send a senior testing engineer to your team for the duration of a release. They pair with your developers, own the test strategy, and ship with your release cadence. ATK and the autonomous-healing workflow come along to the extent they're useful, but the engagement is structured around the embedded engineer, not around our tools.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DON'T DO (§E) -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <h2>What we don't do.</h2>
+      </div>
+
+      <div class="guardrail">
+        <p>We don't build sites. We don't run a content migration. We don't replace your Drupal team. We don't monitor your infrastructure or take pages. We don't bill against a fixed-fee build-shop SOW.</p>
+
+        <p>Every engagement is testing work, scoped to the gap between the suite you have and the suite your release process needs. If the gap is small, we say so and the engagement is small. If it isn't a testing gap at all, we say so and we don't take the work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA (§F) -->
+  <section class="closing-cta">
+    <div class="container">
+      <span class="closing-cta__kicker">Get started</span>
+      <h2>Want a one-page audit of your testing surface?</h2>
+      <p>A 30-minute call with a senior engineer. We'll look at your current workflow, tell you honestly which of the engagement shapes above (if any) makes sense, and leave you with a one-page writeup. No sales pitch. No obligation.</p>
+      <div class="closing-cta__ctas">
+        <a href="/contact-us?intent=testing-review" class="btn btn--primary">Book a testing review</a>
+        <a href="/services" class="btn btn--ghost-on-dark">See all engagement shapes</a>
+      </div>
+    </div>
+  </section>
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services#test-suite-takeover">Test-suite takeover</a></li>
+            <li><a href="/services#embedded-testing-engineer">Embedded testing engineer</a></li>
+            <li><a href="/services#autonomous-healing-pilot">Autonomous-healing pilot</a></li>
+            <li><a href="/services#accessibility-testing">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/articles">Articles</a></li>
+            <li><a href="/docs">Documentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="/contact-us">Contact us</a></li>
+            <li><a href="/privacy-policy">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="/contact-us">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; Performant Labs</span>
+        <span>Preview build — not yet implemented in Drupal</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

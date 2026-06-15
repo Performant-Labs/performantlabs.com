@@ -1,0 +1,1919 @@
+{
+  "375": {
+    "live": {
+      "pageH": 6465,
+      "pageW": 373,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "H1",
+          "cls": "page-title",
+          "top": 240,
+          "h": 70
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 2601,
+          "h": 2456
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 5113,
+          "h": 379
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 5756,
+          "h": 709
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 189
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 326,
+          "h": 23
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 326,
+          "h": 23
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "24px",
+          "lineHeight": "27.6px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)",
+          "top": 81,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "page-title",
+          "ancestor": "(none)",
+          "fontSize": "36px",
+          "lineHeight": "37.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 240,
+          "h": 70
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "30px",
+          "lineHeight": "33.9px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 406,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "End-to-end testing utilities for Drupal — with Cypress and Playwright.",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "19px",
+          "lineHeight": "24.7px",
+          "fontWeight": "400",
+          "color": "rgb(42, 37, 32)",
+          "top": 467,
+          "h": 69
+        },
+        {
+          "tag": "H2",
+          "text": "What's inside",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "30px",
+          "lineHeight": "33px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 948,
+          "h": 104
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "HEADER.chapters__heading",
+          "fontSize": "28px",
+          "lineHeight": "30.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2650,
+          "h": 26
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "26px",
+          "lineHeight": "31.2px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 5161,
+          "h": 57
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "24px",
+          "lineHeight": "27.6px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 5820,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 5820,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 5997,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 6111,
+          "h": 13
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "button button--primary button--large",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 5388,
+          "h": 56
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Introduction ›",
+          "w": 107,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Testing-suite takeover",
+          "w": 157,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 194,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous healing pilot",
+          "w": 180,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 138,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 125,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 119,
+          "h": 24
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 6190,
+      "pageW": 375,
+      "clientW": 375,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "HEADER",
+          "cls": "site-header",
+          "top": 0,
+          "h": 73
+        },
+        {
+          "label": "features",
+          "tag": "SECTION",
+          "cls": "features",
+          "top": 669,
+          "h": 1756
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 2425,
+          "h": 2564
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 4988,
+          "h": 350
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 5338,
+          "h": 852
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "",
+          "ancestor": "HEADER.book-hero",
+          "fontSize": "36px",
+          "lineHeight": "37.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 209,
+          "h": 76
+        },
+        {
+          "tag": "H2",
+          "text": "What’s inside",
+          "cls": "",
+          "ancestor": "SECTION.features",
+          "fontSize": "28px",
+          "lineHeight": "30.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 733,
+          "h": 31
+        },
+        {
+          "tag": "H3",
+          "text": "Auth & user flows",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 981,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Entity helpers",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1219,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Drush integration",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1456,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "QA Accounts module awareness",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1718,
+          "h": 47
+        },
+        {
+          "tag": "H3",
+          "text": "Reporter",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card feature-card--wide",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1954,
+          "h": 23
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "SECTION.chapters",
+          "fontSize": "28px",
+          "lineHeight": "30.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2474,
+          "h": 31
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "26px",
+          "lineHeight": "31.2px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 5036,
+          "h": 62
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5403,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5605,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 5773,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Read the introduction →",
+          "cls": "btn btn--primary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 534,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Install",
+          "cls": "btn btn--secondary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 591,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "btn btn--primary",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 5245,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Automated Testing Kit",
+          "w": 166,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        }
+      ]
+    }
+  },
+  "768": {
+    "live": {
+      "pageH": 5162,
+      "pageW": 753,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "H1",
+          "cls": "page-title",
+          "top": 240,
+          "h": 50
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 1879,
+          "h": 2092
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 4027,
+          "h": 328
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 4651,
+          "h": 511
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 167
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 306,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 306,
+          "h": 21
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(255, 255, 255)",
+          "top": 81,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "page-title",
+          "ancestor": "(none)",
+          "fontSize": "56px",
+          "lineHeight": "58.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 240,
+          "h": 50
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "40px",
+          "lineHeight": "45.2px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 386,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "End-to-end testing utilities for Drupal — with Cypress and Playwright.",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "24px",
+          "lineHeight": "31.2px",
+          "fontWeight": "400",
+          "color": "rgb(42, 37, 32)",
+          "top": 461,
+          "h": 56
+        },
+        {
+          "tag": "H2",
+          "text": "What's inside",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 752,
+          "h": 145
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "HEADER.chapters__heading",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1944,
+          "h": 37
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "32px",
+          "lineHeight": "38.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 4091,
+          "h": 31
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 4747,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 4747,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 4747,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 4747,
+          "h": 13
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "button button--primary button--large",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 4235,
+          "h": 56
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Introduction ›",
+          "w": 107,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 147,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 140,
+          "h": 28
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 4173,
+      "pageW": 768,
+      "clientW": 768,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "HEADER",
+          "cls": "site-header",
+          "top": 0,
+          "h": 73
+        },
+        {
+          "label": "features",
+          "tag": "SECTION",
+          "cls": "features",
+          "top": 586,
+          "h": 1247
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 1833,
+          "h": 1464
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 3297,
+          "h": 332
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 3629,
+          "h": 544
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "",
+          "ancestor": "HEADER.book-hero",
+          "fontSize": "56px",
+          "lineHeight": "58.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 225,
+          "h": 59
+        },
+        {
+          "tag": "H2",
+          "text": "What’s inside",
+          "cls": "",
+          "ancestor": "SECTION.features",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 682,
+          "h": 44
+        },
+        {
+          "tag": "H3",
+          "text": "Auth & user flows",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 892,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Entity helpers",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 892,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Drush integration",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1146,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "QA Accounts module awareness",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1146,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Reporter",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card feature-card--wide",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1423,
+          "h": 23
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "SECTION.chapters",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1898,
+          "h": 44
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "32px",
+          "lineHeight": "38.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 3361,
+          "h": 38
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3694,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3694,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3896,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Read the introduction →",
+          "cls": "btn btn--primary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 492,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Install",
+          "cls": "btn btn--secondary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 492,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "btn btn--primary",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 3520,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Automated Testing Kit",
+          "w": 166,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 100,
+          "h": 18
+        }
+      ]
+    }
+  },
+  "1280": {
+    "live": {
+      "pageH": 3907,
+      "pageW": 1265,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "H1",
+          "cls": "page-title",
+          "top": 240,
+          "h": 50
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 1602,
+          "h": 1210
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 2868,
+          "h": 328
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 3492,
+          "h": 415
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 167
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 306,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 306,
+          "h": 21
+        }
+      ],
+      "headings": [
+        {
+          "tag": "H2",
+          "text": "Main navigation",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "HEADER.theme--white site-header",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 25,
+          "h": 1
+        },
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "page-title",
+          "ancestor": "(none)",
+          "fontSize": "56px",
+          "lineHeight": "58.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 240,
+          "h": 50
+        },
+        {
+          "tag": "H2",
+          "text": "Breadcrumb",
+          "cls": "visually-hidden",
+          "ancestor": "(none)",
+          "fontSize": "40px",
+          "lineHeight": "45.2px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 386,
+          "h": 1
+        },
+        {
+          "tag": "H2",
+          "text": "End-to-end testing utilities for Drupal — with Cypress and Playwright.",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "24px",
+          "lineHeight": "31.2px",
+          "fontWeight": "400",
+          "color": "rgb(42, 37, 32)",
+          "top": 461,
+          "h": 56
+        },
+        {
+          "tag": "H2",
+          "text": "What's inside",
+          "cls": "",
+          "ancestor": "ARTICLE.node node--type-book node--view-mode-full book-landing",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 752,
+          "h": 145
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "HEADER.chapters__heading",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1667,
+          "h": 37
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "32px",
+          "lineHeight": "38.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2932,
+          "h": 31
+        },
+        {
+          "tag": "H2",
+          "text": "Footer",
+          "cls": "visually-hidden h3 menu-block__title",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "32px",
+          "lineHeight": "36.8px",
+          "fontWeight": "500",
+          "color": "rgb(31, 26, 20)",
+          "top": 3588,
+          "h": 1
+        },
+        {
+          "tag": "H3",
+          "text": "Services",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 3588,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Resources",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 3588,
+          "h": 13
+        },
+        {
+          "tag": "H3",
+          "text": "Company",
+          "cls": "footer-column__heading",
+          "ancestor": "FOOTER.site-footer theme--white",
+          "fontSize": "12px",
+          "lineHeight": "18px",
+          "fontWeight": "600",
+          "color": "rgb(92, 84, 76)",
+          "top": 3588,
+          "h": 13
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "button button--primary button--large",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 3076,
+          "h": 56
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 42,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "",
+          "w": 172,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 62,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "How we do it",
+          "w": 95,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 42,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Introduction ›",
+          "w": 107,
+          "h": 23
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 72,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Testing-suite takeover",
+          "w": 157,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 194,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous healing pilot",
+          "w": 180,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 138,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Resources",
+          "w": 87,
+          "h": 14
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 51,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Documentation",
+          "w": 109,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 62,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 77,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 96,
+          "h": 20
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 147,
+          "h": 28
+        },
+        {
+          "tag": "A",
+          "text": "Privacy Policy",
+          "w": 140,
+          "h": 28
+        }
+      ]
+    },
+    "preview": {
+      "pageH": 3409,
+      "pageW": 1280,
+      "clientW": 1280,
+      "hasHorizScroll": false,
+      "sections": [
+        {
+          "label": "hero",
+          "tag": "HEADER",
+          "cls": "site-header",
+          "top": 0,
+          "h": 73
+        },
+        {
+          "label": "features",
+          "tag": "SECTION",
+          "cls": "features",
+          "top": 586,
+          "h": 898
+        },
+        {
+          "label": "chapters",
+          "tag": "SECTION",
+          "cls": "chapters",
+          "top": 1484,
+          "h": 1217
+        },
+        {
+          "label": "closing-cta",
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 2701,
+          "h": 332
+        },
+        {
+          "label": "footer",
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 3033,
+          "h": 376
+        }
+      ],
+      "chromeMask": null,
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "Automated Testing Kit",
+          "cls": "",
+          "ancestor": "HEADER.book-hero",
+          "fontSize": "56px",
+          "lineHeight": "58.8px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 225,
+          "h": 59
+        },
+        {
+          "tag": "H2",
+          "text": "What’s inside",
+          "cls": "",
+          "ancestor": "SECTION.features",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 682,
+          "h": 44
+        },
+        {
+          "tag": "H3",
+          "text": "Auth & user flows",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 892,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Entity helpers",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 892,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Drush integration",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 892,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "QA Accounts module awareness",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1146,
+          "h": 23
+        },
+        {
+          "tag": "H3",
+          "text": "Reporter",
+          "cls": "",
+          "ancestor": "ARTICLE.feature-card feature-card--wide",
+          "fontSize": "18px",
+          "lineHeight": "23.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1146,
+          "h": 23
+        },
+        {
+          "tag": "H2",
+          "text": "Chapters",
+          "cls": "",
+          "ancestor": "SECTION.chapters",
+          "fontSize": "40px",
+          "lineHeight": "44px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 1549,
+          "h": 44
+        },
+        {
+          "tag": "H2",
+          "text": "Want a second pair of eyes on your suite?",
+          "cls": "",
+          "ancestor": "SECTION.closing-cta",
+          "fontSize": "32px",
+          "lineHeight": "38.4px",
+          "fontWeight": "500",
+          "color": "rgb(42, 37, 32)",
+          "top": 2765,
+          "h": 38
+        },
+        {
+          "tag": "H4",
+          "text": "Services",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3098,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Resources",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3098,
+          "h": 19
+        },
+        {
+          "tag": "H4",
+          "text": "Company",
+          "cls": "",
+          "ancestor": "FOOTER.footer",
+          "fontSize": "12px",
+          "lineHeight": "19.2px",
+          "fontWeight": "600",
+          "color": "rgb(107, 99, 88)",
+          "top": 3098,
+          "h": 19
+        }
+      ],
+      "ctas": [
+        {
+          "tag": "A",
+          "text": "Read the introduction →",
+          "cls": "btn btn--primary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 492,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Install",
+          "cls": "btn btn--secondary",
+          "ancestor": "HEADER.book-hero",
+          "bg": "rgba(0, 0, 0, 0)",
+          "color": "rgb(24, 147, 180)",
+          "border": "1px solid rgb(24, 147, 180)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 492,
+          "h": 45
+        },
+        {
+          "tag": "A",
+          "text": "Book a testing review",
+          "cls": "btn btn--primary",
+          "ancestor": "SECTION.closing-cta",
+          "bg": "rgb(98, 187, 203)",
+          "color": "rgb(255, 255, 255)",
+          "border": "1px solid rgba(0, 0, 0, 0)",
+          "padding": "14px 28px",
+          "fontSize": "15px",
+          "top": 2924,
+          "h": 45
+        }
+      ],
+      "smallTaps": [
+        {
+          "tag": "A",
+          "text": "Skip to main content",
+          "w": 32,
+          "h": 16
+        },
+        {
+          "tag": "A",
+          "text": "P\n        performant labs",
+          "w": 178,
+          "h": 29
+        },
+        {
+          "tag": "A",
+          "text": "Services",
+          "w": 62,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "How we do it",
+          "w": 95,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 24
+        },
+        {
+          "tag": "A",
+          "text": "Home",
+          "w": 39,
+          "h": 19
+        },
+        {
+          "tag": "A",
+          "text": "Test-suite takeover",
+          "w": 144,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Embedded testing engineer",
+          "w": 208,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Autonomous-healing pilot",
+          "w": 197,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Accessibility testing",
+          "w": 148,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Articles",
+          "w": 55,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Automated Testing Kit",
+          "w": 166,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Open source projects",
+          "w": 161,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "About us",
+          "w": 66,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Contact us",
+          "w": 82,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Privacy policy",
+          "w": 103,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Get in touch →",
+          "w": 100,
+          "h": 18
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Header re-assessment — 2026-05-10</title>
+<style>
+  :root {
+    --ink: #0d1b2a;
+    --muted: #5b6b7d;
+    --rule: #d9dee5;
+    --accent: #c84a1f;
+    --bg: #f7f7f4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  header.page {
+    padding: 32px 40px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: #fff;
+  }
+  header.page h1 { margin: 0 0 4px; font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
+  header.page p { margin: 0; color: var(--muted); }
+  .banner {
+    margin: 24px 40px;
+    padding: 20px 24px;
+    background: #fff5ec;
+    border: 1px solid #f0c8a5;
+    border-left: 6px solid var(--accent);
+    border-radius: 6px;
+  }
+  .banner h2 { margin: 0 0 6px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  .banner p { margin: 0; font-size: 18px; }
+  main { padding: 0 40px 80px; max-width: 1400px; margin: 0 auto; }
+  section { margin-top: 48px; }
+  section h2 {
+    font-size: 22px;
+    margin: 0 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--ink);
+  }
+  section h3 { font-size: 18px; margin: 28px 0 10px; }
+  ul.deltas { padding-left: 22px; }
+  ul.deltas li { margin-bottom: 8px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--rule);
+    margin-top: 8px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  th { background: #eef1f5; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .nav { display: flex; gap: 16px; margin: 12px 0 32px; flex-wrap: wrap; }
+  .nav a {
+    color: var(--accent);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .nav a:hover { background: var(--accent); color: #fff; }
+
+  .vp { margin-top: 32px; }
+  .vp h3 { display: flex; align-items: baseline; gap: 12px; }
+  .vp h3 .meta { font-size: 13px; color: var(--muted); font-weight: 400; }
+
+  .comparator {
+    position: relative;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    user-select: none;
+    border: 1px solid var(--rule);
+    margin-bottom: 12px;
+  }
+  .comparator img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .comparator .top-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: top left;
+  }
+  .comparator-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .slider {
+    width: 100%;
+    margin-top: 6px;
+  }
+  .diff-wrap {
+    border: 1px solid var(--rule);
+    background: #fff;
+    margin-top: 8px;
+    padding: 6px;
+  }
+  .diff-wrap img { width: 100%; display: block; }
+  .diff-cap {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .composite-wrap { margin-top: 12px; }
+  .composite-wrap img { width: 100%; display: block; border: 1px solid var(--rule); }
+
+  ul.scope { padding-left: 22px; }
+  ul.scope li { margin-bottom: 10px; }
+  .q { background: #fffbe6; border: 1px solid #e9d77a; padding: 14px 18px; border-radius: 6px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header class="page">
+  <h1>Header re-assessment</h1>
+  <p>Site header band only — live vs updated preview. Diagnostic re-read for sub-cycle 8.1 scoping. 2026-05-10.</p>
+</header>
+
+<div class="banner">
+  <h2>Current state</h2>
+  <p>Header is the largest remaining delta. Live still carries the "Book a testing review" CTA pill and a taller header band; preview shows wordmark + full nav with no CTA. Tablet / mobile shows a binding operator question on nav strategy (live has a hamburger; preview hides nav entirely under 992 px).</p>
+</div>
+
+<main>
+
+<nav class="nav">
+  <a href="#summary">Summary</a>
+  <a href="#vp1280">1280 px</a>
+  <a href="#vp768">768 px</a>
+  <a href="#vp375">375 px</a>
+  <a href="#table">Delta table</a>
+  <a href="#scope">8.1 scope</a>
+  <a href="#qs">Operator questions</a>
+</nav>
+
+<section id="summary">
+  <h2>What I see different</h2>
+  <ul class="deltas">
+    <li><strong>1280:</strong> Live has a teal "Book a testing review" pill on the right; preview has nothing on the right.</li>
+    <li><strong>1280:</strong> Live nav labels "How we do it" and "Open source projects" wrap to two lines (the pill steals horizontal space). Preview renders every label on one line.</li>
+    <li><strong>1280 / 768 / 375:</strong> Live header band is roughly 25 px taller than preview (live ~82–98 px vs preview ~73 px). The hero eyebrow + H1 sit lower on live as a consequence.</li>
+    <li><strong>768 / 375:</strong> Live shows a hamburger icon on the right; preview shows nothing on the right. Below 992 px, preview offers no nav affordance at all.</li>
+    <li>Wordmark style and "performant labs" text match across live and preview at every viewport (no P-badge-only state).</li>
+    <li>Nav order and labels at &gt;=992 px match exactly: Services, How we do it, Articles, Open source projects, About us, Contact us.</li>
+  </ul>
+</section>
+
+<section id="vp1280" class="vp">
+  <h2>1280 × 400 — header band</h2>
+  <h3>Wipe comparator <span class="meta">drag the slider · left edge = live · right edge = preview</span></h3>
+  <div class="comparator-labels"><span>Live</span><span>Preview</span></div>
+  <div class="comparator" id="cmp-1280">
+    <img src="screenshots/header-reassess-20260510/header-preview-1280.png" alt="Preview header at 1280">
+    <img class="top-img" src="screenshots/header-reassess-20260510/header-live-1280.png" alt="Live header at 1280" data-clip="0">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" data-target="cmp-1280">
+
+  <div class="diff-wrap">
+    <img src="screenshots/header-reassess-20260510/header-diff-1280.png" alt="Pixel diff at 1280, red = differing pixels">
+  </div>
+  <div class="diff-cap">ImageMagick AE diff — red regions = differing pixels (61,345 px · 11.98%)</div>
+
+  <div class="composite-wrap">
+    <img src="screenshots/header-reassess-20260510/header-composite-1280.png" alt="Side-by-side composite at 1280">
+    <div class="diff-cap">Side-by-side composite (live left, preview right)</div>
+  </div>
+</section>
+
+<section id="vp768" class="vp">
+  <h2>768 × 400 — header band</h2>
+  <h3>Wipe comparator <span class="meta">drag the slider · left edge = live · right edge = preview</span></h3>
+  <div class="comparator-labels"><span>Live</span><span>Preview</span></div>
+  <div class="comparator" id="cmp-768">
+    <img src="screenshots/header-reassess-20260510/header-preview-768.png" alt="Preview header at 768">
+    <img class="top-img" src="screenshots/header-reassess-20260510/header-live-768.png" alt="Live header at 768">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" data-target="cmp-768">
+
+  <div class="diff-wrap">
+    <img src="screenshots/header-reassess-20260510/header-diff-768.png" alt="Pixel diff at 768">
+  </div>
+  <div class="diff-cap">ImageMagick AE diff (44,646 px · 14.53%)</div>
+
+  <div class="composite-wrap">
+    <img src="screenshots/header-reassess-20260510/header-composite-768.png" alt="Side-by-side composite at 768">
+    <div class="diff-cap">Side-by-side composite (live left, preview right)</div>
+  </div>
+</section>
+
+<section id="vp375" class="vp">
+  <h2>375 × 400 — header band</h2>
+  <h3>Wipe comparator <span class="meta">drag the slider · left edge = live · right edge = preview</span></h3>
+  <div class="comparator-labels"><span>Live</span><span>Preview</span></div>
+  <div class="comparator" id="cmp-375">
+    <img src="screenshots/header-reassess-20260510/header-preview-375.png" alt="Preview header at 375">
+    <img class="top-img" src="screenshots/header-reassess-20260510/header-live-375.png" alt="Live header at 375">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" data-target="cmp-375">
+
+  <div class="diff-wrap">
+    <img src="screenshots/header-reassess-20260510/header-diff-375.png" alt="Pixel diff at 375">
+  </div>
+  <div class="diff-cap">ImageMagick AE diff (24,333 px · 16.22%)</div>
+
+  <div class="composite-wrap">
+    <img src="screenshots/header-reassess-20260510/header-composite-375.png" alt="Side-by-side composite at 375">
+    <div class="diff-cap">Side-by-side composite (live left, preview right)</div>
+  </div>
+</section>
+
+<section id="table">
+  <h2>Per-viewport delta table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Viewport</th>
+        <th>Pixels different</th>
+        <th>Delta %</th>
+        <th>Live header height</th>
+        <th>Preview header height</th>
+        <th>Primary delta in plain English</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1280 × 400</td>
+        <td class="num">61,345</td>
+        <td class="num">11.98%</td>
+        <td class="num">98 px</td>
+        <td class="num">73 px</td>
+        <td>Live has the teal "Book a testing review" pill on the right, forcing two nav labels to wrap to two lines. Preview has no CTA and renders every label on one line.</td>
+      </tr>
+      <tr>
+        <td>768 × 400</td>
+        <td class="num">44,646</td>
+        <td class="num">14.53%</td>
+        <td class="num">82 px</td>
+        <td class="num">73 px</td>
+        <td>Live shows wordmark + hamburger. Preview shows wordmark only and no nav affordance below 992 px.</td>
+      </tr>
+      <tr>
+        <td>375 × 400</td>
+        <td class="num">24,333</td>
+        <td class="num">16.22%</td>
+        <td class="num">82 px</td>
+        <td class="num">73 px</td>
+        <td>Same pattern as 768 — wordmark + hamburger on live, wordmark only on preview.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="scope">
+  <h2>Recommended scope for sub-cycle 8.1</h2>
+  <ul class="scope">
+    <li><strong>Remove the "Book a testing review" CTA pill from the live header</strong> at all viewports, including its markup and any associated <code>.site-header__cta</code> rule. Once removed, the desktop nav labels should fit on one line, matching preview.</li>
+    <li><strong>Reduce live header vertical padding</strong> so the band measures ~73 px (preview), not 82–98 px. Likely a padding or row-height adjustment on <code>.site-header</code>.</li>
+    <li><strong>Decide tablet/mobile nav strategy (operator call):</strong> add a hamburger to the preview (parity toward live) OR remove the hamburger from live and accept preview's "no nav under 992 px" behaviour. Both are valid; F cannot complete 8.1 until this is decided.</li>
+    <li><strong>Verify nav order, labels, and 992 px <code>display: none</code> breakpoint</strong> after the above changes — these already match today, so this is a regression check, not new work.</li>
+  </ul>
+  <p style="color:var(--muted); font-size: 14px;">Out of scope: wordmark, hero, logo grid, hero-to-logo transition (already landed in 8.2/8.4/8.5).</p>
+</section>
+
+<section id="qs">
+  <h2>Outstanding questions for the operator</h2>
+  <div class="q">
+    <ol>
+      <li><strong>Mobile / tablet nav affordance:</strong> should the preview gain a hamburger to match live, or should live drop the hamburger to match preview's "hide nav under 992 px" behaviour? This is the binding decision before F starts.</li>
+      <li><strong>Header height target:</strong> confirm 73 px (preview) is the intended target for live, vs live's current 82–98 px. Earlier audits referenced ~50 px and ~80 px; current measurements above are the source of truth.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<script>
+  document.querySelectorAll('input.slider').forEach(function(s) {
+    var target = document.getElementById(s.dataset.target);
+    if (!target) return;
+    var topImg = target.querySelector('.top-img');
+    function set(v) {
+      topImg.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+    }
+    set(s.value);
+    s.addEventListener('input', function(e) { set(e.target.value); });
+  });
+</script>
+
+</body>
+</html>

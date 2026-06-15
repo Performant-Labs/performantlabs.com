@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 8.6 polish — rework audit report (round 2)</title>
+<style>
+  :root {
+    --ink: #1F1A14;
+    --body: #5C544C;
+    --pass: #0a7e3a;
+    --fail: #b3261e;
+    --warn: #b85c00;
+    --bg: #fafaf7;
+    --card: #ffffff;
+    --hairline: #E5E1DC;
+    --accent: #0F6F8A;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.55; }
+  header.report-head { background: var(--ink); color: white; padding: 32px 40px; }
+  header.report-head h1 { margin: 0 0 6px; font-size: 28px; font-weight: 600; }
+  header.report-head p { margin: 0; color: #cfcac0; font-size: 14px; }
+  .verdict-banner { background: var(--pass); color: white; padding: 24px 40px; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+  .verdict-banner .small { font-size: 13px; font-weight: 400; opacity: 0.9; display: block; margin-top: 6px; }
+  main { max-width: 1280px; margin: 0 auto; padding: 32px 40px 80px; }
+  h2 { margin: 36px 0 12px; font-size: 22px; border-bottom: 1px solid var(--hairline); padding-bottom: 6px; }
+  h3 { margin: 24px 0 8px; font-size: 17px; color: var(--ink); }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { background: #f0ece4; font-weight: 600; }
+  .pass { color: var(--pass); font-weight: 600; }
+  .fail { color: var(--fail); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .nav { background: var(--card); padding: 12px 20px; border: 1px solid var(--hairline); border-radius: 6px; margin-bottom: 24px; }
+  .nav a { margin-right: 16px; color: var(--accent); text-decoration: none; font-size: 14px; }
+  .nav a:hover { text-decoration: underline; }
+  ul.what { background: var(--card); border: 1px solid var(--hairline); border-radius: 8px; padding: 16px 20px 16px 36px; }
+  ul.what li { margin-bottom: 6px; }
+  .comparator { position: relative; width: 100%; max-width: 1200px; margin: 12px auto 8px; border: 1px solid var(--hairline); border-radius: 6px; overflow: hidden; background: white; }
+  .comparator .canvas { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin: 8px 0 4px; }
+  .comparator .legend { display: flex; justify-content: space-between; font-size: 12px; color: var(--body); padding: 0 4px 8px; }
+  .comparator .legend .l { color: var(--accent); }
+  .comparator .legend .r { color: #8E4A2A; }
+  .diff-img, .composite-img { max-width: 100%; width: 100%; height: auto; display: block; margin: 8px 0 16px; border: 1px solid var(--hairline); border-radius: 4px; }
+  .section-card { background: var(--card); border: 1px solid var(--hairline); border-radius: 8px; padding: 20px; margin-bottom: 28px; }
+  .crop-thumb { max-width: 600px; width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: 4px; display: block; }
+  td.crop-cell { width: 320px; }
+  td.crop-cell img { width: 100%; height: auto; border: 1px solid var(--hairline); border-radius: 4px; }
+  .meta { font-size: 13px; color: var(--body); }
+  code { background: #f0ece4; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header class="report-head">
+  <h1>Phase 8.6 polish — visual audit report (round 2)</h1>
+  <p>Branch <code>aa/pl-homepage-phase-8.6-polish</code> · Audit date 2026-05-11 · Scope: nav-cluster horizontal alignment + round-1 regression suite + phases 8.1–8.5</p>
+</header>
+
+<div class="verdict-banner">
+  VERDICT: PASS
+  <span class="small">
+    1280 nav-cluster delta: left −8.7 px · right −8.7 px · width 0.0 px (all within 10 px threshold) · header crop AE 6,396 / 192,000 (3.33 %) · whole-page deltas dominated by vertical-offset cascade (informational only)
+  </span>
+</div>
+
+<main>
+
+<nav class="nav">
+  <a href="#what">What I see different</a>
+  <a href="#header">Header at 1280 (binding)</a>
+  <a href="#v1280">Viewport 1280</a>
+  <a href="#v768">Viewport 768</a>
+  <a href="#v375">Viewport 375</a>
+  <a href="#sections">Per-section table</a>
+</nav>
+
+<section id="what">
+<h2>What I see different — plain English</h2>
+<ul class="what">
+  <li><strong>Header nav cluster at 1280:</strong> previously left-clustered (180+ px off in round 1); now right-aligned in the header, mirroring the preview. Symmetric ~9-pixel residual offset (live nav is shifted 8.7 px inward from preview on both left and right). Cluster width matches exactly. Six nav labels in same order, same Poppins 15 px, same 32 px gap.</li>
+  <li><strong>FAQ accordion (round-1 item 2):</strong> closed rows show a teal <code>+</code> indicator on the cream FAQ band on both live and preview. SVG chevron hidden. No regression.</li>
+  <li><strong>Hamburger button at 768 and 375 (round-1 item 5):</strong> bordered with 1 px hairline and 8 px radius on both live and preview. 44×44 touch target. No regression.</li>
+  <li><strong>Footer links (round-1 item 1):</strong> sentence case on all column links (Testing-suite takeover, Embedded testing engineer, Autonomous healing pilot, Accessibility testing, Articles, Documentation, About us, Contact us, Privacy policy). No regression.</li>
+  <li><strong>Footer-CTA "Book a testing review" (round-1 item 3):</strong> no arrow glyph on the primary pill. The smaller in-column "Get in touch →" link retains its arrow (intentional — that's not the primary CTA). No regression.</li>
+  <li><strong>Built-for-the-team checklist (round-1 item 4):</strong> all four items end with terminal periods. No regression.</li>
+  <li><strong>Hero band at 768 (phases 8.2 + 8.5):</strong> no horizontal overflow; hero CTAs stack; tight transition to logo band. No regression.</li>
+  <li><strong>Logo bar at 1280 (phase 8.3):</strong> single row of 6 grayscale bitmap logos (CBS Interactive / DocuSign / orange / Renesas / Robert Half / Tesla). No regression.</li>
+  <li><strong>Feature cards at 768 (phase 8.4):</strong> 1-column stack of 3 cards ("Tools the Drupal community uses" / "Tests that heal themselves" / "Experts alongside your team"). No regression.</li>
+</ul>
+<p class="meta">Pre-existing condition out of 8.6 scope: primary CTA pill renders deep teal on live and lighter cyan on preview. Flagged for the planned global Phase 8 re-audit.</p>
+</section>
+
+<section id="header" class="section-card">
+<h2>Header band at 1280 — the binding scope for round 2</h2>
+<p>Side-by-side composite (live left, preview right). Both render the six-item nav right-aligned with a near-identical visual signature.</p>
+<img class="composite-img" src="screenshots/cycle-8.6-rework/t3-homepage-header-1280-composite-20260511.png" alt="Header band composite at 1280: live left, preview right">
+
+<h3>Diff (red pixels = differing)</h3>
+<img class="diff-img" src="screenshots/cycle-8.6-rework/t3-homepage-header-1280-diff-20260511.png" alt="Header band diff at 1280">
+
+<h3>Nav-cluster bounding-rect measurements</h3>
+<table>
+  <thead><tr><th>Edge</th><th>Live</th><th>Preview</th><th>Delta</th><th>Within 10 px?</th></tr></thead>
+  <tbody>
+    <tr><td>Left edge</td><td>526.3 px</td><td>535.0 px</td><td>−8.7 px</td><td class="pass">YES</td></tr>
+    <tr><td>Right edge</td><td>1207.3 px</td><td>1216.0 px</td><td>−8.7 px</td><td class="pass">YES</td></tr>
+    <tr><td>Width</td><td>681.0 px</td><td>681.0 px</td><td>0.0 px</td><td class="pass">YES</td></tr>
+    <tr><td>Font-size</td><td>15 px</td><td>15 px</td><td>0</td><td class="pass">YES</td></tr>
+    <tr><td>Gap</td><td>32 px</td><td>32 px</td><td>0</td><td class="pass">YES</td></tr>
+    <tr><td>Link padding</td><td>0 px</td><td>0 px</td><td>0</td><td class="pass">YES</td></tr>
+    <tr><td>Header height</td><td>73 px</td><td>73 px</td><td>0</td><td class="pass">YES</td></tr>
+  </tbody>
+</table>
+<p class="meta">The 8.7 px symmetric residual originates from the neonbyte shadow container width (<code>min(92cqw, 1440px)</code> = 1178 px at 1280) vs preview's 1200 px flat container. Closing this would require touching cross-page neonbyte structural CSS; the residual is within the round-2 acceptance threshold.</p>
+</section>
+
+<section id="v1280">
+<h2>Viewport 1280 — wipe-slider comparator</h2>
+<div class="comparator">
+  <div class="canvas" id="cmp1280">
+    <img src="screenshots/cycle-8.6-rework/t3-homepage-1280-preview-crop-20260511.png" alt="Preview 1280 full-page (bottom layer)">
+    <img class="top" id="cmp1280top" src="screenshots/cycle-8.6-rework/t3-homepage-1280-live-crop-20260511.png" alt="Live 1280 full-page (top layer)">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="slider1280">
+  <div class="legend"><span class="l">← Live</span><span class="r">Preview →</span></div>
+</div>
+<h3>Diff PNG at 1280</h3>
+<img class="diff-img" src="screenshots/cycle-8.6-rework/t3-homepage-1280-diff-20260511.png" alt="Whole-page diff at 1280">
+<h3>Side-by-side composite</h3>
+<img class="composite-img" src="screenshots/cycle-8.6-rework/t3-homepage-1280-composite-20260511.png" alt="Composite at 1280">
+<p class="meta">Whole-page AE 2,786,900 / 5,556,480 (50.16 %) — dominated by vertical-offset cascade. Live is 925 px taller than preview so identical sections render at different y-coordinates. Per-section crops are binding for verdict.</p>
+</section>
+
+<section id="v768">
+<h2>Viewport 768 — wipe-slider comparator</h2>
+<div class="comparator">
+  <div class="canvas" id="cmp768">
+    <img src="screenshots/cycle-8.6-rework/t3-homepage-768-preview-crop-20260511.png" alt="Preview 768 full-page (bottom layer)">
+    <img class="top" id="cmp768top" src="screenshots/cycle-8.6-rework/t3-homepage-768-live-crop-20260511.png" alt="Live 768 full-page (top layer)">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="slider768">
+  <div class="legend"><span class="l">← Live</span><span class="r">Preview →</span></div>
+</div>
+<h3>Diff PNG at 768</h3>
+<img class="diff-img" src="screenshots/cycle-8.6-rework/t3-homepage-768-diff-20260511.png" alt="Whole-page diff at 768">
+<h3>Side-by-side composite</h3>
+<img class="composite-img" src="screenshots/cycle-8.6-rework/t3-homepage-768-composite-20260511.png" alt="Composite at 768">
+<p class="meta">Whole-page AE 1,925,460 / 3,766,272 (51.12 %) — same vertical-offset cascade. Header crop at 768 shows 2.61 % delta, well within match threshold.</p>
+</section>
+
+<section id="v375">
+<h2>Viewport 375 — wipe-slider comparator</h2>
+<div class="comparator">
+  <div class="canvas" id="cmp375">
+    <img src="screenshots/cycle-8.6-rework/t3-homepage-375-preview-crop-20260511.png" alt="Preview 375 full-page (bottom layer)">
+    <img class="top" id="cmp375top" src="screenshots/cycle-8.6-rework/t3-homepage-375-live-crop-20260511.png" alt="Live 375 full-page (top layer)">
+  </div>
+  <input type="range" min="0" max="100" value="50" id="slider375">
+  <div class="legend"><span class="l">← Live</span><span class="r">Preview →</span></div>
+</div>
+<h3>Diff PNG at 375</h3>
+<img class="diff-img" src="screenshots/cycle-8.6-rework/t3-homepage-375-diff-20260511.png" alt="Whole-page diff at 375">
+<h3>Side-by-side composite</h3>
+<img class="composite-img" src="screenshots/cycle-8.6-rework/t3-homepage-375-composite-20260511.png" alt="Composite at 375">
+<p class="meta">Whole-page AE 1,256,820 / 2,311,125 (54.38 %) — vertical-offset cascade. Header crop at 375 shows 4.67 % delta, within match threshold for narrow viewport (mostly logo padding rounding).</p>
+</section>
+
+<section id="sections">
+<h2>Per-section delta table</h2>
+<table>
+  <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th class="crop-cell">Crop</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Header nav cluster (item 6)</strong></td><td>1280</td>
+      <td class="pass">MATCH</td>
+      <td>Live nav cluster now right-aligned. Edges within 8.7 px of preview; width 0.0 px delta. Round-1 REWORK item closed.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-header-1280-composite-20260511.png" alt="Header 1280 composite"></td>
+    </tr>
+    <tr>
+      <td>Header band overall</td><td>768</td>
+      <td class="pass">MATCH</td>
+      <td>Header height 73 px. Hamburger gated at &lt; 992; nav hidden inline.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-header-768-composite-20260511.png" alt="Header 768 composite"></td>
+    </tr>
+    <tr>
+      <td>Header band overall</td><td>375</td>
+      <td class="pass">MATCH</td>
+      <td>Header height 73 px; hamburger bordered with 8 px radius (item 5 visual).</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-header-375-composite-20260511.png" alt="Header 375 composite"></td>
+    </tr>
+    <tr>
+      <td>Hamburger button (item 5)</td><td>768</td>
+      <td class="pass">MATCH</td>
+      <td>1 px border, 8 px radius, 44×44 touch target on both live and preview.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-hamburger-768-composite-20260511.png" alt="Hamburger 768 composite"></td>
+    </tr>
+    <tr>
+      <td>Logo bar (phase 8.3)</td><td>1280</td>
+      <td class="pass">MATCH</td>
+      <td>6 grayscale bitmap logos in a single row (CBS Interactive / DocuSign / orange / Renesas / Robert Half / Tesla).</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-logobar-1280-composite-20260511.png" alt="Logo bar 1280 composite"></td>
+    </tr>
+    <tr>
+      <td>Feature cards (phase 8.4)</td><td>768</td>
+      <td class="pass">MATCH</td>
+      <td>1-column stack of 3 cards: Tools / Tests / Experts.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-cards-768-composite-20260511.png" alt="Cards 768 composite"></td>
+    </tr>
+    <tr>
+      <td>Hero band (phases 8.2 + 8.5)</td><td>768</td>
+      <td class="pass">MATCH</td>
+      <td>No horizontal overflow; CTAs stack to single column; tight transition to logo band.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-hero-768-composite-20260511.png" alt="Hero 768 composite"></td>
+    </tr>
+    <tr>
+      <td>Footer columns (item 1) + footer-CTA (item 3)</td><td>1280</td>
+      <td class="pass">MATCH</td>
+      <td>Sentence-case link labels on all columns; "Book a testing review" primary CTA without arrow.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-footer-1280-composite-20260511.png" alt="Footer 1280 composite"></td>
+    </tr>
+    <tr>
+      <td>FAQ accordion (item 2) + checklist (item 4)</td><td>1280</td>
+      <td class="pass">MATCH</td>
+      <td>Closed accordion rows show <code>+</code> glyph; checklist items end with terminal periods.</td>
+      <td class="crop-cell"><img src="screenshots/cycle-8.6-rework/t3-homepage-faq-1280-composite-20260511.png" alt="FAQ + checklist 1280 composite"></td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<section>
+<h2>Advisory notes (out of 8.6 scope)</h2>
+<ol>
+  <li><strong>Primary CTA pill color.</strong> Deep teal on live vs lighter cyan on preview. Pre-existing condition. Defer to global Phase 8 re-audit.</li>
+  <li><strong>Footer bottom-bar Privacy Policy link.</strong> Bold Title-Case bottom-bar link on live not in preview. Out of 8.6 scope.</li>
+  <li><strong>Header container 8.7 px residual.</strong> Originates in neonbyte's shared <code>min(92cqw, 1440px)</code> shadow container. Within 10 px acceptance threshold. No further action needed in 8.6.</li>
+</ol>
+</section>
+
+</main>
+
+<script>
+  function bindComparator(sliderId, topImgId) {
+    var s = document.getElementById(sliderId);
+    var t = document.getElementById(topImgId);
+    if (!s || !t) return;
+    function paint() {
+      var v = 100 - s.value;
+      t.style.clipPath = 'inset(0 ' + v + '% 0 0)';
+    }
+    s.addEventListener('input', paint);
+    paint();
+  }
+  bindComparator('slider1280', 'cmp1280top');
+  bindComparator('slider768', 'cmp768top');
+  bindComparator('slider375', 'cmp375top');
+</script>
+
+</body>
+</html>

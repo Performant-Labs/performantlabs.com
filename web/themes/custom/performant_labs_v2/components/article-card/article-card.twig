@@ -1,0 +1,40 @@
+{#
+  Article Card — renders one article teaser.
+
+  Two variants:
+  - Image card (default): thumbnail in 16:9 media frame + body.
+  - Text-only (--text modifier): cream background, no media frame.
+    Triggered when image_src is empty/null.
+
+  The media link is aria-hidden + tabindex="-1" so screen readers and
+  keyboard users hit the title link only (no duplicate link).
+
+  Props (read from article-card.component.yml — do not guess):
+    url            : string, required — article path
+    category_label : string, required — taxonomy term display name
+    date_iso       : string, required — YYYY-MM-DD for <time>
+    date_display   : string, required — human-readable date
+    title          : string, required — article title
+    excerpt        : string, required — summary text (2-line clamp via CSS)
+    image_src      : string|null, optional — thumbnail URL
+    image_alt      : string, optional — alt text (default "")
+#}
+<article{{ attributes.addClass([
+  'article-card',
+  not image_src ? 'article-card--text',
+]) }}>
+  {% if image_src %}
+    <a class="article-card__media" href="{{ url }}" aria-hidden="true" tabindex="-1">
+      <img src="{{ image_src }}" alt="{{ image_alt|default('') }}" loading="lazy" width="800" height="450">
+    </a>
+  {% endif %}
+  <div class="article-card__body">
+    <div class="article-card__eyebrow">
+      <span>{{ category_label }}</span>
+      <span class="dot" aria-hidden="true"></span>
+      <time datetime="{{ date_iso }}">{{ date_display }}</time>
+    </div>
+    <h3><a href="{{ url }}">{{ title }}</a></h3>
+    <p class="article-card__excerpt">{{ excerpt }}</p>
+  </div>
+</article>

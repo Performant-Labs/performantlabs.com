@@ -1,0 +1,290 @@
+/**
+ * @file
+ * performant_labs_v2 — brand color foundation.
+ *
+ * Layer 4 component-wrapper overrides per docs/pl2/theme-change.md.
+ * Selector specificity (0,1,1) via `html .theme--*` beats neonbyte's
+ * `.theme--*` (0,1,0) and Dripyard's `:where(:root)` (0,0,0). No !important.
+ *
+ * --theme-setting-* (config-only) and --primary-NNN/--neutral-NNN (OKLCH curve,
+ * Layer 2) are intentionally NOT overridden here.
+ */
+
+/* Brand-specific accent tokens (no dark-mode variant; not consumed by
+ * Dripyard's theme machinery). */
+:root {
+  --pl-accent: #C97B5C;
+  --pl-accent-deep: #8E4A2A;
+  --pl-accent-tint: #EBC0AB;
+  --pl-accent-deep-on-light: #8E4A2A;  /* Sprint 12 Cycle 3: aligned to brief --accent-deep (5.79:1 on cream, AA pass) */
+
+  /* ─── Phase 8.7 Item A: Three-color primary palette (preview-canonical) ──
+   * Replaces single deep-teal #0F6F8A with the preview's three-token system.
+   * Source: docs/pl2/Previews/homepage.html lines 13–15.
+   * Brief updated: docs/pl2/Briefs/pl_design_brief.md §Colors.
+   *
+   * Cascade:
+   *   --pl-primary       → --theme-link-color (white/light/secondary zones),
+   *                         --theme-focus-ring-color, secondary-button text/border,
+   *                         kicker accents, card hover border
+   *   --pl-primary-light → button--primary resting bg (CTA pills only, via button.css L5)
+   *   --pl-primary-deep  → --theme-link-color-hover (inline link hover, secondary-button hover)
+   *
+   * WCAG (pre-approved deviations per operator decision 2026-05-11):
+   *   --pl-primary-light #62BBCB bg + #FFFFFF text = 2.13:1 (FAIL AA — intentional)
+   *   --pl-primary #1893b4 on #FFFFFF = 3.5:1 (FAIL body-text AA 4.5:1 — intentional;
+   *     passes large-text 3.0:1) */
+  --pl-primary: #1893b4;
+  --pl-primary-light: #62BBCB;
+  --pl-primary-deep: #005AA0;
+}
+
+/* ─── Sprint 4 Cycle 2: Brand-canonical --theme-* defaults on :root ──────
+ * [Layer 3] Backstop so any code reading --theme-* tokens outside a
+ * .theme--* zone receives brand values instead of empty or legacy Dripyard
+ * defaults (e.g. --primary: #0000d9).
+ *
+ * Values are the brand-white-surface canonical set, copied from the
+ * html .theme--white block below. var() references to --pl-primary and
+ * --pl-primary-deep resolve through the :root block above.
+ *
+ * Specificity: :root is (0,1,0). The html .theme--* blocks below are
+ * (0,1,1) and always win. This block is a fallback only — it does not
+ * change any currently-rendered surface.
+ *
+ * Layer trace:
+ *   L1: not config-driven. RULED OUT.
+ *   L2: not OKLCH-derived. RULED OUT.
+ *   L3: :root token backstop in base.css. CORRECT LAYER.
+ *
+ * WCAG: no visual change — all themed zones override these values.
+ * Contrast ratios unchanged from existing html .theme--white values. */
+:root {
+  --theme-surface: #FFFFFF;
+  --theme-surface-alt: #F5EFE2;
+  --theme-text-color-primary: #2A2520;
+  --theme-text-color-loud: #1F1A14;
+  --theme-text-color-medium: #5C544C;
+  --theme-text-color-soft: #5C544C;
+  --theme-link-color: var(--pl-primary);       /* #1893b4 */
+  --theme-link-color-hover: var(--pl-primary-deep); /* #005AA0 */
+  --theme-border-color: #E5E1DC;
+  --theme-focus-ring-color: var(--pl-primary); /* #1893b4 */
+}
+
+/* ─── White zone — canvas (default page surface) ──────────────── */
+html .theme--white {
+  --theme-surface: #FFFFFF;
+  --theme-surface-alt: #F5EFE2;
+  --theme-text-color-primary: #2A2520;
+  --theme-text-color-loud: #1F1A14;
+  --theme-text-color-medium: #5C544C;
+  --theme-text-color-soft: #5C544C; /* warm taupe body — overrides dripyard's --neutral-700 oklch cool grey */
+  --theme-link-color: var(--pl-primary); /* Phase 8.7: #1893b4 (was #0F6F8A). Inline links on white = 3.5:1 — pre-approved deviation */
+  --theme-link-color-hover: var(--pl-primary-deep); /* #005AA0 — 7.07:1 on #FFFFFF (AA pass) */
+  --theme-border-color: #E5E1DC;
+  --theme-focus-ring-color: var(--pl-primary); /* #1893b4 — 3.58:1 on #FFFFFF (non-text 3:1 pass) */
+}
+
+/* ─── Light zone — cream emphasis (heal-flow, FAQ) ────────────── */
+html .theme--light {
+  --theme-surface: #F5EFE2;
+  --theme-surface-alt: #FFFFFF;
+  --theme-text-color-primary: #2A2520;
+  --theme-text-color-loud: #1F1A14;
+  --theme-text-color-medium: #5C544C;
+  --theme-text-color-soft: #5C544C; /* warm taupe body — overrides dripyard's --neutral-700 oklch cool grey */
+  --theme-link-color: var(--pl-primary); /* Phase 8.7: #1893b4 (was #0F6F8A). Inline links on cream = 3.07:1 — pre-approved deviation */
+  --theme-link-color-hover: var(--pl-primary-deep); /* #005AA0 — 6.17:1 on #F5EFE2 (AA pass) */
+  --theme-border-color: #E5E1DC;
+  --theme-focus-ring-color: var(--pl-primary); /* #1893b4 — 3.13:1 on #F5EFE2 (non-text 3:1 pass) */
+}
+
+/* ─── Secondary zone — warm (code-heavy callouts) ─────────────── */
+html .theme--secondary {
+  --theme-surface: #F2EFED;
+  --theme-surface-alt: #FFFFFF;
+  --theme-text-color-primary: #2A2520;
+  --theme-text-color-loud: #1F1A14;
+  --theme-text-color-medium: #5C544C;
+  --theme-text-color-soft: #5C544C; /* warm taupe body — overrides dripyard's --neutral-700 oklch cool grey */
+  --theme-link-color: var(--pl-primary); /* Phase 8.7: #1893b4 (was #0F6F8A). Inline links on warm = 3.18:1 — pre-approved deviation */
+  --theme-link-color-hover: var(--pl-primary-deep); /* #005AA0 — 6.40:1 on #F2EFED (AA pass) */
+  --theme-border-color: #E5E1DC;
+  --theme-focus-ring-color: var(--pl-primary); /* #1893b4 — 3.24:1 on #F2EFED (non-text 3:1 pass) */
+}
+
+/* ─── Dark zone — espresso (closing CTA, signature dark moment) ─── */
+html .theme--dark {
+  --theme-surface: #1F1A14;
+  --theme-surface-alt: #2A2520;
+  --theme-text-color-primary: #F5EFE2;
+  --theme-text-color-loud: #FFFFFF;
+  --theme-text-color-medium: #B8AFA0;
+  --theme-text-color-soft: #B8AFA0; /* warm gray on dark — overrides dripyard's --neutral-500 cool grey */
+  --theme-link-color: #5DC6E8; /* AA: 8.81:1 on #1F1A14 (unchanged — dark-zone links stay high-contrast) */
+  --theme-link-color-hover: #7AD0E8; /* AA: 9.88:1 on #1F1A14 */
+  --theme-border-color: #B8AFA0;
+  --theme-focus-ring-color: #62bbcb;
+}
+
+/* ─── Black zone — terminal/screenshot containers ──────────────── */
+html .theme--black {
+  --theme-surface: #0E1014;
+  --theme-surface-alt: #1F1A14;
+  --theme-text-color-primary: #F5EFE2;
+  --theme-text-color-loud: #FFFFFF;
+  --theme-text-color-medium: #B8AFA0;
+  --theme-text-color-soft: #B8AFA0; /* warm gray on dark — overrides dripyard's --neutral-500 cool grey */
+  --theme-link-color: #5DC6E8; /* AA: 9.71:1 on #0E1014 */
+  --theme-link-color-hover: #7AD0E8; /* AA: 10.89:1 on #0E1014 */
+  --theme-border-color: #B8AFA0;
+  --theme-focus-ring-color: #62bbcb;
+}
+
+/* ─── Primary zone — brand teal (reserved; sparing use) ───────── */
+html .theme--primary {
+  --theme-surface: #1893b4;
+  --theme-surface-alt: #62bbcb;
+  --theme-text-color-primary: #FFFFFF;
+  --theme-text-color-loud: #FFFFFF;
+  --theme-text-color-medium: #FFFFFF;
+  --theme-link-color: #FFFFFF;
+  --theme-link-color-hover: #F5EFE2;
+  --theme-border-color: #FFFFFF;
+  --theme-focus-ring-color: #FFFFFF;
+}
+
+/* ─── Phase 8.7 Item B: Global section-padding tightening ─────────
+ * [Layer 3] :root override of Dripyard's --spacing-component and
+ * --spacing-component-internal tokens.
+ *
+ * Bottom-up trace:
+ *   .padding-top--l / .padding-bottom--l → var(--spacing-component)
+ *   .padding-top--m / .padding-bottom--m → var(--spacing-component-internal)
+ *   .dy-section__header margin-bottom → var(--spacing-component-internal)
+ *   Desktop (>700px): --spacing-component = var(--spacing-xxxl) = 120px
+ *   Desktop (>700px): --spacing-component-internal = var(--spacing-xxl) = 80px
+ *   Mobile (<=700px): --spacing-component = var(--spacing-xxl) = 80px
+ *   Mobile (<=700px): --spacing-component-internal = var(--spacing-xl) = 64px
+ *
+ * Preview uses:
+ *   section { padding: var(--space-section) 0 } where --space-section = 96px
+ *   .logo-bar { padding: var(--space-2xl) 0 } where --space-2xl = 48px
+ *   .section-head { margin-bottom: var(--space-2xl) } where --space-2xl = 48px
+ *
+ * Target values:
+ *   Desktop (>700px): --spacing-component: 96px (was 120px) = calc(12 * var(--sp))
+ *   Desktop (>700px): --spacing-component-internal: 48px (was 80px) = var(--sp6)
+ *   Mobile (<=700px): --spacing-component: 64px (was 80px) = var(--sp8)
+ *   Mobile (<=700px): --spacing-component-internal: 48px (was 64px) = var(--sp6)
+ *
+ * Top-down trace:
+ *   L1: not in Drupal config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: :root token override — global, affects all pages. CORRECT LAYER.
+ *        Operator-confirmed trigger-3 escalation: global change intended.
+ *
+ * Cross-page impact: ALL pages using the theme. Spot-checked post-fix.
+ * WCAG: spacing change only; no color or contrast impact. */
+:root {
+  --spacing-component: var(--sp8);            /* mobile-first: 64px (was 80px) */
+  --spacing-component-internal: var(--sp6);   /* mobile-first: 48px (was 64px) */
+}
+
+@media (width > 700px) {
+  :root {
+    --spacing-component: calc(12 * var(--sp));  /* 96px (was 120px = 15*sp) */
+    --spacing-component-internal: var(--sp6);   /* 48px (was 80px = 10*sp) */
+  }
+}
+
+/* ─── Mobile typography scale (sm breakpoint) ──────────────────────
+ * [Layer 3] :root override of Dripyard typography variables
+ * at <=576px. Source: design brief "Responsive behavior" typography-mobile
+ * block. Dripyard's mobile-first defaults are larger than our targets, so
+ * we scale DOWN. The 577-600px gap reverts to Dripyard's mobile defaults
+ * by design (brief breakpoint is sm=576px).
+ *
+ * Brief token -> Dripyard variable mapping:
+ *   display-xl  -> --title-size       (44px / -1px tracking)
+ *   display-lg  -> --h1-size          (36px / -1.2px tracking)
+ *   display-md  -> --h2-size          (30px / -0.8px tracking)
+ *   heading-lg  -> --h3-size          (24px)
+ *   heading-md  -> --h4-size          (20px)
+ *   heading-sm  -> --h5-size          (17px)
+ *   body-lg     -> --body-l-size      (17px)
+ *
+ * Note: --spacing-component override moved to the Phase 8.7 block above
+ * (mobile-first pattern). The @media <=576px override is no longer needed
+ * for spacing because the mobile-first :root already sets 64px. */
+@media (max-width: 576px) {
+  :root {
+    --title-size: 2.75rem;           /* 44px */
+    --title-letter-spacing: -1px;
+    --h1-size: 2.25rem;              /* 36px */
+    --h1-letter-spacing: -1.2px;
+    --h2-size: 1.875rem;             /* 30px */
+    --h2-letter-spacing: -0.8px;
+    --h3-size: 1.5rem;               /* 24px */
+    --h4-size: 1.25rem;              /* 20px */
+    --h5-size: 1.0625rem;            /* 17px */
+    --body-l-size: 1.0625rem;        /* 17px */
+  }
+}
+
+/* heal-flow CSS migrated to components/heal-flow/heal-flow.css (Phase 2 tech-debt). */
+
+/* ─── R7 font canon: Poppins (body) + Rubik (all headings, wt 500) ───
+ * Preview canon per docs/pl2/Previews/services.html lines 41-82.
+ * Reverts M6 (Poppins-800 H1 + Rubik body -> wrong per S deep audit TOP-1).
+ *
+ * Why --hN-font-family entries are explicit:
+ *   Dripyard maps --h2-font-family -> var(--font-sans). If we set --font-sans
+ *   to Poppins (body font), H2-H4 would inherit Poppins. The explicit per-heading
+ *   token overrides keep H2-H4 on Rubik regardless of --font-sans value.
+ *   H5/H6 are intentionally NOT overridden -- Dripyard sets them to --font-mono;
+ *   that monospace treatment is correct for those elements.
+ *
+ * Cascade footprint: ALL pages (site-wide). Intentional per R7.
+ * Layer: 3 (L1 and L2 ruled out -- fonts not config-driven, not OKLCH-derived).
+ * Approved: 2026-05-05. See docs/pl2/handoffs/cycle-2-services-F-layer-trace.md.
+ *
+ * WCAG: font-family/weight changes do not affect color contrast. No contrast
+ * ratios change -- all ratios documented in component CSS files remain valid. */
+:root {
+  --font-sans: 'Poppins', sans-serif;       /* body copy + fallback for --body-*-font-family */
+  --h1-font-family: 'Rubik', sans-serif;    /* H1 -- was Poppins-800 (M6), now Rubik-500 (R7) */
+  --h1-weight: 500;                          /* was 800 */
+  --h2-font-family: 'Rubik', sans-serif;    /* explicit -- prevents Poppins bleed from --font-sans */
+  --h2-weight: 500;
+  --h3-font-family: 'Rubik', sans-serif;    /* explicit */
+  --h3-weight: 500;
+  --h4-font-family: 'Rubik', sans-serif;    /* explicit */
+  --h4-weight: 500;
+  /* H5/H6 intentionally NOT overridden -- Dripyard sets them to --font-mono. */
+}
+
+/* ─── Phase B — H2 desktop size token ──────────────────────────────
+ * Preview spec: H2 = 40px desktop / 30px mobile with letter-spacing -1px desktop.
+ * Dripyard's default at >600px: --h2-size: 3.375rem (54px) -- too large.
+ * We set the desktop token here, scoped to min-width: 577px so the mobile
+ * override (30px / -0.8px) in the @media (max-width: 576px) block above
+ * is not clobbered by source-order cascade.
+ *
+ * Sprint 15 Cycle 3 fix: previously this block was unconditional `:root`,
+ * which came AFTER the @media (max-width: 576px) block in source order.
+ * At <=576px both rules matched :root at equal specificity, so the later
+ * unconditional 40px won -- producing a mobile H2 of 40px instead of 30px.
+ * Wrapping in @media (min-width: 577px) confines the 40px to desktop only.
+ *
+ * Layer: 3 (:root token override -- affects all H2s site-wide, which is correct
+ *         per preview spec and the design brief display-md = 40px desktop).
+ * Ruling: L1 not config; L2 not OKLCH; L3 correct -- site-wide H2 sizing
+ *         matches preview; no page needs a larger H2 than this. */
+@media (min-width: 577px) {
+  :root {
+    --h2-size: 2.5rem;           /* 40px = display-md per design brief */
+    --h2-letter-spacing: -1px;   /* display-md desktop tracking */
+  }
+}

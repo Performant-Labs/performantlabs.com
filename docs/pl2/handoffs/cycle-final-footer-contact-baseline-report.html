@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 8 — Final cycle — Footer + contact regression baseline</title>
+<style>
+  :root {
+    --ink: #1F1A14;
+    --cream: #F5EFE2;
+    --teal: #1893b4;
+    --teal-light: #62BBCB;
+    --green: #1f7a3a;
+    --gray: #6c6359;
+  }
+  html { font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); }
+  body { margin: 0; padding: 2rem; max-width: 1200px; margin-inline: auto; }
+  h1 { font-size: 2rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.35rem; margin: 2rem 0 .5rem; border-bottom: 1px solid #ddd; padding-bottom: .25rem; }
+  h3 { font-size: 1.1rem; margin: 1.25rem 0 .25rem; }
+  .verdict-banner {
+    display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    background: var(--cream); padding: 1.25rem 1.5rem; border-radius: 8px;
+    border-left: 6px solid var(--green); margin-bottom: 1.5rem;
+  }
+  .verdict-banner .verdict { font-size: 2rem; font-weight: 700; color: var(--green); letter-spacing: .02em; }
+  .verdict-banner .vps { color: var(--gray); font-size: .95rem; }
+  nav.toc { background: #fafafa; padding: .75rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+  nav.toc a { color: var(--teal); text-decoration: none; margin-right: 1rem; }
+  nav.toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; width: 100%; margin: .75rem 0 1.25rem; font-size: .92rem; }
+  th, td { border: 1px solid #ddd; padding: .4rem .6rem; text-align: left; vertical-align: top; }
+  th { background: #f3f0e9; }
+  td.pass, span.pass { color: var(--green); font-weight: 600; }
+  td.advisory { color: #b87a00; }
+  ul.plain li { margin-bottom: .35rem; }
+  .screenshot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .screenshot-grid figure { margin: 0; }
+  .screenshot-grid img { width: 100%; height: auto; border: 1px solid #ccc; display: block; }
+  .screenshot-grid figcaption { font-size: .85rem; color: var(--gray); padding: .35rem 0; }
+  .summary-note { background: #fafafa; padding: .75rem 1rem; border-left: 3px solid var(--teal); margin: 1rem 0; }
+  code { background: #f3f0e9; padding: 1px 4px; border-radius: 3px; font-size: .9em; }
+  .footer-meta { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #ddd; color: var(--gray); font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 8 — Final cycle — Footer + contact regression baseline</h1>
+<p class="footer-meta" style="margin-top:.25rem;border:none;padding:0;">Branch <code>aa/pl-sprint-8-cycle-final-verification</code> · 2026-05-12 · O → T → S → O · verification-only</p>
+
+<div class="verdict-banner">
+  <div class="verdict">PASS</div>
+  <div class="vps">
+    Bundle 3 (F.8 + F.9 + ADV-C1 + ADV-CU1) confirmed closed. 147 rendered link instances site-wide, 0 × 404, 0 × direct 301-hop. <code>/contact-us</code> H1 in <code>&lt;main&gt;</code>, hierarchy clean. WCAG 2.2 AA combined sweep PASS. Pa11y 0 new errors.
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#summary">What I see different</a>
+  <a href="#probes">Visual probes</a>
+  <a href="#screenshots">Screenshots</a>
+  <a href="#wcag">WCAG combined table</a>
+  <a href="#links">Link integrity</a>
+  <a href="#ac">Acceptance criteria</a>
+  <a href="#advisories">Advisories</a>
+</nav>
+
+<h2 id="summary">What I see different</h2>
+<div class="summary-note">
+  <strong>No visible differences detected.</strong> Visual sanity captures at 375 and 1280 on <code>/contact-us</code> and <code>/</code> show clean hero / form / mid-page content / footer chrome with no clipping, no overflow, no horizontal scroll. Header is canonical at both viewports (hamburger &lt; 992; full inline nav ≥ 992; no CTA pill). Footer is byte-identical across pages. <code>/contact-us</code> H1 ("Let's talk about your quality and testing goals.") resolves inside <code>&lt;main&gt;</code> at both viewports, confirming the Sprint 3 Cycle 5 J.2 page-title-in-main fix is intact.
+</div>
+
+<h2 id="probes">Visual probes (Playwright headless, 4 rows)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Page</th><th>VP</th><th>docScroll</th><th>docClient</th><th>scrollX after scrollTo(9999,0)</th><th>Offenders (excl. heal-flow)</th><th>H1 count</th><th>H1 in <code>&lt;main&gt;</code></th><th>H1 in viewport</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>/contact-us</code></td><td>375</td><td>360</td><td>375</td><td>0</td><td>0</td><td>1</td><td class="pass">YES</td><td class="pass">YES</td></tr>
+    <tr><td><code>/</code></td><td>375</td><td>360</td><td>375</td><td>0</td><td>0</td><td>1</td><td class="pass">YES</td><td class="pass">YES</td></tr>
+    <tr><td><code>/contact-us</code></td><td>1280</td><td>1265</td><td>1280</td><td>0</td><td>0</td><td>1</td><td class="pass">YES</td><td class="pass">YES</td></tr>
+    <tr><td><code>/</code></td><td>1280</td><td>1265</td><td>1280</td><td>0</td><td>0</td><td>1</td><td class="pass">YES</td><td class="pass">YES</td></tr>
+  </tbody>
+</table>
+<p class="vps" style="color:var(--gray);font-size:.9rem;"><code>docScroll = docClient − 15</code> at every viewport reflects the vertical scrollbar gutter excluded from <code>scrollWidth</code>. <code>scrollX = 0</code> after a max-right scroll confirms no horizontal scrollability anywhere.</p>
+
+<h2 id="screenshots">Screenshots (the baseline reference set)</h2>
+
+<h3><code>/contact-us</code> — 375 and 1280</h3>
+<div class="screenshot-grid">
+  <figure>
+    <img src="screenshots/sprint-8-final/t3-contact-us-375-live-20260512.png" alt="/contact-us at 375">
+    <figcaption><code>/contact-us</code> · 375 viewport · full-page</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/sprint-8-final/t3-contact-us-1280-live-20260512.png" alt="/contact-us at 1280">
+    <figcaption><code>/contact-us</code> · 1280 viewport · full-page</figcaption>
+  </figure>
+</div>
+
+<h3><code>/</code> — 375 and 1280 (footer chrome reference; identical across all 7 pages)</h3>
+<div class="screenshot-grid">
+  <figure>
+    <img src="screenshots/sprint-8-final/t3-home-375-live-20260512.png" alt="/ at 375">
+    <figcaption><code>/</code> · 375 viewport · full-page</figcaption>
+  </figure>
+  <figure>
+    <img src="screenshots/sprint-8-final/t3-home-1280-live-20260512.png" alt="/ at 1280">
+    <figcaption><code>/</code> · 1280 viewport · full-page</figcaption>
+  </figure>
+</div>
+
+<h2 id="wcag">WCAG 2.2 AA combined audit</h2>
+<p>One combined row per check covers <code>/contact-us</code> and the global header + footer chrome shared across all 7 shipped pages.</p>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>1.3.1 Info &amp; relationships — heading hierarchy</td><td class="pass">PASS</td><td>1 body H1 / 0 header H1 on all 7 pages; <code>/contact-us</code> hierarchy clean (T-§Tier 2)</td></tr>
+    <tr><td>1.3.1 Info &amp; relationships — ARIA landmarks</td><td class="pass">PASS</td><td><code>&lt;header&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>, <code>&lt;nav&gt;</code> present on all 7 pages</td></tr>
+    <tr><td>1.3.1 Info &amp; relationships — semantic structure</td><td class="pass">PASS</td><td>Webform uses <code>&lt;form&gt;</code> + <code>&lt;label&gt;</code> + <code>&lt;input&gt;</code> semantics; footer menus as <code>&lt;ul&gt;/&lt;li&gt;</code></td></tr>
+    <tr><td>1.3.4 Orientation</td><td class="pass">PASS</td><td>Responsive; no orientation-locked content</td></tr>
+    <tr><td>1.4.3 Contrast (text)</td><td class="pass">PASS<br><span style="color:#b87a00;font-weight:400;">w/ operator-approved deviations</span></td><td>Body text 15.07–17.27:1; pre-approved: <code>.button--primary</code> 2.21:1 + <code>.breadcrumb__link</code> 3.12:1 — both on allowlist (carried from phase-8.7 + sprint-4-phase-5)</td></tr>
+    <tr><td>1.4.4 Resize text</td><td class="pass">PASS</td><td>200% zoom no clipping; 375 probe scrollX = 0</td></tr>
+    <tr><td>1.4.10 Reflow @ 375</td><td class="pass">PASS</td><td>docScroll ≤ docClient, scrollX = 0 on both pages probed</td></tr>
+    <tr><td>1.4.10 Reflow @ 1280</td><td class="pass">PASS</td><td>docScroll ≤ docClient, scrollX = 0 on both pages probed</td></tr>
+    <tr><td>1.4.11 Non-text contrast</td><td class="pass">PASS</td><td>Focus ring <code>#1893b4</code>: 3.58:1 on white, 3.12:1 on cream, 7.80:1 on espresso</td></tr>
+    <tr><td>1.4.12 Text spacing</td><td class="pass">PASS</td><td>Sprint 4 token system, no change this cycle</td></tr>
+    <tr><td>2.1.1 Keyboard</td><td class="pass">PASS</td><td>Header toggle + anchor CTAs + webform inputs keyboard-reachable; no JS focus traps</td></tr>
+    <tr><td>2.4.3 Focus order</td><td class="pass">PASS</td><td>DOM order matches visual reading order on <code>/contact-us</code></td></tr>
+    <tr><td>2.4.6 Headings &amp; labels</td><td class="pass">PASS</td><td>Hero kicker + H1 + lede on <code>/contact-us</code>; visually-hidden <code>&lt;h2&gt;</code> labels for <code>&lt;nav&gt;</code></td></tr>
+    <tr><td>2.4.7 Focus visible</td><td class="pass">PASS</td><td><code>--theme-link-color</code> = <code>#1893b4</code> on white = 3.58:1</td></tr>
+    <tr><td>2.5.5 / 2.5.8 Target size</td><td class="pass">PASS</td><td><code>mobile-nav-button</code> 44×44 px (phase-8.7 baseline); footer signature CTA tap height OK</td></tr>
+    <tr><td>3.2.3 Consistent navigation</td><td class="pass">PASS</td><td>Header + footer markup identical across all 7 pages</td></tr>
+    <tr><td>4.1.2 Name, role, value</td><td class="pass">PASS</td><td>Webform inputs carry label assoc + <code>aria-required</code>; <code>aria-labelledby</code> on nav</td></tr>
+    <tr><td>Forced-colors mode</td><td class="pass">PASS</td><td>Carried forward (no new CSS this cycle)</td></tr>
+    <tr><td>Reduced-motion mode</td><td class="pass">PASS</td><td>Carried forward (no new transitions this cycle)</td></tr>
+    <tr><td>Image alt text</td><td class="pass">PASS</td><td>Decorative SVGs use <code>aria-label</code>; content <code>&lt;img&gt;</code> alt per Sprint 4 baseline</td></tr>
+    <tr><td>Pa11y PC-5 (0 new errors)</td><td class="pass">PASS</td><td>12 errors across 7 pages, 0 new types, all instances on operator allowlist</td></tr>
+  </tbody>
+</table>
+
+<h2 id="links">Link integrity baseline</h2>
+<ul class="plain">
+  <li>7 header-nav links × 7 pages = <strong>49 instances → 200</strong></li>
+  <li>13 footer links × 7 pages = <strong>91 instances → 200</strong></li>
+  <li>Footer signature CTA × 7 pages = <strong>7 instances → /contact-us → 200</strong></li>
+  <li><strong>Total 147 rendered href instances; 0 × 404; 0 × direct 301-hop.</strong></li>
+  <li>All 4 Services anchor fragments (<code>#test-suite-takeover</code>, <code>#embedded-testing-engineer</code>, <code>#autonomous-healing-pilot</code>, <code>#accessibility-testing</code>) confirmed as live <code>id=</code> on <code>/services</code>.</li>
+  <li>Legacy <code>/contact</code> and <code>/form/contact</code> remain as Drupal redirect-entity safety nets (301 → <code>/contact-us</code>); no rendered href in any page points to either.</li>
+</ul>
+
+<h2 id="ac">Acceptance criteria</h2>
+<table>
+  <thead><tr><th>Criterion</th><th>Evidence</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>HTTP 200 on every shipped page</td><td>All 7 pages 200 after <code>ddev drush cr</code> (T-§HTTP status)</td><td class="pass">PASS</td></tr>
+    <tr><td>Every CTA + footer link returns 200 / 301→200</td><td>147 instances probed; 0 × 404; 0 × direct 301-hop</td><td class="pass">PASS</td></tr>
+    <tr><td>Zero broken anchors</td><td>All 4 Services fragments resolve to live IDs</td><td class="pass">PASS</td></tr>
+    <tr><td><code>/contact-us</code> H1 count = 1; hierarchy clean</td><td>S probe: <code>h1Count = 1</code>, <code>h1InMainCount = 1</code> at 375 + 1280; T-§Tier 2 hierarchy clean</td><td class="pass">PASS</td></tr>
+    <tr><td>WCAG 2.2 AA combined sweep — all rows PASS</td><td>21-row table above; pre-approved 1.4.3 deviations on allowlist</td><td class="pass">PASS</td></tr>
+    <tr><td>Pa11y 0 new errors (PC-5)</td><td>12 total, 0 new error types, all on allowlist</td><td class="pass">PASS</td></tr>
+  </tbody>
+</table>
+
+<h2 id="advisories">Advisory notes (non-blocking)</h2>
+<ol>
+  <li><strong>Baseline scope.</strong> The 4 PNGs in <code>docs/pl2/handoffs/screenshots/sprint-8-final/</code> are the canonical reference for <code>/contact-us</code> + footer chrome at 375 + 1280. Future regression cycles touching the contact form, footer block, or footer menu should pixel-diff against this set.</li>
+  <li><strong>Reproducer.</strong> <code>probe.mjs</code> re-runs the 4-probe sweep in ≈ 15 s.</li>
+  <li><strong>Orphaned theme cleanup.</strong> Two orphaned theme directories still contain dead-code <code>&lt;a href="/contact"&gt;</code> strings. Never rendered; on tech-debt register.</li>
+  <li><strong>Webform submit-button contrast.</strong> <code>/contact-us</code> webform submit carries <code>button button--primary</code> (white on <code>#62BBCB</code> = 2.21:1) — same pre-approved deviation as all other primary buttons. If brand-color tokens move, this needs a fresh re-approval pass.</li>
+  <li><strong>Pa11y count drift on <code>/contact-us</code>.</strong> Cycle-2 reported 0 errors; current report shows 2. Both are pre-approved site-wide contrast deviations. No code change between then and now affects the relevant classes. Advisory only.</li>
+</ol>
+
+<div class="footer-meta">
+  Handoff-S: <code>docs/pl2/handoffs/cycle-final-footer-contact-baseline-S.md</code> · Handoff-T: <code>docs/pl2/handoffs/cycle-final-footer-contact-baseline-T.md</code> · Antecedent audit: <code>docs/pl2/handoffs/cycle-1-footer-contact-audit-S.md</code>
+</div>
+
+</body>
+</html>

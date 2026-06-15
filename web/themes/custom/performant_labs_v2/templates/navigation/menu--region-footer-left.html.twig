@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * performant_labs_v2 — flatten footer-left menu to three sibling columns.
+ *
+ * Root cause / Phase 8 Batch 2 Finding #5: The system.menu.footer is one tree
+ * with three level-1 items (Services / Resources / Company), each carrying
+ * level-2 children. The shipped dripyard_base menu-footer SDC renders this as
+ * a single nested <ul> with indented sub-bullets — not the design's three flat
+ * sibling columns.
+ *
+ * Path (b) — twig flatten — chosen over path (a) (three separate menu blocks)
+ * because:
+ *   - smaller blast radius: no menu-data restructure, no new block placements,
+ *     no new menus exported, no admin-UI churn.
+ *   - keeps a single source of truth (system.menu.footer) for the menu links.
+ *   - cleaner CSS grid for the column layout (we own the wrapper markup here).
+ *
+ * Output structure:
+ *   <div class="footer-columns">
+ *     <div class="footer-column">
+ *       <h3 class="footer-column__heading">{level-1 title}</h3>
+ *       <ul class="footer-column__list">
+ *         <li class="footer-column__item">
+ *           <a class="footer-column__link" href=...>{level-2 title}</a>
+ *         </li>
+ *         …
+ *       </ul>
+ *     </div>
+ *     …
+ *   </div>
+ *
+ * Level-1 items without children render as a single-link column for safety
+ * (degrades gracefully if the menu shape changes).
+ *
+ * Available variables — see the contrib stub at
+ * web/themes/contrib/dripyard_base/templates/navigation/menu--region-footer-left.html.twig.
+ */
+#}
+{% if items %}
+  <div class="footer-columns">
+    {% for item in items %}
+      <div class="footer-column footer-column--{{ item.title|clean_class }}">
+        {# Heading: render the level-1 title as an H4. If the level-1 item has
+           a real (non-nolink) URL, link the heading; otherwise emit plain text.
+           This mirrors the menu-footer SDC's nolink-vs-link branch. #}
+        {% if item.url.isRouted and item.url.routeName == '<nolink>' %}
+          <h3 class="footer-column__heading">{{ item.title }}</h3>
+        {% else %}
+          <h3 class="footer-column__heading">
+            {{ link(item.title, item.url, { 'class': ['footer-column__heading-link'] }) }}
+          </h3>
+        {% endif %}
+
+        {% if item.below %}
+          <ul class="footer-column__list">
+            {% for child in item.below %}
+              <li class="footer-column__item">
+                {% if child.url.isRouted and child.url.routeName == '<nolink>' %}
+                  <span class="footer-column__link footer-column__link--nolink">{{ child.title }}</span>
+                {% else %}
+                  {{ link(child.title, child.url, { 'class': ['footer-column__link'] }) }}
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

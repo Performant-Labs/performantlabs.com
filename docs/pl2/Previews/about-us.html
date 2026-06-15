@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — about us preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with webinars/email */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* ---------- Skip link ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 1000;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+    .btn--ghost-on-dark {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: rgba(245,239,226,0.4);
+    }
+    .btn--ghost-on-dark:hover {
+      background: rgba(245,239,226,0.08);
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+      text-decoration: none;
+    }
+    .btn-row { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-2xl); }
+
+    /* ---------- Header ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .site-header__brand:hover { text-decoration: none; color: var(--ink); }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__nav a.is-current { color: var(--primary); font-weight: 500; }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Breadcrumb ---------- */
+    .breadcrumb { padding: var(--space-lg) 0 0; background: var(--canvas); }
+    .breadcrumb__list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; gap: var(--space-sm);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb__list li:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--hairline);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    /* ---------- Sections ---------- */
+    section { padding: var(--space-section) 0; }
+    .section--canvas { background: var(--canvas); color: var(--ink); }
+    .section--cream { background: var(--cream); color: var(--ink); }
+    .section--espresso { background: var(--espresso); color: var(--on-dark); }
+    .section--espresso h1, .section--espresso h2, .section--espresso h3 { color: var(--on-dark); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 96px 0 var(--space-section); background: var(--canvas); }
+    .hero__inner { max-width: 920px; margin: 0 auto; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__kicker::before, .hero__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--space-xl);
+      text-wrap: balance;
+    }
+    .hero__subhead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 760px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* ---------- Section heads (centered, family pattern) ---------- */
+    .section-head { text-align: center; margin-bottom: var(--space-2xl); max-width: 800px; margin-inline: auto; }
+    .section-head h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-weight: 500;
+      margin-bottom: var(--space-base);
+      text-wrap: balance;
+    }
+    .section-head__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-base);
+    }
+    .section-head__kicker::before, .section-head__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+
+    /* ---------- Section body (centered prose) ---------- */
+    .section-body {
+      max-width: var(--prose-max);
+      margin: 0 auto;
+      text-align: center;
+    }
+    .section-body p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--body);
+      margin-bottom: var(--space-lg);
+    }
+    .section-body p:last-child { margin-bottom: 0; }
+    .section-body--italic p {
+      font-style: italic;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    /* ---------- Credentials list (§B Track record) ---------------------
+     * Centered as a block (max-width 600px, margin auto), but list items
+     * are LEFT-aligned with a terracotta tick-mark in lieu of a bullet.
+     * Mirrors the live render after the post-rebuild CSS polish. */
+    .creds {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-xl) auto 0;
+      max-width: 600px;
+      display: grid;
+      gap: var(--space-base);
+      text-align: left;
+    }
+    .creds li {
+      position: relative;
+      padding-left: 28px;
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--body);
+    }
+    .creds li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 12px;
+      width: 16px; height: 0;
+      border-top: 1px solid var(--accent);
+    }
+    .creds li strong { color: var(--ink); font-weight: 600; }
+
+    /* ---------- Project cards (3-up vertical grid) — §C Open source ---- */
+    .projects__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+    .project-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 150ms ease-out;
+    }
+    .project-card:hover { border-color: var(--primary); }
+    .project-card h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-bottom: var(--space-md);
+      text-wrap: balance;
+    }
+    .project-card__lead {
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: var(--space-base);
+    }
+    .project-card__body {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--body);
+      margin-bottom: var(--space-lg);
+      flex: 1;
+    }
+    .project-card__link {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+    }
+    .project-card__link:hover { color: var(--link-hover); }
+    .project-card__link::after {
+      content: "\2192";
+      transition: transform 150ms ease-out;
+    }
+    .project-card__link:hover::after { transform: translateX(3px); }
+
+    /* ---------- Bio block (§C, below the cards) ---------- */
+    .bio {
+      max-width: var(--prose-max);
+      margin: var(--space-3xl) auto 0;
+      padding-top: var(--space-2xl);
+      border-top: 1px solid var(--hairline);
+      text-align: center;
+    }
+    .bio h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-bottom: var(--space-md);
+    }
+    .bio p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--body);
+    }
+    .bio code {
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+      background: rgba(24,147,180,0.08);
+      color: var(--primary-deep);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    /* ---------- Closing CTA ---------- */
+    .closing-cta { padding: 120px 0; text-align: center; background: var(--espresso); }
+    .closing-cta__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-xl);
+    }
+    .closing-cta__kicker::before, .closing-cta__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .closing-cta h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 500;
+      color: var(--on-dark);
+      margin: 0 auto var(--space-xl);
+      max-width: 880px;
+      text-wrap: balance;
+    }
+    .closing-cta p {
+      max-width: 640px;
+      margin: 0 auto var(--space-2xl);
+      color: var(--on-dark-muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+    .closing-cta .btn--primary { background: #5DC6E8; color: #1F1A14; }
+    .closing-cta .btn--primary:hover { background: #4AB8DA; color: #1F1A14; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .projects__grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 767px) {
+      section, .hero { padding: var(--space-3xl) 0; }
+      .hero h1 { font-size: 44px; letter-spacing: -1px; }
+      .hero__subhead { font-size: 17px; }
+      .section-head h2 { font-size: 30px; letter-spacing: -0.8px; }
+      .closing-cta { padding: var(--space-3xl) 0; }
+      .closing-cta h2 { font-size: 36px; letter-spacing: -0.8px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+    }
+    @media (max-width: 575px) {
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="/services">Services</a>
+        <a href="/how-we-do-it">How we do it</a>
+        <a href="/articles">Articles</a>
+        <a href="/open-source-projects">Open source projects</a>
+        <a href="/about-us" class="is-current">About us</a>
+        <a href="/contact-us">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li><a href="/">Home</a></li>
+        <li>About us</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+
+  <!-- HERO (§A) — theme--white -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__kicker">About</span>
+      <h1>Drupal testing, done by the people who wrote the tools.</h1>
+      <p class="hero__subhead">
+        Nearly two decades of Drupal work, narrowed to testing. Author of Automated Testing Kit on drupal.org, and of Testor on GitHub. The dogfooding proof runs on this site, every night.
+      </p>
+      <div class="btn-row">
+        <a href="/contact-us?intent=testing-review" class="btn btn--primary">Book a testing review &rarr;</a>
+        <a href="/how-we-built-this-site" class="btn btn--secondary">See the site test itself</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK RECORD (§B) — theme--cream, edge-to-edge -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Track record</span>
+        <h2>On drupal.org since 2006.</h2>
+      </div>
+
+      <div class="section-body">
+        <p>Performant Labs has been on drupal.org for nineteen-plus years — since the Drupal 4.7 era, before automated testing in Drupal was a distinct practice. The work narrowed to testing deliberately, as the rest of the community converged on Drupal's testing ecosystem (Behat, PHPUnit, then Playwright and Cypress). We stayed with it because it's where the hardest, most valuable Drupal problems live: not building the next site, but keeping the critical one working through twelve major-version upgrades.</p>
+      </div>
+
+      <ul class="creds">
+        <li><strong>19+ years on drupal.org</strong> — <a href="https://www.drupal.org/u/aangel">drupal.org/u/aangel</a> (member for 19 years 9 months as of this writing).</li>
+        <li><strong>9+ projects credited on drupal.org</strong> — the project list on the same profile covers Automated Testing Kit (and its D7 backport + Demo Recipe), Campaign Kit, Layout Builder Kit, the Drupal Quality Initiative, Audit Kit, AI Drush Tools, and Payment Stripe.</li>
+        <li><strong>Active in the community</strong> — Bay Area Drupal Camp presenter on the Drupal Quality Initiative. See <a href="/open-source-projects">our open-source projects</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- OPEN SOURCE (§C) — theme--white, 3-up vertical card grid -->
+  <section class="section--canvas">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Open source</span>
+        <h2>The tools we wrote.</h2>
+      </div>
+
+      <div class="section-body section-body--italic">
+        <p>Automated Testing Kit and Testor aren't projects we contribute to — we author and maintain them. Both exist because specific testing gaps in the Drupal community weren't being filled by anything else.</p>
+      </div>
+
+      <div class="projects__grid" style="margin-top: var(--space-2xl);">
+        <article class="project-card">
+          <h3>Automated Testing Kit (ATK)</h3>
+          <p class="project-card__lead">A library of tests and helper functions for end-to-end testing of Drupal sites, for both Playwright and Cypress.</p>
+          <p class="project-card__body">Why it exists: every Drupal site re-writes the same twenty login / entity-reference / permissions tests in each new project. ATK ships them pre-written, together with the helper functions needed to make them reliable against Drupal's specific quirks. Maintained on drupal.org as a supported module, including a Drupal 7 backport and a demonstration recipe.</p>
+          <a href="https://www.drupal.org/project/automated_testing_kit" class="project-card__link">Read the docs</a>
+        </article>
+
+        <article class="project-card">
+          <h3>Testor</h3>
+          <p class="project-card__lead">A command-line companion to ATK for running tests outside the Drupal admin UI.</p>
+          <p class="project-card__body">Why it exists: teams running ATK in CI and local dev want the same test suite accessible from a terminal, not only from the Drupal admin. Testor provides that surface. Maintained in the open on GitHub, updated through late 2025.</p>
+          <a href="https://github.com/Performant-Labs/testor" class="project-card__link">Read the docs</a>
+        </article>
+
+        <article class="project-card">
+          <h3>Other tools we maintain</h3>
+          <p class="project-card__lead">The full catalog — Campaign Kit, Layout Builder Kit, the Drupal Quality Initiative, Audit Kit, AI Drush Tools, and Payment Stripe.</p>
+          <p class="project-card__body">Maintained on drupal.org alongside ATK and Testor. The dedicated open-source projects page carries the complete catalog with descriptions of each.</p>
+          <a href="/open-source-projects" class="project-card__link">See the open-source projects page</a>
+        </article>
+      </div>
+
+      <div class="bio">
+        <h3>Who we are.</h3>
+        <p>Performant Labs is led by <strong>André Angelantoni</strong> (drupal.org <a href="https://www.drupal.org/u/aangel"><code>aangel</code></a>), author of Automated Testing Kit and maintainer of the testing-specific Drupal projects linked above. A small team of senior testing engineers work alongside him on the autonomous-healing workflow you see running on this site.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOGFOOD (§D) — theme--cream, edge-to-edge -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Dogfood</span>
+        <h2>We test what we ship.</h2>
+      </div>
+
+      <div class="section-body">
+        <p>This site runs the same autonomous-healing workflow we offer our clients. Every night, Claude agents re-run the Playwright suite against the live site, triage failures, author fixes as pull requests, and file issues when the failure is in the site rather than the test. The commit history is public. The dashboard is public. Every heal is a verifiable fact, not a case study.</p>
+      </div>
+
+      <div class="btn-row">
+        <a href="/how-we-built-this-site" class="btn btn--primary">Read how the workflow is wired &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA (§E) — theme--espresso -->
+  <section class="closing-cta">
+    <div class="container">
+      <span class="closing-cta__kicker">Get started</span>
+      <h2>Want to talk testing?</h2>
+      <p>If any of this sounds like the kind of Drupal testing partner you're looking for — start here.</p>
+      <div class="closing-cta__ctas">
+        <a href="/contact-us?intent=testing-review" class="btn btn--primary">Book a testing review</a>
+        <a href="/services" class="btn btn--ghost-on-dark">See the testing menu</a>
+      </div>
+    </div>
+  </section>
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services#test-suite-takeover">Test-suite takeover</a></li>
+            <li><a href="/services#embedded-testing-engineer">Embedded testing engineer</a></li>
+            <li><a href="/services#autonomous-healing-pilot">Autonomous-healing pilot</a></li>
+            <li><a href="/services#accessibility-testing">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/articles">Articles</a></li>
+            <li><a href="/open-source-projects">Open source projects</a></li>
+            <li><a href="/docs">Documentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="/contact-us">Contact us</a></li>
+            <li><a href="/privacy-policy">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="/contact-us">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; Performant Labs</span>
+        <span>Preview build — reflects /about-us as of corrected rebuild 2026-05-07</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

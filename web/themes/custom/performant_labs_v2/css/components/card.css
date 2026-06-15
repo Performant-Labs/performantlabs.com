@@ -1,0 +1,193 @@
+/* [Layer 5] Card component override via libraries-extend.
+ * Source: docs/pl2/handoffs/phase-4.1-card-issue.md
+ * Cycle 2 update 2026-05-05: raised padding 32px → 48px (audit row 2.11);
+ *   forced white surface on services engagement cards (audit row 2.8);
+ *   numeric eyebrow style already correct (cycle 1.5 added content; L5 CSS here).
+ *
+ * Sprint 5 Cycle 2 update 2026-05-11:
+ *   E2: removed text-transform: uppercase (eyebrow content is now title-case
+ *       from Canvas; preview has no text-transform on eyebrow).
+ *   E5: zeroed --card-bottom-gap so eyebrow margin-block-end alone controls
+ *       spacing between eyebrow and title (24px, matching preview).
+ *   E6: grid row-gap override moved to grid-wrapper.css.
+ *
+ * Sprint 6 Cycle 2 rework 2026-05-11:
+ *   Card internal layout fix at 768: when the 2-col grid collapses to 1-col
+ *   (via grid-wrapper.css @media max-width:991px), the card becomes ~693px wide.
+ *   Dripyard's @container (width > 600px) then forces .card__layout into a
+ *   2-col grid (image + content side-by-side). The engagement cards have no
+ *   image (.card__top), so .card__bottom gets only ~44% of card width.
+ *   Fix: reset .card__layout to flex-column inside .grid-wrapper--2col at
+ *   max-width:991px. Scoped to avoid affecting cards with images on other pages.
+ *
+ * Dripyard card.css sets border transparent, --radius-md (10px), no padding.
+ * We override to hairline border, 12px radius, 48px padding, terracotta eyebrow.
+ *
+ * Specificity note: Dripyard uses .card[class*="theme"] (0,2,0) for themed
+ * cards. We match that specificity to ensure our overrides win via cascade
+ * order (libraries-extend loads after the component's own CSS). */
+
+.card[class*="theme"] {
+  --card-border-radius: 12px;
+  border: 1px solid var(--theme-border-color);
+  border-radius: var(--card-border-radius);
+  box-shadow: none;
+  background-color: var(--card-background);
+  overflow: clip;
+  transition: border-color 0.15s ease-out;
+}
+
+.card[class*="theme"]:hover {
+  border-color: var(--theme-link-color);
+}
+
+.card[class*="theme"]:focus-within {
+  outline: 2px solid var(--theme-focus-ring-color);
+  outline-offset: 2px;
+}
+
+/* ─── Card surface: force white on engagement cards ────────────────
+ * Audit row 2.8: cards currently render on cream (#F5EFE2) via theme--light.
+ * Preview spec: card background = #FFFFFF (--canvas / --surface-card).
+ * Layer ruling: L5 component scope; we override the local background token
+ * that card.css reads, scoped to theme--light cards (the engagement cards).
+ * This does NOT affect cards in other theme zones.
+ *
+ * card.css reads --card-background from --theme-surface in the theme zone.
+ * theme--light surface = #F5EFE2 (cream). We need #FFFFFF.
+ * Fix: override --card-background directly on theme--light card elements.
+ * The --card-background token is set within the card component's own CSS;
+ * setting it to #FFFFFF here wins via cascade order (libraries-extend after).
+ *
+ * WCAG: #1F1A14 on #FFFFFF = 17.29:1 (AAA). Border #E5E1DC on #FFFFFF — decorative. */
+.card.theme--light {
+  --card-background: #FFFFFF;
+  /* Ensure border-color uses hairline (not the cream-zone border) */
+  --theme-border-color: #E5E1DC;
+}
+
+/* Internal padding + eyebrow-to-title spacing.
+ *
+ * Padding: 48px on all viewports per preview spec (--space-2xl).
+ * Audit row 2.11: raised from 32px to 48px.
+ *
+ * E5: --card-bottom-gap zeroed. Contrib card.css sets this to
+ * var(--spacing-xs) = 20px, creating a gap between .card__eyebrow,
+ * .card__title, and .card__body. The eyebrow's own margin-block-end
+ * (24px, see .card__eyebrow-text below) is the sole spacing mechanism
+ * between eyebrow and title — matching preview exactly. Title-to-body
+ * spacing is handled by .card__title margin-bottom (12px).
+ *
+ * Matches Dripyard's .card[class*="theme"] .card__bottom specificity. */
+.card[class*="theme"] .card__bottom {
+  padding: 3rem; /* 48px */
+  --card-bottom-gap: 0;
+}
+
+/* ─── Card title size — preview spec is 22px, not Dripyard's 26px ───
+ * S audit Cycle 2.6 Major-2: card H3 renders at 26px (Dripyard default
+ * for .card__title); preview spec is 22px / 1.3 line-height / -0.2px
+ * letter-spacing. The 40/22 hierarchy step relative to the section H2
+ * (40px) is intentional in the preview; Dripyard's 40/26 flattens it.
+ * Scope: every card with a theme variant, which covers all rendered
+ * cards on /open-source-projects, /services, /how-we-do-it.
+ *
+ * Sprint 5 Cycle 2: add margin-bottom 12px to match preview spacing
+ * between title and body text. Preview: margin-bottom: var(--space-md) = 12px. */
+.card[class*="theme"] .card__title {
+  font-size: 1.375rem;     /* 22px */
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  margin-bottom: 0.75rem;  /* 12px = --space-md per brief */
+}
+
+/* ─── Scroll margin for anchor-linked cards ─────────────────────────
+ * Audit row 2.18: add scroll-margin-top so anchor jumps clear sticky header.
+ * Preview spec: 96px scroll-margin-top on engagement cards. */
+.card[class*="theme"] {
+  scroll-margin-top: 6rem; /* 96px */
+}
+
+/* ─── Numeric eyebrow (engagement-card__num equivalent) ─────────────
+ * Audit row 2.13: the card eyebrow content "01 / Takeover" etc. is
+ * populated in Canvas (cycle 1.5). The CSS here styles the
+ * .card__eyebrow-text element to match the preview's mono-font
+ * terracotta treatment.
+ *
+ * Preview spec (.engagement-card__num):
+ *   font-family: monospace; font-size: 12px; font-weight: 500;
+ *   color: var(--accent-deep); letter-spacing: 1px;
+ *   margin-bottom: var(--space-lg) (24px);
+ *   ::before hairline 24px x 1px in var(--accent) (#C97B5C).
+ *   NO text-transform (content is title-case: "01 / Takeover").
+ *
+ * Sprint 5 Cycle 2 changes:
+ *   E2: removed text-transform: uppercase. Eyebrow content is now
+ *       title-case from Canvas content edit. Preview does not apply
+ *       text-transform.
+ *   E5: margin-block-end 24px retained as the sole spacing mechanism
+ *       between eyebrow and title (--card-bottom-gap zeroed above).
+ *
+ * WCAG: #8E4A2A on #FFFFFF = 6.69:1 (AA pass, body text). */
+.card__eyebrow-text {
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.75rem;      /* 12px */
+  font-weight: 500;
+  letter-spacing: 0.08em;  /* ~1px at 12px */
+  color: var(--pl-accent-deep);  /* #8E4A2A — 6.69:1 on #FFFFFF (AA pass) */
+  line-height: 1.4;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 1.5rem; /* 24px = --space-lg; sole eyebrow-to-title gap */
+}
+
+.card__eyebrow-text::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 0;
+  border-top: 1px solid var(--pl-accent);  /* #C97B5C terracotta hairline */
+  flex-shrink: 0;
+}
+
+/* ─── Card internal layout: reset to column at collapsed grid ───────
+ * Sprint 6 Cycle 2 rework.
+ *
+ * Problem: Dripyard's @container (width > 600px) on .card switches
+ * .card__layout to display:grid with grid-template-columns: repeat(2,
+ * minmax(0,1fr)) — a side-by-side image+content layout. The engagement
+ * cards on /services have no image (.card__top), only .card__bottom.
+ * When the 2-col grid collapses to 1-col at <=991px (cycle 2 fix),
+ * each card becomes ~693px, triggering the container query. With only
+ * one child, .card__bottom gets column 1 of 2 (~305px / 44%).
+ *
+ * Fix: reset .card__layout back to flex-column inside .grid-wrapper--2col
+ * when the grid is collapsed. This lets .card__bottom fill the full card.
+ *
+ * Scoping: .grid-wrapper--2col is services-only (T1 confirmed on all 7
+ * pages). The selector still scopes defensively in case other pages add
+ * the class in the future. Pages with card images (e.g. /open-source-
+ * projects) use different grid wrappers and are unaffected.
+ *
+ * Specificity: .grid-wrapper--2col .card__layout (0,2,0) > Dripyard's
+ * .card__layout (0,1,0) inside @container. Wins by specificity.
+ *
+ * Also reset padding-inline on .card__bottom that Dripyard sets inside
+ * the same container query on .card[class*="theme"] .card__layout —
+ * the padding-inline: 0 var(--card-layout-gap) is for the 2-col grid
+ * layout and is not needed in single-column mode.
+ *
+ * Layer ruling: L5 component-scoped override. L1 not applicable (not
+ * config). L2 not applicable (not OKLCH). L3 not applicable (not a
+ * theme token). L5 correct: component-specific layout override. */
+@media (max-width: 991px) {
+  .grid-wrapper--2col .card__layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-wrapper--2col .card[class*="theme"] .card__layout {
+    padding-inline: 0;
+  }
+}

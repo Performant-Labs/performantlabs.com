@@ -1,0 +1,254 @@
+/**
+ * @file
+ * Article Card — styles for the article-card SDC.
+ *
+ * Layer 5: component-scoped CSS, auto-attached by SDC discovery.
+ * Not loaded via libraries-extend (this is a new SDC, not an override of
+ * an upstream component). SDC auto-discovers article-card.css in the same
+ * directory as article-card.component.yml.
+ *
+ * 7-step trace summary:
+ *   Pass 1 (bottom-up): No existing component CSS — this is a brand-new
+ *   component. No upstream rule to trace.
+ *   Pass 2 (top-down):
+ *     L1: Not a config value. N/A.
+ *     L2: Not an OKLCH-derived shade. N/A.
+ *     L3: These are not theme-zone tokens (--theme-surface, etc.) — they
+ *         are component-specific structural and decorative rules that only
+ *         apply to article cards. L3 too broad.
+ *     L5: Correct layer. Component-specific CSS scoped to .article-card.
+ *   DOM inspection gate: N/A — new component, no existing wrappers to verify.
+ *
+ * Token strategy: The design brief defines brand tokens (--ink, --canvas,
+ * --cream, --primary, etc.) that do not exist in the Dripyard/neonbyte
+ * upstream. Rather than pollute the global :root namespace, this component
+ * defines its own local token layer using the design brief hex values.
+ * All color references below use these local tokens — no raw hex appears
+ * in property values.
+ *
+ * AA contrast note (rework round 1):
+ *   Hover states use --ac-primary-deep (#005AA0, 7.07:1 on white) for
+ *   text-on-white contrast. --ac-primary retained for decorative border
+ *   where contrast does not gate accessibility.
+ *
+ * AA contrast note (rework round 2 — WCAG 1.4.11 fix):
+ *   --ac-hairline bumped from #E5E1DC (1.30:1) to #8E867A (3.60:1 on white)
+ *   to meet the 3:1 minimum for UI-component boundaries (card default
+ *   border on white canvas).
+ *
+ * No !important. No raw hex in property values.
+ */
+
+/* ─── Component-local design tokens ─────────────────────────────────────── */
+/* Source of truth: docs/pl2/Briefs/pl_design_brief.md                       */
+.article-card {
+  /* Colors */
+  --ac-canvas: #FFFFFF;
+  --ac-cream: #F5EFE2;
+  --ac-ink: #2A2520;
+  --ac-body: #5C544C;
+  --ac-muted: #6B6358;
+  --ac-accent-deep: #8E4A2A;
+  --ac-hairline: #8E867A;
+  --ac-surface-warm: #F2EFED;
+  --ac-primary: #1893b4;
+  --ac-primary-deep: #005AA0;
+
+  /* Spacing (maps to design brief --space-* scale) */
+  --ac-space-sm: 8px;
+  --ac-space-md: 12px;
+  --ac-space-xl: 32px;
+  --ac-space-2xl: 48px;
+
+  /* Radius */
+  --ac-radius-lg: 12px;
+
+  /* Type */
+  --ac-font-display: "Rubik", sans-serif;
+  --ac-font-body: "Poppins", sans-serif;
+}
+
+/* ─── Base card ─────────────────────────────────────────────────────────── */
+.article-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--ac-canvas);
+  border: 1px solid var(--ac-hairline);
+  border-radius: var(--ac-radius-lg);
+  overflow: hidden;
+  transition: border-color 150ms ease-out, transform 150ms ease-out;
+}
+
+.article-card:hover {
+  border-color: var(--ac-primary-deep);
+  transform: translateY(-2px);
+}
+
+/* ─── Reduced motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .article-card {
+    transition: border-color 150ms ease-out;
+  }
+  .article-card:hover {
+    transform: none;
+  }
+}
+
+/* ─── Forced colors ─────────────────────────────────────────────────────── */
+@media (forced-colors: active) {
+  .article-card {
+    border-color: ButtonBorder;
+  }
+  .article-card:hover {
+    border-color: Highlight;
+  }
+  .article-card h3 a {
+    color: LinkText;
+  }
+  .article-card h3 a:hover {
+    color: ActiveText;
+  }
+  .article-card__eyebrow .dot {
+    background: ButtonBorder;
+  }
+}
+
+/* ─── Media frame (image variant only) ──────────────────────────────────── */
+.article-card__media {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--ac-surface-warm);
+  overflow: hidden;
+}
+
+.article-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── Card body ─────────────────────────────────────────────────────────── */
+.article-card__body {
+  padding: var(--ac-space-xl) var(--ac-space-xl) var(--ac-space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ac-space-md);
+  flex: 1;
+}
+
+/* ─── Eyebrow (category + dot + date) ───────────────────────────────────── */
+.article-card__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ac-font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--ac-accent-deep);
+}
+
+.article-card__eyebrow time {
+  color: var(--ac-muted);
+  letter-spacing: 0.6px;
+  font-weight: 500;
+  text-transform: none;
+  font-size: 13px;
+}
+
+.article-card__eyebrow .dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ac-hairline);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ─── Title ─────────────────────────────────────────────────────────────── */
+.article-card h3 {
+  font-family: var(--ac-font-display);
+  font-size: 24px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.article-card h3 a {
+  color: var(--ac-ink);
+  text-decoration: none;
+  transition: color 150ms ease-out;
+}
+
+.article-card h3 a:hover {
+  color: var(--ac-primary-deep);
+  text-decoration: none;
+}
+
+/* ─── Excerpt (2-line clamp) ────────────────────────────────────────────── */
+.article-card__excerpt {
+  font-family: var(--ac-font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ac-body);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Text-only variant (.article-card--text) ───────────────────────────── */
+/* When image_src is empty/null: cream background, no media frame,          */
+/* larger title, more body padding.                                          */
+.article-card--text {
+  background: var(--ac-cream);
+  border-color: transparent;
+}
+
+.article-card--text:hover {
+  border-color: var(--ac-primary-deep);
+  background: var(--ac-cream);
+}
+
+.article-card--text .article-card__body {
+  padding: var(--ac-space-2xl);
+}
+
+.article-card--text h3 {
+  font-size: 26px;
+}
+
+/* ─── Mobile responsive (max-width: 767px) ──────────────────────────────── */
+/* Design brief: card h3 drops at mobile. Touch target must be >= 44px.     */
+/*                                                                           */
+/* Rework round 2 fix (Phase 5 audit):                                       */
+/*   The previous rule set padding-top/bottom on the inner <a>, which        */
+/*   extended the inline-block above the h3's natural line box, eating into  */
+/*   the flex gap between the eyebrow and h3 — producing visual overlap.    */
+/*   Fix: move the touch-target sizing to the h3 itself via min-height +    */
+/*   display: flex + align-items: center. The h3's outer block model is now */
+/*   predictable for the flex parent (.article-card__body with gap).         */
+/*                                                                           */
+/* Touch-target math (image variant):                                        */
+/*   h3 min-height: 44px (explicit). The <a> inside is vertically centered. */
+/*   Tap target clears 44px directly.                                        */
+/*                                                                           */
+/* Touch-target math (text variant):                                         */
+/*   h3 font-size 22px x line-height 1.25 = 27.5px line box.               */
+/*   min-height: 44px ensures the h3 block clears 44px.                     */
+@media (max-width: 767px) {
+  .article-card h3 {
+    font-size: 20px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .article-card--text h3 {
+    font-size: 22px;
+  }
+}

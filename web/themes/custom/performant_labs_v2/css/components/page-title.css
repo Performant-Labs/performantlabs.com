@@ -1,0 +1,171 @@
+/**
+ * @file
+ * Page title cream band — kicker + H1 + lede.
+ *
+ * Layer 5: component-scoped CSS for the .page-title section introduced in
+ * Phase 4. Attached via performant_labs_v2/page-title library, loaded
+ * by page--articles.html.twig.
+ *
+ * 7-step trace summary:
+ *   Pass 1 (bottom-up): .page-title is new markup. dripyard_base ships a
+ *   page-title.css that styles .page-title (the default Drupal page title
+ *   class, normally an h1). That file applies margin-bottom, font-size,
+ *   font-weight, line-height, letter-spacing, font-family to .page-title.
+ *   Our <section class="page-title"> collides on the class name. Our file
+ *   loads after dripyard_base's in the cascade (confirmed: dripyard at line
+ *   210, ours at line 220 in rendered HTML), so same-specificity declarations
+ *   here win. We explicitly reset the properties that dripyard_base sets on
+ *   the section element to prevent inheritance leaking to children.
+ *
+ *   Pass 2 (top-down):
+ *     L1: Not a config value. N/A.
+ *     L2: Not an OKLCH-derived shade. N/A.
+ *     L3: Could set cream surface via --theme-surface in .theme--light, but
+ *         this section is not inside a Dripyard theme zone wrapper. The page
+ *         template injects it as raw markup between page.highlighted and <main>.
+ *         L3 tokens would not reach it. L3 ruled out.
+ *     L5: Correct layer. New markup, scoped selectors, no upstream conflict.
+ *
+ *   DOM inspection gate: N/A — new markup introduced by page--articles.html.twig.
+ *   No upstream wrappers to verify.
+ *
+ * Token strategy: component-local --pt-* tokens (same pattern as --av-* in
+ * articles-view.css and --ac-* in article-card.css). All color references use
+ * these local tokens — no raw hex appears in property values.
+ *
+ * WCAG AA contrast (computed numerically):
+ *   --pt-ink (#2A2520) on --pt-cream (#F5EFE2):        13.24:1 (pass)
+ *   --pt-accent-deep (#8E4A2A) on --pt-cream (#F5EFE2):  5.79:1 (pass)
+ *   --pt-body (#5C544C) on --pt-cream (#F5EFE2):         6.48:1 (pass)
+ *   Kicker hairline rules (#8E4A2A) on cream:             5.79:1 (pass, WCAG 1.4.11 >=3:1)
+ *
+ * No !important. No raw hex in property values.
+ */
+
+/* ── Component-local design tokens ────────────────────────────────────── */
+/* Source of truth: docs/pl2/Briefs/pl_design_brief.md                     */
+:root {
+  /* Colors */
+  --pt-cream: #F5EFE2;
+  --pt-ink: #2A2520;
+  --pt-body: #5C544C;
+  --pt-accent-deep: #8E4A2A;
+  --pt-hairline: #E5E1DC;
+
+  /* Spacing (maps to design brief --space-* scale) */
+  --pt-space-base: 16px;
+  --pt-space-xl: 32px;
+  --pt-space-2xl: 48px;
+  --pt-space-3xl: 64px;
+
+  /* Type */
+  --pt-font-display: "Rubik", sans-serif;
+  --pt-font-body: "Poppins", sans-serif;
+}
+
+/* ── Section wrapper ──────────────────────────────────────────────────── */
+/* Reset dripyard_base page-title.css properties that leak from the h1-level
+   class onto our <section> wrapper. Same specificity (0,1,0) but our file
+   loads later in the cascade, so these declarations win. */
+.page-title {
+  background: var(--pt-cream);
+  padding: var(--pt-space-3xl) 0 var(--pt-space-2xl);
+  border-bottom: 1px solid var(--pt-hairline);
+  /* Neutralize dripyard_base .page-title overrides (designed for h1, not section) */
+  margin-bottom: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  font-family: inherit;
+}
+
+.page-title__inner {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* -- Kicker color on cream surface ------------------------------------------------ */
+/* The page-title section is not inside a .theme--light wrapper, so the
+   kicker SDC's boosted color rule (.theme--light .kicker--light) does not
+   activate. The global --pl-accent-deep is now #8E4A2A (Phase 6 bump,
+   5.79:1 on cream, AA pass). The --pt-accent-deep local token matches
+   the same value for consistency. Specificity (0,2,0) beats
+   kicker.css .kicker--light (0,1,0). */
+.page-title .kicker--light {
+  color: var(--pt-accent-deep);
+}
+
+/* Kicker hairline rules: use --pt-accent-deep (#8E4A2A, 5.79:1 on cream)
+   to clear WCAG 1.4.11's 3:1 minimum for non-text UI. Matches the kicker
+   text color for consistency.
+   Rework round 1: was --pt-accent (#C97B5C, 2.83:1) — failed 1.4.11. */
+.page-title .kicker--centered.kicker--light::before,
+.page-title .kicker--centered.kicker--light::after {
+  border-color: var(--pt-accent-deep);
+}
+
+/* ── Kicker spacing ───────────────────────────────────────────────────── */
+/* The kicker SDC renders as an inline element; wrap it in a block context
+   and add bottom margin to separate it from the H1. */
+.page-title .kicker {
+  margin-bottom: var(--pt-space-base);
+}
+
+/* ── H1 ───────────────────────────────────────────────────────────────── */
+.page-title h1 {
+  font-family: var(--pt-font-display);
+  font-weight: 500;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -1.4px;
+  color: var(--pt-ink);
+  margin: 0 0 var(--pt-space-base) 0;
+  text-wrap: balance;
+}
+
+/* ── Lede paragraph ───────────────────────────────────────────────────── */
+.page-title__lede {
+  font-family: var(--pt-font-body);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--pt-body);
+  max-width: 620px;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+
+/* ── Mobile: 767px and below ──────────────────────────────────────────── */
+/* Design brief: 56px -> 36px H1, letter-spacing -1.4px -> -0.8px.
+   Section padding: 64/48 -> 48/32.
+
+   Rework round 2 fix (Phase 5 audit — Fix 4):
+     The .page-title__inner div carries both .container and .page-title__inner
+     classes. The dripyard .container rule sets width: var(--container-width)
+     = min(92cqw, 1440px) with NO padding-inline. The page-title section sits
+     outside any query-container ancestor, so cqw falls back to viewport
+     width. At 375px: 92cqw = 345px, giving ~15px auto margin on each side
+     but zero internal gutters. The lede paragraph text fills edge-to-edge
+     within the 345px box and overflows on narrower viewports.
+
+     Fix: override the .container width to 100% at mobile and add
+     padding-inline: 16px with box-sizing: border-box. Specificity (0,2,0)
+     on .page-title .container beats dripyard's .container (0,1,0). */
+@media (max-width: 767px) {
+  .page-title {
+    padding: var(--pt-space-2xl) 0 var(--pt-space-xl);
+  }
+
+  .page-title .container {
+    width: 100%;
+    padding-inline: var(--pt-space-base);
+    box-sizing: border-box;
+  }
+
+  .page-title h1 {
+    font-size: 36px;
+    letter-spacing: -0.8px;
+  }
+}

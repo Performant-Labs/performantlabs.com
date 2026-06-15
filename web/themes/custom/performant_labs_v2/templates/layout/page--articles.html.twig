@@ -1,0 +1,79 @@
+{#
+/**
+ * @file
+ * Page template override for /articles.
+ *
+ * Phase 4 origin: cream-band page-title section (kicker + H1 + lede).
+ * Phase 5 (J.2): moved <section class="page-title"> inside <main> so the
+ * page heading lives inside the main landmark for a11y compliance.
+ *
+ * Visual order:
+ *   header -> breadcrumb -> <main>( page-title cream band -> view ) -> footer
+ *
+ * The default Drupal page-title block is hidden on /articles via block
+ * visibility config, so the H1 here is the page's only <h1>.
+ *
+ * Available variables: same as neonbyte page.html.twig.
+ */
+#}
+{{ attach_library('performant_labs_v2/page-title') }}
+
+<div class="layout-container">
+
+  {{ include('neonbyte:header', {
+      header_first: page.header_first,
+      header_second: page.header_second,
+      header_third: page.header_third,
+      attributes: header_attributes,
+    }, with_context = false) }}
+
+  {{ page.fixed_middle_right }}
+  {{ page.fixed_bottom_right }}
+  {{ page.highlighted }}
+
+  <main class="site-main">
+    <a id="main-content" tabindex="-1"></a>
+
+    {# ── Page title cream band (inside <main>, J.2 a11y fix) ────── #}
+    <section class="page-title">
+      <div class="container page-title__inner">
+        {{ include('performant_labs_v2:kicker', {
+          text: 'Field notes',
+          variant: 'centered',
+          theme: 'light',
+        }, with_context = false) }}
+        <h1>Articles.</h1>
+        <p class="page-title__lede">
+          Notes from the testing engineers at Performant Labs — release announcements for our open-source tools, conference talks, and the occasional cheat sheet.
+        </p>
+      </div>
+    </section>
+
+    {{ include('@neonbyte/component-dev.html.twig', ignore_missing: true) }}
+
+    {{ page.content }}
+  </main>
+  {% embed 'neonbyte:footer' with {
+    footer_top: page.footer_top,
+    footer_left: page.footer_left,
+    footer_right: page.footer_right,
+    footer_bottom: page.footer_bottom,
+    theme: footer_theme,
+  } only %}
+    {% block footer_top_content %}
+      {{- footer_top -}}
+    {% endblock %}
+
+    {% block footer_left_content %}
+      {{- footer_left -}}
+    {% endblock %}
+
+    {% block footer_right_content %}
+      {{- footer_right -}}
+    {% endblock %}
+
+    {% block footer_bottom_content %}
+      {{- footer_bottom -}}
+    {% endblock %}
+  {% endembed %}
+</div>

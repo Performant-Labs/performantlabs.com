@@ -1,0 +1,33 @@
+{
+  "viewport": "1280×800 @2x DPR",
+  "comparison": "preview pre-fix (Cycle 1 baseline from b099fa4ea) vs preview post-fix (current branch render)",
+  "measurements_postfix": {
+    "hero": {"top_css": 118, "h_css": 694},
+    "closingCta": {"top_css": 3569, "h_css": 537},
+    "h1": {"fontSize": "72px", "lineHeight": "75.6px", "letterSpacing": "-2px", "fontWeight": "500", "boundingHeight_css": 227, "lines": 3},
+    "closingCtaPrimaryBtn": {"background": "rgb(93, 198, 232) = #5DC6E8", "color": "rgb(31, 26, 20) = #1F1A14", "height": "45px"},
+    "pageHeight_css": 4482
+  },
+  "measurements_prefix_from_c1": {
+    "h1": {"fontSize": "64px", "letterSpacing": "-1.6px"},
+    "closingCtaPrimaryBtn": {"background": "#62BBCB (light-zone base)", "color": "#FFFFFF"},
+    "pageHeight_img": 8780
+  },
+  "hero_diff": {
+    "cropDim_img": "2560x1204",
+    "AE_px": 355939,
+    "AE_pct": 11.55,
+    "AE_fuzz3_px": 348449,
+    "AE_fuzz3_pct": 11.31,
+    "DSSIM": 0.0806976
+  },
+  "closing_cta_diff": {
+    "cropDim_img": "2560x992",
+    "AE_px": 38000,
+    "AE_pct": 1.50,
+    "AE_fuzz3_px": 37882,
+    "AE_fuzz3_pct": 1.49,
+    "DSSIM": 0.00234311
+  },
+  "interpretation": "Hero delta (11.55%) is concentrated entirely on the H1 word stack (visible reflow 64→72px and 2-line→3-line shift) plus the subhead text shifting down with the larger headline. CTAs in hero are unaffected. Closing-CTA delta (1.50%) is concentrated entirely on the primary button only (bg + text color change). Heading/subhead/secondary CTA all unchanged. Both deltas are localized and expected per F-NEW-1 and F-NEW-3 scope."
+}

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 8 — Global re-audit report</title>
+<style>
+  :root {
+    --ink: #1F1A14;
+    --body: #5C544C;
+    --muted: #6B6358;
+    --canvas: #FFFFFF;
+    --cream: #F5EFE2;
+    --hairline: #E5E1DC;
+    --accent: #C97B5C;
+    --teal-live: #0F6F8A;
+    --teal-preview: #62BBCB;
+    --pass: #2f8f4a;
+    --rework: #b03a3a;
+    --delta: #b78a2a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Rubik, sans-serif; color: var(--body); background: #fafaf8; }
+  body { line-height: 1.55; padding-bottom: 80px; }
+  header.hero { background: var(--ink); color: var(--cream); padding: 32px 40px; }
+  header.hero h1 { margin: 0; color: #fff; font-size: 28px; }
+  header.hero .meta { color: var(--cream); opacity: .8; margin-top: 8px; font-size: 14px; }
+  .verdict-banner { padding: 24px 40px; background: var(--rework); color: #fff; }
+  .verdict-banner .v { font-size: 48px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .verdict-banner .sub { margin-top: 8px; font-size: 14px; opacity: .9; }
+  .verdict-banner table { margin-top: 16px; border-collapse: collapse; color: #fff; font-size: 13px; }
+  .verdict-banner td, .verdict-banner th { padding: 6px 14px 6px 0; text-align: left; }
+  main { padding: 32px 40px; max-width: 1400px; }
+  nav.toc { position: sticky; top: 0; background: #fafaf8; border-bottom: 1px solid var(--hairline); padding: 12px 40px; font-size: 13px; z-index: 10; }
+  nav.toc a { color: var(--ink); margin-right: 20px; text-decoration: none; }
+  nav.toc a:hover { color: var(--accent); text-decoration: underline; }
+  h2 { color: var(--ink); margin-top: 48px; font-size: 22px; border-bottom: 2px solid var(--hairline); padding-bottom: 8px; }
+  h3 { color: var(--ink); font-size: 16px; margin-top: 24px; }
+  .what-i-see { background: #fff; border: 1px solid var(--hairline); padding: 20px 28px; border-radius: 6px; }
+  .what-i-see ul { padding-left: 22px; }
+  .what-i-see li { margin: 8px 0; color: var(--ink); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; vertical-align: middle; }
+  .badge.match { background: #e6f4ea; color: var(--pass); }
+  .badge.delta { background: #fff3d6; color: var(--delta); }
+  .badge.rework { background: #fce5e5; color: var(--rework); }
+  table.delta { width: 100%; border-collapse: collapse; background: #fff; margin-top: 12px; font-size: 13px; }
+  table.delta th { background: var(--cream); color: var(--ink); text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--hairline); }
+  table.delta td { padding: 10px 12px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  table.delta td img { display: block; max-width: 300px; border: 1px solid var(--hairline); }
+  /* Wipe slider */
+  .viewport-block { background: #fff; border: 1px solid var(--hairline); border-radius: 6px; padding: 20px; margin-bottom: 32px; }
+  .viewport-block h3 { margin-top: 0; }
+  .wipe { position: relative; overflow: hidden; border: 1px solid var(--hairline); background: #fff; margin-top: 12px; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top { position: absolute; top: 0; left: 0; width: 100%; clip-path: inset(0 50% 0 0); transition: none; }
+  .wipe-label { position: absolute; top: 8px; padding: 4px 10px; font-size: 11px; font-weight: 600; background: rgba(31,26,20,.85); color: #fff; border-radius: 3px; letter-spacing: .5px; z-index: 5; pointer-events: none; }
+  .wipe-label.live { left: 12px; }
+  .wipe-label.preview { right: 12px; }
+  .slider-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .slider-row input[type=range] { flex: 1; }
+  .slider-row .legend { font-size: 12px; color: var(--muted); }
+  details > summary { cursor: pointer; padding: 8px 0; color: var(--ink); font-weight: 600; }
+  details img { max-width: 100%; border: 1px solid var(--hairline); margin-top: 8px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .row img { width: 100%; border: 1px solid var(--hairline); }
+  .stats { font-size: 12px; color: var(--muted); margin-top: 8px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .cta-color-row { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .cta-color-card { flex: 1; min-width: 240px; background: #fff; border: 1px solid var(--hairline); padding: 14px; border-radius: 6px; }
+  .swatch { width: 100%; height: 80px; border-radius: 4px; border: 1px solid var(--hairline); margin-bottom: 8px; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; background: var(--cream); padding: 1px 6px; border-radius: 3px; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Phase 8 — Global parity re-audit</h1>
+  <div class="meta">2026-05-11 &middot; branch <code>aa/pl-homepage-phase-8-global-reaudit</code> &middot; pre-activation gate</div>
+</header>
+
+<div class="verdict-banner">
+  <div class="v">REWORK</div>
+  <div class="sub">Two binding items: primary CTA background color, and inter-section vertical padding.</div>
+  <table>
+    <tr><th>Viewport</th><th>Live H</th><th>Preview H</th><th>Δ height</th><th>Common-region AE</th><th>Region %</th></tr>
+    <tr><td>1280×800</td><td>5266 px</td><td>4341 px</td><td>+925 px</td><td>2,786,900</td><td>50.2%</td></tr>
+    <tr><td>768×1024</td><td>6254 px</td><td>4904 px</td><td>+1350 px</td><td>1,925,460</td><td>51.1%</td></tr>
+    <tr><td>375×667</td><td>7261 px</td><td>6163 px</td><td>+1098 px</td><td>1,256,820</td><td>54.4%</td></tr>
+  </table>
+  <div class="sub" style="margin-top:10px;">Whole-region % is inflated by vertical-offset cascade; per-section verdicts below are the binding evidence.</div>
+</div>
+
+<nav class="toc">
+  <a href="#whatisee">What I see different</a>
+  <a href="#cta">CTA color</a>
+  <a href="#viewports">Per-viewport comparators</a>
+  <a href="#sections">Per-section table</a>
+  <a href="#recs">Sub-issue recommendations</a>
+</nav>
+
+<main>
+
+<section id="whatisee">
+  <h2>What I see different — plain English</h2>
+  <div class="what-i-see">
+    <ul>
+      <li><strong>Primary CTA buttons are the wrong color on live.</strong> "Book a testing review" (hero and closing band) renders a darker teal on live (~ <code>#0F6F8A</code>) but the brief / preview specifies a lighter cyan (<code>#62BBCB</code>). Affects both primary CTAs.</li>
+      <li><strong>The whole homepage is too tall on live.</strong> Live runs ~900–1350 px taller than preview at every viewport — the extra height comes from inter-section gaps (notably between the logo bar and "What we ship", and around the heal-flow band). The page feels noticeably "looser" than the canonical reference.</li>
+      <li><strong>Hero H1 wraps differently between live and preview</strong> at 1280 and 375. One line on each side breaks at a different word — minor, font-metric driven, not a structural fix.</li>
+      <li><strong>"Built for the whole Drupal team." H2 wraps differently at 375</strong> — same root cause as the hero H1 wrap.</li>
+      <li><strong>At 375 the heal-flow diagram differs.</strong> Live shows only node 01 in the container with horizontal scroll available for nodes 02–04 (this is the brief-specified behavior). Preview shrinks the whole 4-node SVG to fit. Live is correct; the preview is stale.</li>
+      <li><strong>Everything else matches.</strong> Header (post-8.1), logo bar 3×2 at 375 (post-8.3), feature-card 3/1/1 grid (post-8.4), FAQ accordion, and footer all match preview cleanly.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="cta">
+  <h2>CTA color resolution (specifically in scope)</h2>
+  <p>Pixel-sampled the centre of the primary CTA at 1280 on both live and preview captures.</p>
+  <div class="cta-color-row">
+    <div class="cta-color-card">
+      <div class="swatch" style="background:#0F6F8A;"></div>
+      <strong>Live</strong> — <code>srgb(15,111,138)</code> = <code>#0F6F8A</code>
+      <div class="stats">No match to brief tokens (<code>--primary #1893B4</code>, <code>--primary-light #62BBCB</code>, <code>--primary-deep #005AA0</code>).</div>
+    </div>
+    <div class="cta-color-card">
+      <div class="swatch" style="background:#62BBCB;"></div>
+      <strong>Preview</strong> — <code>srgb(98,187,203)</code> = <code>#62BBCB</code>
+      <div class="stats">Matches <code>--primary-light</code> exactly (the preview's bound token at line 110 of homepage.html).</div>
+    </div>
+  </div>
+  <p style="margin-top:14px;">Closing CTA renders the same wrong shade on live (visually confirmed in the composite). <strong>Verdict: real delta. Binding REWORK item.</strong> Single-token fix likely resolves both CTAs.</p>
+</section>
+
+<section id="viewports">
+  <h2>Per-viewport comparators</h2>
+
+  <div class="viewport-block">
+    <h3>1280×800 — drag slider to wipe live over preview</h3>
+    <div class="wipe" id="wipe-1280">
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-1280-preview-20260511.png" alt="Preview at 1280">
+      <img class="top" src="screenshots/cycle-8-global-reaudit/t3-homepage-1280-live-20260511.png" alt="Live at 1280">
+      <span class="wipe-label live">LIVE</span>
+      <span class="wipe-label preview">PREVIEW</span>
+    </div>
+    <div class="slider-row">
+      <span class="legend">← Preview only</span>
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#wipe-1280 .top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)';">
+      <span class="legend">Live only →</span>
+    </div>
+    <details>
+      <summary>Diff PNG (red highlights deltas, normalized to preview height 4341 px)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-1280-diff-20260511.png" alt="Diff at 1280">
+    </details>
+    <details>
+      <summary>Side-by-side composite (live | preview)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-1280-composite-20260511.png" alt="Composite at 1280">
+    </details>
+    <div class="stats">AE 2,786,900 / 5,556,480 common pixels = 50.2%. Inflated by vertical cascade.</div>
+  </div>
+
+  <div class="viewport-block">
+    <h3>768×1024 — drag slider to wipe live over preview</h3>
+    <div class="wipe" id="wipe-768">
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-768-preview-20260511.png" alt="Preview at 768">
+      <img class="top" src="screenshots/cycle-8-global-reaudit/t3-homepage-768-live-20260511.png" alt="Live at 768">
+      <span class="wipe-label live">LIVE</span>
+      <span class="wipe-label preview">PREVIEW</span>
+    </div>
+    <div class="slider-row">
+      <span class="legend">← Preview only</span>
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#wipe-768 .top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)';">
+      <span class="legend">Live only →</span>
+    </div>
+    <details>
+      <summary>Diff PNG (red highlights deltas, normalized to preview height 4904 px)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-768-diff-20260511.png" alt="Diff at 768">
+    </details>
+    <details>
+      <summary>Side-by-side composite (live | preview)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-768-composite-20260511.png" alt="Composite at 768">
+    </details>
+    <div class="stats">AE 1,925,460 / 3,766,272 common pixels = 51.1%.</div>
+  </div>
+
+  <div class="viewport-block">
+    <h3>375×667 — drag slider to wipe live over preview</h3>
+    <div class="wipe" id="wipe-375">
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-375-preview-20260511.png" alt="Preview at 375">
+      <img class="top" src="screenshots/cycle-8-global-reaudit/t3-homepage-375-live-20260511.png" alt="Live at 375">
+      <span class="wipe-label live">LIVE</span>
+      <span class="wipe-label preview">PREVIEW</span>
+    </div>
+    <div class="slider-row">
+      <span class="legend">← Preview only</span>
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#wipe-375 .top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)';">
+      <span class="legend">Live only →</span>
+    </div>
+    <details>
+      <summary>Diff PNG (red highlights deltas, normalized to preview height 6163 px)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-375-diff-20260511.png" alt="Diff at 375">
+    </details>
+    <details>
+      <summary>Side-by-side composite (live | preview)</summary>
+      <img src="screenshots/cycle-8-global-reaudit/t3-homepage-375-composite-20260511.png" alt="Composite at 375">
+    </details>
+    <div class="stats">AE 1,256,820 / 2,311,125 common pixels = 54.4%.</div>
+  </div>
+</section>
+
+<section id="sections">
+  <h2>Per-section verdict table (binding evidence)</h2>
+  <table class="delta">
+    <thead>
+      <tr><th>#</th><th>Section</th><th>Status</th><th>What's different</th><th>Diff crop (1280)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td><td>Header</td><td><span class="badge match">match</span></td>
+        <td>Pill removed, height ≈ 73 px, six nav items, logo P-icon. 8.1 holds.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-header.png" alt="header diff"></td>
+      </tr>
+      <tr>
+        <td>2</td><td>Hero band</td><td><span class="badge rework">rework</span></td>
+        <td>Primary CTA wrong color (<code>#0F6F8A</code> live vs <code>#62BBCB</code> preview). H1 wrap differs at 1280 and 375 (minor).</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-hero.png" alt="hero diff"></td>
+      </tr>
+      <tr>
+        <td>3</td><td>Logo bar</td><td><span class="badge match">match</span></td>
+        <td>3×2 grid at 375 verified by tight crop. 8.3 holds at all viewports.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-logobar.png" alt="logobar diff"></td>
+      </tr>
+      <tr>
+        <td>4</td><td>Feature cards</td><td><span class="badge delta">delta</span></td>
+        <td>3/1/1 progression intact (post-8.4). Diff shows positional offset due to extra whitespace above this band on live.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-features.png" alt="features diff"></td>
+      </tr>
+      <tr>
+        <td>5</td><td>Heal-flow</td><td><span class="badge delta">delta</span></td>
+        <td>At 375 live shows brief-correct horizontal scroll (node 01 visible, 02–04 off-screen); preview shrinks SVG to fit. Live is right; preview is stale. <strong>Not a regression.</strong></td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-heal.png" alt="heal diff"></td>
+      </tr>
+      <tr>
+        <td>6</td><td>Built-for checklist</td><td><span class="badge delta">delta</span></td>
+        <td>Content matches; H2 wraps differently at 375 (minor, font-metric driven).</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-builtfor.png" alt="builtfor diff"></td>
+      </tr>
+      <tr>
+        <td>7</td><td>FAQ accordion</td><td><span class="badge match">match</span></td>
+        <td>Four collapsed items, accent <code>+</code> markers, headings align.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-faq.png" alt="faq diff"></td>
+      </tr>
+      <tr>
+        <td>8</td><td>Footer-CTA</td><td><span class="badge rework">rework</span></td>
+        <td>Same primary-CTA color issue (<code>#0F6F8A</code> vs <code>#62BBCB</code>). Espresso band, copy, H2, secondary "Or test with the tools" pill all match.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-footercta.png" alt="footercta diff"></td>
+      </tr>
+      <tr>
+        <td>9</td><td>Footer</td><td><span class="badge match">match</span></td>
+        <td>Three columns + signature column, copyright, Privacy Policy link.</td>
+        <td><img src="screenshots/cycle-8-global-reaudit/crop-diff-1280-footer.png" alt="footer diff"></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:14px; color: var(--muted); font-size:13px;">All diff crops are from the 1280 normalized diff. Red regions indicate pixel-level deltas. Position offsets caused by the cumulative vertical-padding excess on live show up as red bands at every section boundary — that's the section-padding REWORK item, not a section-specific structural fix.</p>
+</section>
+
+<section id="recs">
+  <h2>Sub-issue recommendations (REWORK)</h2>
+  <ol>
+    <li>
+      <strong>Primary CTA background color fix</strong> — proposed branch <code>aa/pl-homepage-phase-8.7-cta-color</code>.<br>
+      Problem: <code>.btn--primary</code> renders <code>#0F6F8A</code> on live; should be <code>#62BBCB</code> (the brief / preview's <code>--primary-light</code>). Affects hero and closing primary CTAs.<br>
+      Operator decision needed before F starts: <em>Is <code>--primary-light #62BBCB</code> the right canonical primary-CTA token, or do we update the brief to a deeper teal? (Recommend: keep the brief, fix the theme.)</em>
+    </li>
+    <li>
+      <strong>Inter-section vertical padding tightening</strong> — proposed branch <code>aa/pl-homepage-phase-8.8-section-padding</code>.<br>
+      Problem: live is 900–1350 px taller than preview across viewports. Concentrated in logo-bar → "What we ship", feature cards → heal-flow, and heal-flow → built-for gaps. Likely one shared section-padding token over-set in the theme.<br>
+      Acceptance: at 1280, live total page height within ±200 px of preview's 4341 px.<br>
+      Operator decision needed: <em>none expected — straight token tightening.</em>
+    </li>
+    <li>
+      <strong>(Optional, not blocking activation) Preview heal-flow update for mobile</strong> — doc-only.<br>
+      Update <code>docs/pl2/Previews/homepage.html</code> to render the heal-flow SVG with brief-correct horizontal scroll at 375 (matching live behavior). Currently the preview shrinks-to-fit, which is the stale specimen.
+    </li>
+  </ol>
+</section>
+
+</main>
+</body>
+</html>

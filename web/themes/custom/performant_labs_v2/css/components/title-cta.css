@@ -1,0 +1,77 @@
+/* [Layer 5] title-cta component override via libraries-extend.
+ * Source: docs/pl2/Briefs/pl_design_brief.md §"Closing CTA (title-cta)".
+ *
+ * This file is loaded only when the title-cta SDC is rendered (homepage).
+ * After Cycle 3, /services no longer uses title-cta — its closing-CTA
+ * styling is in dy-section.css (loaded via the section component library).
+ *
+ * Layer ruling (per theme-change--workflow.md):
+ *   L1: not a config value.
+ *   L2: not OKLCH-derived.
+ *   L3: tokens already correct in base.css. No L3 change needed.
+ *   L5: component-scoped override. CORRECT LAYER.
+ *
+ * WCAG (computed):
+ *   Cream #F5EFE2 on espresso #1F1A14 = 13.07:1 — AAA pass.
+ *   Ghost button cream text #F5EFE2 on espresso #1F1A14 = 15.07:1 — AAA pass.
+ *   Ghost button border rgba(245,239,226,0.4) composited on #1F1A14 = ~#7E7568
+ *     flat -> 4.60:1 on #1F1A14 — non-text 3:1 pass.
+ */
+
+/* ─── (a) Heading color: cream instead of pure white in dark zone ── */
+.title-cta--container {
+  --title-cta-heading-color: var(--theme-text-color-primary);
+}
+
+/* ─── (b) display-lg sizing on the heading inside title-cta ────────
+ * Design brief: display-lg = 56px / weight 500 / tracking -1.6px desktop.
+ * Mobile scale (<= 576px): 36px / -1.2px. */
+.title-cta--container .heading {
+  font-size: 3.5rem;        /* 56px — brief display-lg desktop */
+  font-weight: 500;         /* Rubik Medium per brief */
+  letter-spacing: -1.6px;   /* brief display-lg desktop tracking */
+  line-height: 1.05;        /* brief display-lg line-height */
+  font-family: "Rubik", var(--font-sans);
+}
+
+/* Center title-cta heading and container in dark zone (homepage) */
+.theme--dark .title-cta--container {
+  text-align: center;
+}
+
+.theme--dark .title-cta--container .heading {
+  text-align: center;
+}
+
+/* Ghost-on-dark outline button inside title-cta (homepage) */
+.theme--dark .title-cta .button--outline {
+  background-color: transparent;
+  border: solid 1px rgba(245, 239, 226, 0.4);
+  color: #F5EFE2;
+  padding: 14px 28px;
+}
+
+.theme--dark .title-cta .button--outline:hover {
+  background-color: rgba(245, 239, 226, 0.08);
+  border-color: #F5EFE2;
+  color: #F5EFE2;
+}
+
+.theme--dark .title-cta .button--outline:active {
+  background-color: rgba(245, 239, 226, 0.12);
+  border-color: #F5EFE2;
+  color: #F5EFE2;
+}
+
+/* ─── Mobile overrides ─────────────────────────────────────────────── */
+@media (max-width: 576px) {
+  .title-cta--container .heading {
+    font-size: 2.25rem;       /* 36px — brief display-lg mobile */
+    letter-spacing: -1.2px;   /* brief display-lg mobile tracking */
+  }
+
+  .title-cta--center .title-cta--container .button {
+    width: 100%;
+    text-align: center;
+  }
+}

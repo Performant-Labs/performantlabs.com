@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 15 Cycle 2 — /how-we-do-it preview §E CTA token — Operator Report</title>
+<style>
+  :root {
+    --espresso: #1F1A14; --paper: #F7F1E7; --canvas: #ECE6DB;
+    --primary: #1893B4; --primary-light: #62BBCB; --dark-zone: #5DC6E8;
+    --terracotta: #C75D43; --success: #2C7A4B; --danger: #B5341E;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--espresso); background: var(--paper); line-height: 1.55; }
+  header { padding: 32px 48px 16px; background: var(--canvas); border-bottom: 4px solid var(--espresso); }
+  .verdict { font-size: 56px; font-weight: 800; letter-spacing: -1px; color: var(--success); margin: 0 0 8px; }
+  .verdict-line { font-size: 14px; color: #555; margin: 0; }
+  main { padding: 0 48px 64px; max-width: 1280px; }
+  h2 { margin-top: 48px; border-bottom: 2px solid var(--espresso); padding-bottom: 4px; }
+  h3 { margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid #ddd; text-align: left; vertical-align: top; }
+  th { background: var(--canvas); }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+  .pill.pass { background: var(--success); color: white; }
+  .pill.delta { background: #C75D43; color: white; }
+  code { background: var(--canvas); padding: 1px 6px; border-radius: 3px; font-size: 13px; }
+  pre { background: var(--espresso); color: var(--paper); padding: 12px 16px; border-radius: 6px; overflow-x: auto; font-size: 13px; }
+  ul.plain { padding-left: 20px; }
+  ul.plain li { margin: 6px 0; }
+  nav { background: var(--espresso); color: var(--paper); padding: 8px 48px; font-size: 13px; position: sticky; top: 0; z-index: 100; }
+  nav a { color: var(--paper); margin-right: 16px; text-decoration: none; }
+  nav a:hover { text-decoration: underline; }
+
+  /* Wipe slider */
+  .wipe { position: relative; width: 100%; max-width: 1100px; aspect-ratio: 2560 / 1300; background: #000; margin: 16px 0; overflow: hidden; border: 1px solid #ccc; }
+  .wipe img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wipe .top { clip-path: inset(0 50% 0 0); }
+  .wipe .handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: #C75D43; pointer-events: none; }
+  .wipe .label { position: absolute; top: 8px; padding: 2px 8px; background: rgba(0,0,0,0.65); color: #fff; font-size: 11px; font-weight: 600; border-radius: 3px; }
+  .wipe .label.left { left: 8px; }
+  .wipe .label.right { right: 8px; }
+  .wipe input[type=range] { position: absolute; bottom: 12px; left: 5%; width: 90%; }
+
+  .composite img { width: 100%; max-width: 1100px; display: block; border: 1px solid #ccc; margin: 8px 0; }
+  .meta { font-size: 12px; color: #777; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="verdict-line">Sprint 15 Cycle 2 — <code>/how-we-do-it</code> preview-doc §E CTA token (F-NEW-15-C)</p>
+  <p class="verdict">PASS</p>
+  <p class="verdict-line"><strong>Branch:</strong> <code>aa/pl-sprint-15-cycle-2-preview-doc</code> · <strong>Date:</strong> 2026-05-13 · <strong>Mode:</strong> autonomous · <strong>Scoped re-audit</strong> (preview-doc only; full Cycle 1 matrix not re-run).</p>
+  <p class="verdict-line">Closing-cta @ 1280 preview pre-fix vs post-fix: <strong>AE 38,000 px = 1.142%</strong>, bounded exclusively to the §E primary CTA button footprint. No spillover.</p>
+</header>
+
+<nav>
+  <a href="#summary">Summary</a>
+  <a href="#diff">Git diff</a>
+  <a href="#styles">Computed styles</a>
+  <a href="#wipe">Wipe comparator</a>
+  <a href="#table">Per-section table</a>
+  <a href="#wcag">WCAG</a>
+  <a href="#advisory">Advisory notes</a>
+</nav>
+
+<main>
+
+<section id="summary">
+<h2>What I see different (plain English)</h2>
+<ul class="plain">
+  <li><strong>§E "Book a testing review" button changed from white-on-aqua (<code>#62BBCB</code> + white) to dark-on-light-blue (<code>#5DC6E8</code> + <code>#1F1A14</code>).</strong> This is the intended fix — it matches the brief's dark-zone CTA token (line 319).</li>
+  <li><strong>Nothing else moved.</strong> The headline "Want a one-page audit of your testing surface?", the body copy below it, the "GET STARTED" eyebrow, and the "See all engagement shapes" ghost button beside the primary CTA all render identically pre-fix and post-fix at the pixel level.</li>
+  <li><strong>No light-zone CTA was affected.</strong> The override selector is scoped to <code>.closing-cta .btn--primary</code> and this page contains exactly one <code>.btn--primary</code> element (inside the closing CTA). There were no light-zone primary buttons on the page that could regress.</li>
+</ul>
+</section>
+
+<section id="diff">
+<h2>Git diff vs main (only file changed in this cycle)</h2>
+<pre>diff --git a/docs/pl2/Previews/how-we-do-it.html b/docs/pl2/Previews/how-we-do-it.html
+@@ -425,6 +425,8 @@
+       line-height: 1.6;
+     }
+     .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
++    .closing-cta .btn--primary { background: #5DC6E8; color: #1F1A14; }
++    .closing-cta .btn--primary:hover { background: #4AB8DA; color: #1F1A14; }
+
+     /* ---------- Footer ---------- */
+     .footer {</pre>
+<p class="meta">No <code>!important</code>. No live theme files touched. <code>git diff --name-only main</code> = only <code>docs/pl2/Previews/how-we-do-it.html</code> plus pre-existing Sprint 15 Cycle 1 artifacts.</p>
+</section>
+
+<section id="styles">
+<h2>Post-fix computed styles (Playwright, 1280×800 @ DPR 2)</h2>
+<table>
+  <tr><th>Property</th><th>Computed</th><th>Expected (brief line 319)</th><th>Status</th></tr>
+  <tr><td><code>background-color</code></td><td><code>rgb(93, 198, 232)</code> = <code>#5DC6E8</code></td><td><code>#5DC6E8</code></td><td><span class="pill pass">MATCH</span></td></tr>
+  <tr><td><code>color</code></td><td><code>rgb(31, 26, 20)</code> = <code>#1F1A14</code></td><td><code>#1F1A14</code></td><td><span class="pill pass">MATCH</span></td></tr>
+  <tr><td>pill width × height</td><td>220.14 × 45 px</td><td>≥ 44 px tap height</td><td><span class="pill pass">PASS</span></td></tr>
+  <tr><td><code>document.querySelectorAll('.btn--primary').length</code></td><td>1</td><td>1 (only the closing-cta button)</td><td><span class="pill pass">MATCH</span></td></tr>
+</table>
+</section>
+
+<section id="wipe">
+<h2>Closing-CTA @ 1280 — preview pre-fix ↔ preview post-fix (wipe slider)</h2>
+<p>Drag the slider. Left half = post-fix (current preview). Right half = pre-fix (Cycle 1 baseline, recovered from commit <code>683958c98</code>).</p>
+
+<div class="wipe" id="wipe1">
+  <img class="bottom" src="screenshots/sprint-15-cycle-2/closing-cta-1280-preview-pre-fix.png" alt="Pre-fix preview crop">
+  <img class="top" src="screenshots/sprint-15-cycle-2/closing-cta-1280-preview-post-fix.png" alt="Post-fix preview crop">
+  <span class="label left">POST-FIX (Cycle 2)</span>
+  <span class="label right">PRE-FIX (Cycle 1)</span>
+  <div class="handle" id="handle1"></div>
+  <input type="range" min="0" max="100" value="50" id="slider1">
+</div>
+
+<h3>ImageMagick AE diff (red = differing pixels)</h3>
+<div class="composite"><img src="screenshots/sprint-15-cycle-2/closing-cta-1280-diff-prefix-vs-postfix.png" alt="AE diff between pre-fix and post-fix preview crops"></div>
+<p class="meta">38,000 differing pixels out of 3,328,000 = <strong>1.142%</strong>. Red region is confined entirely to the §E primary CTA pill. Headline, body copy, eyebrow, and ghost-on-dark sibling are pixel-identical.</p>
+
+<h3>Side-by-side composite</h3>
+<div class="composite"><img src="screenshots/sprint-15-cycle-2/closing-cta-1280-composite-prefix-postfix.png" alt="Pre-fix beside post-fix"></div>
+<p class="meta">Left = pre-fix preview crop. Right = post-fix preview crop. Both crops use identical bounds (x=0, y=4116 css, w=1280, h=650 css → 2× DPR).</p>
+</section>
+
+<section id="table">
+<h2>Per-section delta table</h2>
+<table>
+  <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr>
+  <tr><td>§E closing-cta primary button face</td><td>1280</td><td><span class="pill delta">DELTA (intentional)</span></td><td>Changed from aqua-on-white to light-blue (<code>#5DC6E8</code>) with espresso text (<code>#1F1A14</code>). This is the intended brief-line-319 fix.</td></tr>
+  <tr><td>§E headline / eyebrow / body copy</td><td>1280</td><td><span class="pill pass">MATCH</span></td><td>Pixel-identical pre/post.</td></tr>
+  <tr><td>§E "See all engagement shapes" ghost-on-dark sibling</td><td>1280</td><td><span class="pill pass">MATCH</span></td><td>Pixel-identical pre/post (different selector entirely).</td></tr>
+  <tr><td>Hero, §B (audit), §C (dogfood), §D (takeover), §"what we don't do", footer</td><td>1280</td><td><span class="pill pass">N/A</span></td><td>Out of scope for this cycle — preview-doc edit is scoped to <code>.closing-cta .btn--primary</code> and these sections contain no <code>.btn--primary</code> elements.</td></tr>
+  <tr><td>F-NEW-15-A (H2 mobile mismatch)</td><td>375</td><td><span class="pill delta">CARRY (Cycle 3)</span></td><td>Unchanged. Out of scope for this cycle.</td></tr>
+  <tr><td>F-NEW-15-B (orphan "runs.")</td><td>—</td><td><span class="pill delta">CARRY (Cycle 4)</span></td><td>Unchanged. Out of scope for this cycle.</td></tr>
+  <tr><td>F-NEW-4 (live CTA chrome chevron-circle)</td><td>all</td><td><span class="pill delta">CARRY (live-theme work)</span></td><td>Still drives closing-cta@1280 DSSIM at 0.205. Live-theme scope, not addressed by preview-doc edit.</td></tr>
+</table>
+</section>
+
+<section id="wcag">
+<h2>WCAG 2.2 AA spot audit (scoped)</h2>
+<table>
+  <tr><th>Check</th><th>Result</th><th>Notes</th></tr>
+  <tr><td>Primary CTA text contrast</td><td><span class="pill pass">PASS</span></td><td><code>#1F1A14</code> on <code>#5DC6E8</code> = <strong>8.81:1</strong> (≥ 4.5:1 AA, ~96% headroom).</td></tr>
+  <tr><td>Primary CTA hover contrast</td><td><span class="pill pass">PASS</span></td><td><code>#1F1A14</code> on <code>#4AB8DA</code> = <strong>7.53:1</strong>. F handoff overstated as 9.39:1; correct value is 7.53:1. Both clear AA by wide margins (informational only).</td></tr>
+  <tr><td>Focus ring contrast on espresso</td><td><span class="pill pass">PASS</span></td><td><code>#1893B4</code> on <code>#1F1A14</code> = 4.83:1 (≥ 3:1 non-text).</td></tr>
+  <tr><td>Touch target</td><td><span class="pill pass">PASS</span></td><td>Rendered pill = 45 px tall ≥ 44 px.</td></tr>
+  <tr><td>Reduced-motion / forced-colors / 200 % zoom</td><td><span class="pill pass">N/A</span></td><td>Color-only change. No transition, transform, or animation added. No DOM, layout, padding, font-size, or border-radius change.</td></tr>
+</table>
+</section>
+
+<section id="advisory">
+<h2>Advisory notes (non-blocking)</h2>
+<ol>
+  <li><strong>Hover ratio overstatement carry-forward.</strong> F said 9.39:1 for hover contrast; correct value is 7.53:1. No WCAG impact (both clear AA by wide margins). Worth correcting in future handoffs.</li>
+  <li><strong>F-NEW-4 still drives section DSSIM.</strong> Closing-cta@1280 DSSIM remains 0.205 because live uses a 56 px dripyard chevron-circle pill vs preview's 45 px flat pill. Out of scope for preview-doc cycles.</li>
+  <li><strong>Cycle-1 artifact churn.</strong> F re-ran the cycle-1 capture/diff scripts, which re-wrote ~151 PNG/JSON artifacts in place (byte deltas from font-render jitter; per-section DSSIM/PSNR unchanged). Operator may want to <code>git checkout</code> the cycle-1 directory before merge, or accept the regenerated set.</li>
+</ol>
+</section>
+
+</main>
+
+<script>
+function bindWipe(wipeId, sliderId, handleId) {
+  const wipe = document.getElementById(wipeId);
+  const slider = document.getElementById(sliderId);
+  const handle = document.getElementById(handleId);
+  const top = wipe.querySelector('.top');
+  function update() {
+    const v = slider.value;
+    top.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+    handle.style.left = v + '%';
+  }
+  slider.addEventListener('input', update);
+  update();
+}
+bindWipe('wipe1', 'slider1', 'handle1');
+</script>
+
+</body>
+</html>

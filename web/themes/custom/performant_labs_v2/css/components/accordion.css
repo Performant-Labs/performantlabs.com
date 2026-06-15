@@ -1,0 +1,106 @@
+/**
+ * @file
+ * Accordion — Performant Labs component override.
+ *
+ * [Layer 5] Hairline top/bottom borders, transparent background, no shadow,
+ * teal +/- indicator. Attached via libraries-extend on
+ * core/components.dripyard_base--accordion-item. See css-change-log.md.
+ *
+ * Ruling: L1 not config. L2 not OKLCH. L3 tokens already correct
+ * (--theme-link-color, --theme-border-color); remaining changes are
+ * component-structural (background, padding, border pattern, indicator).
+ * L5 is the correct layer.
+ */
+
+.accordion-item {
+  --accordion-item-background-color: transparent;
+  --accordion-item-border-color: transparent;
+  --accordion-item-border-radius: 0;
+  --accordion-item-padding-block: 1.25rem;
+  --accordion-item-padding-inline: 0;
+  --accordion-item-title-font-size: 1rem;
+
+  border-top: 1px solid var(--theme-border-color);
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.accordion-item:has(+ .accordion-item) {
+  margin-bottom: 0;
+}
+
+.accordion-item:last-child {
+  border-bottom: 1px solid var(--theme-border-color);
+}
+
+/* Match (0,2,0) of Dripyard's borders-variant rules so top border, padding,
+ * and first-child margin land regardless of the chosen variation. */
+.accordion-group--variation-borders .accordion-item {
+  --accordion-item-padding-block: 1.25rem;
+  --accordion-item-padding-inline: 0;
+
+  border-top: 1px solid var(--theme-border-color);
+}
+
+.accordion-group--variation-borders .accordion-item:first-child {
+  margin-top: 0;
+}
+
+.accordion-group--variation-borders .accordion-item:last-child {
+  border-bottom: 1px solid var(--theme-border-color);
+}
+
+.accordion-item__summary {
+  font-weight: 600;
+}
+
+/* Match (0,2,0) — Dripyard sets summary font-weight to normal in borders. */
+.accordion-group--variation-borders .accordion-item__summary {
+  font-weight: 600;
+}
+
+/* ── Phase 8.6 item 2: chevron-down SVG → plus/minus text indicator ─────────
+ * Preview canonical: .faq summary::after { content: "+"; } / [open] → "−".
+ *
+ * Approach: hide the Dripyard chevron-down SVG (rendered by accordion-item.twig
+ * via {{ include('dripyard_base:icon', { icon: 'chevron-down' }) }}) and replace
+ * it with a CSS ::after pseudo-element on .accordion-item__summary.
+ *
+ * The summary has display: flex (set by Dripyard). The SVG was the last flex
+ * child with margin-inline: auto 0 (pushed right). Our ::after inherits that
+ * flex positioning pattern.
+ *
+ * Specificity: .accordion-item__summary svg at (0,1,1) matches Dripyard's
+ * nested rule; later load via libraries-extend wins on cascade order.
+ *
+ * WCAG: the +/- indicator is decorative (the <details>/<summary> native
+ * disclosure pattern handles the semantic open/close state). The SVG was
+ * already aria-hidden="true". The ::after content is likewise not announced
+ * by screen readers (pseudo-element content is implementation-dependent but
+ * the semantic state is on the <details> element's open attribute). */
+
+/* Hide the Dripyard chevron-down SVG. */
+.accordion-item__summary svg {
+  display: none;
+}
+
+/* Plus indicator (closed state). Replaces the hidden SVG as the trailing
+ * flex child. Uses margin-inline: auto 0 to push to the far right, mirroring
+ * the SVG's original positioning in Dripyard's accordion-item.css.
+ *
+ * Color: --theme-link-color (teal #0F6F8A on cream/white surfaces).
+ * Size: 24px per preview spec. Weight: 400 (light, per preview). */
+.accordion-item__summary::after {
+  content: "+";
+  flex-shrink: 0;
+  margin-inline: auto 0;
+  color: var(--theme-link-color);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Minus indicator (open state). Unicode minus U+2212, not hyphen, per preview. */
+.accordion-item[open] > .accordion-item__summary::after {
+  content: "\2212";
+}

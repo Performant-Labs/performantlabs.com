@@ -1,0 +1,62 @@
+/**
+ * @file
+ * Icon list — Performant Labs component override.
+ *
+ * [Layer 5] Recolor checkmark icons from the espresso text color
+ * (Dripyard's default mapping for icon_color: primary) to the brand
+ * teal (--theme-link-color / #1893B4). Attached via libraries-extend
+ * on core/components.dripyard_base--icon-list. See css-change-log.md.
+ *
+ * Ruling: L1 not config. L3 too broad — overriding
+ * --theme-text-color-primary would re-color all body text. L5 correct,
+ * scoped to the icon-list-item icon custom property only.
+ *
+ * Specificity (0,2,0) — matches Dripyard's
+ * `.icon-list--icon-color-primary .icon-list-item` rule
+ * (icon-list-item.css:30). Attached via libraries-extend on
+ * core/components.dripyard_base--icon-list-item (not --icon-list)
+ * so this file loads after icon-list-item.css and wins on source order.
+ */
+
+.icon-list--icon-color-primary .icon-list-item {
+  --icon-list-icon-color: var(--theme-link-color);
+}
+
+/* ─── Built-for single-column layout ──────────────────────────────────
+ * Phase 8 Batch 3 Finding #13 — re-trace 2026-05-03.
+ *
+ * Bottom-up (cascade at 1280px):
+ *   <div class="icon-list icon-list--column-width-full-width ...">
+ *     <ul class="icon-list__list">
+ *   Dripyard's icon-list.css uses CSS multi-column layout:
+ *     .icon-list { --icon-list-column-width: 300px; }
+ *     .icon-list--column-width-full-width { --icon-list-column-width: auto; }
+ *     .icon-list__list { column-width: var(--icon-list-column-width); }
+ *   `column-width: auto` lets the browser decide. At wide viewports the
+ *   browser packs items into 2 (sometimes more) columns, producing the 2×2
+ *   grid the audit observed. The class name "full-width" suggests
+ *   single-column intent, but the underlying CSS doesn't enforce it.
+ *
+ * Top-down:
+ *   L1 — not config-driven. RULED OUT.
+ *   L2 — not theme-token-derived; the token --icon-list-column-width is
+ *        component-local. RULED OUT.
+ *   L3 — :root override would affect every icon-list site-wide. The brief
+ *        only requires single-column for built-for. TOO BROAD. RULED OUT.
+ *   L5 — component-scoped on .icon-list--column-width-full-width
+ *        .icon-list__list. Lowest-impact assertion. CORRECT LAYER.
+ *
+ * Specificity: (0,2,0) — matches Dripyard's
+ * `.icon-list__list { column-width: var(--icon-list-column-width); }` which
+ * is (0,1,0). Our file loads after icon-list.css via libraries-extend, so
+ * cascade order wins. We assert column-count: 1 AND zero column-width,
+ * defensively covering both column-control mechanisms.
+ *
+ * Brief: pl_design_brief.md §"Built-for list (icon-list)" — "Single column
+ * on all viewports". Preview homepage.html lines 600–605 confirms vertical
+ * stack, max-width 720px prose constraint preserved by the section
+ * container (not redeclared here). */
+.icon-list--column-width-full-width .icon-list__list {
+  column-count: 1;
+  column-width: auto;
+}

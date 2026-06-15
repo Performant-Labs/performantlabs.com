@@ -1,0 +1,540 @@
+{
+  "live": {
+    "375": {
+      "container": {
+        "top": 1099,
+        "left": 14,
+        "width": 331,
+        "height": 132,
+        "flexWrap": "wrap",
+        "justifyContent": "space-between",
+        "gap": "24px",
+        "tag": "DIV",
+        "cls": "logo-grid__content"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png.avif?itok=qaj7gKor",
+          "top": 1099,
+          "left": 14,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png.avif?itok=exIizKLS",
+          "top": 1099,
+          "left": 192,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png.avif?itok=KglVTKQ4",
+          "top": 1151,
+          "left": 14,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png.avif?itok=IkJy5JNN",
+          "top": 1151,
+          "left": 192,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png.avif?itok=nF0ncKkB",
+          "top": 1203,
+          "left": 14,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png.avif?itok=k67BJ_VZ",
+          "top": 1203,
+          "left": 192,
+          "width": 154,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 3,
+      "pattern": "2+2+2"
+    },
+    "768": {
+      "container": {
+        "top": 1019,
+        "left": 30,
+        "width": 693,
+        "height": 88,
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "gap": "32px",
+        "tag": "DIV",
+        "cls": "logo-grid__content"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png.avif?itok=qaj7gKor",
+          "top": 1019,
+          "left": 49,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png.avif?itok=exIizKLS",
+          "top": 1019,
+          "left": 221,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png.avif?itok=KglVTKQ4",
+          "top": 1019,
+          "left": 393,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png.avif?itok=IkJy5JNN",
+          "top": 1019,
+          "left": 565,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png.avif?itok=nF0ncKkB",
+          "top": 1079,
+          "left": 221,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png.avif?itok=k67BJ_VZ",
+          "top": 1079,
+          "left": 393,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 2,
+      "pattern": "4+2"
+    },
+    "1280": {
+      "container": {
+        "top": 999,
+        "left": 51,
+        "width": 1164,
+        "height": 28,
+        "flexWrap": "nowrap",
+        "justifyContent": "space-between",
+        "gap": "32px",
+        "tag": "DIV",
+        "cls": "logo-grid__content"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png.avif?itok=qaj7gKor",
+          "top": 999,
+          "left": 51,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png.avif?itok=exIizKLS",
+          "top": 999,
+          "left": 255,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png.avif?itok=KglVTKQ4",
+          "top": 999,
+          "left": 460,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png.avif?itok=IkJy5JNN",
+          "top": 999,
+          "left": 665,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png.avif?itok=nF0ncKkB",
+          "top": 999,
+          "left": 870,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png.avif?itok=k67BJ_VZ",
+          "top": 999,
+          "left": 1074,
+          "width": 140,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 1,
+      "pattern": "6"
+    }
+  },
+  "preview": {
+    "375": {
+      "container": {
+        "top": 1001,
+        "left": 24,
+        "width": 327,
+        "height": 180,
+        "flexWrap": "wrap",
+        "justifyContent": "space-between",
+        "gap": "48px",
+        "tag": "DIV",
+        "cls": "logo-bar__row"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png",
+          "top": 1001,
+          "left": 24,
+          "width": 145,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png",
+          "top": 1001,
+          "left": 252,
+          "width": 99,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png",
+          "top": 1077,
+          "left": 24,
+          "width": 28,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png",
+          "top": 1077,
+          "left": 183,
+          "width": 168,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png",
+          "top": 1153,
+          "left": 24,
+          "width": 200,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png",
+          "top": 1153,
+          "left": 329,
+          "width": 22,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 3,
+      "pattern": "2+2+2"
+    },
+    "768": {
+      "container": {
+        "top": 846,
+        "left": 24,
+        "width": 720,
+        "height": 104,
+        "flexWrap": "wrap",
+        "justifyContent": "space-between",
+        "gap": "48px",
+        "tag": "DIV",
+        "cls": "logo-bar__row"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png",
+          "top": 846,
+          "left": 24,
+          "width": 145,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png",
+          "top": 846,
+          "left": 262,
+          "width": 99,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png",
+          "top": 846,
+          "left": 455,
+          "width": 28,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png",
+          "top": 846,
+          "left": 576,
+          "width": 168,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png",
+          "top": 922,
+          "left": 24,
+          "width": 200,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png",
+          "top": 922,
+          "left": 722,
+          "width": 22,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 2,
+      "pattern": "4+2"
+    },
+    "1280": {
+      "container": {
+        "top": 846,
+        "left": 64,
+        "width": 1152,
+        "height": 28,
+        "flexWrap": "wrap",
+        "justifyContent": "space-between",
+        "gap": "48px",
+        "tag": "DIV",
+        "cls": "logo-bar__row"
+      },
+      "imgs": [
+        {
+          "i": 0,
+          "alt": "CBS Interactive logo",
+          "src": "CBS-Interactive-logo.png",
+          "top": 846,
+          "left": 64,
+          "width": 145,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 1,
+          "alt": "DocuSign logo",
+          "src": "DocuSign-logo.png",
+          "top": 846,
+          "left": 307,
+          "width": 99,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 2,
+          "alt": "Orange logo",
+          "src": "Orange-logo.png",
+          "top": 846,
+          "left": 504,
+          "width": 28,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 3,
+          "alt": "Renesas Electronics logo",
+          "src": "Renesas_Electronics_logo.png",
+          "top": 846,
+          "left": 630,
+          "width": 168,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 4,
+          "alt": "Robert Half logo",
+          "src": "Robert-Half-logo.png",
+          "top": 846,
+          "left": 896,
+          "width": 200,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        },
+        {
+          "i": 5,
+          "alt": "Tesla logo",
+          "src": "Tesla-logo.png",
+          "top": 846,
+          "left": 1194,
+          "width": 22,
+          "height": 28,
+          "filter": "grayscale(1)",
+          "opacity": "0.7",
+          "objectFit": "contain"
+        }
+      ],
+      "rows": 1,
+      "pattern": "6"
+    }
+  }
+}

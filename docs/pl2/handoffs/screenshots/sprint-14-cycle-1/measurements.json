@@ -1,0 +1,350 @@
+{
+  "375": {
+    "live": {
+      "pageH": 7952,
+      "sections": [
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair dy-section--centered-white theme--white container dy-section--sectio",
+          "top": 271,
+          "h": 711
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 983,
+          "h": 1928
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-white theme--white full-width dy-section--section-edge-to-edge margi",
+          "top": 2910,
+          "h": 2905
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 5816,
+          "h": 893
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair theme--dark full-width dy-section--section-edge-to-edge margin-top--",
+          "top": 6709,
+          "h": 533
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 7242,
+          "h": 709
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 63
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 23
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 23
+        }
+      ],
+      "h1": {
+        "fs": "36px",
+        "lh": "39.6px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.2px"
+      }
+    },
+    "preview": {
+      "pageH": 6723,
+      "sections": [
+        {
+          "tag": "SECTION",
+          "cls": "hero",
+          "top": 118,
+          "h": 700
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 818,
+          "h": 1203
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--canvas",
+          "top": 2021,
+          "h": 2677
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 4698,
+          "h": 634
+        },
+        {
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 5332,
+          "h": 526
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 5858,
+          "h": 865
+        }
+      ],
+      "chromeMask": null,
+      "h1": {
+        "fs": "40px",
+        "lh": "42px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1px"
+      }
+    }
+  },
+  "768": {
+    "live": {
+      "pageH": 5690,
+      "sections": [
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair dy-section--centered-white theme--white container dy-section--sectio",
+          "top": 269,
+          "h": 766
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 1035,
+          "h": 957
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-white theme--white full-width dy-section--section-edge-to-edge margi",
+          "top": 1991,
+          "h": 2132
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 4124,
+          "h": 559
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair theme--dark full-width dy-section--section-edge-to-edge margin-top--",
+          "top": 4683,
+          "h": 496
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 5178,
+          "h": 511
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "h1": {
+        "fs": "72px",
+        "lh": "79.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.8px"
+      }
+    },
+    "preview": {
+      "pageH": 5045,
+      "sections": [
+        {
+          "tag": "SECTION",
+          "cls": "hero",
+          "top": 118,
+          "h": 669
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 787,
+          "h": 818
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--canvas",
+          "top": 1604,
+          "h": 1794
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 3399,
+          "h": 565
+        },
+        {
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 3963,
+          "h": 537
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 4500,
+          "h": 544
+        }
+      ],
+      "chromeMask": null,
+      "h1": {
+        "fs": "64px",
+        "lh": "67.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px"
+      }
+    }
+  },
+  "1280": {
+    "live": {
+      "pageH": 4549,
+      "sections": [
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair dy-section--centered-white theme--white container dy-section--sectio",
+          "top": 269,
+          "h": 631
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 900,
+          "h": 870
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-white theme--white full-width dy-section--section-edge-to-edge margi",
+          "top": 1770,
+          "h": 1395
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margi",
+          "top": 3165,
+          "h": 473
+        },
+        {
+          "tag": "DIV",
+          "cls": "dy-section dy-section--cta-pair theme--dark full-width dy-section--section-edge-to-edge margin-top--",
+          "top": 3638,
+          "h": 496
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "site-footer theme--white",
+          "top": 4134,
+          "h": 415
+        }
+      ],
+      "chromeMask": [
+        {
+          "cls": "region region-highlighted query-container",
+          "top": 160,
+          "h": 61
+        },
+        {
+          "cls": "breadcrumb container",
+          "top": 160,
+          "h": 21
+        },
+        {
+          "cls": "block block-system block-system-breadcrumb-block",
+          "top": 160,
+          "h": 21
+        }
+      ],
+      "h1": {
+        "fs": "72px",
+        "lh": "79.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.8px"
+      }
+    },
+    "preview": {
+      "pageH": 4390,
+      "sections": [
+        {
+          "tag": "SECTION",
+          "cls": "hero",
+          "top": 118,
+          "h": 602
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 719,
+          "h": 818
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--canvas",
+          "top": 1537,
+          "h": 1375
+        },
+        {
+          "tag": "SECTION",
+          "cls": "section--cream",
+          "top": 2912,
+          "h": 565
+        },
+        {
+          "tag": "SECTION",
+          "cls": "closing-cta",
+          "top": 3476,
+          "h": 537
+        },
+        {
+          "tag": "FOOTER",
+          "cls": "footer",
+          "top": 4013,
+          "h": 376
+        }
+      ],
+      "chromeMask": null,
+      "h1": {
+        "fs": "64px",
+        "lh": "67.2px",
+        "ff": "Rubik, sans-serif",
+        "fw": "500",
+        "ls": "-1.6px"
+      }
+    }
+  }
+}

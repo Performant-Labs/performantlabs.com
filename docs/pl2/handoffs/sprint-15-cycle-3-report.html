@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 15 Cycle 3 - display-md H2 mobile fix - Operator Report</title>
+<style>
+  :root { --bg:#fafaf8; --ink:#1F1A14; --muted:#6b6258; --pass:#0a7d40; --rework:#b3261e; --line:#e6dfd2; }
+  * { box-sizing: border-box; }
+  body { background:var(--bg); color:var(--ink); font:16px/1.55 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; margin:0; padding:32px; max-width: 1400px; margin: 0 auto; }
+  h1 { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.5px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; padding-top:16px; border-top: 1px solid var(--line); letter-spacing: -0.3px; }
+  h3 { font-size: 17px; margin: 20px 0 8px; color:var(--muted); }
+  .verdict-banner { padding: 20px 28px; border-radius: 12px; margin: 16px 0 28px; display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .verdict-banner.pass { background:#e8f5ee; border:1px solid var(--pass); }
+  .verdict-banner.rework { background:#fdebea; border:1px solid var(--rework); }
+  .verdict-banner .v { font-size: 28px; font-weight:700; letter-spacing:-0.5px; }
+  .verdict-banner.pass .v { color:var(--pass); }
+  .verdict-banner.rework .v { color:var(--rework); }
+  .verdict-banner .stat { font-size:13px; color:var(--muted); }
+  .verdict-banner .stat b { color:var(--ink); display:block; font-size:15px; }
+  table { border-collapse: collapse; width:100%; margin:12px 0; font-size:14px; }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align:left; vertical-align: top; }
+  th { background:#f0ebe0; font-weight:600; }
+  td.match { color:var(--pass); font-weight:600; }
+  td.delta { color:#a86b00; font-weight:600; }
+  td.intent { color:var(--pass); font-weight:600; }
+  ul { margin: 6px 0 12px; padding-left: 22px; }
+  ul li { margin-bottom: 4px; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; background:#f0ebe0; padding:1px 5px; border-radius:3px; }
+  .toc { background:#fff; border:1px solid var(--line); padding:14px 20px; border-radius:8px; margin-bottom: 24px; }
+  .toc a { color:#1f1a14; text-decoration:none; display:inline-block; margin-right:14px; }
+  .toc a:hover { text-decoration: underline; }
+  .comparator { background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px; margin:14px 0 24px; }
+  .comparator h4 { margin: 0 0 10px; font-size:15px; }
+  .wipe { position:relative; width: 720px; max-width: 100%; margin: 0 auto; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+  .wipe .imgwrap { position:relative; width:100%; }
+  .wipe .imgwrap img { display:block; width:100%; height:auto; }
+  .wipe .top-img { position:absolute; inset:0; clip-path: inset(0 50% 0 0); }
+  .wipe .slider { width:100%; margin: 8px 0 4px; }
+  .wipe .labels { display:flex; justify-content:space-between; font-size:12px; color:var(--muted); padding:0 4px 4px; }
+  .diff-img { max-width: 750px; width:100%; display:block; margin:8px auto; border:1px solid var(--line); }
+  .composite-img { max-width:100%; display:block; margin:8px 0; border:1px solid var(--line); }
+  .summary-list li { margin-bottom:6px; }
+  .ac { background:#fff; padding: 10px 16px; border-left: 4px solid var(--pass); margin:8px 0; }
+  .ac.fail { border-left-color: var(--rework); }
+  details { background:#fff; padding:12px 16px; border:1px solid var(--line); border-radius:6px; margin: 8px 0; }
+  details summary { cursor:pointer; font-weight:600; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 15 Cycle 3 - display-md H2 mobile source-order fix</h1>
+<p style="color:var(--muted); margin:0 0 12px;">Branch <code>aa/pl-sprint-15-cycle-3-display-md-mobile</code> - Audit date 2026-05-13 - L3 sitewide cascade fix - Cross-page sweep over 6 pages x 3 viewports.</p>
+
+<div class="verdict-banner pass">
+  <div class="v">PASS</div>
+  <div class="stat"><b>375 px (binding)</b>all six pages 30 px H2, 0 hScroll, intent-only deltas</div>
+  <div class="stat"><b>1280 px</b>0 pixel diff vs pre-fix on sampled pages (homepage, how-we-do-it)</div>
+  <div class="stat"><b>768 px</b>0 visual change (above mobile breakpoint)</div>
+</div>
+
+<div class="toc">
+  <a href="#summary">Summary</a>
+  <a href="#sweep">Cross-page sweep table</a>
+  <a href="#comparators">Wipe-slider comparators</a>
+  <a href="#per-page">Per-page detail</a>
+  <a href="#wcag">WCAG re-audit</a>
+  <a href="#ac">Acceptance criteria</a>
+  <a href="#advisory">Advisory</a>
+</div>
+
+<h2 id="summary">What I see different (plain English)</h2>
+<ul class="summary-list">
+  <li>Across all six pages at 375 px, every section H2 (the <code>display-md</code> headings such as "Four ways we engage.", "Audit.", "Tools, AI, and experts. All there.") has shrunk from <b>40 px down to 30 px</b>. This is the intended fix - the brief says 30 px at mobile.</li>
+  <li>Letter-spacing on those H2s tightened slightly (from -1 px to -0.8 px) - per brief.</li>
+  <li>Body content below each H2 shifts up by a few pixels because the heading is smaller. This cascade is the entire reason for the 11-20% whole-page delta numbers; <b>nothing else changes</b>.</li>
+  <li>The closing CTA H2 (<code>display-lg</code>, "Ready for a release...", "Want a one-page audit...", "Want to talk testing?", etc.) is <b>unchanged at 36 px</b> on mobile across all pages.</li>
+  <li>Hero H1 is unchanged on all pages.</li>
+  <li>Desktop at 1280 px is <b>bit-identical pre vs post</b> on the two pages I diff-checked (homepage and how-we-do-it) - 0 pixel difference.</li>
+  <li>No horizontal scroll appears on any of the 18 page+viewport combinations.</li>
+  <li>No orphan-word regression introduced at the new 30 px size; section H2s either fit one line or wrap with at least two words on the final line.</li>
+</ul>
+
+<h2 id="sweep">Cross-page sweep at 375 px (binding viewport)</h2>
+<table>
+  <tr><th>Page</th><th>H2 sample</th><th>Pre-fix fs</th><th>Post-fix fs</th><th>Post-fix ls</th><th>hScroll</th><th>Pixel diff</th><th>Delta %</th><th>Verdict</th></tr>
+  <tr><td><code>/</code></td><td>Tools, AI, and experts. All there.</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>1,851,930</td><td>17.48%</td><td class="intent">PASS (intent)</td></tr>
+  <tr><td><code>/services</code></td><td>Four ways we engage.</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>2,003,830</td><td>20.38%</td><td class="intent">PASS (intent)</td></tr>
+  <tr><td><code>/about-us</code></td><td>On drupal.org since 2006.</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>2,036,570</td><td>16.94%</td><td class="intent">PASS (intent)</td></tr>
+  <tr><td><code>/how-we-do-it</code></td><td>Audit.</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>2,463,850</td><td>20.10%</td><td class="intent">PASS (intent)</td></tr>
+  <tr><td><code>/open-source-projects</code></td><td>Our testing tools</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>1,591,780</td><td>11.42%</td><td class="intent">PASS (intent)</td></tr>
+  <tr><td><code>/contact-us</code></td><td>What to expect from the other side of this form.</td><td>40 px</td><td class="match">30 px</td><td>-0.8 px</td><td class="match">no</td><td>1,327,230</td><td>14.51%</td><td class="intent">PASS (intent)</td></tr>
+</table>
+<p style="color:var(--muted); font-size:13px;">Whole-page delta % is high because shrinking every H2 by 10 px shifts all downstream content upward. Visual inspection of the diff PNGs confirms red regions land precisely on H2 lines + their reflowed body content. No unexpected red zones in headers, footers, CTAs, or hero blocks.</p>
+
+<h2>Cross-page sweep at 1280 px (desktop sanity, no change expected)</h2>
+<table>
+  <tr><th>Page</th><th>H2 sample</th><th>Post-fix fs</th><th>Pixel diff vs pre-fix</th><th>Verdict</th></tr>
+  <tr><td><code>/</code></td><td>Tools, AI, and experts. All there.</td><td>40 px / -1 px</td><td>0 (24.3 M total)</td><td class="match">MATCH</td></tr>
+  <tr><td><code>/services</code></td><td>Four ways we engage.</td><td>40 px / -1 px</td><td>not diffed (probe match)</td><td class="match">MATCH (probe)</td></tr>
+  <tr><td><code>/about-us</code></td><td>On drupal.org since 2006.</td><td>40 px / -1 px</td><td>not diffed (probe match)</td><td class="match">MATCH (probe)</td></tr>
+  <tr><td><code>/how-we-do-it</code></td><td>Audit.</td><td>40 px / -1 px</td><td>0 (27.5 M total)</td><td class="match">MATCH</td></tr>
+  <tr><td><code>/open-source-projects</code></td><td>Our testing tools</td><td>40 px / -1 px</td><td>not diffed (probe match)</td><td class="match">MATCH (probe)</td></tr>
+  <tr><td><code>/contact-us</code></td><td>What to expect from the other side of this form.</td><td>40 px / -1 px</td><td>not diffed (probe match)</td><td class="match">MATCH (probe)</td></tr>
+</table>
+
+<h2>768 px (above mobile breakpoint, no change expected)</h2>
+<p>The CSS breakpoint splits at 576 px. At 768 the desktop path applies, so post-fix renders identically to pre-fix on this viewport. Probes confirm 40 px H2 on every page at 768 px.</p>
+
+<h2 id="comparators">Wipe-slider comparators</h2>
+
+<div class="comparator">
+  <h4>/how-we-do-it at 375 px (primary target)</h4>
+  <div class="wipe" id="w1">
+    <div class="imgwrap">
+      <img src="screenshots/sprint-15-cycle-3/t3-how-we-do-it-375-live-pre-20260513.png" alt="pre-fix">
+      <img class="top-img" src="screenshots/sprint-15-cycle-3/t3-how-we-do-it-375-live-post-20260513.png" alt="post-fix">
+    </div>
+    <input type="range" class="slider" min="0" max="100" value="50">
+    <div class="labels"><span>POST-FIX (left of handle)</span><span>PRE-FIX (right of handle)</span></div>
+  </div>
+</div>
+
+<div class="comparator">
+  <h4>/services at 375 px (cross-page representative)</h4>
+  <div class="wipe" id="w2">
+    <div class="imgwrap">
+      <img src="screenshots/sprint-15-cycle-3/t3-services-375-live-pre-20260513.png" alt="pre-fix">
+      <img class="top-img" src="screenshots/sprint-15-cycle-3/t3-services-375-live-post-20260513.png" alt="post-fix">
+    </div>
+    <input type="range" class="slider" min="0" max="100" value="50">
+    <div class="labels"><span>POST-FIX (left)</span><span>PRE-FIX (right)</span></div>
+  </div>
+</div>
+
+<h2 id="per-page">Per-page diff PNGs (red = changed pixels)</h2>
+
+<details open><summary>/how-we-do-it 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-how-we-do-it-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-how-we-do-it-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+<details><summary>/ 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-homepage-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-homepage-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+<details><summary>/services 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-services-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-services-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+<details><summary>/about-us 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-about-us-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-about-us-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+<details><summary>/open-source-projects 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-open-source-projects-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-open-source-projects-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+<details><summary>/contact-us 375 - diff PNG + composite</summary>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-3/t3-contact-us-375-diff-20260513.png" alt="diff">
+  <img class="composite-img" src="screenshots/sprint-15-cycle-3/t3-contact-us-375-composite-20260513.png" alt="composite (pre | post) top portion">
+</details>
+
+<h2 id="wcag">WCAG 2.2 AA (scoped re-audit)</h2>
+<p>This cycle changes only font-size and letter-spacing tokens via media-query scoping. Full enumeration ran in Cycle 1 - reference <code>docs/pl2/handoffs/sprint-15-cycle-1-audit.md</code>. Scoped checks below.</p>
+<table>
+  <tr><th>Check</th><th>Result</th><th>Notes</th></tr>
+  <tr><td>Heading hierarchy</td><td class="match">PASS</td><td>Single H1 per page; H2-H3 hierarchy intact (T-verified in T2-5).</td></tr>
+  <tr><td>Color contrast at new H2 size (30 px / Rubik 500)</td><td class="match">PASS</td><td>30 px Rubik 500 qualifies as WCAG "large text" (>= 18.66 px / >= 14 pt bold); 3:1 threshold applies. <code>#1F1A14</code> on white = 17.27:1; on cream <code>#F5EFE2</code> = 15.07:1. T independently confirmed.</td></tr>
+  <tr><td>WCAG reflow (320 px no hScroll)</td><td class="match">PASS</td><td>T-verified at 320 x 568: scrollWidth 305 &lt; clientWidth 320.</td></tr>
+  <tr><td>Reflow at 375 (no hScroll)</td><td class="match">PASS</td><td>All 6 pages: scrollWidth &lt;= clientWidth. Probe data captured in Playwright run.</td></tr>
+  <tr><td>200% zoom</td><td class="match">PASS (inferred)</td><td>No new fixed widths; existing tokens scale via root font-size. No regression introduced by this change.</td></tr>
+  <tr><td>Touch targets</td><td>N/A</td><td>H2 elements are non-interactive. No touch-target surface modified.</td></tr>
+  <tr><td>Forced-colors mode</td><td>N/A this cycle</td><td>No color tokens touched. Reference Cycle 1 audit.</td></tr>
+  <tr><td>Reduced-motion</td><td>N/A this cycle</td><td>No animation tokens touched.</td></tr>
+  <tr><td>Orphan-word regression at 30 px</td><td class="match">PASS</td><td>Section H2s: "Audit." 1 word; "Stand up the dogfood loop." wraps 2/3 - no orphan; "Take over or hand back." fits one line; "What we don't do." fits one line; "Four ways we engage." fits one line; "Tools, AI, and experts. All there." wraps with multi-word tail. No new orphans.</td></tr>
+</table>
+
+<h2 id="ac">Acceptance criteria</h2>
+<div class="ac"><b>AC-1</b> Live B/C/D/E H2 at 375 = brief display-md mobile. PASS - 30 px on all four section H2 on /how-we-do-it; 30 px on every display-md H2 across all six pages.</div>
+<div class="ac"><b>AC-2</b> Preview equivalent rule matches brief. PASS - <code>how-we-do-it.html</code> line 482 corrected to <code>letter-spacing: -0.8px</code>.</div>
+<div class="ac"><b>AC-3</b> Desktop display-md (40 px) unchanged on both renders. PASS - 0 pixel diff vs pre-fix at 1280 on sampled pages; computed-style probes confirm 40 px / -1 px on all six pages.</div>
+<div class="ac"><b>AC-4</b> Section F H2 (display-lg) unchanged. PASS - closing CTAs read 36 px at 375 and 56 px at 1280 on all pages, unchanged.</div>
+<div class="ac"><b>AC-5</b> No <code>!important</code>; 7-step layer trace; layer documented. PASS - F handoff documents L3 trace.</div>
+<div class="ac"><b>AC-6</b> T1 + T2 verification. PASS - T handoff confirms cache-clear, curl-grep, structural sanity.</div>
+<div class="ac"><b>AC-7</b> Cross-page sweep at S (MANDATORY). PASS - this report covers all 6 pages x 3 viewports = 18 cells; pixel diffs at 375; computed-style sanity at 1280 / 768. No regressions detected.</div>
+
+<h2 id="advisory">Advisory (non-blocking, future cycles)</h2>
+<ul>
+  <li>F's handoff and T's notes both flag that <b>five preview files still use <code>letter-spacing: -0.6px</code></b> on mobile <code>.section-head h2</code> instead of brief's -0.8 px (homepage, services, about-us, open-source-projects, contact-us previews). Out of scope for this cycle; queue as a one-line preview consistency follow-up.</li>
+  <li>Mobile line-height computes 1.13 (33.9 px / 30 px) while brief says &lt;= 1.10. This is Dripyard's <code>--h2-line-height</code> default, pre-existing this cycle. Operator can decide if it warrants a follow-up L3 fix.</li>
+  <li><code>/open-source-projects</code> section C heading "Other modules we maintain" renders at 30 px / -0.6 px / lh 1.15 at desktop and 24 px at 375 - it does not use the same heading utility as display-md. Not regressed by this cycle but suggests it's using a different (smaller) heading class. Worth a future-cycle alignment if the brief intends it to also be display-md.</li>
+  <li><code>/contact-us</code> section B heading "Prefer a quick call?" renders at 32 px (desktop) / 24 px (375) - similarly not on the display-md path. Not regressed; left for future-cycle alignment.</li>
+  <li>F-NEW-15-B (orphan "runs." in /how-we-do-it hero) remains open per the sprint plan; Cycle 4 scope.</li>
+</ul>
+
+<script>
+  document.querySelectorAll('.wipe').forEach(w => {
+    const slider = w.querySelector('.slider');
+    const top = w.querySelector('.top-img');
+    slider.addEventListener('input', e => {
+      const v = e.target.value;
+      top.style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+    });
+    // initialize
+    top.style.clipPath = `inset(0 50% 0 0)`;
+  });
+</script>
+
+</body>
+</html>

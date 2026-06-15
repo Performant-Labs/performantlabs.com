@@ -1,0 +1,418 @@
+{
+  "viewports": {
+    "375": {
+      "width": 375,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 271,
+          "liveH_css": 694,
+          "prevTop_css": 118,
+          "prevH_css": 602,
+          "cropH_css": 602,
+          "cropH_img": 1204,
+          "totalPx": 903000,
+          "liveVsPost": {
+            "DSSIM": "16494.3 (0.251688)",
+            "AE": 154656,
+            "AE_pct": 17.127
+          },
+          "postVsC1Preview": {
+            "DSSIM": "38.2954 (0.00058435)",
+            "AE": 31210
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "16478.2 (0.251441)",
+            "liveVsPreview_AE_c1": 155187
+          }
+        },
+        "testing-tools": {
+          "liveTop_css": 966,
+          "liveH_css": 4207,
+          "prevTop_css": 720,
+          "prevH_css": 2752,
+          "cropH_css": 2752,
+          "cropH_img": 5504,
+          "totalPx": 4128000,
+          "liveVsPost": {
+            "DSSIM": "13532.2 (0.206488)",
+            "AE": 2,
+            "AE_pct": 0
+          },
+          "postVsC1Preview": {
+            "DSSIM": "4212.01 (0.0642711)",
+            "AE": 624032
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "13616.3 (0.207772)",
+            "liveVsPreview_AE_c1": 2
+          }
+        },
+        "drupal-qa": {
+          "liveTop_css": 5173,
+          "liveH_css": 2621,
+          "prevTop_css": 3472,
+          "prevH_css": 2331,
+          "cropH_css": 2331,
+          "cropH_img": 4662,
+          "totalPx": 3496500,
+          "liveVsPost": {
+            "DSSIM": "13391.4 (0.20434)",
+            "AE": 808343,
+            "AE_pct": 23.119
+          },
+          "postVsC1Preview": {
+            "DSSIM": "3533.73 (0.0539212)",
+            "AE": 331774
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "13442.3 (0.205116)",
+            "liveVsPreview_AE_c1": 830704
+          }
+        },
+        "other-modules": {
+          "liveTop_css": 7794,
+          "liveH_css": 366,
+          "prevTop_css": 5803,
+          "prevH_css": 395,
+          "cropH_css": 366,
+          "cropH_img": 732,
+          "totalPx": 549000,
+          "liveVsPost": {
+            "DSSIM": "11821.7 (0.180387)",
+            "AE": 37951,
+            "AE_pct": 6.913
+          },
+          "postVsC1Preview": {
+            "DSSIM": "3256.3 (0.0496879)",
+            "AE": 22406
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "12261.8 (0.187103)",
+            "liveVsPreview_AE_c1": 37962
+          }
+        },
+        "closing-cta": {
+          "liveTop_css": 8160,
+          "liveH_css": 351,
+          "prevTop_css": 6198,
+          "prevH_css": 340,
+          "cropH_css": 340,
+          "cropH_img": 680,
+          "totalPx": 510000,
+          "liveVsPost": {
+            "DSSIM": "14745.9 (0.225008)",
+            "AE": 78899,
+            "AE_pct": 15.47
+          },
+          "postVsC1Preview": {
+            "DSSIM": "0 (0)",
+            "AE": 0
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "14745.9 (0.225008)",
+            "liveVsPreview_AE_c1": 78899
+          }
+        },
+        "footer": {
+          "liveTop_css": 8511,
+          "liveH_css": 709,
+          "prevTop_css": 6538,
+          "prevH_css": 844,
+          "cropH_css": 709,
+          "cropH_img": 1418,
+          "totalPx": 1063500,
+          "liveVsPost": {
+            "DSSIM": "12990.8 (0.198227)",
+            "AE": 87814,
+            "AE_pct": 8.257
+          },
+          "postVsC1Preview": {
+            "DSSIM": "65.0615 (0.000992775)",
+            "AE": 1119
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "12998.4 (0.198342)",
+            "liveVsPreview_AE_c1": 87911
+          }
+        }
+      }
+    },
+    "768": {
+      "width": 768,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 669,
+          "prevTop_css": 118,
+          "prevH_css": 586,
+          "cropH_css": 586,
+          "cropH_img": 1172,
+          "totalPx": 1800192,
+          "liveVsPost": {
+            "DSSIM": "14768.7 (0.225356)",
+            "AE": 258952,
+            "AE_pct": 14.385
+          },
+          "postVsC1Preview": {
+            "DSSIM": "67.8972 (0.00103605)",
+            "AE": 80940
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "14739.5 (0.224911)",
+            "liveVsPreview_AE_c1": 272856
+          }
+        },
+        "testing-tools": {
+          "liveTop_css": 938,
+          "liveH_css": 2788,
+          "prevTop_css": 704,
+          "prevH_css": 2863,
+          "cropH_css": 2788,
+          "cropH_img": 5576,
+          "totalPx": 8564736,
+          "liveVsPost": {
+            "DSSIM": "11609.5 (0.177149)",
+            "AE": 6,
+            "AE_pct": 0
+          },
+          "postVsC1Preview": {
+            "DSSIM": "2465.6 (0.0376226)",
+            "AE": 993091
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "11645.7 (0.177702)",
+            "liveVsPreview_AE_c1": 6
+          }
+        },
+        "drupal-qa": {
+          "liveTop_css": 3726,
+          "liveH_css": 1999,
+          "prevTop_css": 3567,
+          "prevH_css": 2741,
+          "cropH_css": 1999,
+          "cropH_img": 3998,
+          "totalPx": 6140928,
+          "liveVsPost": {
+            "DSSIM": "11924.8 (0.181961)",
+            "AE": 2,
+            "AE_pct": 0
+          },
+          "postVsC1Preview": {
+            "DSSIM": "1297.06 (0.0197918)",
+            "AE": 352808
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "11951.1 (0.182362)",
+            "liveVsPreview_AE_c1": 2
+          }
+        },
+        "other-modules": {
+          "liveTop_css": 5725,
+          "liveH_css": 371,
+          "prevTop_css": 6308,
+          "prevH_css": 402,
+          "cropH_css": 371,
+          "cropH_img": 742,
+          "totalPx": 1139712,
+          "liveVsPost": {
+            "DSSIM": "10318.9 (0.157456)",
+            "AE": 47715,
+            "AE_pct": 4.187
+          },
+          "postVsC1Preview": {
+            "DSSIM": "1574.07 (0.0240188)",
+            "AE": 22545
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "10564.6 (0.161205)",
+            "liveVsPreview_AE_c1": 47642
+          }
+        },
+        "closing-cta": {
+          "liveTop_css": 6096,
+          "liveH_css": 434,
+          "prevTop_css": 6710,
+          "prevH_css": 494,
+          "cropH_css": 434,
+          "cropH_img": 868,
+          "totalPx": 1333248,
+          "liveVsPost": {
+            "DSSIM": "11992 (0.182986)",
+            "AE": 137244,
+            "AE_pct": 10.294
+          },
+          "postVsC1Preview": {
+            "DSSIM": "275.927 (0.00421037)",
+            "AE": 4625
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "11991.9 (0.182985)",
+            "liveVsPreview_AE_c1": 137233
+          }
+        },
+        "footer": {
+          "liveTop_css": 6530,
+          "liveH_css": 511,
+          "prevTop_css": 7204,
+          "prevH_css": 544,
+          "cropH_css": 511,
+          "cropH_img": 1022,
+          "totalPx": 1569792,
+          "liveVsPost": {
+            "DSSIM": "12304.2 (0.18775)",
+            "AE": 112632,
+            "AE_pct": 7.175
+          },
+          "postVsC1Preview": {
+            "DSSIM": "2007.1 (0.0306264)",
+            "AE": 49491
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "12298.6 (0.187665)",
+            "liveVsPreview_AE_c1": 112527
+          }
+        }
+      }
+    },
+    "1280": {
+      "width": 1280,
+      "dpr": 2,
+      "sections": {
+        "hero": {
+          "liveTop_css": 269,
+          "liveH_css": 502,
+          "prevTop_css": 118,
+          "prevH_css": 511,
+          "cropH_css": 502,
+          "cropH_img": 1004,
+          "totalPx": 2570240,
+          "liveVsPost": {
+            "DSSIM": "12802.6 (0.195356)",
+            "AE": 258375,
+            "AE_pct": 10.053
+          },
+          "postVsC1Preview": {
+            "DSSIM": "5789.24 (0.0883381)",
+            "AE": 257825
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "12575.3 (0.191887)",
+            "liveVsPreview_AE_c1": 268581
+          }
+        },
+        "testing-tools": {
+          "liveTop_css": 771,
+          "liveH_css": 1424,
+          "prevTop_css": 628,
+          "prevH_css": 1189,
+          "cropH_css": 1189,
+          "cropH_img": 2378,
+          "totalPx": 6087680,
+          "liveVsPost": {
+            "DSSIM": "12342.7 (0.188338)",
+            "AE": 2,
+            "AE_pct": 0
+          },
+          "postVsC1Preview": {
+            "DSSIM": "1111.07 (0.0169539)",
+            "AE": 228138
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "12386.6 (0.189008)",
+            "liveVsPreview_AE_c1": 2
+          }
+        },
+        "drupal-qa": {
+          "liveTop_css": 2194,
+          "liveH_css": 1137,
+          "prevTop_css": 1817,
+          "prevH_css": 1040,
+          "cropH_css": 1040,
+          "cropH_img": 2080,
+          "totalPx": 5324800,
+          "liveVsPost": {
+            "DSSIM": "13156.6 (0.200757)",
+            "AE": 1,
+            "AE_pct": 0
+          },
+          "postVsC1Preview": {
+            "DSSIM": "1014.78 (0.0154846)",
+            "AE": 103202
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "13174.1 (0.201024)",
+            "liveVsPreview_AE_c1": 1
+          }
+        },
+        "other-modules": {
+          "liveTop_css": 3332,
+          "liveH_css": 309,
+          "prevTop_css": 2857,
+          "prevH_css": 402,
+          "cropH_css": 309,
+          "cropH_img": 618,
+          "totalPx": 1582080,
+          "liveVsPost": {
+            "DSSIM": "9866.78 (0.150557)",
+            "AE": 49693,
+            "AE_pct": 3.141
+          },
+          "postVsC1Preview": {
+            "DSSIM": "935.57 (0.0142759)",
+            "AE": 21490
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "9906.44 (0.151163)",
+            "liveVsPreview_AE_c1": 51125
+          }
+        },
+        "closing-cta": {
+          "liveTop_css": 3641,
+          "liveH_css": 434,
+          "prevTop_css": 3259,
+          "prevH_css": 494,
+          "cropH_css": 434,
+          "cropH_img": 868,
+          "totalPx": 2222080,
+          "liveVsPost": {
+            "DSSIM": "10636.7 (0.162305)",
+            "AE": 141394,
+            "AE_pct": 6.363
+          },
+          "postVsC1Preview": {
+            "DSSIM": "0.109579 (1.67207e-06)",
+            "AE": 152
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "10636.5 (0.162303)",
+            "liveVsPreview_AE_c1": 141378
+          }
+        },
+        "footer": {
+          "liveTop_css": 4074,
+          "liveH_css": 415,
+          "prevTop_css": 3753,
+          "prevH_css": 376,
+          "cropH_css": 376,
+          "cropH_img": 752,
+          "totalPx": 1925120,
+          "liveVsPost": {
+            "DSSIM": "11680.2 (0.178229)",
+            "AE": 117072,
+            "AE_pct": 6.081
+          },
+          "postVsC1Preview": {
+            "DSSIM": "0 (0)",
+            "AE": 0
+          },
+          "c1Reference": {
+            "liveVsPreview_DSSIM_c1": "11680.2 (0.178229)",
+            "liveVsPreview_AE_c1": 117072
+          }
+        }
+      }
+    }
+  }
+}
