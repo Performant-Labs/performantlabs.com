@@ -19,7 +19,17 @@
     }
   ],
   "pages": [
-    ["homepage", "/"],
-    ["articles", "/articles"]
+    ["Homepage (v2)", "/"],
+    ["Services", "/services"],
+    ["How a testing engagement runs", "/how-we-do-it"],
+    ["Open Source Projects", "/open-source-projects"],
+    ["Introduction to ATK", "/page/11"],
+    ["Articles", "/articles-v2"],
+    ["Contact Us", "/contact-us"],
+    ["Automated testing", "/automated-testing"],
+    ["How We Built This Site", "/how-we-built-this-site"],
+    ["About Us", "/about-us"],
+    ["Documentation", "/docs"],
+    ["CTRFHub", "/ctrfhub"]
   ]
 }
