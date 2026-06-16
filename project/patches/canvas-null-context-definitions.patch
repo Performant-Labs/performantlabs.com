@@ -1,0 +1,10 @@
+--- a/src/Plugin/Canvas/ComponentSource/BlockComponentDiscovery.php
++++ b/src/Plugin/Canvas/ComponentSource/BlockComponentDiscovery.php
+@@ -112,7 +112,7 @@ class BlockComponentDiscovery implements ComponentDiscoveryInterface {
+     $plugin_definition = $block->getPluginDefinition();
+     \assert(\is_array($plugin_definition));
+     $required_contexts = array_filter(
+-      $plugin_definition['context_definitions'],
++      $plugin_definition['context_definitions'] ?? [],
+       fn (ContextDefinitionInterface $definition): bool => $definition->isRequired(),
+     );
