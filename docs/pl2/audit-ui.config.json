@@ -10,6 +10,14 @@
   "navSelector": "[data-drupal-selector=\"mobile-nav-button\"]",
   "auditDir": "docs/pl2/handoffs/audits",
   "toolsDir": "~/Sites/ai_guidance/pipelines/website-audit/core/tools",
+  "stateInvariants": [
+    {
+      "surface": "mobile-nav",
+      "selector": "[data-drupal-selector=\"mobile-nav-button\"]",
+      "page": "/",
+      "viewport": { "width": 375, "height": 812 }
+    }
+  ],
   "pages": [
     ["homepage", "/"],
     ["articles", "/articles"]
