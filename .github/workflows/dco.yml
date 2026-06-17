@@ -36,15 +36,7 @@ jobs:
         run: |
           REQUIRED="false"
           if [[ -f ".agents/pr-review.yml" ]]; then
-            val=$(python3 -c '
-import yaml
-try:
-    with open(".agents/pr-review.yml") as f:
-        d = yaml.safe_load(f) or {}
-    print("true" if (d.get("dco") or {}).get("required") is True else "false")
-except Exception:
-    print("false")
-' 2>/dev/null || echo "false")
+            val=$(python3 -c 'import re,sys; t=open(".agents/pr-review.yml").read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M) else "false")' 2>/dev/null || echo "false")
             [[ "$val" == "true" ]] && REQUIRED="true"
           fi
           echo "required=${REQUIRED}" >> "$GITHUB_OUTPUT"
