@@ -35,10 +35,10 @@ jobs:
         id: cfg
         run: |
           REQUIRED="false"
-          if [[ -f ".agents/pr-review.yml" ]]; then
-            val=$(python3 -c 'import re,sys; t=open(".agents/pr-review.yml").read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M|re.I) else "false")' 2>/dev/null || echo "false")
-            [[ "$val" == "true" ]] && REQUIRED="true"
-          fi
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          val=$(git show "origin/${BASE_REF}:.agents/pr-review.yml" 2>/dev/null | \
+            python3 -c 'import re,sys; t=sys.stdin.read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M|re.I) else "false")' 2>/dev/null || echo "false")
+          [[ "$val" == "true" ]] && REQUIRED="true"
           echo "required=${REQUIRED}" >> "$GITHUB_OUTPUT"
           echo "DCO required: ${REQUIRED}"
 
