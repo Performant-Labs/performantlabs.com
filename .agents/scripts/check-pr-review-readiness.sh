@@ -152,7 +152,7 @@ if [[ "$DUAL_ENABLED" == "true" ]]; then
 
   # Source .env to check for key
   # shellcheck disable=SC1091
-  [[ -f ".env" ]] && set -a && source .env && set +a 2>/dev/null || true
+  if [[ -f ".env" ]]; then set -a; source .env 2>/dev/null || true; set +a; fi
 
   if [[ -n "${OPENAI_API_KEY:-}" ]]; then
     echo "${PASS} OPENAI_API_KEY found in environment"

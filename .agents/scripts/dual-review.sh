@@ -308,10 +308,13 @@ else
     "$PROMPT_TMP" > "$PAYLOAD_TMP"
 fi
 
+_auth_tmp=$(mktemp)
+printf 'header = "Authorization: Bearer %s"\n' "${OPENAI_API_KEY}" > "$_auth_tmp"
 RESPONSE=$(curl -s -X POST https://api.openai.com/v1/responses \
-  -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+  -K "$_auth_tmp" \
   -H "Content-Type: application/json" \
   --data-binary "@${PAYLOAD_TMP}")
+rm -f "$_auth_tmp"
 
 OUTPUT=$(echo "$RESPONSE" \
   | jq -r '.output[] | select(.type=="message") | .content[] | select(.type=="output_text") | .text' \
