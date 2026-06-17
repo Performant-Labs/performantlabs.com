@@ -1,0 +1,32 @@
+# .agents/pr-review.yml — PR reviewer config for performantlabs.com
+
+project:
+  name: "performantlabs.com"
+  timezone: "America/Los_Angeles"
+
+pr_agent:
+  enabled: true
+  model: "deepseek/deepseek-v4-pro"
+  skip_docs_only: false
+  status_check: true
+  cancel_in_flight: true
+
+local_review:
+  enabled: true
+  default_model: "claude-sonnet-4-6"
+  shell_alias: ""
+
+dual_review:
+  enabled: false
+
+dco:
+  enabled: true
+
+pr_template:
+  enabled: true
+
+test_tiers:
+  t1_headless: false
+  t2_aria: true
+  t2_5_authenticated: false
+  t3_visual: false
