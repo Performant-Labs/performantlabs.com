@@ -10,6 +10,9 @@
   "navSelector": "[data-drupal-selector=\"mobile-nav-button\"]",
   "auditDir": "docs/pl2/handoffs/audits",
   "toolsDir": "~/Sites/ai_guidance/pipelines/website-audit/core/tools",
+  "cookies": [
+    { "name": "Deterrence-Bypass", "value": "1", "domain": "dev-performant-labs-v2.pantheonsite.io", "path": "/" }
+  ],
   "stateInvariants": [
     {
       "surface": "mobile-nav",
