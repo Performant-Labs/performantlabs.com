@@ -30,3 +30,6 @@ test_tiers:
   t2_aria: true
   t2_5_authenticated: false
   t3_visual: false
+
+dco:
+  required: false
