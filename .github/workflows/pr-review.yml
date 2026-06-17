@@ -1,0 +1,315 @@
+name: PR-Agent Spec Review
+
+# ── Canonical template from ai_guidance/pipelines/pr-reviewer/
+# Feature flags are driven by .agents/pr-review.yml in the project root.
+# A "Read config" step at the start of the job sets GITHUB_OUTPUT entries
+# that subsequent steps gate on.
+#
+# DISPLAY_TZ repo variable (optional): set in GitHub → repo → Settings →
+# Variables → Actions to localise banner timestamps (e.g. "America/Los_Angeles").
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review, synchronize]
+  issue_comment:
+    types: [created]   # slash commands: /review /describe /improve /ask
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  statuses: write   # required for the commit status check step
+
+concurrency:
+  group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}
+  # Cancel in-flight reviews when a newer commit lands.
+  # Controlled by pr_agent.cancel_in_flight — set cancel-in-progress: false
+  # in a project fork of this template if the flag is off.
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true   # Node 20 deprecated June 2026
+
+jobs:
+  pr-agent:
+    # Skip bot-authored events and drafts (unless slash-command triggered).
+    #
+    # The issue_comment filter — startsWith(comment.body, '/') — prevents
+    # random PR comments (app notifications, human chatter) from triggering
+    # a review run and then being cancelled by cancel-in-progress, which would
+    # abort a legitimate in-flight review. Only explicit slash commands fire.
+    if: |
+      github.event.sender.type != 'Bot' &&
+      (!github.event.pull_request.draft || github.event.issue.pull_request) &&
+      (github.event_name != 'issue_comment' ||
+       startsWith(github.event.comment.body, '/review') ||
+       startsWith(github.event.comment.body, '/describe') ||
+       startsWith(github.event.comment.body, '/improve') ||
+       startsWith(github.event.comment.body, '/ask'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      # ── Read project config ──────────────────────────────────────────────
+      # Parses .agents/pr-review.yml (if present) and exports feature flags
+      # as GITHUB_OUTPUT. Falls back to safe defaults when the file is absent.
+      - name: Read pr-review config
+        id: cfg
+        run: |
+          CONFIG=".agents/pr-review.yml"
+          if command -v yq &>/dev/null; then
+            get() { yq e "${1} // \"${2}\"" "$CONFIG" 2>/dev/null || echo "$2"; }
+          else
+            get() {
+              local k="${1##*.}" d="$2"
+              grep -E "^\s*${k}:" "$CONFIG" 2>/dev/null | head -1 \
+                | sed 's/.*: *//;s/"//g;s/\r//' || echo "$d"
+            }
+          fi
+
+          if [[ -f "$CONFIG" ]]; then
+            HIGH_STAKES_LABEL="$(get '.pr_agent.high_stakes_label' 'high-stakes')"
+            SCORE_LABELS="$(get '.pr_agent.score_labels' 'true')"
+            SCORE_BANNER="$(get '.pr_agent.score_banner' 'true')"
+            STATUS_CHECK="$(get '.pr_agent.status_check' 'true')"
+            MODEL="$(get '.pr_agent.model' 'deepseek/deepseek-v4-pro')"
+          else
+            HIGH_STAKES_LABEL="high-stakes"
+            SCORE_LABELS="true"
+            SCORE_BANNER="true"
+            STATUS_CHECK="true"
+            MODEL="deepseek/deepseek-v4-pro"
+          fi
+
+          {
+            echo "high_stakes_label=${HIGH_STAKES_LABEL}"
+            echo "score_labels=${SCORE_LABELS}"
+            echo "score_banner=${SCORE_BANNER}"
+            echo "status_check=${STATUS_CHECK}"
+            echo "model=${MODEL}"
+          } >> "$GITHUB_OUTPUT"
+
+      # ── Resolve PR labels ────────────────────────────────────────────────
+      # github.event.pull_request.labels is null for issue_comment events.
+      # Fetch live labels so the high-stakes check works for /review too.
+      - name: Resolve PR labels
+        id: labels
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HIGH_STAKES_LABEL: ${{ steps.cfg.outputs.high_stakes_label }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number || github.event.issue.number }}"
+          if [[ -z "$PR_NUM" || "$PR_NUM" == "null" ]]; then
+            echo "high_stakes=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          LABELS=$(gh pr view "$PR_NUM" --repo "${{ github.repository }}" \
+            --json labels --jq '[.labels[].name] | join(",")' 2>/dev/null || echo "")
+          if echo "$LABELS" | grep -qF "$HIGH_STAKES_LABEL"; then
+            echo "high_stakes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "high_stakes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── PR-Agent review (default) ────────────────────────────────────────
+      # qodo-ai/pr-agent is pinned to a commit SHA, not @main, so upstream
+      # behavior changes can't silently alter review output. Bump deliberately:
+      #   1. gh api repos/qodo-ai/pr-agent/commits/main -q '.sha'
+      #   2. update both SHA references below
+      #   3. open a PR — PR-Agent reviews itself with the new SHA
+      - name: PR-Agent review (default)
+        id: review-default
+        if: ${{ steps.labels.outputs.high_stakes != 'true' }}
+        continue-on-error: true
+        uses: qodo-ai/pr-agent@31d7dd027968e5fad1f9cbb074be047c4869058e
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG.MODEL: ${{ steps.cfg.outputs.model }}
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "131072"
+          CONFIG.MAX_MODEL_TOKENS: "64000"
+          CONFIG.FALLBACK_MODELS: '["deepseek/deepseek-v4-pro"]'
+          GITHUB_ACTION_CONFIG.PR_ACTIONS: '["opened","reopened","ready_for_review","review_requested","synchronize"]'
+          GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
+          GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
+          PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
+          PR_REVIEWER.REQUIRE_SCORE_REVIEW: "true"
+
+      # ── PR-Agent review (high-stakes) ────────────────────────────────────
+      - name: PR-Agent review (high-stakes)
+        id: review-highstakes
+        if: ${{ steps.labels.outputs.high_stakes == 'true' }}
+        continue-on-error: true
+        uses: qodo-ai/pr-agent@31d7dd027968e5fad1f9cbb074be047c4869058e
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG.MODEL: ${{ steps.cfg.outputs.model }}
+          CONFIG.CUSTOM_MODEL_MAX_TOKENS: "131072"
+          CONFIG.MAX_MODEL_TOKENS: "64000"
+          CONFIG.FALLBACK_MODELS: '["deepseek/deepseek-v4-pro"]'
+          GITHUB_ACTION_CONFIG.PR_ACTIONS: '["opened","reopened","ready_for_review","review_requested","synchronize"]'
+          GITHUB_ACTION_CONFIG.AUTO_REVIEW: "true"
+          GITHUB_ACTION_CONFIG.AUTO_IMPROVE: "false"
+          PR_REVIEWER.REQUIRE_TICKET_ANALYSIS_REVIEW: "false"
+          PR_REVIEWER.REQUIRE_SCORE_REVIEW: "true"
+
+      # ── Score-bracket label ──────────────────────────────────────────────
+      - name: Apply score-bracket label
+        if: |
+          always() &&
+          steps.cfg.outputs.score_labels == 'true' &&
+          (steps.review-default.outcome == 'success' || steps.review-highstakes.outcome == 'success')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number || github.event.issue.number }}"
+          [[ -z "$PR_NUM" || "$PR_NUM" == "null" ]] && { echo "No PR number — skip"; exit 0; }
+
+          gh label create 'score-90+'     --color '0e8a16' --description 'PR-Agent score 90-100 (ship)'              --repo "${{ github.repository }}" 2>/dev/null || true
+          gh label create 'score-80-89'   --color 'fbca04' --description 'PR-Agent score 80-89 (review carefully)'  --repo "${{ github.repository }}" 2>/dev/null || true
+          gh label create 'score-70-79'   --color 'e99695' --description 'PR-Agent score 70-79 (address suggestions)'--repo "${{ github.repository }}" 2>/dev/null || true
+          gh label create 'score-below-70'--color 'b60205' --description 'PR-Agent score <70 (probable blocking issues)'--repo "${{ github.repository }}" 2>/dev/null || true
+
+          LATEST=$(gh api "repos/${{ github.repository }}/issues/$PR_NUM/comments" \
+            --jq '[.[] | select(.user.login=="github-actions[bot]") | .body] | last // ""')
+          SCORE=$(echo "$LATEST" | grep -oE '[Ss]core[^0-9]{0,30}[0-9]+' | grep -oE '[0-9]+' | head -1)
+          [[ -z "$SCORE" ]] && { echo "No score — skip label"; exit 0; }
+          echo "Score: $SCORE"
+
+          for L in 'score-90+' 'score-80-89' 'score-70-79' 'score-below-70'; do
+            gh issue edit "$PR_NUM" --remove-label "$L" --repo "${{ github.repository }}" 2>/dev/null || true
+          done
+
+          if   (( SCORE >= 90 )); then BRACKET='score-90+'
+          elif (( SCORE >= 80 )); then BRACKET='score-80-89'
+          elif (( SCORE >= 70 )); then BRACKET='score-70-79'
+          else                         BRACKET='score-below-70'
+          fi
+          gh issue edit "$PR_NUM" --add-label "$BRACKET" --repo "${{ github.repository }}"
+          echo "Applied: $BRACKET"
+
+      # ── Score banner ─────────────────────────────────────────────────────
+      - name: Inject score banner into PR description
+        if: |
+          always() &&
+          steps.cfg.outputs.score_banner == 'true' &&
+          (steps.review-default.outcome == 'success' || steps.review-highstakes.outcome == 'success')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          COMMENT_BODY: ${{ github.event.comment.body }}
+          COMMENT_USER: ${{ github.event.comment.user.login }}
+          COMMENT_URL: ${{ github.event.comment.html_url }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+          DISPLAY_TZ: ${{ vars.DISPLAY_TZ }}
+          MODEL: ${{ steps.cfg.outputs.model }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number || github.event.issue.number }}"
+          [[ -z "$PR_NUM" || "$PR_NUM" == "null" ]] && { echo "No PR number — skip"; exit 0; }
+
+          gh api "repos/${REPO}/issues/$PR_NUM/comments" > /tmp/pr-comments.json
+          REVIEW_BODY=$(jq -r '[.[] | select(.user.login=="github-actions[bot]") | select(.body | contains("Reviewer Guide"))] | last.body // ""' /tmp/pr-comments.json)
+          REVIEW_URL=$(jq  -r '[.[] | select(.user.login=="github-actions[bot]") | select(.body | contains("Reviewer Guide"))] | last.html_url // ""' /tmp/pr-comments.json)
+          SCORE=$(printf '%s' "$REVIEW_BODY" | grep -oE '[Ss]core[^0-9]{0,30}[0-9]+' | grep -oE '[0-9]+' | head -1)
+          [[ -z "$SCORE" ]] && { echo "No score — skip banner"; exit 0; }
+
+          if   (( SCORE >= 90 )); then BRACKET='score-90+';    EMOJI='🟢'
+          elif (( SCORE >= 80 )); then BRACKET='score-80-89';  EMOJI='🟡'
+          elif (( SCORE >= 70 )); then BRACKET='score-70-79';  EMOJI='🟠'
+          else                         BRACKET='score-below-70'; EMOJI='🔴'
+          fi
+
+          YES="⚠️ [yes](${REVIEW_URL})"
+          printf '%s' "$REVIEW_BODY" | grep -qi  'No security concerns' && SEC="none ✅"   || SEC="$YES"
+          printf '%s' "$REVIEW_BODY" | grep -qi  'No major issues'      && MAJOR="none ✅" || MAJOR="$YES"
+          printf '%s' "$REVIEW_BODY" | grep -qiE 'Key issues to review' && MINOR="$YES"    || MINOR="none ✅"
+
+          case "$EVENT_NAME" in
+            issue_comment)
+              CMD=$(printf '%s' "$COMMENT_BODY" | grep -oE '^/[a-zA-Z]+' | head -1)
+              [[ -z "$CMD" ]] && CMD='comment'
+              TRIGGER_DESC="\`${CMD}\` by @${COMMENT_USER}"
+              SPECIFIC=" · [comment](${COMMENT_URL})" ;;
+            pull_request|pull_request_target)
+              TRIGGER_DESC="\`pull_request.${EVENT_ACTION}\`"
+              [[ -n "$HEAD_SHA" && "$HEAD_SHA" != "null" ]] \
+                && SPECIFIC=" · [commit ${HEAD_SHA:0:7}](https://github.com/${REPO}/commit/${HEAD_SHA})" \
+                || SPECIFIC="" ;;
+            *) TRIGGER_DESC="\`${EVENT_NAME}\`"; SPECIFIC="" ;;
+          esac
+
+          RUN_URL="https://github.com/${REPO}/actions/runs/${RUN_ID}"
+          NOW_UTC=$(date -u '+%Y-%m-%d %H:%M UTC')
+          if [[ -n "${DISPLAY_TZ:-}" ]]; then
+            NOW_LOCAL=$(TZ="$DISPLAY_TZ" date '+%Y-%m-%d %H:%M %Z')
+            NOW_DISPLAY="${NOW_LOCAL} / ${NOW_UTC}"
+          else
+            NOW_DISPLAY="$NOW_UTC"
+          fi
+          MODEL_SHORT="${MODEL##*/}"
+
+          gh pr view "$PR_NUM" --json body --jq .body --repo "${REPO}" > /tmp/pr-body-current.md
+          sed -i.bak '/<!-- argos-status:start -->/,/<!-- argos-status:end -->/d' /tmp/pr-body-current.md
+          rm -f /tmp/pr-body-current.md.bak
+
+          cat > /tmp/pr-body-banner.md <<EOFBANNER
+          <!-- argos-status:start -->
+          > ${EMOJI} **PR-Agent Score: ${SCORE}** \`${BRACKET}\` · model: \`${MODEL_SHORT}\`
+          > 🔒 **Security:** ${SEC} · ⚡ **Major:** ${MAJOR} · 🔍 **Minor:** ${MINOR}
+          > **Triggered by** ${TRIGGER_DESC}${SPECIFIC} · run [#${RUN_ID}](${RUN_URL}) · ${NOW_DISPLAY}
+          <!-- argos-status:end -->
+
+          EOFBANNER
+
+          cat /tmp/pr-body-banner.md /tmp/pr-body-current.md > /tmp/pr-body-new.md
+          gh pr edit "$PR_NUM" --body-file /tmp/pr-body-new.md --repo "${REPO}"
+          echo "Banner injected (score $SCORE)"
+
+      # ── Commit status check ──────────────────────────────────────────────
+      # Green  = PR-Agent ran and returned a score.
+      # Red    = crashed or returned empty — this is NOT a clean pass.
+      - name: PR-Agent review status check
+        if: always() && steps.cfg.outputs.status_check == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUM="${{ github.event.pull_request.number || github.event.issue.number }}"
+          [[ -z "$PR_NUM" || "$PR_NUM" == "null" ]] && { echo "No PR — skip"; exit 0; }
+
+          SHA="${{ github.event.pull_request.head.sha }}"
+          if [[ -z "$SHA" || "$SHA" == "null" ]]; then
+            SHA=$(gh pr view "$PR_NUM" --repo "${{ github.repository }}" --json headRefOid --jq .headRefOid)
+          fi
+
+          BODY=$(gh api "repos/${{ github.repository }}/issues/$PR_NUM/comments" \
+            --jq '[.[] | select(.user.login=="github-actions[bot]") | select(.body | contains("Reviewer Guide")) | .body] | last // ""')
+          SCORE=$(printf '%s' "$BODY" | grep -oiE 'score[^0-9]{0,20}[0-9]{1,3}' | grep -oE '[0-9]{1,3}' | head -1)
+
+          if [[ -n "$SCORE" ]]; then
+            gh api -X POST "repos/${{ github.repository }}/statuses/$SHA" \
+              -f state=success -f context="pr-agent/review" \
+              -f description="Reviewed — score $SCORE" >/dev/null
+          else
+            gh api -X POST "repos/${{ github.repository }}/statuses/$SHA" \
+              -f state=failure -f context="pr-agent/review" \
+              -f description="No score parsed — review failed or empty (not a clean pass)" >/dev/null
+            gh pr comment "$PR_NUM" --repo "${{ github.repository }}" \
+              --body "> ❌ **PR-Agent produced no score** — it likely crashed or returned an empty review. Re-run with \`/review\`."
+            exit 1
+          fi
+
+
+# ── Local review (claude -p) ─────────────────────────────────────────────────
+#
+# NOT automated in CI — GitHub Actions can't access macOS Keychain, so
+# claude.ai OAuth tokens don't work. Run manually from a terminal:
+#
+#   .agents/scripts/pr-review.sh <PR-number>          # stdout only
+#   .agents/scripts/pr-review.sh <PR-number> --post   # post to PR

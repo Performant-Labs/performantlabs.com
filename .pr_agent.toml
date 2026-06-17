@@ -1,0 +1,97 @@
+# .pr_agent.toml — PR-Agent configuration template
+# Part of ai_guidance/pipelines/pr-reviewer/
+#
+# Copy to your project root and customise the extra_instructions section
+# to match your project's skills/, forbidden patterns, and conventions.
+#
+# Docs: https://qodo-merge-docs.qodo.ai/usage-guide/configuration_options/
+
+[config]
+model = "deepseek/deepseek-v4-pro"
+fallback_models = ["deepseek/deepseek-v4-pro"]
+verbosity_level = 1
+max_description_tokens = 1500
+max_commits_tokens = 1500
+custom_model_max_tokens = 131072
+# Raised above the 32K default so full diffs fit without driving the
+# output-token budget negative on large PRs.
+max_model_tokens = 64000
+
+[pr_reviewer]
+require_score_review = true
+require_tests_review = true
+require_security_review = true
+require_focused_review = false
+require_ticket_analysis_review = false
+num_code_suggestions = 4
+inline_code_comments = true
+automatic_review = true
+persistent_comment = true
+final_update_message = false
+extra_instructions = """
+You are the SPEC-ENFORCER for performantlabs.com — a Drupal website with Playwright E2E tests.
+Your job is drift detection, not code improvement.
+
+WHAT THIS PROJECT IS:
+- Drupal website hosted on Pantheon (dev/test/live environments)
+- Playwright E2E tests that run nightly against Pantheon environments
+- Two operating modes: CI mode (fix tests only) and Local mode (fix anything)
+
+MANDATORY CONTEXT — read before scoring:
+1. CLAUDE.md at repo root — operating modes, test healing instructions, forbidden patterns.
+
+PRIMARY JOB — spec drift:
+1. In CI-triggered PRs: does the diff ONLY touch test code? Any website source change (PHP, Twig, JS, CSS) in a CI-originated PR is BLOCKING — the CI runner cannot deploy to Pantheon.
+2. Are secrets committed (API keys, Pantheon tokens, credentials)? = BLOCKING.
+3. Missing Playwright test coverage for new page interactions? = BLOCKING.
+4. Playwright selectors using fragile approaches (XPath, nth-child) when a role/label/text selector is available? = WARN.
+
+SECONDARY JOB — quality:
+- Test flakiness risks (missing waitFor, hardcoded timeouts, shared state between tests).
+- Missing cross-environment compatibility (tests that only work on one Pantheon env).
+
+REVIEW STYLE:
+- Distinguish BLOCKING from NIT.
+- Do not suggest moving test logic into Drupal modules — Playwright tests live in the repo.
+- When in doubt between blocking and nit, prefer nit.
+"""
+
+[pr_code_suggestions]
+num_code_suggestions = 4
+summarize = true
+extra_instructions = """
+Only suggest changes that bring the diff into compliance with skills/*.md or docs/planning/*.md.
+Every suggestion must cite its source (skill filename or spec section).
+Do not suggest refactors or alternative patterns not required by the spec.
+"""
+
+[pr_description]
+publish_description_as_comment = false
+add_original_user_description = true
+keep_original_user_title = true
+
+[github]
+publish_inline_comments = true
+publish_output = true
+publish_output_progress = false
+
+[github_action_config]
+auto_review = true
+auto_improve = false
+pr_actions = ["opened", "reopened", "ready_for_review", "review_requested", "synchronize"]
+
+[litellm]
+drop_params = true
+max_model_len = 131072
+
+[ignore]
+glob = [
+  'package-lock.json',
+  'yarn.lock',
+  'pnpm-lock.yaml',
+  'dist/**',
+  'coverage/**',
+  '*.min.js',
+  '*.min.css',
+  'docs/handoffs/**',
+]
