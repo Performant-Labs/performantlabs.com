@@ -260,13 +260,13 @@ jobs:
           rm -f /tmp/pr-body-current.md.bak
 
           cat > /tmp/pr-body-banner.md <<EOFBANNER
-<!-- argos-status:start -->
-> ${EMOJI} **PR-Agent Score: ${SCORE}** \`${BRACKET}\` · model: \`${MODEL_SHORT}\`
-> 🔒 **Security:** ${SEC} · ⚡ **Major:** ${MAJOR} · 🔍 **Minor:** ${MINOR}
-> **Triggered by** ${TRIGGER_DESC}${SPECIFIC} · run [#${RUN_ID}](${RUN_URL}) · ${NOW_DISPLAY}
-<!-- argos-status:end -->
+          <!-- argos-status:start -->
+          > ${EMOJI} **PR-Agent Score: ${SCORE}** \`${BRACKET}\` · model: \`${MODEL_SHORT}\`
+          > 🔒 **Security:** ${SEC} · ⚡ **Major:** ${MAJOR} · 🔍 **Minor:** ${MINOR}
+          > **Triggered by** ${TRIGGER_DESC}${SPECIFIC} · run [#${RUN_ID}](${RUN_URL}) · ${NOW_DISPLAY}
+          <!-- argos-status:end -->
 
-EOFBANNER
+          EOFBANNER
 
           cat /tmp/pr-body-banner.md /tmp/pr-body-current.md > /tmp/pr-body-new.md
           gh pr edit "$PR_NUM" --body-file /tmp/pr-body-new.md --repo "${REPO}"
