@@ -97,7 +97,7 @@ fi
 
 # Source .env so keys defined there are available.
 # shellcheck disable=SC1091
-[[ -f ".env" ]] && set -a && source .env && set +a
+if [[ -f ".env" ]]; then set -a; source .env || true; set +a; fi
 
 if [[ -z "${OPENAI_API_KEY:-}" ]]; then
   echo "Error: OPENAI_API_KEY is not set" >&2; exit 1
