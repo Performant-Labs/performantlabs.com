@@ -21,6 +21,7 @@ dual_review:
 
 dco:
   enabled: true
+  required: false
 
 pr_template:
   enabled: true
@@ -31,5 +32,3 @@ test_tiers:
   t2_5_authenticated: false
   t3_visual: false
 
-dco:
-  required: false

@@ -36,12 +36,17 @@ jobs:
         run: |
           REQUIRED="false"
           if [[ -f ".agents/pr-review.yml" ]]; then
-            if command -v yq &>/dev/null; then
-              val=$(yq e '.dco.required // "false"' .agents/pr-review.yml 2>/dev/null)
-            else
-              val=$(awk '/^dco:/{in_dco=1;next} in_dco && /^[^ \t]/{in_dco=0} in_dco && /required:/{gsub(/.*required: */,"");gsub(/["\r ]/,"");print;exit}' \
-                    .agents/pr-review.yml 2>/dev/null)
-            fi
+            val=$(python3 - <<'PYEOF'
+import sys
+try:
+    import yaml
+    with open(".agents/pr-review.yml") as f:
+        d = yaml.safe_load(f) or {}
+    print("true" if (d.get("dco") or {}).get("required") is True else "false")
+except Exception:
+    print("false")
+PYEOF
+)
             [[ "$val" == "true" ]] && REQUIRED="true"
           fi
           echo "required=${REQUIRED}" >> "$GITHUB_OUTPUT"
