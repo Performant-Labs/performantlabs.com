@@ -53,7 +53,7 @@ fi
 PR_AGENT_ENABLED="$(cfg_get '.pr_agent.enabled' 'false')"
 LOCAL_ENABLED="$(cfg_get '.local_review.enabled' 'false')"
 DUAL_ENABLED="$(cfg_get '.dual_review.enabled' 'false')"
-DCO_ENABLED="$(cfg_get '.dco.enabled' 'false')"
+DCO_ENABLED="$(cfg_get '.dco.required' 'false')"
 SHELL_ALIAS="$(cfg_get '.local_review.shell_alias' '')"
 
 # ── Method 1: PR-Agent (cloud, GitHub Actions) ────────────────────────────────

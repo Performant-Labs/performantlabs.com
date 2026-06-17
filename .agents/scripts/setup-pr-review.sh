@@ -277,7 +277,7 @@ if $HAS_REMOTE; then
   divider
   heading "DCO sign-off enforcement"
   info "Adds a dco.yml GitHub Actions workflow requiring Signed-off-by on all commits."
-  _default_dco="$(cfg_get '.dco.enabled' 'n')"; [[ "$_default_dco" == "true" ]] && _default_dco="y"
+  _default_dco="$(cfg_get '.dco.required' 'n')"; [[ "$_default_dco" == "true" ]] && _default_dco="y"
   ask_yn "Enable DCO enforcement?" "$_default_dco" && DCO_ENABLED=true
 fi
 
@@ -354,7 +354,7 @@ dual_review:
   on_impl: ${DUAL_IMPL}
 
 dco:
-  enabled: ${DCO_ENABLED}
+  required: ${DCO_ENABLED}
 
 pr_template:
   enabled: ${PR_TEMPLATE_ENABLED}
