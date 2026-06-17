@@ -36,7 +36,7 @@ jobs:
         run: |
           REQUIRED="false"
           if [[ -f ".agents/pr-review.yml" ]]; then
-            val=$(python3 -c 'import re,sys; t=open(".agents/pr-review.yml").read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M) else "false")' 2>/dev/null || echo "false")
+            val=$(python3 -c 'import re,sys; t=open(".agents/pr-review.yml").read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M|re.I) else "false")' 2>/dev/null || echo "false")
             [[ "$val" == "true" ]] && REQUIRED="true"
           fi
           echo "required=${REQUIRED}" >> "$GITHUB_OUTPUT"
