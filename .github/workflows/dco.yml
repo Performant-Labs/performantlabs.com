@@ -1,0 +1,48 @@
+name: DCO sign-off check
+
+# Requires every commit in a PR to carry a Signed-off-by trailer.
+# Enable via dco.enabled: true in .agents/pr-review.yml.
+#
+# Format: Signed-off-by: Your Name <you@example.com>
+# Add with: git commit -s   or   git commit --signoff
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: dco-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  dco:
+    name: DCO sign-off check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Check DCO sign-off on all commits
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          MISSING=0
+          while IFS= read -r SHA; do
+            [ -z "$SHA" ] && continue
+            if ! git log -1 --format="%B" "$SHA" | grep -qE "^Signed-off-by: .+ <.+@.+>"; then
+              SUBJECT=$(git log -1 --format="%s" "$SHA")
+              echo "::error::Commit $SHA ('$SUBJECT') is missing a Signed-off-by trailer."
+              MISSING=$((MISSING + 1))
+            fi
+          done < <(git log --no-merges --format="%H" "$BASE..$HEAD")
+          if [ "$MISSING" -gt 0 ]; then
+            echo "::error::$MISSING commit(s) missing DCO sign-off."
+            echo "::error::Add it with: git commit -s  or  git commit --signoff"
+            exit 1
+          fi
+          echo "All commits have DCO sign-off."
