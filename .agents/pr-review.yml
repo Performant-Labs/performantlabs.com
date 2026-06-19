@@ -1,34 +1,66 @@
-# .agents/pr-review.yml — PR reviewer config for performantlabs.com
+# .agents/pr-review.yml — PR automation config for performantlabs.com
+# Read by: .github/workflows/pr-review.yml (CI) and local review scripts.
+# All keys are optional — defaults are shown in comments.
 
+# ── Project identity ──────────────────────────────────────────────────────────
 project:
   name: "performantlabs.com"
-  timezone: "America/Los_Angeles"
+  timezone: "America/Los_Angeles"  # Any tz database name. Falls back to UTC if omitted.
 
+# ── PR-Agent (CI automated review) ───────────────────────────────────────────
 pr_agent:
-  enabled: true
+  # Model for standard PR reviews (any Qodo-supported model string).
   model: "deepseek/deepseek-v4-pro"
-  skip_docs_only: false
+
+  # Model for PRs carrying high_stakes_label. Use a more capable model here.
+  # Defaults to model if omitted.
+  high_stakes_model: "claude-opus-4-8"
+
+  # Label that triggers the high-stakes review path.
+  high_stakes_label: "high-stakes"  # default: "high-stakes"
+
+  # Fallback if the primary model is unavailable. Omit if same as model.
+  # fallback_model: "deepseek/deepseek-chat"
+
+  # Token limits passed to the model.
+  max_tokens: 131072    # Context window. Default: 131072.
+  output_tokens: 64000  # Max response tokens. Default: 64000.
+
+  # Run PR-Agent's auto-improve pass (inline suggestion comments). Default: false.
+  auto_improve: false
+
+  # Review draft PRs. Default: false (drafts are skipped).
+  review_drafts: false
+
+  # Paths to skip when all changed files match. Issue comment /review always runs.
+  skip_paths: []  # performantlabs.com reviews all file types
+
+  # Inject score + security/major/minor banner into PR description. Default: true.
+  score_banner: true
+
+  # Apply score-bracket label (score-90+, score-80-89, …). Default: true.
+  score_labels: true
+
+  # Post a commit status check on the PR head SHA. Default: true.
   status_check: true
-  cancel_in_flight: true
 
-local_review:
-  enabled: true
-  default_model: "claude-sonnet-4-6"
-  shell_alias: ""
-
-dual_review:
-  enabled: false
-
+# ── DCO sign-off ──────────────────────────────────────────────────────────────
 dco:
-  enabled: true
+  # Require Signed-off-by trailer on every commit. Default: false.
   required: false
 
-pr_template:
-  enabled: true
+# ── Local review (.agents/scripts/pr-review.sh) ───────────────────────────────
+local_review:
+  model: "claude-sonnet-4-6"
 
-test_tiers:
-  t1_headless: false
-  t2_aria: true
-  t2_5_authenticated: false
-  t3_visual: false
+# ── Dual review (o3 gate, OFATS pipeline) ─────────────────────────────────────
+# Used by dual-review.sh locally — no effect in CI.
+dual_review:
+  enabled: false
+  model: "o3"
 
+# ── Spec documents ────────────────────────────────────────────────────────────
+# Used by local review to check for spec drift. Not used in CI.
+spec:
+  paths:
+    - "CLAUDE.md"
