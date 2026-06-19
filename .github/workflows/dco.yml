@@ -18,5 +18,4 @@ env:
 jobs:
   dco:
     uses: Performant-Labs/ai_guidance/.github/workflows/dco-reusable.yml@main
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
