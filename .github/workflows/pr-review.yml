@@ -247,8 +247,12 @@ jobs:
 
           RUN_URL="https://github.com/${REPO}/actions/runs/${RUN_ID}"
           NOW_UTC=$(date -u '+%Y-%m-%d %H:%M UTC')
-          if [[ -n "${DISPLAY_TZ:-}" ]]; then
-            NOW_LOCAL=$(TZ="$DISPLAY_TZ" date '+%Y-%m-%d %H:%M %Z')
+          _tz="${DISPLAY_TZ:-}"
+          if [[ -z "$_tz" && -f ".agents/pr-review.yml" ]]; then
+            _tz=$(grep -m1 'timezone:' .agents/pr-review.yml | sed 's/.*timezone:[[:space:]]*//' | tr -d '"'"'"'"'' | tr -d '[:space:]')
+          fi
+          if [[ -n "$_tz" ]]; then
+            NOW_LOCAL=$(TZ="$_tz" date '+%Y-%m-%d %H:%M %Z')
             NOW_DISPLAY="${NOW_LOCAL} / ${NOW_UTC}"
           else
             NOW_DISPLAY="$NOW_UTC"
