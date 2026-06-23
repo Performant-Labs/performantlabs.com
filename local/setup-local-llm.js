@@ -109,14 +109,14 @@ class LLMSetup {
       console.log('      ollama pull mfdoom/deepseek-coder-v2-tool-calling:latest');
       console.log('   3. Test the healing workflow:');
       console.log('      npm run test:local -- tests/demo-healing.spec.js');
-      console.log('      npm run heal:local');
+      console.log('      npm run local:heal');
     } else {
       console.log('\n❌ Cannot proceed without Ollama.');
       console.log('\n📋 Installation instructions:');
       console.log('   1. Download Ollama: https://ollama.com/download');
       console.log('   2. Install and start: ollama serve');
       console.log('   3. Pull a model: ollama pull mfdoom/deepseek-coder-v2-tool-calling:latest');
-      console.log('   4. Run this setup again: npm run setup:local-llm');
+      console.log('   4. Run this setup again: npm run llm:local:setup');
     }
   }
 }
