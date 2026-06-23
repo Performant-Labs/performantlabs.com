@@ -97,7 +97,7 @@ class LocalTestHealer {
     this.logger.error('No local LLM detected. Please install Ollama or configure OpenCode.');
     this.logger.info('Installation: https://ollama.com/download');
     this.logger.info('Recommended model: `ollama pull mfdoom/deepseek-coder-v2-tool-calling:latest`');
-    this.logger.info('Or run: `npm run setup:local-llm`');
+    this.logger.info('Or run: `npm run llm:local:setup`');
     
     return { available: false, provider: null, recommendedModel: null };
   }
@@ -386,7 +386,7 @@ FIXED TEST CODE:
     const llmCheck = await this.checkLocalLLM();
     if (!llmCheck.available) {
       this.logger.error('Cannot proceed without local LLM.');
-      this.logger.info('Run `npm run setup:local-llm` for setup instructions.');
+      this.logger.info('Run `npm run llm:local:setup` for setup instructions.');
       process.exit(1);
     }
     
@@ -408,7 +408,7 @@ FIXED TEST CODE:
       this.logger.info(`Test Summary: ${reportData.passed} passed, ${reportData.failed} failed, ${reportData.skipped} skipped`);
     } catch (error) {
       this.logger.error(error.message);
-      this.logger.info('Run `npm run test:local` first to generate test report.');
+      this.logger.info('Run `npm run test:local` first to generate the test report.');
       process.exit(1);
     }
     
