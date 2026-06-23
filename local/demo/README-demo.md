@@ -131,7 +131,7 @@ npm run demo:reset
 
 ### **Healing Process**
 1. **CTRF Report**: `test:local` generates `ctrf/ctrf-report.json`
-2. **OpenCode Analysis**: `heal:local` reads report and calls OpenCode CLI
+2. **OpenCode Analysis**: `local:heal` reads report and calls OpenCode CLI
 3. **LLM Prompt**: Includes test details, error messages, and Drupal-specific guidance
 4. **Code Extraction**: Parses LLM response for fixed JavaScript code
 5. **Apply Changes**: Updates test file with user confirmation (auto-accept in demo)
@@ -256,5 +256,5 @@ Or run the full diagnostic:
 ```bash
 npm run demo:reset
 npm run demo:setup
-HEAL_AUTO_ACCEPT=true DEBUG_HEAL=true npm run heal:local
+HEAL_AUTO_ACCEPT=true DEBUG_HEAL=true npm run local:heal
 ```

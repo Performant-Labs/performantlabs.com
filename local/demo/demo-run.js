@@ -40,7 +40,7 @@ async function runDemo() {
     
     // Run healing with auto-accept
     process.env.HEAL_AUTO_ACCEPT = 'true';
-    const healProcess = spawn('npm', ['run', 'heal:local'], {
+    const healProcess = spawn('npm', ['run', 'local:heal'], {
       stdio: 'inherit',
       shell: true
     });
