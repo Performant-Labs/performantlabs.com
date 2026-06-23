@@ -20,7 +20,7 @@ jobs:
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
