@@ -11,7 +11,7 @@ jobs:
   heal-tests:
     # Only run if the issue has the 'auto-heal' label
     if: contains(github.event.issue.labels.*.name, 'auto-heal')
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     permissions:
       contents: write
       pull-requests: write

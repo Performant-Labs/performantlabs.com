@@ -71,7 +71,7 @@ env:
 
 jobs:
   Define-Matrix:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     outputs:
       startTime: ${{ steps.get-output.outputs.startTime }}
       shardIndex: ${{ steps.get-output.outputs.shardIndex }}
@@ -98,7 +98,7 @@ jobs:
       GH_PROJECT_REPONAME: ${{ github.repository }}
       PANTHEON_BRANCH: ${{ format('build-{0}', github.run_attempt) }}
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     steps:
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "For site $PANTHEON_SITE_NAME.$PANTHEON_ENV."
@@ -172,7 +172,7 @@ jobs:
       - run: echo "🍏 Job's status ${{ job.status }}."
 
   Merge-Blob-Reports:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     if: ${{ !cancelled() }}
     needs:
       - Define-Matrix
