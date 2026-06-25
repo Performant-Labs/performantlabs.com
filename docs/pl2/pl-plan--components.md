@@ -29,7 +29,7 @@ All CSS decisions defer to the `theme-change` document family. No component CSS 
 |---|---|---|
 | SDC Styleguide explorer | `/styleguide/explorer` | Browse and preview all registered components |
 | Theme preview | `?theme=performant_labs_20260418` | Compare rendering under the new theme without switching the site default |
-| Component cookbook | [`component-cookbook.md`](../ai_guidance/frameworks/drupal/theming/component-cookbook.md) | Authoritative prop/slot names for every NeonByte component |
+| Component cookbook | [`component-cookbook.md`](../playbook/frameworks/drupal/theming/component-cookbook.md) | Authoritative prop/slot names for every NeonByte component |
 | Component schema | `themes/dripyard_base/components/[name]/[name].component.yml` | Source of truth for component structure |
 
 ---

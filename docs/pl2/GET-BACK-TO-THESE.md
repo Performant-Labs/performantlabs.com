@@ -49,7 +49,7 @@ Created 2026-04-20 during the `articles-2` Canvas page work-stream.
 - Card grid spacing rhythm matches `/articles` (the existing Views Page display) for visual parity.
 - Mobile: header clearance (`--space-for-fixed-header: 80px`) leaves the h1 appropriately clear of the sticky header.
 
-**Follow `docs/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md` protocol.** Save screenshots to the workspace folder as `t3-articles-2-<viewport>-<date>.png`. Append findings to `visual-regression-report.md`.
+**Follow `docs/playbook/frameworks/drupal/theming/visual-regression-strategy.md` protocol.** Save screenshots to the workspace folder as `t3-articles-2-<viewport>-<date>.png`. Append findings to `visual-regression-report.md`.
 
 ---
 

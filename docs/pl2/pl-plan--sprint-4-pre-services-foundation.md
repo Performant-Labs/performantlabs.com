@@ -356,7 +356,7 @@ After Cycle 5 (or Cycle 6 if opened) merges:
 - [`Briefs/archive/pl_homepage_components.md`](Briefs/archive/pl_homepage_components.md) — historical component mapping from the homepage overhaul; archived 2026-05-11. Useful as the pattern reference when authoring per-page component briefs for Services / About / etc.
 - [`GET-BACK-TO-THESE.md`](GET-BACK-TO-THESE.md) — full triage of deferred items (the source of Cycles 2–5).
 - [`post-homepage-next.md`](post-homepage-next.md) — the post-ship priority document (the source of Cycles 1 and 6).
-- `~/Sites/ai_guidance/workflow/workflow-ofts-generic.md` — generic O-F-T-S template (canonical upstream of `workflow-ofts.md`).
-- `~/Sites/ai_guidance/testing/verification-cookbook.md` — T1 / T2 / T3 hierarchy.
-- `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` — curl-first, browser-last efficiency rules.
-- `~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md` — T3 protocol; mandatory Playwright + ImageMagick visual diff.
+- `~/Projects/playbook/workflow/workflow-ofts-generic.md` — generic O-F-T-S template (canonical upstream of `workflow-ofts.md`).
+- `~/Projects/playbook/testing/verification-cookbook.md` — T1 / T2 / T3 hierarchy.
+- `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` — curl-first, browser-last efficiency rules.
+- `~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md` — T3 protocol; mandatory Playwright + ImageMagick visual diff.

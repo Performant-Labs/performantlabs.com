@@ -126,7 +126,7 @@ Full child path list in `/sitemap.xml`.
 
 For pages that do not yet exist or need to be rebuilt as Canvas pages:
 
-1. Follow [`canvas-scripting-protocol.md`](../ai_guidance/frameworks/drupal/theming/canvas-scripting-protocol.md) for the scripting approach
+1. Follow [`canvas-scripting-protocol.md`](../playbook/frameworks/drupal/theming/canvas-scripting-protocol.md) for the scripting approach
 2. Use `drush php-eval` with the Drupal Entity API — **not** manual UI block placement
 3. Verify the Canvas tree structure before saving (correct parent-child slot relationships)
 4. T1 → T2 → T3 verification after each page is assembled
@@ -144,7 +144,7 @@ For pages that do not yet exist or need to be rebuilt as Canvas pages:
 - [ ] Compare against `performant_labs_20260411` baseline screenshots
 - [ ] Approve or flag each page diff
 
-> See [`visual-regression-strategy.md`](../ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md) for the full Backstop.js workflow.
+> See [`visual-regression-strategy.md`](../playbook/frameworks/drupal/theming/visual-regression-strategy.md) for the full Backstop.js workflow.
 
 ---
 

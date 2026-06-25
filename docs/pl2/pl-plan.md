@@ -53,10 +53,10 @@ All CSS decisions — at any stage — defer to this family before any edit is m
 ### References
 | Document | Purpose |
 |---|---|
-| [`ai-guided-theme-generation.md`](../ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md) | Environment preflight, asset collection, drush commands |
-| [`operational-guidance.md`](../ai_guidance/frameworks/drupal/theming/operational-guidance.md) | Known failure patterns — logo dual-location, drush hangs, SVG rules |
-| [`component-cookbook.md`](../ai_guidance/frameworks/drupal/theming/component-cookbook.md) | Authoritative prop/slot names before any SDC override |
-| [`verification-cookbook.md`](../ai_guidance/frameworks/drupal/theming/verification-cookbook.md) | Three-tier verification protocol |
+| [`ai-guided-theme-generation.md`](../playbook/frameworks/drupal/theming/ai-guided-theme-generation.md) | Environment preflight, asset collection, drush commands |
+| [`operational-guidance.md`](../playbook/frameworks/drupal/theming/operational-guidance.md) | Known failure patterns — logo dual-location, drush hangs, SVG rules |
+| [`component-cookbook.md`](../playbook/frameworks/drupal/theming/component-cookbook.md) | Authoritative prop/slot names before any SDC override |
+| [`verification-cookbook.md`](../playbook/frameworks/drupal/theming/verification-cookbook.md) | Three-tier verification protocol |
 
 ---
 

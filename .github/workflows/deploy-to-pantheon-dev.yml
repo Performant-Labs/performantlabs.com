@@ -139,7 +139,7 @@ jobs:
           cp .pantheon.gitignore .gitignore
           rm -rf .git .github .idea
           rm -rf web/core/*.txt
-          rm -rf docs/ai_guidance
+          rm -rf docs/playbook
 
           # Cleans extra .git directories otherwise the module will be interpreted by git
           # as a submodule and will not be added to the repo.

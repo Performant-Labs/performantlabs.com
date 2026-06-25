@@ -2,7 +2,7 @@
 
 **Created:** 2026-06-12
 **Scope:** O-F-A-T-S implementation pipeline + O-W-O audit pipeline
-**Source:** Pipeline review against `~/Sites/ai_guidance` tri-review workflow (2026-06-12)
+**Source:** Pipeline review against `~/Projects/playbook` tri-review workflow (2026-06-12)
 **Posture:** Local-only repo — merge with `--no-ff`, never push, no PRs.
 
 Each stage is independently shippable and leaves the pipeline in a working state.
@@ -59,9 +59,9 @@ Run stages in order; do not start a stage until the prior stage's exit criteria 
 
 ## Stage 2 — Tri-review gates (o3 + Opus 4.8 adversarial reviewers)
 
-**Goal:** Import the ai_guidance tri-review gate. Two outside reviewers on a byte-identical prompt at the two gates; O reconciles.
+**Goal:** Import the playbook tri-review gate. Two outside reviewers on a byte-identical prompt at the two gates; O reconciles.
 
-- [x] Verify `~/Sites/ai_guidance/workflow/dual-review.sh` runs here: `OPENAI_API_KEY` available, `--dump-only` and `--prompt-file` flags work against a sample brief.
+- [x] Verify `~/Projects/playbook/workflow/dual-review.sh` runs here: `OPENAI_API_KEY` available, `--dump-only` and `--prompt-file` flags work against a sample brief.
 - [x] Add gate procedure to orchestrator.md, inherited from `tri-review.md`:
   - **Brief gate** (before F): dump canonical prompt → o3 arm via `--prompt-file` → Opus 4.8 arm as fresh **read-only** subagent (mandatory wrapper — the #56 incident) → O reconciles; `hard` findings amend the brief before F spawns.
   - **Diff gate** (after A PASS, before T): same fan-out on the diff prompt; `hard` findings route back to F.
@@ -102,7 +102,7 @@ Run stages in order; do not start a stage until the prior stage's exit criteria 
 
 ## Stage 4 — Testing depth: stateful surfaces + deterministic a11y
 
-**Goal:** Close finding 5 — the lost-filter bug class. Import the 4-step state invariant from the ai_guidance architecture-audit system into T.
+**Goal:** Close finding 5 — the lost-filter bug class. Import the 4-step state invariant from the playbook architecture-audit system into T.
 
 - [x] Create `docs/pl2/stateful-surfaces.md` — persistent inventory of stateful UI surfaces on shipped pages: filters, pagination, accordion/tab open state, mobile-nav toggle, scroll restoration, search input, theme/language toggles. O updates it whenever a phase ships a new surface.
 - [x] Extend **T** (not a new stage — T already owns structural verification and has browser tooling post-Stage-1) with a **Tier 2.5 interaction suite**: for each inventoried surface the phase touches, run the 4-step invariant via Playwright:

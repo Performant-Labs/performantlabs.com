@@ -119,7 +119,7 @@ Write `docs/pl2/handoffs/phase-8-visual-parity-S.md` per the template in `workfl
 3. `docs/pl2/Briefs/pl_design_brief.md` — visual tokens, typography, responsive behavior block.
 4. `docs/pl2/Briefs/pl_homepage_components.md` — section-to-component mapping.
 5. `docs/pl2/pl-plan--homepage-overhaul.md` §Phase 8 — acceptance criteria source.
-6. `~/Sites/ai_guidance/testing/verification-cookbook.md` — T3 protocol.
+6. `~/Projects/playbook/testing/verification-cookbook.md` — T3 protocol.
 
 ---
 

@@ -52,7 +52,7 @@ Pass 2 cannot start until **one** of the following is true:
 
 Any Layer 4 or Layer 5 change that targets a structural wrapper (region, block, field, layout container, site-main, etc.) **requires (a)**. Writing defensive selectors for wrappers that have not been DOM-verified is the anti-pattern this gate exists to prevent — it was how the 2026-04-20 canvas.css release block accumulated selectors for `.region--content`, `.field--name-field-sections`, and `.field--type-entity-reference-revisions`, all three of which never rendered on the page they were trying to fix.
 
-The verification protocol is defined in [`theming/verification-cookbook.md`](../ai_guidance/frameworks/drupal/theming/verification-cookbook.md) §Tier 1 and §Tier 2. Use the fastest tier that answers "does this wrapper render, and does it impose the constraint we're trying to defeat?"
+The verification protocol is defined in [`theming/verification-cookbook.md`](../playbook/frameworks/drupal/theming/verification-cookbook.md) §Tier 1 and §Tier 2. Use the fastest tier that answers "does this wrapper render, and does it impose the constraint we're trying to defeat?"
 
 **Worksheet addition — Pass 2 entry gate:**
 ```
@@ -160,7 +160,7 @@ This distinction matters for the loop: a structural fix at Layer 3 should not be
 
 ### Step 5 — the AI: Runs T1 + T2 verification
 
-the AI follows the Three-Tier Verification Hierarchy defined in [`theming/verification-cookbook.md`](../ai_guidance/frameworks/drupal/theming/verification-cookbook.md). That document is the authoritative reference — this section names which tiers are mandatory at Step 5 and what counts as passing.
+the AI follows the Three-Tier Verification Hierarchy defined in [`theming/verification-cookbook.md`](../playbook/frameworks/drupal/theming/verification-cookbook.md). That document is the authoritative reference — this section names which tiers are mandatory at Step 5 and what counts as passing.
 
 1. **T1 — Headless (curl + grep), 1–5s.** Clear cache (`ddev drush cr`), curl the target page, and grep for the variable value or selector in the rendered HTML. Mandatory. T1 confirms the CSS file is being served and the token/property is present.
    ```bash
@@ -177,7 +177,7 @@ The human sees nothing unless T1 or T2 fails.
 
 ### Step 6 — Human: Visual sign-off (T3 — only when needed)
 
-T3 (browser screenshot, 60–90s) is the last tier and is **blocking** when the change involves brand colour, typography, spacing, or any decision that cannot be judged from curl or ARIA output. Follow the protocol in [`theming/visual-regression-strategy.md`](../ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md): one screenshot = one design slice vs. one live viewport; pass pre-sliced `designs/NN_*.webp` files (never the full composite); write findings incrementally to the visual regression report before returning.
+T3 (browser screenshot, 60–90s) is the last tier and is **blocking** when the change involves brand colour, typography, spacing, or any decision that cannot be judged from curl or ARIA output. Follow the protocol in [`theming/visual-regression-strategy.md`](../playbook/frameworks/drupal/theming/visual-regression-strategy.md): one screenshot = one design slice vs. one live viewport; pass pre-sliced `designs/NN_*.webp` files (never the full composite); write findings incrementally to the visual regression report before returning.
 
 If the change is purely mechanical (a variable value that was demonstrably wrong, verified at T1/T2), T3 may be skipped. If it involves brand intent, the human is the judge.
 
@@ -246,8 +246,8 @@ the AI reads the following documents at the indicated steps. A human initiating 
 
 | Document | Read at | Purpose |
 |---|---|---|
-| [`themes/dripyard-guidance.md`](../ai_guidance/themes/dripyard-guidance.md) | Step 2 | Complete 5-layer hierarchy reference — used to identify which layer a variable belongs to and what the correct override mechanism is |
-| [`theme-planning/color-management.md`](../ai_guidance/frameworks/drupal/theme-planning/color-management.md) | Step 2 | The `html .theme--*` selector pattern and its specificity rationale |
+| [`themes/dripyard-guidance.md`](../playbook/themes/dripyard-guidance.md) | Step 2 | Complete 5-layer hierarchy reference — used to identify which layer a variable belongs to and what the correct override mechanism is |
+| [`theme-planning/color-management.md`](../playbook/frameworks/drupal/theme-planning/color-management.md) | Step 2 | The `html .theme--*` selector pattern and its specificity rationale |
 | [`docs/pl2/theme-change.md`](theme-change.md) | Step 2 | Full options and rules for this specific subtheme — the working reference for the trace |
 | [`docs/pl2/theme-change--audit.md`](theme-change--audit.md) | Step 2 | Audit of the strategy against actual Dripyard source — clarifies the 5-layer reality and the `libraries-extend` library name format |
 
@@ -255,20 +255,20 @@ the AI reads the following documents at the indicated steps. A human initiating 
 
 | Document | Read at | Purpose |
 |---|---|---|
-| [`theming/verification-cookbook.md`](../ai_guidance/frameworks/drupal/theming/verification-cookbook.md) | Step 5–6 | Authoritative T1/T2/T3 hierarchy — the AI must follow this exactly, never skipping T1 or T2 |
-| [`theming/visual-regression-strategy.md`](../ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md) | Step 6 | T3 visual sign-off protocol — used when appearance judgment is needed |
+| [`theming/verification-cookbook.md`](../playbook/frameworks/drupal/theming/verification-cookbook.md) | Step 5–6 | Authoritative T1/T2/T3 hierarchy — the AI must follow this exactly, never skipping T1 or T2 |
+| [`theming/visual-regression-strategy.md`](../playbook/frameworks/drupal/theming/visual-regression-strategy.md) | Step 6 | T3 visual sign-off protocol — used when appearance judgment is needed |
 
 ### Agent Behaviour
 
 | Document | Read at | Purpose |
 |---|---|---|
-| [`theming/ai-guided-theme-generation.md`](../ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md) | Before Step 1 (agent onboarding) | Master SOP for AI agents doing Drupal theme work — mandatory reading before any action |
-| [`theming/operational-guidance.md`](../ai_guidance/frameworks/drupal/theming/operational-guidance.md) | Step 4–5 | Known failure patterns: drush hangs, logo config dual-location, cache timing — avoids re-discovering gotchas |
-| [`agent/naming.md`](../ai_guidance/agent/naming.md) | Step 4 | Applies if change log entries or new CSS class names are being created |
+| [`theming/ai-guided-theme-generation.md`](../playbook/frameworks/drupal/theming/ai-guided-theme-generation.md) | Before Step 1 (agent onboarding) | Master SOP for AI agents doing Drupal theme work — mandatory reading before any action |
+| [`theming/operational-guidance.md`](../playbook/frameworks/drupal/theming/operational-guidance.md) | Step 4–5 | Known failure patterns: drush hangs, logo config dual-location, cache timing — avoids re-discovering gotchas |
+| [`agent/naming.md`](../playbook/agent/naming.md) | Step 4 | Applies if change log entries or new CSS class names are being created |
 
 ### Component Work (Layer 5 only)
 
 | Document | Read at | Purpose |
 |---|---|---|
-| [`theming/component-cookbook.md`](../ai_guidance/frameworks/drupal/theming/component-cookbook.md) | Step 3–4 (if scope is Layer 5) | Authoritative prop/slot names — required if the approved change resolves to a `libraries-extend` component override |
-| [`theme-planning/theme-component-mapping-plan.md`](../ai_guidance/frameworks/drupal/theme-planning/theme-component-mapping-plan.md) | Step 3–4 (if scope is Layer 5) | Maps design intent to specific SDC components — used when the change affects a component that needs a Twig override, not just CSS |
+| [`theming/component-cookbook.md`](../playbook/frameworks/drupal/theming/component-cookbook.md) | Step 3–4 (if scope is Layer 5) | Authoritative prop/slot names — required if the approved change resolves to a `libraries-extend` component override |
+| [`theme-planning/theme-component-mapping-plan.md`](../playbook/frameworks/drupal/theme-planning/theme-component-mapping-plan.md) | Step 3–4 (if scope is Layer 5) | Maps design intent to specific SDC components — used when the change affects a component that needs a Twig override, not just CSS |

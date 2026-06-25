@@ -39,13 +39,13 @@ Every visitor-facing path from CTA to contact form must resolve without error. T
 
 All agents follow the standing operating rules from `workflow-ofts.md`. Sprint-specific notes:
 
-- **Three-Tier Verification Hierarchy** (`~/Sites/ai_guidance/testing/verification-cookbook.md`): T runs Tier 1 (curl/grep) + Tier 2 (ARIA/structural). S runs Tier 3 (visual). Tier 1 before Tier 2; Tier 2 before Tier 3. Never open a browser until the structural skeleton passes.
+- **Three-Tier Verification Hierarchy** (`~/Projects/playbook/testing/verification-cookbook.md`): T runs Tier 1 (curl/grep) + Tier 2 (ARIA/structural). S runs Tier 3 (visual). Tier 1 before Tier 2; Tier 2 before Tier 3. Never open a browser until the structural skeleton passes.
 - **7-step CSS change workflow** (`docs/pl2/theme-change--workflow.md`): applies if any CSS is touched (unlikely in this sprint — scope is routes, config, and content).
-- **Operational guidance** (`~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md`): curl first, browser last. Efficiency rules and known failure patterns.
-- **Visual regression strategy** (`~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking — S must pass before O commits.
+- **Operational guidance** (`~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md`): curl first, browser last. Efficiency rules and known failure patterns.
+- **Visual regression strategy** (`~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking — S must pass before O commits.
 - **Layer system** (`docs/pl2/theme-change.md`): override at the highest correct layer. L1 (Drupal config) → L3 (tokens) → L5 (component CSS) → L6 (Twig). Never patch at L4.
-- **Dripyard guidance** (`~/Sites/ai_guidance/themes/dripyard-guidance.md`): color architecture, OKLCH, theme wrappers.
-- **Canvas scripting protocol** (`~/Sites/ai_guidance/frameworks/drupal/theming/canvas-scripting-protocol.md`): if any Canvas patches are needed, **preserve `component_version`** — do NOT set to NULL (Canvas throws `OutOfRangeException`; corrected 2026-05-12 by Sprint 10 cycle 2a; see `workflow-ofts.md` §F prompt step 8).
+- **Dripyard guidance** (`~/Projects/playbook/themes/dripyard-guidance.md`): color architecture, OKLCH, theme wrappers.
+- **Canvas scripting protocol** (`~/Projects/playbook/frameworks/drupal/theming/canvas-scripting-protocol.md`): if any Canvas patches are needed, **preserve `component_version`** — do NOT set to NULL (Canvas throws `OutOfRangeException`; corrected 2026-05-12 by Sprint 10 cycle 2a; see `workflow-ofts.md` §F prompt step 8).
 - Read `.component.yml` before referencing any prop name — schema is source of truth.
 - No `!important`. Stage files by explicit path (never `git add .`).
 
@@ -148,11 +148,11 @@ After merge to `main`, delete sprint-1 handoff files. This runbook stays as perm
 | What you need | Where |
 |---|---|
 | O-F-T-S pipeline — agent roles, handoff templates | `docs/pl2/workflow-ofts.md` |
-| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Sites/ai_guidance/testing/verification-cookbook.md` |
+| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Projects/playbook/testing/verification-cookbook.md` |
 | 7-step CSS change workflow | `docs/pl2/theme-change--workflow.md` |
 | CSS layer system and override strategy | `docs/pl2/theme-change.md` |
-| Operational guidance (efficiency rules, curl-first) | `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` |
-| Visual regression strategy (Tier 3 VR gates) | `~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md` |
-| Dripyard color architecture, OKLCH, theme wrappers | `~/Sites/ai_guidance/themes/dripyard-guidance.md` |
-| Layer 4 component-wrapper override pattern | `~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md` |
-| Canvas scripting protocol | `~/Sites/ai_guidance/frameworks/drupal/theming/canvas-scripting-protocol.md` |
+| Operational guidance (efficiency rules, curl-first) | `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` |
+| Visual regression strategy (Tier 3 VR gates) | `~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md` |
+| Dripyard color architecture, OKLCH, theme wrappers | `~/Projects/playbook/themes/dripyard-guidance.md` |
+| Layer 4 component-wrapper override pattern | `~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md` |
+| Canvas scripting protocol | `~/Projects/playbook/frameworks/drupal/theming/canvas-scripting-protocol.md` |

@@ -15,8 +15,8 @@ wiring has a git safety net.
 | `audit-orchestrator.md` | audit (O-W-O) | O |
 | `website-auditor.md` | audit | W |
 
-They are **thin pointers**: each composes the ai_guidance core role
-(`~/Sites/ai_guidance/pipelines/website-{frontend,audit}/core/roles/…`) + the platform adapter
+They are **thin pointers**: each composes the playbook core role
+(`~/Projects/playbook/pipelines/website-{frontend,audit}/core/roles/…`) + the platform adapter
 (`drupal-canvas-sdc`) + this project's profile (`docs/pl2/frontend-pipeline-profile.md`).
 
 ## Install / sync
