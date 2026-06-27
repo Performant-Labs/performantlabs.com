@@ -61,7 +61,7 @@ Trace upward (Pass 1 bottom-up, Pass 2 top-down) per the 7-step workflow. Find t
 4. `docs/pl2/Briefs/pl_homepage_components.md` — feature-card component mapping.
 5. `docs/pl2/theme-change--workflow.md` — the 7-step CSS workflow (mandatory).
 6. `docs/pl2/theme-change.md` — Layer 1–5 system.
-7. `~/Sites/ai_guidance/themes/dripyard-guidance.md` — for grid-helper class discovery (e.g. `grid-wrapper--3col` if used).
+7. `~/Projects/playbook/themes/dripyard-guidance.md` — for grid-helper class discovery (e.g. `grid-wrapper--3col` if used).
 8. The Canvas assembly script for the homepage (find via `grep -r "Tools, AI, and experts" config/`) — useful if the grid template is set there rather than in CSS.
 
 ## Handoff location

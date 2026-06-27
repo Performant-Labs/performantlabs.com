@@ -50,7 +50,7 @@ The 768 overflow is the only currently-broken layout in the entire homepage and 
 4. `docs/pl2/Briefs/pl_homepage_components.md` — hero component mapping.
 5. `docs/pl2/theme-change--workflow.md` — the 7-step CSS workflow (mandatory).
 6. `docs/pl2/theme-change.md` — Layer 1–5 system; pick the highest correct layer.
-7. `~/Sites/ai_guidance/themes/dripyard-guidance.md` — for cascading typography token discovery.
+7. `~/Projects/playbook/themes/dripyard-guidance.md` — for cascading typography token discovery.
 
 ## Handoff location
 

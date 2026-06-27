@@ -12,14 +12,14 @@
 
 All CSS work on this homepage **must** follow the 7-step CSS change workflow at [`docs/pl2/theme-change--workflow.md`](../theme-change--workflow.md). The workflow exists to prevent the per-page-CSS / `!important`-accumulation anti-pattern documented in [`docs/pl2/theme-change.md`](../theme-change.md). The principle is single: every CSS change traces upward to the variable / config layer where the value originates and is fixed there, not at the point of noticing.
 
-Verification follows the **Three-Tier Hierarchy** at [`~/Sites/ai_guidance/testing/verification-cookbook.md`](../../../../ai_guidance/testing/verification-cookbook.md):
+Verification follows the **Three-Tier Hierarchy** at [`~/Projects/playbook/testing/verification-cookbook.md`](../../../../playbook/testing/verification-cookbook.md):
 - **Tier 1** — Headless `curl` checks (HTTP status, CSS variable presence, rendered text, srcset). Runs in seconds.
 - **Tier 2** — ARIA structural skeleton via browser subagent. Component presence, heading levels, button presence.
 - **Tier 3** — Visual regression. Pixel/colour match. **Never runs before Tier 2 passes.**
 
-The full SOP for theme generation is [`~/Sites/ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md`](../../../../ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md). Read Phase 0 before any work begins.
+The full SOP for theme generation is [`~/Projects/playbook/frameworks/drupal/theming/ai-guided-theme-generation.md`](../../../../playbook/frameworks/drupal/theming/ai-guided-theme-generation.md). Read Phase 0 before any work begins.
 
-The Dripyard 4-Layer Color Architecture and the architecturally correct override pattern are in [`~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md`](../../../../ai_guidance/frameworks/drupal/theme-planning/color-management.md) and the Dripyard system overview at [`~/Sites/ai_guidance/themes/dripyard-guidance.md`](../../../../ai_guidance/themes/dripyard-guidance.md). **Read both before writing any color override.**
+The Dripyard 4-Layer Color Architecture and the architecturally correct override pattern are in [`~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md`](../../../../playbook/frameworks/drupal/theme-planning/color-management.md) and the Dripyard system overview at [`~/Projects/playbook/themes/dripyard-guidance.md`](../../../../playbook/themes/dripyard-guidance.md). **Read both before writing any color override.**
 
 ---
 

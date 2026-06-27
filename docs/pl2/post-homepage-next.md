@@ -268,8 +268,8 @@ Ordered by likely impact on future work. Original state-doc numbering is shown i
 |---------------|-------|
 | 7-step CSS change workflow (mandatory for every CSS edit) | `docs/pl2/theme-change--workflow.md` |
 | CSS layer system and override strategy | `docs/pl2/theme-change.md` |
-| Tier 1 / Tier 2 / Tier 3 verification hierarchy | `~/Sites/ai_guidance/testing/verification-cookbook.md` |
-| Dripyard color architecture, OKLCH, theme wrappers | `~/Sites/ai_guidance/themes/dripyard-guidance.md` |
-| Layer 4 component-wrapper override pattern | `~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md` |
-| Efficiency rules, known failure patterns, browser-call cost | `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` |
-| Canvas scripting protocol (drush scr assembly) | `~/Sites/ai_guidance/frameworks/drupal/theming/canvas-scripting-protocol.md` |
+| Tier 1 / Tier 2 / Tier 3 verification hierarchy | `~/Projects/playbook/testing/verification-cookbook.md` |
+| Dripyard color architecture, OKLCH, theme wrappers | `~/Projects/playbook/themes/dripyard-guidance.md` |
+| Layer 4 component-wrapper override pattern | `~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md` |
+| Efficiency rules, known failure patterns, browser-call cost | `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` |
+| Canvas scripting protocol (drush scr assembly) | `~/Projects/playbook/frameworks/drupal/theming/canvas-scripting-protocol.md` |

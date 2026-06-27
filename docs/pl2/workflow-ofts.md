@@ -259,9 +259,9 @@ falling back, and why.
 - `docs/pl2/pl-plan--homepage-overhaul.md` — the runbook (your primary doc)
 - `docs/pl2/workflow-ofts.md` — this workflow spec
 - `docs/pl2/handoffs/` — handoff documents from F, A, T, and S
-- `~/Sites/ai_guidance/workflow/workflow-ofats-generic.md` — full O-F-A-T-S workflow spec
-- `~/Sites/ai_guidance/workflow/auditarchitecture.md` — standalone architecture-audit workflow (O → A → O)
-- `~/Sites/ai_guidance/workflow/workflow-website-audit.md` — website CSS/HTML hierarchy audit workflow (O → W → O)
+- `~/Projects/playbook/workflow/workflow-ofats-generic.md` — full O-F-A-T-S workflow spec
+- `~/Projects/playbook/workflow/auditarchitecture.md` — standalone architecture-audit workflow (O → A → O)
+- `~/Projects/playbook/workflow/workflow-website-audit.md` — website CSS/HTML hierarchy audit workflow (O → W → O)
 ```
 
 ---
@@ -450,11 +450,11 @@ T and O will use to scope their review]
 - `docs/pl2/Briefs/pl_design_brief.md` — visual tokens and design rules
 - `docs/pl2/Briefs/archive/pl_homepage_components.md` — component mapping
 - `docs/pl2/pl-plan--homepage-overhaul.md` — the runbook
-- `~/Sites/ai_guidance/themes/dripyard-guidance.md` — Dripyard system overview
-- `~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md` —
+- `~/Projects/playbook/themes/dripyard-guidance.md` — Dripyard system overview
+- `~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md` —
   Layer 4 override pattern
-- `~/Sites/ai_guidance/testing/verification-cookbook.md` — T1/T2/T3 hierarchy
-- `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` —
+- `~/Projects/playbook/testing/verification-cookbook.md` — T1/T2/T3 hierarchy
+- `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` —
   efficiency rules and known failure patterns
 ```
 
@@ -484,7 +484,7 @@ Write handoff to: docs/pl2/handoffs/phase-[N]-[slug]-A.md
 
 For the full A agent prompt (review dimensions, handoff template, audit mode,
 standalone audit workflow) see `~/.claude/agents/architecture-reviewer.md` and
-`~/Sites/ai_guidance/workflow/architecture-reviewer.md`.
+`~/Projects/playbook/workflow/architecture-reviewer.md`.
 
 ---
 
@@ -616,7 +616,7 @@ in this phase" if none.]
 
 ## Key references
 
-- `~/Sites/ai_guidance/testing/verification-cookbook.md` — T1/T2/T3 hierarchy
+- `~/Projects/playbook/testing/verification-cookbook.md` — T1/T2/T3 hierarchy
   (your primary reference)
 - `docs/pl2/Briefs/pl_design_brief.md` — color tokens for contrast computation
 - `docs/pl2/Briefs/archive/pl_homepage_components.md` — component mapping
@@ -941,8 +941,8 @@ paused pending operator decision.
 - `docs/pl2/Briefs/archive/pl_homepage_components.md` — component mapping
 - `docs/pl2/Previews/homepage.html` — the static reference render
 - `docs/pl2/pl-plan--homepage-overhaul.md` — acceptance criteria source
-- `~/Sites/ai_guidance/testing/verification-cookbook.md` — T3 protocol
-- `~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md`
+- `~/Projects/playbook/testing/verification-cookbook.md` — T3 protocol
+- `~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md`
   — visual comparison protocol
 ```
 
@@ -978,9 +978,9 @@ Report path: docs/pl2/handoffs/audits/[audit-id]/website-audit-[slug]-[phase].ht
 For the full W agent prompt (all telltale-sign dimensions, render phase protocol,
 HTML report structure, project-specific Dripyard checks) see
 `~/.claude/agents/website-auditor.md` and
-`~/Sites/ai_guidance/workflow/website-auditor.md`.
+`~/Projects/playbook/workflow/website-auditor.md`.
 
-The pipeline spec lives at `~/Sites/ai_guidance/workflow/workflow-website-audit.md`.
+The pipeline spec lives at `~/Projects/playbook/workflow/workflow-website-audit.md`.
 
 ---
 
