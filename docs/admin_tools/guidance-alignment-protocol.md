@@ -38,7 +38,7 @@ Present the findings to the user in a numbered list with bidirectional options:
 ## 5. Execution
 Based on the user's choice:
 - **Pull/Update Local**: Perform a `git subtree pull` or `cp` from Source to Target.
-- **Push/Update Upstream**: Copy changes from Target to Source (`~/Sites/ai_guidance`) and commit them in the source repo.
+- **Push/Update Upstream**: Copy changes from Target to Source (`~/Projects/playbook`) and commit them in the source repo.
 - **Merge**: Use a merge tool or manual editing to combine changes before applying to both/either.
 
 ---
