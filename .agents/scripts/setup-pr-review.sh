@@ -13,7 +13,7 @@
 #   GitHub remote present, Playwright in package.json / pyproject.toml
 #
 # After running: copy or symlink the canonical scripts and workflow templates
-# from ai_guidance/pipelines/pr-reviewer/ into this project.
+# from playbook/pipelines/pr-reviewer/ into this project.
 
 set -euo pipefail
 
@@ -372,7 +372,7 @@ ok "Written: .agents/pr-review.yml"
 if [[ -n "$LOCAL_ALIAS" ]]; then
   ALIASES_FILE="${PROJECT_ROOT}/.agents/scripts/shell-aliases.sh"
   TEMPLATE_SRC=""
-  # Find the template relative to this wizard (works from ai_guidance or copied location)
+  # Find the template relative to this wizard (works from playbook or copied location)
   _wizard_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   if [[ -f "${_wizard_dir}/shell-aliases.sh" ]]; then
     TEMPLATE_SRC="${_wizard_dir}/shell-aliases.sh"
