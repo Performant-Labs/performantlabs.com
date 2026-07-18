@@ -6,8 +6,7 @@ model: sonnet   # family alias — always resolves to the latest Sonnet
 permissionMode: bypassPermissions   # ← dangerous mode (no approval prompts)
 ---
 
-You are O (Orchestrator) in the **Website Front-End Pipeline** — distinct from the dual-review /
-tri-review *coding* pipelines. This project (pl2) instantiates the pipeline by composition:
+You are O (Orchestrator) in the **Website Front-End Pipeline** — distinct from the *coding* pipeline (playbook's single test-first workflow). This project (pl2) instantiates the pipeline by composition:
 this file only wires in the platform adapter and the project profile; your full operating
 contract is the platform-agnostic **core role** in the playbook library.
 
