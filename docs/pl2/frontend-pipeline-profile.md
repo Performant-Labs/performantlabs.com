@@ -38,16 +38,19 @@
 - **Stateful-surface inventory:** `docs/pl2/stateful-surfaces.md` + `scripts/state-invariants.config.json`
 - **Nav breakpoint:** re-validate W-06 against pristine 1.1.4 (see elevation runbook Stage 5)
 
-## Tools — single-source from playbook (no copies in this project)
+## Tools — single-source from the playbook / website-audit repos (no copies in this project)
 
-Tool engines are **not** copied into this repo; run them from playbook. Node tools resolve
+Tool engines are **not** copied into this repo. **Audit** tools live in the extracted Website
+Audit repo (`~/Projects/website-audit/core/tools/`); **build** tools (axe, state-invariants) live
+in the playbook front-end pipeline (`~/Projects/playbook/pipelines/website-frontend/core/tools/`).
+Node tools resolve
 their deps from this project's `node_modules` via `NODE_PATH`. Run all commands from the
 project root (`~/Sites/pl-performantlabs.com`).
 
 - **Audit pre-scan (css-scan, pure Python):**
-  `python3 ~/Projects/playbook/pipelines/website-audit/core/tools/css-scan.py --cwd "$PWD" --root web/themes/custom/performant_labs_v2 --injected-prefix=--theme-setting- --injected-prefix=--drupal-displace- --injected-prefix=--offset-from-header --out <run-dir>/css-scan.json`
+  `python3 ~/Projects/website-audit/core/tools/css-scan.py --cwd "$PWD" --root web/themes/custom/performant_labs_v2 --injected-prefix=--theme-setting- --injected-prefix=--drupal-displace- --injected-prefix=--offset-from-header --out <run-dir>/css-scan.json`
 - **Audit render data (render-inspect, node):**
-  `NODE_PATH="$PWD/node_modules" node ~/Projects/playbook/pipelines/website-audit/core/tools/render-inspect.cjs <url> <run-dir>/render-config.json > <run-dir>/render-data.json`
+  `NODE_PATH="$PWD/node_modules" node ~/Projects/website-audit/core/tools/render-inspect.cjs <url> <run-dir>/render-config.json > <run-dir>/render-data.json`
 - **Build T accessibility (axe, node):**
   `AXE_BASE_URL=<url> NODE_PATH="$PWD/node_modules" node ~/Projects/playbook/pipelines/website-frontend/core/tools/axe-check.cjs / /articles`
 - **Build T interaction (state-invariants):**

@@ -15,8 +15,15 @@ wiring has a git safety net.
 | `audit-orchestrator.md` | audit (O-W-O) | O |
 | `website-auditor.md` | audit | W |
 
-They are **thin pointers**: each composes the playbook core role
-(`~/Projects/playbook/pipelines/website-{frontend,audit}/core/roles/…`) + the platform adapter
+> **Pipeline currency (2026-07):** The **audit pipeline was extracted** to its own repo —
+> `github.com/Performant-Labs/website-audit` (local `~/Projects/website-audit`) — so the two audit
+> agents point there, not into the playbook. The playbook front-end pipeline also gained an optional
+> **U (UI-walkthrough)** phase between T and S
+> (`~/Projects/playbook/pipelines/website-frontend/core/roles/ui-walkthrough.md`); it is **not**
+> mirrored here because the name would clobber the shared coding-pipeline `~/.claude/agents/ui-walkthrough.md`
+> — adopt it under a `pl2-ui-walkthrough` name if/when a U phase is run.
+
+They are **thin pointers**: each composes the core role (front-end: `~/Projects/playbook/pipelines/website-frontend/core/roles/…`; audit: `~/Projects/website-audit/core/roles/…`) + the platform adapter
 (`drupal-canvas-sdc`) + this project's profile (`docs/pl2/frontend-pipeline-profile.md`).
 
 ## Install / sync

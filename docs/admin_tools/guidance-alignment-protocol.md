@@ -1,6 +1,11 @@
 # AI Guidance Alignment Protocol
 
-This protocol defines the standard operating procedure for aligning a project's `docs/ai_guidance` directory with the canonical source of truth, ensuring that local improvements are contributed back to the global standard.
+> **⚠️ Largely obsolete (2026-07).** `docs/playbook` is now a **symlink** into the canonical repo
+> (`~/Projects/playbook`), not a vendored subtree — so there is nothing to diff/sync and this
+> bidirectional-alignment tool is a no-op in practice. Its source path was corrected from the old
+> `~/Sites/ai_guidance` to `~/Projects/playbook`; edit the playbook repo directly.
+
+This protocol defines the standard operating procedure for aligning a project's `docs/playbook` directory with the canonical source of truth, ensuring that local improvements are contributed back to the global standard.
 
 ## 1. Context & Scope
 - **Target**: `docs/ai_guidance/` (or `docs/` if mapped differently) within the current project.

@@ -1,5 +1,16 @@
 # O-F-A-T-S Workflow — Multi-Agent Homepage Overhaul
 
+> **⚠️ Superseded / historical (2026-07).** This document describes the pl2 homepage-overhaul's
+> five-agent O-F-A-T-S cycle as it ran. The playbook's generic *coding* work now uses a single
+> test-first pipeline — [`~/Projects/playbook/workflow/workflow-coding-pipeline.md`](../playbook/workflow/workflow-coding-pipeline.md)
+> (shared primitives in [`pipeline-conventions.md`](../playbook/workflow/pipeline-conventions.md)) —
+> with review-rigor as a per-story dial (none / second-opinion / panel) instead of separate
+> dual/tri-review pipelines, plus a conditional Designer (D) phase. The pl2 **website** pipeline
+> (this doc's O-F-A-T-S) remains its own thing; its live role wiring is in
+> [`agents/`](agents/README.md), and the front-end pipeline additionally offers an optional
+> U (UI-walkthrough) phase (see `agents/README.md`). Read this doc for how the overhaul executed;
+> read the playbook for the current canonical workflow.
+
 > **Parent:** [`pl-plan--homepage-overhaul.md`](pl-plan--homepage-overhaul.md)
 > **Purpose:** defines the five-agent pipeline that executes the homepage overhaul phases. Each phase (or sub-phase) becomes one cycle through the pipeline. The Orchestrator drives the pipeline by spawning F/A/T/S subagents itself; the human operator's role depends on the active mode — at kickoff and on hard-stop-floor events in autonomous mode (default), or at every 🛑 checkpoint in human-in-the-loop mode.
 
@@ -259,7 +270,7 @@ falling back, and why.
 - `docs/pl2/pl-plan--homepage-overhaul.md` — the runbook (your primary doc)
 - `docs/pl2/workflow-ofts.md` — this workflow spec
 - `docs/pl2/handoffs/` — handoff documents from F, A, T, and S
-- `~/Projects/playbook/workflow/workflow-ofats-generic.md` — full O-F-A-T-S workflow spec
+- `~/Projects/playbook/workflow/workflow-coding-pipeline.md` — current single coding-pipeline spec (superseded the retired `workflow-ofats-generic.md`)
 - `~/Projects/playbook/workflow/auditarchitecture.md` — standalone architecture-audit workflow (O → A → O)
 - `~/Projects/playbook/workflow/workflow-website-audit.md` — website CSS/HTML hierarchy audit workflow (O → W → O)
 ```
