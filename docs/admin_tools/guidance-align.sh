@@ -18,7 +18,7 @@ if [ -f "$CONFIG_FILE" ]; then
 else
     # Fallback defaults
     GEMINI_MODEL="gemini-2.0-flash-thinking-exp"
-    CANONICAL_SOURCE="$HOME/Sites/ai_guidance"
+    CANONICAL_SOURCE="$HOME/Projects/playbook"
 fi
 
 SOURCE_DIR="$CANONICAL_SOURCE"
