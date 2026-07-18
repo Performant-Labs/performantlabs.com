@@ -14,7 +14,7 @@ This document is a **trackable runbook**. Every phase, commit, and approval chec
 These rules are non-negotiable. They come from `theme-change.md`, `theme-change--workflow.md`, the AI-guided theme generation SOP, `operational-guidance.md`, `color-management.md`, and the `verification-cookbook.md` Tier 2 contrast pattern. Repeating them here so a single read of this file is enough to act safely.
 
 1. **Every CSS change follows the 7-step workflow** at [`theme-change--workflow.md`](theme-change--workflow.md). Trace the variable chain. Override at the highest correct layer. Never override at the point of noticing.
-2. **Every verification follows the Three-Tier Hierarchy.** Tier 1 (`curl`) → Tier 2 (ARIA structural) → Tier 3 (visual). Tier 3 never runs before Tier 2 passes. See [`~/Sites/ai_guidance/testing/verification-cookbook.md`](../../../ai_guidance/testing/verification-cookbook.md).
+2. **Every verification follows the Three-Tier Hierarchy.** Tier 1 (`curl`) → Tier 2 (ARIA structural) → Tier 3 (visual). Tier 3 never runs before Tier 2 passes. See [`~/Projects/playbook/testing/verification-cookbook.md`](../../../ai_guidance/testing/verification-cookbook.md).
 3. **Color overrides use the Layer 4 component-wrapper pattern.** `html .theme--white { --theme-surface: …; }`. Beats Dripyard's inline `<html>` style on specificity. See `Briefs/archive/pl_homepage_components.md` §"How Dripyard's color system actually works."
 4. **Read the `.component.yml` before any prop reference.** Never write a Canvas `component_id`, prop name, slot name, schema value, or entity ID from memory.
 5. **Preserve Canvas `component_version`** in every assembly script — do NOT set to NULL. Canvas throws `OutOfRangeException` on NULL/empty values (discovered Sprint 5 cycle 2, 2026-05-11). For patches: leave the field's existing valid hash untouched. For new components: read the valid hash from the component's `.component.yml` or copy from an existing instance. See `scripts/sprint6-cycle3-nearshore-marker.php` for the idempotent-preserving pattern.
@@ -66,10 +66,10 @@ Every Tier 2 audit confirms: landmark roles (`<header>`, `<main>`, `<footer>`, `
 **Goal:** confirm the environment is ready before any code is written.
 
 **Steps:**
-- [ ] Read [`~/Sites/ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md`](../../../ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md) Phase 0 in full.
-- [ ] Read [`~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md`](../../../ai_guidance/frameworks/drupal/theming/operational-guidance.md) in full.
-- [ ] Read [`~/Sites/ai_guidance/themes/dripyard-guidance.md`](../../../ai_guidance/themes/dripyard-guidance.md) §1–§9 (Stack, Hierarchy, Color, Typography, Layout, Library, Preprocess, SDC).
-- [ ] Read [`~/Sites/ai_guidance/testing/verification-cookbook.md`](../../../ai_guidance/testing/verification-cookbook.md) §Tier 2 (Skeleton-First) and §"Backdrop Changes — Re-run Contrast" in full.
+- [ ] Read [`~/Projects/playbook/frameworks/drupal/theming/ai-guided-theme-generation.md`](../../../ai_guidance/frameworks/drupal/theming/ai-guided-theme-generation.md) Phase 0 in full.
+- [ ] Read [`~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md`](../../../ai_guidance/frameworks/drupal/theming/operational-guidance.md) in full.
+- [ ] Read [`~/Projects/playbook/themes/dripyard-guidance.md`](../../../ai_guidance/themes/dripyard-guidance.md) §1–§9 (Stack, Hierarchy, Color, Typography, Layout, Library, Preprocess, SDC).
+- [ ] Read [`~/Projects/playbook/testing/verification-cookbook.md`](../../../ai_guidance/testing/verification-cookbook.md) §Tier 2 (Skeleton-First) and §"Backdrop Changes — Re-run Contrast" in full.
 - [ ] Read [`pre-flight-checks.md`](pre-flight-checks.md) and complete every item.
 - [ ] Verify SDC Styleguide module is enabled: `ddev drush pm:list --type=module | grep sdc_styleguide`.
 - [ ] Confirm SDC explorer is reachable: `ddev exec "curl -sk -o /dev/null -w '%{http_code}' https://pl-performantlabs.com.3.ddev.site/styleguide/explorer"` (expect `200` or `403`).

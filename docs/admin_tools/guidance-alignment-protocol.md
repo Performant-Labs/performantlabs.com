@@ -1,10 +1,16 @@
 # AI Guidance Alignment Protocol
 
+> **⚠️ Largely obsolete (2026-07).** `docs/ai_guidance` is now a **symlink** into the canonical
+> repo (`~/Projects/playbook`), not a vendored subtree — so there is nothing to diff/sync and this
+> bidirectional-alignment tool is a no-op in practice. It's retained (with its source path
+> corrected from the old `~/Sites/ai_guidance` to `~/Projects/playbook`) only for the rare case a
+> project vendors a real `docs/ai_guidance/` copy instead of symlinking. Edit playbook directly.
+
 This protocol defines the standard operating procedure for aligning a project's `docs/ai_guidance` directory with the canonical source of truth, ensuring that local improvements are contributed back to the global standard.
 
 ## 1. Context & Scope
 - **Target**: `docs/ai_guidance/` (or `docs/` if mapped differently) within the current project.
-- **Source of Truth**: `/Users/andreangelantoni/Sites/ai_guidance`
+- **Source of Truth**: `/Users/andreangelantoni/Projects/playbook`
 - **Goal**: Bidirectional alignment. Pull global updates and contribute local improvements upstream.
 
 ## 2. Deterministic Comparison
@@ -38,7 +44,7 @@ Present the findings to the user in a numbered list with bidirectional options:
 ## 5. Execution
 Based on the user's choice:
 - **Pull/Update Local**: Perform a `git subtree pull` or `cp` from Source to Target.
-- **Push/Update Upstream**: Copy changes from Target to Source (`~/Sites/ai_guidance`) and commit them in the source repo.
+- **Push/Update Upstream**: Copy changes from Target to Source (`~/Projects/playbook`) and commit them in the source repo.
 - **Merge**: Use a merge tool or manual editing to combine changes before applying to both/either.
 
 ---

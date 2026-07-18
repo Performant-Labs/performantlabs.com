@@ -41,12 +41,12 @@ Close the four defensive CSS issues that affect mobile usability and WCAG 2.2 AA
 All agents follow the standing operating rules from `workflow-ofts.md`. Sprint-specific emphasis:
 
 - **7-step CSS change workflow** (`docs/pl2/theme-change--workflow.md`): **mandatory for every CSS edit in this sprint.** All four scope items are CSS. Step 3 layer-approval gate is especially critical for item #2 (P14 dark-zone link color) which touches L3 tokens.
-- **Three-Tier Verification Hierarchy** (`~/Sites/ai_guidance/testing/verification-cookbook.md`): T runs Tier 1 + Tier 2. S runs Tier 3. Curl first, browser last. T must pass before S starts.
-- **Operational guidance** (`~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md`): curl-first principle, efficiency rules, known failure patterns. F should read this before starting.
-- **Visual regression strategy** (`~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking. S compares against current rendered state (no preview HTML for this sprint — regression check only).
+- **Three-Tier Verification Hierarchy** (`~/Projects/playbook/testing/verification-cookbook.md`): T runs Tier 1 + Tier 2. S runs Tier 3. Curl first, browser last. T must pass before S starts.
+- **Operational guidance** (`~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md`): curl-first principle, efficiency rules, known failure patterns. F should read this before starting.
+- **Visual regression strategy** (`~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking. S compares against current rendered state (no preview HTML for this sprint — regression check only).
 - **Layer system** (`docs/pl2/theme-change.md`): L1 (Drupal config) → L3 (`:root` tokens in `base.css`) → L5 (component CSS via `libraries-extend`) → L6 (Twig). Override at the highest correct layer. Never patch at L4.
-- **Dripyard guidance** (`~/Sites/ai_guidance/themes/dripyard-guidance.md`): color architecture, OKLCH-derived token chains, theme-wrapper specificity patterns. Essential for P14 dark-zone token work.
-- **Color management** (`~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md`): Layer 4 component-wrapper override pattern — `html .theme--dark { --token: value; }` beats Dripyard's inline style on specificity.
+- **Dripyard guidance** (`~/Projects/playbook/themes/dripyard-guidance.md`): color architecture, OKLCH-derived token chains, theme-wrapper specificity patterns. Essential for P14 dark-zone token work.
+- **Color management** (`~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md`): Layer 4 component-wrapper override pattern — `html .theme--dark { --token: value; }` beats Dripyard's inline style on specificity.
 - Read `.component.yml` before referencing any prop name — schema is source of truth.
 - No `!important`. Stage files by explicit path (never `git add .`).
 - **WCAG contrast computation is F's and T's responsibility.** F computes and documents ratios in handoff. T cross-checks independently. Both use hex values from CSS files, not screenshots.
@@ -165,11 +165,11 @@ After merge to `main`, delete sprint-2 handoff files and the `aa/pl-mobile-hero-
 | What you need | Where |
 |---|---|
 | O-F-T-S pipeline — agent roles, handoff templates | `docs/pl2/workflow-ofts.md` |
-| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Sites/ai_guidance/testing/verification-cookbook.md` |
+| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Projects/playbook/testing/verification-cookbook.md` |
 | 7-step CSS change workflow (mandatory this sprint) | `docs/pl2/theme-change--workflow.md` |
 | CSS layer system and override strategy | `docs/pl2/theme-change.md` |
-| Operational guidance (curl-first, efficiency rules) | `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` |
-| Visual regression strategy (Tier 3 VR gates) | `~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md` |
-| Dripyard color architecture, OKLCH, theme wrappers | `~/Sites/ai_guidance/themes/dripyard-guidance.md` |
-| Layer 4 component-wrapper override pattern | `~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md` |
+| Operational guidance (curl-first, efficiency rules) | `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` |
+| Visual regression strategy (Tier 3 VR gates) | `~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md` |
+| Dripyard color architecture, OKLCH, theme wrappers | `~/Projects/playbook/themes/dripyard-guidance.md` |
+| Layer 4 component-wrapper override pattern | `~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md` |
 | Design tokens, typography scale, spacing | `docs/pl2/Briefs/pl_design_brief.md` |

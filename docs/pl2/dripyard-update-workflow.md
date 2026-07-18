@@ -51,7 +51,7 @@ ddev drush pm:list --type=theme | grep -E 'dripyard|neonbyte'
 ### 5 — Run the audit pipeline (the regression guard)
 ```bash
 # Scan roots = subtheme only (parents are context-only)
-python3 ~/Sites/ai_guidance/pipelines/website-audit/core/tools/css-scan.py \
+python3 ~/Projects/website-audit/core/tools/css-scan.py \
   --cwd "$PWD" \
   --root web/themes/custom/performant_labs_v2 \
   --injected-prefix=--theme-setting- \
@@ -60,7 +60,7 @@ python3 ~/Sites/ai_guidance/pipelines/website-audit/core/tools/css-scan.py \
   --out docs/pl2/handoffs/audits/$(date +%Y%m%d-%H%M%S)-dripyard-<version>/css-scan.json
 ```
 
-Or launch the full UI: `~/Sites/ai_guidance/pipelines/website-audit/ui/auditctl start`
+Or launch the full UI: `~/Projects/website-audit/ui/auditctl start`
 
 Look for new undefined-var or over-reach warnings that the CHANGELOG didn't flag.
 If the CHANGELOG mentioned API changes, verify the subtheme's `libraries-extend` targets

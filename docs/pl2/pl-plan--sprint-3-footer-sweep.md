@@ -40,12 +40,12 @@ The site footer has accumulated four discrete issues across the homepage and `/s
 
 All agents follow the standing operating rules from `workflow-ofts.md`. Sprint-specific emphasis:
 
-- **Three-Tier Verification Hierarchy** (`~/Sites/ai_guidance/testing/verification-cookbook.md`): T runs Tier 1 + Tier 2. S runs Tier 3. Tier 1 before Tier 2; Tier 2 before Tier 3. Never open a browser until the structural skeleton passes.
+- **Three-Tier Verification Hierarchy** (`~/Projects/playbook/testing/verification-cookbook.md`): T runs Tier 1 + Tier 2. S runs Tier 3. Tier 1 before Tier 2; Tier 2 before Tier 3. Never open a browser until the structural skeleton passes.
 - **7-step CSS change workflow** (`docs/pl2/theme-change--workflow.md`): applies if any CSS is touched. The mobile CTA (P19 option a) would require Twig + possibly CSS; the footer anchor/link fixes are template-only. Step 3 layer trace required for any CSS change.
-- **Operational guidance** (`~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md`): curl first, browser last. Footer link verification is entirely curl-checkable (grep for `href="/contact"` vs `href="/contact-us"`, grep for anchor IDs).
-- **Visual regression strategy** (`~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking. **Cross-page T3 required** — footer renders on every page, so S must screenshot at least 4 pages at desktop + mobile.
+- **Operational guidance** (`~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md`): curl first, browser last. Footer link verification is entirely curl-checkable (grep for `href="/contact"` vs `href="/contact-us"`, grep for anchor IDs).
+- **Visual regression strategy** (`~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md`): Tier 3 VR gates are blocking. **Cross-page T3 required** — footer renders on every page, so S must screenshot at least 4 pages at desktop + mobile.
 - **Layer system** (`docs/pl2/theme-change.md`): if P19 option (a) is chosen, the Twig override is L6; any supporting CSS is L5. Override at the highest correct layer.
-- **Dripyard guidance** (`~/Sites/ai_guidance/themes/dripyard-guidance.md`): neonbyte responsive structure, mobile panel vs header strip DOM positions — essential context for P19 investigation.
+- **Dripyard guidance** (`~/Projects/playbook/themes/dripyard-guidance.md`): neonbyte responsive structure, mobile panel vs header strip DOM positions — essential context for P19 investigation.
 - Read `.component.yml` before referencing any prop name — schema is source of truth.
 - No `!important`. Stage files by explicit path (never `git add .`).
 
@@ -163,14 +163,14 @@ After merge to `main`, delete sprint-3 handoff files. This runbook stays as perm
 | What you need | Where |
 |---|---|
 | O-F-T-S pipeline — agent roles, handoff templates | `docs/pl2/workflow-ofts.md` |
-| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Sites/ai_guidance/testing/verification-cookbook.md` |
+| Three-Tier Verification Hierarchy (T1/T2/T3) | `~/Projects/playbook/testing/verification-cookbook.md` |
 | 7-step CSS change workflow | `docs/pl2/theme-change--workflow.md` |
 | CSS layer system and override strategy | `docs/pl2/theme-change.md` |
-| Operational guidance (curl-first, efficiency rules) | `~/Sites/ai_guidance/frameworks/drupal/theming/operational-guidance.md` |
-| Visual regression strategy (Tier 3 VR gates) | `~/Sites/ai_guidance/frameworks/drupal/theming/visual-regression-strategy.md` |
-| Dripyard color architecture, OKLCH, theme wrappers | `~/Sites/ai_guidance/themes/dripyard-guidance.md` |
-| Layer 4 component-wrapper override pattern | `~/Sites/ai_guidance/frameworks/drupal/theme-planning/color-management.md` |
-| Canvas scripting protocol | `~/Sites/ai_guidance/frameworks/drupal/theming/canvas-scripting-protocol.md` |
+| Operational guidance (curl-first, efficiency rules) | `~/Projects/playbook/frameworks/drupal/theming/operational-guidance.md` |
+| Visual regression strategy (Tier 3 VR gates) | `~/Projects/playbook/frameworks/drupal/theming/visual-regression-strategy.md` |
+| Dripyard color architecture, OKLCH, theme wrappers | `~/Projects/playbook/themes/dripyard-guidance.md` |
+| Layer 4 component-wrapper override pattern | `~/Projects/playbook/frameworks/drupal/theme-planning/color-management.md` |
+| Canvas scripting protocol | `~/Projects/playbook/frameworks/drupal/theming/canvas-scripting-protocol.md` |
 | Design tokens, typography scale, spacing | `docs/pl2/Briefs/pl_design_brief.md` |
 
 ---

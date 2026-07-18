@@ -441,7 +441,7 @@ html .theme--black {
 
 ---
 
-*Sources: Drupal.org theming docs, CSS-Tricks cascade layers guide, Lullabot `@layer` integration, direct inspection of `dripyard_base` source, prior live-run failure patterns in `docs/ai_guidance/operational-guidance.md`.*
+*Sources: Drupal.org theming docs, CSS-Tricks cascade layers guide, Lullabot `@layer` integration, direct inspection of `dripyard_base` source, prior live-run failure patterns in `docs/ai_guidance/frameworks/drupal/theming/operational-guidance.md`.*
 
 ---
 
