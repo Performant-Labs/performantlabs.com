@@ -64,14 +64,14 @@ if [[ "$PR_AGENT_ENABLED" == "true" ]]; then
   if [[ -f ".pr_agent.toml" ]]; then
     echo "${PASS} .pr_agent.toml present"
   else
-    echo "${FAIL} .pr_agent.toml missing — copy from ai_guidance/pipelines/pr-reviewer/templates/"
+    echo "${FAIL} .pr_agent.toml missing — copy from playbook/pipelines/pr-reviewer/templates/"
     ((errors++))
   fi
 
   if [[ -f ".github/workflows/pr-review.yml" ]]; then
     echo "${PASS} .github/workflows/pr-review.yml present"
   else
-    echo "${FAIL} .github/workflows/pr-review.yml missing — copy from ai_guidance/pipelines/pr-reviewer/templates/"
+    echo "${FAIL} .github/workflows/pr-review.yml missing — copy from playbook/pipelines/pr-reviewer/templates/"
     ((errors++))
   fi
 
@@ -93,7 +93,7 @@ if [[ "$LOCAL_ENABLED" == "true" ]]; then
     echo "${FAIL} .agents/scripts/pr-review.sh exists but is not executable (run: chmod +x .agents/scripts/pr-review.sh)"
     ((errors++))
   else
-    echo "${FAIL} .agents/scripts/pr-review.sh missing — copy from ai_guidance/pipelines/pr-reviewer/scripts/"
+    echo "${FAIL} .agents/scripts/pr-review.sh missing — copy from playbook/pipelines/pr-reviewer/scripts/"
     ((errors++))
   fi
 
@@ -127,7 +127,7 @@ if [[ "$LOCAL_ENABLED" == "true" ]]; then
       echo "     Source it from ~/.zshrc if you haven't already."
     else
       echo "${WARN} shell-aliases.sh missing — alias '${SHELL_ALIAS}' not available"
-      echo "     Copy from ai_guidance/pipelines/pr-reviewer/scripts/"
+      echo "     Copy from playbook/pipelines/pr-reviewer/scripts/"
     fi
   fi
 else
@@ -146,7 +146,7 @@ if [[ "$DUAL_ENABLED" == "true" ]]; then
     echo "${FAIL} .agents/scripts/dual-review.sh exists but is not executable"
     ((errors++))
   else
-    echo "${FAIL} .agents/scripts/dual-review.sh missing — copy from ai_guidance/pipelines/pr-reviewer/scripts/"
+    echo "${FAIL} .agents/scripts/dual-review.sh missing — copy from playbook/pipelines/pr-reviewer/scripts/"
     ((errors++))
   fi
 
@@ -180,7 +180,7 @@ if [[ "$DCO_ENABLED" == "true" ]]; then
   if [[ -f ".github/workflows/dco.yml" ]]; then
     echo "${PASS} .github/workflows/dco.yml present"
   else
-    echo "${FAIL} .github/workflows/dco.yml missing — copy from ai_guidance/pipelines/pr-reviewer/templates/"
+    echo "${FAIL} .github/workflows/dco.yml missing — copy from playbook/pipelines/pr-reviewer/templates/"
     ((errors++))
   fi
 fi

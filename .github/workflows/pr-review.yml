@@ -8,14 +8,15 @@ on:
 
 concurrency:
   group: pr-agent-${{ github.event.pull_request.number || github.event.issue.number }}
-  cancel-in-progress: true
+  # never cancel a running review from an issue_comment (every comment, incl. /review, triggers a run)
+  cancel-in-progress: ${{ github.event_name != 'issue_comment' }}
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   pr-review:
-    uses: Performant-Labs/ai_guidance/.github/workflows/pr-review-reusable.yml@main
+    uses: Performant-Labs/playbook/.github/workflows/pr-review-reusable.yml@main
     permissions:
       contents: read
       pull-requests: write
