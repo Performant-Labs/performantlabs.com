@@ -64,8 +64,6 @@ module:
   media_library: 0
   menu_ui: 0
   migrate: 0
-  migrate_plus: 0
-  migrate_tools: 0
   mini_layouts: 0
   mysql: 0
   node: 0
