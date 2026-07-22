@@ -92,3 +92,15 @@
 
 [Layer 5] .grid-wrapper--2col .card__layout → display:flex, flex-direction:column at max-width:991px  css/components/card.css  2026-05-11
   Ruling: L1 not config. L2 not OKLCH. L3 not a theme token. L5 correct — component-scoped override. Defeats Dripyard's @container (width > 600px) { display:grid; grid-template-columns: repeat(2,...) } on .card__layout when the 2-col grid has collapsed to 1-col. The engagement cards have no .card__top (image), so the 2-col grid layout wastes half the card width. Scoped to .grid-wrapper--2col (services-only, confirmed T1 grep 2026-05-11). Also resets padding-inline on .card[class*="theme"] .card__layout. Cycle 2 rework (FU-S5-1).
+
+[Layer 5] .browser-chrome (new SDC)  components/browser-chrome/browser-chrome.css  2026-07-21
+  Ruling: New bespoke component (#276 Wave 2 sub-phase A). No component frames a screenshot in browser-chrome; light card, dark titlebar strip (values asserted directly from html .theme--black tokens in base.css since the titlebar isn't wrapped in a .theme--black zone element). L1 not config. L3 too broad (--theme-* override would restyle every element in the zone, not just this bespoke card shape). L5 correct.
+
+[Layer 5] .code-snippet (new SDC)  components/code-snippet/code-snippet.css  2026-07-21
+  Ruling: New bespoke component (#276 Wave 2 sub-phase A). Dark by design — one of the two spots the approved wireframe confirms dark is semantically native (html .theme--black, "terminal/screenshot containers" per base.css). L1 not config. L3's .theme--black zone is the correct token *source* but this component isn't wrapped in that zone class, so its literal values are reused at L5 rather than the zone selector applied directly. L5 correct.
+
+[Layer 5] .hero.theme--white .hero__block-content > .pill --pill-background-color/--pill-text-color/border-color → white bg + terracotta-deep #8E4A2A  css/components/hero.css  2026-07-21
+  Ruling: #276 Wave 2 sub-phase A dev-status pill. L1 not config. L3 too broad — a --pill-background-color override in html .theme--white would restyle every pill site-wide (tags/chips use the dark-fill default intentionally elsewhere). pill.component.yml has no additional_classes prop, so a modifier class cannot be passed through Canvas inputs — structural scoping via the hero ancestor (.hero.theme--white .pill) is the only mechanism without inventing a new component. L5 correct, matches this file's existing kicker/button/heading override pattern.
+
+[Layer 5] .hero.theme--white .hero__block-content > .code-snippet/.browser-chrome flex-basis:100%/margin-top spacing  css/components/hero.css  2026-07-21
+  Ruling: #276 Wave 2 sub-phase A. Vertical rhythm for the two new hero children within the existing flex row/column layout. L1/L3 ruled out for the same reason as the pill rule above (page-specific hero composition). L5 correct.

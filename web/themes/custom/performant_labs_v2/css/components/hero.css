@@ -289,10 +289,12 @@
     row-gap: var(--spacing-m, 1.5rem);
   }
 
-  /* Heading and text span full width */
+  /* Heading, text, kicker, and pill span full width — none of these are
+     part of the CTA button row. */
   .hero.theme--white .hero__block-content > .heading,
   .hero.theme--white .hero__block-content > .text,
-  .hero.theme--white .hero__block-content > .kicker {
+  .hero.theme--white .hero__block-content > .kicker,
+  .hero.theme--white .hero__block-content > .pill {
     flex-basis: 100%;
   }
 
@@ -321,4 +323,82 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276 — Product-led visual redesign: hero rebuild (Wave 2, sub-phase A)
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * Adds: "Now in development" status pill styling, and vertical spacing
+ * for the new code-snippet + browser-chrome components inside the hero.
+ * See docs/pl2/handoffs/wave2-276/handoff-F.md for the full trace.
+ *
+ * Two-pass trace (2026-07-21):
+ *
+ * Pass 1 — Bottom-up (dev-status pill):
+ *   DOM: .hero.theme--white .hero__block-content > .pill (dripyard_base:pill,
+ *     reused as-is — no additional_classes prop exists on pill.component.yml,
+ *     so a modifier class cannot be passed through Canvas inputs).
+ *   Default styling (pill.css): --pill-background-color: var(--theme-text-color-loud)
+ *     (solid dark fill, light text) — wrong look for the approved wireframe's
+ *     "white pill bg, terracotta-deep border/text" dev-status badge.
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a --pill-background-color override in html .theme--white would
+ *        restyle every pill instance site-wide (tags/chips elsewhere use
+ *        the default dark-fill look intentionally). TOO BROAD. RULED OUT.
+ *   L5 — scope to `.hero.theme--white .pill` (component-scoped, matches the
+ *        existing pattern this file already uses for kicker/button/heading
+ *        overrides within the hero). CORRECT LAYER — pill has no
+ *        additional_classes prop, so structural scoping via the hero
+ *        ancestor is the only mechanism available without inventing a new
+ *        component (reuse-before-create satisfied: dripyard_base:pill
+ *        reused, not replaced).
+ *
+ * WCAG (light .theme--white hero, #FFFFFF surface):
+ *   Pill text/border/dot: --pl-accent-deep #8E4A2A on #FFFFFF = 6.64:1 (AA/AAA)
+ *   — matches RATIONALE.md's "Dev pill (chosen): terracotta-deep on white" row.
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+.hero.theme--white .hero__block-content > .pill {
+  --pill-background-color: #FFFFFF;
+  --pill-background-color-hover: #FFFFFF;
+  --pill-text-color: var(--pl-accent-deep);
+  --pill-text-color-hover: var(--pl-accent-deep);
+  border-color: var(--pl-accent-deep);
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 12px;
+}
+
+.hero.theme--white .hero__block-content > .pill .pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pl-accent-deep);
+  box-shadow: 0 0 6px var(--pl-accent-deep);
+  display: inline-block;
+  margin-inline-end: 6px;
+}
+
+/* ── Code snippet + browser-chrome vertical rhythm within the hero ──────
+ * Both are new components (components/code-snippet, components/browser-chrome)
+ * living in .hero__block-content alongside the heading/subhead/buttons/pill.
+ * Bottom-up: .hero__block-content is display:flex/column (mobile) or
+ * row-wrap (desktop, per the CTA-row rule above) with --spacing-m row-gap —
+ * already provides baseline rhythm; these rules add full-row placement so
+ * neither component gets squeezed into the desktop button-row's inline flow.
+ * L5 — component-scoped, same file/selector family as the rest of this hero
+ * override set. CORRECT LAYER (L1/L3 ruled out for the same reasons as the
+ * pill rule above — page-specific hero composition, not a site-wide token). */
+.hero.theme--white .hero__block-content > .code-snippet,
+.hero.theme--white .hero__block-content > .browser-chrome {
+  flex-basis: 100%;
+  width: 100%;
+  margin-top: var(--spacing-m, 1.5rem);
+}
+
+.hero.theme--white .hero__block-content > .code-snippet {
+  margin-top: 0.5rem;
 }

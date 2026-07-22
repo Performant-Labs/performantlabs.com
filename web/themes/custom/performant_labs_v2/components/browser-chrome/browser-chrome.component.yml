@@ -1,0 +1,52 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Browser Chrome
+status: stable
+group: Performant Labs
+description: >
+  Frames a product screenshot inside a light browser-chrome card with a dark
+  titlebar strip (traffic-light dots + URL bar). Built for #276 (homepage
+  product-led visual redesign) — no existing dripyard component frames a
+  screenshot this way. Outer card follows the site's light-first register;
+  the titlebar stays dark per the approved wireframe ("chrome bar reads
+  better" — see docs/pl2/keytail-design/wireframe-276/RATIONALE.md).
+props:
+  type: object
+  required:
+    - url_label
+  properties:
+    url_label:
+      title: Address-bar label
+      description: Text shown in the fake browser URL bar.
+      type: string
+      examples:
+        - aftersight.performantlabs.com
+    image_alt:
+      title: Screenshot alt text
+      description: Accessible description of the framed screenshot/placeholder.
+      type: string
+      examples:
+        - Aftersight dashboard — CTRF run history and pass/fail summary
+    is_placeholder:
+      title: Render as placeholder
+      description: >
+        When true, renders a labeled placeholder pattern instead of the
+        image slot content — used until a real product screenshot asset
+        replaces it (see #276 prerequisite task).
+      type:
+        - boolean
+        - 'null'
+      examples: [ true ]
+    placeholder_caption:
+      title: Placeholder caption
+      description: Secondary caption line shown only when is_placeholder is true.
+      type:
+        - string
+        - 'null'
+      examples:
+        - 'Real Aftersight dashboard screenshot — swap in when the seeded local instance is captured.'
+slots:
+  screenshot:
+    title: Screenshot content
+    description: >
+      Real screenshot image component (e.g. canvas:image). Ignored while
+      is_placeholder is true.
