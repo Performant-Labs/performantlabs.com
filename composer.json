@@ -407,6 +407,12 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/robots.txt": {
+                    "path": "project/scaffold/robots.txt",
+                    "overwrite": true
+                }
             }
         },
         "installer-paths": {

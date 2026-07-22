@@ -335,9 +335,45 @@
  * outer surface is also white.
  *
  * Layer ruling: L5 — component-scoped structural inset.
- * WCAG: spacing change only; no color or contrast impact. */
+ * WCAG: spacing change only; no color or contrast impact.
+ *
+ * 2026-07-21 rework (epic #267 Wave 1, S-1 / #271 mobile regression):
+ * this rule had no mobile media query, so the full 48px (--sp6) applied
+ * at every viewport including 360px, where it ate 96px out of a ~317px
+ * mobile container — collapsing any 3/4-up card grid inside a
+ * theme--light section to a ~181-221px column (clipped headings, one-
+ * word-per-line body copy). Reproduced on /aftersight "Four pillars"
+ * and "Status" sections (new in Wave 1); the rule itself predates Wave 1
+ * (elevation pass, 2026-06-14) and was written for the wide-viewport
+ * /open-source-projects case only — no mobile case existed to test
+ * against at the time.
+ *
+ * Fix: mobile-first split matching this file's own established
+ * breakpoint convention (see the max-width: 576px/767px queries
+ * elsewhere in this file) and the base dripyard_base section
+ * component's own mobile/desktop inline-padding scale (--sp2 mobile /
+ * --sp4-6 desktop, section.css:68-73). Base (unqueried, mobile) value
+ * drops to --sp2 (16px) — enough to keep card edges off the cream
+ * surface edge without re-triggering the narrow-column collapse;
+ * @media (min-width: 768px) restores the original --sp6 (48px) desktop
+ * inset, unchanged from the pre-rework wide-viewport behavior this rule
+ * was written for.
+ *
+ * Verified: /aftersight pillars + status at 360 no longer clip; 768/1280
+ * unchanged (still 48px, matching the original /open-source-projects
+ * verification target). Blast-radius gate run (component-scoped
+ * cascade-map + perturb) — see handoff-F.md for full output.
+ *
+ * Layer ruling: L5 — component-scoped structural inset (unchanged from
+ * original ruling; this is a responsive refinement, not a new layer). */
 .dy-section.theme--light .dy-section__container {
-  padding-inline: var(--sp6);  /* 48px */
+  padding-inline: var(--sp2);  /* 16px — mobile base */
+}
+
+@media (min-width: 768px) {
+  .dy-section.theme--light .dy-section__container {
+    padding-inline: var(--sp6);  /* 48px — original desktop/tablet value, unchanged */
+  }
 }
 
 /* ─── M5 Cycle 2: "Other modules" thin band ───────────────────────────
