@@ -39,6 +39,8 @@ libraries-extend:
     - performant_labs_v2/header-article
   neonbyte/article-full:
     - performant_labs_v2/article-full
+  core/components.dripyard_base--breadcrumb:
+    - performant_labs_v2/breadcrumb
 
 #
 # Libraries extend will add custom libraries to specified libraries

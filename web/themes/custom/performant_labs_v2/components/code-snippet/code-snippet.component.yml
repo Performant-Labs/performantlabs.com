@@ -1,0 +1,39 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Code Snippet
+status: stable
+group: Performant Labs
+description: >
+  A dark terminal-style card showing a single command + its result line.
+  Built for #276 (homepage product-led visual redesign) — dark by design,
+  one of the two spots the approved wireframe confirms dark is semantically
+  native (html .theme--black, "terminal/screenshot containers" per base.css).
+  Reuse-before-create note: RATIONALE.md flagged CSS-only-on-dripyard_base:text
+  as an alternative; a dedicated SDC was chosen so the command/result pair,
+  aria-label, and prompt styling are structured props instead of raw HTML —
+  see handoff-F "Layer decisions" for the full reuse-search writeup.
+props:
+  type: object
+  required:
+    - command_line
+    - result_line
+  properties:
+    command_line:
+      title: Command line
+      description: The shell command shown after the "$" prompt.
+      type: string
+      examples:
+        - docker run ctrfhub/aftersight
+    result_line:
+      title: Result line
+      description: The result/output line shown after the "→" marker.
+      type: string
+      examples:
+        - your first CTRF report in 60 seconds
+    aria_label:
+      title: Accessible label
+      description: Overrides the default accessible label for the snippet region.
+      type:
+        - string
+        - 'null'
+      examples:
+        - 'Terminal example: docker run ctrfhub/aftersight, your first CTRF report in 60 seconds'

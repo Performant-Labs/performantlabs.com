@@ -1,0 +1,60 @@
+/**
+ * @file
+ * performant_labs_v2 — breadcrumb link color fix (T finding W-1 / issue #280).
+ *
+ * Layer: 5 (component-scoped, libraries-extend on core/components.dripyard_base--breadcrumb).
+ *
+ * Two-pass trace (2026-07-22):
+ *
+ * Pass 1 — Bottom-up:
+ *   .breadcrumb__link { color: var(--breadcrumb-link-color) }
+ *     [dripyard_base/components/_drupal/breadcrumb/breadcrumb.css:85]
+ *   --breadcrumb-link-color: var(--theme-link-color)
+ *     [same file, line 10 — the breadcrumb's own component-scoped custom
+ *     property, defaulting to the shared theme-zone link token]
+ *   --theme-link-color: var(--pl-primary) in html .theme--white/.theme--light/
+ *     .theme--secondary [base.css] → #1893b4
+ *   Live-computed on /services (theme--white ancestor): rgb(24,147,180) =
+ *     #1893b4 on white = 3.12:1 measured by T (below the reported 3.58:1
+ *     figure for large/non-text use — breadcrumb text is 14px/400, body-text
+ *     scale, so the 4.5:1 threshold applies, not the 3.0:1 non-text one).
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — the failing color traces to --theme-link-color / --pl-primary, which
+ *        is NOT breadcrumb-specific: it is the sitewide inline-link color for
+ *        every white/light/secondary-zone <a> in body copy (documented in
+ *        base.css as an intentional, separately-pre-approved 3.5:1 deviation
+ *        for inline links specifically — see base.css's own "WCAG (current)"
+ *        comment on --pl-primary). Retargeting --theme-link-color or
+ *        --pl-primary itself would recolor every inline link sitewide — an
+ *        unapproved, out-of-scope blast radius far beyond #280's breadcrumb
+ *        finding. RULED OUT as too broad.
+ *   L5 — override the breadcrumb's OWN component-scoped custom property,
+ *        --breadcrumb-link-color, which already exists for exactly this
+ *        purpose (dripyard_base's breadcrumb.css defines it as a per-component
+ *        indirection layer, not a re-declaration of the shared token). Scoped
+ *        to .breadcrumb only — zero effect on any other link on the site.
+ *        CORRECT LAYER.
+ *
+ * DOM-inspection gate: satisfied — .breadcrumb__link's ancestor chain and its
+ * --breadcrumb-link-color custom property were traced live via computed-style
+ * inspection on /services (Tier 1/2, see handoff-F fix-pass entry).
+ *
+ * WCAG:
+ *   Resting: --pl-accent-deep #8E4A2A on white #FFFFFF = 6.64:1 (AA/AAA pass)
+ *   Resting: --pl-accent-deep #8E4A2A on cream #F5EFE2 = 5.79:1 (AA/AAA pass)
+ *   Hover:   --pl-primary-deep #005AA0 (unchanged from dripyard's default
+ *            --theme-link-color-hover) on white = 7.07:1 (AAA pass) — hover
+ *            was never the failing state; left alone.
+ *
+ * Reuses the same --pl-accent-deep token already governing the #276 redesign's
+ * pill/kicker/CTA accent family (see hero.css, css-change-log.md) rather than
+ * introducing a fourth brand color choice for this one component.
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+
+.breadcrumb {
+  --breadcrumb-link-color: var(--pl-accent-deep);
+}

@@ -91,6 +91,42 @@
   }
 }
 
+/* S-phase fix (S-A4, 2026-07-22): soft terracotta/teal gradient tint behind
+ * the hero, per the approved light-first wireframe (wireframe.html:120-126).
+ * Live hero previously fell back to a flat white surface (neonbyte's
+ * --hero-background: transparent → .theme--white's --theme-surface,
+ * #FFFFFF) — the wireframe's subtle radial glow was entirely absent.
+ *
+ * Bottom-up: .hero { background-color: var(--hero-background) } in
+ * neonbyte/components/hero/hero.css — a single flat-color declaration, no
+ * gradient layering mechanism exposed via Canvas props (hero.component.yml
+ * has no background-image/gradient prop; theme=white only selects the flat
+ * surface token).
+ *
+ * Top-down:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a gradient is not a --theme-* token value (tokens are flat colors
+ *        throughout this codebase); html .theme--white {} would also apply
+ *        the gradient to every white-zone element sitewide, not just the
+ *        hero. TOO BROAD. RULED OUT.
+ *   L5 — component-scoped `background` shorthand on .hero.theme--white,
+ *        layering the two radial-gradients over the existing cream token
+ *        (--theme-surface-alt, #F5EFE2 — same value as the wireframe's
+ *        --color-bg-alt) instead of the flat white default. CORRECT LAYER.
+ *
+ * Values copied exactly from the approved wireframe (not invented): 70%/55%
+ * ellipse at 50%/0% in terracotta (--pl-accent, α.10), 50%/40% ellipse at
+ * 85%/15% in teal (--pl-primary, α.06) — both existing brand tokens, no new
+ * hex literals. Subtle by design (max α .10); does not affect any text
+ * contrast measured below (all pairings re-verified against the tinted bg,
+ * not just the flat white it replaces). */
+.hero.theme--white {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, color-mix(in srgb, var(--pl-accent) 10%, transparent), transparent 65%),
+    radial-gradient(ellipse 50% 40% at 85% 15%, color-mix(in srgb, var(--pl-primary) 6%, transparent), transparent 60%),
+    var(--theme-surface-alt);
+}
+
 /* Centre the content column — mirrors align_x: center prop behaviour but
    ensures max-width cap is explicit regardless of Canvas context. */
 .hero.theme--white .hero__content {
@@ -143,12 +179,25 @@
    Spec & WCAG (white surface #FFFFFF):
      Headline #1F1A14 (--theme-text-color-loud) on #FFFFFF: 17.29:1 (AAA).
      letter-spacing -2px exact per pl_design_brief.md §typography display-xl.
-     line-height 1.05 per same. */
+     line-height 1.05 per same.
+
+   S-phase fix (S-A2, 2026-07-22, trivial per coordinator instruction):
+     At 1280 the approved #268 copy ("Aftersight — open-source test
+     intelligence, built CTRF-native.") wrapped to 4 lines at max-width 720px,
+     with "CTRF-native." landing nearly alone on the last line (measured
+     line widths: 405/570/562/431px — a visible near-orphan). Container
+     testing confirmed max-width: 820px collapses this to 3 balanced lines
+     (618/786/593px) at 1280, with ZERO effect at 360/768 (both viewports'
+     .hero__content column, 317px/693px, is already narrower than 720px,
+     so raising the cap only engages once the column is wide enough to
+     matter — no mobile/tablet regression). Same font-size (72px desktop /
+     44px mobile) and letter-spacing — this only widens the wrap boundary,
+     it does not diverge from the wireframe's type scale. */
 .hero.theme--white .heading {
   --h1-letter-spacing: -2px;
   line-height: 1.05;
   text-wrap: balance;
-  max-width: 720px;              /* shapes balance into 2-line editorial break */
+  max-width: 820px;              /* was 720px — see S-A2 fix note above */
   margin-inline: auto;
 }
 
@@ -289,7 +338,10 @@
     row-gap: var(--spacing-m, 1.5rem);
   }
 
-  /* Heading and text span full width */
+  /* Heading, text, and kicker span full width — none of these are
+     part of the CTA button row. The pill is EXCLUDED from this group —
+     see the S-phase R1 fix below (pill needs fit-content width, not
+     flex-basis:100%). */
   .hero.theme--white .hero__block-content > .heading,
   .hero.theme--white .hero__block-content > .text,
   .hero.theme--white .hero__block-content > .kicker {
@@ -321,4 +373,210 @@
     align-items: center;
     justify-content: center;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276 — Product-led visual redesign: hero rebuild (Wave 2, sub-phase A)
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * Adds: "Now in development" status pill styling, and vertical spacing
+ * for the new code-snippet + browser-chrome components inside the hero.
+ * See docs/pl2/handoffs/wave2-276/handoff-F.md for the full trace.
+ *
+ * Two-pass trace (2026-07-21):
+ *
+ * Pass 1 — Bottom-up (dev-status pill):
+ *   DOM: .hero.theme--white .hero__block-content > .pill (dripyard_base:pill,
+ *     reused as-is — no additional_classes prop exists on pill.component.yml,
+ *     so a modifier class cannot be passed through Canvas inputs).
+ *   Default styling (pill.css): --pill-background-color: var(--theme-text-color-loud)
+ *     (solid dark fill, light text) — wrong look for the approved wireframe's
+ *     "white pill bg, terracotta-deep border/text" dev-status badge.
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a --pill-background-color override in html .theme--white would
+ *        restyle every pill instance site-wide (tags/chips elsewhere use
+ *        the default dark-fill look intentionally). TOO BROAD. RULED OUT.
+ *   L5 — scope to `.hero.theme--white .pill` (component-scoped, matches the
+ *        existing pattern this file already uses for kicker/button/heading
+ *        overrides within the hero). CORRECT LAYER — pill has no
+ *        additional_classes prop, so structural scoping via the hero
+ *        ancestor is the only mechanism available without inventing a new
+ *        component (reuse-before-create satisfied: dripyard_base:pill
+ *        reused, not replaced).
+ *
+ * WCAG (light .theme--white hero, #FFFFFF surface):
+ *   Pill text/border/dot: --pl-accent-deep #8E4A2A on #FFFFFF = 6.64:1 (AA/AAA)
+ *   — matches RATIONALE.md's "Dev pill (chosen): terracotta-deep on white" row.
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+.hero.theme--white .hero__block-content > .pill {
+  --pill-background-color: #FFFFFF;
+  --pill-background-color-hover: #FFFFFF;
+  --pill-text-color: var(--pl-accent-deep);
+  --pill-text-color-hover: var(--pl-accent-deep);
+  border-color: var(--pl-accent-deep);
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 12px;
+}
+
+/* S-phase fix (R1, 2026-07-22): `font-size: 12px` above sets it on the
+ * `.pill` wrapper, but the nested dripyard_base:text child carries its own
+ * `.body-m` utility class (font-size: var(--body-m-size), 16px) at (0,1,0)
+ * specificity — the child's own class rule wins over the ancestor's
+ * inherited value, so the text rendered at 16px, not the intended 12px
+ * mono. This is what actually pushed the pill to 344px vs. its 317px
+ * container at 360 (real overflow, not just a fit-content measurement
+ * artifact — see the earlier note above). Target the text child directly. */
+.hero.theme--white .hero__block-content > .pill > .text {
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* S-phase fix (R1, 2026-07-22): the pill inherited the hero flex group's
+ * flex-basis:100% (removed above), which stretched it to the full content
+ * column width (900px @1280, 693px @768) — a thin full-width outlined bar
+ * instead of the approved compact badge. At 360 the pill's default
+ * `display:flex; flex-wrap:wrap` (pill.css) let the 6px ::before dot wrap
+ * onto its own line above the wrapped two-line text, rendering as a
+ * detached floating dot — a visible rendering glitch, not just a sizing
+ * mismatch.
+ *
+ * Fix: `width: fit-content` collapses the pill to its content's natural
+ * width at every viewport (badge, not bar); `margin-inline: auto` keeps it
+ * centered now that it no longer stretches; `flex-wrap: nowrap` on the pill
+ * itself guarantees dot + text always share one line, so the text has no
+ * remaining room to wrap either (fit-content forces the pill only as wide
+ * as its one-line content demands). No Canvas/content change — CSS-only,
+ * this file. Colors/tokens (above) are unaffected and remain correct.
+ *
+ * Two more root causes found during verification, both in the pill's
+ * nested dripyard_base:text child (a plain block-level <div> — text.twig
+ * has no inline/nowrap option):
+ *   1. `width: fit-content` alone still measured 344px because the text
+ *      child sizes to whatever width the flex item computes rather than
+ *      shrinking to its own content — needs `white-space: nowrap` to
+ *      participate in fit-content sizing as true inline content.
+ *   2. The text child carries the dripyard_base:text SDC's own `.body-m`
+ *      utility class (font-size: var(--body-m-size), 16px, specificity
+ *      0,1,0), which wins over any font-size set on the `.pill` ancestor
+ *      via inheritance — so the earlier `font-size: 12px` on `.pill`
+ *      (above) never actually reached the text, and the pill measured
+ *      344px against its 317px container at 360 (a REAL 27px overflow,
+ *      not just a measurement artifact — moved the mono 12px font-size
+ *      onto this same selector, see above, which shrank the text to its
+ *      intended size and closed the gap).
+ * Both fixes are scoped to `.hero .pill > .text` only — no other `.text`
+ * instance anywhere on the site is affected. */
+.hero.theme--white .hero__block-content > .pill {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  flex-wrap: nowrap;
+}
+
+.hero.theme--white .hero__block-content > .pill > .text {
+  white-space: nowrap;
+}
+
+/* A-phase fix-pass (F1 + F3): the status dot was previously an authored
+ * <div class="pill__dot" aria-hidden="true">, but the canvas_html_block
+ * filter format's allowlist for <div> is `class role aria-label style`
+ * (per docs/pl2/canvas-update-checklist.md) — aria-hidden is silently
+ * stripped on save. Rendering the dot as a CSS ::before removes the
+ * markup (and the filter dependency) entirely: nothing to strip, nothing
+ * for a screen reader to encounter, one fewer Canvas component instance.
+ * Also resolves F3: `.hero.theme--white .pill__dot` doesn't exist anymore;
+ * the ::before is scoped directly on .pill (2-unit chain, within the
+ * adapter's >3-unit telltale). */
+.hero.theme--white .hero__block-content > .pill::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pl-accent-deep);
+  box-shadow: 0 0 6px var(--pl-accent-deep);
+  margin-inline-end: 6px;
+}
+
+/* ── Code snippet + browser-chrome vertical rhythm within the hero ──────
+ * Both are new components (components/code-snippet, components/browser-chrome)
+ * living in .hero__block-content alongside the heading/subhead/buttons/pill.
+ * Bottom-up: .hero__block-content is display:flex/column (mobile) or
+ * row-wrap (desktop, per the CTA-row rule above) with --spacing-m row-gap —
+ * already provides baseline rhythm; these rules add full-row placement so
+ * neither component gets squeezed into the desktop button-row's inline flow.
+ * L5 — component-scoped, same file/selector family as the rest of this hero
+ * override set. CORRECT LAYER (L1/L3 ruled out for the same reasons as the
+ * pill rule above — page-specific hero composition, not a site-wide token). */
+.hero.theme--white .hero__block-content > .code-snippet,
+.hero.theme--white .hero__block-content > .browser-chrome {
+  flex-basis: 100%;
+  width: 100%;
+  margin-top: var(--spacing-m, 1.5rem);
+}
+
+.hero.theme--white .hero__block-content > .code-snippet {
+  margin-top: 0.5rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276 S-A1 (2026-07-22) — terracotta "Aftersight" brand-word accent
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * O ruling: the #268 verbatim-copy guarantee protects the rendered WORDS,
+ * not the markup — a class-carrying span wrapping "Aftersight" inside the
+ * stored H1 string is authorized, so long as the rendered text stays
+ * byte-identical. dripyard_base:heading cannot host a span (Twig
+ * auto-escapes its plain-string `text` prop — verified empirically, see
+ * docs/pl2/handoffs/wave2-276/handoff-F.md fix-pass 4), so a new,
+ * narrowly-scoped SDC (performant_labs_v2:hero-title) replaces the hero's
+ * heading instance — same rendered classes (heading h1 heading--centered
+ * margin-top--0 margin-bottom--0 color--loud), so every rule below and
+ * above targeting `.hero.theme--white .heading` continues to apply
+ * unchanged. No parent-theme component was edited.
+ *
+ * Bottom-up: `.hero-title__brand` is new markup (new component), nothing
+ * to trace upward from.
+ *
+ * Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a --theme-* token override in html .theme--white would apply to
+ *        every white-zone element, not just this one span. TOO BROAD.
+ *        RULED OUT.
+ *   L5 — component-scoped on `.hero-title__brand`, matching this file's
+ *        existing pattern (pill/kicker/browser-chrome/code-snippet
+ *        selectors are all L5-scoped the same way). CORRECT LAYER.
+ *
+ * Color choice — terracotta-deep, NOT plain terracotta:
+ *   Plain terracotta #C97B5C measured against the hero's actual gradient-
+ *   tinted background (S-A4, added earlier in this same fix-pass) at its
+ *   peak-saturation pixels: 2.60–2.83:1 — FAILS the WCAG large-text 3:1
+ *   threshold everywhere except pure white (3.25:1, an unsafe margin this
+ *   hero's tinted bg doesn't reliably provide). The H1 unambiguously
+ *   qualifies as "large text" per WCAG 1.4.3 (≥24px normal weight; this H1
+ *   is 44px mobile / 72px desktop, weight 500 — both far above the
+ *   threshold at every viewport), so 3:1 is the applicable bar, but plain
+ *   terracotta still doesn't clear it reliably. terracotta-deep
+ *   (--pl-accent-deep, #8E4A2A — the same token already governing the
+ *   pill/kicker accents on this hero) passes comfortably everywhere:
+ *
+ *   Pairing                                          Ratio    Verdict
+ *   #8E4A2A on terracotta-gradient-peak #F1E4D5       5.31:1   AA/AAA (large + body)
+ *   #8E4A2A on teal-gradient-peak #E9E9DE             5.43:1   AA/AAA (large + body)
+ *   #8E4A2A on cream baseline #F5EFE2                 5.79:1   AA/AAA (large + body)
+ *   #8E4A2A on pure white (worst case, no tint)       6.64:1   AA/AAA (large + body)
+ *
+ *   (For reference, the rejected plain terracotta #C97B5C: 2.60/2.65/2.83/
+ *   3.25:1 respectively — fails everywhere except a marginal pass on pure
+ *   white, which this tinted hero never actually renders.)
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+.hero.theme--white .hero-title__brand {
+  color: var(--pl-accent-deep);
 }

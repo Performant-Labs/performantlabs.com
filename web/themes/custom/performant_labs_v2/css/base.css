@@ -30,12 +30,28 @@
    *   --pl-primary-light → button--primary resting bg (CTA pills only, via button.css L5)
    *   --pl-primary-deep  → --theme-link-color-hover (inline link hover, secondary-button hover)
    *
-   * WCAG (pre-approved deviations per operator decision 2026-05-11):
-   *   --pl-primary-light #62BBCB bg + #FFFFFF text = 2.13:1 (FAIL AA — intentional)
-   *   --pl-primary #1893b4 on #FFFFFF = 3.5:1 (FAIL body-text AA 4.5:1 — intentional;
-   *     passes large-text 3.0:1) */
+   * ── 2026-07-22 binding fix (T finding W-1 / issue #280) ──────────────────
+   * --pl-primary-light was #62BBCB (teal), the ONLY consumer of which is
+   * .button--primary's resting bg (see button.css L5) — that pairing (white
+   * text on #62BBCB) measured 2.13:1, a genuine WCAG AA failure previously
+   * logged here as an "intentional pre-approved deviation." André ruled the
+   * deviation itself was the defect: fix at the TOKEN, not per-instance CSS.
+   * --pl-primary-light now resolves to --pl-accent-deep (#8E4A2A,
+   * terracotta-deep) instead of a teal literal — same value the approved
+   * wireframe already specifies for CTA fills (docs/pl2/keytail-design/
+   * wireframe-276/RATIONALE.md "Primary CTA: terracotta-deep bg + white
+   * text = 6.64:1"), so this token fix and the wireframe's hero-CTA spec
+   * are now the same value by construction, not by coincidence.
+   * Safe to redefine in place: --pl-primary-light has exactly one consumer
+   * sitewide (grepped — button.css line 41 only), so this change cannot
+   * silently recolor any other surface.
+   *
+   * WCAG (current):
+   *   --pl-primary-light now #8E4A2A: white text on #8E4A2A = 6.64:1 (AA/AAA pass)
+   *   --pl-primary #1893b4 on #FFFFFF = 3.5:1 (FAIL body-text AA 4.5:1 — pre-approved
+   *     deviation, inline links only, unaffected by this fix — different token) */
   --pl-primary: #1893b4;
-  --pl-primary-light: #62BBCB;
+  --pl-primary-light: var(--pl-accent-deep); /* was #62BBCB — see 2026-07-22 fix above */
   --pl-primary-deep: #005AA0;
 }
 

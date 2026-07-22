@@ -1,0 +1,16 @@
+{#
+  Code Snippet — dark terminal-style card, command + result line.
+
+  Props (read from code-snippet.component.yml — do not guess):
+    command_line : string, required — text after the "$" prompt
+    result_line  : string, required — text after the "→" marker
+    aria_label   : string, optional — overrides the default accessible label
+#}
+{% set label = aria_label|default('Terminal example: ' ~ command_line ~ ', ' ~ result_line) %}
+<div{{ attributes.addClass('code-snippet') }} role="img" aria-label="{{ label }}">
+  <div class="code-snippet__bar" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <pre class="code-snippet__body" aria-hidden="true"><span class="code-snippet__muted">$</span> {{ command_line }}
+<span class="code-snippet__muted">&rarr;</span> {{ result_line }}</pre>
+</div>

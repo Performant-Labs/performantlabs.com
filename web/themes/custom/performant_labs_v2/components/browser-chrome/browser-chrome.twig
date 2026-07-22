@@ -1,0 +1,34 @@
+{#
+  Browser Chrome — frames a product screenshot in a light card with a dark
+  titlebar strip (traffic-light dots + URL bar).
+
+  Props (read from browser-chrome.component.yml — do not guess):
+    url_label            : string, required — fake address-bar text
+    image_alt             : string, optional — accessible description
+    is_placeholder        : boolean, optional — render placeholder pattern
+    placeholder_title     : string, optional — placeholder headline
+    placeholder_caption   : string, optional — placeholder secondary line
+
+  Slots:
+    screenshot : real screenshot image component, ignored while placeholder
+#}
+<div{{ attributes.addClass('browser-chrome') }}>
+  <div class="browser-chrome__titlebar">
+    <span class="browser-chrome__dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
+    <span class="browser-chrome__url">{{ url_label }}</span>
+  </div>
+  <div class="browser-chrome__viewport">
+    {% if is_placeholder %}
+      <div class="browser-chrome__placeholder" role="img" aria-label="{{ image_alt|default('Product screenshot placeholder') }}">
+        <strong>{{ placeholder_title|default('Screenshot coming soon') }}</strong>
+        {% if placeholder_caption %}
+          <span>{{ placeholder_caption }}</span>
+        {% endif %}
+      </div>
+    {% else %}
+      {{ screenshot }}
+    {% endif %}
+  </div>
+</div>

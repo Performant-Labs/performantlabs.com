@@ -1,0 +1,141 @@
+/**
+ * @file
+ * browser-chrome SDC — light card, dark titlebar strip. New component (#276).
+ *
+ * Layer: 5 (new component-scoped stylesheet; SDC auto-registers its own CSS,
+ * no libraries-extend entry needed — same pattern as components/kicker/kicker.css).
+ *
+ * Two-pass trace (2026-07-21):
+ *
+ * Pass 1 — Bottom-up: no prior rule exists for `.browser-chrome` anywhere in
+ *   the codebase (new markup, new class). Nothing to trace upward from.
+ *
+ * Pass 2 — Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a `--theme-*` token override in `html .theme--white`/`.theme--black`
+ *        would apply to every element in that zone, not just this card.
+ *        TOO BROAD — this is a bespoke component shape (titlebar dots, URL
+ *        pill, screenshot viewport) that no other element on the site has.
+ *        RULED OUT.
+ *   L5 — component-scoped stylesheet, consuming existing `--pl-*` tokens and
+ *        the literal hex values already assigned to `html .theme--black` in
+ *        base.css (per the approved wireframe's "dark confined to terminal +
+ *        titlebar only" decision — the titlebar is NOT wrapped in an actual
+ *        `.theme--black` zone element, so its dark colors are asserted
+ *        directly here rather than inherited via the zone class). CORRECT
+ *        LAYER.
+ *
+ * DOM-inspection gate: N/A — this is new markup with no pre-existing
+ * structural wrapper to inspect (Pass 2 entry-gate exception (b) does not
+ * strictly apply since this isn't Layer 1/3, but there is no ancestor
+ * constraint to defeat either — the component owns its own box model).
+ *
+ * WCAG (light outer card, white/cream site register; confirmed via computed
+ * hex math against docs/pl2/keytail-design/wireframe-276/RATIONALE.md's own
+ * contrast table — same tokens, same pairings):
+ *   Titlebar URL text `#B8AFA0` (--theme-text-color-soft, black-zone) on
+ *     titlebar bg `#1F1A14` (--theme-surface-alt, black-zone): 8.77:1 (AAA)
+ *   Placeholder caption text `#5C544C` (--theme-text-color-medium, white
+ *     zone) on placeholder pattern bg `#F5EFE2`/`#EDE4D3` (cream stripe):
+ *     ≥6.48:1 (AAA, matches RATIONALE.md's "muted on cream" row)
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+
+.browser-chrome {
+  max-width: 960px;
+  margin-inline: auto;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--theme-border-color, #E5E1DC);
+  box-shadow: 0 24px 60px -20px rgba(42, 37, 32, .25), 0 0 0 1px rgba(0, 0, 0, .04);
+  background: var(--theme-surface, #FFFFFF);
+}
+
+/* Titlebar strip — dark by design (approved wireframe: "chrome bar reads
+   better" as a distinct dark address-bar strip). Colors asserted directly
+   from the html .theme--black token values in base.css rather than via zone
+   inheritance, since the titlebar is not itself wrapped in a .theme--black
+   element. */
+.browser-chrome__titlebar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  background: #1F1A14; /* base.css html .theme--black --theme-surface-alt */
+  border-bottom: 1px solid #B8AFA0; /* base.css html .theme--black --theme-border-color */
+}
+
+.browser-chrome__dots {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.browser-chrome__dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #B8AFA0; /* base.css html .theme--black --theme-border-color */
+}
+
+.browser-chrome__url {
+  flex: 1;
+  text-align: center;
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 11px;
+  color: #B8AFA0; /* base.css html .theme--black --theme-text-color-soft — 8.77:1 on titlebar bg, AAA */
+  background: #0E1014; /* base.css html .theme--black --theme-surface */
+  border-radius: 5px;
+  padding: 4px 10px;
+  max-width: 320px;
+  margin-inline: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.browser-chrome__viewport {
+  aspect-ratio: 16 / 9.4;
+  width: 100%;
+}
+
+.browser-chrome__placeholder {
+  width: 100%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(135deg, #F5EFE2, #F5EFE2 10px, #EDE4D3 10px, #EDE4D3 20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--theme-text-color-medium, #5C544C);
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 12px;
+  text-align: center;
+  padding: 20px;
+}
+
+.browser-chrome__placeholder strong {
+  color: var(--theme-text-color-primary, #2A2520);
+  font-size: 13px;
+}
+
+.browser-chrome__placeholder span {
+  max-width: 420px;
+}
+
+/* Real screenshot image, once the placeholder is swapped out. */
+.browser-chrome__viewport img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* Mobile: cap the shadow/blur cost and let the card go full content width —
+   base register already scales via max-width: 960px + margin-inline: auto,
+   so no additional mobile-first override is needed here beyond confirming
+   touch targets are N/A (no interactive elements in this component). */
