@@ -181,3 +181,128 @@
     display: none;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276/#281 (Wave 2, sub-phase B) — Nav visual weight (treatment only)
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * Scope note (binding, from #281's issue body and #276's own scope note):
+ * nav ORDER and LABELS are #270's scope and already landed (verified live:
+ * Aftersight, Services, How we do it, Open source projects, Articles,
+ * About us, Contact us — in that order). This change is VISUAL TREATMENT
+ * ONLY — no menu reorder, no relabeling, no markup change. Selectors key
+ * off each link's existing `href`, which #270 already set.
+ *
+ * Wireframe intent (wireframe.html NAV section): Product / Docs /
+ * Build-notes render bold + full-opacity ("weighted"); Services / About
+ * render muted + smaller ("demoted"). This site's actual nav has no literal
+ * "Docs" or "Build notes" items (that's #270's/a future issue's scope to
+ * add), so the weighted set is mapped to the closest live equivalents:
+ *   Weighted (product-first):
+ *     /aftersight            — the Product page itself
+ *     /open-source-projects  — closest existing analog to "Docs" (OSS
+ *                               tooling reference material)
+ *     /articles               — closest existing analog to "Build notes"
+ *                               (the blog/updates surface)
+ *   Demoted (agency-adjacent, secondary):
+ *     /services, /how-we-do-it, /about-us, /contact-us
+ * This mapping is an autonomous-mode judgment call (recorded in the
+ * handoff "Autonomous decisions") — if a literal Docs/Build-notes nav item
+ * is added later (a #270-scope or follow-up change), the selector list
+ * below is the only place that needs updating.
+ *
+ * Bottom-up trace:
+ *   .primary-menu__link--level-1[class] already carries this file's own
+ *   P9 override (font-family: Poppins, font-size: 15px, color:
+ *   var(--theme-text-color-primary), padding: 0) at specificity (0,3,0)
+ *   inside the existing `@media (width > 1000px)` block. All level-1 links
+ *   currently render identically (no weight distinction).
+ *
+ * Top-down eligibility:
+ *   L1 — not config-driven (this is a CSS-only visual treatment, no menu
+ *        link entity field carries a "weight" flag). RULED OUT.
+ *   L3 — not a --theme-* token; font-weight/opacity/size on specific nav
+ *        links is not a token concern. RULED OUT.
+ *   L5 — component-scoped to .primary-menu__link--level-1 by href, in the
+ *        same file/selector family as this file's existing header
+ *        overrides. CORRECT LAYER.
+ *
+ * WCAG (theme--white header, #FFFFFF surface):
+ *   Weighted links (bold, full ink): --theme-text-color-primary #2A2520 on
+ *     #FFFFFF = 15.17:1 (AAA) — unchanged color, only font-weight added.
+ *   Demoted links (muted, smaller): --theme-text-color-medium #5C544C on
+ *     #FFFFFF = 7.43:1 (AAA) — comfortably clears 4.5:1 body-text AA even
+ *     at the reduced 13px size (WCAG has no separate "muted text" carve-
+ *     out; verified against the standard 4.5:1 threshold, not the 3:1
+ *     large-text threshold, since 13px does not qualify as large text).
+ *   Both selector groups apply only at the wide/desktop nav (width >
+ *     1000px, matching this file's existing breakpoint for level-1 links)
+ *     — the mobile hamburger menu (<=1000px) is unaffected by this rule;
+ *     see the mobile block below for the narrow-viewport equivalent.
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+@media (width > 1000px) {
+  .site-header .primary-menu__link--level-1[href="/aftersight"],
+  .site-header .primary-menu__link--level-1[href="/open-source-projects"],
+  .site-header .primary-menu__link--level-1[href="/articles"] {
+    font-weight: 700;
+    color: var(--theme-text-color-primary);
+    opacity: 1;
+  }
+
+  .site-header .primary-menu__link--level-1[href="/services"],
+  .site-header .primary-menu__link--level-1[href="/how-we-do-it"],
+  .site-header .primary-menu__link--level-1[href="/about-us"],
+  .site-header .primary-menu__link--level-1[href="/contact-us"] {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--theme-text-color-medium);
+  }
+}
+
+/* Mobile nav (<=1000px, hamburger menu) — same weight distinction applied
+ * to the expanded mobile link list.
+ *
+ * Rework (found during T2 self-verification, live-measured): the initial
+ * version of this rule used a plain `.primary-menu__link--level-1[href=...]`
+ * selector at specificity (0,2,0) — the SAME specificity as neonbyte's own
+ * `primary-menu-narrow.css` `.primary-menu__link--level-1[class]` rule
+ * (also 0,2,0, class + attribute). Because neonbyte's stylesheet loads
+ * after this file's `libraries-extend` override in the cascade for this
+ * particular selector pair, neonbyte's rule won the tie and my color/weight
+ * change never rendered (confirmed live: computed color stayed
+ * rgb(255,255,255), the un-overridden --top-level-link-color value, at
+ * 360/768 with the mobile panel expanded). Fixed by adding the `.site-header`
+ * ancestor (present in the DOM at all viewports — .header-navigation-wrapper
+ * is a `.site-header` descendant) to bump specificity to (0,3,0), matching
+ * this file's own established pattern for beating neonbyte overrides (see
+ * the `@media (width > 1000px)` block above, P9/P12 notes).
+ *
+ * Second finding (live-measured): the mobile nav overlay panel
+ * (.header-navigation-wrapper) itself carries `.theme--black` — it is a
+ * DARK panel by neonbyte's own design (confirmed: computed background
+ * oklch(0.17 ... ) = --theme-black-surface #0E1014), not the light/white
+ * surface the desktop nav sits on. `var(--theme-text-color-medium)`
+ * therefore resolves through the .theme--black zone (#B8AFA0, base.css),
+ * NOT the light-zone value (#5C544C) — this is the CORRECT muted color for
+ * this dark panel already, since --theme-text-color-medium is a
+ * context-sensitive token that resolves through whichever theme zone
+ * ancestor is active. No separate dark-zone override was needed once the
+ * specificity fix let the token-based rule actually apply. */
+@media (width <= 1000px) {
+  .site-header .primary-menu__link--level-1[href="/aftersight"],
+  .site-header .primary-menu__link--level-1[href="/open-source-projects"],
+  .site-header .primary-menu__link--level-1[href="/articles"] {
+    font-weight: 700;
+    color: var(--theme-text-color-loud);
+  }
+
+  .site-header .primary-menu__link--level-1[href="/services"],
+  .site-header .primary-menu__link--level-1[href="/how-we-do-it"],
+  .site-header .primary-menu__link--level-1[href="/about-us"],
+  .site-header .primary-menu__link--level-1[href="/contact-us"] {
+    font-weight: 400;
+    color: var(--theme-text-color-medium);
+  }
+}
