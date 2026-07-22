@@ -1198,3 +1198,46 @@
     font-size: 0.9375rem;      /* 15px */
   }
 }
+
+/* ─── spacing-fix: "Other modules" chip card floats in dead space ──────
+ * André (2026-07-22): the single "Payment Stripe" chip card stretches to
+ * fill the section's full content width, leaving the 2-line body text
+ * surrounded by empty card padding.
+ *
+ * Root cause: `.grid-wrapper__grid` (dripyard_base, grid-wrapper.css) is
+ * a 12-column CSS grid. The "Other modules" grid-wrapper has exactly one
+ * card and no `grid-column: span N` set on it, so the sole item occupies
+ * the full 12-column row (== the 900px max-width set by the M5 Cycle 2
+ * rule above) — a 900px-wide "chip" for two short lines of text. This
+ * reproduces at any chip count that doesn't divide evenly into full rows,
+ * not just the current single-card case.
+ *
+ * M5 Cycle 2's own comments already call this a "chip-style card" (24px
+ * padding, 18px h3, 15px body) — a compact card, not a full-bleed one.
+ * The grid-width constraint (c) was applied to the wrapper; the card
+ * itself was never given a matching intrinsic width. This closes that gap
+ * without touching (a)/(b)/(d)/mobile rules above.
+ *
+ * Fix: the grid item's own track still spans the full 12 columns (a
+ * single item with no `grid-column: span N`), so `justify-content` on the
+ * grid has no free space to distribute — the fix has to act on the ITEM,
+ * not the track. Cap the card's width and center it within its own grid
+ * area via `justify-self`, which re-centers it (and any future siblings,
+ * each independently) inside the 900px zone instead of stretching to the
+ * full grid track.
+ *
+ * Layer ruling:
+ *   L1: not config. RULED OUT.
+ *   L3: not a design token; component-instance grid-item sizing. RULED OUT.
+ *   L5: component-scoped, same selector family as the rest of this block.
+ *       CORRECT LAYER (consistent with existing M5 Cycle 2 scoping).
+ *
+ * Scope: `.dy-section--other-modules` marker class — /open-source-projects
+ * "Other modules we maintain" only. No other page/section uses this marker
+ * (grep-verified against dy-section.css usage sitewide, 2026-07-22).
+ *
+ * WCAG: layout-only change; no color/contrast impact. */
+.dy-section--other-modules .grid-wrapper__grid .card {
+  max-width: 360px;
+  justify-self: center;
+}
