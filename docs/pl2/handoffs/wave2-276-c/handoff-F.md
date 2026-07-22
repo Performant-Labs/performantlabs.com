@@ -231,3 +231,39 @@ All figures are existing brand tokens already verified elsewhere in this issue's
 - `docs/pl2/handoffs/wave2-276-c/handoff-F.md` (new — this file)
 
 **Not committed/pushed/PR'd** — per role scope, O handles staging, commit, push, and PR creation from this file list (combined with sub-phase B's file list into one PR, per the spawn prompt's instruction: one PR vs. main covering both #281 and #282).
+
+---
+
+## Fix-pass (2026-07-22) — A-phase N1 (stale mechanism comment)
+
+**Trigger:** `docs/pl2/handoffs/wave2-bc/handoff-A.md` — PASS (0 blocks), N1 note on this script. (W1 required-fix and N2 are covered in `wave2-276-b/handoff-F.md`'s own fix-pass section, since both belong to script B; this sub-phase C script had no required fixes, only the one comment-drift note.)
+
+### N1 — feature-2 reversal mechanism comment named the wrong file/property
+
+The step-4 assembly comment attributed feature 2's visual left/right reversal to a "flex-wrapper row-reverse rule (see css/components/dy-section.css)". The actual mechanism — correctly implemented and correctly described everywhere else (the behavior claim, "DOM order does NOT change, only visual order," was accurate) — is CSS Grid `order` applied to the copy/crop `grid-cell` elements, living in `grid-wrapper.css`, not `dy-section.css`, and there is no flex-wrapper or `flex-direction` anywhere in the feature-anatomy layout at all (it's built on `dripyard_base:grid-wrapper`/`grid-cell`, a Grid primitive). Corrected the comment to name the right file and the right CSS property, and added an explanatory note distinguishing "matches the wireframe's row-reverse *visual intent*" from "implemented via row-reverse" — the wireframe's own flex-based mockup used `flex-direction: row-reverse` because IT was flex-based; this codebase's grid-based feature-anatomy layout achieves the same visual outcome via `order` instead, which is the more accurate description for a future reader tracing the actual live mechanism rather than the wireframe's prototype mechanism.
+
+### Verification
+
+```
+$ php -l scripts/sprint-wave2-282-features-services-relocate.php
+No syntax errors detected in scripts/sprint-wave2-282-features-services-relocate.php
+
+# Comment-only change — no logic touched in this script for this fix-pass.
+# Confirmed via git diff: only the block comment before $all_features =
+# array_merge(...) changed; no code line in this script differs.
+$ git diff scripts/sprint-wave2-282-features-services-relocate.php | grep -c '^[+-][^+-]'
+# (comment lines only, verified by inspection during the fix-pass)
+
+# Joint byte-diff proof (shared with script B's W1 fix-pass, since both
+# scripts were verified together in the same B->C chain runs):
+# full chain double-run byte-identical to the pre-fix-pass baseline AND to
+# itself across two consecutive runs -- see wave2-276-b/handoff-F.md's
+# fix-pass section for the full diff transcript (both scripts were
+# exercised in the same proof run, since C depends on B's tree state).
+```
+
+### Files changed (fix-pass)
+
+- `scripts/sprint-wave2-282-features-services-relocate.php` (modified — N1 stale-comment fix only, no logic change)
+
+**Committed and pushed** on `feat/281-282-wave2-bc` (commit `c688e0b20e`, same commit as script B's W1/N2 fix-pass — both scripts were fixed and committed together since they're reviewed as one PR, explicit paths, `Co-Authored-By` trailer) per the coordinator's instruction. CSS files and the live tree were NOT touched in this fix-pass. N3 (the `dy-section--centered-white` marker naming) and N4 (the header.css cascade-tie note) were left as-is per A's own explicit verdict ("acceptable" / "None — noting so a future reorder doesn't silently regress it") — no action needed on either.

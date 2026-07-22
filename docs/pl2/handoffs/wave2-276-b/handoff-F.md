@@ -191,3 +191,80 @@ None — all 6 acceptance criteria on #281 are met:
 - `docs/pl2/handoffs/wave2-276-b/handoff-F.md` (new — this file)
 
 **Not committed/pushed/PR'd** — per role scope, O handles staging, commit, push, and PR creation from this file list (combined with sub-phase C's file list into one PR, per the spawn prompt's instruction).
+
+---
+
+## Fix-pass (2026-07-22) — A-phase W1 (required) + N2 (stale comment)
+
+**Trigger:** `docs/pl2/handoffs/wave2-bc/handoff-A.md` — PASS (0 blocks), W1 required-fix + N1/N2/N3/N4 notes. This section covers W1 (this script) and N2 (this script's stale header comment). N1 (script C's comment) is covered in `wave2-276-c/handoff-F.md`'s own fix-pass section. N3/N4 left as documented per A's own verdict ("acceptable").
+
+### W1 — insertion-anchor fragility (required fix)
+
+**Finding:** the proof-strip section's insertion point was computed as "the array index of the services section" (i.e., insert immediately before it). This was correct when the script was authored (the hero was the only top-level component between the hero and services), but became stale once sub-phase C's assembly script started inserting three feature sections between the hero and services. A's review empirically demonstrated that re-running B **alone** against the post-C tree would relocate the proof-strip to *after* the features (`hero -> f1 -> f2 -> f3 -> proof -> services`), silently corrupting the approved section order — the B→C chain invocation converges back to the correct order and masks the bug in the common (chained) case, but a standalone re-run (e.g. a launch-day content fix that only needs to touch the proof strip) would silently break it with no error.
+
+**Fix:** re-anchored the insertion point on the hero's own subtree (hero + all its slot descendants — pill/kicker/heading/text/buttons/snippet/chrome from sub-phase A) rather than on services' array position. The hero is a stable anchor: whatever gets inserted between hero and services by any other script, now or in the future, the proof-strip still lands directly after the hero's own subtree, which is exactly where it belongs regardless of what follows. Added a fail-fast guard as a second layer of defense: after computing the insertion point, the script checks that the very next top-level component is either the services section (pre-C-chain state) or a recognized sub-phase-C feature section (post-C-chain state); if neither, it throws rather than guessing.
+
+### Proof (byte-diff, exact steps run)
+
+```
+# 1. Dump the current (pre-fix-pass) tree as baseline
+$ ddev drush php:eval '... json_encode($components) ...' > /tmp/tree-before.json
+$ python3 -c "print(len(json.load(open('/tmp/tree-before.json'))))"
+92
+
+# 2. Run B ALONE against the current post-C tree
+$ ddev exec 'AFTERSIGHT_VERSION=0.2.2 drush php:script scripts/sprint-wave2-281-proof-strip-nav.php'
+canvas_page 20 proof-strip insert complete. Component count: 92
+
+# 3. Dump again, diff against baseline
+$ ddev drush php:eval '... json_encode($components) ...' > /tmp/tree-after-b-alone.json
+$ diff /tmp/tree-before.json /tmp/tree-after-b-alone.json
+[no output]
+$ echo $?
+0
+
+RESULT: B run alone is a byte-identical no-op against the current tree —
+the fix works. Section order re-verified explicitly (not just byte-count):
+hero -> proof-strip -> feature1 -> feature2 -> feature3 -> services ->
+logos -> heal-flow -> icon-list -> accordion -> CTA. Unchanged.
+
+# 4. Full B->C chain, run 1 (from the same starting tree)
+$ ddev exec 'AFTERSIGHT_VERSION=0.2.2 drush php:script scripts/sprint-wave2-281-proof-strip-nav.php'
+canvas_page 20 proof-strip insert complete. Component count: 92
+$ ddev exec 'AFTERSIGHT_VERSION=0.2.2 drush php:script scripts/sprint-wave2-282-features-services-relocate.php'
+canvas_page 20 feature-anatomy + services-relocation complete. Component count: 92
+$ ddev drush php:eval '... json_encode($components) ...' > /tmp/tree-after-chain-run1.json
+$ diff /tmp/tree-before.json /tmp/tree-after-chain-run1.json
+[no output]  ($? = 0)
+
+# 5. Full B->C chain, run 2 (double-run idempotency)
+$ ddev exec 'AFTERSIGHT_VERSION=0.2.2 drush php:script scripts/sprint-wave2-281-proof-strip-nav.php'
+canvas_page 20 proof-strip insert complete. Component count: 92
+$ ddev exec 'AFTERSIGHT_VERSION=0.2.2 drush php:script scripts/sprint-wave2-282-features-services-relocate.php'
+canvas_page 20 feature-anatomy + services-relocation complete. Component count: 92
+$ ddev drush php:eval '... json_encode($components) ...' > /tmp/tree-after-chain-run2.json
+$ diff /tmp/tree-after-chain-run1.json /tmp/tree-after-chain-run2.json
+[no output]  ($? = 0)
+$ diff /tmp/tree-before.json /tmp/tree-after-chain-run2.json
+[no output]  ($? = 0)
+
+RESULT: full chain double-run is byte-identical to itself AND to the
+original baseline. Both required proofs hold.
+
+# Sanity: watchdog clean, page renders
+$ ddev drush watchdog:show --count=3 --severity=3
+[only the pre-existing historical entry from before the pill-prop bug
+fix in an earlier fix-pass, dated 21/Jul — zero new errors]
+$ curl -sk -o /dev/null -w "%{http_code}\n" https://performant-labs.ddev.site:8493/
+200
+```
+
+### N2 — stale header comment
+
+The file header's scope-description paragraph still said the proof row contained `dripyard_base:statistic instances`, even though the file's own body (the "Component-reuse correction" comment inline at the proof-strip subtree) already documented the correction to `dripyard_base:text`. Corrected the header to match, and cross-referenced the correction note so a reader hits the full trace immediately rather than encountering a contradiction between the header and the body.
+
+### Files changed (fix-pass)
+
+- `scripts/sprint-wave2-281-proof-strip-nav.php` (modified — W1 insertion-anchor fix + fail-fast guard + N2 stale-comment fix)
+
+**Committed and pushed** on `feat/281-282-wave2-bc` (commit `c688e0b20e`, explicit paths, `Co-Authored-By` trailer) per the coordinator's instruction. CSS files and the live tree were NOT touched in this fix-pass (scripts-only scope, confirmed via `git status` before commit — only the two `.php` assembly scripts were staged).
