@@ -6,6 +6,7 @@
     url_label            : string, required — fake address-bar text
     image_alt             : string, optional — accessible description
     is_placeholder        : boolean, optional — render placeholder pattern
+    placeholder_title     : string, optional — placeholder headline
     placeholder_caption   : string, optional — placeholder secondary line
 
   Slots:
@@ -21,7 +22,7 @@
   <div class="browser-chrome__viewport">
     {% if is_placeholder %}
       <div class="browser-chrome__placeholder" role="img" aria-label="{{ image_alt|default('Product screenshot placeholder') }}">
-        <strong>Aftersight dashboard — coming soon</strong>
+        <strong>{{ placeholder_title|default('Screenshot coming soon') }}</strong>
         {% if placeholder_caption %}
           <span>{{ placeholder_caption }}</span>
         {% endif %}

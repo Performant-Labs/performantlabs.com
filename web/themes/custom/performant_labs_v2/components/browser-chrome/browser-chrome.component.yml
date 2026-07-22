@@ -36,6 +36,20 @@ props:
         - boolean
         - 'null'
       examples: [ true ]
+    placeholder_title:
+      title: Placeholder title
+      description: >
+        Headline text shown inside the placeholder pattern when
+        is_placeholder is true. A-phase fix-pass (F2): previously hardcoded
+        in the twig as product copy ("Aftersight dashboard — coming soon"),
+        which undercut this component's reusability. Now a prop so any
+        future instance (e.g. an /aftersight page UI-crop placeholder) can
+        supply its own headline without a template edit.
+      type:
+        - string
+        - 'null'
+      examples:
+        - 'Aftersight dashboard — coming soon'
     placeholder_caption:
       title: Placeholder caption
       description: Secondary caption line shown only when is_placeholder is true.

@@ -149,11 +149,13 @@ $new_instances = [
     'inputs' => json_encode([]),
     'label' => NULL,
   ],
-  // Pill content: a status dot (<div class="pill__dot" aria-hidden="true">)
-  // + the approved copy "Now in development — in the open" (verbatim,
-  // unchanged from #268/epic #267). <div class> is in the canvas_html_block
-  // filter-format allowlist (see docs/pl2/canvas-update-checklist.md);
-  // <span> is NOT allowed, hence the div-based dot marker.
+  // Pill content: the approved copy "Now in development — in the open"
+  // (verbatim, unchanged from #268/epic #267). A-phase fix-pass (F1): the
+  // status dot is no longer authored as markup here — it moved to a CSS
+  // ::before on .hero.theme--white .pill (hero.css), which removes the
+  // dependency on the canvas_html_block filter's <div> allowlist entirely
+  // (previously aria-hidden was silently stripped on save; a ::before has
+  // no markup to strip).
   [
     'uuid' => $pill_text_uuid,
     'component_id' => 'sdc.dripyard_base.text',
@@ -161,7 +163,7 @@ $new_instances = [
     'parent_uuid' => $pill_uuid,
     'slot' => 'content',
     'inputs' => json_encode([
-      'text' => txt('<div class="pill__dot" aria-hidden="true"></div>Now in development — in the open'),
+      'text' => txt('Now in development — in the open'),
       'style' => 'body_m',
       'color' => 'inherit',
     ]),
@@ -185,6 +187,8 @@ $new_instances = [
   // Browser-chrome frame — light card, dark titlebar. Placeholder screenshot
   // (real asset deferred — see handoff-F "Deviations from spec" / "Known
   // issues"). Framework-agnostic caption: no framework/tool name implied.
+  // A-phase fix-pass (F2): placeholder_title is now an explicit prop
+  // (previously hardcoded product copy inside the twig).
   [
     'uuid' => $chrome_uuid,
     'component_id' => 'sdc.performant_labs_v2.browser-chrome',
@@ -195,6 +199,7 @@ $new_instances = [
       'url_label' => 'aftersight.performantlabs.com',
       'image_alt' => 'Aftersight dashboard — CTRF run history and pass/fail summary (placeholder — real screenshot pending local-instance seed)',
       'is_placeholder' => TRUE,
+      'placeholder_title' => 'Aftersight dashboard — coming soon',
       'placeholder_caption' => 'Real product screenshot lands once a seeded local instance is captured — tracked as a #276 follow-up.',
     ]),
     'label' => NULL,

@@ -372,13 +372,24 @@
   font-size: 12px;
 }
 
-.hero.theme--white .hero__block-content > .pill .pill__dot {
+/* A-phase fix-pass (F1 + F3): the status dot was previously an authored
+ * <div class="pill__dot" aria-hidden="true">, but the canvas_html_block
+ * filter format's allowlist for <div> is `class role aria-label style`
+ * (per docs/pl2/canvas-update-checklist.md) — aria-hidden is silently
+ * stripped on save. Rendering the dot as a CSS ::before removes the
+ * markup (and the filter dependency) entirely: nothing to strip, nothing
+ * for a screen reader to encounter, one fewer Canvas component instance.
+ * Also resolves F3: `.hero.theme--white .pill__dot` doesn't exist anymore;
+ * the ::before is scoped directly on .pill (2-unit chain, within the
+ * adapter's >3-unit telltale). */
+.hero.theme--white .hero__block-content > .pill::before {
+  content: '';
+  display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--pl-accent-deep);
   box-shadow: 0 0 6px var(--pl-accent-deep);
-  display: inline-block;
   margin-inline-end: 6px;
 }
 

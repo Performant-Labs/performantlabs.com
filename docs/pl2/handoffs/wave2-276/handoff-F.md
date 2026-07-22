@@ -219,3 +219,76 @@ All live-computed CSS custom-property values were spot-confirmed via Playwright 
 - `docs/pl2/handoffs/wave2-276/shots/hero-1280-2026-07-21.png` (new — headless self-check screenshot)
 
 **Not committed/pushed/PR'd** — per role scope, O handles staging, commit, push, and PR creation from this file list.
+
+---
+
+## Fix-pass (2026-07-21) — A-phase warns F1–F3 resolved
+
+**Trigger:** `docs/pl2/handoffs/wave2-276/handoff-A.md` — PASS (0 blocks), 3 warns to fix before T runs.
+
+### F1 — pill dot `aria-hidden` silently stripped by the filter format
+
+The dot marker was authored as `<div class="pill__dot" aria-hidden="true">` inside the pill's nested `dripyard_base:text` HTML value. The `canvas_html_block` filter's `<div>` allowlist is `class role aria-label style` (per `canvas-update-checklist.md`) — `aria-hidden` is not in it and was silently dropped on save. Handoff-F's claim of "no visual or accessibility difference" was wrong on the accessibility half: the live markup actually rendered `<div class="pill__dot">` with no `aria-hidden`, an empty div a screen reader could (harmlessly, but incorrectly) announce as present.
+
+**Fix (A's preferred option — CSS `::before`, not `role="presentation"`):** removed the marker div entirely from the pill's text-prop HTML (`scripts/sprint-wave2-276-hero-rebuild.php`) and rendered the dot as `.hero.theme--white .hero__block-content > .pill::before` in `hero.css`. This removes the filter-format dependency altogether — there is no markup left to strip, and it also resolves F3 (below) as a side effect, per A's own note that it would.
+
+Corrected the misleading claim: the "Architecture notes for A" section's filter-format discussion is superseded by this fix-pass (the div/filter interaction is no longer relevant since no div exists); this fix-pass section is the authoritative record.
+
+### F2 — hardcoded product copy in a reusable component
+
+`browser-chrome.twig` hardcoded `<strong>Aftersight dashboard — coming soon</strong>`. Added a new optional prop `placeholder_title` to `browser-chrome.component.yml` (documented inline as the A-phase fix), updated the twig to `{{ placeholder_title|default('Screenshot coming soon') }}`, and updated the assembly script to pass `placeholder_title: 'Aftersight dashboard — coming soon'` explicitly as an instance prop rather than relying on the twig default. The component is now copy-agnostic; a future `/aftersight`-page instance (or the eventual real-screenshot swap) can supply its own headline without a template edit.
+
+### F3 — 4-unit selector chain
+
+Mooted by the F1 fix: `.pill__dot` no longer exists as a class on any element (it's a `::before` pseudo-element selector now), so the offending `.hero.theme--white .hero__block-content > .pill .pill__dot` chain is gone. The replacement selector, `.hero.theme--white .hero__block-content > .pill::before`, is still 3 units against the ancestor chain (within the file's existing max) — `::before` is a pseudo-element suffix on the last compound selector, not an additional unit in the adapter's chain-length sense (consistent with how this file already treats `.hero.theme--white .heading` etc. as 2–3-unit chains).
+
+### F4 / F5 (notes, addressed while in the files)
+
+- **F4:** `code-snippet.css`'s `#3A342C` (traffic-light dot fill) now carries an explicit comment documenting it as an intentional non-token decorative value (no `base.css` token matches it — it sits deliberately between `--theme-surface-alt` and `--theme-border-color` for an "unlit chrome" look), rather than reading as an uncited oversight.
+- **F5:** Removed the overclaiming "can never silently drift" wording from `code-snippet.css`'s header comment; replaced with an accurate statement that citations mitigate *discovery* of drift, not drift itself. `browser-chrome.css`'s header never contained this exact wording (its WCAG section only claims the figures are "confirmed via computed hex math," which is accurate) — verified via grep, no change needed there.
+
+### Verification after fix-pass
+
+```
+$ ddev drush cr && ddev drush php:script scripts/sprint-wave2-276-hero-rebuild.php
+canvas_page 20 hero rebuild complete. Component count: 59   [unchanged — same as pre-fix-pass]
+
+# Idempotence — tree-diff (not count), per A's own verification method
+$ [dump tree] && [re-run script] && [dump tree] && diff
+BYTE-IDENTICAL — idempotence confirmed (new placeholder_title prop encoded
+correctly, byte-identical across re-runs)
+
+# T1 — hero renders identically except the intended F1 change
+$ diff <(sed 's/tik[a-z0-9]*//g' home-before-fixpass.html) <(sed 's/tik[a-z0-9]*//g' home-after-fixpass.html)
+  Only diffs: `<div class="pill__dot"></div>` removed (F1, intended) +
+  random aria-labelledby/aria-controls IDs (pre-existing per-render
+  randomness, unrelated to this diff, confirmed present in the original
+  handoff's own before/after diff too).
+
+# Live computed style of the new ::before dot
+{
+  "beforeContent": "\"\"",
+  "beforeBg": "rgb(142, 74, 42)",    // #8E4A2A, matches documented 6.64:1 ratio exactly
+  "beforeWidth": "6px",
+  "beforeBorderRadius": "50%"
+}
+
+# Blast-radius re-check (selector changed — required per adapter)
+$ node cascade-map.cjs "https://performant-labs.ddev.site:8493/"
+  375: total escapes = 2, attributable to this diff = 0
+  1280: total escapes = 2, attributable to this diff = 0
+  (same 2 pre-existing .primary-menu/menu-block escapes as before this
+  diff and before the fix-pass — untouched)
+VERDICT: PASS. Zero new escapes from the ::before selector or any other
+fix-pass change.
+```
+
+### Files changed (fix-pass, in addition to the original list above)
+
+- `web/themes/custom/performant_labs_v2/css/components/hero.css` (modified again — `.pill .pill__dot` → `.pill::before`)
+- `web/themes/custom/performant_labs_v2/components/code-snippet/code-snippet.css` (modified — F4/F5 comment fixes)
+- `web/themes/custom/performant_labs_v2/components/browser-chrome/browser-chrome.component.yml` (modified — new `placeholder_title` prop)
+- `web/themes/custom/performant_labs_v2/components/browser-chrome/browser-chrome.twig` (modified — consumes `placeholder_title` prop instead of hardcoded copy)
+- `scripts/sprint-wave2-276-hero-rebuild.php` (modified — drops the `pill__dot` div from the pill's text-prop HTML; passes `placeholder_title` explicitly)
+
+**Not committed/pushed** — per role scope, committing this fix-pass on `feat/276-product-led-homepage` (small commit, explicit paths, `Co-Authored-By` trailer) and pushing (feeds PR #283) is the next step, done immediately after this handoff update per the coordinator's instruction.

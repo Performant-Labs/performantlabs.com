@@ -36,6 +36,13 @@
  *   Muted glyphs (`$`, `→`) `#B8AFA0` (--theme-text-color-soft, black zone)
  *     on `#0E1014`: 8.77:1 (AAA)
  *
+ * A-phase fix-pass (F5): corrected an overclaim in this file's original
+ * wording — citing a literal to its base.css token source mitigates
+ * *discovery* of drift if base.css's dark-zone values ever change; it does
+ * not prevent the literal from drifting. The literals below are copied
+ * values, not live var() references, by design (see L3 ruling above — the
+ * zone selector doesn't apply here, only its token values do).
+ *
  * See: docs/pl2/css-change-log.md
  */
 
@@ -62,7 +69,12 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #3A342C;
+  background: #3A342C; /* A-phase fix-pass (F4): intentional non-token decorative
+    value, not a missed citation — a deliberate mid-tone between
+    html .theme--black's --theme-surface-alt (#1F1A14) and --theme-border-color
+    (#B8AFA0), giving the traffic-light dots an "unlit chrome" look. No base.css
+    token matches this value; if a shared dark-spot token family is introduced
+    (see F5 note in browser-chrome.css / hero.css), fold this in then. */
 }
 
 .code-snippet__body {
