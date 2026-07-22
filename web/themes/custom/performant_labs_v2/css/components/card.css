@@ -191,3 +191,63 @@
     padding-inline: 0;
   }
 }
+
+/* ─── spacing-fix: logo-card image fit (cover → contain) ───────────────
+ * André (2026-07-22): "Our testing tools" cards render a near-invisible
+ * placeholder logo; "Community contributions" cards crop wide project
+ * logos into unreadable fragments ("ampaig…", "outBu…").
+ *
+ * Root cause: Dripyard's card.css sets a blanket
+ *   .card__top img { aspect-ratio: 4/3; object-fit: cover; }
+ * intended for photographic card art. Every image currently rendered by
+ * this component sitewide is a wide/short project-logo asset:
+ *   pl-placeholder-logo.png  612×114  (5.4:1)
+ *   dqi-logo.png             344×156  (2.2:1)
+ *   ck-logo.png              651×168  (3.9:1)
+ *   lbk-logo_1.png           842×167  (5.0:1)
+ * `cover` on a 4:3 box zooms and crops these to the point of illegibility
+ * (Campaign Kit / Layout Builder Kit) or reduces the placeholder rocket
+ * mark to a sliver of near-white pixels (the three "Our testing tools"
+ * cards — read as "washed out", not a color/opacity bug).
+ *
+ * Component-reuse check: `.card` / `card-canvas` (dripyard_base) is the
+ * only card component with an image slot in this theme chain; no sibling
+ * component fits better. Usage audit (T1, 2026-07-22): `.card img` renders
+ * on /open-source-projects ONLY — zero other page in the site instantiates
+ * this component with an image. No photographic-card consumer exists to
+ * regress, so a general (unscoped-by-page) rule is safe; documented here
+ * in case a future page adds a photo card, which would need re-scoping.
+ *
+ * Fix: swap object-fit to `contain` so whole logos render, add inline
+ * padding + a bounded neutral surface so `contain`'s letterboxing reads
+ * as a deliberate logo tile (not empty space), and drop the forced 4:3
+ * aspect-ratio in favor of a shorter fixed height suited to wordmark-
+ * shaped assets (avoids a tall near-empty box around a short logo).
+ *
+ * `card-canvas.component.yml` has no `additional_classes` prop, so a
+ * per-instance class scope isn't available without a schema change
+ * (out of scope for a spacing/asset-fit fix) — CSS-level `.card__top img`
+ * override is the correct available layer.
+ *
+ * Layer ruling:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH/token math. RULED OUT.
+ *   L3: not a design token, a component-internal fit/box rule. RULED OUT.
+ *   L5: component-scoped CSS override via libraries-extend. CORRECT LAYER.
+ *
+ * WCAG: no text/color change; decorative logo tiles, alt text unaffected. */
+.card__top {
+  background-color: var(--theme-surface-alt);
+}
+
+.card__top img {
+  aspect-ratio: auto;
+  height: 160px;
+  padding: 24px 32px;
+  object-fit: contain;
+
+  @container (600px < width < 900px) {
+    aspect-ratio: auto;
+    height: 160px;
+  }
+}
