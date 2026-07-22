@@ -87,3 +87,7 @@ app_server_*
 
 # Testor.
 .testor_secret.yml
+
+# db content-compare tool artifacts (never commit snapshots/dumps)
+snapshot-*.json
+*.sql.gz
