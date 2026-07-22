@@ -120,3 +120,12 @@ docs-page:
   css:
     component:
       css/components/docs-page.css: {}
+
+# Breadcrumb link color fix (T finding W-1 / issue #280).
+# Layer 5: scoped to .breadcrumb (overrides --breadcrumb-link-color only,
+# not the shared --theme-link-color every inline link consumes).
+# Loaded via libraries-extend on core/components.dripyard_base--breadcrumb.
+breadcrumb:
+  css:
+    component:
+      css/components/breadcrumb.css: {}

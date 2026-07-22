@@ -292,3 +292,107 @@ fix-pass change.
 - `scripts/sprint-wave2-276-hero-rebuild.php` (modified — drops the `pill__dot` div from the pill's text-prop HTML; passes `placeholder_title` explicitly)
 
 **Not committed/pushed** — per role scope, committing this fix-pass on `feat/276-product-led-homepage` (small commit, explicit paths, `Co-Authored-By` trailer) and pushing (feeds PR #283) is the next step, done immediately after this handoff update per the coordinator's instruction.
+
+---
+
+## Fix-pass 2 (2026-07-22) — sitewide `.button--primary` AA failure (T finding W-1 / issue #280), André's binding ruling
+
+**Trigger:** coordinator relay of André's ruling on T's W-1 finding (`docs/pl2/handoffs/wave2-276/handoff-T.md`): fix `.button--primary`'s sitewide AA failure at the **token layer** — all primary buttons become terracotta-deep `#8E4A2A` + white text (6.64:1), replacing the failing white-on-teal (2.21:1). This also delivers the approved wireframe's hero-CTA spec (`docs/pl2/keytail-design/wireframe-276/RATIONALE.md` — same value, not a coincidence).
+
+### Trace (7-step workflow)
+
+**Bottom-up (`.button--primary` resting bg):**
+```
+.button--primary { background-color: var(--button-background-color) }
+  [dripyard_base/components/button/css/button-primary.css]
+--button-background-color: var(--pl-primary-light)
+  [performant_labs_v2/css/components/button.css:59 — L5 override via
+  libraries-extend on core/components.dripyard_base--button]
+--pl-primary-light: #62BBCB
+  [performant_labs_v2/css/base.css :root]
+Live-computed (pre-fix): rgb(98,187,203) on white text rgb(255,255,255) = 2.21:1 — FAIL AA.
+```
+
+**Top-down eligibility:**
+- L1 — not config-driven. RULED OUT.
+- L2 — not OKLCH-derived. RULED OUT.
+- L3 — `--pl-primary-light` is a `:root` token. Grepped every consumer sitewide: **exactly one** (`button.css:59`, `.button--primary`'s resting bg). Redefining the token at its `:root` definition site is safe and precise — no other surface can be silently recolored by this change. **CORRECT LAYER — this is the token-layer fix André specified**, not a per-instance CSS override.
+- L5 (button.css) — only consumes the token (`var(--pl-primary-light)`), unchanged; the fix lives at the token's definition (`base.css`), per the ruling's explicit instruction.
+
+**Breadcrumb (`/services` 3.12:1 finding, issue #280):** traced independently — **different token family**. `.breadcrumb__link` consumes `--breadcrumb-link-color` → `--theme-link-color` → `--pl-primary` (`#1893b4`), NOT `--pl-primary-light`. `--theme-link-color`/`--pl-primary` is the **shared inline-link color for every white/light/secondary-zone `<a>` sitewide** (already documented in `base.css` as a separately pre-approved 3.5:1 deviation for inline links). Retargeting that shared token would recolor every inline link on the site — an unapproved, out-of-scope blast radius far beyond the breadcrumb finding. Instead: overrode the breadcrumb SDC's **own** component-scoped custom property, `--breadcrumb-link-color` (dripyard_base's breadcrumb.css already exposes this as a per-component indirection layer, not a re-declaration of the shared token) — new L5 file (`css/components/breadcrumb.css`) + new `libraries-extend` entry on `core/components.dripyard_base--breadcrumb`. Scoped to `.breadcrumb` only; zero effect on any other link.
+
+### Changes
+
+1. **`css/base.css`** — `--pl-primary-light: #62BBCB` → `--pl-primary-light: var(--pl-accent-deep)` (`#8E4A2A`), with a dated comment explaining the ruling, the single-consumer safety argument, and the coincidental alignment with the wireframe's CTA spec.
+2. **`css/components/button.css`** — `.button--primary`'s hover/active states rederived from `--pl-accent-deep` via `color-mix(in oklch, var(--pl-accent-deep) 85%/75%, black)` (matching this codebase's existing `color-mix()` precedent in `footer.css`) rather than hardcoding a fourth brand hex or reusing the old (now-removed) `--pl-primary` teal for hover. Dark/black-zone and primary-zone `.button--primary` variants are untouched (independent token sources — `--theme-link-color` and hardcoded white/cream respectively — verified unaffected).
+3. **`css/components/breadcrumb.css`** (new) — `.breadcrumb { --breadcrumb-link-color: var(--pl-accent-deep) }`, full trace in the file's own header comment.
+4. **`performant_labs_v2.info.yml`** / **`performant_labs_v2.libraries.yml`** — new `libraries-extend` entry wiring `core/components.dripyard_base--breadcrumb` → `performant_labs_v2/breadcrumb` → `css/components/breadcrumb.css` (same pattern as every other L5 component override in this theme).
+5. **`docs/pl2/css-change-log.md`** — 3 new entries.
+
+### Contrast table (all live-rendered, headless Chromium `getComputedStyle()` + canvas sRGB readback — not just the source-CSS literal)
+
+| Element / state | Foreground | Background | Ratio | Verdict |
+|---|---|---|---|---|
+| `.button--primary` resting (hero CTA, live) | `#FFFFFF` | `#8E4A2A` | 6.64:1 | AA/AAA pass |
+| `.button--primary` hover (live `:hover`, headless) | `#FFFFFF` | `#804225` | 7.71:1 | AAA pass |
+| `.button--primary` active (live `:active`, headless mousedown) | `#FFFFFF` | `#68351C` | 9.93:1 | AAA pass |
+| `.button--primary` dark/black-zone (unchanged, independent token) | `#1F1A14` | `#5DC6E8` | 8.81:1 | AAA pass (no change) |
+| `.button--primary` primary-zone (unchanged, hardcoded) | `#1F1A14` | `#FFFFFF` | 17.27:1 | AAA pass (no change) |
+| Breadcrumb link, `/services` (live, resolves against cream ancestor bg) | `#8E4A2A` | `#F5EFE2` | 5.79:1 | AA/AAA pass |
+| Breadcrumb link on white (computed, other pages) | `#8E4A2A` | `#FFFFFF` | 6.64:1 | AA/AAA pass |
+| Breadcrumb link hover (unchanged — `--breadcrumb-link-color-hover` untouched) | `#005AA0` | `#FFFFFF` | 7.07:1 | AAA pass (no change) |
+
+**Methodology note (live vs. isolated-string measurement):** the hover/active `color-mix(in oklch, ...)` figures were first measured by evaluating the isolated CSS string in a bare probe element (`#713A20` / `#5F2F19`), then cross-checked against the actual `:hover`/`:active`-triggered `getComputedStyle()` on the real button (`#804225` / `#68351C`). The two methods differ by a few percent — an oklch→sRGB rounding nuance Chromium applies slightly differently depending on cascade context — so the **live-triggered figures are the ones documented**, since they're what a real user's browser actually paints. Both methods pass AAA regardless; the discrepancy never threatened the pass/fail verdict.
+
+### Verification performed (Tier-2 re-check across all mandated surfaces)
+
+```
+$ ddev drush cr   [between each change, per instruction]
+
+# Blast-radius gate (token change — mandatory)
+$ node cascade-map.cjs "https://performant-labs.ddev.site:8493/"
+  home 375/1280: 2 escapes each (pre-existing .primary-menu/menu-block, unrelated)
+$ node cascade-map.cjs "https://performant-labs.ddev.site:8493/services"
+  services 375/1280: 5 escapes each — cross-checked against a git-stashed
+  BASELINE re-run (pre-token-fix): also exactly 5, same selectors
+  (.dy-section--cta-pair, .dy-section--centered-white, .primary-menu — all
+  layout props: flex-basis/width/max-width/text-align/display/align-items,
+  NONE touch background-color/color or any token this fix changed).
+  ZERO NEW ESCAPES attributable to this diff on either page.
+VERDICT: PASS.
+
+# Tier-2 computed-style contrast sweep — 5 pages × 2 viewports (360/1280)
+Surfaces checked: hero CTA (/), /services buttons + breadcrumb, /contact-us
+submit + secondary CTA, /aftersight CTAs, one article page
+(/articles/retrofit-walkthrough). All measured .button--primary instances
+across all 5 pages: #8E4A2A bg + white text, 6.64:1, PASS. No FAIL verdicts
+found anywhere. Full raw JSON output captured during the session.
+
+# Terracotta-on-terracotta / same-color sweep (automated, all 5 pages)
+Euclidean-distance same-color detector (bg vs fg, threshold 30) run against
+every leaf text node on /, /services, /contact-us, /aftersight, and the
+article page — ZERO matches. No surface renders illegibly.
+
+# Touch targets (unaffected — color-only change, sanity-checked anyway)
+Hero primary CTA at 360px: 317×44px box — unchanged, still ≥44px.
+
+# Screenshots to disk (360 + 1280, all 5 pages)
+docs/pl2/handoffs/wave2-276/shots-token-fix/
+  homepage-hero-{360,1280}-2026-07-22.png
+  services-{360,1280}-2026-07-22.png
+  contact-us-{360,1280}-2026-07-22.png
+  aftersight-{360,1280}-2026-07-22.png
+  article-{360,1280}-2026-07-22.png
+```
+
+### Files changed (fix-pass 2)
+
+- `web/themes/custom/performant_labs_v2/css/base.css` (modified — `--pl-primary-light` token redefinition)
+- `web/themes/custom/performant_labs_v2/css/components/button.css` (modified — hover/active derivation, corrected comments)
+- `web/themes/custom/performant_labs_v2/css/components/breadcrumb.css` (new)
+- `web/themes/custom/performant_labs_v2/performant_labs_v2.info.yml` (modified — new `libraries-extend` entry)
+- `web/themes/custom/performant_labs_v2/performant_labs_v2.libraries.yml` (modified — new `breadcrumb` library)
+- `docs/pl2/css-change-log.md` (modified — 3 new entries)
+- `docs/pl2/handoffs/wave2-276/shots-token-fix/*.png` (new — 10 screenshots, 5 pages × 2 viewports)
+
+**Not merged** — committing on `feat/276-product-led-homepage` (explicit paths, `Co-Authored-By` trailer), pushing to feed PR #283, commenting on #280 (fix + evidence + "fixes #280 pending merge") and briefly on #276, per the coordinator's instruction.

@@ -104,3 +104,12 @@
 
 [Layer 5] .hero.theme--white .hero__block-content > .code-snippet/.browser-chrome flex-basis:100%/margin-top spacing  css/components/hero.css  2026-07-21
   Ruling: #276 Wave 2 sub-phase A. Vertical rhythm for the two new hero children within the existing flex row/column layout. L1/L3 ruled out for the same reason as the pill rule above (page-specific hero composition). L5 correct.
+
+[Layer 3] --pl-primary-light in :root → var(--pl-accent-deep)  css/base.css:L54  2026-07-22
+  Ruling: T finding W-1 / issue #280 (binding, André). L1 not config. L2 not OKLCH. L3 correct — --pl-primary-light is a :root token whose only consumer sitewide is .button--primary's resting bg; redefining it fixes the sitewide AA failure (white-on-#62BBCB, 2.13:1) at the source, not per-instance. New value #8E4A2A (terracotta-deep) = 6.64:1 AA/AAA, and is the same value the approved wireframe (#276) already specs for the primary CTA fill — one fix delivers both.
+
+[Layer 5] --button-background-color-hover/-active in .button--primary → color-mix(in oklch, var(--pl-accent-deep) 85%/75%, black)  css/components/button.css:L60-61  2026-07-22
+  Ruling: Same W-1/#280 fix. Hover/active derived from the corrected token via color-mix() (matching existing color-mix precedent in footer.css) rather than hardcoding a fourth brand hex. Live-rendered: hover #804225 = 7.71:1 AAA, active #68351C = 9.93:1 AAA.
+
+[Layer 5] --breadcrumb-link-color in .breadcrumb → var(--pl-accent-deep)  css/components/breadcrumb.css  2026-07-22 (new file, new libraries-extend entry)
+  Ruling: Same W-1/#280 finding, different token family (breadcrumb consumes --theme-link-color/--pl-primary, not --pl-primary-light). L3 (--theme-link-color/--pl-primary) ruled OUT — that token is the shared sitewide inline-link color for every white/light/secondary-zone <a>, a separately pre-approved 3.5:1 deviation; retargeting it would recolor every inline link, an unapproved blast radius. L5 correct — override the breadcrumb SDC's own --breadcrumb-link-color custom property (dripyard_base:breadcrumb already exposes this as a per-component indirection), scoped to .breadcrumb only. New value #8E4A2A on white = 6.64:1, on cream = 5.79:1 (AA/AAA both).
