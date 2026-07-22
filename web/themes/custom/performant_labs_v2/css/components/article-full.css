@@ -97,7 +97,7 @@
 
 .article-full .field--name-field-category .field__label {
   font-family: var(--af-font-body);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 1.6px;
   text-transform: uppercase;
@@ -105,14 +105,14 @@
 }
 
 .article-full .field--name-field-category .field__item {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
 }
 
 /* --- Prose body: typography and rhythm --- */
 .article-full .text-content.field--name-body {
   font-family: var(--af-font-body);
-  font-size: 17px;
+  font-size: 1.0625rem;
   line-height: 1.7;
   color: var(--af-ink);
 }
@@ -125,7 +125,7 @@
 /* --- Headings inside prose --- */
 .article-full .text-content.field--name-body h2 {
   font-family: var(--af-font-display);
-  font-size: 30px;
+  font-size: 1.875rem;
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.6px;
@@ -136,7 +136,7 @@
 
 .article-full .text-content.field--name-body h3 {
   font-family: var(--af-font-display);
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: -0.3px;
@@ -147,7 +147,7 @@
 
 .article-full .text-content.field--name-body h4 {
   font-family: var(--af-font-display);
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.35;
   letter-spacing: -0.2px;
@@ -226,7 +226,7 @@
 /* --- Code blocks (pre) --- */
 .article-full .text-content.field--name-body pre {
   font-family: var(--af-font-mono);
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   background: var(--af-espresso);
   color: var(--af-on-dark);
@@ -267,14 +267,14 @@
   }
 
   .article-full .text-content.field--name-body {
-    font-size: 16px;
+    font-size: 1rem;
   }
 
   .article-full .text-content.field--name-body h2 {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .article-full .text-content.field--name-body h3 {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 }

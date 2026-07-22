@@ -10,6 +10,17 @@
  * Layer 2) are intentionally NOT overridden here.
  */
 
+/* 2026-07-22: André's directive — increase base font size 15%, single place.
+ * Parent theme anchor (dripyard_base/css/base/base.css:24) stays html { font-size: 100% },
+ * unmodified. This is the one override point: every --h1-size … --body-s-size /
+ * --title-size token (neonbyte/css/_variables/variables-typography.css) is rem-based
+ * and rooted here, and as of the prior commit, all 83 previously-hardcoded-px
+ * font-size declarations in this subtheme are rem-based too — so this single rule
+ * now cascades the 15% bump through 100% of this theme's typography. */
+html {
+  font-size: 115%;
+}
+
 /* Brand-specific accent tokens (no dark-mode variant; not consumed by
  * Dripyard's theme machinery). */
 :root {

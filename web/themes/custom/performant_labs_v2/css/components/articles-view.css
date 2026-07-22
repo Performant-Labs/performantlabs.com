@@ -90,7 +90,7 @@
 
 .articles-toolbar__label {
   font-family: var(--av-font-body);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 1.6px;
   text-transform: uppercase;
@@ -131,7 +131,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--av-font-body);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   line-height: 1;
   padding: 9px 16px;
@@ -250,7 +250,7 @@
   background: var(--av-canvas);
   color: var(--av-body);
   font-family: var(--av-font-body);
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
   transition: border-color 150ms ease-out, color 150ms ease-out, background-color 150ms ease-out;
@@ -304,6 +304,6 @@
   text-align: center;
   color: var(--av-muted);
   font-family: var(--av-font-body);
-  font-size: 16px;
+  font-size: 1rem;
   padding: var(--av-space-3xl) 0;
 }

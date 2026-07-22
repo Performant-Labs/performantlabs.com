@@ -86,7 +86,7 @@
   --pill-text-color: var(--ha-chip-text);
   --pill-text-color-hover: var(--ha-on-accent);
   --pill-border-radius: var(--ha-radius-pill);
-  --pill-font-size: 12px;
+  --pill-font-size: 0.75rem;
 
   font-family: var(--ha-font-body);
   font-weight: 600;
@@ -106,7 +106,7 @@
 /* --- H1 title --- */
 .header-article__title {
   font-family: var(--ha-font-display);
-  font-size: 48px;
+  font-size: 3rem;
   font-weight: 500;
   line-height: 1.1;
   letter-spacing: -1.2px;
@@ -142,7 +142,7 @@
   }
 
   .header-article__title {
-    font-size: 32px;
+    font-size: 2rem;
     letter-spacing: -0.6px;
   }
 
