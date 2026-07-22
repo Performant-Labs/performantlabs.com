@@ -246,3 +246,65 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276/#282 (Wave 2, sub-phase C) — Feature-anatomy 2-col layout
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * DOM (from scripts/sprint-wave2-282-features-services-relocate.php):
+ *   .dy-section--feature-anatomy[.dy-section--feature-anatomy-reverse]
+ *     .grid-wrapper.grid-wrapper--feature-anatomy
+ *       .grid-wrapper__grid
+ *         .grid-cell.grid-cell--feature-copy (--grid-cell-columns-*: 6/6/6)
+ *         .grid-cell.grid-cell--feature-crop (--grid-cell-columns-*: 6/6/6)
+ *
+ * Bottom-up trace:
+ *   The copy/crop cells already receive a correct 2-up split at >=600px
+ *   container width via their own inline `--grid-cell-columns-*` custom
+ *   properties (set directly in the assembly script's grid-cell `inputs`
+ *   — columns_small=12 -> halved to 6 by grid-cell.twig, matching the
+ *   6-col mobile grid, i.e. full width; columns_medium=6 / columns_large=6
+ *   -> half of the 12-col grid at >600px container width, i.e. 2-up). No
+ *   `--Ncol` marker class or grid-template-columns override was needed for
+ *   the BASE 2-column split (unlike the --2col/--3col precedents in this
+ *   file, which exist because their cards have no col-span custom
+ *   properties set at all). What IS missing: the wireframe's alternating
+ *   "reverse" visual order for feature 2 (crop appears LEFT, copy RIGHT
+ *   at desktop) — the assembly script deliberately keeps copy-then-crop
+ *   DOM order for every feature (so a screen reader always meets copy
+ *   before the UI crop, matching this file's own accessibility-first
+ *   precedent elsewhere), so the visual reversal must be CSS-only.
+ *
+ * Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — not a --theme-* token; `order` is a layout-only CSS Grid
+ *        property. RULED OUT.
+ *   L5 — component-scoped to `.dy-section--feature-anatomy-reverse`,
+ *        matching this file's own --2col/--3col marker-class conventions.
+ *        CORRECT LAYER.
+ *
+ * WCAG: `order` is a purely VISUAL reordering — it does not change DOM/
+ *   reading order, so screen-reader and keyboard-tab order remain
+ *   copy-then-crop regardless of the visual left/right position (WCAG
+ *   1.3.2 Meaningful Sequence: visual order may differ from DOM order only
+ *   when the DOM order itself still makes sense read linearly, which it
+ *   does here — copy always precedes its own illustrative crop). No color/
+ *   contrast impact (layout-only).
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+.dy-section--feature-anatomy-reverse .grid-wrapper--feature-anatomy .grid-cell--feature-copy {
+  order: 2;
+}
+
+.dy-section--feature-anatomy-reverse .grid-wrapper--feature-anatomy .grid-cell--feature-crop {
+  order: 1;
+}
+
+/* Vertical gap between the copy/crop cells when stacked at mobile
+ * (<600px container width, single-column). grid-cell's own default `gap`
+ * custom property (--gap, undefined here) has no fallback, so stacked
+ * cells touch without this. Scoped to feature-anatomy only. */
+.grid-wrapper--feature-anatomy .grid-wrapper__grid {
+  row-gap: 2rem; /* 32px */
+}
