@@ -1,0 +1,48 @@
+$schema: https://git.drupalcode.org/project/drupal/-/raw/HEAD/core/assets/schemas/v1/metadata.schema.json
+name: Hero Title
+status: stable
+group: Performant Labs
+description: >
+  Renders the hero H1 with an accented "brand word" span at the START of the
+  heading. Built for #276 (S-A1 — the approved wireframe's terracotta
+  "Aftersight" brand-word treatment). dripyard_base:heading cannot do this:
+  its `text` prop is plain `type: string` rendered via Twig's default
+  auto-escaping (`{{ text }}`, no `|raw`) — verified empirically (a literal
+  <span> saved into that prop renders as visible escaped text,
+  `&lt;span&gt;...`, not markup). Creating a dedicated component was chosen
+  over editing dripyard_base:heading (a pristine parent-theme component,
+  off-limits per the adapter's parent-theme policy) or forcing HTML through
+  dripyard_base:text (renders as a fixed <div>, not <h1> — would sacrifice
+  heading semantics). Both props below are PLAIN TEXT (no contentMediaType:
+  text/html, no filter format involved) — the brand-word accent is achieved
+  by splitting the string into two props and wrapping the first one in a
+  <span> in the twig template, not by injecting HTML into a single text
+  prop. This keeps the rendered TEXT content byte-identical to the
+  #268-approved copy while adding markup only at the render layer.
+  Scoped to brand-word-at-the-start (this hero's actual copy shape); if a
+  future heading needs the accent mid-string, extend with a prefix prop
+  then — YAGNI for the one confirmed use case.
+props:
+  type: object
+  required:
+    - brand_word
+    - suffix
+  properties:
+    brand_word:
+      title: Brand word
+      description: The word or phrase at the START of the heading, rendered in the accent color.
+      type: string
+      examples:
+        - Aftersight
+    suffix:
+      title: Suffix text
+      description: Plain text rendered after the accented brand word (no leading space needed — the template adds it).
+      type: string
+      examples:
+        - ' — open-source test intelligence, built CTRF-native.'
+    center:
+      title: Center text
+      type:
+        - boolean
+        - 'null'
+      examples: [ true ]

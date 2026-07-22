@@ -3,14 +3,39 @@
  *
  * Changes:
  *   1. Pill radius (30px) per design brief rounded.pill.
- *   2. Phase 8.7: Primary button adopts preview's three-color palette:
- *      resting bg = --pl-primary-light (#62BBCB), hover = --pl-primary (#1893b4).
- *      WCAG: #62BBCB bg + #FFFFFF text = 2.13:1 (FAIL AA — pre-approved
- *      deviation per operator decision 2026-05-11, prioritizes preview-canonical
- *      visual identity). Hover #1893b4 + #FFFFFF = 3.5:1 (passes large-text 3:1,
- *      fails body-text 4.5:1 — also pre-approved).
+ *   2. Phase 8.7 (SUPERSEDED 2026-07-22 — see below): Primary button
+ *      originally adopted resting bg = --pl-primary-light (#62BBCB, teal),
+ *      hover = --pl-primary (#1893b4) — both logged as "pre-approved
+ *      deviations" despite failing WCAG AA (2.13:1 resting, 3.5:1 hover).
  *   3. Ghost-on-dark modifier for outline buttons on espresso surfaces.
  *   4. Button typography: Poppins SemiBold 15px per design brief.
+ *
+ * ── 2026-07-22 binding fix (T finding W-1 / issue #280) ───────────────────
+ * André ruled the "pre-approved deviation" was itself the defect: fixed at
+ * the TOKEN layer, not here (this file only *consumes* --pl-primary-light —
+ * see base.css for the token redefinition). --pl-primary-light now resolves
+ * to --pl-accent-deep (#8E4A2A, terracotta-deep) instead of #62BBCB, so
+ * .button--primary's resting state is unchanged in this file (still
+ * `var(--pl-primary-light)`) but now renders terracotta-deep + white =
+ * 6.64:1 (AA/AAA pass) everywhere this rule applies. This also delivers the
+ * approved wireframe's hero-CTA spec (docs/pl2/keytail-design/wireframe-276/
+ * RATIONALE.md) as the same value, not a separate change.
+ *
+ * Hover/active are DERIVED from --pl-accent-deep via color-mix() (in oklch,
+ * matching this codebase's existing color-mix precedent in footer.css) —
+ * darkened for a pressed-state feel — rather than hardcoding a fourth brand
+ * hex. Both pass AAA comfortably (see contrast table below), so there is no
+ * WCAG tension to negotiate at this layer the way the old teal pairing had.
+ *
+ * WCAG (current, all white text #FFFFFF; figures are the LIVE-rendered
+ * getComputedStyle() values on the actual :hover/:active button element via
+ * headless Chromium, not the isolated color-mix() string evaluated out of
+ * cascade context — the two differ by a few percent due to an oklch→sRGB
+ * rounding nuance Chromium applies differently in each context; the live
+ * figure is the one a real user's browser actually paints):
+ *   Resting: --pl-accent-deep #8E4A2A = 6.64:1 (AA/AAA pass)
+ *   Hover:   color-mix(in oklch, #8E4A2A 85%, black), live-rendered #804225 = 7.71:1 (AAA)
+ *   Active:  color-mix(in oklch, #8E4A2A 75%, black), live-rendered #68351C = 9.93:1 (AAA)
  *
  * Specificity: Dripyard uses .button--primary:where(:not([disabled])) (0,1,0).
  * Our overrides load after via libraries-extend, winning by cascade order
@@ -27,20 +52,18 @@
   transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out, scale 0.1s;
 }
 
-/* ─── Primary button: preview-canonical three-color palette ────────
- * Phase 8.7: replaces the P13 --theme-link-color approach.
- *
+/* ─── Primary button: terracotta-deep CTA fill (2026-07-22 fix) ────
  * White/light/secondary zones (default):
- *   Resting: --pl-primary-light (#62BBCB) bg + white text
- *   Hover:   --pl-primary (#1893b4) bg + white text
- *   WCAG: 2.13:1 resting, 3.5:1 hover — both pre-approved deviations.
+ *   Resting: --pl-primary-light (now --pl-accent-deep, #8E4A2A) bg + white text = 6.64:1 (AA/AAA)
+ *   Hover:   color-mix(in oklch, var(--pl-accent-deep) 85%, black), live #804225 = 7.71:1 (AAA)
+ *   Active:  color-mix(in oklch, var(--pl-accent-deep) 75%, black), live #68351C = 9.93:1 (AAA)
  *
  * Dark/black zones: unchanged (--theme-link-color = #5DC6E8, text = espresso).
  * Primary zone: unchanged (white bg + espresso text). */
 .button--primary:where(:not([disabled])) {
   --button-background-color: var(--pl-primary-light);
-  --button-background-color-hover: var(--pl-primary);
-  --button-background-color-active: var(--pl-primary);
+  --button-background-color-hover: color-mix(in oklch, var(--pl-accent-deep) 85%, black);
+  --button-background-color-active: color-mix(in oklch, var(--pl-accent-deep) 75%, black);
   --button-text-color: #FFFFFF;
   --button-text-color-hover: #FFFFFF;
   --button-text-color-active: #FFFFFF;
@@ -66,9 +89,12 @@
 }
 
 /* ─── Primary button in dark/black zones: use dark-zone link color ──────
- * In dark zones --theme-link-color = #5DC6E8 (light teal). The base rule's
- * --pl-primary-light (#62BBCB) is too close to espresso for adequate contrast.
- * Override to dark-zone link color + espresso text.
+ * In dark zones --theme-link-color = #5DC6E8 (light teal). Overridden here
+ * (not because the base rule's terracotta-deep would fail on espresso — it
+ * wouldn't — but to keep dark-zone CTAs on the dark-zone's own light-teal
+ * link color for zone-consistent brand treatment, unchanged by the 2026-07-22
+ * token fix above; this rule's token source, --theme-link-color, is entirely
+ * independent of --pl-primary-light).
  * WCAG: #5DC6E8 bg + #1F1A14 text = 8.81:1 (AA pass).
  * Hover: #7AD0E8 bg + #1F1A14 text = 9.88:1 (AA pass).
  * Specificity (0,2,0) beats the base (0,1,0) rule above. */

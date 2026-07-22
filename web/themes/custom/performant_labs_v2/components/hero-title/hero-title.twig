@@ -1,0 +1,18 @@
+{#
+  Hero Title — renders an <h1> with an accented brand-word span at the
+  start. Built for #276 S-A1 (see hero-title.component.yml header comment
+  for the full rationale — dripyard_base:heading cannot render markup).
+
+  Props (read from hero-title.component.yml — do not guess):
+    brand_word : string, required — the accented word/phrase at the start
+    suffix     : string, required — plain text after the brand word
+    center     : boolean, optional — centers the heading
+
+  Classes match dripyard_base:heading's own output exactly (heading h1
+  heading--centered margin-top--0 margin-bottom--0 color--loud) so every
+  existing hero.css rule targeting `.hero.theme--white .heading` continues
+  to apply unchanged — no hero.css selector needed a rewrite for this swap.
+#}
+<h1{{ attributes.addClass(['heading', 'h1', center ? 'heading--centered', 'margin-top--0', 'margin-bottom--0', 'color--loud']) }}>
+<span class="hero-title__brand">{{ brand_word }}</span>{{ suffix }}
+</h1>
