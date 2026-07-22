@@ -396,3 +396,172 @@ docs/pl2/handoffs/wave2-276/shots-token-fix/
 - `docs/pl2/handoffs/wave2-276/shots-token-fix/*.png` (new — 10 screenshots, 5 pages × 2 viewports)
 
 **Not merged** — committing on `feat/276-product-led-homepage` (explicit paths, `Co-Authored-By` trailer), pushing to feed PR #283, commenting on #280 (fix + evidence + "fixes #280 pending merge") and briefly on #276, per the coordinator's instruction.
+
+---
+
+## Fix-pass 3 (2026-07-22) — S REWORK item R1 + advisories S-A1/S-A2/S-A4
+
+**Trigger:** `docs/pl2/handoffs/wave2-276/handoff-S.md` — REWORK (R1: dev-pill geometry), plus two approved-wireframe advisories folded in per the coordinator (S-A1: H1 brand-word terracotta, S-A4: hero gradient tint) and one trivial advisory (S-A2: H1 4-line wrap). S-A3 (secondary CTA teal outline) accepted as-is per S — no change. Subhead duplicate-phrase copy trim is explicitly gated on André separately — not touched here.
+
+### R1 (required) — dev-status pill full-width bar + detached dot at 360
+
+**Root cause (three layered issues, all in `hero.css`, found via live measurement — not guessed):**
+
+1. **Primary cause (S's diagnosis, confirmed):** `.pill` was included in the hero's desktop `flex-basis: 100%` group (added in fix-pass 1, when the pill was first introduced), stretching it to the full content-column width — 900px @1280, 693px @768, a thin outlined bar instead of a badge. At 360, `.pill`'s own default `display: flex; flex-wrap: wrap` (from `pill.css`) let the 6px `::before` status dot wrap onto its own flex line above the two-line-wrapped text — a detached floating dot.
+2. **Second cause (found during my own fix verification, not in S's writeup):** applying `width: fit-content` alone still measured 344px, not hugging the ~298px text, because the pill's nested `dripyard_base:text` child renders as a plain block-level `<div>` (no inline/nowrap option in `text.twig`) — it sized to whatever width the flex item computed rather than shrinking to content. Needed `white-space: nowrap` on the text child too.
+3. **Third cause (also found during verification — this one was a REAL 27px overflow past the hero's own content column at 360, not just a measurement nicety):** the pill's nested text child carries the `dripyard_base:text` SDC's own `.body-m` utility class (`font-size: var(--body-m-size)`, 16px, specificity 0,1,0), which won over the `font-size: 12px` I'd set on the `.pill` **ancestor** (font-size doesn't override a more-specific descendant rule via inheritance — it only propagates to descendants that don't have their own explicit rule). The pill was therefore rendering its status text at 16px, not the intended 12px mono, which is what actually pushed its total width to 344px against a 317px container at 360. Moved the `font-family`/`font-size` rule directly onto `.hero .pill > .text`.
+
+**Fix (all CSS-only, `hero.css`, no Canvas/token change):**
+- Removed `.pill` from the `.heading, .text, .kicker, .pill { flex-basis: 100% }` desktop group.
+- `.hero .hero__block-content > .pill { width: fit-content; max-width: 100%; margin-inline: auto; flex-wrap: nowrap; }` (the `max-width: 100%` is a defensive safety cap, not strictly required after cause 3's fix, but kept as a belt-and-suspenders guard against any future content-length change re-introducing overflow).
+- `.hero .hero__block-content > .pill > .text { white-space: nowrap; font-family: var(--font-mono, ...); font-size: 12px; line-height: 1.4; }`
+
+**Verification (live-measured, all three viewports):**
+```
+Before (S's evidence):          After (this fix):
+360:  317×64px, 2-line text,    360:  292×25px, single-line badge
+      dot on its own line             no detached dot
+768:  693px full-width bar      768:  292×25px badge, centered
+1280: 900px full-width bar      1280: 292×25px badge, centered
+
+Pill vs. its .hero__content container at 360 (the overflow check):
+  Before font-size fix: pill 344px right-edge 357px vs. container right-edge
+    331px — REAL 26px overflow (this widened document.documentElement.scrollWidth
+    from the pre-diff baseline 345 to 357, caught during my own verification,
+    not by S — S's evidence predates my font-size root-cause discovery).
+  After: pill 292px, right-edge 318px, container right-edge 331px — fits with
+    13px margin. scrollWidth back to exactly 345 (the pre-fix-pass-3 baseline,
+    confirmed via a git-stash A/B comparison), zero net overflow regression.
+```
+
+### S-A1 (approved-wireframe element) — H1 "Aftersight" terracotta brand-word: BLOCKED-ON-O, not implemented
+
+Per the coordinator's explicit instruction ("if it would require altering the stored verbatim string with a span, STOP and note it as blocked-on-O instead of hacking"):
+
+- **Mechanism check:** `dripyard_base:heading`'s twig template (`web/themes/dripyard_themes/dripyard_base/components/heading/heading.twig`) renders `{{ text }}` with Twig's default auto-escaping (no `|raw` filter) — the `text` prop is treated as plain text, not HTML. There is no slot, no markup-injection prop, and no "rich text" mode on this component.
+- **CSS-only check:** no CSS mechanism exists to color a substring of unwrapped text — `::first-line` would color the entire first *rendered* line (which contains more than just "Aftersight" at every viewport tested), not the single word; there is no CSS selector that targets "the first word of a text node."
+- **The only two paths that would actually work both fail the instruction's stop condition:**
+  1. Wrap "Aftersight" in a `<span>` inside the stored `text` prop value → alters the #268-verbatim-guaranteed string with markup. **STOP condition met.**
+  2. Edit `dripyard_base:heading`'s shared twig template to support a markup/brand-word mechanism → this is a **parent-theme component** (`dripyard_themes/dripyard_base/`), which per the adapter's "parent theme policy" is pristine/never-edited from this subtheme; any such change would also affect every other `dripyard_base:heading` instance sitewide, an unapproved, out-of-scope blast radius.
+- **Not implemented.** Flagging to O as blocked: the brand-word accent needs either (a) André's explicit sign-off to add a `<span>` around "Aftersight" inside the stored H1 text (a markup change to verbatim-guaranteed copy, not a wording change — worth distinguishing from a copy edit when asking), or (b) a deliberate "skip it" ruling, or (c) a new Canvas-authorable "rich heading" component/prop if this pattern is wanted elsewhere too. This is exactly the decision S's own advisory framed as needing "at sub-phase B/C rather than silently dropping it" — I'm surfacing it now instead of guessing.
+
+### S-A4 (approved-wireframe element, implemented) — soft terracotta/teal gradient tint behind the hero
+
+Added `background: radial-gradient(...), radial-gradient(...), var(--theme-surface-alt)` on `.hero.theme--white`, values copied exactly from the wireframe (`wireframe.html:120-126`): 70%/55% ellipse at 50%/0% in terracotta (`--pl-accent`, α.10), 50%/40% ellipse at 85%/15% in teal (`--pl-primary`, α.06), over the cream `--theme-surface-alt` token (same value as the wireframe's `--color-bg-alt`, `#F5EFE2`) instead of the flat white default. No new hex literals — both colors are existing brand tokens.
+
+**Contrast re-verified at the gradient's actual worst-case rendered pixels** (not just the flat token value) — took a screenshot with all hero children hidden (background-only), read back the pixel color at each gradient ellipse's peak-saturation point via canvas:
+```
+Terracotta ellipse peak (50%/0% of hero box): #F1E4D5
+Teal ellipse peak (85%/15% of hero box):      #E9E9DE
+Cream baseline (far from both):               #F5EFE2 (matches --theme-surface-alt exactly)
+```
+Contrast at these worst-case points:
+```
+Kicker/pill text #8E4A2A on terracotta-peak #F1E4D5 = 5.31:1  (AA/AAA pass)
+Kicker/pill text #8E4A2A on teal-peak #E9E9DE       = 5.43:1  (AA/AAA pass)
+H1 #1F1A14 on terracotta-peak                       = 13.81:1 (AAA pass)
+H1 #1F1A14 on teal-peak                             = 14.12:1 (AAA pass)
+Subhead #5C544C on terracotta-peak                  = 5.94:1  (AA/AAA pass)
+Subhead #5C544C on teal-peak                         = 6.07:1  (AA/AAA pass)
+```
+All comfortably pass AA even at the gradient's most saturated pixels — the tint is subtle enough (max α 0.10) that it never threatens any text pairing.
+
+### S-A2 (advisory, trivial — implemented per coordinator's "only if trivial" instruction)
+
+H1 wrapped to 4 lines at 1280 (line widths 405/570/562/431px — "CTRF-native." nearly alone on line 4). Tested `max-width` values from 720px (original) up to 960px directly against the live page; 820px was the first value that collapsed the wrap to 3 balanced lines (618/786/593px). Confirmed **zero effect at 360/768** — both viewports' `.hero__content` column (317px/693px) is already narrower than the original 720px cap, so raising it to 820px never engages there; verified by testing both values side-by-side and confirming identical line-break output at both narrower viewports. Same font-size/letter-spacing throughout — this only widens the wrap boundary, not the type scale, so it doesn't diverge from the wireframe. Applied: `.hero.theme--white .heading { max-width: 820px }` (was 720px).
+
+### S-A3 — no change (accepted as-is per S's verdict)
+
+Secondary CTA's teal-deep outline (#005AA0, 7.07:1 AAA) is the site's own pre-existing convention, untouched by any diff in this issue, and S explicitly accepted it as-is unless André wants the wireframe's neutral treatment. Not touched.
+
+### Verification performed
+
+```
+$ ddev drush cr   [after each CSS change]
+
+# Pill geometry re-check, live-measured, all 3 viewports
+360:  pill 292×25px, single-line, no detached dot, fits container (13px margin)
+768:  pill 292×25px, single-line, centered
+1280: pill 292×25px, single-line, centered
+(down from 317×64px-with-detached-dot @360 / 693px-bar @768 / 900px-bar @1280)
+
+# Overflow regression check (caught during my own verification — not in S's
+# original evidence, since it stemmed from the font-size root cause discovered
+# while fixing R1's primary symptom)
+Pre-fix-pass-3 baseline (git stash): scrollWidth 345 @360
+Mid-fix (before font-size correction): scrollWidth 357 @360 — REGRESSION, caught
+After font-size correction: scrollWidth 345 @360 — MATCHES BASELINE, resolved
+
+# Contrast re-check on gradient-tinted backgrounds (see S-A4 section above)
+Worst case (gradient peak pixels, not just flat token): 5.31:1 minimum — AA/AAA pass
+
+# Blast-radius gate (CSS changed — mandatory)
+$ node cascade-map.cjs "https://performant-labs.ddev.site:8493/"
+  375: 2 total escapes, 0 attributable to pill/hero/heading/text selectors
+  1280: 2 total escapes, 0 attributable to pill/hero/heading/text selectors
+  (same 2 pre-existing .primary-menu/menu-block escapes as every prior check
+  in this issue's history — unrelated, untouched)
+VERDICT: PASS.
+
+# Touch targets / heading hierarchy (sanity, unaffected — color/geometry-only diff)
+360:  h1Count=1, primary CTA 317×44px, secondary CTA 317×44px
+1280: h1Count=1, primary CTA 169×56px, secondary CTA 212×56px
+
+# Screenshots to disk (360/768/1280)
+docs/pl2/handoffs/wave2-276/shots-s-fixpass/hero-{360,768,1280}-2026-07-22.png
+```
+
+### Addendum (same pass) — André-approved hero subhead trim (binding copy amendment)
+
+**Trigger:** coordinator relay of André's binding approval of S's recommended subhead trim (`handoff-S.md` §"Ruling: the duplicated 'Now in development — in the open'"): the hero subhead becomes exactly **"Self-hosted, MIT-licensed, AI in the core."**, dropping the trailing "Now in development — in the open." clause. The pill (unchanged) is now the sole carrier of the dev-status phrase.
+
+**This officially amends #268's verbatim copy block** — the trimmed subhead is now the verbatim-copy baseline for this element going forward, superseding the original "...AI in the core. Now in development — in the open." string. No other copy on the page changed (H1, kicker, pill, both CTA labels — all confirmed byte-unchanged, see verification below).
+
+**Implementation:** added subhead-trim logic to `scripts/sprint-wave2-276-hero-rebuild.php`, following the exact same pattern already used for the kicker relabel (find the component by its fixed UUID `a07e8730-2c04-4afe-9d57-3b3bd744c189`, decode `inputs`, mutate `text`, re-encode) — a pure Canvas content edit, no `component_version` touched (the subhead's `dripyard_base:text` instance keeps its existing, valid, live-sourced hash; the script never re-derives or overwrites version hashes for components it doesn't otherwise modify). Added a fail-fast guard (`$found_subhead`) matching the existing hero/kicker guards, so the script throws rather than silently no-op'ing if the subhead's UUID ever drifts.
+
+**Verification:**
+```
+$ ddev drush cr && ddev drush php:script scripts/sprint-wave2-276-hero-rebuild.php
+canvas_page 20 hero rebuild complete. Component count: 59   [unchanged]
+
+$ curl -sk https://performant-labs.ddev.site:8493/ | grep -A1 'text--centered body-l'
+<div data-component-id="dripyard_base:text" class="text text-content text--centered body-l color--soft">
+  Self-hosted, MIT-licensed, AI in the core.
+[exact match — trailing clause gone, no residual whitespace/punctuation drift]
+
+# Full hero-region diff against the pre-subhead-trim baseline (token-fix
+# capture, earlier in this same PR) — sed-normalized to ignore cache-busting
+# query strings and per-render-random aria IDs:
+$ diff <(sed ...) <(sed ...)
+646c646
+<   Self-hosted, MIT-licensed, AI in the core. Now in development — in the open.
+---
+>   Self-hosted, MIT-licensed, AI in the core.
+[ONLY diff on the entire page — H1/kicker/pill/CTAs/below-the-fold all
+byte-identical]
+
+# Idempotence re-verified (tree-diff, not count) with the new subhead logic
+[dump tree] && [re-run script] && [dump tree] && diff
+BYTE-IDENTICAL — count 59 both runs
+
+# Live sanity across all 3 viewports (pill geometry + subhead text + overflow)
+360:  pill 292×25px, subhead exact match, h1Count=1, scrollWidth 345≤360
+768:  pill 292×25px, subhead exact match, h1Count=1, scrollWidth 753≤768
+1280: pill 292×25px, subhead exact match, h1Count=1, scrollWidth 1265≤1280
+
+# Blast-radius gate re-run (content change, CSS unaffected — re-ran anyway
+# for completeness alongside the R1/S-A2/S-A4 CSS re-checks above)
+375/1280: 2 total escapes, same pre-existing .primary-menu pair, 0 new.
+```
+
+### Files changed (fix-pass 3, incl. addendum)
+
+- `web/themes/custom/performant_labs_v2/css/components/hero.css` (modified — R1 pill geometry fix, S-A4 gradient background, S-A2 max-width bump)
+- `scripts/sprint-wave2-276-hero-rebuild.php` (modified — subhead-trim addendum: new UUID constant, new mutation block, new fail-fast guard, updated top-of-file docstring)
+- `docs/pl2/css-change-log.md` (modified — 3 CSS entries + 1 content-change entry for the subhead trim)
+- `docs/pl2/handoffs/wave2-276/shots-s-fixpass/*.png` (new — 3 screenshots, regenerated after the subhead trim so they reflect the final state)
+- **S-A1 NOT implemented** — blocked-on-O per the coordinator's explicit stop condition (would require altering #268-verbatim-guaranteed H1 text with markup, or editing a pristine parent-theme component). See "S-A1" section above for the two viable paths, both needing an O/André decision.
+
+**Verbatim-copy baseline note for future sessions:** as of this fix-pass, the hero's verbatim-copy set is: H1 "Aftersight — open-source test intelligence, built CTRF-native." (unchanged, #268 original), subhead "Self-hosted, MIT-licensed, AI in the core." (**trimmed, supersedes #268's original — this is now the baseline**, not the old longer string), pill "Now in development — in the open" (unchanged), both CTA labels (unchanged). Any future session diffing against "the approved #268 copy" should use this trimmed subhead, not the original block.
+
+**Not merged** — committing on `feat/276-product-led-homepage` (explicit paths, `Co-Authored-By` trailer), pushing to feed PR #283, per the coordinator's instruction. S is prepared to re-verify from the two hero crops alone once R1 lands.

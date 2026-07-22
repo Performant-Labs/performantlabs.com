@@ -12,6 +12,11 @@
  *   - Insert the new browser-chrome SDC framing a placeholder screenshot
  *     (real Aftersight dashboard screenshot deferred — see handoff-F
  *     "Deviations from spec").
+ *   - (Fix-pass 3 addendum, 2026-07-22) Trim the hero subhead to
+ *     "Self-hosted, MIT-licensed, AI in the core." — André-approved binding
+ *     copy amendment, drops the trailing dev-status clause that duplicated
+ *     the pill (see handoff-F fix-pass 3). This SUPERSEDES #268's original
+ *     subhead as the verbatim-copy baseline for this element.
  *
  * Explicitly OUT of scope for this sub-phase (filed as follow-up issues,
  * see handoff-F "Scope cap"): product social-proof strip, nav visual-weight
@@ -19,11 +24,11 @@
  *
  * Idempotent: always rebuilds the full `components` array for canvas_page 20
  * from the CURRENT live tree (re-loaded fresh each run), replacing only the
- * pieces this script owns (kicker text, hero_content slot for the four new/
- * modified pill+snippet+chrome instances). All other components (heading,
- * text, buttons, services section, logo grid, etc.) are carried over
- * byte-for-byte from the existing tree — this script does NOT touch their
- * `inputs` or `component_version`.
+ * pieces this script owns (kicker text, subhead text, hero_content slot for
+ * the four new/modified pill+snippet+chrome instances). All other
+ * components (heading, buttons, services section, logo grid, etc.) are
+ * carried over byte-for-byte from the existing tree — this script does NOT
+ * touch their `inputs` or `component_version`.
  *
  * component_version handling: every hash below is loaded live from the
  * `component` config entity (Component::getActiveVersion()) at script-run
@@ -64,9 +69,11 @@ $components = $entity->get('components')->getValue();
 
 $hero_uuid = 'bfff578e-691f-4e06-bfd8-98d014d114aa';
 $kicker_uuid = 'f3dc09e6-567e-43d0-ad03-9108dc9fed78';
+$subhead_uuid = 'a07e8730-2c04-4afe-9d57-3b3bd744c189';
 
 $found_hero = FALSE;
 $found_kicker = FALSE;
+$found_subhead = FALSE;
 
 foreach ($components as &$c) {
   // 1. Relabel the hero kicker — drop the headline echo (S advisory:
@@ -81,6 +88,20 @@ foreach ($components as &$c) {
     $c['inputs'] = json_encode($inputs);
     $found_kicker = TRUE;
   }
+  // 1b. Fix-pass 3 addendum (2026-07-22): André approved S's recommended
+  //    subhead trim as a BINDING copy amendment — the hero subhead becomes
+  //    exactly "Self-hosted, MIT-licensed, AI in the core." (drops the
+  //    trailing "Now in development — in the open." clause, which the pill
+  //    alone now carries). This supersedes #268's original verbatim block;
+  //    the pill's copy is unchanged. See handoff-F fix-pass 3 addendum for
+  //    the full ruling and S's rationale (duplication read badly live, and
+  //    the approved wireframe's own subline already omits the phrase).
+  if ($c['uuid'] === $subhead_uuid) {
+    $inputs = json_decode($c['inputs'], TRUE);
+    $inputs['text'] = 'Self-hosted, MIT-licensed, AI in the core.';
+    $c['inputs'] = json_encode($inputs);
+    $found_subhead = TRUE;
+  }
   if ($c['uuid'] === $hero_uuid) {
     $found_hero = TRUE;
   }
@@ -92,6 +113,9 @@ if (!$found_hero) {
 }
 if (!$found_kicker) {
   throw new \Exception("Hero kicker component (uuid $kicker_uuid) not found — homepage tree has changed since this script was written; re-verify UUIDs before re-running.");
+}
+if (!$found_subhead) {
+  throw new \Exception("Hero subhead component (uuid $subhead_uuid) not found — homepage tree has changed since this script was written; re-verify UUIDs before re-running.");
 }
 
 // 2. Remove any pre-existing instances of the four new/managed component
