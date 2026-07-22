@@ -304,3 +304,53 @@ html .theme--primary {
     --h2-letter-spacing: -1px;   /* display-md desktop tracking */
   }
 }
+
+/* ─── spacing-fix: white-continuation for the highlighted/breadcrumb band ──
+ * André (2026-07-22, via aftersight-fix lane, issue confirmed on
+ * /how-we-do-it, /open-source-projects, /services, /aftersight): the strip
+ * under the header holding the breadcrumb reads as a mismatched cream band
+ * sitting on top of a white header and a white first section — "menu with
+ * the wrong color background".
+ *
+ * Root cause: neonbyte (parent theme, advisory-upstream, NOT edited here)
+ * paints `.region-highlighted` with `--theme-surface-alt`
+ * (web/themes/dripyard_themes/neonbyte/css/layout/region.css:39-47). Under
+ * `html .theme--white` (this theme's base.css), `--theme-surface-alt`
+ * resolves to the cream token (#F5EFE2) — correct when the region sits
+ * inside a cream zone, wrong here because the header above it and the
+ * hero section below it are both pure white (#FFFFFF).
+ *
+ * Homepage comparison: the front page's `.region-highlighted` renders with
+ * zero height (no breadcrumb block on `/`), so the homepage never displays
+ * this band at all — there is no "homepage treatment" to match beyond
+ * "does not show a cream seam", which this fix achieves on interior pages.
+ *
+ * Fix: repaint `.region-highlighted` white to continue the header's white
+ * down through the breadcrumb band into the first (white) section, on
+ * pages using the white zone. Excludes book-landing pages, which already
+ * have their own deliberate cream-continuation treatment for this same
+ * region (css/components/book-landing.css `body:has(.book-landing)
+ * .region-highlighted`) — this rule and that one target different pages,
+ * so no specificity race; the `:not()` guard here documents the boundary
+ * explicitly rather than relying on selector-order luck.
+ *
+ * Layer ruling:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH curve math. RULED OUT.
+ *   L3: `html .theme--white` component-wrapper token override — the
+ *       documented Layer-3 pattern in docs/pl2/theme-change.md for exactly
+ *       this situation (parent-theme region default needs a themed
+ *       override, scoped to the zone, not the rendered element).
+ *       CORRECT LAYER.
+ *   L4: never patches `.region-highlighted`'s own rendered markup or the
+ *       neonbyte source file. Not touched.
+ *
+ * WCAG: breadcrumb link color #8E4A2A on white = 6.64:1 (was 5.79:1 on
+ * cream) — improved, still AA/AAA pass. Breadcrumb secondary text #5C544C
+ * on white = 7.43:1 (was 6.48:1 on cream) — improved, still AAA pass.
+ * Both measured 2026-07-22. */
+html.theme--white .region-highlighted {
+  --background: #FFFFFF;
+  background: var(--background);
+  border-image: linear-gradient(var(--background), var(--background)) fill 0 / / 100vh 0 0 0;
+}
