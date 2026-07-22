@@ -1199,6 +1199,63 @@
   }
 }
 
+/* ══════════════════════════════════════════════════════════════════════
+ * aftersight-fix — /aftersight visual-parity pass (André's "big buttons /
+ * wrong menu background / unbalanced cards / off-palette banner" defects)
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * Defect 1 (big buttons): the /aftersight intro section's lone
+ * "Follow the build" CTA rendered as a full-width 1163px brown bar.
+ *
+ * Bottom-up trace:
+ *   .button (dripyard_base button.css) is `display: inline-flex` — not
+ *   inherently full-width.
+ *   Parent: .dy-section__content { display: flex; flex-direction: column; }
+ *   (dripyard_base section.css) declares no `align-items`, so the UA
+ *   default (`normal`, == stretch on the cross axis for a flex item)
+ *   applies. The button, having no `align-self`/`width` of its own,
+ *   stretches to the column's full cross-axis (inline) size. Confirmed
+ *   live via computed-style: `.button` `width: 1163.8px`, parent
+ *   `align-items: normal`.
+ *
+ * Top-down trace:
+ *   L1: not config. RULED OUT.
+ *   L2: not OKLCH. RULED OUT.
+ *   L3: not a --theme-* token — flex cross-axis layout, not color/type.
+ *       RULED OUT.
+ *   L5: component-scoped. CORRECT LAYER — and no NEW rule was needed: this
+ *       file already carries a marker-class rule for exactly this shape,
+ *       "§1 Services hero — CTA pill-pair flex row" (P4, above), which lays
+ *       out `.dy-section__content > .button` at natural/fit-content width,
+ *       centered, whether the row holds one button or two (it iterates
+ *       `> .button`, not `:nth-child(2)`). Fix applied by adding the
+ *       existing `dy-section--cta-pair` marker class to /aftersight's intro
+ *       section via `additional_classes` (content layer,
+ *       scripts/aftersight-fix-visual-pass.php) — zero new CSS.
+ *
+ * Defect 4 (off-palette banner): the closing "Got a CTRF use case" band was
+ * `theme: primary` (brand teal #1893b4/#62BBCB — base.css's own comment
+ * marks this zone "reserved; sparing use"), reading as off-palette against
+ * the v2 light-first / terracotta-CTA language. Fixed at the CONTENT layer
+ * (assembly script changes the section's `theme` prop `primary` -> `light`)
+ * — no CSS needed: `theme--light` (cream) + title-cta's existing button
+ * already render terracotta-deep (--pl-primary-light -> --pl-accent-deep,
+ * 6.64:1) under any light-register zone via the sitewide token fix already
+ * in base.css/button.css. Documented here for traceability alongside
+ * Defect 1 since both are part of the same fix pass.
+ *
+ * Defect 2 ("wrong menu background", the cream breadcrumb strip) was
+ * investigated and found to be a SITEWIDE pattern (neonbyte parent-theme
+ * `.region-highlighted { background: var(--theme-surface-alt) }`,
+ * `region.css` — advisory-upstream only, resolves to cream under
+ * `html .theme--white`), reproducing identically on /services and
+ * /open-source-projects. Not a page-specific /aftersight bug — no change
+ * made here. See handoff-F "Deviations from spec" for the full resolution
+ * and the sitewide follow-up filed for O to route separately.
+ *
+ * No new selectors were added by this fix pass — this comment block is
+ * documentation-only, recording the trace for A's review. */
+
 /* ─── spacing-fix: "Other modules" chip card floats in dead space ──────
  * André (2026-07-22): the single "Payment Stripe" chip card stretches to
  * fill the section's full content width, leaving the 2-line body text
