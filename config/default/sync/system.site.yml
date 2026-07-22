@@ -4,7 +4,7 @@ langcode: en
 uuid: 4b7619a0-08db-43a2-9bc9-f85e7599ab92
 name: 'Performant Labs'
 mail: info@performantlabs.com
-slogan: ''
+slogan: 'Open-source test intelligence, built CTRF-native — for every framework.'
 page:
   403: ''
   404: ''

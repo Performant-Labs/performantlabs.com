@@ -6,5 +6,8 @@ name: 'Performant Labs'
 configEntityTypeId: component
 weight: 0
 items:
+  - sdc.performant_labs_v2.browser-chrome
+  - sdc.performant_labs_v2.code-snippet
   - sdc.performant_labs_v2.heal-flow
+  - sdc.performant_labs_v2.hero-title
   - sdc.performant_labs_v2.kicker
