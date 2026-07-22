@@ -1079,3 +1079,122 @@
   max-width: 720px;
   margin-inline: auto;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276/#281 (Wave 2, sub-phase B) — Product social-proof strip
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * DOM (from scripts/sprint-wave2-281-proof-strip-nav.php):
+ *   .dy-section.dy-section--proof-strip.theme--light
+ *     .dy-section__content
+ *       .flex-wrapper.proof-strip__row
+ *         .text > .proof-item (x3 — stars/watchers/version, each a
+ *           dripyard_base:text instance carrying inline HTML: .proof-item__n
+ *           / .proof-item__label / .proof-item__sub)
+ *         .pill (MIT badge, dripyard_base:pill, no additional_classes prop)
+ *       .text.proof-strip__buildnote
+ *
+ * Component-reuse correction (see the assembly script's own header comment
+ * for the full trace): `dripyard_base:statistic` was the wireframe's
+ * suggested mapping and was tried first, but its `statistic.js` behavior
+ * (`countUp.js`) strips all non-digit characters and animates from 0 —
+ * live-verified to silently corrupt this section's non-numeric placeholder
+ * values ("★ —", "—") and its real version string ("v0.2.2-dev") into "0"
+ * on page load. Switched to `dripyard_base:text` (no JS behavior), which
+ * this file already uses elsewhere in the same section (pill content,
+ * build-note line). No new component created.
+ *
+ * Bottom-up trace:
+ *   `dripyard_base:text` emits plain `<div class="text ...">` wrapping
+ *   whatever HTML the `text` prop carries — no built-in styling for the
+ *   nested `.proof-item`/`.proof-item__n`/`.proof-item__label`/
+ *   `.proof-item__sub` classes (new markup, nothing to trace upward from).
+ *   `.pill` default fill is --pill-background-color: var(--theme-text-color-loud)
+ *     (solid dark fill) — same finding as the hero's dev-status pill in
+ *     sub-phase A; pill.component.yml has no additional_classes prop, so a
+ *     Canvas-input modifier class cannot be passed through. Structural
+ *     ancestor scoping is the only mechanism (same pattern as
+ *     hero.css `.hero.theme--white .hero__block-content > .pill`).
+ *
+ * Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a --pill-background-color override at html .theme--light would
+ *        re-style every pill instance in every cream-zone section
+ *        site-wide. TOO BROAD. RULED OUT. (No --theme-* token exists for
+ *        the new .proof-item markup since it's new structural CSS, not a
+ *        token consumer — L3 doesn't apply to it at all.)
+ *   L5 — component-scoped to `.dy-section--proof-strip`, matching every
+ *        other marker-class pattern already established in this file.
+ *        CORRECT LAYER.
+ *
+ * WCAG (theme--light / cream #F5EFE2 surface):
+ *   .proof-item__n (compact number/figure) — --pl-accent-deep #8E4A2A on
+ *     #F5EFE2: 5.79:1 (AA/AAA pass) — same token/pairing already verified
+ *     for the hero pill/kicker (RATIONALE.md contrast table).
+ *   .proof-item__label / .proof-item__sub (muted labels) —
+ *     --theme-text-color-medium #5C544C on #F5EFE2: 6.48:1 (AAA pass).
+ *   MIT pill text/border — --pl-accent-deep #8E4A2A on #FFFFFF (pill bg is
+ *     set to white, matching the hero pill treatment): 6.64:1 (AA/AAA).
+ *   Build-note line — --theme-text-color-medium #5C544C on #F5EFE2:
+ *     6.48:1 (AAA pass), body_s style (13px) still clears 4.5:1 body-text
+ *     threshold comfortably.
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+
+/* Proof-item value/label stack — compact mono-style figure matching the
+ * wireframe's .proof-item .n (small, terracotta-deep, bold), NOT the
+ * 88px KPI-display size dripyard_base:statistic would have used. */
+.dy-section--proof-strip .proof-item {
+  text-align: center;
+}
+
+.dy-section--proof-strip .proof-item__n {
+  font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+  font-size: 1rem;             /* 16px — compact strip figure, not a KPI display number */
+  font-weight: 800;
+  color: var(--pl-accent-deep); /* #8E4A2A on cream #F5EFE2 = 5.79:1 AA/AAA */
+  line-height: 1.3;
+}
+
+.dy-section--proof-strip .proof-item__label {
+  font-size: 0.8125rem;        /* 13px */
+  color: var(--theme-text-color-medium);
+}
+
+.dy-section--proof-strip .proof-item__sub {
+  font-size: 0.75rem;          /* 12px */
+  color: var(--theme-text-color-medium);
+}
+
+/* MIT badge pill — white bg / terracotta-deep border+text, same treatment
+ * as the hero's dev-status pill (hero.css), scoped here to the proof strip
+ * only so no other pill instance site-wide is affected. */
+.dy-section--proof-strip .pill {
+  --pill-background-color: #FFFFFF;
+  --pill-background-color-hover: #FFFFFF;
+  --pill-text-color: var(--pl-accent-deep);
+  --pill-text-color-hover: var(--pl-accent-deep);
+  border-color: var(--pl-accent-deep);
+  font-size: 0.75rem;          /* 12px, matches wireframe .badge-mit */
+  padding-block: 5px;
+}
+
+/* Build-note teaser line — full-width, centered, muted, per wireframe
+ * .buildnote spacing (margin-top 14px in the wireframe's flat layout;
+ * translated here to the flex-wrapper + text sibling structure). */
+.dy-section--proof-strip .proof-strip__buildnote {
+  margin-top: 1rem;            /* ~16px, matches wireframe rhythm */
+}
+
+/* ─── Mobile (<=576px): tighter row gap, smaller figures ───────────────
+ * At 360 the flex-wrapper's default gap (20px, flex-wrapper.css) plus 3
+ * proof-items + a pill can crowd a narrow column. Reduce the compact
+ * number size slightly and let the wrapper's own `wrap: true` prop (set
+ * in the assembly script) handle line-wrapping — no new wrap behavior
+ * introduced here, only a size/gap tightening within the existing wrap. */
+@media (max-width: 576px) {
+  .dy-section--proof-strip .proof-item__n {
+    font-size: 0.9375rem;      /* 15px */
+  }
+}
