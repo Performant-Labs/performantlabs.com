@@ -92,7 +92,7 @@
 
   /* Token overrides retained for dropdown menus that read them. */
   .primary-menu {
-    --top-level-link-font-size: 15px;
+    --top-level-link-font-size: 0.9375rem;
     --top-level-link-font-weight: 500;
     --top-level-link-color: var(--theme-text-color-primary);
   }
@@ -113,7 +113,7 @@
    * Beats neonbyte's .primary-menu__link--level-1[class] at (0,2,0). */
   .site-header .primary-menu__link--level-1[class] {
     font-family: "Poppins", sans-serif;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: var(--theme-text-color-primary);
     padding: 0;
   }
@@ -256,7 +256,7 @@
   .site-header .primary-menu__link--level-1[href="/about-us"],
   .site-header .primary-menu__link--level-1[href="/contact-us"] {
     font-weight: 400;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--theme-text-color-medium);
   }
 }

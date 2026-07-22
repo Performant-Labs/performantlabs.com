@@ -419,7 +419,7 @@
   --pill-text-color-hover: var(--pl-accent-deep);
   border-color: var(--pl-accent-deep);
   font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* S-phase fix (R1, 2026-07-22): `font-size: 12px` above sets it on the
@@ -432,7 +432,7 @@
  * artifact — see the earlier note above). Target the text child directly. */
 .hero.theme--white .hero__block-content > .pill > .text {
   font-family: var(--font-mono, 'JetBrains Mono', 'Fira Code', monospace);
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 1.4;
 }
 
