@@ -523,3 +523,60 @@
 .hero.theme--white .hero__block-content > .code-snippet {
   margin-top: 0.5rem;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+ * #276 S-A1 (2026-07-22) — terracotta "Aftersight" brand-word accent
+ * ══════════════════════════════════════════════════════════════════════
+ *
+ * O ruling: the #268 verbatim-copy guarantee protects the rendered WORDS,
+ * not the markup — a class-carrying span wrapping "Aftersight" inside the
+ * stored H1 string is authorized, so long as the rendered text stays
+ * byte-identical. dripyard_base:heading cannot host a span (Twig
+ * auto-escapes its plain-string `text` prop — verified empirically, see
+ * docs/pl2/handoffs/wave2-276/handoff-F.md fix-pass 4), so a new,
+ * narrowly-scoped SDC (performant_labs_v2:hero-title) replaces the hero's
+ * heading instance — same rendered classes (heading h1 heading--centered
+ * margin-top--0 margin-bottom--0 color--loud), so every rule below and
+ * above targeting `.hero.theme--white .heading` continues to apply
+ * unchanged. No parent-theme component was edited.
+ *
+ * Bottom-up: `.hero-title__brand` is new markup (new component), nothing
+ * to trace upward from.
+ *
+ * Top-down eligibility:
+ *   L1 — not config-driven. RULED OUT.
+ *   L3 — a --theme-* token override in html .theme--white would apply to
+ *        every white-zone element, not just this one span. TOO BROAD.
+ *        RULED OUT.
+ *   L5 — component-scoped on `.hero-title__brand`, matching this file's
+ *        existing pattern (pill/kicker/browser-chrome/code-snippet
+ *        selectors are all L5-scoped the same way). CORRECT LAYER.
+ *
+ * Color choice — terracotta-deep, NOT plain terracotta:
+ *   Plain terracotta #C97B5C measured against the hero's actual gradient-
+ *   tinted background (S-A4, added earlier in this same fix-pass) at its
+ *   peak-saturation pixels: 2.60–2.83:1 — FAILS the WCAG large-text 3:1
+ *   threshold everywhere except pure white (3.25:1, an unsafe margin this
+ *   hero's tinted bg doesn't reliably provide). The H1 unambiguously
+ *   qualifies as "large text" per WCAG 1.4.3 (≥24px normal weight; this H1
+ *   is 44px mobile / 72px desktop, weight 500 — both far above the
+ *   threshold at every viewport), so 3:1 is the applicable bar, but plain
+ *   terracotta still doesn't clear it reliably. terracotta-deep
+ *   (--pl-accent-deep, #8E4A2A — the same token already governing the
+ *   pill/kicker accents on this hero) passes comfortably everywhere:
+ *
+ *   Pairing                                          Ratio    Verdict
+ *   #8E4A2A on terracotta-gradient-peak #F1E4D5       5.31:1   AA/AAA (large + body)
+ *   #8E4A2A on teal-gradient-peak #E9E9DE             5.43:1   AA/AAA (large + body)
+ *   #8E4A2A on cream baseline #F5EFE2                 5.79:1   AA/AAA (large + body)
+ *   #8E4A2A on pure white (worst case, no tint)       6.64:1   AA/AAA (large + body)
+ *
+ *   (For reference, the rejected plain terracotta #C97B5C: 2.60/2.65/2.83/
+ *   3.25:1 respectively — fails everywhere except a marginal pass on pure
+ *   white, which this tinted hero never actually renders.)
+ *
+ * See: docs/pl2/css-change-log.md
+ */
+.hero.theme--white .hero-title__brand {
+  color: var(--pl-accent-deep);
+}

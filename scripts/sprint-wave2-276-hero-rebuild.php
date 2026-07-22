@@ -17,6 +17,17 @@
  *     copy amendment, drops the trailing dev-status clause that duplicated
  *     the pill (see handoff-F fix-pass 3). This SUPERSEDES #268's original
  *     subhead as the verbatim-copy baseline for this element.
+ *   - (Fix-pass 4, 2026-07-22, S-A1) Swap the H1's component_id in place
+ *     from sdc.dripyard_base.heading to sdc.performant_labs_v2.hero-title —
+ *     a new, narrowly-scoped SDC that renders the identical <h1> markup
+ *     (same classes) but splits the text into brand_word + suffix props so
+ *     "Aftersight" can be wrapped in an accented <span>. RENDERED TEXT stays
+ *     byte-identical to the #268-approved H1 string — only markup changed,
+ *     per O's binding ruling (relayed by the coordinator) that the
+ *     verbatim-copy guarantee protects words, not markup. See handoff-F
+ *     fix-pass 4 for the full trace (dripyard_base:heading cannot render a
+ *     span — its text prop is plain-string, Twig-auto-escaped; verified
+ *     empirically before building this component).
  *
  * Explicitly OUT of scope for this sub-phase (filed as follow-up issues,
  * see handoff-F "Scope cap"): product social-proof strip, nav visual-weight
@@ -24,11 +35,11 @@
  *
  * Idempotent: always rebuilds the full `components` array for canvas_page 20
  * from the CURRENT live tree (re-loaded fresh each run), replacing only the
- * pieces this script owns (kicker text, subhead text, hero_content slot for
- * the four new/modified pill+snippet+chrome instances). All other
- * components (heading, buttons, services section, logo grid, etc.) are
- * carried over byte-for-byte from the existing tree — this script does NOT
- * touch their `inputs` or `component_version`.
+ * pieces this script owns (kicker text, subhead text, H1 component swap,
+ * hero_content slot for the four new/modified pill+snippet+chrome
+ * instances). All other components (buttons, services section, logo grid,
+ * etc.) are carried over byte-for-byte from the existing tree — this script
+ * does NOT touch their `inputs` or `component_version`.
  *
  * component_version handling: every hash below is loaded live from the
  * `component` config entity (Component::getActiveVersion()) at script-run
@@ -63,6 +74,7 @@ $V = [
   'text' => version_for($component_storage, 'sdc.dripyard_base.text'),
   'code-snippet' => version_for($component_storage, 'sdc.performant_labs_v2.code-snippet'),
   'browser-chrome' => version_for($component_storage, 'sdc.performant_labs_v2.browser-chrome'),
+  'hero-title' => version_for($component_storage, 'sdc.performant_labs_v2.hero-title'),
 ];
 
 $components = $entity->get('components')->getValue();
@@ -70,10 +82,12 @@ $components = $entity->get('components')->getValue();
 $hero_uuid = 'bfff578e-691f-4e06-bfd8-98d014d114aa';
 $kicker_uuid = 'f3dc09e6-567e-43d0-ad03-9108dc9fed78';
 $subhead_uuid = 'a07e8730-2c04-4afe-9d57-3b3bd744c189';
+$h1_uuid = 'db366f7f-f812-44ba-b424-4d72c8874765';
 
 $found_hero = FALSE;
 $found_kicker = FALSE;
 $found_subhead = FALSE;
+$found_h1 = FALSE;
 
 foreach ($components as &$c) {
   // 1. Relabel the hero kicker — drop the headline echo (S advisory:
@@ -102,6 +116,27 @@ foreach ($components as &$c) {
     $c['inputs'] = json_encode($inputs);
     $found_subhead = TRUE;
   }
+  // 1c. Fix-pass 4 (2026-07-22, S-A1): swap the H1 in place from
+  //    sdc.dripyard_base.heading to sdc.performant_labs_v2.hero-title.
+  //    UUID and parent/slot position are UNCHANGED — only component_id,
+  //    component_version, and inputs are rewritten — so every other
+  //    component's parent_uuid references and the DOM insertion order
+  //    established elsewhere in this script are entirely unaffected.
+  //    Rendered TEXT ("Aftersight — open-source test intelligence, built
+  //    CTRF-native.") stays byte-identical; only markup (the brand-word
+  //    span) is added. See handoff-F fix-pass 4 for the O ruling this
+  //    implements and the empirical proof that dripyard_base:heading
+  //    cannot host a span.
+  if ($c['uuid'] === $h1_uuid) {
+    $c['component_id'] = 'sdc.performant_labs_v2.hero-title';
+    $c['component_version'] = $V['hero-title'];
+    $c['inputs'] = json_encode([
+      'brand_word' => 'Aftersight',
+      'suffix' => ' — open-source test intelligence, built CTRF-native.',
+      'center' => TRUE,
+    ]);
+    $found_h1 = TRUE;
+  }
   if ($c['uuid'] === $hero_uuid) {
     $found_hero = TRUE;
   }
@@ -116,6 +151,9 @@ if (!$found_kicker) {
 }
 if (!$found_subhead) {
   throw new \Exception("Hero subhead component (uuid $subhead_uuid) not found — homepage tree has changed since this script was written; re-verify UUIDs before re-running.");
+}
+if (!$found_h1) {
+  throw new \Exception("Hero H1 component (uuid $h1_uuid) not found — homepage tree has changed since this script was written; re-verify UUIDs before re-running.");
 }
 
 // 2. Remove any pre-existing instances of the four new/managed component

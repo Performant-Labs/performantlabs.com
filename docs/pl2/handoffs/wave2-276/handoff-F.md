@@ -565,3 +565,147 @@ BYTE-IDENTICAL — count 59 both runs
 **Verbatim-copy baseline note for future sessions:** as of this fix-pass, the hero's verbatim-copy set is: H1 "Aftersight — open-source test intelligence, built CTRF-native." (unchanged, #268 original), subhead "Self-hosted, MIT-licensed, AI in the core." (**trimmed, supersedes #268's original — this is now the baseline**, not the old longer string), pill "Now in development — in the open" (unchanged), both CTA labels (unchanged). Any future session diffing against "the approved #268 copy" should use this trimmed subhead, not the original block.
 
 **Not merged** — committing on `feat/276-product-led-homepage` (explicit paths, `Co-Authored-By` trailer), pushing to feed PR #283, per the coordinator's instruction. S is prepared to re-verify from the two hero crops alone once R1 lands.
+
+---
+
+## Fix-pass 4 (2026-07-22) — S-A1 implemented: terracotta "Aftersight" brand-word accent
+
+**Trigger:** O's binding ruling (relayed by the coordinator) on the S-A1 block noted in fix-pass 3: **the `<span>` path is authorized** — the #268 verbatim-copy guarantee protects the rendered words, not the markup, so wrapping "Aftersight" in a class-carrying span inside the stored H1 string is permitted, provided the rendered text stays byte-identical. The parent-theme `dripyard_base:heading` component must not be touched.
+
+### Mechanism investigation (before writing any component)
+
+Before building anything, empirically confirmed the exact failure mode that produced the original "blocked" verdict, to make sure the new approach actually works rather than repeating the same mistake:
+
+1. Temporarily saved a literal `<span class="probe-test">Aftersight</span> — ...` into the live H1's `dripyard_base:heading` `text` prop and reloaded the page.
+2. **Result: the span rendered as visible escaped text** — `&lt;span class=&quot;probe-test&quot;&gt;Aftersight&lt;/span&gt;` — confirming Twig's `{{ text }}` (no `|raw` filter) auto-escapes the prop unconditionally. `dripyard_base:heading`'s `text` prop is plain `type: string` with no `contentMediaType: text/html` and no filter format applied — **structurally incapable** of rendering markup, regardless of authorization.
+3. Immediately restored the H1 to its exact original text before proceeding (verified via `curl` diff — zero residual change from the probe).
+
+This ruled out the "just add the span" reading of O's ruling — the authorization is real, but the *existing* component can't execute it. Two paths remained within the ruling's constraints (span authorized, parent-theme component off-limits):
+- Force HTML through `dripyard_base:text` (which does support `contentMediaType: text/html`) — rejected: that component always renders a `<div>` (no `html_element` prop), so using it would sacrifice the H1's heading semantics/landmark, a worse tradeoff than building a new component.
+- **Build a new, narrowly-scoped subtheme SDC** that renders the same `<h1>` markup as `dripyard_base:heading` but splits the text into a `brand_word` + `suffix` pair, wrapping the former in a span at the template layer — no HTML injection into any prop at all, so the `canvas_html_block` filter's `<span>` restriction (relevant to `dripyard_base:text`, irrelevant here) never even applies. **Chosen** — reuse-before-create is satisfied (grepped both parent themes again: no existing component combines `<h1>` output with a brand-word-accent mechanism), and creating a small subtheme component is explicitly within F's authority (only *editing* a pristine parent-theme component is forbidden).
+
+### What was built
+
+- **`web/themes/custom/performant_labs_v2/components/hero-title/hero-title.component.yml`** (new) — props `brand_word` (required, plain string), `suffix` (required, plain string), `center` (optional boolean). Both text props are plain `type: string` — no `contentMediaType`, no filter format, no HTML injection anywhere. Header comment documents the full mechanism investigation above so a future session doesn't have to re-derive it.
+- **`web/themes/custom/performant_labs_v2/components/hero-title/hero-title.twig`** — renders `<h1 class="heading h1 heading--centered margin-top--0 margin-bottom--0 color--loud"><span class="hero-title__brand">{{ brand_word }}</span>{{ suffix }}</h1>` — **identical class output** to `dripyard_base:heading`'s own rendering, so every existing `hero.css` rule targeting `.hero.theme--white .heading` (font-size, letter-spacing, max-width, line-height, `text-wrap: balance`) continues to apply with zero rewrite.
+- **`web/themes/custom/performant_labs_v2/css/components/hero.css`** (modified) — appended `.hero.theme--white .hero-title__brand { color: var(--pl-accent-deep) }` with a full WCAG trace (see below).
+- **`scripts/sprint-wave2-276-hero-rebuild.php`** (modified) — swaps the H1 component instance **in place** (same UUID `db366f7f-...`, same parent/slot position) from `sdc.dripyard_base.heading` to `sdc.performant_labs_v2.hero-title`, rewriting only `component_id`, `component_version`, and `inputs`. New fail-fast guard (`$found_h1`) matching the existing pattern.
+- **`docs/pl2/css-change-log.md`** — 1 new entry.
+
+### Contrast measurement (mandatory per the coordinator's instruction)
+
+The H1 unambiguously qualifies as **WCAG large text** (1.4.3: ≥24px normal weight, or ≥18.66px bold) — this hero's H1 is 44px at mobile and 72px at desktop, weight 500, so the 3:1 large-text threshold applies at every viewport, not the 4.5:1 body-text threshold.
+
+Measured **plain terracotta** (`--pl-accent`, `#C97B5C`, the wireframe's literal `.brand{color:var(--color-accent)}` value before this codebase's accent-role correction) against the hero's actual gradient-tinted background (S-A4, landed in fix-pass 3) at its peak-saturation pixels — same screenshot-pixel-read methodology as the S-A4 contrast check:
+
+| Pairing | Ratio | Verdict |
+|---|---|---|
+| Plain terracotta `#C97B5C` on terracotta-gradient-peak `#F1E4D5` | 2.60:1 | **FAIL** (below 3:1 large-text) |
+| Plain terracotta `#C97B5C` on teal-gradient-peak `#E9E9DE` | 2.65:1 | **FAIL** |
+| Plain terracotta `#C97B5C` on cream baseline `#F5EFE2` | 2.83:1 | **FAIL** |
+| Plain terracotta `#C97B5C` on pure white (worst-case, no tint) | 3.25:1 | Marginal pass, unsafe margin |
+
+Per the coordinator's explicit fallback instruction ("if the tint's peak pixels drop it below 3:1, use terracotta-deep instead"), switched to **terracotta-deep** (`--pl-accent-deep`, `#8E4A2A` — the same token already governing this hero's pill and kicker accents):
+
+| Pairing | Ratio | Verdict |
+|---|---|---|
+| Terracotta-deep `#8E4A2A` on terracotta-gradient-peak `#F1E4D5` | 5.31:1 | AA/AAA pass (large **and** body text) |
+| Terracotta-deep `#8E4A2A` on teal-gradient-peak `#E9E9DE` | 5.43:1 | AA/AAA pass |
+| Terracotta-deep `#8E4A2A` on cream baseline `#F5EFE2` | 5.79:1 | AA/AAA pass |
+| Terracotta-deep `#8E4A2A` on pure white (worst-case) | 6.64:1 | AA/AAA pass |
+
+Terracotta-deep clears not just the applicable 3:1 large-text bar but the stricter 4.5:1 body-text bar everywhere measured — no WCAG tension at this layer.
+
+### Rendered-text byte-identity verification (mandatory)
+
+```
+$ curl -sk https://performant-labs.ddev.site:8493/ | grep -A2 'hero-title__brand\|class="heading h1'
+<h1 data-component-id="performant_labs_v2:hero-title" class="heading h1 heading--centered margin-top--0 margin-bottom--0 color--loud">
+<span class="hero-title__brand">Aftersight</span> — open-source test intelligence, built CTRF-native.
+</h1>
+
+# Playwright textContent (whitespace-normalized) comparison
+h1.textContent normalized: "Aftersight — open-source test intelligence, built CTRF-native."
+Expected (#268-approved): "Aftersight — open-source test intelligence, built CTRF-native."
+MATCH: true
+
+# Explicit strip-tags comparison, before vs. after (Python re.sub, byte-for-byte)
+before (dripyard_base:heading markup): 'Aftersight — open-source test intelligence, built CTRF-native.'
+after  (performant_labs_v2:hero-title markup): 'Aftersight — open-source test intelligence, built CTRF-native.'
+MATCH: True
+```
+
+### Verification performed
+
+```
+$ ddev drush cr   [after each change]
+
+# Component registration
+$ drush php:eval ... Component::getActiveVersion('sdc.performant_labs_v2.hero-title')
+40790101b853faf3   [valid, non-empty — first attempt failed with a Canvas
+                     StaticPropSource error caused by an empty-string
+                     `examples` value on an unused `prefix` prop; fixed by
+                     simplifying the component to brand_word+suffix only
+                     (YAGNI — this hero's actual copy has no text before
+                     the brand word), which also sidestepped the bug.]
+
+# Idempotence — tree-diff (not count), same methodology as every prior
+# fix-pass in this issue
+[dump tree] && [re-run script] && [dump tree] && diff
+BYTE-IDENTICAL — count 59 both runs, H1 swap included
+
+# 3-viewport hero re-check
+360:  h1Count=1, text matches exactly, brand color rgb(142,74,42)=#8E4A2A,
+      pill 292×25px (unaffected), scrollWidth 345≤360
+768:  h1Count=1, text matches exactly, brand color correct, pill unaffected,
+      scrollWidth 753≤768
+1280: h1Count=1, text matches exactly, brand color correct, pill unaffected,
+      scrollWidth 1265≤1280
+Live computed max-width on the swapped H1: 820px (confirms hero.css's S-A2
+  fix — not dripyard_base:heading's own default — governs the element;
+  see blast-radius note below)
+
+# Blast-radius gate re-run (new component + CSS — mandatory)
+$ node cascade-map.cjs "https://performant-labs.ddev.site:8493/"
+  375/1280: 4 total escapes (up from 2) — 2 NEW findings, both scoped to
+    "heading" (dripyard_base:heading's own .heading/.heading--centered
+    rules now also match the hero-title component's <h1>, since hero-title
+    deliberately reuses those same class names to inherit hero.css's
+    existing override set rather than duplicating it).
+$ node perturb.cjs ... (classify the 2 new findings)
+  .heading            → DORMANT (masked — bites later)
+  .heading--centered  → DORMANT (masked — bites later)
+  Cross-checked against live computed style: max-width resolves to 820px
+  (hero.css's own L5 override, 0,3,0 specificity) — NOT any value
+  dripyard_base:heading's base .heading rule would produce on its own,
+  confirming the DORMANT classification is accurate: the parent-theme
+  heading.css is masked, not actively influencing this element.
+  Per the adapter's verdict mapping: a DORMANT escape is WARN, not BLOCK.
+  This is an intentional, understood tradeoff of the class-reuse design
+  (share hero.css's existing H1 override set rather than rewrite it for a
+  second component) — noted here transparently rather than omitted.
+  The 2 pre-existing .primary-menu escapes are unchanged from every prior
+  check in this issue's history.
+VERDICT: WARN (dormant, understood, not blocking) on the 2 new findings;
+  PASS (no change) on the 2 pre-existing findings.
+
+# Screenshots to disk (360/768/1280)
+docs/pl2/handoffs/wave2-276/shots-s-a1/hero-{360,768,1280}-2026-07-22.png
+```
+
+### Architecture note for A/S
+
+The `hero-title` component's twig deliberately duplicates `dripyard_base:heading`'s class output (`heading h1 heading--centered margin-top--0 margin-bottom--0 color--loud`) rather than inventing new class names, so it inherits every existing `hero.css` rule written against `.hero.theme--white .heading` (font sizing, letter-spacing, max-width, `text-wrap: balance`, mobile breakpoint) without needing a single line of that file rewritten. The tradeoff, surfaced by the blast-radius gate: `dripyard_base:heading`'s own `heading.css` now also *matches* (but doesn't *win over*, per the DORMANT classification) this new component's `<h1>`, because cascade-map's containment check is class-name-based, not component-instance-based. This is a known, accepted consequence of the class-reuse design — flagging for A/S rather than treating it as a silent pass.
+
+### Files changed (fix-pass 4)
+
+- `web/themes/custom/performant_labs_v2/components/hero-title/hero-title.component.yml` (new)
+- `web/themes/custom/performant_labs_v2/components/hero-title/hero-title.twig` (new)
+- `web/themes/custom/performant_labs_v2/css/components/hero.css` (modified — brand-word color rule + full trace)
+- `scripts/sprint-wave2-276-hero-rebuild.php` (modified — H1 component swap logic, new UUID constant, new fail-fast guard, updated docstring)
+- `docs/pl2/css-change-log.md` (modified — 1 new entry)
+- `docs/pl2/handoffs/wave2-276/shots-s-a1/*.png` (new — 3 screenshots)
+
+**S-A1 status: IMPLEMENTED.** All four items from the coordinator's S-fix-pass instruction (R1, S-A1, S-A2, S-A4) plus the André-approved subhead trim are now complete on this branch.
+
+**Not merged** — committing on `feat/276-product-led-homepage` (explicit paths, `Co-Authored-By` trailer), pushing to feed PR #283, per the coordinator's instruction. S re-verifies immediately after this lands.
