@@ -6,17 +6,31 @@
  * Scope (per the scope-cap split recorded in
  * docs/pl2/handoffs/wave2-276/handoff-F.md "Scope cap", sub-phase B):
  *   - Insert a new top-level dripyard_base:section (theme=light, cream
- *     register) immediately AFTER the hero and BEFORE the existing services
- *     section, containing:
- *       - a dripyard_base:flex-wrapper row of dripyard_base:statistic
- *         instances (stars, watchers, version) + a dripyard_base:pill
- *         (MIT badge)
+ *     register) immediately AFTER THE HERO (see the W1 fix-pass note below
+ *     for why the anchor is the hero, not "before services"), containing:
+ *       - a dripyard_base:flex-wrapper row of dripyard_base:text items
+ *         (stars, watchers, version — see the "Component-reuse correction"
+ *         comment at the proof-strip subtree below for why `text`, not the
+ *         wireframe's originally-suggested `statistic`) + a
+ *         dripyard_base:pill (MIT badge)
  *       - a dripyard_base:text build-note teaser line below the row
  *   - Nav visual-weight CSS is a separate, CSS-only change (see
  *     css/components/header.css) — no Canvas/content edit needed for that
  *     half of this sub-phase, since nav order/labels are #270's scope and
  *     already landed; only a visual treatment class distinction is added
  *     via existing `href`/`data-drupal-link-system-path` selectors.
+ *
+ * A-phase fix-pass (2026-07-22, W1): the insertion anchor was originally
+ * "immediately before the services section", written when the hero was the
+ * only thing between them. Once sub-phase C's assembly script
+ * (sprint-wave2-282-features-services-relocate.php) inserts three feature
+ * sections between the hero and services, re-running THIS script alone
+ * would silently relocate the proof-strip to AFTER the features (empirically
+ * demonstrated by A during review: hero -> f1 -> f2 -> f3 -> proof ->
+ * services), corrupting the approved section order with no error. Fixed by
+ * anchoring on the hero instead (stable regardless of what gets inserted
+ * between hero and services by any other script, now or later) — see the
+ * insertion-point logic near the end of this file.
  *
  * GitHub star/watcher live-wiring: the epic-267 binding decision (see #276
  * sign-off comment) is that the repo is currently PRIVATE, so a live
@@ -329,19 +343,77 @@ $new_components = [
   ],
 ];
 
-// 4. Insert the new section immediately before the services section
-//    (i.e. immediately after the hero, since the hero is the only thing
-//    currently between them at the top level).
+// 4. Insert the new section immediately AFTER THE HERO — anchored on the
+//    hero's own position, NOT on "immediately before services" (W1 fix,
+//    2026-07-22, per A-phase review finding). The hero is a stable anchor
+//    regardless of what any other script inserts between the hero and
+//    services later (e.g. sub-phase C's three feature sections); "before
+//    services" was NOT stable, since services' own array index shifts
+//    every time something is inserted ahead of it, which is exactly what
+//    happened once sub-phase C's script started inserting feature
+//    sections between the hero and services — a standalone re-run of this
+//    script would have silently relocated the proof-strip to after the
+//    features instead of leaving it directly under the hero where it
+//    belongs.
+//
+//    We insert as the top-level component immediately following the LAST
+//    component belonging to the hero's own subtree (the hero itself plus
+//    all of its slot children — pill/kicker/heading/text/buttons/snippet/
+//    chrome from sub-phase A), not merely after the hero's own array
+//    index, since the hero's children are flattened into the same
+//    top-level `components` array immediately after it (Canvas's own
+//    array layout — verified live: every `hero_content`-slot child's
+//    `parent_uuid` is the hero's uuid, and they all sit contiguously right
+//    after the hero entry). Anchoring after the hero's *own* index alone
+//    would insert the proof-strip in the middle of the hero's own
+//    children, not after them.
+$hero_subtree_uuids = [$hero_uuid];
+$changed = TRUE;
+while ($changed) {
+  $changed = FALSE;
+  foreach ($components as $c) {
+    if (in_array($c['parent_uuid'] ?? NULL, $hero_subtree_uuids, TRUE) && !in_array($c['uuid'], $hero_subtree_uuids, TRUE)) {
+      $hero_subtree_uuids[] = $c['uuid'];
+      $changed = TRUE;
+    }
+  }
+}
 $insert_index = NULL;
 foreach ($components as $i => $c) {
-  if ($c['uuid'] === $services_section_uuid) {
-    $insert_index = $i;
-    break;
+  if (in_array($c['uuid'], $hero_subtree_uuids, TRUE)) {
+    // Keep advancing past every hero-subtree member; the insertion point
+    // is the index immediately after the LAST one encountered.
+    $insert_index = $i + 1;
   }
 }
 if ($insert_index === NULL) {
-  throw new \Exception('Could not locate services section for insertion point after re-filtering.');
+  throw new \Exception('Could not locate the hero subtree for insertion point after re-filtering — the hero (uuid ' . $hero_uuid . ') should have been found earlier by the existence guard; this indicates the components array was mutated unexpectedly between the guard check and this point.');
 }
+
+// Fail-fast guard (belt-and-suspenders, W1): if the very next top-level
+// component after the computed insertion point is neither the (still
+// undisturbed) services section NOR one of sub-phase C's known feature
+// sections, the tree has drifted in some OTHER way this script's authors
+// didn't anticipate — refuse to guess and throw instead of silently
+// inserting in a possibly-wrong position.
+$feature_section_uuid_prefix = 'b282f100-0000-4000-8000-00000000000';
+$next_component = $components[$insert_index] ?? NULL;
+if ($next_component !== NULL) {
+  $next_is_services = $next_component['uuid'] === $services_section_uuid;
+  $next_is_feature_section = str_starts_with($next_component['uuid'], $feature_section_uuid_prefix)
+    && ($next_component['parent_uuid'] ?? NULL) === NULL;
+  if (!$next_is_services && !$next_is_feature_section) {
+    throw new \Exception(
+      'Insertion point after the hero subtree does not lead to the services '
+      . 'section or a known sub-phase-C feature section (found: '
+      . $next_component['component_id'] . ' uuid ' . $next_component['uuid']
+      . '). The homepage tree has changed in a way this script does not '
+      . 'recognize — re-verify the section order and update this script '
+      . 'rather than risk inserting the proof-strip in the wrong position.'
+    );
+  }
+}
+
 array_splice($components, $insert_index, 0, $new_components);
 
 $entity->set('components', $components);

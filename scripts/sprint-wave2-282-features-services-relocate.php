@@ -433,12 +433,20 @@ $feature3 = feature_section(
 //    the correct copy/crop cell DOM order per its `reversed` flag (feature
 //    2's builder emits [section, grid, copy-cell..., crop-cell...] just
 //    like the others — "reversed" only changes the CSS presentation via
-//    the .dy-section--feature-anatomy-reverse marker class + flex-wrapper
-//    row-reverse rule (see css/components/dy-section.css), matching the
-//    wireframe's own `.feature.reverse { flex-direction: row-reverse }`
-//    mechanism — DOM order does NOT change, only visual order, so a
-//    screen reader always encounters copy before the UI-crop regardless
-//    of the visual left/right position).
+//    the .dy-section--feature-anatomy-reverse marker class + CSS Grid
+//    `order` on the copy/crop grid-cells (see
+//    css/components/grid-wrapper.css — NOT a flex-wrapper row-reverse
+//    rule; the feature-anatomy layout is dripyard_base:grid-wrapper +
+//    grid-cell, a CSS Grid primitive, not a flex-wrapper, so there is no
+//    flex-direction involved anywhere in this mechanism — corrected
+//    2026-07-22 per A-phase review N1, this comment previously misnamed
+//    both the file and the CSS property), matching the wireframe's own
+//    `.feature.reverse { flex-direction: row-reverse }` visual INTENT
+//    (crop-left/copy-right for feature 2) via a different underlying CSS
+//    mechanism appropriate to the Grid-based layout actually used here —
+//    DOM order does NOT change, only visual order, so a screen reader
+//    always encounters copy before the UI-crop regardless of the visual
+//    left/right position).
 $all_features = array_merge($feature1, $feature2, $feature3);
 
 // 5. Insert the 3 feature sections immediately before the services
