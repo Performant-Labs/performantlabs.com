@@ -159,6 +159,16 @@ jobs:
           rm -rf "$PANTHEON_REPO_DIR"/web/profiles/contrib
           rm -rf "$PANTHEON_REPO_DIR"/vendor
 
+          # Remove stale exported config from the Pantheon repo before copying.
+          # config/default/sync is fully source-controlled, but cp -R only
+          # adds/overwrites and never deletes. Config files removed from source
+          # (e.g. between Drupal 11.3 -> 11.4, or when a module is dropped from the
+          # build) otherwise persist in Pantheon's git and make post-deploy
+          # config:import fail (fatal on absent-module config, or "unexpected"
+          # deletions). Clearing the dir lets the cp below rebuild it to exactly
+          # match source, so config:import stays clean.
+          rm -rf "$PANTHEON_REPO_DIR"/config/default/sync
+
           # Copy files to Pantheon repo dir.
           cp -R * "$PANTHEON_REPO_DIR"
 
