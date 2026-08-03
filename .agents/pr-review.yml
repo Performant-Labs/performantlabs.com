@@ -5,7 +5,7 @@
 # ── Project identity ──────────────────────────────────────────────────────────
 project:
   name: "performantlabs.com"
-  timezone: "America/Los_Angeles"  # Any tz database name. Falls back to UTC if omitted.
+  timezone: "America/Boise"  # Any tz database name. Falls back to UTC if omitted.
 
 # ── PR-Agent (CI automated review) ───────────────────────────────────────────
 pr_agent:
