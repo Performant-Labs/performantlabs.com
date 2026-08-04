@@ -28,10 +28,33 @@ PROJECT_ID='performantlabs'
 SECURITY_USER=$ALLURE_SECURITY_USER  #'my_username'
 SECURITY_PASS=$ALLURE_SECURITY_PASS  #'my_password'
 
+# Reachability gate.
+#
+# An unavailable results server must not fail the build. The tests already
+# ran; losing an upload is a reporting gap, not a test failure. It is valid
+# for none of the results services to be up.
+#
+# Not hypothetical: reportportal.performantlabs.com was decommissioned and
+# every nightly run errored on it for weeks before anyone noticed (see #308).
+if [ -z "$ALLURE_SERVER" ]; then
+  echo "[allure] ALLURE_SERVER is not set — skipping upload."
+  exit 0
+fi
+# --connect-timeout bounds DNS + TCP. Any HTTP response means something is
+# listening, which is all this needs to establish; credentials are verified
+# by the login call further down.
+if ! curl -sS -o /dev/null --connect-timeout 5 --max-time 10 "$ALLURE_SERVER" 2>/dev/null; then
+  echo "[allure] $ALLURE_SERVER unreachable — skipping upload (not a test failure)."
+  exit 0
+fi
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILES_TO_SEND=$(ls -dp $DIR/$ALLURE_RESULTS_DIRECTORY/* | grep -v /$)
 if [ -z "$FILES_TO_SEND" ]; then
-  exit 1
+  # Previously exit 1, which failed the job for a condition the top of this
+  # same script already treats as normal ("does not exist" -> exit 0).
+  echo "[allure] no result files in $ALLURE_RESULTS_DIRECTORY — nothing to upload."
+  exit 0
 fi
 
 FILES=''
