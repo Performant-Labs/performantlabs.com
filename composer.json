@@ -336,7 +336,7 @@
         "drupal/theme_selector": "^2.0",
         "drupal/token": "~1.0",
         "drupal/twig_tweak": "^3.0",
-        "drupal/ui_patterns": "^2.0.15",
+        "drupal/ui_patterns": "2.0.17",
         "drupal/ui_patterns_library": "^2.0",
         "drupal/ultimate_cron": "^2.0",
         "drupal/views_bulk_operations": "^4.2",
