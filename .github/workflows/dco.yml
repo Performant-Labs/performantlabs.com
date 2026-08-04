@@ -17,5 +17,9 @@ env:
 
 jobs:
   dco:
-    uses: Performant-Labs/playbook/.github/workflows/dco-reusable.yml@main
+    # Local vendored copy of playbook's dco-reusable.yml. A PUBLIC repo cannot
+    # call a reusable workflow in a PRIVATE one, which is why this is not
+    # `uses: Performant-Labs/playbook/...@main` like the private sibling repos.
+    # See the header of .github/workflows/dco-reusable.yml.
+    uses: ./.github/workflows/dco-reusable.yml
     secrets: inherit

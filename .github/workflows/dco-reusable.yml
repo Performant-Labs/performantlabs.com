@@ -1,0 +1,82 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# VENDORED COPY — do not hand-edit. Upstream source of truth:
+#   Performant-Labs/playbook/.github/workflows/dco-reusable.yml
+# Synced from playbook@f5834809159e124326aed5463e70eda4121e8adb (main, 2026-08-04).
+#
+# WHY THIS FILE EXISTS INSTEAD OF `uses: Performant-Labs/playbook/...@main`:
+# performantlabs.com is a PUBLIC repository and `playbook` is PRIVATE. GitHub
+# only lets a public caller reference reusable workflows stored in PUBLIC
+# repositories — the private-repo "Access: organization" setting extends
+# sharing to PRIVATE callers only. So the cross-repo call was rejected before
+# any job was created: the run finished in 0s with `jobs: []` and
+# `referenced_workflows: []`, and GitHub listed it by file path because it
+# never got far enough to read the workflow's `name:`. Every PR in this repo
+# has carried two permanent red checks since 2026-06-23 for this reason.
+#
+# TO RE-SYNC (and to see any drift):
+#   diff <(gh api repos/Performant-Labs/playbook/contents/.github/workflows/dco-reusable.yml \
+#          --jq .content | base64 -d) .github/workflows/dco-reusable.yml
+# Keep the body byte-identical to upstream so that diff stays clean; this
+# header is the only intended difference.
+# ─────────────────────────────────────────────────────────────────────────────
+name: DCO sign-off check (reusable)
+# Called by each project's .github/workflows/dco.yml via:
+#   uses: Performant-Labs/playbook/.github/workflows/dco-reusable.yml@main
+#   secrets: inherit
+#
+# Controlled by dco.required in the CALLING repo's .agents/pr-review.yml.
+#   required: true  → every commit must carry a Signed-off-by trailer
+#   required: false → check is skipped entirely (default)
+#
+# Format:  Signed-off-by: Your Name <you@example.com>
+# Add via: git commit -s
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+  statuses: write
+
+jobs:
+  dco:
+    name: DCO sign-off check
+    runs-on: ${{ vars.CI_RUNNER }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
+        with:
+          fetch-depth: 0
+
+      # Read dco.required from the base branch — not the PR branch — so a
+      # contributor cannot bypass the check by editing the config in their PR.
+      - name: Read dco.required from .agents/pr-review.yml
+        id: cfg
+        run: |
+          REQUIRED="false"
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          val=$(git show "origin/${BASE_REF}:.agents/pr-review.yml" 2>/dev/null | \
+            python3 -c 'import re,sys; t=sys.stdin.read(); m=re.search(r"^dco:\n((?:[ \t]+.*\n?)*)",t,re.M); b=m.group(1) if m else ""; print("true" if re.search(r"^\s+required:\s*true",b,re.M|re.I) else "false")' \
+            2>/dev/null || echo "false")
+          [[ "$val" == "true" ]] && REQUIRED="true"
+          echo "required=${REQUIRED}" >> "$GITHUB_OUTPUT"
+          echo "DCO required: ${REQUIRED}"
+
+      - name: Check DCO sign-off on all commits
+        if: steps.cfg.outputs.required == 'true'
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+          MISSING=0
+          while IFS= read -r SHA; do
+            [[ -z "$SHA" ]] && continue
+            if ! git log -1 --format="%B" "$SHA" | grep -qE "^Signed-off-by: .+ <.+@.+>"; then
+              SUBJECT=$(git log -1 --format="%s" "$SHA")
+              echo "::error::Commit $SHA ('$SUBJECT') is missing a Signed-off-by trailer."
+              MISSING=$((MISSING + 1))
+            fi
+          done < <(git log --no-merges --format="%H" "$BASE..$HEAD")
+          if (( MISSING > 0 )); then
+            echo "::error::${MISSING} commit(s) missing DCO sign-off. Add with: git commit -s"
+            exit 1
+          fi
+          echo "All commits carry DCO sign-off."
