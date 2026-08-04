@@ -619,7 +619,12 @@ async function logInViaForm(page, context, account) {
   await page.goto(ensureLeadingSlash(atkConfig.logInUrl))
   await page.getByLabel('Username').fill(account.userName)
   await page.getByLabel('Password').fill(account.userPassword)
-  await page.getByRole('button', { name: 'Log in' }).click()
+  // Matches both spellings of the submit button: vanilla Drupal renders
+  // "Log in", while the dripyard_base theme's input--submit override renders
+  // the raw #value, giving "Login". An exact-string locator for either one
+  // silently stops matching when the theme changes — which is what broke the
+  // nightly run for a week (issue #308).
+  await page.getByRole('button', { name: /log\s*in/i }).click()
 
   await page.waitForLoadState('domcontentloaded')
   await expect(page.getByText('Member for')).toBeVisible()
