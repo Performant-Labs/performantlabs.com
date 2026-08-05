@@ -68,6 +68,17 @@ const localReporters = {
   testiny: ['json', { outputFile: 'playwright-report.json' }],
 }
 
+/**
+ * True when this module is being imported by a Playwright WORKER rather than
+ * the main runner. Set in node_modules/playwright/lib/worker/workerProcessEntry.js.
+ *
+ * Playwright re-imports this config in every worker process, but reporters are
+ * only ever instantiated in the main process. Probing from a worker therefore
+ * achieves nothing except one redundant DNS lookup and one duplicate log line
+ * per worker, per suite — which is exactly what the first version of this did.
+ */
+const isWorker = process.env.TEST_WORKER_INDEX !== undefined
+
 // Base reporters: always on, never network-dependent.
 const reporter = [['list']]
 const isShard = process.argv.find((arg) => arg.startsWith('--shard'))
@@ -92,6 +103,9 @@ if (isShard) {
 
   for (const target of requested) {
     if (target in remoteReporters) {
+      // Main process only: see isWorker above. Nothing to decide in a worker,
+      // because the worker never builds a reporter from this array.
+      if (isWorker) continue
       const { probeUrl, reporter: rep } = remoteReporters[target]
       const url = probeUrl()
       if (await isReachable(url)) {
@@ -102,8 +116,10 @@ if (isShard) {
       }
     } else if (target in localReporters) {
       reporter.push(localReporters[target])
-      console.log(`[reporting] ${target}: enabled (writes locally; upload is a later step)`)
-    } else {
+      if (!isWorker) {
+        console.log(`[reporting] ${target}: enabled (writes locally; upload is a later step)`)
+      }
+    } else if (!isWorker) {
       console.warn(`[reporting] unknown target "${target}" — ignored`)
     }
   }
