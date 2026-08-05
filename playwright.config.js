@@ -10,28 +10,66 @@ import { defineConfig, devices } from '@playwright/test'
 import rpconfig from './reportportal.config.js'
 
 /**
- * Check if ReportPortal is available
- * @return {Promise<boolean>} true if it is, false if it's not
+ * Probe a remote results service before wiring up a reporter that talks to it.
+ *
+ * Returns false for anything that is not a usable service right now: DNS
+ * failure, connection refused, TLS error, timeout, or a 5xx. It never throws
+ * and never rejects — an unreachable results service must not be able to fail
+ * a test run. A 4xx counts as reachable: something is listening, and auth is
+ * the uploader's problem, not this probe's.
+ *
+ * @param {string} rawUrl  Any URL on the service.
+ * @param {number} timeout Milliseconds before giving up. Short on purpose —
+ *                         this runs before every non-sharded suite.
+ * @return {Promise<boolean>}
  */
-async function checkReportPortal() {
-  return new Promise((resolve) => {
-    const rpURL = new URL(rpconfig.endpoint)
-    fetch(`${rpURL.protocol}//${rpURL.host}/health`)
-      .then(() => resolve(true))
-      .catch(() => resolve(false))
-  })
+async function isReachable(rawUrl, timeout = 5000) {
+  let url
+  try {
+    url = new URL(rawUrl)
+  } catch {
+    return false // not a URL — treat as "not configured"
+  }
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeout)
+  try {
+    const res = await fetch(url, { signal: controller.signal, redirect: 'follow' })
+    return res.status < 500
+  } catch {
+    return false // DNS / refused / TLS / timeout
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
-// ReportPortal & Allure config
-const reporterMap = {
+/**
+ * Targets whose reporter talks to a REMOTE service DURING the run. These must
+ * be probed first, because the agent starts POSTing as soon as tests begin.
+ */
+const remoteReporters = {
+  reportportal: {
+    probeUrl: () => {
+      const u = new URL(rpconfig.endpoint)
+      return `${u.protocol}//${u.host}/health`
+    },
+    reporter: ['@reportportal/agent-js-playwright', rpconfig],
+  },
+}
+
+/**
+ * Targets whose reporter only writes files locally. Always safe to enable:
+ * the network hop happens in a later CI step (allure_send_results.sh for
+ * Allure, `npx @testiny/cli` for Testiny), and each of those does its own
+ * reachability check. Probing here would gate the wrong thing — the local
+ * artefact is worth producing even when its upload target is gone.
+ */
+const localReporters = {
   allure: ['allure-playwright'],
-  reportportal: ['@reportportal/agent-js-playwright', rpconfig],
   testiny: ['json', { outputFile: 'playwright-report.json' }],
 }
 
-// Define reporters depending on sharding and Portal's availability
+// Base reporters: always on, never network-dependent.
 const reporter = [['list']]
-// const reporter = [];
 const isShard = process.argv.find((arg) => arg.startsWith('--shard'))
 if (isShard) {
   reporter.push(['blob'])
@@ -42,14 +80,31 @@ if (isShard) {
     buildNumber: process.env.BUILD_NUMBER || 'BUILD_NUMBER is not set',
     buildUrl: process.env.BUILD_URL || 'BUILD_URL is not set',
   }])
-  const alltarget = process.env.ATK_REPORT_TARGET
-  if (alltarget) {
-    for (const target of alltarget.split(',')) {
-      if (target in reporterMap) {
-        reporter.push(reporterMap[target])
+
+  // ATK_REPORT_TARGET is a wish list, not a guarantee. Remote targets are
+  // probed and skipped with a reason when down. ZERO reachable targets is a
+  // VALID, non-failing outcome — results still land in the list, HTML and
+  // CTRF reporters, plus any local artefact reporters requested.
+  const requested = (process.env.ATK_REPORT_TARGET || '')
+    .split(',')
+    .map((t) => t.trim())
+    .filter(Boolean)
+
+  for (const target of requested) {
+    if (target in remoteReporters) {
+      const { probeUrl, reporter: rep } = remoteReporters[target]
+      const url = probeUrl()
+      if (await isReachable(url)) {
+        reporter.push(rep)
+        console.log(`[reporting] ${target}: reachable — enabled`)
       } else {
-        console.warn(`Bad report target: ${target}`)
+        console.warn(`[reporting] ${target}: SKIPPED — ${url} unreachable`)
       }
+    } else if (target in localReporters) {
+      reporter.push(localReporters[target])
+      console.log(`[reporting] ${target}: enabled (writes locally; upload is a later step)`)
+    } else {
+      console.warn(`[reporting] unknown target "${target}" — ignored`)
     }
   }
 }

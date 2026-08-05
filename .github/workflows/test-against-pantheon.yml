@@ -215,12 +215,34 @@ jobs:
           path: ctrf/
           retention-days: 30
 
+      # Result uploads are best-effort. A results service being down is a
+      # reporting gap, not a test failure, and it is valid for none of them to
+      # respond. Each step gates itself and exits 0 when its target is absent,
+      # so this job's status keeps meaning "did the tests pass".
       - name: Upload results to Allure
+        if: ${{ always() && contains(env.ATK_REPORT_TARGET, 'allure') }}
         run: |
+          # The script does its own reachability check and exits 0 when the
+          # server is unset or unreachable.
           ./allure_send_results.sh
 
       - name: Upload results to Testiny
+        if: ${{ always() && contains(env.ATK_REPORT_TARGET, 'testiny') }}
         run: |
+          set -uo pipefail
+          if [ -z "${TESTINY_API_KEY:-}" ]; then
+            echo "[testiny] TESTINY_API_KEY is not set — skipping upload."
+            exit 0
+          fi
+          if [ ! -f playwright-report.json ]; then
+            echo "[testiny] playwright-report.json was not produced — nothing to upload."
+            exit 0
+          fi
+          TESTINY_HOST="${TESTINY_API_HOST:-https://app.testiny.io}"
+          if ! curl -sS -o /dev/null --connect-timeout 5 --max-time 10 "$TESTINY_HOST" 2>/dev/null; then
+            echo "[testiny] $TESTINY_HOST unreachable — skipping upload (not a test failure)."
+            exit 0
+          fi
           npx @testiny/cli automation --project ATK --source Playwright --playwright playwright-report.json --field-values "pantheon_env=${{ env.PANTHEON_ENV }}"
 
       - name: Set environment for messaging results
