@@ -41,39 +41,40 @@ test.describe('Menu tests.', () => {
     await page.getByText('Link Loading… The location')
     await page.getByRole('button', { name: 'Save' }).click()
 
-    // Verify the menu item was created by checking its presence.
-    await atkCommands.logOutViaUi(page)
-    await expect(page.locator('.nav-link', { hasText: menuItemTitle })).toBeVisible() // Ensure it's visible.
-
     //
-    // Navigate to the menu management page to determine the menu id.
+    // Capture the menu link id immediately after creation, BEFORE any
+    // verification that could fail. This guarantees the finally block below
+    // can always delete the item — a failed assertion must never leave a
+    // stray "Test…" link behind in the (live) main menu.
     //
-    await atkCommands.logInViaForm(page, context, qaUsers.admin)
     await page.goto('/admin/structure/menu/manage/main')
-
-    const menuLocator = await page.getByText(menuItemTitle)
-
-    // Get the menu id from the edit button.
-    const linkLocator = await menuLocator.locator('xpath=following::a[starts-with(@href, "/admin/structure/menu/item/")]').first()
-
+    const linkLocator = page.getByText(menuItemTitle)
+      .locator('xpath=following::a[starts-with(@href, "/admin/structure/menu/item/")]').first()
     const workingUrl = await linkLocator.getAttribute('href')
+    const mid = workingUrl.match(/\/menu\/item\/(\d+)(?:\/([a-zA-Z0-9_-]+))?/)[1]
 
-    const regex = /\/menu\/item\/(\d+)(?:\/([a-zA-Z0-9_-]+))?/
-    const midArray = workingUrl.match(regex)
-    const mid = midArray[1]
-
-    const menuDeleteUrl = `/admin/structure/menu/item/${mid}/delete`
-
-    await page.goto(menuDeleteUrl)
-
-    // Confirm the deletion.
-    await page.getByRole('button', { name: 'Delete' }).click()
+    try {
+      //
+      // Verify the menu item is visible to anonymous users on the front end.
+      // Use a role-based locator so the check is theme-agnostic (the DripYard
+      // theme renders links as .primary-menu__link, not the legacy .nav-link).
+      //
+      await atkCommands.logOutViaUi(page)
+      await expect(page.getByRole('link', { name: menuItemTitle })).toBeVisible()
+      await atkCommands.logInViaForm(page, context, qaUsers.admin)
+    } finally {
+      //
+      // Always remove the menu item, even if verification threw — otherwise a
+      // selector/assertion failure leaks the link into the menu on every run.
+      //
+      await page.goto(`/admin/structure/menu/item/${mid}/delete`)
+      await page.getByRole('button', { name: 'Delete' }).click()
+    }
 
     //
     // Validate the menu item has been deleted.
     //
     await page.goto('/admin/structure/menu/manage/main')
-    const menuItemExists = await page.locator(`text=${menuItemTitle}`).count()
-    test.expect(menuItemExists).toBe(0) // Ensure the item is gone.
+    await expect(page.getByText(menuItemTitle)).toHaveCount(0) // Ensure the item is gone.
   })
 })
