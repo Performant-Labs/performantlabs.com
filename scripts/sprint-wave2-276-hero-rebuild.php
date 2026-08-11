@@ -241,7 +241,7 @@ $new_instances = [
     'parent_uuid' => $hero_uuid,
     'slot' => 'hero_content',
     'inputs' => json_encode([
-      'command_line' => 'docker run ctrfhub/aftersight',
+      'command_line' => 'docker run performant-labs/aftersight',
       'result_line' => 'your first CTRF report in 60 seconds',
     ]),
     'label' => NULL,
