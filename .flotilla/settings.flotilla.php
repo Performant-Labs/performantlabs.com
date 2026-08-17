@@ -45,7 +45,14 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 $settings['cache']['bins']['page'] = 'cache.backend.null';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 
-$settings['rebuild_access'] = TRUE;
+// NOT rebuild_access: a Flotilla preview is internet-reachable, and
+// rebuild_access = TRUE exposes rebuild.php to anonymous callers (repeated
+// cache rebuilds → DoS). The build hook already runs `drush cache:rebuild`, so
+// the web-exposed rebuild endpoint is unnecessary here.
+// skip_permissions_hardening IS kept: ${DOCROOT} is a symlink to the VCS
+// checkout (settings.php lives in a tracked dir), so Drupal's periodic
+// permissions hardening would fight the checkout — the same reason this repo's
+// own settings.github.php sets it.
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
