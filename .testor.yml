@@ -13,3 +13,38 @@ s3:
       key: '9ZGBU4TC3DA5Z1AYJD3O'
       secret: '${s3_secret}'
   bucket: 'snapshot'
+
+# ── Producer sanitization (testor#27 snapshot:refresh -> DbSanitize) ───────────
+# DbSanitize is a NO-OP unless `sanitize.command` is set: with no command it
+# prints "Skip sanitization, because sanitize.command is not set" and passes.
+# Without this key, a `snapshot:refresh` run for this repo would push an
+# UNSANITIZED prod dump to the bucket — exactly the failure the consumer story
+# (#314) must not silently depend on. Drupal's core `drush sql:sanitize`
+# scrubs every user email/password to a deterministic, non-deliverable form
+# (user+<uid>@example.com) and randomizes passwords; `--sanitize-password` and
+# `--allowlist-fields` can extend it per-site. This is run PRODUCER-SIDE only
+# (snapshot:refresh); the consumer (snapshot:restore, below) never re-sanitizes.
+sanitize:
+  command: 'vendor/bin/drush sql:sanitize --yes'
+
+# ── Consumer restore (testor#28 snapshot:restore) ─────────────────────────────
+# SnapshotImport loads the unpacked dump with `<sql.command> < <file>.sql`.
+# `drush sql:cli` opens a client already pointed at the ACTIVE Drupal DB
+# connection (resolved from settings.php / settings.local.php), so the restore
+# targets whatever database the preview's own settings declare — no host/creds
+# are duplicated here. Drush 13.5 (this repo, composer.json `drush/drush: ^13.4`)
+# ships `sql:cli`.
+sql:
+  command: 'vendor/bin/drush sql:cli'
+
+# DbUuidNormalize (restore-time, consumer-side) overwrites the restored
+# `system.site:uuid` (which carries PROD's uuid) with the TARGET's uuid, so a
+# later `drush config:import` from this repo's committed config/default/sync does
+# not abort on StorageComparer::validateSiteUuid(). The correct target value is a
+# property of THIS repo's config, not of the snapshot: it is the uuid committed
+# in config/default/sync/system.site.yml. A fixed per-repo value is right here
+# (not one read from the preview) precisely because the preview must converge on
+# the repo's committed config. DbUuidNormalize's default command is
+# `drush config:set system.site uuid %uuid% -y`, which is correct for drush 13.
+uuid:
+  value: '4b7619a0-08db-43a2-9bc9-f85e7599ab92'

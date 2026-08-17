@@ -1,0 +1,144 @@
+# .flotilla.yml — Flotilla PR-preview environment for performantlabs.com (issue #314).
+#
+# This is the Flotilla port of `.tugboat/config.yml`, with the manual
+# snapshot:get + tar + `mysql <` pipeline replaced by Testor 1.11's single
+# config-driven consumer command, `testor snapshot:restore` (testor#28), which
+# chains: SnapshotGet (latest, unpinned) -> SnapshotImport (`sql.command < file`)
+# -> DbUuidNormalize (reconcile system.site:uuid with the repo's committed uuid).
+#
+# The snapshot pulled is a REAL, ALREADY-SANITIZED production dump: sanitization
+# happens PRODUCER-side (testor#27 `snapshot:refresh` -> DbSanitize, driven by the
+# `sanitize.command` key added to .testor.yml). This consumer never re-sanitizes;
+# if the bucket ever held an unsanitized dump that would be a producer defect, not
+# something to paper over here.
+#
+# Format mirrors Tugboat's config.yml (Flotilla v1 is deliberately Tugboat-
+# compatible). Two services:
+#   - `db`  : stock MariaDB 10.6 (matching .ddev/config.yaml's declared version),
+#             booted as a NON-default dependency that opts into the curated DB-boot
+#             capabilities so its real entrypoint runs under Flotilla's otherwise
+#             fully-hardened runtime (per Flotilla #138/#160). Empty root password;
+#             reachable by service name `db` over the preview network (#59).
+#   - `web` : the `default: true` PHP app service that receives the checkout,
+#             installs deps, writes settings, and runs snapshot:restore.
+version: 1
+name: performantlabs-com
+
+services:
+  # ── MariaDB 10.6, the #138 way ──────────────────────────────────────────────
+  # A non-default dependency that opts into the curated DB-boot caps so the real
+  # `mariadbd` entrypoint runs normally (setuid to `mysql`, chown/init its
+  # datadir) and stays alive as the long-running server. `init` only WAITS
+  # (bounded) until the engine accepts connections, mirroring the db-seed fixture.
+  db:
+    image: mariadb:10.6
+    capabilities: [CHOWN, DAC_OVERRIDE, SETUID, SETGID]
+    env:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+      # Pre-create the target schema the preview's settings.local.php points at,
+      # so `drush sql:cli` has a database to load into.
+      MARIADB_DATABASE: drupal
+    commands:
+      init:
+        # Bounded wait until MariaDB accepts connections locally, then raise the
+        # packet size the Drupal dump needs (the Tugboat mysql service did the
+        # same with `max_allowed_packet`).
+        - >-
+          i=0; while [ "$i" -lt 120 ]; do
+          if mariadb-admin --skip-ssl ping -h 127.0.0.1 --silent 2>/dev/null; then echo db-ready; break; fi;
+          i=$((i+1)); sleep 1; done;
+          if [ "$i" -ge 120 ]; then echo db-not-ready; exit 1; fi
+        - mariadb --skip-ssl -h 127.0.0.1 -u root -e "SET GLOBAL max_allowed_packet=1073741824;"
+
+  # ── PHP app service (default / routed) ──────────────────────────────────────
+  web:
+    image: php:8.3-cli
+    default: true
+    depends: [db]
+    env:
+      # Consumed by .flotilla/settings.flotilla.php for the per-preview hash salt
+      # and trusted host. Flotilla injects FLOTILLA_REPO_ID /
+      # FLOTILLA_DEFAULT_SERVICE_URL_HOST itself; these defaults keep a bare
+      # local run working.
+      COMPOSER_ALLOW_SUPERUSER: '1'
+    commands:
+      # init — first build of the environment: OS + PHP extensions the Drupal app
+      # and the DB client tools need.
+      init:
+        - echo "===== Flotilla web init ====="
+        - apt-get update
+        - apt-get -y install --no-install-recommends git unzip zip mariadb-client libzip-dev libpng-dev libjpeg-dev libfreetype6-dev libonig-dev
+        # Drupal 11 core needs pdo_mysql + gd; opcache for a usable preview.
+        - docker-php-ext-configure gd --with-freetype --with-jpeg
+        - docker-php-ext-install -j"$(nproc)" pdo_mysql gd opcache
+        - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+        - rm -f composer-setup.php
+        - composer --version
+
+      # update — runs after init and on every refresh. Composer deps + the DB
+      # restore live here (the Tugboat config placed the import in `update`).
+      update:
+        - echo "===== Flotilla web update ====="
+        # Clean any artifacts that snuck into the checkout, then install.
+        - rm -rf vendor/ web/modules/contrib/ web/core/ web/themes/contrib/
+        - composer install --no-interaction --no-progress --prefer-dist
+        # Testor is a BUILD-TIME-only tool for this repo (the site does not use it
+        # at runtime), so it is installed as a dev dependency, pinned to ^1.11
+        # (the release carrying snapshot:restore). --with-all-dependencies lets
+        # Composer resolve it against this Drupal site's own constraints rather
+        # than failing on a stale lock.
+        - composer require --dev --no-interaction --no-progress --with-all-dependencies "performantlabs/testor:^1.11"
+        # The S3 secret is NOT committed. Flotilla injects it as FLOTILLA_S3_SECRET
+        # (repo secret); Testor reads `${s3_secret}` from .testor_secret.yml
+        # (gitignored). Write it WITHOUT echoing the value into the build log.
+        - >-
+          if [ -n "${FLOTILLA_S3_SECRET:-}" ]; then
+          printf 's3_secret: %s\n' "${FLOTILLA_S3_SECRET}" > .testor_secret.yml;
+          echo "wrote .testor_secret.yml"; else
+          echo "FLOTILLA_S3_SECRET not set — snapshot:restore will fail to reach S3" >&2; fi
+
+      # build — runs on each PR build. Wire settings, restore the sanitized
+      # snapshot, then finish the Drupal bootstrap.
+      build:
+        - echo "===== Flotilla web build ====="
+        - composer install --no-interaction --no-progress --prefer-dist
+        # Put the Flotilla settings override in place as settings.local.php, which
+        # settings.php includes for a non-Pantheon env. Points Drupal at the `db`
+        # service. Mirrors the Tugboat build hook's
+        # `cp .tugboat/settings.tugboat.php .../settings.local.php`.
+        - cp "${FLOTILLA_ROOT}/.flotilla/settings.flotilla.php" "${FLOTILLA_ROOT}/web/sites/default/settings.local.php"
+        # Bounded wait until the db service is reachable BY SERVICE NAME before the
+        # restore tries to load into it (proves #59 service-name DNS too).
+        - >-
+          i=0; while [ "$i" -lt 60 ]; do
+          if mariadb-admin --skip-ssl ping -h db -u root --silent 2>/dev/null; then echo db-reachable; break; fi;
+          i=$((i+1)); sleep 1; done;
+          if [ "$i" -ge 60 ]; then echo db-unreachable; exit 1; fi
+        # THE PAYOFF (testor#28): pull the latest sanitized snapshot and restore it
+        # into the preview's own DB. No --snapshot pin => always latest. `sql`,
+        # `uuid`, and `s3` config all come from .testor.yml (+ .testor_secret.yml).
+        - vendor/bin/testor snapshot:restore --name preview --element database
+        # Post-restore Drupal bootstrap. The snapshot carries prod's config;
+        # DbUuidNormalize already reconciled system.site:uuid, so config:import
+        # from the repo's committed config/default/sync applies cleanly.
+        - vendor/bin/drush config:import --yes || echo "config:import skipped/failed (non-fatal for content preview)"
+        - vendor/bin/drush state:set system.maintenance_mode 0 --input-format=integer
+        # stage_file_proxy serves prod files without syncing them into the preview
+        # (same rationale as the Tugboat build hook).
+        - composer require --no-interaction --no-progress drupal/stage_file_proxy || true
+        - vendor/bin/drush pm:enable --yes stage_file_proxy || true
+        - vendor/bin/drush config:set --yes stage_file_proxy.settings origin "https://performantlabs.com" || true
+        # File permissions so Drupal does not complain.
+        - mkdir -p "${FLOTILLA_ROOT}/web/sites/default/files" "${FLOTILLA_ROOT}/web/sites/default/files-private"
+        - vendor/bin/drush updatedb --yes || true
+        - vendor/bin/drush cache:rebuild
+        # PROOF the restore landed real content (not just exit 0): count users and
+        # print a stable marker the operator/CI can assert against.
+        - >-
+          vendor/bin/drush sql:query "SELECT CONCAT('flotilla-user-count=', COUNT(*)) FROM users_field_data"
+
+      # online — after all services are up.
+      online:
+        - echo "===== Flotilla web online ====="
+        - vendor/bin/drush status --field=bootstrap || true
