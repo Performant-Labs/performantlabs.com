@@ -52,18 +52,20 @@ services:
 
   # ── PHP app service (default / routed) ──────────────────────────────────────
   web:
-    image: php:8.3-cli
+    # php:8.3-apache (NOT -cli): the default service is the routed service and
+    # Flotilla implicitly exposes port 80 on it, so it MUST actually serve HTTP.
+    # -apache runs Apache+mod_php listening on 80 with DocumentRoot /var/www/html,
+    # matching the real Tugboat port's `tugboatqa/php:8.3-apache`. A -cli image
+    # would build green but leave nothing listening on the preview URL.
+    image: php:8.3-apache
     default: true
     depends: [db]
     env:
-      # Consumed by .flotilla/settings.flotilla.php for the per-preview hash salt
-      # and trusted host. Flotilla injects FLOTILLA_REPO_ID /
-      # FLOTILLA_DEFAULT_SERVICE_URL_HOST itself; these defaults keep a bare
-      # local run working.
       COMPOSER_ALLOW_SUPERUSER: '1'
     commands:
       # init — first build of the environment: OS + PHP extensions the Drupal app
-      # and the DB client tools need.
+      # and the DB client tools need, plus the docroot symlink + Apache modules
+      # so Drupal is actually served on port 80.
       init:
         - echo "===== Flotilla web init ====="
         - apt-get update
@@ -71,6 +73,15 @@ services:
         # Drupal 11 core needs pdo_mysql + gd; opcache for a usable preview.
         - docker-php-ext-configure gd --with-freetype --with-jpeg
         - docker-php-ext-install -j"$(nproc)" pdo_mysql gd opcache
+        # Drupal clean URLs need mod_rewrite (+ headers), matching the Tugboat
+        # `a2enmod headers rewrite`.
+        - a2enmod headers rewrite
+        - echo "memory_limit = 256M" >> /usr/local/etc/php/conf.d/flotilla.ini
+        # Point Apache's DocumentRoot (${DOCROOT} = /var/www/html) at the
+        # checked-out web/ subtree — the real `ln -snf "${TUGBOAT_ROOT}/web"
+        # "${DOCROOT}"` pattern (checkout-capstone fixture). Remove the image's
+        # real /var/www/html dir first so the symlink replaces it.
+        - rm -rf "${DOCROOT}" && ln -snf "${FLOTILLA_ROOT}/web" "${DOCROOT}"
         - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
         - php composer-setup.php --install-dir=/usr/local/bin --filename=composer
         - rm -f composer-setup.php
@@ -122,7 +133,14 @@ services:
         # Post-restore Drupal bootstrap. The snapshot carries prod's config;
         # DbUuidNormalize already reconciled system.site:uuid, so config:import
         # from the repo's committed config/default/sync applies cleanly.
-        - vendor/bin/drush config:import --yes || echo "config:import skipped/failed (non-fatal for content preview)"
+        # Non-fatal by design (a content preview is still useful if this branch's
+        # config can't fully import), but the failure is made LOUD — printed with a
+        # clear marker to the build log and stderr — never silently swallowed, so
+        # config drift between the snapshot and this branch is visible to a reviewer.
+        - >-
+          if ! vendor/bin/drush config:import --yes; then
+          echo "::WARN:: flotilla-config-import-FAILED — preview shows restored (snapshot) config, which may drift from this branch" >&2;
+          fi
         - vendor/bin/drush state:set system.maintenance_mode 0 --input-format=integer
         # stage_file_proxy serves prod files without syncing them into the preview
         # (same rationale as the Tugboat build hook).

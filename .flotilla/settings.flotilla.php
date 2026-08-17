@@ -58,16 +58,21 @@ $config['environment_indicator.indicator']['fg_color'] = '#ffffff';
 /**
  * Trusted host patterns.
  *
- * Flotilla routes the preview to the default service's host. We accept the
- * injected default-service host explicitly, plus a permissive fallback so the
- * intra-container CLI (drush) and the router both resolve. A preview is an
- * isolated, short-lived environment, so a permissive pattern is acceptable here
- * (the Tugboat override does the same with `.tugboat.qa$`).
+ * Flotilla routes the preview to the default service's host. When that host is
+ * known (Flotilla injects FLOTILLA_DEFAULT_SERVICE_URL_HOST) we constrain the
+ * trust list to EXACTLY that host, so Drupal's host-header validation stays on
+ * for the internet-reachable preview — closing the host-header-poisoning gap a
+ * bare `['.*']` would open. Only if the host is somehow absent (e.g. a bare
+ * intra-container `drush` bootstrap with no routing env) do we fall back to a
+ * permissive pattern, so the CLI still bootstraps rather than fataling.
  */
-$settings['trusted_host_patterns'] = ['.*'];
 $flotilla_host = $_ENV['FLOTILLA_DEFAULT_SERVICE_URL_HOST'] ?? getenv('FLOTILLA_DEFAULT_SERVICE_URL_HOST');
 if (!empty($flotilla_host)) {
-  $settings['trusted_host_patterns'][] = '^' . preg_quote($flotilla_host, '/') . '$';
+  $settings['trusted_host_patterns'] = ['^' . preg_quote($flotilla_host, '/') . '$'];
+}
+else {
+  // No routing host available (CLI-only bootstrap). Permissive fallback.
+  $settings['trusted_host_patterns'] = ['.*'];
 }
 
 /**
