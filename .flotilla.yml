@@ -100,14 +100,20 @@ services:
         # Composer resolve it against this Drupal site's own constraints rather
         # than failing on a stale lock.
         - composer require --dev --no-interaction --no-progress --with-all-dependencies "performantlabs/testor:^1.11"
-        # The S3 secret is NOT committed. Flotilla injects it as FLOTILLA_S3_SECRET
-        # (repo secret); Testor reads `${s3_secret}` from .testor_secret.yml
-        # (gitignored). Write it WITHOUT echoing the value into the build log.
+        # The S3 secret is NOT committed. Flotilla's org/project secrets UI
+        # injects it as TESTOR_S3_SECRET (org-level secret, epic #301); Testor
+        # reads `${s3_secret}` from .testor_secret.yml (gitignored). NOT named
+        # FLOTILLA_S3_SECRET: the FLOTILLA_* prefix is reserved for Flotilla's
+        # own platform context (FLOTILLA_ROOT/REPO_ID/PREVIEW_ID/…, #302
+        # Decision 2.3) and is rejected outright if an operator tries to set it
+        # via the secrets UI — an earlier draft of this hook used that name and
+        # could never actually receive a value. Write it WITHOUT echoing the
+        # value into the build log.
         - >-
-          if [ -n "${FLOTILLA_S3_SECRET:-}" ]; then
-          printf 's3_secret: %s\n' "${FLOTILLA_S3_SECRET}" > .testor_secret.yml;
+          if [ -n "${TESTOR_S3_SECRET:-}" ]; then
+          printf 's3_secret: %s\n' "${TESTOR_S3_SECRET}" > .testor_secret.yml;
           echo "wrote .testor_secret.yml"; else
-          echo "FLOTILLA_S3_SECRET not set — snapshot:restore will fail to reach S3" >&2; fi
+          echo "TESTOR_S3_SECRET not set — snapshot:restore will fail to reach S3" >&2; fi
 
       # build — runs on each PR build. Wire settings, restore the sanitized
       # snapshot, then finish the Drupal bootstrap.
