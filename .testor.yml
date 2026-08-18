@@ -5,14 +5,20 @@ pantheon:
 tugboat:
   repo: '63fe5557d5af549afd35a86a'
 s3:
+  # Garage (self-hosted, Jupiter) — replaces the old Linode Object Storage
+  # config. Same substitution pattern: the secret is never committed, only
+  # `s3_secret` supplied at runtime (.testor_secret.yml or ROBO_S3_SECRET).
+  # Endpoint is Jupiter's stable Tailscale address, reachable both from an
+  # operator's own machine (running snapshot:refresh) and from Flotilla's
+  # preview build containers on Jupiter itself (running snapshot:restore).
   config:
     version: 'latest'
-    region: 'us-lax-1'
-    endpoint: 'https://us-lax-1.linodeobjects.com'
+    region: 'garage'
+    endpoint: 'http://100.90.193.127:3900'
     credentials:
-      key: '9ZGBU4TC3DA5Z1AYJD3O'
+      key: 'GK84a0b14fd8a3afad8e643b29'
       secret: '${s3_secret}'
-  bucket: 'snapshot'
+  bucket: 'flotilla-performantlabs-com'
 
 # ── Producer sanitization (testor#27 snapshot:refresh -> DbSanitize) ───────────
 # DbSanitize is a NO-OP unless `sanitize.command` is set: with no command it
