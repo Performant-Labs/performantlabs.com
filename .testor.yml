@@ -43,6 +43,16 @@ sanitize:
 sql:
   command: 'vendor/bin/drush sql:cli'
 
+# ── Producer re-export (testor#33/#34 snapshot:refresh -> re-export before push) ──
+# After DbSanitize runs in-place against the imported DB, SnapshotRefresh
+# re-dumps THAT (now-sanitized) database via `sqldump.command` and pushes the
+# re-export, never the original raw pull — this is what makes the #33 fix
+# actually push sanitized data instead of short-circuiting forever. Plain
+# `drush sql:dump` writes to stdout, which SnapshotCreate redirects to the
+# target file itself; no extra flags needed.
+sqldump:
+  command: 'vendor/bin/drush sql:dump'
+
 # DbUuidNormalize (restore-time, consumer-side) overwrites the restored
 # `system.site:uuid` (which carries PROD's uuid) with the TARGET's uuid, so a
 # later `drush config:import` from this repo's committed config/default/sync does
