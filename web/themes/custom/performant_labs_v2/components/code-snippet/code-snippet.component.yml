@@ -22,7 +22,7 @@ props:
       description: The shell command shown after the "$" prompt.
       type: string
       examples:
-        - docker run ctrfhub/aftersight
+        - docker run performant-labs/aftersight
     result_line:
       title: Result line
       description: The result/output line shown after the "→" marker.
@@ -36,4 +36,4 @@ props:
         - string
         - 'null'
       examples:
-        - 'Terminal example: docker run ctrfhub/aftersight, your first CTRF report in 60 seconds'
+        - 'Terminal example: docker run performant-labs/aftersight, your first CTRF report in 60 seconds'
