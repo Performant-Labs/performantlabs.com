@@ -1,0 +1,33 @@
+name: Guard against large artifacts
+
+# Fails a PR that adds oversized files or files under artifact-dump directories
+# (screenshots / handoff captures / shots). Prevention mechanism for issue #319 —
+# the docs/pl2 screenshot dump (4,117 files / 1.1 GiB) that had to be purged with
+# a history rewrite. Only files touched by the PR are checked, so the legacy
+# screenshots still tracked under docs/pl2/ never fail unrelated PRs.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guard-large-artifacts-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Need both the PR head and the base branch tip for the range diff.
+          fetch-depth: 0
+
+      - name: Check for large / dump-directory files
+        run: |
+          python3 scripts/ci/check-artifact-bloat.py \
+            --base "origin/${{ github.event.pull_request.base.ref }}" \
+            --head "${{ github.event.pull_request.head.sha }}"

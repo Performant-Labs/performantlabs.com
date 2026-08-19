@@ -87,3 +87,12 @@ app_server_*
 
 # Testor.
 .testor_secret.yml
+
+# Large QA artifact dumps — screenshots / handoff captures never belong in git.
+# Third layer behind scripts/ci/check-artifact-bloat.py (CI) + the pre-commit
+# hook. See issue #319. Legit large binaries: allow-list them in that script.
+# NB: `*-shots` (not `*shots`) so Playwright `*.spec.js-snapshots/` baselines pass.
+**/shots/
+**/*-shots/
+**/screenshots/
+**/Screenshots*/
