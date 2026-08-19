@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 14 Cycle 1 — /about-us HQ audit report</title>
+<style>
+  :root {
+    --espresso: #1F1A14;
+    --canvas: #F6F1E6;
+    --cream: #F5EFE2;
+    --ink: #1F1A14;
+    --rule: #E5E1DC;
+    --terra: #8E4A2A;
+    --teal: #62BBCB;
+    --teal-dark: #5DC6E8;
+    --warn: #B8741E;
+    --bad: #B33A2C;
+    --ok: #2E7D49;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 16px/1.55 Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background: var(--canvas);
+    margin: 0;
+    padding: 24px 16px 80px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  h1, h2, h3, h4 { font-family: -apple-system, "Segoe UI", "Helvetica Neue", sans-serif; line-height: 1.15; }
+  h1 { font-size: 30px; margin: 0 0 4px; }
+  h2 { font-size: 24px; margin: 40px 0 12px; padding-top: 12px; border-top: 2px solid var(--rule); }
+  h3 { font-size: 19px; margin: 24px 0 8px; }
+  h4 { font-size: 16px; margin: 16px 0 6px; }
+  a { color: #005AA0; }
+  .verdict-banner {
+    padding: 22px 24px;
+    margin: 16px 0 28px;
+    border-radius: 8px;
+    border: 2px solid var(--bad);
+    background: #FCE9E5;
+    color: var(--bad);
+    font: 700 22px/1.2 -apple-system, sans-serif;
+    display: flex; gap: 24px; align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .verdict-banner .verdict { font-size: 32px; letter-spacing: 0.5px; }
+  .verdict-banner .sub { font-size: 14px; font-weight: 400; color: #5C3530; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; font: 14px/1.4 -apple-system, sans-serif; }
+  th, td { border: 1px solid var(--rule); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--cream); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 12px; font: 600 11px/1.5 -apple-system, sans-serif; text-transform: uppercase; letter-spacing: 0.4px; }
+  .pill-real { background: #FCE9E5; color: var(--bad); }
+  .pill-match { background: #E1F0E5; color: var(--ok); }
+  .pill-minor { background: #FFF1DD; color: var(--warn); }
+  .pill-new { background: #E5EEF8; color: #1C3F77; }
+  .pill-cf { background: #EAE6DE; color: #4A4036; }
+  ul.findings li { margin: 0 0 8px; }
+  nav.toc { background: var(--cream); padding: 12px 18px; border-radius: 8px; margin-bottom: 24px; }
+  nav.toc ol { margin: 0; padding-left: 22px; }
+  nav.toc a { text-decoration: none; }
+  .comparator-block { margin: 16px 0 32px; }
+  .comparator {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 8px auto 6px;
+    border: 1px solid var(--rule);
+    background: #fff;
+    overflow: hidden;
+  }
+  .comparator .stack { position: relative; line-height: 0; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top {
+    position: absolute; inset: 0;
+    clip-path: inset(0 50% 0 0);
+    transition: none;
+  }
+  .comparator .divider {
+    position: absolute; top: 0; bottom: 0;
+    width: 2px; background: var(--terra);
+    pointer-events: none; left: 50%;
+    transform: translateX(-1px);
+  }
+  .comparator input[type=range] {
+    display: block; width: 100%; margin: 8px 0 0;
+  }
+  .comparator .legend {
+    font: 12px -apple-system, sans-serif;
+    color: #5C544C;
+    display: flex; justify-content: space-between;
+    padding: 0 6px;
+  }
+  .legend .l { color: var(--terra); font-weight: 600; }
+  .legend .r { color: var(--ok); font-weight: 600; }
+  .diff-row { margin: 16px 0; }
+  .diff-row img { display: block; width: 100%; max-width: 640px; border: 1px solid var(--rule); background: #fff; }
+  .composite { margin: 12px 0; }
+  .composite img { display: block; width: 100%; max-width: 980px; border: 1px solid var(--rule); }
+  .grid-thumbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 8px 0 16px; }
+  .grid-thumbs figure { margin: 0; }
+  .grid-thumbs img { width: 100%; height: auto; border: 1px solid var(--rule); }
+  .grid-thumbs figcaption { font: 11px -apple-system, sans-serif; color: #5C544C; padding: 4px 0; }
+  details { margin: 8px 0; padding: 8px 12px; background: var(--cream); border-radius: 6px; }
+  details summary { cursor: pointer; font-weight: 600; }
+  .small { font-size: 12px; color: #5C544C; }
+  code { background: #EAE6DE; padding: 1px 4px; border-radius: 3px; font-size: 90%; }
+  .kbd { font-family: ui-monospace, monospace; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Sprint 14 Cycle 1 — /about-us HQ preview-fidelity audit</h1>
+  <p class="small">Date: 2026-05-13 · Branch: <code>aa/pl-sprint-14-about-us-fidelity-hq</code> · Mode: autonomous, S-only · Captures: Playwright @ 2× DPR, ImageMagick DSSIM/PSNR/AE.</p>
+</header>
+
+<div class="verdict-banner">
+  <span class="verdict">REWORK</span>
+  <span>3 actionable findings → Cycles 2–4 carve recommended</span>
+  <div style="flex-basis:100%"></div>
+  <span class="sub"><strong>Per-section DSSIM ≥ 0.05 at every section & viewport.</strong> Real deltas, but the actionable subset is small: 3 discrete fixes (F-NEW-1, F-NEW-2, F-NEW-3) close most of the delta surface. F-NEW-4 (CTA suffix-icon) requires operator decision.</span>
+</div>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ol>
+    <li><a href="#what-i-see">What I see different (plain-English)</a></li>
+    <li><a href="#vp-1280">Per-viewport comparator — 1280 desktop</a></li>
+    <li><a href="#vp-768">Per-viewport comparator — 768 tablet</a></li>
+    <li><a href="#vp-375">Per-viewport comparator — 375 mobile</a></li>
+    <li><a href="#section-table">Per-section delta table (DSSIM + thumbnails)</a></li>
+    <li><a href="#findings">Findings catalog (F-NEW-1..7)</a></li>
+    <li><a href="#carve">Cycle 2..N carve recommendations</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="what-i-see">1. What I see different</h2>
+<p>Reading from the wipe-slider comparators below — and slowing them down on hero and §E closing-CTA — these are the visible deltas an operator would notice:</p>
+<ul class="findings">
+  <li><strong>Hero H1 size mismatch.</strong> At desktop (1280) and tablet (768) the live "Drupal testing, done by the people who wrote the tools." headline is <em>visibly larger</em> than the preview (live 72 px vs preview 64 px; the brief says 72). At mobile (375) the relationship inverts: <em>preview is larger</em> (40 px) and live is smaller (36 px); the brief says 44 px. Both renders are wrong at mobile; live is further off. <span class="pill pill-new">F-NEW-1 / F-NEW-2</span></li>
+  <li><strong>Closing-CTA primary button is the wrong colour on the preview.</strong> In the espresso-dark §E section, the preview shows the standard teal-on-white pill ("Book a testing review" in teal <code>#62BBCB</code> with white text). The live shows a different teal (<code>#5DC6E8</code>) with dark text (<code>#1F1A14</code>) — and the brief explicitly says dark-zone CTAs use the second token. <strong>Live is correct; preview is wrong.</strong> <span class="pill pill-new">F-NEW-3</span></li>
+  <li><strong>Primary CTA chrome differs everywhere.</strong> Every primary CTA on the live page ("Book a testing review", "Read how the workflow is wired") has a small dark-teal circle on its right edge containing a chevron arrow — a 32-px SVG suffix icon. The preview shows a plain pill with the text "Book a testing review →" — the arrow is a text glyph inside the label. Result: live pills are ~56 px tall, preview pills are ~45 px tall. <span class="pill pill-new">F-NEW-4</span></li>
+  <li><strong>Body copy reads at different sizes.</strong> The hero subhead and the §B / §D body paragraphs render at different point sizes on each side. Live = 20 px hero subhead, 16 px §B body. Preview = 19 / 17. Brief = 18 / 18. Both renders drift in opposite directions, so paragraphs wrap at different line counts and everything below cascades vertically. <span class="pill pill-cf">Sprint 13 carry-forward</span></li>
+  <li><strong>Open-source cards have different call-to-action structure.</strong> The live cards make the <em>title</em> a link ("Automated Testing Kit (ATK)" is clickable). The preview cards have a separate "Read the docs →" link at the bottom. Both communicate the same intent; the preview's pattern is more visible but the live's is what ships. <span class="pill pill-cf">Sprint 12 carry-forward</span></li>
+  <li><strong>Footer is much richer on the live than the preview.</strong> The Drupal-shipped footer has services / resources / company columns plus a privacy strip and "Get in touch" — the preview footer is single-row. This is sitewide and out of /about-us scope. <span class="pill pill-cf">Sitewide</span></li>
+  <li><strong>Header looks identical now</strong> — the Sprint 13 preview canonicalization landed; the right-side "Book a testing review" pill is gone from the preview and the hamburger toggle is shown below 992 px. No header delta this cycle.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="vp-1280">2. Comparator — 1280 desktop</h2>
+<p class="small">Drag the slider to wipe between live (left) and preview (right). Imagery downscaled to 640 px wide; full-resolution PNGs are in <code>docs/pl2/handoffs/screenshots/sprint-14-cycle-1/</code>.</p>
+<div class="comparator-block">
+  <div class="comparator" data-comp="1280">
+    <div class="stack">
+      <img class="bottom" src="screenshots/sprint-14-cycle-1/fullpage-1280-preview.png" alt="preview 1280">
+      <img class="top"    src="screenshots/sprint-14-cycle-1/fullpage-1280-live.png" alt="live 1280">
+      <div class="divider"></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Comparator slider 1280">
+    <div class="legend"><span class="l">◀ Live</span><span class="r">Preview ▶</span></div>
+  </div>
+</div>
+<div class="diff-row">
+  <h4>ImageMagick fuzz-3% diff (red = pixels differing beyond 3% colour tolerance)</h4>
+  <img src="screenshots/sprint-14-cycle-1/fullpage-1280-diff.png" alt="1280 wholepage diff">
+</div>
+
+<!-- ============================================================ -->
+<h2 id="vp-768">3. Comparator — 768 tablet</h2>
+<div class="comparator-block">
+  <div class="comparator" data-comp="768">
+    <div class="stack">
+      <img class="bottom" src="screenshots/sprint-14-cycle-1/fullpage-768-preview.png" alt="preview 768">
+      <img class="top"    src="screenshots/sprint-14-cycle-1/fullpage-768-live.png" alt="live 768">
+      <div class="divider"></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Comparator slider 768">
+    <div class="legend"><span class="l">◀ Live</span><span class="r">Preview ▶</span></div>
+  </div>
+</div>
+<div class="diff-row">
+  <h4>ImageMagick fuzz-3% diff</h4>
+  <img src="screenshots/sprint-14-cycle-1/fullpage-768-diff.png" alt="768 wholepage diff">
+</div>
+
+<!-- ============================================================ -->
+<h2 id="vp-375">4. Comparator — 375 mobile</h2>
+<div class="comparator-block">
+  <div class="comparator" data-comp="375">
+    <div class="stack">
+      <img class="bottom" src="screenshots/sprint-14-cycle-1/fullpage-375-preview.png" alt="preview 375">
+      <img class="top"    src="screenshots/sprint-14-cycle-1/fullpage-375-live.png" alt="live 375">
+      <div class="divider"></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" aria-label="Comparator slider 375">
+    <div class="legend"><span class="l">◀ Live</span><span class="r">Preview ▶</span></div>
+  </div>
+</div>
+<div class="diff-row">
+  <h4>ImageMagick fuzz-3% diff</h4>
+  <img src="screenshots/sprint-14-cycle-1/fullpage-375-diff.png" alt="375 wholepage diff">
+</div>
+
+<!-- ============================================================ -->
+<h2 id="section-table">5. Per-section delta table</h2>
+<p class="small">Per-section crops anchored to each section's own top in each render, cropped to the smaller of the two heights. DSSIM is the primary perceptual metric (0 = identical; ≥ 0.05 = real delta per Sprint 14 §"Threshold convention"). Thumbnails show the fuzz-3% diff; red highlights where pixels differ beyond a 3% colour tolerance (filters out subpixel antialiasing).</p>
+
+<table>
+  <thead><tr><th>Section</th><th>Viewport</th><th>DSSIM</th><th class="num">AE @ 3%</th><th>Class</th><th>Diagnosis</th></tr></thead>
+  <tbody>
+    <tr><td>Hero</td><td>1280</td><td>0.194</td><td class="num">387,432</td><td><span class="pill pill-real">Real delta</span></td><td>H1 64 (preview) vs 72 (live, brief-correct). Cascading offset of subhead + CTAs. CTA chrome differs (F-NEW-4).</td></tr>
+    <tr><td>Hero</td><td>768</td><td>0.229</td><td class="num">416,772</td><td><span class="pill pill-real">Real delta</span></td><td>Same as 1280, aggravated by reflow.</td></tr>
+    <tr><td>Hero</td><td>375</td><td>0.241</td><td class="num">214,279</td><td><span class="pill pill-real">Real delta</span></td><td>H1 reversed: live 36 vs preview 40 vs brief 44. CTA stacking + suffix-icon.</td></tr>
+    <tr><td>Track-record (§B)</td><td>1280</td><td>0.195</td><td class="num">375,826</td><td><span class="pill pill-real">Real delta</span></td><td>Body type 16 (live) vs 17 (preview) vs 18 (brief); H2 line-height drift (live 1.13 vs preview 1.10).</td></tr>
+    <tr><td>Track-record (§B)</td><td>768</td><td>0.242</td><td class="num">377,464</td><td><span class="pill pill-real">Real delta</span></td><td>Same drift + reflow.</td></tr>
+    <tr><td>Track-record (§B)</td><td>375</td><td>0.255</td><td class="num">337,755</td><td><span class="pill pill-real">Real delta</span></td><td>Same drift + reflow.</td></tr>
+    <tr><td>Open-source (§C)</td><td>1280</td><td>0.198</td><td class="num">584,736</td><td><span class="pill pill-real">Real delta</span></td><td>Card-CTA structure (title-link vs footer-link). Pre-existing.</td></tr>
+    <tr><td>Open-source (§C)</td><td>768</td><td>0.213</td><td class="num">542,755</td><td><span class="pill pill-real">Real delta</span></td><td>Same + reflow.</td></tr>
+    <tr><td>Open-source (§C)</td><td>375</td><td>0.243</td><td class="num">535,711</td><td><span class="pill pill-real">Real delta</span></td><td>Card stack + structural CTA.</td></tr>
+    <tr><td>Dogfood (§D)</td><td>1280</td><td>0.181</td><td class="num">269,561</td><td><span class="pill pill-real">Real delta</span></td><td>CTA chrome (F-NEW-4) + body wrap.</td></tr>
+    <tr><td>Dogfood (§D)</td><td>768</td><td>0.201</td><td class="num">202,845</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+    <tr><td>Dogfood (§D)</td><td>375</td><td>0.232</td><td class="num">200,612</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+    <tr><td>Closing-CTA (§E)</td><td>1280</td><td>0.169</td><td class="num">210,031</td><td><span class="pill pill-real">Real delta</span></td><td><strong>Preview CTA bg wrong token (F-NEW-3)</strong> + CTA chrome (F-NEW-4) + subhead wrap.</td></tr>
+    <tr><td>Closing-CTA (§E)</td><td>768</td><td>0.200</td><td class="num">213,868</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+    <tr><td>Closing-CTA (§E)</td><td>375</td><td>0.247</td><td class="num">194,579</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+    <tr><td>Footer</td><td>1280</td><td>0.180</td><td class="num">116,241</td><td><span class="pill pill-real">Real delta</span></td><td>Live richer than preview (sitewide, by design). Out of /about-us scope.</td></tr>
+    <tr><td>Footer</td><td>768</td><td>0.190</td><td class="num">110,902</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+    <tr><td>Footer</td><td>375</td><td>0.199</td><td class="num">84,722</td><td><span class="pill pill-real">Real delta</span></td><td>Same.</td></tr>
+  </tbody>
+</table>
+
+<h3>Section thumbnails (fuzz-3% diff — 1280 desktop)</h3>
+<div class="grid-thumbs">
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-hero.png" alt="hero diff 1280"><figcaption>Hero — 1280</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-track-record.png" alt="track-record diff 1280"><figcaption>Track-record — 1280</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-opensource.png" alt="opensource diff 1280"><figcaption>Open-source — 1280</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-dogfood.png" alt="dogfood diff 1280"><figcaption>Dogfood — 1280</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-closing-cta.png" alt="closing-cta diff 1280"><figcaption>Closing-CTA — 1280</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-1280-footer.png" alt="footer diff 1280"><figcaption>Footer — 1280</figcaption></figure>
+</div>
+<h3>Section thumbnails (fuzz-3% diff — 768 tablet)</h3>
+<div class="grid-thumbs">
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-hero.png" alt="hero diff 768"><figcaption>Hero — 768</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-track-record.png" alt="track-record diff 768"><figcaption>Track-record — 768</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-opensource.png" alt="opensource diff 768"><figcaption>Open-source — 768</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-dogfood.png" alt="dogfood diff 768"><figcaption>Dogfood — 768</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-closing-cta.png" alt="closing-cta diff 768"><figcaption>Closing-CTA — 768</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-768-footer.png" alt="footer diff 768"><figcaption>Footer — 768</figcaption></figure>
+</div>
+<h3>Section thumbnails (fuzz-3% diff — 375 mobile)</h3>
+<div class="grid-thumbs">
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-hero.png" alt="hero diff 375"><figcaption>Hero — 375</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-track-record.png" alt="track-record diff 375"><figcaption>Track-record — 375</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-opensource.png" alt="opensource diff 375"><figcaption>Open-source — 375</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-dogfood.png" alt="dogfood diff 375"><figcaption>Dogfood — 375</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-closing-cta.png" alt="closing-cta diff 375"><figcaption>Closing-CTA — 375</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-1/thumb-375-footer.png" alt="footer diff 375"><figcaption>Footer — 375</figcaption></figure>
+</div>
+
+<h3>Side-by-side composites of the most actionable sections</h3>
+<div class="composite">
+  <h4>Hero — 1280 (left: live, right: preview)</h4>
+  <img src="screenshots/sprint-14-cycle-1/hero-1280-side-by-side.png" alt="hero 1280 side-by-side">
+  <p class="small">Live H1 visibly larger than preview (72 vs 64 px). Live primary CTA pill has a dark-teal circle with chevron arrow on right edge; preview has only inline text and a "→" glyph.</p>
+</div>
+<div class="composite">
+  <h4>Hero — 375 (left: live, right: preview)</h4>
+  <img src="screenshots/sprint-14-cycle-1/hero-375-side-by-side.png" alt="hero 375 side-by-side">
+  <p class="small">Inverted at mobile: preview H1 (40 px) is larger than live (36 px). Brief says 44 px — both are wrong; live further off.</p>
+</div>
+<div class="composite">
+  <h4>Closing-CTA — 1280 (left: live, right: preview)</h4>
+  <img src="screenshots/sprint-14-cycle-1/closing-cta-1280-side-by-side.png" alt="closing-cta 1280 side-by-side">
+  <p class="small">Preview pill = standard light-zone teal (<code>#62BBCB</code>) with white text. Live pill = dark-zone teal (<code>#5DC6E8</code>) with espresso text — the brief-specified dark-zone CTA token. Live correct; preview wrong.</p>
+</div>
+<div class="composite">
+  <h4>Open-source — 1280 (left: live, right: preview)</h4>
+  <img src="screenshots/sprint-14-cycle-1/opensource-1280-side-by-side.png" alt="opensource 1280 side-by-side">
+  <p class="small">Live cards make the <em>title</em> the link; preview cards have a separate "Read the docs →" footer link. Carry-forward from Sprint 12 — operator decision still pending.</p>
+</div>
+<div class="composite">
+  <h4>Dogfood — 1280 (left: live, right: preview)</h4>
+  <img src="screenshots/sprint-14-cycle-1/dogfood-1280-side-by-side.png" alt="dogfood 1280 side-by-side">
+  <p class="small">Same CTA-suffix structural delta (F-NEW-4); body wraps to 3 lines on live vs 4 on preview because of body-size drift.</p>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="findings">6. Findings catalog</h2>
+
+<details open>
+  <summary><strong>F-NEW-1</strong> — Preview hero H1 desktop short. <span class="pill pill-cf">Pre-committed (runbook)</span></summary>
+  <p>Brief <code>display-xl</code> = 72 px / line-height 1.05 / letter-spacing −2 px desktop. Live renders 72 / 79.2 / −1.8 ✅. Preview renders 64 / 67.2 / −1.6 ❌.</p>
+  <p><strong>Layer:</strong> Preview-doc. <strong>Fix:</strong> raise <code>.hero h1 { font-size }</code> on line 254 of <code>docs/pl2/Previews/about-us.html</code> from 64 to 72 px; adjust letter-spacing to −2 px.</p>
+</details>
+
+<details open>
+  <summary><strong>F-NEW-2</strong> — Live hero H1 mobile short. <span class="pill pill-cf">Pre-committed (runbook)</span></summary>
+  <p>Brief mobile <code>display-xl</code> = 44 px at <code>&lt; 576</code> px. Live = 36 ❌. Preview = 40 (also short).</p>
+  <p><strong>Layer:</strong> L1 token + preview-doc. <strong>Cross-page sweep required</strong> (PC-3): any landing page with a <code>display-xl</code> hero will gain 8 px live / 4 px preview vertical headline height at mobile.</p>
+</details>
+
+<details open>
+  <summary><strong>F-NEW-3</strong> — Preview §E closing-CTA primary token wrong. <span class="pill pill-new">NEW this cycle</span></summary>
+  <p>Brief line 319 explicitly defines dark-zone primary CTA: <code>#5DC6E8</code> bg + <code>#1F1A14</code> text (8.81:1 AA pass). Live applies this correctly ✅. Preview applies the light-zone token <code>#62BBCB</code> + white ❌.</p>
+  <p><strong>Layer:</strong> Preview-doc. <strong>Fix:</strong> update <code>docs/pl2/Previews/about-us.html</code> <code>.section--espresso .btn--primary</code> (or equivalent selector) to <code>background: #5DC6E8; color: #1F1A14;</code>.</p>
+</details>
+
+<details>
+  <summary><strong>F-NEW-4</strong> — Primary CTA component chrome differs. <span class="pill pill-new">NEW — operator decision needed</span></summary>
+  <p>Live uses <code>dripyard_base:button</code> component → appends 32-px SVG chevron-circle suffix via <code>.button__suffix</code> → 56-px-tall pill. Preview uses plain <code>&lt;a class="btn--primary"&gt;</code> with inline "→" glyph → 45-px-tall pill.</p>
+  <p>Brief does not enumerate the suffix-icon. Three options:</p>
+  <ol>
+    <li><strong>Option A — preview canonical.</strong> Strip suffix-icon from live (component / template work — high cost, sitewide impact).</li>
+    <li><strong>Option B — live canonical.</strong> Update preview to render chevron-circle suffix (preview-doc only).</li>
+    <li><strong>Option C — accept structural difference</strong> and document in brief as "Drupal-component-templated CTA suffix-icon is shipped behavior, not part of visual-fidelity contract" (recommended for autonomous park).</li>
+  </ol>
+</details>
+
+<details>
+  <summary><strong>F-NEW-5</strong> — Live <code>display-md</code> H2 line-height +1.2 px vs brief. <span class="pill pill-minor">Minor</span></summary>
+  <p>Brief 40 / 1.05–1.10. Live computed 40 / 45.2 (1.13). Preview 40 / 44 (1.10) ✅. Defer to Sprint-15+ typography pass; sub-perceptual at this delta size.</p>
+</details>
+
+<details>
+  <summary><strong>F-NEW-6, F-NEW-7</strong> — body-lg sizes drift on both renders (Sprint 13 carry-forwards). <span class="pill pill-cf">Carry-forward</span></summary>
+  <p>Hero subhead: live 20 / preview 19 / brief 18. §B / §D body: live 16 / preview 17 / brief 18. Sitewide token surface — recommend a separate body-lg sitewide cycle, not in Sprint 14 scope.</p>
+</details>
+
+<details>
+  <summary>Open-source card CTA structure delta. <span class="pill pill-cf">Sprint 12 carry-forward</span></summary>
+  <p>Live makes title the link; preview has separate "Read the docs →" footer link. Operator decision still pending from Sprint 12. Deferred.</p>
+</details>
+
+<details>
+  <summary>Footer richness delta. <span class="pill pill-cf">Sitewide</span></summary>
+  <p>Live ships Drupal-shipped multi-column footer; preview ships leaner version. Sitewide pattern, out of /about-us scope.</p>
+</details>
+
+<!-- ============================================================ -->
+<h2 id="carve">7. Cycle 2..N carve recommendations</h2>
+<ol>
+  <li>
+    <strong>Cycle 2 — Preview-doc batch.</strong> Branch <code>aa/pl-sprint-14-cycle-2-about-us-preview-doc</code>. Scope: F-NEW-1 (hero H1 desktop 64 → 72) + F-NEW-3 (§E primary CTA <code>#62BBCB</code>/white → <code>#5DC6E8</code>/<code>#1F1A14</code>). No live changes. Verify by re-running <code>scripts/sprint-14-cycle-1-diff.mjs</code> after fix: hero + closing-CTA DSSIM should drop materially. <strong>Operator decisions needed:</strong> none — both are preview-doc fixes to align with the brief.
+  </li>
+  <li>
+    <strong>Cycle 3 — L1 mobile token + cross-page S sweep.</strong> Branch <code>aa/pl-sprint-14-cycle-3-mobile-display-xl-token</code>. Scope: F-NEW-2 (raise mobile <code>display-xl</code> from 36 → 44 in the theme's <code>&lt; 576</code> px breakpoint rule; also raise preview's mobile <code>.hero h1</code> from 40 → 44). Mandatory S cross-page sweep of every page with a <code>display-xl</code> hero at 375 px (homepage, /services, /how-we-do-it, /open-source-projects, /about-us). <strong>Operator decisions needed:</strong> confirm L1-token-with-sweep posture (PC-3 default = autonomous).
+  </li>
+  <li>
+    <strong>Cycle 4 — F-NEW-4 operator decision.</strong> Pending. Recommend <strong>Option C</strong> (brief-doc only — document the Drupal-component suffix-icon as shipped behaviour outside the visual-fidelity contract). If operator picks B (preview-doc), bundle with Cycle 2.
+  </li>
+  <li>
+    <strong>Deferred.</strong> F-NEW-5 / F-NEW-6 / F-NEW-7 (display-md line-height, body-lg drift) and open-source card CTA structure → out of Sprint 14 scope. Footer richness delta → out of /about-us scope.
+  </li>
+</ol>
+
+<p class="small" style="margin-top:48px; padding-top:18px; border-top: 1px solid var(--rule);">
+  Captures: Playwright @ deviceScaleFactor 2, reducedMotion: reduce, ignoreHTTPSErrors. Diff: ImageMagick 7 — DSSIM primary, PSNR/AE-3%/AE-0% secondary. Drupal-chrome breadcrumb band masked on live before comparison. Per-section crops anchored to each section's measured top in its own render at min(liveH, prevH).
+</p>
+
+</div>
+<script>
+  document.querySelectorAll('.comparator').forEach(c => {
+    const top = c.querySelector('.top');
+    const div = c.querySelector('.divider');
+    const slider = c.querySelector('input[type=range]');
+    function paint(v) {
+      const pct = Math.max(0, Math.min(100, +v));
+      top.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      div.style.left = pct + '%';
+    }
+    slider.addEventListener('input', e => paint(e.target.value));
+    paint(slider.value);
+  });
+</script>
+</body>
+</html>

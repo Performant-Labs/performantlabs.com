@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — contact us preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with webinars/email */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* ---------- Skip link ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 1000;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+    .btn--ghost-on-dark {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: rgba(245,239,226,0.4);
+    }
+    .btn--ghost-on-dark:hover {
+      background: rgba(245,239,226,0.08);
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+      text-decoration: none;
+    }
+    .btn-row { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-2xl); }
+
+    /* ---------- Header ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .site-header__brand:hover { text-decoration: none; color: var(--ink); }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__nav a.is-current { color: var(--primary); font-weight: 500; }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Breadcrumb ---------- */
+    .breadcrumb { padding: var(--space-lg) 0 0; background: var(--canvas); }
+    .breadcrumb__list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; gap: var(--space-sm);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb__list li:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--hairline);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    /* ---------- Sections ---------- */
+    section { padding: var(--space-section) 0; }
+    .section--canvas { background: var(--canvas); color: var(--ink); }
+    .section--cream { background: var(--cream); color: var(--ink); }
+    .section--espresso { background: var(--espresso); color: var(--on-dark); }
+    .section--espresso h1, .section--espresso h2, .section--espresso h3 { color: var(--on-dark); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 96px 0 var(--space-section); background: var(--canvas); }
+    .hero__inner { max-width: 920px; margin: 0 auto; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__kicker::before, .hero__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.4px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--space-xl);
+      text-wrap: balance;
+    }
+    .hero__subhead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 760px;
+      margin: 0 auto;
+      font-style: italic;
+    }
+
+    /* ---------- Section heads (centered, family pattern) ---------- */
+    .section-head { text-align: center; margin-bottom: var(--space-2xl); max-width: 800px; margin-inline: auto; }
+    .section-head h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-weight: 500;
+      margin-bottom: var(--space-base);
+      text-wrap: balance;
+    }
+    .section-head__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-base);
+    }
+    .section-head__kicker::before, .section-head__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .section-head__lead {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--body);
+      max-width: var(--prose-max);
+      margin: 0 auto;
+    }
+
+    /* ---------- Form section (two-column) ---------- */
+    .form-section { padding: var(--space-section) 0; background: var(--canvas); }
+    .form-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 64px;
+      align-items: start;
+    }
+
+    /* Form (left column) */
+    .contact-form { display: grid; gap: var(--space-lg); }
+    .field { display: grid; gap: 6px; }
+    .field__label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: 0.1px;
+    }
+    .field__label .req {
+      color: var(--accent-deep);
+      margin-left: 2px;
+    }
+    .field__input,
+    .field__textarea {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--ink);
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      transition: border-color 150ms ease-out;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .field__input::placeholder,
+    .field__textarea::placeholder { color: #A39B91; }
+    .field__input:hover,
+    .field__textarea:hover { border-color: #C9C3BB; }
+    .field__input:focus-visible,
+    .field__textarea:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-color: var(--primary);
+    }
+    .field__textarea { min-height: 168px; resize: vertical; }
+    .field__hint {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .form__meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: var(--space-xs);
+    }
+    .form__meta .req { color: var(--accent-deep); }
+    .form__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-lg);
+      flex-wrap: wrap;
+      margin-top: var(--space-sm);
+    }
+    .form__privacy {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+      max-width: 340px;
+    }
+
+    /* Honeypot — visually hidden but not display:none */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Sidebar (right column) */
+    .contact-sidebar {
+      position: sticky;
+      top: var(--space-2xl);
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      display: grid;
+      gap: var(--space-base);
+    }
+    .contact-sidebar__kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+    }
+    .contact-sidebar__kicker::before {
+      content: "";
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+    .contact-sidebar h2 {
+      font-size: 22px;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+      font-weight: 500;
+      margin: 0;
+    }
+    .contact-sidebar p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--body);
+    }
+    .contact-sidebar .btn { align-self: start; }
+    .contact-sidebar__divider {
+      height: 1px;
+      background: var(--hairline);
+      margin: var(--space-sm) 0;
+    }
+    .contact-sidebar__meta {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .contact-sidebar__meta strong { color: var(--ink); font-weight: 600; }
+
+    /* ---------- Feature cards (3-up, numbered — cream band) ---------- */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+      margin-top: var(--space-2xl);
+    }
+    .feature-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      transition: border-color 150ms ease-out;
+    }
+    .feature-card:hover { border-color: var(--primary); }
+    .feature-card__num {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-deep);
+      letter-spacing: 1px;
+      margin-bottom: var(--space-lg);
+    }
+    .feature-card__num::before {
+      content: "";
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-bottom: var(--space-md);
+    }
+    .feature-card p { font-size: 16px; line-height: 1.6; color: var(--body); }
+
+    /* ---------- Closing CTA ---------- */
+    .closing-cta { padding: 120px 0; text-align: center; background: var(--espresso); }
+    .closing-cta__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-xl);
+    }
+    .closing-cta__kicker::before, .closing-cta__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .closing-cta h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 500;
+      color: var(--on-dark);
+      margin: 0 auto var(--space-xl);
+      max-width: 880px;
+      text-wrap: balance;
+    }
+    .closing-cta p {
+      max-width: 640px;
+      margin: 0 auto var(--space-2xl);
+      color: var(--on-dark-muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+    .closing-cta .btn--primary { background: #5DC6E8; color: #1F1A14; }
+    .closing-cta .btn--primary:hover { background: #4AB8DA; color: #1F1A14; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .form-grid { grid-template-columns: 1fr; gap: var(--space-2xl); }
+      .contact-sidebar { position: static; }
+      .features { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 767px) {
+      section, .hero, .form-section { padding: var(--space-3xl) 0; }
+      .hero h1 { font-size: 38px; letter-spacing: -0.8px; }
+      .hero__subhead { font-size: 17px; }
+      .section-head h2 { font-size: 30px; letter-spacing: -0.8px; }
+      .closing-cta { padding: var(--space-3xl) 0; }
+      .closing-cta h2 { font-size: 36px; letter-spacing: -0.8px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+      .form__actions { flex-direction: column; align-items: stretch; }
+      .form__privacy { max-width: none; }
+    }
+    @media (max-width: 575px) {
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="/services">Services</a>
+        <a href="/how-we-do-it">How we do it</a>
+        <a href="/articles">Articles</a>
+        <a href="/open-source-projects">Open source projects</a>
+        <a href="/about-us">About us</a>
+        <a href="/contact-us" class="is-current">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li><a href="/">Home</a></li>
+        <li>Contact us</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+
+  <!-- HERO (§A) — theme--white -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__kicker">Get in touch</span>
+      <h1>Let's talk about your quality and testing goals.</h1>
+      <p class="hero__subhead">
+        Tell us where your suite is now, and we'll come back with a concrete next step — not a sales sequence.
+      </p>
+    </div>
+  </section>
+
+  <!-- FORM (§B) — theme--white, two-column on desktop -->
+  <section class="form-section">
+    <div class="container">
+      <div class="form-grid">
+
+        <!-- LEFT: the webform -->
+        <form class="contact-form" action="/form/contact" method="post" novalidate>
+          <div class="field">
+            <label class="field__label" for="contact-name">Your name <span class="req" aria-hidden="true">*</span></label>
+            <input class="field__input" type="text" id="contact-name" name="name" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-email">Your email <span class="req" aria-hidden="true">*</span></label>
+            <input class="field__input" type="email" id="contact-email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-company">Your company name</label>
+            <input class="field__input" type="text" id="contact-company" name="company_name" autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-phone">Your phone number</label>
+            <input class="field__input" type="tel" id="contact-phone" name="phone_number" autocomplete="tel">
+            <span class="field__hint">Optional. Faster than email if you'd rather we call back.</span>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-message">Your message <span class="req" aria-hidden="true">*</span></label>
+            <textarea class="field__textarea" id="contact-message" name="message" rows="6" required placeholder="A sentence or two about where your test suite is, and what you'd like to see change."></textarea>
+          </div>
+
+          <!-- Honeypot — Drupal webform "Leave this field blank" anti-spam mirror -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="contact-hp">Leave this field blank</label>
+            <input type="text" id="contact-hp" name="hp" tabindex="-1" autocomplete="off">
+          </div>
+
+          <p class="form__meta"><span class="req" aria-hidden="true">*</span> Required field.</p>
+
+          <div class="form__actions">
+            <button type="submit" class="btn btn--primary">Send message</button>
+            <p class="form__privacy">We answer within one business day. Your details stay with us — no third-party sales tools, no newsletter signup behind the form.</p>
+          </div>
+        </form>
+
+        <!-- RIGHT: SavvyCal sidebar -->
+        <aside class="contact-sidebar">
+          <span class="contact-sidebar__kicker">Faster path</span>
+          <h2>Prefer a quick call?</h2>
+          <p>Pick a 30-minute slot on the calendar — same engineer who'd answer the form, no SDR layer in between.</p>
+          <a href="https://savvycal.com/AndreAngelantoni/meet-with-andre" class="btn btn--secondary">Book a slot &rarr;</a>
+
+          <div class="contact-sidebar__divider"></div>
+
+          <p class="contact-sidebar__meta">
+            <strong>Response time</strong><br>
+            One business day, US Pacific. Most questions get a written reply before a meeting is needed.
+          </p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT TO EXPECT (§C) — theme--cream, edge-to-edge -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">After you send</span>
+        <h2>What to expect from the other side of this form.</h2>
+        <p class="section-head__lead">No drip campaign, no "thanks for your interest" autoresponder pretending to be a person. Three concrete steps.</p>
+      </div>
+
+      <div class="features">
+        <article class="feature-card">
+          <div class="feature-card__num">01 / Acknowledgment</div>
+          <h3>A real reply, by a real engineer.</h3>
+          <p>You'll hear back within one business day from the engineer who'd actually run your engagement — not a routing assistant. If the answer is "we're not the right fit," you'll get that answer too, with a pointer to who is.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__num">02 / Discovery call</div>
+          <h3>Thirty minutes, screen-share if helpful.</h3>
+          <p>We look at the suite together — pass rate, flake patterns, the upgrade you've been deferring. The goal is a clear read on the work, not a pitch deck. If you'd rather skip straight here, the SavvyCal link does that.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__num">03 / Written next step</div>
+          <h3>A short proposal, not a slide deck.</h3>
+          <p>Within a few days you'll have a one-page recommendation: scope, the specific testing engagement that fits, and what the first two weeks look like. You can act on it or shelve it — no follow-up sequence either way.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA (§D) — theme--espresso -->
+  <section class="closing-cta">
+    <div class="container">
+      <span class="closing-cta__kicker">Already decided?</span>
+      <h2>Skip the form — book the review.</h2>
+      <p>If you already know you want a testing review, the calendar link is the fastest path. If you're still scoping, the form above is the right place.</p>
+      <div class="closing-cta__ctas">
+        <a href="https://savvycal.com/AndreAngelantoni/meet-with-andre" class="btn btn--primary">Book a testing review</a>
+        <a href="/services" class="btn btn--ghost-on-dark">View services</a>
+      </div>
+    </div>
+  </section>
+
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services#test-suite-takeover">Test-suite takeover</a></li>
+            <li><a href="/services#embedded-testing-engineer">Embedded testing engineer</a></li>
+            <li><a href="/services#autonomous-healing-pilot">Autonomous-healing pilot</a></li>
+            <li><a href="/services#accessibility-testing">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/articles">Articles</a></li>
+            <li><a href="/open-source-projects">Open source projects</a></li>
+            <li><a href="/docs">Documentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="/contact-us">Contact us</a></li>
+            <li><a href="/privacy-policy">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="/contact-us">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; Performant Labs</span>
+        <span>Preview build — /contact-us first draft 2026-05-08</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

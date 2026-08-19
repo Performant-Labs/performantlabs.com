@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 15 Cycle 4 — Visual report</title>
+<style>
+  :root { --ok: #0a7d2c; --warn: #c47b00; --bad: #b00020; }
+  body { font: 15px/1.5 -apple-system, system-ui, sans-serif; max-width: 1100px; margin: 0 auto; padding: 32px 24px; color: #222; }
+  h1 { margin: 0 0 8px; }
+  .verdict { display: inline-block; background: var(--ok); color: #fff; font-weight: 700; padding: 8px 16px; border-radius: 4px; font-size: 20px; }
+  .meta { color: #555; margin: 8px 0 24px; }
+  .summary { background: #f5f7fa; border-left: 4px solid var(--ok); padding: 16px 20px; margin: 24px 0; border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: #f0f2f5; }
+  .comparator { position: relative; width: 100%; max-width: 750px; margin: 16px auto; border: 1px solid #ccc; overflow: hidden; }
+  .comparator .imgs { position: relative; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; top: 0; left: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin: 8px 0; }
+  .label { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 4px 8px; }
+  .diff-img { max-width: 100%; border: 1px solid #ddd; margin: 8px 0; }
+  section { margin: 32px 0; }
+  code { background: #f0f2f5; padding: 1px 6px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 15 Cycle 4 — Preview mobile H2 letter-spacing sweep</h1>
+<p><span class="verdict">PASS</span></p>
+<p class="meta">
+  Branch: <code>aa/pl-sprint-15-cycle-4-preview-letter-spacing-sweep</code> ·
+  Date: 2026-05-13 ·
+  Scope: 5 preview files, mechanical <code>-0.6px → -0.8px</code> on mobile <code>.section-head h2</code>
+</p>
+
+<table>
+  <tr><th>Viewport</th><th>Pixels different</th><th>Delta %</th><th>Status</th></tr>
+  <tr><td>375 × 667 (full page 6163 tall)</td><td>10,149</td><td>0.44%</td><td>MATCH (intended sub-perceptual tightening)</td></tr>
+  <tr><td>1280 × 800</td><td>0</td><td>0.00%</td><td>MATCH (desktop unchanged)</td></tr>
+</table>
+
+<section class="summary">
+  <h2 style="margin-top:0;">What I see different</h2>
+  <ul>
+    <li><strong>Mobile (375 px):</strong> H2 section heads on the homepage preview render with very slightly tighter letter-spacing post-fix (<code>-0.6px → -0.8px</code>). The change is sub-perceptual at normal reading distance; the 0.44% pixel delta is entirely subpixel rasterization differences in H2 glyph positions across the page.</li>
+    <li><strong>Desktop (1280 px):</strong> No visible difference. Zero pixels differ. The change is correctly scoped to <code>@media (max-width: 767px)</code>.</li>
+    <li><strong>Other deltas:</strong> none.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Mobile (375) — wipe-slider comparator</h2>
+  <p>Drag the slider to wipe between pre-fix (left of slider) and post-fix (right of slider).</p>
+  <div class="comparator" id="cmp-375">
+    <div class="imgs">
+      <img src="screenshots/sprint-15-cycle-4/homepage-375-post-20260513.png" alt="post">
+      <img class="top" src="screenshots/sprint-15-cycle-4/homepage-375-pre-20260513.png" alt="pre">
+    </div>
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-375 .top').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  <div class="label"><span>← pre-fix (-0.6px)</span><span>post-fix (-0.8px) →</span></div>
+
+  <h3>Pixel diff (red = changed pixels)</h3>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-4/homepage-375-diff-20260513.png" alt="375 diff">
+</section>
+
+<section>
+  <h2>Desktop (1280) — zero-delta confirmation</h2>
+  <p>Desktop view computed <code>letter-spacing: -1px</code> both pre and post (the mobile media query does not apply at this width). 0 pixels differ.</p>
+  <img class="diff-img" src="screenshots/sprint-15-cycle-4/homepage-1280-diff-20260513.png" alt="1280 diff" style="max-width: 600px;">
+</section>
+
+<section>
+  <h2>Per-section delta table</h2>
+  <table>
+    <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr>
+    <tr><td>All <code>.section-head h2</code> instances</td><td>375</td><td>MATCH (intentional)</td><td>Letter-spacing tightened from -0.6px to -0.8px per design brief <code>display-md</code> mobile spec. Sub-perceptual; aggregate 0.44% diff across full-page screenshot.</td></tr>
+    <tr><td>All sections</td><td>1280</td><td>MATCH</td><td>No change — change is scoped to mobile media query.</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Sample coverage rationale</h2>
+  <p>5 preview files received an identical single-character value swap (<code>-0.6px → -0.8px</code>) on the same mobile media-query selector. Rendering one representative file (homepage.html) is sufficient because the change is mechanically uniform; the other 4 files were grep-verified by T (handoff-T §T1-B) to contain the same post-fix value at the same selector inside the same media query. Token compliance verified via computed-style readback on the sample.</p>
+</section>
+
+</body>
+</html>

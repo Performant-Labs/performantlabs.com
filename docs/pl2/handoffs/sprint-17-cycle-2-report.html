@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 17 Cycle 2 — /open-source-projects preview-doc batch — S report</title>
+<style>
+  :root { --ink: #1F1A14; --bg: #FAF7EE; --canvas: #FFFFFF; --rule: #E5E1DC; --teal: #1893B4; --warn: #B85C00; --ok: #2E7D32; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px; font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  h1, h2, h3 { font-weight: 600; line-height: 1.15; }
+  h1 { font-size: 32px; margin: 0 0 4px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+  h3 { font-size: 17px; margin: 18px 0 8px; }
+  .verdict { display: inline-block; padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 20px; letter-spacing: 0.5px; }
+  .pass { background: #DEF3D9; color: var(--ok); border: 1px solid var(--ok); }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; font-size: 14px; background: var(--canvas); }
+  th, td { border: 1px solid var(--rule); padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: #F5EFE2; }
+  code, .mono { font: 13px/1.4 ui-monospace, Menlo, monospace; }
+  ul { margin: 8px 0 16px 20px; }
+  li { margin: 4px 0; }
+  .small { font-size: 13px; color: #5C544C; }
+  .comp { background: var(--canvas); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; margin: 14px 0; }
+  .wipe { position: relative; width: 100%; max-width: 1100px; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px; background: #fafafa; }
+  .wipe img { display: block; width: 100%; }
+  .wipe .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .wipe input[type=range] { width: 100%; margin-top: 8px; }
+  .wipe-label { display: flex; justify-content: space-between; font: 12px/1.2 ui-monospace, monospace; color: #5C544C; padding: 4px 4px 0; }
+  .composite img { max-width: 100%; display: block; border: 1px solid var(--rule); border-radius: 6px; }
+  .anchors a { text-decoration: none; color: var(--teal); margin-right: 14px; }
+</style>
+</head>
+<body>
+  <h1>Sprint 17 Cycle 2 — <code>/open-source-projects</code> preview-doc batch</h1>
+  <p class="small">S report · 2026-05-13 · branch <code>aa/pl-sprint-17-cycle-2-preview-doc-batch</code> · scoped re-audit</p>
+  <p><span class="verdict pass">PASS</span></p>
+
+  <p>Four Cycle-2 fixes all landed cleanly in the post-fix preview. Each fix is visible in side-by-side pre/post-fix preview comparisons below. The live↔post-fix-preview residual delta is dominated by sitewide carry-forward issues that Cycle 2 explicitly did <em>not</em> touch (card-image placeholder height, body-lg drift, CTA chrome, footer richness). No out-of-scope regression. The two known carry-forward items (orphan-word "contributions" at 375; CTA chrome F-NEW-4) are confirmed still present and untouched.</p>
+
+  <p class="small anchors">Jump: <a href="#summary">Summary</a> <a href="#fixes">What the fixes did</a> <a href="#hero">Hero @1280</a> <a href="#other">§D Other modules @1280</a> <a href="#metrics">DSSIM tables</a> <a href="#carry">Carry-forward checks</a></p>
+
+  <h2 id="summary">Per-viewport pixel-diff summary (post-fix preview vs live, all six sections)</h2>
+  <p class="small">Lower DSSIM = closer match between post-fix preview and live. Whole-section. Compare against Cycle 1 baseline DSSIM in the third column to see the per-section change.</p>
+  <table>
+    <thead><tr><th>Viewport</th><th>Section</th><th>C1 baseline live↔preview DSSIM</th><th>C2 post-fix live↔preview DSSIM</th><th>postVsC1 preview DSSIM (fix signal)</th></tr></thead>
+    <tbody>
+      <tr><td>1280</td><td>hero</td><td>0.192</td><td>0.195</td><td><strong>0.088</strong></td></tr>
+      <tr><td>1280</td><td>testing-tools</td><td>0.189</td><td>0.188</td><td><strong>0.017</strong></td></tr>
+      <tr><td>1280</td><td>drupal-qa</td><td>0.201</td><td>0.201</td><td><strong>0.015</strong></td></tr>
+      <tr><td>1280</td><td>other-modules</td><td>0.151</td><td>0.151</td><td><strong>0.014</strong></td></tr>
+      <tr><td>1280</td><td>closing-cta</td><td>0.162</td><td>0.162</td><td>~0 (untouched)</td></tr>
+      <tr><td>1280</td><td>footer</td><td>0.178</td><td>0.178</td><td>0 (untouched)</td></tr>
+      <tr><td>768</td><td>hero</td><td>0.225</td><td>0.225</td><td><strong>0.001</strong> (768 hero already wrapped 2 lines on both; only color changed)</td></tr>
+      <tr><td>768</td><td>testing-tools</td><td>0.178</td><td>0.177</td><td><strong>0.038</strong></td></tr>
+      <tr><td>768</td><td>drupal-qa</td><td>0.182</td><td>0.182</td><td><strong>0.020</strong></td></tr>
+      <tr><td>768</td><td>other-modules</td><td>0.161</td><td>0.157</td><td><strong>0.024</strong></td></tr>
+      <tr><td>768</td><td>closing-cta</td><td>0.183</td><td>0.183</td><td>0.004 (untouched)</td></tr>
+      <tr><td>375</td><td>hero</td><td>0.251</td><td>0.252</td><td>0.001 (375 H1 wraps 3 lines on both; only color changed)</td></tr>
+      <tr><td>375</td><td>testing-tools</td><td>0.208</td><td>0.206</td><td><strong>0.064</strong></td></tr>
+      <tr><td>375</td><td>drupal-qa</td><td>0.205</td><td>0.204</td><td><strong>0.054</strong></td></tr>
+      <tr><td>375</td><td>other-modules</td><td>0.187</td><td>0.180</td><td><strong>0.050</strong></td></tr>
+    </tbody>
+  </table>
+  <p class="small"><strong>Reading the tables.</strong> Column 5 (postVsC1 preview DSSIM) is the most direct evidence the fixes landed — it measures only the change in the preview file. Hero 0.088 at 1280 is large (H1 wrap + color); testing-tools / drupal-qa / other-modules ~0.015–0.06 across viewports is structural (card title-as-link conversion). The C2 post-fix live↔preview DSSIM (column 4) is roughly unchanged from C1 baseline because the residual deltas are sitewide carries (card-image placeholder height, body-lg drift, CTA chrome) that Cycle 2 explicitly did not touch.</p>
+
+  <h2 id="fixes">What the fixes did — plain-English</h2>
+  <ul>
+    <li><strong>F-NEW-17-CARD (title-as-link restructure):</strong> Every project card now has the card title as the clickable link. The separate "Read the docs →" / "View on Drupal.org" / "Read the build notes" footer link is gone. Visible in the post-fix §B and §D crops below: card body runs to the bottom of the card with no teal footer text.</li>
+    <li><strong>F-NEW-17-A (heading color):</strong> Hero H1 and all card H3s switched from <code>#2A2520</code> (ink) to <code>#1F1A14</code> (ink-strong) matching live's sitewide baseline. Visible as a perceptibly darker heading in the post-fix hero crop vs the Cycle 1 baseline crop.</li>
+    <li><strong>F-NEW-17-B (hero container width):</strong> Hero <code>.hero__inner</code> max-width widened from 920 to 1040 px. H1 "What we maintain in the open" now wraps to <strong>1 line</strong> at 1280 matching live (was 2 lines on the Cycle 1 baseline preview).</li>
+    <li><strong>F-NEW-17-D (Payment Stripe card):</strong> The §D "Other modules" entry converted from a <code>.module-chip</code> with separate "View on Drupal.org" footer link to a full <code>.project-card</code> using the title-as-link pattern. Total <code>.project-card</code> count is now 7, matching live.</li>
+  </ul>
+
+  <h2 id="hero">Hero @1280 — wipe-slider comparator</h2>
+
+  <h3>Post-fix preview vs Cycle 1 baseline preview (fix signal)</h3>
+  <div class="comp">
+    <div class="wipe-label"><span>← Cycle 1 baseline (pre-fix)</span><span>Post-fix preview →</span></div>
+    <div class="wipe" id="w-hero-pre-post">
+      <img src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-hero-preview-crop-20260513.png" alt="post-fix preview hero crop @1280">
+      <img class="top" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-hero-preview-crop-20260513.png" alt="Cycle 1 baseline preview hero crop @1280">
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#w-hero-pre-post .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    </div>
+    <p class="small">H1 changes from a 2-line wrap to a 1-line wrap; color shifts from <code>#2A2520</code> to <code>#1F1A14</code>. <code>postVsC1Preview</code> DSSIM = 0.088.</p>
+  </div>
+
+  <h3>Post-fix preview vs live (residual delta)</h3>
+  <div class="comp">
+    <div class="wipe-label"><span>← Live</span><span>Post-fix preview →</span></div>
+    <div class="wipe" id="w-hero-live-post">
+      <img src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-hero-preview-crop-20260513.png" alt="post-fix preview hero crop @1280">
+      <img class="top" src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-hero-live-crop-20260513.png" alt="live hero crop @1280">
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#w-hero-live-post .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    </div>
+    <p class="small">H1 wrap matches (1 line both sides). H1 color matches. Residual: subhead body-text wraps 3 lines on live vs 4 lines on preview (sitewide body-lg drift — F-NEW-17-E carry, out of Cycle 2 scope).</p>
+  </div>
+
+  <h2 id="other">§D Other modules @1280 — wipe-slider comparator</h2>
+
+  <h3>Post-fix preview vs Cycle 1 baseline preview (fix signal)</h3>
+  <div class="comp">
+    <div class="wipe-label"><span>← Cycle 1 baseline (module-chip with footer link)</span><span>Post-fix preview (project-card title-as-link) →</span></div>
+    <div class="wipe" id="w-other-pre-post">
+      <img src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-other-modules-preview-crop-20260513.png" alt="post-fix preview other-modules crop @1280">
+      <img class="top" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-other-modules-preview-crop-20260513.png" alt="Cycle 1 baseline preview other-modules crop @1280">
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#w-other-pre-post .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    </div>
+    <p class="small">Card converted from <code>.module-chip</code> (with separate "View on Drupal.org" link) to <code>.project-card</code> (title is the link). H3 color shifts to ink-strong. <code>postVsC1Preview</code> DSSIM = 0.014.</p>
+  </div>
+
+  <h3>Post-fix preview vs live (residual delta)</h3>
+  <div class="comp">
+    <div class="wipe-label"><span>← Live (single card centered, full grid width)</span><span>Post-fix preview (card in 3-up grid, 1/3 width) →</span></div>
+    <div class="wipe" id="w-other-live-post">
+      <img src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-other-modules-preview-crop-20260513.png" alt="post-fix preview other-modules crop @1280">
+      <img class="top" src="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-other-modules-live-crop-20260513.png" alt="live other-modules crop @1280">
+      <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#w-other-live-post .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    </div>
+    <p class="small">Content parity achieved (Payment Stripe card present on both with title-as-link). Residual: live places the single card centered/full-width, preview places it in the first column of a 3-up grid. This is a layout-grid distribution behavior that the operator may want to address in a follow-up cycle (advisory only — not regression, not part of Cycle 2 scope).</p>
+  </div>
+
+  <h2 id="metrics">Whole-page screenshots (post-fix)</h2>
+  <ul>
+    <li><a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-live-20260513.png">Live @1280 (full page)</a> · <a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-1280-preview-20260513.png">Post-fix preview @1280 (full page)</a></li>
+    <li><a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-768-live-20260513.png">Live @768</a> · <a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-768-preview-20260513.png">Post-fix preview @768</a></li>
+    <li><a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-375-live-20260513.png">Live @375</a> · <a href="screenshots/sprint-17-cycle-2/t3-open-source-projects-375-preview-20260513.png">Post-fix preview @375</a></li>
+  </ul>
+
+  <h2 id="carry">Carry-forward verification</h2>
+  <table>
+    <thead><tr><th>Carry item</th><th>Status this cycle</th><th>Evidence</th></tr></thead>
+    <tbody>
+      <tr><td>F-NEW-17-C — orphan word "contributions" @375 on §C H2</td><td>still present (silent-park, as scoped)</td><td>375 §C crop confirms "contributions" alone on line 2.</td></tr>
+      <tr><td>F-NEW-17-E — closing-CTA chrome (carry F-NEW-4)</td><td>still present (silent-park, as scoped)</td><td>1280 closing-CTA crop: preview still uses ghost-pill "Drop us a line" vs live's outline-on-dark + chevron-circle. <code>postVsC1Preview</code> DSSIM for closing-cta = ~0, confirming nothing accidentally fixed.</td></tr>
+      <tr><td>Footer richness (sitewide)</td><td>untouched</td><td>1280 footer <code>postVsC1Preview</code> DSSIM = 0.</td></tr>
+      <tr><td>Card-image placeholder height (F-NEW-17-E advisory)</td><td>untouched</td><td>Visible in §B testing-tools crop: preview placeholder ~140 px square, live area ~290 px tall. Sitewide carry.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Diff-script artifact pointer</h2>
+  <p class="small">Reproducible via:</p>
+  <ul class="mono small">
+    <li>node scripts/sprint-17-cycle-2-capture.mjs</li>
+    <li>node scripts/sprint-17-cycle-2-measure.mjs</li>
+    <li>node scripts/sprint-17-cycle-2-diff.mjs</li>
+  </ul>
+  <p class="small">Outputs land in <code>docs/pl2/handoffs/screenshots/sprint-17-cycle-2/</code>. Cycle 1 baselines untouched.</p>
+</body>
+</html>

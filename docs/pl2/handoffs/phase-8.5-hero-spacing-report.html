@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phase 8.5 — Hero spacing — Visual audit report</title>
+<style>
+  :root {
+    --ok: #137a4a;
+    --warn: #b35900;
+    --err: #b1281f;
+    --bg: #fafaf7;
+    --ink: #1a1a1a;
+    --muted: #666;
+    --rule: #e0ddd6;
+    --pass-bg: #d6efd9;
+    --rework-bg: #f7d9d4;
+    --card: #fff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 0 0 80px;
+  }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; padding-top: 24px; border-top: 1px solid var(--rule); }
+  h3 { font-size: 18px; margin: 24px 0 12px; }
+  h4 { font-size: 15px; margin: 16px 0 8px; color: var(--muted); }
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0 16px; padding-left: 24px; }
+  li { margin: 4px 0; }
+  .verdict-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px;
+    border-radius: 8px;
+    margin: 16px 0 24px;
+  }
+  .verdict-banner.pass { background: var(--pass-bg); }
+  .verdict-banner.rework { background: var(--rework-bg); }
+  .verdict-text {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .verdict-text.pass { color: var(--ok); }
+  .verdict-text.rework { color: var(--err); }
+  .scoreboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    flex: 0 0 auto;
+    width: 60%;
+    max-width: 720px;
+  }
+  .score-tile {
+    background: rgba(255,255,255,0.7);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .score-tile .num { font-size: 18px; font-weight: 700; }
+  .score-tile .lbl { color: var(--muted); }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0 24px;
+    background: var(--card);
+    font-size: 14px;
+  }
+  th, td {
+    padding: 8px 10px;
+    border: 1px solid var(--rule);
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f1efe9; font-weight: 600; }
+  td.match { color: var(--ok); font-weight: 600; }
+  td.delta { color: var(--warn); font-weight: 600; }
+  td.rework { color: var(--err); font-weight: 600; }
+  td.outofscope { color: var(--muted); font-style: italic; }
+  .crop { max-width: 320px; height: auto; display: block; border: 1px solid var(--rule); }
+
+  /* Wipe-slider comparator */
+  .comparator {
+    position: relative;
+    width: 100%;
+    margin: 12px 0;
+    border: 1px solid var(--rule);
+    background: #f1efe9;
+    overflow: hidden;
+  }
+  .comparator .stack {
+    position: relative;
+    width: 100%;
+  }
+  .comparator img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .comparator .top {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    clip-path: inset(0 50% 0 0);
+    transition: clip-path 0s;
+  }
+  .comparator .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background: #fff;
+    border-top: 1px solid var(--rule);
+    font-size: 13px;
+  }
+  .comparator input[type=range] { flex: 1; }
+  .comparator .label-left { color: var(--err); font-weight: 600; }
+  .comparator .label-right { color: var(--ok); font-weight: 600; }
+  .comparator-help { font-size: 13px; color: var(--muted); margin: 4px 0 12px; }
+
+  .img-block { margin: 16px 0; }
+  .img-block img { max-width: 100%; height: auto; border: 1px solid var(--rule); display: block; }
+  .img-block .cap { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+
+  details summary { cursor: pointer; padding: 8px 0; font-weight: 600; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .pill.pass { background: var(--pass-bg); color: var(--ok); }
+  .pill.rework { background: var(--rework-bg); color: var(--err); }
+  .pill.out { background: #eee; color: var(--muted); }
+
+  nav.toc { background: var(--card); border: 1px solid var(--rule); padding: 12px 16px; border-radius: 6px; margin: 0 0 24px; }
+  nav.toc ul { list-style: none; padding: 0; margin: 0; display: flex; gap: 24px; flex-wrap: wrap; }
+  nav.toc a { text-decoration: none; color: var(--ink); }
+  nav.toc a:hover { text-decoration: underline; }
+
+  .small { font-size: 13px; color: var(--muted); }
+  .meta { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .stat-strong { font-weight: 700; color: var(--ink); }
+
+  @media (max-width: 700px) {
+    .verdict-banner { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .scoreboard { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Phase 8.5 — Hero spacing — Visual audit report</h1>
+<p class="meta">
+  Branch: <code>aa/pl-homepage-phase-8.5-hero-spacing</code> &middot;
+  Date: 2026-05-10 &middot;
+  Scope: hero whitespace below CTAs + dy-section padding/margin around logo-grid.
+</p>
+
+<nav class="toc" aria-label="Report contents">
+  <ul>
+    <li><a href="#verdict">Verdict</a></li>
+    <li><a href="#summary">What I see different</a></li>
+    <li><a href="#vp1280">1280×800</a></li>
+    <li><a href="#vp768">768×1024</a></li>
+    <li><a href="#vp375">375×667</a></li>
+    <li><a href="#regression">8.4 regression check</a></li>
+    <li><a href="#delta-table">Per-section delta table</a></li>
+  </ul>
+</nav>
+
+<section id="verdict">
+<div class="verdict-banner pass">
+  <div>
+    <div class="verdict-text pass">PASS</div>
+    <div class="small">sub-cycle 8.5 only — hero spacing + logo-band transition</div>
+  </div>
+  <div class="scoreboard" aria-label="Per-viewport scores">
+    <div class="score-tile">
+      <div class="lbl">1280×800 hero+logo crop</div>
+      <div class="num">10.69%</div>
+      <div class="small">177,851 px / 1,664,000</div>
+    </div>
+    <div class="score-tile">
+      <div class="lbl">768×1024 hero+logo crop</div>
+      <div class="num">13.47%</div>
+      <div class="small">155,170 px / 1,152,000</div>
+    </div>
+    <div class="score-tile">
+      <div class="lbl">375×667 hero+logo crop</div>
+      <div class="num">19.83%</div>
+      <div class="small">95,182 px / 480,000</div>
+    </div>
+  </div>
+</div>
+
+<p>
+  Headline metric for this sub-cycle is the <strong>CTA-to-next-band gap</strong>, measured directly
+  from the live and preview DOM via Playwright:
+</p>
+
+<table>
+  <thead>
+    <tr><th>Viewport</th><th>Live CTA→band gap</th><th>Preview CTA→band gap</th><th>Match</th><th>Live hero height</th><th>Preview hero height</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1280</td><td>96 px</td><td>96 px</td><td class="match">YES</td><td>672.58 px</td><td>672.84 px</td></tr>
+    <tr><td>768</td> <td>96 px</td><td>96 px</td><td class="match">YES</td><td>672.58 px</td><td>672.84 px</td></tr>
+    <tr><td>375</td> <td>64 px</td><td>64 px</td><td class="match">YES</td><td>752.53 px</td><td>827.36 px</td></tr>
+  </tbody>
+</table>
+
+<p>
+  CTA-to-next-band gap matches preview at all three viewports. Hero heights at 1280 and 768 are within
+  0.3 px of preview. At 375, live hero is shorter than preview because live's secondary CTA stacks
+  more compactly than the preview's button rendering — this is downstream of CTA component styling
+  (which is preview-aligned in earlier phases) and not an artifact of 8.5's spacing change.
+</p>
+
+<p>
+  The hero+logo crop pixel-deltas are inflated by content that lies in scope for other sub-cycles
+  (header bar, logo presentation, hero background image) — see "What I see different" below.
+  None of those deltas reflect a regression in 8.5 work.
+</p>
+</section>
+
+<section id="summary">
+<h2>What I see different</h2>
+
+<h3>In scope for this sub-cycle (8.5)</h3>
+<ul>
+  <li><span class="pill pass">PASS</span> Hero band on live no longer carries the ~600 px excess
+    whitespace below the CTAs. At 1280 and 768 the gap from the bottom CTA to the "TRUSTED BY TEAMS AT"
+    label is 96 px on both live and preview.</li>
+  <li><span class="pill pass">PASS</span> At 375, the gap is 64 px on both live and preview, matching
+    the mobile <code>var(--space-3xl)</code> token in the preview.</li>
+  <li><span class="pill pass">PASS</span> The dy-section wrapping the logo grid now starts immediately
+    below the hero — there is no longer a tall white gap between hero bottom and logo-grid label.</li>
+</ul>
+
+<h3>Out of scope (other sections that still differ — sub-cycles 8.1, 8.3, 8.6)</h3>
+<ul>
+  <li><span class="pill out">OUT-OF-SCOPE 8.1</span> Header on live is taller (~160 px) than preview
+    (~73 px) and uses a different nav layout (separate nav links vs. compact "Call today" button on
+    preview). The whole hero+logo-band region is shifted down on live by roughly 87 px relative to
+    preview because of this; the spacing within the region itself is correct.</li>
+  <li><span class="pill out">OUT-OF-SCOPE 8.6</span> Logo presentation differs: live shows real logo
+    images (CBS, DocuSign, Orange, Renesas, Robert Half, Tesla) in a 1- or 2-column grid at narrower
+    widths; preview shows logos as gray text labels in a 6-up row at 1280 and a 2-column grid at 375.
+    This is a logo-grid presentation choice, not a spacing concern.</li>
+  <li><span class="pill out">OUT-OF-SCOPE 8.3</span> FAQ accordion icons, footer-CTA polish, and
+    footer casing further down the page also still differ — these contribute to the whole-page
+    delta (43–51%) but not to the hero+logo-band crop in scope here.</li>
+  <li><span class="pill out">OUT-OF-SCOPE</span> Hero background image: live carries an actual
+    background-image; preview uses a flat white. This contributes pixel delta inside the hero crop
+    but does not affect spacing.</li>
+</ul>
+</section>
+
+<section id="vp1280">
+<h2>1280×800</h2>
+
+<h3>Hero+logo-band wipe-slider comparator</h3>
+<p class="comparator-help">Drag the slider to wipe between live (left) and preview (right). Position 0 = all live; position 100 = all preview.</p>
+<div class="comparator" data-aspect="1.016">
+  <div class="stack">
+    <img src="screenshots/cycle-8.5/t3-homepage-1280-herologo-preview-20260510.png" alt="preview hero+logo at 1280">
+    <img class="top" src="screenshots/cycle-8.5/t3-homepage-1280-herologo-live-20260510.png" alt="live hero+logo at 1280">
+  </div>
+  <div class="controls">
+    <span class="label-left">live</span>
+    <input type="range" min="0" max="100" value="50" aria-label="Wipe position">
+    <span class="label-right">preview</span>
+  </div>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-1280-herologo-diff-20260510.png" alt="ImageMagick diff at 1280">
+  <p class="cap">ImageMagick diff (red = differing pixels). Concentrated red regions: header band (live header taller than preview), hero CTAs (button styling differs), logo row (real images vs text labels). The CTA-to-label gap area is uniform — no concentrated red there.</p>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-1280-herologo-composite-20260510.png" alt="Side-by-side composite at 1280">
+  <p class="cap">Side-by-side: live (left) | preview (right). CTA-to-label spacing visually matches between the two.</p>
+</div>
+
+<details>
+  <summary>Whole-page diff at 1280 (informative, not binding)</summary>
+  <div class="img-block">
+    <img src="screenshots/cycle-8.5/t3-homepage-1280-diff-20260510.png" alt="whole-page diff 1280">
+    <p class="cap">Whole-page AE = 2,836,900 / 5,556,480 = 51.06%. Inflated by header height, FAQ section, and footer CTA differences (out of scope for 8.5).</p>
+  </div>
+</details>
+</section>
+
+<section id="vp768">
+<h2>768×1024</h2>
+
+<h3>Hero+logo-band wipe-slider comparator</h3>
+<p class="comparator-help">Drag the slider to wipe between live (left) and preview (right).</p>
+<div class="comparator" data-aspect="1.953">
+  <div class="stack">
+    <img src="screenshots/cycle-8.5/t3-homepage-768-herologo-preview-20260510.png" alt="preview hero+logo at 768">
+    <img class="top" src="screenshots/cycle-8.5/t3-homepage-768-herologo-live-20260510.png" alt="live hero+logo at 768">
+  </div>
+  <div class="controls">
+    <span class="label-left">live</span>
+    <input type="range" min="0" max="100" value="50" aria-label="Wipe position">
+    <span class="label-right">preview</span>
+  </div>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-768-herologo-diff-20260510.png" alt="diff at 768">
+  <p class="cap">Diff at 768. Red is concentrated on the header (different layout) and the logo grid (live wraps to 2 rows of 3; preview shows text labels in one row of 6). Hero spacing area is clean.</p>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-768-herologo-composite-20260510.png" alt="composite at 768">
+  <p class="cap">Side-by-side at 768. Hero CTA-to-label gap reads as matching on both renders.</p>
+</div>
+
+<details>
+  <summary>Whole-page diff at 768</summary>
+  <div class="img-block">
+    <img src="screenshots/cycle-8.5/t3-homepage-768-diff-20260510.png" alt="whole-page diff 768">
+    <p class="cap">Whole-page AE = 1,594,890 / 3,708,672 = 43.00%.</p>
+  </div>
+</details>
+</section>
+
+<section id="vp375">
+<h2>375×667</h2>
+
+<h3>Hero+logo-band wipe-slider comparator</h3>
+<p class="comparator-help">Drag to wipe between live (left) and preview (right).</p>
+<div class="comparator" data-aspect="3.413">
+  <div class="stack">
+    <img src="screenshots/cycle-8.5/t3-homepage-375-herologo-preview-20260510.png" alt="preview hero+logo at 375">
+    <img class="top" src="screenshots/cycle-8.5/t3-homepage-375-herologo-live-20260510.png" alt="live hero+logo at 375">
+  </div>
+  <div class="controls">
+    <span class="label-left">live</span>
+    <input type="range" min="0" max="100" value="50" aria-label="Wipe position">
+    <span class="label-right">preview</span>
+  </div>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-375-herologo-diff-20260510.png" alt="diff at 375">
+  <p class="cap">Diff at 375. Red regions: header layout differs, headline wraps differently (live: 4 lines; preview: 4 lines but at slightly different cadence due to font metrics), logo presentation. Spacing transitions are clean.</p>
+</div>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-375-herologo-composite-20260510.png" alt="composite at 375">
+  <p class="cap">Side-by-side at 375. CTA-to-label gap is 64 px on both — matches preview's mobile target.</p>
+</div>
+
+<details>
+  <summary>Whole-page diff at 375</summary>
+  <div class="img-block">
+    <img src="screenshots/cycle-8.5/t3-homepage-375-diff-20260510.png" alt="whole-page diff 375">
+    <p class="cap">Whole-page AE = 1,058,890 / 2,312,250 = 45.79%.</p>
+  </div>
+</details>
+</section>
+
+<section id="regression">
+<h2>Phase 8.4 regression check — feature cards at 768</h2>
+<p>
+  Phase 8.4 set the homepage feature-card grid to <code>grid-wrapper--3col-stack-md</code>: 3 columns
+  at ≥1280, 1 column at 768 and 375. Confirming that 8.5's spacing change does not affect this.
+</p>
+
+<table>
+  <thead><tr><th>Check</th><th>Expected</th><th>Measured</th><th>Result</th></tr></thead>
+  <tbody>
+    <tr><td>Feature card count at 768</td><td>3</td><td>3 (h3 tops at y=1828, 2210, 2593)</td><td class="match">PASS</td></tr>
+    <tr><td>Distinct vertical positions</td><td>3 (1-col stack)</td><td>3</td><td class="match">PASS</td></tr>
+    <tr><td>Card width at 768</td><td>~viewport-internal width</td><td>~693 px (full container width)</td><td class="match">PASS</td></tr>
+  </tbody>
+</table>
+
+<div class="img-block">
+  <img src="screenshots/cycle-8.5/t3-homepage-768-features-live-20260510.png" alt="feature cards at 768 live" style="max-width: 480px;">
+  <p class="cap">Live homepage at 768: three feature cards stacked vertically. 1-col layout confirmed; no regression.</p>
+</div>
+</section>
+
+<section id="delta-table">
+<h2>Per-section delta table</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Viewport</th>
+      <th>Status</th>
+      <th>Description</th>
+      <th>Crop</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Hero band — CTA→band transition (8.5 target)</td>
+      <td>1280</td>
+      <td class="match">MATCH</td>
+      <td>CTA-to-label gap = 96 px on both. Excess whitespace eliminated.</td>
+      <td><img class="crop" src="screenshots/cycle-8.5/t3-homepage-1280-herologo-live-20260510.png" alt=""></td>
+    </tr>
+    <tr>
+      <td>Hero band — CTA→band transition (8.5 target)</td>
+      <td>768</td>
+      <td class="match">MATCH</td>
+      <td>CTA-to-label gap = 96 px on both.</td>
+      <td><img class="crop" src="screenshots/cycle-8.5/t3-homepage-768-herologo-live-20260510.png" alt=""></td>
+    </tr>
+    <tr>
+      <td>Hero band — CTA→band transition (8.5 target)</td>
+      <td>375</td>
+      <td class="match">MATCH</td>
+      <td>CTA-to-label gap = 64 px on both. Mobile <code>--space-3xl</code> matched.</td>
+      <td><img class="crop" src="screenshots/cycle-8.5/t3-homepage-375-herologo-live-20260510.png" alt=""></td>
+    </tr>
+    <tr>
+      <td>Logo band — top transition (8.5 target)</td>
+      <td>1280 / 768 / 375</td>
+      <td class="match">MATCH</td>
+      <td><code>.dy-section:has(.logo-grid)</code> padding-top 80→48 px and header margin-bottom 80→32 px applied via sibling combinator. Logo band starts immediately below hero with no extra gap.</td>
+      <td><img class="crop" src="screenshots/cycle-8.5/t3-homepage-1280-herologo-composite-20260510.png" alt=""></td>
+    </tr>
+    <tr>
+      <td>Feature cards — 1-col at 768 (8.4 regression check)</td>
+      <td>768</td>
+      <td class="match">MATCH</td>
+      <td>3 cards stacked vertically; no regression from 8.4.</td>
+      <td><img class="crop" src="screenshots/cycle-8.5/t3-homepage-768-features-live-20260510.png" alt=""></td>
+    </tr>
+    <tr>
+      <td>Header (out of scope — 8.1)</td>
+      <td>all</td>
+      <td class="outofscope">OUT-OF-SCOPE</td>
+      <td>Live header is ~160 px tall with full nav; preview is ~73 px with "Call today" button. Belongs to a different sub-cycle.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Logo presentation (out of scope — 8.6)</td>
+      <td>all</td>
+      <td class="outofscope">OUT-OF-SCOPE</td>
+      <td>Live shows logo images; preview shows text labels. Belongs to a logo-rendering sub-cycle.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Hero background image (out of scope)</td>
+      <td>all</td>
+      <td class="outofscope">OUT-OF-SCOPE</td>
+      <td>Live carries a background-image inside the hero band; preview is flat white. Cosmetic difference, not spacing.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>FAQ icons / footer CTA / footer casing (out of scope — 8.3)</td>
+      <td>all</td>
+      <td class="outofscope">OUT-OF-SCOPE</td>
+      <td>Below the hero+logo-band region. Drives whole-page delta but not in 8.5 scope.</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<section id="recommendations">
+<h2>Sub-issue recommendations</h2>
+<p>None — verdict is PASS for sub-cycle 8.5. No reworks required.</p>
+<p class="small">
+  The header (8.1), FAQ + footer CTA + footer casing (8.3), and logo presentation (8.6)
+  remain visibly different from preview but are tracked under separate sub-cycles. They are
+  expected to surface in subsequent audits.
+</p>
+</section>
+
+</div>
+
+<script>
+(function(){
+  // Compute aspect ratio for each comparator from the natural image size, then drive the wipe.
+  document.querySelectorAll('.comparator').forEach(function(c){
+    var stack = c.querySelector('.stack');
+    var top = c.querySelector('.top');
+    var bottom = c.querySelector('img:not(.top)');
+    var range = c.querySelector('input[type=range]');
+    function setHeight(){
+      // fix the stack height to match the bottom image's rendered height
+      var h = bottom.getBoundingClientRect().height;
+      stack.style.height = h + 'px';
+      top.style.height = h + 'px';
+    }
+    if (bottom.complete) setHeight(); else bottom.addEventListener('load', setHeight);
+    window.addEventListener('resize', setHeight);
+    range.addEventListener('input', function(){
+      var v = parseInt(range.value, 10);
+      // clip-path inset: 0 from top, X% from right, 0 from bottom, 0 from left
+      // value 0 = full top image visible (no clip on right) → user sees live everywhere
+      // value 100 = top image fully clipped → user sees preview everywhere
+      var clip = (100 - v); // percentage of right side hidden when v=0
+      // wait: at v=0 we want full live (top); top has no clip => clip = 0% from right
+      // at v=100 we want zero live, full preview => top clipped to 100% from right
+      // so right-clip = v
+      top.style.clipPath = 'inset(0 ' + v + '% 0 0)';
+    });
+    // initialize at 50%
+    top.style.clipPath = 'inset(0 50% 0 0)';
+  });
+})();
+</script>
+
+</body>
+</html>

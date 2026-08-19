@@ -1,0 +1,894 @@
+{
+  "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+  "tool": "cascade-map.cjs",
+  "byViewport": {
+    "375": {
+      "componentVocab": [
+        "skip-link",
+        "header",
+        "header-logo",
+        "mobile-nav-button",
+        "menu-block",
+        "primary-menu",
+        "hero",
+        "heading",
+        "text",
+        "button",
+        "section",
+        "logo-grid",
+        "image",
+        "grid-wrapper",
+        "grid-cell",
+        "card-canvas",
+        "icon-list",
+        "icon-list-item",
+        "accordion-group",
+        "accordion-item",
+        "title-cta",
+        "flex-wrapper",
+        "footer"
+      ],
+      "boundaryEscapes": [
+        {
+          "selector": ".header-navigation-wrapper:not(.is-expanded) .primary-menu",
+          "scopedTo": "primary-menu",
+          "kind": "boundary-escape",
+          "matchedCount": 1,
+          "escapeCount": 1,
+          "escapeComponents": [
+            "menu-block"
+          ],
+          "nestedChildCount": 0,
+          "declaredProps": [
+            "display"
+          ],
+          "highRiskProps": [
+            "display"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/header.css?tge0wd",
+          "sampleEscaped": [
+            {
+              "tag": "div",
+              "cls": "primary-menu",
+              "inComponent": "menu-block"
+            }
+          ],
+          "score": 24,
+          "severityProxy": "critical?"
+        },
+        {
+          "selector": ".primary-menu",
+          "scopedTo": "primary-menu",
+          "kind": "boundary-escape",
+          "matchedCount": 1,
+          "escapeCount": 1,
+          "escapeComponents": [
+            "menu-block"
+          ],
+          "nestedChildCount": 0,
+          "declaredProps": [
+            "--top-level-link-font-size",
+            "--top-level-link-font-weight",
+            "--top-level-link-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 10,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/header.css?tge0wd",
+          "sampleEscaped": [
+            {
+              "tag": "div",
+              "cls": "primary-menu",
+              "inComponent": "menu-block"
+            }
+          ],
+          "score": 4,
+          "severityProxy": "warning?"
+        }
+      ],
+      "nestedChildCoupling": [
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "--accordion-item-padding-block",
+            "--accordion-item-padding-inline",
+            "border-top-width",
+            "border-top-style",
+            "border-top-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item:first-child",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "margin-top"
+          ],
+          "highRiskProps": [
+            "margin-top"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item:last-child",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "border-bottom-width",
+            "border-bottom-style",
+            "border-bottom-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item__summary",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "font-weight"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".grid-wrapper--3col-stack-md .grid-wrapper__grid > *",
+          "scopedTo": "grid-wrapper",
+          "kind": "nested-child-coupling",
+          "matchedCount": 3,
+          "escapeCount": 0,
+          "nestedChildCount": 3,
+          "nestedComponents": [
+            "grid-cell"
+          ],
+          "declaredProps": [
+            "grid-column-start",
+            "grid-column-end"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/grid-wrapper.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".icon-list--icon-color-primary .icon-list-item",
+          "scopedTo": "icon-list",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "icon-list-item"
+          ],
+          "declaredProps": [
+            "--icon-list-icon-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/icon-list.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".logo-grid .logo-item img",
+          "scopedTo": "logo-grid",
+          "kind": "nested-child-coupling",
+          "matchedCount": 6,
+          "escapeCount": 0,
+          "nestedChildCount": 6,
+          "nestedComponents": [
+            "image"
+          ],
+          "declaredProps": [
+            "width",
+            "height",
+            "max-height",
+            "max-width",
+            "object-fit",
+            "filter",
+            "opacity"
+          ],
+          "highRiskProps": [
+            "width",
+            "height",
+            "max-height",
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 21,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/logo-grid.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".title-cta--container .heading",
+          "scopedTo": "title-cta",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "font-size",
+            "font-weight",
+            "letter-spacing",
+            "line-height",
+            "font-family"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/title-cta.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".theme--dark .title-cta--container .heading",
+          "scopedTo": "title-cta",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "text-align"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/title-cta.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .heading",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "--h1-letter-spacing",
+            "line-height",
+            "text-wrap-mode",
+            "text-wrap-style",
+            "max-width",
+            "margin-inline-start",
+            "margin-inline-end"
+          ],
+          "highRiskProps": [
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .body-l",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "text"
+          ],
+          "declaredProps": [
+            "--body-l-size",
+            "--body-l-line-height",
+            "max-width",
+            "margin-inline-start",
+            "margin-inline-end"
+          ],
+          "highRiskProps": [
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .button",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 2,
+          "escapeCount": 0,
+          "nestedChildCount": 2,
+          "nestedComponents": [
+            "button"
+          ],
+          "declaredProps": [
+            "align-self"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .button + .button",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "button"
+          ],
+          "declaredProps": [
+            "margin-inline-start"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 50,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .heading",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "flex-basis"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .text",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "text"
+          ],
+          "declaredProps": [
+            "flex-basis"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        }
+      ]
+    },
+    "1280": {
+      "componentVocab": [
+        "skip-link",
+        "header",
+        "header-logo",
+        "mobile-nav-button",
+        "menu-block",
+        "primary-menu",
+        "hero",
+        "heading",
+        "text",
+        "button",
+        "section",
+        "logo-grid",
+        "image",
+        "grid-wrapper",
+        "grid-cell",
+        "card-canvas",
+        "icon-list",
+        "icon-list-item",
+        "accordion-group",
+        "accordion-item",
+        "title-cta",
+        "flex-wrapper",
+        "footer"
+      ],
+      "boundaryEscapes": [
+        {
+          "selector": ".header-navigation-wrapper:not(.is-expanded) .primary-menu",
+          "scopedTo": "primary-menu",
+          "kind": "boundary-escape",
+          "matchedCount": 1,
+          "escapeCount": 1,
+          "escapeComponents": [
+            "menu-block"
+          ],
+          "nestedChildCount": 0,
+          "declaredProps": [
+            "display"
+          ],
+          "highRiskProps": [
+            "display"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/header.css?tge0wd",
+          "sampleEscaped": [
+            {
+              "tag": "div",
+              "cls": "primary-menu",
+              "inComponent": "menu-block"
+            }
+          ],
+          "score": 24,
+          "severityProxy": "critical?"
+        },
+        {
+          "selector": ".primary-menu",
+          "scopedTo": "primary-menu",
+          "kind": "boundary-escape",
+          "matchedCount": 1,
+          "escapeCount": 1,
+          "escapeComponents": [
+            "menu-block"
+          ],
+          "nestedChildCount": 0,
+          "declaredProps": [
+            "--top-level-link-font-size",
+            "--top-level-link-font-weight",
+            "--top-level-link-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 10,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/header.css?tge0wd",
+          "sampleEscaped": [
+            {
+              "tag": "div",
+              "cls": "primary-menu",
+              "inComponent": "menu-block"
+            }
+          ],
+          "score": 4,
+          "severityProxy": "warning?"
+        }
+      ],
+      "nestedChildCoupling": [
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "--accordion-item-padding-block",
+            "--accordion-item-padding-inline",
+            "border-top-width",
+            "border-top-style",
+            "border-top-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item:first-child",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "margin-top"
+          ],
+          "highRiskProps": [
+            "margin-top"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item:last-child",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "border-bottom-width",
+            "border-bottom-style",
+            "border-bottom-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".accordion-group--variation-borders .accordion-item__summary",
+          "scopedTo": "accordion-group",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "accordion-item"
+          ],
+          "declaredProps": [
+            "font-weight"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/accordion.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".grid-wrapper--3col-stack-md .grid-wrapper__grid > *",
+          "scopedTo": "grid-wrapper",
+          "kind": "nested-child-coupling",
+          "matchedCount": 3,
+          "escapeCount": 0,
+          "nestedChildCount": 3,
+          "nestedComponents": [
+            "grid-cell"
+          ],
+          "declaredProps": [
+            "grid-column-start",
+            "grid-column-end"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/grid-wrapper.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".icon-list--icon-color-primary .icon-list-item",
+          "scopedTo": "icon-list",
+          "kind": "nested-child-coupling",
+          "matchedCount": 4,
+          "escapeCount": 0,
+          "nestedChildCount": 4,
+          "nestedComponents": [
+            "icon-list-item"
+          ],
+          "declaredProps": [
+            "--icon-list-icon-color"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/icon-list.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".logo-grid .logo-item img",
+          "scopedTo": "logo-grid",
+          "kind": "nested-child-coupling",
+          "matchedCount": 6,
+          "escapeCount": 0,
+          "nestedChildCount": 6,
+          "nestedComponents": [
+            "image"
+          ],
+          "declaredProps": [
+            "width",
+            "height",
+            "max-height",
+            "max-width",
+            "object-fit",
+            "filter",
+            "opacity"
+          ],
+          "highRiskProps": [
+            "width",
+            "height",
+            "max-height",
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 21,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/logo-grid.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".title-cta--container .heading",
+          "scopedTo": "title-cta",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "font-size",
+            "font-weight",
+            "letter-spacing",
+            "line-height",
+            "font-family"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 20,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/title-cta.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".theme--dark .title-cta--container .heading",
+          "scopedTo": "title-cta",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "text-align"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/title-cta.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .heading",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "--h1-letter-spacing",
+            "line-height",
+            "text-wrap-mode",
+            "text-wrap-style",
+            "max-width",
+            "margin-inline-start",
+            "margin-inline-end"
+          ],
+          "highRiskProps": [
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .body-l",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "text"
+          ],
+          "declaredProps": [
+            "--body-l-size",
+            "--body-l-line-height",
+            "max-width",
+            "margin-inline-start",
+            "margin-inline-end"
+          ],
+          "highRiskProps": [
+            "max-width"
+          ],
+          "important": false,
+          "hasId": false,
+          "specificity": 30,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .button",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 2,
+          "escapeCount": 0,
+          "nestedChildCount": 2,
+          "nestedComponents": [
+            "button"
+          ],
+          "declaredProps": [
+            "align-self"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .button + .button",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "button"
+          ],
+          "declaredProps": [
+            "margin-inline-start"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 50,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .heading",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "heading"
+          ],
+          "declaredProps": [
+            "flex-basis"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        },
+        {
+          "selector": ".hero.theme--white .hero__block-content > .text",
+          "scopedTo": "hero",
+          "kind": "nested-child-coupling",
+          "matchedCount": 1,
+          "escapeCount": 0,
+          "nestedChildCount": 1,
+          "nestedComponents": [
+            "text"
+          ],
+          "declaredProps": [
+            "flex-basis"
+          ],
+          "highRiskProps": [],
+          "important": false,
+          "hasId": false,
+          "specificity": 40,
+          "href": "https://pl-performantlabs.com.3.ddev.site:8493/themes/custom/performant_labs_20260502/css/components/hero.css?tge0wd",
+          "score": 1,
+          "severityProxy": "info"
+        }
+      ]
+    }
+  }
+}

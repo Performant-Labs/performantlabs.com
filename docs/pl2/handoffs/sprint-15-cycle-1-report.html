@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sprint 15 Cycle 1 — /how-we-do-it HQ preview-fidelity audit</title>
+<style>
+  :root { --ink:#1F1A14; --cream:#F5EFE2; --rust:#8E4A2A; --primary:#62BBCB; --hairline:#E5E1DC; --ok:#2f7a3a; --rework:#b8312f; }
+  html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:#fafaf7;line-height:1.5}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px}
+  h1{font-size:28px;margin:0 0 8px}
+  h2{font-size:22px;margin:32px 0 8px;border-bottom:1px solid var(--hairline);padding-bottom:6px}
+  h3{font-size:18px;margin:24px 0 8px}
+  .verdict{padding:16px 20px;border-radius:8px;color:#fff;background:var(--rework);font-weight:600;font-size:22px;margin:16px 0}
+  .verdict .meta{font-weight:400;font-size:14px;margin-top:8px;display:block}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}
+  th,td{border:1px solid var(--hairline);padding:6px 8px;vertical-align:top;text-align:left}
+  th{background:var(--cream)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+  .pill.match{background:#dff5e2;color:#206b2c}
+  .pill.delta{background:#fff3d6;color:#876200}
+  .pill.rework{background:#fde2e0;color:#8a1f1d}
+  nav.toc{background:#fff;border:1px solid var(--hairline);padding:12px 16px;border-radius:6px;font-size:14px}
+  nav.toc a{margin-right:12px}
+  .summary li{margin:6px 0}
+  .comparator{position:relative;border:1px solid var(--hairline);background:#fff;overflow:hidden;margin:12px 0}
+  .comparator .stage{position:relative;width:100%}
+  .comparator img{display:block;width:100%;height:auto;position:absolute;top:0;left:0}
+  .comparator img.top{clip-path:inset(0 50% 0 0)}
+  .comparator .label{position:absolute;top:8px;padding:4px 8px;font-size:12px;font-weight:600;background:rgba(255,255,255,0.9);border-radius:4px}
+  .comparator .label.live{left:8px}
+  .comparator .label.preview{right:8px}
+  .slider{width:100%;margin:8px 0 16px}
+  details{margin:8px 0;border:1px solid var(--hairline);border-radius:4px;padding:8px 12px;background:#fff}
+  details summary{cursor:pointer;font-weight:600}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  img.full{width:100%;height:auto;display:block;border:1px solid var(--hairline)}
+  img.thumb{max-width:300px;width:100%;height:auto;border:1px solid var(--hairline)}
+  code{background:#f0ecdf;padding:1px 4px;border-radius:3px;font-size:12px}
+  .note{background:#fffbe6;border-left:3px solid #d4a437;padding:10px 14px;margin:12px 0;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Sprint 15 Cycle 1 — <code>/how-we-do-it</code> HQ preview-fidelity audit</h1>
+<div class="verdict">REWORK — three actionable findings; Cycle 2..N carve recommended
+  <span class="meta">Date: 2026-05-13 · Method: Playwright 2× DPR + ImageMagick DSSIM/PSNR/AE @ fuzz 3% · Viewports: 1280 / 768 / 375</span>
+</div>
+
+<nav class="toc">
+  <strong>Jump:</strong>
+  <a href="#summary">What I see different</a>
+  <a href="#metrics">Per-section metrics</a>
+  <a href="#vp1280">1280</a>
+  <a href="#vp768">768</a>
+  <a href="#vp375">375</a>
+  <a href="#table">Per-section delta table</a>
+  <a href="#recos">Sub-issue recommendations</a>
+</nav>
+
+<h2 id="summary">What I see different (plain English)</h2>
+<ul class="summary">
+  <li><strong>Closing-CTA primary button on the preview is the wrong color.</strong> Preview shows a teal-on-white pill; live shows a brighter blue pill with dark text. The brief specifies the brighter blue with dark text on this dark espresso section. <em>Preview file is wrong; live is correct.</em></li>
+  <li><strong>Mobile (375): the "Audit." headline is rendered very differently.</strong> Live shows it at about 40 px; preview shows it at about 30 px. Brief intent is ~32 px — both renders are off in opposite directions. Cascades to the other section headlines on mobile.</li>
+  <li><strong>Mobile (375): hero headline ends with a one-word last line "runs."</strong> Both live and preview render this orphan. <code>text-wrap: balance</code> is active but doesn't fix it on this 4-word headline. Operator memo says: never leave a single word alone on a line.</li>
+  <li><strong>Closing-CTA primary button is taller on live than preview at all viewports</strong> (56 px vs 45 px). Live appends a small circular arrow icon; preview uses a flat "→" character. Same pattern Sprint 14 documented on /about-us; sitewide.</li>
+  <li><strong>Hero subhead and body paragraphs are off by 1–2 px on both renders vs brief.</strong> Live runs 1–2 px high (20 px), preview runs 1 px low (17 px); brief calls for 18 px. Sitewide drift; not /how-we-do-it specific.</li>
+  <li><strong>The runbook expected a "heal-flow" SVG with mobile horizontal scroll on this page.</strong> There isn't one — the brief actually places heal-flow on the homepage. No fix needed; informational note for the operator.</li>
+</ul>
+
+<div class="note">DSSIM (the structural-similarity metric) reads <strong>0.17–0.30 across every section, every viewport</strong> — that's the "real deltas everywhere" signal. But the underlying causes are only three discrete issues plus a Sprint 14 carry-forward; everything else is cumulative vertical drift from the page-level differences (Drupal chrome adds breadcrumb band + the body-lg drift cascades). Per-section deltas are binding; whole-page numbers are informative.</div>
+
+<h2 id="metrics">Per-section metrics (DSSIM primary)</h2>
+<table>
+<thead><tr><th>Viewport</th><th>Section</th><th>DSSIM</th><th>PSNR</th><th>AE @ 0%</th><th>AE @ 3%</th><th>AE-3% / total</th><th>Class</th></tr></thead>
+<tbody>
+<tr><td>1280</td><td>hero</td><td>0.188</td><td>0.119</td><td>274,425</td><td>266,478</td><td>9.40%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>1280</td><td>audit (§B)</td><td>0.171</td><td>0.151</td><td>2</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill delta">REAL by DSSIM*</span></td></tr>
+<tr><td>1280</td><td>dogfood (§C)</td><td>0.202</td><td>0.140</td><td>376,873</td><td>357,047</td><td>8.13%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>1280</td><td>takeover (§D)</td><td>0.200</td><td>0.143</td><td>1</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill delta">REAL by DSSIM*</span></td></tr>
+<tr><td>1280</td><td>whatwedontdo (§E)</td><td>0.174</td><td>0.161</td><td>383,408</td><td>375,041</td><td>11.59%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>1280</td><td>closing-cta (§F)</td><td>0.205</td><td>0.090</td><td>594,402</td><td>587,784</td><td>11.40%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>1280</td><td>footer</td><td>0.177</td><td>0.148</td><td>115,181</td><td>110,545</td><td>4.30%</td><td><span class="pill delta">REAL (out of scope)</span></td></tr>
+<tr><td>768</td><td>hero</td><td>0.224</td><td>0.103</td><td>273,884</td><td>266,035</td><td>14.69%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>768</td><td>audit</td><td>0.196</td><td>0.141</td><td>1</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill delta">REAL by DSSIM*</span></td></tr>
+<tr><td>768</td><td>dogfood</td><td>0.250</td><td>0.121</td><td>372,496</td><td>352,295</td><td>13.65%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>768</td><td>takeover</td><td>0.209</td><td>0.140</td><td>1</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill delta">REAL by DSSIM*</span></td></tr>
+<tr><td>768</td><td>whatwedontdo</td><td>0.212</td><td>0.141</td><td>304,517</td><td>295,884</td><td>16.74%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>768</td><td>closing-cta</td><td>0.241</td><td>0.081</td><td>487,379</td><td>480,835</td><td>23.50%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>768</td><td>footer</td><td>0.187</td><td>0.140</td><td>110,735</td><td>106,118</td><td>6.78%</td><td><span class="pill delta">REAL (out of scope)</span></td></tr>
+<tr><td>375</td><td>hero</td><td>0.270</td><td>0.103</td><td>174,045</td><td>167,500</td><td>17.59%</td><td><span class="pill rework">REAL (incl. orphan)</span></td></tr>
+<tr><td>375</td><td>audit</td><td>0.234</td><td>0.137</td><td>1</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill rework">REAL (H2 size delta)</span></td></tr>
+<tr><td>375</td><td>dogfood</td><td>0.265</td><td>0.117</td><td>346,308</td><td>327,268</td><td>7.61%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>375</td><td>takeover</td><td>0.237</td><td>0.129</td><td>1</td><td>1</td><td>&lt; 0.001%</td><td><span class="pill delta">REAL by DSSIM*</span></td></tr>
+<tr><td>375</td><td>whatwedontdo</td><td>0.246</td><td>0.129</td><td>229,040</td><td>222,233</td><td>14.81%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>375</td><td>closing-cta</td><td>0.297</td><td>0.072</td><td>356,949</td><td>351,277</td><td>31.18%</td><td><span class="pill rework">REAL</span></td></tr>
+<tr><td>375</td><td>footer</td><td>0.195</td><td>0.134</td><td>84,819</td><td>81,188</td><td>13.55%</td><td><span class="pill delta">REAL (out of scope)</span></td></tr>
+</tbody>
+</table>
+<p style="font-size:12px;color:#666">* §B / §D AE near-zero is an artifact of the anchored crop landing in canvas-dominant regions on the preview side (cumulative drift); DSSIM remains binding.</p>
+
+<!-- ===== 1280 ===== -->
+<h2 id="vp1280">Desktop · 1280 × 800</h2>
+<h3>Wipe-slider comparator (drag the handle)</h3>
+<div class="comparator" id="cmp-1280">
+  <div class="stage" id="stage-1280">
+    <img src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-preview-20260513.png" alt="preview 1280">
+    <img class="top" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-live-masked-20260513.png" alt="live 1280">
+    <span class="label live">LIVE</span><span class="label preview">PREVIEW</span>
+  </div>
+</div>
+<input type="range" min="0" max="100" value="50" class="slider" data-target="cmp-1280">
+
+<h3>Whole-page diff (red = different pixels, fuzz 3%)</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-wholepage-diff-fuzz3-20260513.png" alt="1280 wholepage diff">
+
+<h3>Side-by-side composite (live left, preview right)</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-composite-20260513.png" alt="1280 composite">
+
+<!-- ===== 768 ===== -->
+<h2 id="vp768">Tablet · 768 × 1024</h2>
+<h3>Wipe-slider comparator</h3>
+<div class="comparator" id="cmp-768">
+  <div class="stage" id="stage-768">
+    <img src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-768-preview-20260513.png" alt="preview 768">
+    <img class="top" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-768-live-masked-20260513.png" alt="live 768">
+    <span class="label live">LIVE</span><span class="label preview">PREVIEW</span>
+  </div>
+</div>
+<input type="range" min="0" max="100" value="50" class="slider" data-target="cmp-768">
+
+<h3>Whole-page diff</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-768-wholepage-diff-fuzz3-20260513.png" alt="768 wholepage diff">
+
+<h3>Side-by-side composite</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-768-composite-20260513.png" alt="768 composite">
+
+<!-- ===== 375 ===== -->
+<h2 id="vp375">Mobile · 375 × 667</h2>
+<h3>Wipe-slider comparator</h3>
+<div class="comparator" id="cmp-375">
+  <div class="stage" id="stage-375">
+    <img src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-preview-20260513.png" alt="preview 375">
+    <img class="top" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-live-masked-20260513.png" alt="live 375">
+    <span class="label live">LIVE</span><span class="label preview">PREVIEW</span>
+  </div>
+</div>
+<input type="range" min="0" max="100" value="50" class="slider" data-target="cmp-375">
+
+<h3>Whole-page diff</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-wholepage-diff-fuzz3-20260513.png" alt="375 wholepage diff">
+
+<h3>Side-by-side composite</h3>
+<img class="full" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-composite-20260513.png" alt="375 composite">
+
+<!-- ===== Delta table ===== -->
+<h2 id="table">Per-section delta table</h2>
+<table>
+<thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description (plain English)</th><th>Diff crop</th></tr></thead>
+<tbody>
+<tr><td>Hero (§A)</td><td>1280</td><td><span class="pill rework">DELTA</span></td><td>H1 vertical position shifted ~12 px (hero padding cascade); subhead 1 px high on preview. Sub-pixel kicker line offset.</td><td><img class="thumb" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-hero-crop-20260513.png" alt="hero 1280"></td></tr>
+<tr><td>Hero (§A)</td><td>375</td><td><span class="pill rework">REWORK</span></td><td><strong>Orphan word "runs." on last line</strong> on both renders. <code>text-wrap: balance</code> active but ineffective at 44 px on 4 words.</td><td><img class="thumb" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-hero-crop-20260513.png" alt="hero 375"></td></tr>
+<tr><td>Audit (§B)</td><td>375</td><td><span class="pill rework">REWORK</span></td><td><strong>H2 "Audit." renders 40 px on live vs 30 px on preview.</strong> Brief intent ~32 px. Both off in opposite directions.</td><td>(crop dominated by white-on-white in this anchored window; see whole-page diff)</td></tr>
+<tr><td>Dogfood (§C)</td><td>all</td><td><span class="pill delta">DELTA</span></td><td>Body paragraph drift only (sitewide body-lg).</td><td><img class="thumb" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-1280-dogfood-crop-20260513.png" alt="dogfood 1280"></td></tr>
+<tr><td>Take-over (§D)</td><td>all</td><td><span class="pill delta">DELTA</span></td><td>Shape-card layout matches; body wrap differs by 1 line per card (body-lg drift).</td><td>(see whole-page diff)</td></tr>
+<tr><td>What-we-don't-do (§E)</td><td>all</td><td><span class="pill delta">DELTA</span></td><td>Guardrail body wrap differs (body-lg drift).</td><td>(see whole-page diff)</td></tr>
+<tr><td>Closing-CTA (§F)</td><td>all</td><td><span class="pill rework">REWORK</span></td><td><strong>Preview primary button is the wrong color</strong> (teal-on-white instead of brighter-blue-on-dark-text). Plus pill is 56 px on live, 45 px on preview (sitewide chrome carry-over).</td><td><img class="thumb" src="screenshots/sprint-15-cycle-1/t3-how-we-do-it-375-closing-cta-crop-20260513.png" alt="closing 375"></td></tr>
+<tr><td>Footer</td><td>all</td><td><span class="pill delta">DELTA</span></td><td>Live richer than preview (sitewide Drupal-shipped pattern). Out of scope.</td><td>—</td></tr>
+</tbody>
+</table>
+
+<!-- ===== Recommendations ===== -->
+<h2 id="recos">Sub-issue recommendations</h2>
+<ol>
+  <li>
+    <strong>Cycle 2 — Preview-doc fix.</strong> Branch <code>aa/pl-sprint-15-cycle-2-preview-doc</code>.<br>
+    <em>Problem:</em> Preview's closing-CTA primary button uses light-zone token (<code>#62BBCB</code> + white) instead of brief-mandated dark-zone token (<code>#5DC6E8</code> + <code>#1F1A14</code>).<br>
+    <em>Operator decision:</em> None — fix is unambiguous.
+  </li>
+  <li>
+    <strong>Cycle 3 — <code>display-md</code> mobile token + cross-page sweep.</strong> Branch <code>aa/pl-sprint-15-cycle-3-display-md-mobile-token</code>.<br>
+    <em>Problem:</em> §B H2 ("Audit.") at 375 is 40 px on live, 30 px on preview; brief calls for ~32 px. L1 token change + preview-doc edit; cross-page sweep required because every page with <code>display-md</code> H2s is affected.<br>
+    <em>Operator decision:</em> Confirm brief's <code>display-md</code> mobile target value (32 px assumed) and whether to fold Sprint 14 F-NEW-5 line-height fix into the same change.
+  </li>
+  <li>
+    <strong>Cycle 4 — H1 orphan "runs." at 375.</strong> Branch <code>aa/pl-sprint-15-cycle-4-h1-orphan-runs</code>.<br>
+    <em>Problem:</em> Last line of hero H1 is a single word at 375 on both renders despite <code>text-wrap: balance</code>.<br>
+    <em>Operator decision:</em> Pick remediation — (A) Canvas-content <code>&lt;wbr&gt;</code> insert (smallest, recommended for autonomous mode); (B) copy edit / rephrase (editorial); (C) accept (single-character orphan, not a WCAG floor).
+  </li>
+</ol>
+
+<h2>Advisory notes</h2>
+<ul>
+  <li>The Sprint 15 runbook expected a heal-flow SVG on this page. The page has none — the brief places heal-flow on the homepage. No remediation needed; runbook could be edited to remove the heal-flow section.</li>
+  <li>Sitewide body-lg drift (live 20, preview 17, brief 18) cascades into every section's DSSIM. Out of <code>/how-we-do-it</code> scope; recommend a future sitewide token cycle.</li>
+  <li>Primary CTA suffix-icon component (live 56 px vs preview 45 px) is a Sprint 14 carry-forward awaiting operator decision (Option A/B/C in the Sprint 14 audit).</li>
+  <li>Forced-colors mode was not re-tested this cycle. Sprint 10 site-wide pass stands; no <code>/how-we-do-it</code>-specific regression suspected.</li>
+</ul>
+
+<p style="margin-top:32px;font-size:12px;color:#666">Captures via Playwright 1.59 Chromium @ deviceScaleFactor=2, reducedMotion=reduce. Diffs via ImageMagick 7 <code>compare -metric DSSIM/PSNR/AE</code>. Source markdown: <code>sprint-15-cycle-1-audit.md</code>.</p>
+
+</div>
+
+<script>
+document.querySelectorAll('.slider').forEach(s => {
+  const stage = document.getElementById(s.dataset.target).querySelector('.stage');
+  const img = stage.querySelectorAll('img');
+  // Set stage aspect ratio based on the natural image dim
+  const sync = () => {
+    const ref = img[0];
+    if (ref.naturalWidth) {
+      stage.style.paddingBottom = (ref.naturalHeight / ref.naturalWidth * 100) + '%';
+      stage.style.position = 'relative';
+    }
+  };
+  if (img[0].complete) sync(); else img[0].addEventListener('load', sync);
+  s.addEventListener('input', () => {
+    const v = s.value;
+    img[1].style.clipPath = `inset(0 ${100 - v}% 0 0)`;
+  });
+  // initial 50/50
+  img[1].style.clipPath = 'inset(0 50% 0 0)';
+});
+</script>
+</body>
+</html>

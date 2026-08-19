@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 4 Cycle 3 — Hero H1 reconciliation — visual audit report</title>
+<style>
+  :root { --ok:#0a7a3b; --warn:#b8860b; --bad:#b00020; --bg:#fafafa; --border:#ddd; }
+  html,body { margin:0; padding:0; background:var(--bg); color:#222; font:14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { background:#fff; border-bottom:2px solid var(--border); padding:18px 24px; position:sticky; top:0; z-index:10; }
+  h1 { margin:0 0 4px 0; font-size:22px; }
+  h2 { margin:32px 0 12px 0; padding-top:8px; border-top:1px solid var(--border); font-size:18px; }
+  h3 { margin:18px 0 6px 0; font-size:15px; }
+  main { padding:0 24px 64px; max-width:1320px; margin:0 auto; }
+  .verdict { display:inline-block; padding:6px 14px; border-radius:999px; font-weight:700; color:#fff; }
+  .verdict.advisory { background:var(--warn); }
+  .verdict.pass { background:var(--ok); }
+  .verdict.rework { background:var(--bad); }
+  table { border-collapse:collapse; width:100%; background:#fff; margin:8px 0 12px; }
+  th, td { padding:8px 10px; border:1px solid var(--border); text-align:left; vertical-align:top; font-size:13px; }
+  th { background:#f0f0f0; }
+  code { background:#eee; padding:1px 5px; border-radius:3px; }
+  ul, ol { margin:6px 0 12px 24px; }
+  nav.toc { background:#fff; padding:10px 14px; border:1px solid var(--border); margin:14px 0; }
+  nav.toc a { margin-right:14px; }
+  .comparator { position:relative; width:100%; max-width:1280px; margin:8px 0 6px; border:1px solid var(--border); overflow:hidden; background:#fff; }
+  .comparator .frame { position:relative; width:100%; }
+  .comparator img { display:block; width:100%; height:auto; }
+  .comparator .top { position:absolute; inset:0; clip-path: inset(0 50% 0 0); }
+  .comparator .label { position:absolute; top:6px; padding:3px 8px; background:rgba(0,0,0,.7); color:#fff; font-size:11px; border-radius:3px; }
+  .comparator .label.l { left:8px; }
+  .comparator .label.r { right:8px; }
+  .comparator input[type=range] { width:100%; }
+  .diff, .composite { width:100%; max-width:1280px; display:block; border:1px solid var(--border); margin:6px 0 12px; }
+  .composite { max-width:none; width:100%; }
+  .summary-list li { margin-bottom:6px; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; }
+  .match { color: var(--ok); font-weight:600; }
+  .delta { color: var(--warn); font-weight:600; }
+  .miss  { color: var(--bad); font-weight:600; }
+  .gridtwo { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pillrow { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+  .pill { background:#eef; border:1px solid #bbd; padding:3px 8px; border-radius:99px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sprint 4 Cycle 3 — Hero H1 size reconciliation — visual audit</h1>
+  <div>Branch: <code>aa/pl-sprint-4-phase-3-hero-h1-reconciliation</code> · Date: 2026-05-11 · Auditor: S</div>
+  <div style="margin-top:8px"><span class="verdict advisory">ADVISORY-HOLD</span> — preview/spec defect upstream of F</div>
+</header>
+
+<main>
+
+<h2 id="summary">What I see different (plain-English summary)</h2>
+
+<p>The cycle's <em>declared</em> change — font-size up to 72 px / weight 500 on all four landing-page hero H1s — has shipped correctly. Computed styles confirm <code>72px / 500</code> across all four previews <strong>and</strong> all four live pages. That part is done.</p>
+
+<p>However, a deeper inconsistency surfaced when I compared computed styles against live:</p>
+
+<ul class="summary-list">
+  <li><strong>Homepage:</strong> preview matches live exactly (72px / 500 / 1.05 / -2px). No issue.</li>
+  <li><strong>Services, How we do it, Open source projects:</strong> previews now specify <code>letter-spacing: -2px</code> and <code>line-height: 1.05</code>, but the corresponding live pages render <code>letter-spacing: -1.8px</code> and <code>line-height: 1.10</code> (computed <code>79.2px</code> at 72 px font-size). Font-size and weight match (72 / 500), but tracking and leading do <em>not</em>.</li>
+</ul>
+
+<p>This is not an F implementation error. F followed the brief's <code>display-xl</code> token (<code>-2px</code>, <code>1.05</code>); T validated that choice. The mismatch lives upstream:</p>
+
+<ul class="summary-list">
+  <li>The cycle issue text said <code>-1.8px tracking</code> (matches live's three non-home pages).</li>
+  <li>The brief token <code>display-xl</code> says <code>-2px</code> and <code>1.05</code> (matches live homepage only).</li>
+  <li>F chose the brief; this leaves previews and live divergent on three of four pages exactly on the runbook AC "Previews match live (cross-page T3 at 1280)".</li>
+</ul>
+
+<p>Per the prompt's ADVISORY-HOLD trigger ("the previews/spec themselves are internally inconsistent…or a preview violates a structural/responsive/a11y convention"), the pipeline should pause and the operator should decide which value is canonical for landing-hero H1 leading + tracking before another F cycle re-litigates this.</p>
+
+<nav class="toc">
+  <strong>Jump:</strong>
+  <a href="#computed">Computed-style table</a>
+  <a href="#homepage">Homepage</a>
+  <a href="#services">Services</a>
+  <a href="#hwdi">How we do it</a>
+  <a href="#osp">Open source projects</a>
+  <a href="#sectiontable">Per-section delta table</a>
+  <a href="#recommendations">Recommendations</a>
+</nav>
+
+<h2 id="computed">Computed-style verification (the source of the finding)</h2>
+
+<p>Probed via Playwright at viewport 1280×800, <code>.hero h1</code> selector. <span class="match">MATCH</span> means preview equals live.</p>
+
+<table>
+<thead><tr><th>Page</th><th>Side</th><th>font-size</th><th>font-weight</th><th>line-height</th><th>letter-spacing</th><th>vs live</th></tr></thead>
+<tbody>
+  <tr><td rowspan="2"><strong>homepage</strong></td>
+      <td>preview</td><td>72px</td><td>500</td><td>75.6px (1.05)</td><td>-2px</td><td rowspan="2"><span class="match">MATCH</span></td></tr>
+  <tr><td>live</td><td>72px</td><td>500</td><td>75.6px (1.05)</td><td>-2px</td></tr>
+
+  <tr><td rowspan="2"><strong>services</strong></td>
+      <td>preview</td><td>72px</td><td>500</td><td>75.6px (1.05)</td><td>-2px</td><td rowspan="2"><span class="miss">MISMATCH</span><br>tracking + leading</td></tr>
+  <tr><td>live</td><td>72px</td><td>500</td><td><strong>79.2px (1.10)</strong></td><td><strong>-1.8px</strong></td></tr>
+
+  <tr><td rowspan="2"><strong>how-we-do-it</strong></td>
+      <td>preview</td><td>72px</td><td>500</td><td>75.6px (1.05)</td><td>-2px</td><td rowspan="2"><span class="miss">MISMATCH</span><br>tracking + leading</td></tr>
+  <tr><td>live</td><td>72px</td><td>500</td><td><strong>79.2px (1.10)</strong></td><td><strong>-1.8px</strong></td></tr>
+
+  <tr><td rowspan="2"><strong>open-source-projects</strong></td>
+      <td>preview</td><td>72px</td><td>500</td><td>75.6px (1.05)</td><td>-2px</td><td rowspan="2"><span class="miss">MISMATCH</span><br>tracking + leading</td></tr>
+  <tr><td>live</td><td>72px</td><td>500</td><td><strong>79.2px (1.10)</strong></td><td><strong>-1.8px</strong></td></tr>
+</tbody>
+</table>
+
+<p class="pillrow">
+  <span class="pill">font-family: Rubik, sans-serif (all 8 surfaces)</span>
+  <span class="pill">font-size 72 / weight 500: PASS all surfaces</span>
+  <span class="pill">tracking + leading: divergent on 3 of 4 pages</span>
+</p>
+
+<!-- HOMEPAGE -->
+<h2 id="homepage">Homepage — 1280×800</h2>
+<p>Hero crop diff AE: 111,518 px (~10.9 % of crop area). The pixel-level divergence is dominated by non-hero structural differences (header padding, eyebrow offset, button container spacing) — not by the H1 itself. The H1 computed styles match exactly. <span class="match">H1: MATCH</span></p>
+
+<h3>Wipe slider — preview (left) ↔ live (right)</h3>
+<div class="comparator">
+  <div class="frame">
+    <img src="screenshots/sprint-4-phase-3/t3-homepage-1280-live-hero-20260511.png" alt="homepage live hero">
+    <img class="top" id="hp-top" src="screenshots/sprint-4-phase-3/t3-homepage-1280-preview-hero-20260511.png" alt="homepage preview hero">
+    <span class="label l">preview</span>
+    <span class="label r">live</span>
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.getElementById('hp-top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<h3>Diff (red = differing pixels)</h3>
+<img class="diff" src="screenshots/sprint-4-phase-3/t3-homepage-1280-hero-diff-20260511.png" alt="homepage diff">
+<h3>Side-by-side composite (preview | live)</h3>
+<img class="composite" src="screenshots/sprint-4-phase-3/t3-homepage-1280-composite-20260511.png" alt="homepage composite">
+
+<!-- SERVICES -->
+<h2 id="services">Services — 1280×800</h2>
+<p>Hero crop diff AE: 310,249 px (~30.3 %). High delta driven by both non-hero structural differences <strong>and</strong> by the H1 itself: live uses <code>-1.8px / 1.10</code>, preview uses <code>-2px / 1.05</code>. <span class="miss">H1: MISMATCH on tracking + leading.</span></p>
+<h3>Wipe slider — preview (left) ↔ live (right)</h3>
+<div class="comparator">
+  <div class="frame">
+    <img src="screenshots/sprint-4-phase-3/t3-services-1280-live-hero-20260511.png" alt="services live hero">
+    <img class="top" id="sv-top" src="screenshots/sprint-4-phase-3/t3-services-1280-preview-hero-20260511.png" alt="services preview hero">
+    <span class="label l">preview</span>
+    <span class="label r">live</span>
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.getElementById('sv-top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<h3>Diff</h3>
+<img class="diff" src="screenshots/sprint-4-phase-3/t3-services-1280-hero-diff-20260511.png" alt="services diff">
+<h3>Side-by-side composite (preview | live)</h3>
+<img class="composite" src="screenshots/sprint-4-phase-3/t3-services-1280-composite-20260511.png" alt="services composite">
+
+<!-- HWDI -->
+<h2 id="hwdi">How we do it — 1280×800</h2>
+<p>Hero crop diff AE: 444,569 px (~43.4 %). H1 tracking + leading mismatch as above. <span class="miss">H1: MISMATCH on tracking + leading.</span></p>
+<h3>Wipe slider — preview (left) ↔ live (right)</h3>
+<div class="comparator">
+  <div class="frame">
+    <img src="screenshots/sprint-4-phase-3/t3-how-we-do-it-1280-live-hero-20260511.png" alt="hwdi live hero">
+    <img class="top" id="hw-top" src="screenshots/sprint-4-phase-3/t3-how-we-do-it-1280-preview-hero-20260511.png" alt="hwdi preview hero">
+    <span class="label l">preview</span>
+    <span class="label r">live</span>
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.getElementById('hw-top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<h3>Diff</h3>
+<img class="diff" src="screenshots/sprint-4-phase-3/t3-how-we-do-it-1280-hero-diff-20260511.png" alt="hwdi diff">
+<h3>Side-by-side composite (preview | live)</h3>
+<img class="composite" src="screenshots/sprint-4-phase-3/t3-how-we-do-it-1280-composite-20260511.png" alt="hwdi composite">
+
+<!-- OSP -->
+<h2 id="osp">Open source projects — 1280×800</h2>
+<p>Hero crop diff AE: 372,731 px (~36.4 %). H1 tracking + leading mismatch as above. <span class="miss">H1: MISMATCH on tracking + leading.</span></p>
+<h3>Wipe slider — preview (left) ↔ live (right)</h3>
+<div class="comparator">
+  <div class="frame">
+    <img src="screenshots/sprint-4-phase-3/t3-open-source-projects-1280-live-hero-20260511.png" alt="osp live hero">
+    <img class="top" id="op-top" src="screenshots/sprint-4-phase-3/t3-open-source-projects-1280-preview-hero-20260511.png" alt="osp preview hero">
+    <span class="label l">preview</span>
+    <span class="label r">live</span>
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.getElementById('op-top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<h3>Diff</h3>
+<img class="diff" src="screenshots/sprint-4-phase-3/t3-open-source-projects-1280-hero-diff-20260511.png" alt="osp diff">
+<h3>Side-by-side composite (preview | live)</h3>
+<img class="composite" src="screenshots/sprint-4-phase-3/t3-open-source-projects-1280-composite-20260511.png" alt="osp composite">
+
+<h2 id="sectiontable">Per-section delta table</h2>
+<table>
+<thead><tr><th>Page</th><th>Section</th><th>Status</th><th>Description</th></tr></thead>
+<tbody>
+  <tr><td>homepage</td><td>Hero H1 type</td><td><span class="match">MATCH</span></td><td>72 / 500 / 1.05 / -2px on both preview and live.</td></tr>
+  <tr><td>homepage</td><td>Hero non-H1</td><td><span class="delta">DELTA</span></td><td>Non-blocking. Preview hero block sits higher than live (live has more header + top padding). Outside this cycle's scope.</td></tr>
+
+  <tr><td>services</td><td>Hero H1 type</td><td><span class="miss">MISMATCH</span></td><td>Preview: 1.05 / -2px. Live: 1.10 / -1.8px. Same 72 / 500.</td></tr>
+  <tr><td>services</td><td>Hero non-H1</td><td><span class="delta">DELTA</span></td><td>Non-blocking. Preview lacks the breadcrumb + red hero band that live shows above the eyebrow.</td></tr>
+
+  <tr><td>how-we-do-it</td><td>Hero H1 type</td><td><span class="miss">MISMATCH</span></td><td>Preview: 1.05 / -2px. Live: 1.10 / -1.8px. Same 72 / 500.</td></tr>
+  <tr><td>how-we-do-it</td><td>Hero non-H1</td><td><span class="delta">DELTA</span></td><td>Non-blocking. Header + breadcrumb structural differences as on services.</td></tr>
+
+  <tr><td>open-source-projects</td><td>Hero H1 type</td><td><span class="miss">MISMATCH</span></td><td>Preview: 1.05 / -2px. Live: 1.10 / -1.8px. Same 72 / 500.</td></tr>
+  <tr><td>open-source-projects</td><td>Hero non-H1</td><td><span class="delta">DELTA</span></td><td>Non-blocking.</td></tr>
+</tbody>
+</table>
+
+<h2 id="recommendations">Recommendations — operator decision needed before next cycle</h2>
+
+<p>The runbook's stated source-of-truth for this cycle was the brief's <code>display-xl</code> token, and F honored it. But the resulting previews now diverge from live on three of four pages exactly on the AC the runbook lists second: "Previews match live (cross-page T3 at 1280)". Path A as written cannot satisfy both ACs simultaneously — they are mutually inconsistent. The operator must pick:</p>
+
+<ol>
+  <li>
+    <strong>Option A — adopt live's values into the brief and previews.</strong> Update brief <code>display-xl.letterSpacing</code> to <code>-1.8px</code> and <code>display-xl.lineHeight</code> to <code>1.10</code>. Update all four previews to match (homepage preview moves <em>away</em> from current live homepage). Then update live homepage to match the rest of live. Most invasive but produces full preview ↔ live ↔ brief parity.
+  </li>
+  <li>
+    <strong>Option B — keep brief at -2px / 1.05; reconcile live's three non-home pages down to match.</strong> Update live CSS so services / how-we-do-it / open-source-projects use <code>--h1-letter-spacing: -2px</code> and <code>--h1-line-height: 1.05</code> on the hero. Previews stay as F shipped them. Cleanest spec-first option, but requires CSS work on live.
+  </li>
+  <li>
+    <strong>Option C — accept the divergence and re-scope the AC.</strong> Treat the brief's <code>display-xl</code> as a "homepage hero" token only, and codify a separate token (e.g. <code>display-xl-landing</code>: <code>-1.8px / 1.10</code>) for services / how-we-do-it / open-source-projects. Update the brief annotation F added in line 54 to reflect this split. Previews then need to flip back to <code>-1.8px / 1.10</code> on the three non-home pages.
+  </li>
+</ol>
+
+<p>Until the operator chooses, the pipeline should not push another F cycle — any cycle that re-touches these values will be re-litigating the same upstream ambiguity.</p>
+
+<p>Sub-issue (only one — to be created after operator chooses a path):</p>
+<ol>
+  <li>Branch: <code>aa/pl-sprint-4-phase-3.1-hero-h1-spec-reconcile</code>. Problem: brief token <code>display-xl</code>, three live landing-page heroes, and the homepage hero are not internally consistent on letter-spacing and line-height. Operator must select option A / B / C above before F begins.</li>
+</ol>
+
+<h2 id="acceptance">Acceptance criteria mapped</h2>
+<table>
+<thead><tr><th>Runbook AC</th><th>Status</th><th>Evidence</th></tr></thead>
+<tbody>
+  <tr><td>All four landing-page heroes render the same H1 size — 72 px (path A)</td><td><span class="match">PASS</span></td><td>Computed font-size = 72px on all 8 surfaces; computed font-weight = 500 on all 8.</td></tr>
+  <tr><td>Previews match live (cross-page T3 at 1280)</td><td><span class="miss">FAIL on tracking + leading</span> on services, how-we-do-it, open-source-projects.</td><td>Preview tracking -2px / leading 1.05; live tracking -1.8px / leading 1.10. Homepage matches.</td></tr>
+  <tr><td>Brief is consistent with rendered output</td><td><span class="miss">FAIL</span> as above</td><td>Brief codifies -2px / 1.05 but only the homepage live renders that. Services/HWDI/OSP live render -1.8px / 1.10.</td></tr>
+  <tr><td>No regressions on non-hero H1 contexts (e.g. article body H1)</td><td><span class="match">PASS</span> (per T's file-grep audit)</td><td>T confirmed no non-<code>.hero</code> h1 selectors were touched.</td></tr>
+</tbody>
+</table>
+
+</main>
+</body>
+</html>

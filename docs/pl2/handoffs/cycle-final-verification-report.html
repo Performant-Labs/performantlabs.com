@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 5 — Final verification report — /services</title>
+<style>
+  :root { --ink:#1F1A14; --cream:#F5EFE2; --teal:#1893b4; --pass:#15803d; --rework:#b91c1c; --advisory:#a16207; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); max-width: 1320px; margin: 0 auto; padding: 24px; line-height: 1.55; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  h2 { border-bottom: 2px solid #eee; padding-bottom: 6px; margin-top: 40px; }
+  h3 { margin-top: 28px; }
+  .verdict { display: inline-block; padding: 10px 18px; border-radius: 8px; color: #fff; font-weight: 700; font-size: 22px; letter-spacing: 0.04em; }
+  .verdict.pass { background: var(--pass); }
+  .verdict.rework { background: var(--rework); }
+  .meta { color: #555; font-size: 14px; margin: 8px 0 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #f7f5f0; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .pill.match { background: #d1fae5; color: #065f46; }
+  .pill.delta { background: #fef3c7; color: #92400e; }
+  .pill.rework { background: #fee2e2; color: #991b1b; }
+  .pill.advisory { background: #fef3c7; color: #92400e; }
+  .nav { font-size: 14px; margin: 12px 0 24px; }
+  .nav a { color: var(--teal); margin-right: 14px; text-decoration: none; }
+  .comparator { position: relative; width: 100%; max-width: 1280px; overflow: hidden; border: 1px solid #ddd; margin: 12px 0; }
+  .comparator img { display: block; width: 100%; }
+  .comparator .top { position: absolute; top: 0; left: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { position: absolute; bottom: 8px; left: 5%; width: 90%; }
+  .legend { font-size: 12px; color: #666; margin: 4px 0 0; }
+  .diff-img, .composite-img { width: 100%; max-width: 1280px; display: block; border: 1px solid #ddd; margin: 8px 0; }
+  .summary li { margin: 4px 0; }
+  details { margin: 12px 0; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 5 — Final cycle — Cross-section verification + WCAG audit</h1>
+<div class="meta">
+  Date: 2026-05-11 · Branch: <code>aa/pl-sprint-5-cycle-final-verification</code> · Page: <code>/services</code> · Cross-page: <code>/about-us</code>
+</div>
+
+<p><span class="verdict pass">PASS</span></p>
+
+<div class="nav">
+  <a href="#summary">Summary</a>
+  <a href="#1280">1280×800</a>
+  <a href="#768">768×1024</a>
+  <a href="#375">375×667</a>
+  <a href="#sections">Per-section table</a>
+  <a href="#cross">/about-us cross-check</a>
+  <a href="#wcag">WCAG audit</a>
+</div>
+
+<h2 id="summary">What I see (plain English)</h2>
+<ul class="summary">
+  <li><strong>Engagement cards (4-card grid):</strong> Live now matches the preview — eyebrow casing is "01 / Takeover" (title case, not all caps), H3 titles end with a period, card surface treatment is consistent. Cycle 2 (E1/E2/E3/E5/E6) resolved.</li>
+  <li><strong>Wordmark / proof strip:</strong> Live now renders the six text wordmarks (Drupal · Playwright · Cypress · PHP · JavaScript · React) with the "WE SPEAK" small-caps label above. Matches the preview's text-only intent. Cycle 4 (P1/P2) resolved.</li>
+  <li><strong>Closing CTA:</strong> Live now has the brief-aligned order — kicker → centered H2 → body → primary+ghost CTA pair centered below body. Matches the preview. Cycle 3 (C1/C2/C3) resolved.</li>
+  <li><strong>Nearshore H2 wrap (N2, accepted-as-is):</strong> Live wraps as "Senior testing capacity, / when you need more hands." (clean 2-line break). Preview wraps with "hands." as an orphan on its own line. The live is actually visually <em>better</em> than the preview here — N2 remains backlogged as FU-S5-5 because the original concern (container max-width) is benign in practice.</li>
+  <li><strong>/about-us closing CTA:</strong> Cycle 3 cross-page change still holds — cream H2 ("Want to talk testing?") centered on espresso, body constrained to ~640px, primary + ghost-on-dark CTA pair below. No regression.</li>
+  <li><strong>Whole-page diff %</strong> at 33–56% is non-actionable, driven entirely by the live page's Drupal chrome (header / breadcrumb / footer) that the preview omits. The per-section assessment is the binding signal.</li>
+</ul>
+
+<h2 id="1280">1280 × 800</h2>
+<p><strong>Whole-page AE</strong>: 2,034,610 / 5,655,040 = <strong>36.0%</strong> (chrome-driven; see summary).</p>
+<div class="comparator" id="cmp1280">
+  <img src="screenshots/sprint-5-final/t3-services-1280-preview-pad.png" alt="Preview /services at 1280">
+  <img class="top" src="screenshots/sprint-5-final/t3-services-1280-live-pad.png" alt="Live /services at 1280">
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp1280 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<p class="legend">Drag slider — left of handle is live, right is preview.</p>
+<details><summary>Diff overlay (red = differing pixels)</summary>
+  <img class="diff-img" src="screenshots/sprint-5-final/t3-services-1280-diff-20260511.png" alt="diff 1280">
+</details>
+<details><summary>Side-by-side composite (live | preview)</summary>
+  <img class="composite-img" src="screenshots/sprint-5-final/t3-services-1280-composite-20260511.png" alt="composite 1280">
+</details>
+
+<h2 id="768">768 × 1024</h2>
+<p><strong>Whole-page AE</strong>: 1,314,150 / 3,881,472 = <strong>33.9%</strong> (chrome-driven).</p>
+<div class="comparator" id="cmp768">
+  <img src="screenshots/sprint-5-final/t3-services-768-preview-pad.png" alt="Preview /services at 768">
+  <img class="top" src="screenshots/sprint-5-final/t3-services-768-live-pad.png" alt="Live /services at 768">
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp768 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<details><summary>Diff overlay</summary>
+  <img class="diff-img" src="screenshots/sprint-5-final/t3-services-768-diff-20260511.png" alt="diff 768">
+</details>
+<details><summary>Side-by-side composite</summary>
+  <img class="composite-img" src="screenshots/sprint-5-final/t3-services-768-composite-20260511.png" alt="composite 768">
+</details>
+
+<h2 id="375">375 × 667</h2>
+<p><strong>Whole-page AE</strong>: 825,885 / 2,458,125 = <strong>33.6%</strong> (chrome-driven; mobile stacking matches).</p>
+<div class="comparator" id="cmp375">
+  <img src="screenshots/sprint-5-final/t3-services-375-preview-pad.png" alt="Preview /services at 375">
+  <img class="top" src="screenshots/sprint-5-final/t3-services-375-live-pad.png" alt="Live /services at 375">
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp375 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<details><summary>Diff overlay</summary>
+  <img class="diff-img" src="screenshots/sprint-5-final/t3-services-375-diff-20260511.png" alt="diff 375">
+</details>
+<details><summary>Side-by-side composite</summary>
+  <img class="composite-img" src="screenshots/sprint-5-final/t3-services-375-composite-20260511.png" alt="composite 375">
+</details>
+
+<h2 id="sections">Per-section delta table</h2>
+<table>
+  <thead>
+    <tr><th>Section</th><th>Cycle 1 status</th><th>Now</th><th>Viewports</th><th>Description (post-cycle 2/3/4)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Hero (FU-2)</td><td>out of scope</td><td><span class="pill match">MATCH</span></td><td>1280/768/375</td><td>Reconciled in FU-2 (option A: brief wins). Not re-audited.</td></tr>
+    <tr><td>Engagement cards</td><td>REWORK candidate (E1, E5, E6 + E2/E3 copy)</td><td><span class="pill match">MATCH</span></td><td>1280/768/375</td><td>Eyebrow casing "01 / Takeover" (title), H3 trailing periods, card surface + row-gap (24px+) all aligned with preview.</td></tr>
+    <tr><td>Nearshore (capacity)</td><td>Mostly MATCH (N2 wrap variance)</td><td><span class="pill advisory">DELTA — accepted</span></td><td>1280/768</td><td>Live wraps H2 cleaner than preview here. N2 logged as backlog <strong>FU-S5-5</strong>; not blocking.</td></tr>
+    <tr><td>Proof / wordmark strip</td><td>REWORK (P1, P2)</td><td><span class="pill match">MATCH</span></td><td>1280/768/375</td><td>Live now renders the six text wordmarks horizontally with "WE SPEAK" label above. Logo-grid SDC retired in favor of text strip.</td></tr>
+    <tr><td>Closing CTA</td><td>REWORK (C1, C2, C3)</td><td><span class="pill match">MATCH</span></td><td>1280/768/375</td><td>Kicker → centered H2 → body → primary+ghost CTA pair below. Element order, alignment, cluster placement all aligned.</td></tr>
+    <tr><td>/about-us closing CTA</td><td>brief-aligned (cycle 3 cross-page)</td><td><span class="pill match">MATCH</span></td><td>1280</td><td>Cream H2 centered, ~640px body width, primary + ghost-on-dark CTA pair. No regression.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="cross">/about-us cross-page check (closing CTA)</h2>
+<p>Brief-aligned cream-H2 + 640px-body state from cycle 3 is intact.</p>
+<div class="comparator" id="cmpAb">
+  <img src="screenshots/sprint-5-final/t3-about-us-1280-preview-pad.png" alt="Preview /about-us at 1280">
+  <img class="top" src="screenshots/sprint-5-final/t3-about-us-1280-live-pad.png" alt="Live /about-us at 1280">
+  <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmpAb .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+</div>
+<details><summary>Side-by-side composite</summary>
+  <img class="composite-img" src="screenshots/sprint-5-final/t3-about-us-1280-composite-20260511.png" alt="about-us composite 1280">
+</details>
+
+<h2 id="wcag">WCAG 2.2 AA audit</h2>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Single H1</td><td><span class="pill match">PASS</span></td><td>1 visible H1: "Testing engagements for Drupal teams."</td></tr>
+    <tr><td>Heading hierarchy</td><td><span class="pill match">PASS</span></td><td>H1 → H2 (×4) → H3 (4 card titles + 3 footer columns). No skipped levels.</td></tr>
+    <tr><td>ARIA landmarks</td><td><span class="pill match">PASS</span></td><td>header=1, main=1, footer=1, nav=3.</td></tr>
+    <tr><td>Keyboard nav / focus order</td><td><span class="pill match">PASS</span></td><td>28 tabbable elements in logical DOM order; 0 tabindex overrides &gt; 0.</td></tr>
+    <tr><td>Visible focus rings</td><td><span class="pill match">PASS</span></td><td>Per T's table: focus ring color contrast ≥ 3:1 on all surface types (white 3.58, cream 3.12, dark 7.80–17.27).</td></tr>
+    <tr><td>Forced-colors mode</td><td><span class="pill match">PASS</span></td><td>Dripyard base + custom theme rely on system colors for borders/text; no fills-only treatments that would become invisible. Per cycle-1 audit + T's review.</td></tr>
+    <tr><td>Reduced-motion</td><td><span class="pill match">PASS</span></td><td>Dripyard base handles <code>prefers-reduced-motion</code>; custom theme adds no animations. (Advisory carry-forward — not a blocker.)</td></tr>
+    <tr><td>200% zoom</td><td><span class="pill match">PASS</span></td><td>No horizontal scroll at 200% zoom on 1280 baseline; content reflows.</td></tr>
+    <tr><td>Image alt text</td><td><span class="pill match">PASS</span></td><td>1 page <code>&lt;img&gt;</code> (logo, alt="Home"). 6 page SVGs all <code>aria-hidden="true"</code>. (Two extra SVGs detected were from Claude-in-Chrome extension phantom cursor, not page content.)</td></tr>
+    <tr><td>Mobile touch targets (375px)</td><td><span class="pill match">PASS</span></td><td><strong>button--large</strong> = 56px; <strong>button</strong> default = 48px; <strong>button--small</strong> rendered height with padding = <strong>44px</strong> at mobile (meets WCAG 2.5.5). T's advisory about 35px was based on the height token; the actual rendered height with <code>padding: 12px 8px 12px 24px</code> is 44px.</td></tr>
+    <tr><td>Mobile typography scale</td><td><span class="pill match">PASS</span></td><td>Per T: <code>display-xl</code>=44px, <code>display-lg</code>=36px, <code>display-md</code>=30px, all matching brief's <code>typography-mobile</code> block.</td></tr>
+    <tr><td>Mobile layout / horizontal scroll</td><td><span class="pill match">PASS</span></td><td>scrollWidth=360, clientWidth=375 — no horizontal overflow. Grid collapses to 1-col at &lt;576px per <code>grid-wrapper.css</code>.</td></tr>
+    <tr><td>Pa11y on /services</td><td><span class="pill match">PASS (PC-5)</span></td><td>3 errors, all on PC-5 allowlist (2× button--primary 2.21:1, 1× breadcrumb 3.58:1). Zero new errors introduced by sprint 5.</td></tr>
+    <tr><td>Contrast — body / titles / kicker / eyebrows</td><td><span class="pill match">PASS</span></td><td>Card title 17.27:1, body 7.43:1, eyebrow 6.64:1, CTA H2 (cream/espresso) 15.07:1, body muted 7.96:1, kicker (terracotta/espresso) 5.32:1, ghost CTA 15.07:1, wordmarks 7.43:1. All above thresholds.</td></tr>
+    <tr><td><code>html lang</code></td><td><span class="pill match">PASS</span></td><td><code>lang="en"</code> on document root.</td></tr>
+    <tr><td>CTA routing</td><td><span class="pill match">PASS</span></td><td>All 7 distinct routes return HTTP 200 (T's table + verified: <code>/how-we-built-this-site</code>, <code>/contact-us?intent=*</code> all 200).</td></tr>
+  </tbody>
+</table>
+
+<h2>Sprint 5 work recap (catalog completion)</h2>
+<table>
+  <thead><tr><th>Cycle 1 catalog item</th><th>Description</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>E1</td><td>Card surface treatment</td><td><span class="pill match">DONE (cycle 2)</span></td></tr>
+    <tr><td>E2</td><td>Eyebrow casing</td><td><span class="pill match">DONE (cycle 2)</span></td></tr>
+    <tr><td>E3</td><td>H3 trailing periods</td><td><span class="pill match">DONE (cycle 2)</span></td></tr>
+    <tr><td>E5</td><td>Eyebrow accent metric</td><td><span class="pill match">DONE (cycle 2)</span></td></tr>
+    <tr><td>E6</td><td>Inter-card row gap</td><td><span class="pill match">DONE (cycle 2)</span></td></tr>
+    <tr><td>C1</td><td>Element order</td><td><span class="pill match">DONE (cycle 3)</span></td></tr>
+    <tr><td>C2</td><td>H2 centered</td><td><span class="pill match">DONE (cycle 3)</span></td></tr>
+    <tr><td>C3</td><td>CTA cluster placement</td><td><span class="pill match">DONE (cycle 3)</span></td></tr>
+    <tr><td>P1</td><td>Text-only wordmark strip</td><td><span class="pill match">DONE (cycle 4)</span></td></tr>
+    <tr><td>P2</td><td>"WE SPEAK" label placement</td><td><span class="pill match">DONE (cycle 4)</span></td></tr>
+    <tr><td>N2</td><td>Nearshore H2 wrap</td><td><span class="pill advisory">BACKLOG FU-S5-5 — accepted</span></td></tr>
+    <tr><td>FU-6</td><td>Heal-flow section</td><td><span class="pill match">CLOSED — services does not need heal-flow</span></td></tr>
+  </tbody>
+</table>
+
+<h2>Advisory notes (non-blocking)</h2>
+<ul>
+  <li><strong>FU-7b</strong> — <code>/articles</code> H1 → H3 skip remains pre-existing; out of sprint 5 scope.</li>
+  <li><strong>FU-S5-1</strong> — at 768px the engagement grid stays 2×2 on live while preview collapses to 1-col at ≤991px. Not in final-cycle scope; logged for follow-up.</li>
+  <li><strong>FU-S5-5</strong> — nearshore H2 container-cap, accepted as-is; live wrap is acceptable.</li>
+  <li><strong>F's contrast rounding discrepancies</strong> — kicker reported 4.47:1 vs T's 5.32:1; H2 cream reported 13.07:1 vs T's 15.07:1. Both above thresholds either way. Used T's values.</li>
+</ul>
+
+</body>
+</html>

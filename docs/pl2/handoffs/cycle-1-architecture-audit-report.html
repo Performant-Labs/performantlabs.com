@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 10 Cycle 1 — Architectural-debt audit</title>
+<style>
+  :root { --ink:#1F1A14; --cream:#F5EFE2; --muted:#5C544C; --border:#E5E1DC; --terra:#B85C2E; --ok:#2E6B3A; --warn:#A85800; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", system-ui, sans-serif; color: var(--ink); background: #fff; max-width: 1080px; margin: 0 auto; padding: 32px 24px 80px; line-height: 1.55; }
+  h1 { font-size: 32px; letter-spacing: -1.2px; margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 40px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 24px 0 6px; }
+  .banner { background: var(--cream); border-left: 4px solid var(--ok); padding: 16px 20px; margin: 16px 0 32px; border-radius: 4px; }
+  .banner .verdict { font-size: 24px; font-weight: 600; color: var(--ok); margin: 0 0 4px; }
+  .banner .meta { font-size: 13px; color: var(--muted); }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 20px 0; }
+  .kpi { background: #fafaf8; border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; }
+  .kpi .n { font-size: 28px; font-weight: 600; color: var(--terra); letter-spacing: -0.6px; }
+  .kpi .l { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: #fafaf8; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; background: #f4f1ec; padding: 1px 5px; border-radius: 3px; }
+  .done { color: var(--ok); font-weight: 600; }
+  .todo { color: var(--warn); font-weight: 600; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+  .pill.ok { background: #e6f2ea; color: var(--ok); }
+  .pill.todo { background: #fbecd8; color: var(--warn); }
+  .pill.skip { background: #eee; color: #555; }
+  .nav { font-size: 13px; color: var(--muted); margin: 0 0 24px; }
+  .nav a { color: var(--terra); text-decoration: none; margin-right: 12px; }
+  .callout { background: #fff8eb; border-left: 3px solid var(--warn); padding: 12px 14px; border-radius: 3px; margin: 14px 0; font-size: 14px; }
+  ul.compact { margin: 6px 0 12px; padding-left: 22px; }
+  ul.compact li { margin: 2px 0; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 10 Cycle 1 — Architectural-debt audit</h1>
+<p class="nav">
+  <a href="#thread1">Thread 1 · selectors</a>
+  <a href="#thread2">Thread 2 · component_version</a>
+  <a href="#carve">Cycle 2 carve</a>
+  <a href="cycle-1-architecture-audit-S.md">Full handoff (md)</a>
+</p>
+
+<div class="banner">
+  <div class="verdict">VERDICT: PASS — audit complete</div>
+  <div class="meta">2026-05-12 · branch <code>aa/pl-sprint-10-cycle-1-audit</code> · audit-only, no F/T · binding signal: grep + CSS + doc text</div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="n">19</div><div class="l">fragile patterns total</div></div>
+  <div class="kpi"><div class="n">12</div><div class="l">genuinely fragile</div></div>
+  <div class="kpi"><div class="n">2</div><div class="l">already migrated</div></div>
+  <div class="kpi"><div class="n">9</div><div class="l">workflow-doc files to fix</div></div>
+</div>
+
+<div class="callout">
+  <strong>Audit-before-fix finding.</strong> ADV-3 is <em>partially addressed</em> — Sprints 5–6 already shipped two marker classes
+  (<code>.dy-section--other-modules</code>, <code>.nearshore-section</code>) following the exact pattern this sprint proposes.
+  Ten dy-section.css patterns and two logo-grid.css patterns remain. Cycle 2 reuses the existing Canvas-patch script template.
+</div>
+
+<h2 id="thread1">Thread 1 — ADV-3 fragile-selector inventory</h2>
+
+<h3>File-level summary</h3>
+<table>
+  <thead><tr><th>File</th><th>Fragile lines</th><th>Distinct patterns</th><th>Marker already applied?</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><code>dy-section.css</code></td><td>26</td><td>12</td><td>2 of 12 done</td><td><span class="pill todo">refactor 10</span></td></tr>
+    <tr><td><code>logo-grid.css</code></td><td>4</td><td>2</td><td>No</td><td><span class="pill todo">refactor 2</span></td></tr>
+    <tr><td><code>header.css</code></td><td>2</td><td>1 fragile + 1 acceptable</td><td>—</td><td><span class="pill skip">keep (defensive)</span></td></tr>
+    <tr><td><code>docs-page.css</code></td><td>1</td><td>1</td><td>—</td><td><span class="pill skip">keep (page-root)</span></td></tr>
+    <tr><td><code>webform.css</code></td><td>1</td><td>1</td><td>—</td><td><span class="pill skip">keep (block class stable)</span></td></tr>
+    <tr><td><code>book-landing.css</code></td><td>5</td><td>1</td><td>—</td><td><span class="pill skip">keep (page-root)</span></td></tr>
+    <tr><td><code>accordion.css</code></td><td>1</td><td>1</td><td>—</td><td><span class="pill skip">keep (sibling)</span></td></tr>
+  </tbody>
+</table>
+
+<h3>Remaining dy-section.css patterns and proposed markers</h3>
+<table>
+  <thead><tr><th>#</th><th>Lines</th><th>Selector shape</th><th>Consumer</th><th>Proposed marker</th></tr></thead>
+  <tbody>
+    <tr><td>P1</td><td>49,56,63,144,462</td><td><code>.theme--light:has(.kicker--centered)</code></td><td>/about-us §B Track record</td><td><code>.dy-section--centered-light</code></td></tr>
+    <tr><td>P2</td><td>74,81,145</td><td><code>.theme--white:has(.kicker--centered)</code></td><td>/services §3 Dogfooding/Nearshore</td><td><code>.dy-section--centered-white</code></td></tr>
+    <tr><td>P3</td><td>86</td><td><code>:not(:has(.grid-wrapper))</code> chain</td><td>same as P2 minus §2 cards</td><td><code>.dy-section--centered-content</code></td></tr>
+    <tr><td>P4</td><td>103-135</td><td><code>:has(&gt; .button + .button)</code></td><td>/services §1 hero CTA pair</td><td><code>.dy-section--cta-pair</code></td></tr>
+    <tr><td>P5</td><td>195,218</td><td><code>:has(.kicker--inline)</code></td><td>/how-we-do-it Week 1/2/3+</td><td><code>.dy-section--kicker-inline</code></td></tr>
+    <tr><td>P6</td><td>219</td><td><code>.theme--secondary + .dy-section</code> sibling</td><td>/how-we-do-it "What we don't do"</td><td><code>.dy-section--tight-header</code></td></tr>
+    <tr><td>P8</td><td>565-592</td><td><code>.theme--dark :has(&gt; .button + .button)</code></td><td>/services + /about-us closing CTA</td><td><code>.dy-section--cta-pair</code> (shared w/ P4)</td></tr>
+    <tr><td>P9</td><td>618,626</td><td><code>:has(.kicker--centered) &gt; .grid-wrapper + .heading.h3</code></td><td>/about-us §C bio block</td><td><code>.dy-section--bio-block</code></td></tr>
+    <tr><td>P10</td><td>812,817</td><td><code>:has(.wordmark-strip-wrapper)</code></td><td>/about-us §A wordmark strip</td><td><code>.dy-section--wordmark-strip</code></td></tr>
+    <tr><td colspan="5"><strong>Already migrated:</strong> P11 <code>.dy-section--other-modules</code> · P12 <code>.nearshore-section</code> — <span class="done">DONE</span></td></tr>
+  </tbody>
+</table>
+
+<h3>logo-grid.css remaining patterns</h3>
+<table>
+  <thead><tr><th>Line</th><th>Selector</th><th>Consumer</th><th>Proposed marker</th></tr></thead>
+  <tbody>
+    <tr><td>219</td><td><code>.dy-section:has(.logo-grid) .dy-section__header &gt; *</code></td><td>homepage logo strip</td><td><code>.dy-section--logo-grid</code></td></tr>
+    <tr><td>256,260</td><td><code>.hero.theme--white + .dy-section:has(.logo-grid)</code></td><td>section after homepage hero</td><td><code>.dy-section--post-hero-logos</code></td></tr>
+  </tbody>
+</table>
+
+<h3>Pages re-rendering under Cycle 2b (require T3 diff at 1280/768/375)</h3>
+<ul class="compact">
+  <li><code>/about-us</code> — P1, P7, P8, P9, P10</li>
+  <li><code>/services</code> — P2, P3, P4, P8</li>
+  <li><code>/how-we-do-it</code> — P5, P6</li>
+  <li><code>/</code> homepage — logo-grid P1+P2</li>
+</ul>
+<p>Not affected: <code>/open-source-projects</code>, <code>/contact-us</code>, <code>/docs/*</code>, <code>/book/*</code>.</p>
+
+<h2 id="thread2">Thread 2 — component_version workflow-doc audit</h2>
+
+<p>Canvas throws <code>OutOfRangeException</code> on NULL <code>component_version</code> (Sprint 5 cycle 2 finding). F has been silently preserving the existing hash since then; the canonical workflow prompt still tells F to NULL it.</p>
+
+<h3>Files that need updating (with hit-locations)</h3>
+<table>
+  <thead><tr><th>File</th><th>Line(s)</th><th>Category</th></tr></thead>
+  <tbody>
+    <tr><td><code>~/.claude/agents/feature-implementor.md</code></td><td>123</td><td>Canonical F prompt</td></tr>
+    <tr><td><code>docs/pl2/workflow-ofts.md</code></td><td>116, 313</td><td>Workflow reference + F-prompt copy</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--homepage-overhaul.md</code></td><td>20, 437</td><td>Runbook</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--sprint-1-conversion-repair.md</code></td><td>48</td><td>Runbook</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--about-us.md</code></td><td>48, 92</td><td>Runbook AC</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--book-pages.md</code></td><td>85</td><td>Runbook AC</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--contact-us.md</code></td><td>87, 105, 161</td><td>Runbook AC</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--open-source-projects.md</code></td><td>46, 94</td><td>Runbook AC</td></tr>
+    <tr><td><code>docs/pl2/pl-plan--services.md</code></td><td>53, 93, 131</td><td>Runbook AC</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Total: 9 files, ~17 hit-locations.</strong> No code. No tests. Trivial.</p>
+
+<h3>Recommended replacement wording</h3>
+<div class="callout">
+  <p style="margin:0 0 6px"><strong>Canonical F-prompt rule (step 8 of the F operating rules):</strong></p>
+  <p style="margin:0">"Preserve Canvas <code>component_version</code>. Canvas throws <code>OutOfRangeException</code> on NULL (Sprint 5 cycle 2 finding). When patching existing rows, read the full inputs JSON and modify only the keys you intend to change — do not touch <code>component_version</code>. When inserting new rows, reuse a valid hash from a peer component on the same page. Never invent a hash. If the hash schema changes upstream, surface as ADVISORY-HOLD."</p>
+</div>
+<div class="callout">
+  <p style="margin:0 0 6px"><strong>Per-page runbook AC bullet (one form, reusable):</strong></p>
+  <p style="margin:0">"All Canvas patches preserve <code>component_version</code> (Canvas requires a valid hash; NULL throws <code>OutOfRangeException</code>)."</p>
+</div>
+
+<p><strong>Handoff history files (<code>handoffs/*.md</code>) are not edited</strong> — they are the audit trail of when the workflow said one thing and F discovered another.</p>
+
+<h2 id="carve">Recommended Cycle 2 carve</h2>
+<table>
+  <thead><tr><th>Cycle</th><th>Pipeline</th><th>Scope</th><th>Risk</th><th>Effort</th></tr></thead>
+  <tbody>
+    <tr><td><strong>2a</strong> doc fix</td><td>O applies directly</td><td>9 files, ~17 locations</td><td>None</td><td>15–30 min</td></tr>
+    <tr><td><strong>2b.1</strong> /about-us refactor</td><td>O→F→T→S→O</td><td>5 patterns → 4 markers; 4 sections</td><td>T3 diff at 3 viewports</td><td>1 F cycle</td></tr>
+    <tr><td><strong>2b.2</strong> /services refactor</td><td>O→F→T→S→O</td><td>4 patterns → 2 markers; 3 sections</td><td>T3 diff at 3 viewports</td><td>1 F cycle</td></tr>
+    <tr><td><strong>2b.3</strong> /how-we-do-it refactor</td><td>O→F→T→S→O</td><td>2 patterns → 2 markers; 4 sections</td><td>T3 diff at 3 viewports</td><td>1 F cycle</td></tr>
+    <tr><td><strong>2b.4</strong> homepage logo-grid</td><td>O→F→T→S→O</td><td>2 patterns → 2 markers; 1 section</td><td>T3 diff at 3 viewports</td><td>1 F cycle</td></tr>
+    <tr><td><strong>Final</strong> (optional) regression baseline</td><td>O→T→S→O</td><td>Pa11y + 12-diff cross-page sweep</td><td>Verification-only</td><td>1 cycle</td></tr>
+  </tbody>
+</table>
+
+<p><strong>Recommendation:</strong> per-page split (Option B). Sprint 9 cadence; atomic units; REWORK isolation. Apply 2a before 2b so F starts under the corrected canonical prompt.</p>
+
+<h2>Probe artifacts</h2>
+<ul class="compact">
+  <li><a href="screenshots/sprint-10-cycle-1/grep-selectors.txt">grep-selectors.txt</a> — fragile-selector enumeration</li>
+  <li><a href="screenshots/sprint-10-cycle-1/grep-component-version.txt">grep-component-version.txt</a> — workflow-doc hit list</li>
+  <li>Full handoff: <a href="cycle-1-architecture-audit-S.md">cycle-1-architecture-audit-S.md</a></li>
+</ul>
+
+</body>
+</html>

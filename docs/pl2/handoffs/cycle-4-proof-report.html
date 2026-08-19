@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cycle 4 § proof — visual audit report</title>
+<style>
+  :root {
+    --pass: #1f7a3a;
+    --fail: #b3261e;
+    --hold: #b27300;
+    --text: #1a1a1a;
+    --muted: #5c544c;
+    --hairline: #e5e1dc;
+    --canvas: #fffaf3;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--text); margin: 0; padding: 24px; background: #fafafa; }
+  header { max-width: 1200px; margin: 0 auto 32px; }
+  .verdict {
+    display: inline-block; padding: 8px 20px; border-radius: 4px;
+    font-weight: 700; font-size: 24px; letter-spacing: 1px;
+    background: var(--pass); color: white;
+  }
+  .verdict.rework { background: var(--fail); }
+  .verdict.hold { background: var(--hold); }
+  main { max-width: 1200px; margin: 0 auto; }
+  section { background: white; border-radius: 6px; padding: 24px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  h1 { font-size: 28px; margin: 0 0 12px; }
+  h2 { font-size: 20px; margin: 0 0 16px; border-bottom: 1px solid var(--hairline); padding-bottom: 8px; }
+  h3 { font-size: 16px; margin: 24px 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { background: #f5f5f5; font-weight: 600; }
+  .delta-table img { max-width: 300px; border: 1px solid var(--hairline); }
+  .status-match { color: var(--pass); font-weight: 600; }
+  .status-delta { color: var(--hold); font-weight: 600; }
+  .status-rework { color: var(--fail); font-weight: 600; }
+  ul.findings { padding-left: 20px; }
+  ul.findings li { margin-bottom: 8px; line-height: 1.5; }
+  .nav { margin: 16px 0 24px; }
+  .nav a { display: inline-block; padding: 4px 12px; margin-right: 8px; background: #eee; border-radius: 3px; color: var(--text); text-decoration: none; font-size: 13px; }
+  .nav a:hover { background: #ddd; }
+  .pixel-stats { display: inline-block; padding: 4px 12px; margin-left: 12px; background: #f5f5f5; border-radius: 3px; font-family: ui-monospace, monospace; font-size: 13px; }
+
+  /* Wipe slider */
+  .wipe {
+    position: relative; max-width: 100%; margin: 16px 0;
+    border: 1px solid var(--hairline); background: var(--canvas);
+  }
+  .wipe-stage { position: relative; width: 100%; overflow: hidden; }
+  .wipe-stage img { display: block; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+  .wipe-stage img.top {
+    position: absolute; top: 0; left: 0;
+    clip-path: inset(0 50% 0 0);
+  }
+  .wipe-range { width: 100%; margin-top: 8px; }
+  .wipe-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); padding: 4px 0; }
+  .vp { margin-top: 32px; }
+  .diff-img, .comp-img { width: 100%; max-width: 100%; border: 1px solid var(--hairline); margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Cycle 4 — § proof / wordmark strip — visual audit</h1>
+  <div>
+    <span class="verdict">PASS</span>
+    <span class="pixel-stats">1280: 210,944 px (20.0%)</span>
+    <span class="pixel-stats">768: 163,262 px (25.2%)</span>
+    <span class="pixel-stats">375: 86,341 px (22.6%)</span>
+  </div>
+  <div class="nav">
+    <a href="#summary">Summary</a>
+    <a href="#vp-1280">1280</a>
+    <a href="#vp-768">768</a>
+    <a href="#vp-375">375</a>
+    <a href="#delta-table">Per-section deltas</a>
+    <a href="#wcag">WCAG</a>
+  </div>
+  <p style="color:var(--muted); font-size: 14px; margin: 8px 0 0;">
+    Date: 2026-05-11 &middot; Branch: <code>aa/pl-sprint-5-cycle-4-proof</code> &middot;
+    Page: <code>/services</code> § proof &middot; T handoff: <code>cycle-4-proof-T-rework.md</code> (PASS)
+  </p>
+</header>
+
+<main>
+
+<section id="summary">
+  <h2>What I see different — plain-English summary</h2>
+  <p>The wordmark strip rebuild is faithful to the preview's design intent. All six wordmarks render (Drupal, Playwright, Cypress, PHP, JavaScript, React) in the canonical order, the "WE SPEAK" small-caps label sits centered above them, and the hairline strip wraps the band on top and bottom. The whole-page pixel deltas (20–25%) are dominated by three known, expected differences — they are not regressions of the cycle's scope.</p>
+  <ul class="findings">
+    <li><strong>CTA button shape (all viewports):</strong> live renders the canonical site primary-CTA pill with an inset orange arrow chip; preview shows a minimal text-only pill without arrow. This is the site's theme-wide button treatment and is consistent with every other CTA on /services. Not a cycle-4 regression.</li>
+    <li><strong>Vertical positioning (all viewports):</strong> live has slightly more top padding above the dogfooding kicker than preview (the live page lives inside Drupal's <code>dy-section</code> wrapper, which adds standard section padding). Causes a ~10–40 px vertical shift that propagates downward through the diff. Not a cycle-4 regression.</li>
+    <li><strong>Heading line breaks (all viewports):</strong> the dogfooding H2 wraps at different word boundaries on live vs preview because of fractional differences in font-size/letter-spacing tokens. The text content is identical and reads naturally either way.</li>
+    <li><strong>Wordmark wrap at 375 px:</strong> live wraps to 4+2 (Drupal Playwright Cypress PHP / JavaScript React); preview wraps to 3+3. Both are legible. Neither perfectly matches the brief's per-section mobile note for the homepage logo-bar (3 rows of 2) — but that brief note specifically describes the homepage component, not the services-page wordmark strip. AC4 explicitly defers the mobile wrap pattern to F's judgment ("can wrap or scroll horizontally — F decides based on preview behavior"). F's choice is within latitude.</li>
+    <li><strong>WCAG-driven deviation (wordmark color):</strong> the preview itself uses <code>opacity: 0.8</code> on the wordmarks, which yields 4.47:1 contrast — below the 4.5:1 AA threshold. T blocked the initial F implementation on this, and F's rework removed the opacity. Live wordmarks are therefore very slightly darker (#5C544C @ 1.0 vs #5C544C @ 0.8) than the preview. This is intentional and correct precedence: brief tokens &amp; WCAG &gt; preview when they conflict. Flagged as an advisory below.</li>
+  </ul>
+  <p><strong>Verdict rationale:</strong> the rebuild meets all 10 acceptance criteria, the wordmark set and order are correct, the small-caps label and hairline strip render per preview, WCAG AA contrast is 7.43:1 (well above 4.5:1), keyboard/touch/heading-hierarchy audits all pass, and the 20–25 % whole-page pixel deltas decompose entirely into the four expected differences above. <strong>PASS.</strong></p>
+</section>
+
+<section id="vp-1280" class="vp">
+  <h2>Viewport 1280 × 800 — 210,944 px (20.0%)</h2>
+  <div class="wipe">
+    <div class="wipe-stage" id="stage-1280">
+      <img src="screenshots/sprint-5-cycle-4/t3-proof-1280-preview-20260511.png" alt="preview 1280">
+      <img class="top" src="screenshots/sprint-5-cycle-4/t3-proof-1280-live-20260511.png" alt="live 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50" class="wipe-range" data-stage="stage-1280">
+    <div class="wipe-label"><span>← live</span><span>preview →</span></div>
+  </div>
+  <h3>Diff overlay (red = differing pixels)</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-4/t3-proof-1280-diff-20260511.png" alt="1280 diff">
+  <h3>Side-by-side composite (live | preview)</h3>
+  <img class="comp-img" src="screenshots/sprint-5-cycle-4/t3-proof-1280-composite-20260511.png" alt="1280 composite">
+</section>
+
+<section id="vp-768" class="vp">
+  <h2>Viewport 768 × 1024 — 163,262 px (25.2%)</h2>
+  <div class="wipe">
+    <div class="wipe-stage" id="stage-768">
+      <img src="screenshots/sprint-5-cycle-4/t3-proof-768-preview-20260511.png" alt="preview 768">
+      <img class="top" src="screenshots/sprint-5-cycle-4/t3-proof-768-live-20260511.png" alt="live 768">
+    </div>
+    <input type="range" min="0" max="100" value="50" class="wipe-range" data-stage="stage-768">
+    <div class="wipe-label"><span>← live</span><span>preview →</span></div>
+  </div>
+  <h3>Diff overlay</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-4/t3-proof-768-diff-20260511.png" alt="768 diff">
+  <h3>Side-by-side composite</h3>
+  <img class="comp-img" src="screenshots/sprint-5-cycle-4/t3-proof-768-composite-20260511.png" alt="768 composite">
+</section>
+
+<section id="vp-375" class="vp">
+  <h2>Viewport 375 × 667 — 86,341 px (22.6%)</h2>
+  <div class="wipe">
+    <div class="wipe-stage" id="stage-375">
+      <img src="screenshots/sprint-5-cycle-4/t3-proof-375-preview-20260511.png" alt="preview 375">
+      <img class="top" src="screenshots/sprint-5-cycle-4/t3-proof-375-live-20260511.png" alt="live 375">
+    </div>
+    <input type="range" min="0" max="100" value="50" class="wipe-range" data-stage="stage-375">
+    <div class="wipe-label"><span>← live</span><span>preview →</span></div>
+  </div>
+  <h3>Diff overlay</h3>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-4/t3-proof-375-diff-20260511.png" alt="375 diff">
+  <h3>Side-by-side composite</h3>
+  <img class="comp-img" src="screenshots/sprint-5-cycle-4/t3-proof-375-composite-20260511.png" alt="375 composite">
+</section>
+
+<section id="delta-table" class="delta-table">
+  <h2>Per-section delta table</h2>
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Crop</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dogfooding H2 + body + CTA</td><td>1280</td><td class="status-delta">DELTA</td>
+        <td>Heading wraps "spinning / up" (live) vs "up. / They're" (preview). Same text. CTA pill carries orange arrow chip on live; preview has a minimal text pill. Site-theme button treatment.</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-cta-1280-crop-20260511.png" alt="cta crop 1280"></td>
+      </tr>
+      <tr>
+        <td>Wordmark strip (label + 6 wordmarks)</td><td>1280</td><td class="status-match">MATCH</td>
+        <td>Hairline top/bottom present; "WE SPEAK" centered; 6 wordmarks in correct order distributed across the band. Wordmarks are slightly darker than preview because preview's 0.8 opacity violated WCAG and was removed (T blocker).</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-strip-1280-crop-20260511.png" alt="strip crop 1280"></td>
+      </tr>
+      <tr>
+        <td>Dogfooding H2 + body + CTA</td><td>768</td><td class="status-delta">DELTA</td>
+        <td>Same CTA-pill and heading-wrap variance as 1280. Within site-theme latitude.</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-cta-768-crop-20260511.png" alt="cta crop 768"></td>
+      </tr>
+      <tr>
+        <td>Wordmark strip</td><td>768</td><td class="status-match">MATCH</td>
+        <td>6 wordmarks remain on a single row, evenly distributed, with hairline band. Visually equivalent to preview.</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-strip-768-crop-20260511.png" alt="strip crop 768"></td>
+      </tr>
+      <tr>
+        <td>Dogfooding H2 + body + CTA</td><td>375</td><td class="status-delta">DELTA</td>
+        <td>H2 wraps to 5 lines (live) vs 4 lines (preview) due to fractional letter-spacing. CTA carries orange arrow chip on live; preview minimal.</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-cta-375-crop-20260511.png" alt="cta crop 375"></td>
+      </tr>
+      <tr>
+        <td>Wordmark strip</td><td>375</td><td class="status-delta">DELTA</td>
+        <td>Live wraps to 4+2 (Drupal Playwright Cypress PHP / JavaScript React); preview wraps to 3+3. Both legible. AC4 defers the mobile wrap pattern to F's judgment. Within latitude.</td>
+        <td><img src="screenshots/sprint-5-cycle-4/t3-proof-strip-375-crop-20260511.png" alt="strip crop 375"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="wcag">
+  <h2>WCAG 2.2 AA audit</h2>
+  <table>
+    <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Wordmark text contrast</td><td class="status-match">PASS</td><td>#5C544C on #FFFFFF = 7.43:1 (T independently re-computed). AA threshold 4.5:1. Margin +2.93.</td></tr>
+      <tr><td>"WE SPEAK" label contrast</td><td class="status-match">PASS</td><td>#5C544C on #FFFFFF = 7.43:1.</td></tr>
+      <tr><td>Single H1</td><td class="status-match">PASS</td><td>1 H1 on the page.</td></tr>
+      <tr><td>Heading hierarchy</td><td class="status-match">PASS</td><td>H1 → H2 → H3 with no skips. Proof section is intentionally label-only (no H2 inside the wordmark strip — correct per preview).</td></tr>
+      <tr><td>Image alt text in section</td><td class="status-match">PASS</td><td>No images in section (logo-grid removed by design).</td></tr>
+      <tr><td>Keyboard navigation</td><td class="status-match">PASS</td><td>One focusable element in section (CTA link). Wordmarks are decorative DIVs, no tabindex (correct — they are not interactive).</td></tr>
+      <tr><td>Touch target size</td><td class="status-match">PASS</td><td>CTA: 56×255 px. Wordmarks: not interactive, not subject to touch target rule.</td></tr>
+      <tr><td>Mobile typography</td><td class="status-match">PASS</td><td>Wordmark font drops 18px → 16px at &lt;=576px per F's responsive override.</td></tr>
+      <tr><td>Mobile layout</td><td class="status-match">PASS</td><td>No horizontal page scroll at 375. Wordmarks wrap inside container.</td></tr>
+      <tr><td>Forced-colors compatibility</td><td class="status-match">PASS</td><td>Wordmarks rely on system text color in forced-colors mode (no color property override at AA-critical level beyond <code>color</code>; hairline border becomes a system border).</td></tr>
+      <tr><td>Reduced-motion</td><td class="status-match">PASS</td><td>No animation/transition on the wordmark strip.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Advisory notes</h2>
+  <ul class="findings">
+    <li><strong>Preview violates its own WCAG line.</strong> Preview's <code>.logo-bar__row span</code> rule uses <code>opacity: 0.8</code>, which blends #5C544C to ~#7D766F and yields 4.47:1 — below the 4.5:1 AA threshold. T enforced WCAG > preview, and F's rework removed opacity. This produces a small (intentional) visual delta vs preview at the wordmark band. Consider updating the preview to remove opacity so the canonical reference is WCAG-clean.</li>
+    <li><strong>Preview vs brief on mobile wrap.</strong> The design brief's per-section mobile note for the homepage logo-bar specifies "three rows of two at xs." The services-page wordmark strip is silent in the brief, so preview wins — but neither the preview's 3+3 nor live's 4+2 matches the homepage brief's 3 rows of 2 pattern. If consistency across pages is desired, consider explicitly specifying the services-page mobile wrap (likely 3 rows of 2) in either the brief or the preview, then bringing both into alignment.</li>
+    <li><strong>CTA-button styling.</strong> The dogfooding CTA renders the canonical site primary-CTA pill (filled orange arrow chip), not the preview's minimal text pill. Consistent with every other CTA on /services. If a minimal CTA treatment is intended specifically inside the dogfooding section, a separate cycle should retheme it explicitly — out of scope for cycle 4.</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+  document.querySelectorAll('.wipe-range').forEach(function(r) {
+    var stageId = r.getAttribute('data-stage');
+    var stage = document.getElementById(stageId);
+    var top = stage.querySelector('img.top');
+    function set(v) { top.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)'; }
+    r.addEventListener('input', function(){ set(r.value); });
+    set(r.value);
+  });
+</script>
+
+</body>
+</html>

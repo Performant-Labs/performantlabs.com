@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>S Report — Sprint 4 Cycle 5 — Site-wide a11y polish</title>
+<style>
+  :root { --pass: #1f7a3a; --rework: #b1361e; --bg: #faf7f1; --ink: #1a1a1a; --rule: #d9d2c4; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 1180px; margin: 2rem auto; padding: 0 1.25rem; color: var(--ink); background: var(--bg); line-height: 1.5; }
+  h1 { font-size: 1.9rem; margin-top: 0; }
+  h2 { font-size: 1.3rem; margin-top: 2.25rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.3rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.6rem; }
+  .verdict { display: inline-block; padding: 0.55rem 1.2rem; font-size: 1.5rem; font-weight: 700; color: white; border-radius: 6px; }
+  .verdict.pass { background: var(--pass); }
+  .verdict.rework { background: var(--rework); }
+  .summary { background: white; border: 1px solid var(--rule); padding: 1rem 1.4rem; border-radius: 8px; margin: 1rem 0 2rem; }
+  table { border-collapse: collapse; width: 100%; margin: 0.5rem 0 1rem; background: white; }
+  th, td { border: 1px solid var(--rule); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; font-size: 0.92rem; }
+  th { background: #efe8d8; }
+  code { background: #efe8d8; padding: 1px 5px; border-radius: 3px; font-size: 0.85em; }
+  ul { padding-left: 1.3rem; }
+  .comparator { position: relative; max-width: 100%; margin: 1rem 0; user-select: none; border: 1px solid var(--rule); overflow: hidden; background: white; }
+  .comparator .layer { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; top: 0; left: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin-top: 0.4rem; }
+  .comparator-label { display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; padding: 0.2rem 0.4rem; }
+  details { margin: 0.5rem 0; }
+  img.full { width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin: 0.5rem 0; }
+  nav.toc { background: white; border: 1px solid var(--rule); padding: 0.6rem 1rem; border-radius: 6px; }
+  nav.toc a { margin-right: 0.9rem; }
+  .delta-zero { color: var(--pass); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>S Audit Report — Sprint 4 Cycle 5</h1>
+<p><strong>Page:</strong> <code>/articles</code> &middot; <strong>Branch:</strong> <code>aa/pl-sprint-4-phase-5-a11y-polish</code> &middot; <strong>Date:</strong> 2026-05-11</p>
+
+<div class="summary">
+  <div class="verdict pass">PASS</div>
+  <p style="margin: 0.8rem 0 0;">
+    Cycle 5's only code change is a DOM move of <code>&lt;section class="page-title"&gt;</code> from outside <code>&lt;main&gt;</code> to inside <code>&lt;main&gt;</code> on <code>/articles</code>. Per-viewport pixel diff:
+  </p>
+  <ul>
+    <li>1280&times;800 — <span class="delta-zero">0 pixels different (0.0000%)</span></li>
+    <li>375&times;667 — <span class="delta-zero">0 pixels different (0.0000%)</span></li>
+  </ul>
+  <p style="margin: 0.4rem 0 0;">Zero visual regression. Heading hierarchy and Tab focus order are logical and unaffected by the parent-element change.</p>
+</div>
+
+<nav class="toc">
+  <a href="#diffs">What I see different</a>
+  <a href="#vp1280">1280 comparator</a>
+  <a href="#vp375">375 comparator</a>
+  <a href="#tab-order">Tab order</a>
+  <a href="#headings">Headings</a>
+</nav>
+
+<h2 id="diffs">What I see different (plain English)</h2>
+<p>No visible differences detected at any viewport. The page-title cream band, "Field notes" kicker, "Articles." H1, lede paragraph, category filters, and article cards all render in identical positions before and after the cycle-5 change. The DOM-parent change (from sibling of <code>&lt;main&gt;</code> to first content child of <code>&lt;main&gt;</code>) has no CSS effect because <code>.page-title</code> is styled without reliance on its parent.</p>
+
+<h2>Per-viewport diff summary</h2>
+<table>
+  <thead><tr><th>Viewport</th><th>Pixels different (AE)</th><th>Whole-page %</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td>1280 &times; 800</td><td>0</td><td>0.0000%</td><td>MATCH</td></tr>
+    <tr><td>375 &times; 667</td><td>0</td><td>0.0000%</td><td>MATCH</td></tr>
+  </tbody>
+</table>
+<p>768 viewport was not captured — Cycle 5 introduces no responsive overrides and the change is template-structural only; with 0-pixel deltas at both desktop and mobile bookends, an intermediate breakpoint capture would not change the verdict.</p>
+
+<h2 id="vp1280">1280 &times; 800 — wipe slider</h2>
+<div class="comparator">
+  <img class="layer base" src="screenshots/cycle-5/t3-articles-1280-baseline-20260511.png" alt="baseline 1280">
+  <img class="layer top"  src="screenshots/cycle-5/t3-articles-1280-cycle5-20260511.png"  alt="cycle-5 1280" id="top1280">
+</div>
+<div class="comparator-label"><span>baseline (left)</span><span>cycle-5 (right) — drag to reveal</span></div>
+<input type="range" min="0" max="100" value="50" oninput="document.getElementById('top1280').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+<details><summary>ImageMagick diff PNG (any red = pixel delta)</summary>
+  <img class="full" src="screenshots/cycle-5/t3-articles-1280-diff-20260511.png" alt="diff 1280">
+</details>
+<details><summary>Side-by-side composite (baseline | cycle-5)</summary>
+  <img class="full" src="screenshots/cycle-5/t3-articles-1280-composite-20260511.png" alt="composite 1280">
+</details>
+
+<h2 id="vp375">375 &times; 667 — wipe slider</h2>
+<div class="comparator">
+  <img class="layer base" src="screenshots/cycle-5/t3-articles-375-baseline-20260511.png" alt="baseline 375">
+  <img class="layer top"  src="screenshots/cycle-5/t3-articles-375-cycle5-20260511.png"  alt="cycle-5 375" id="top375">
+</div>
+<div class="comparator-label"><span>baseline (left)</span><span>cycle-5 (right) — drag to reveal</span></div>
+<input type="range" min="0" max="100" value="50" oninput="document.getElementById('top375').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+<details><summary>ImageMagick diff PNG (any red = pixel delta)</summary>
+  <img class="full" src="screenshots/cycle-5/t3-articles-375-diff-20260511.png" alt="diff 375">
+</details>
+<details><summary>Side-by-side composite (baseline | cycle-5)</summary>
+  <img class="full" src="screenshots/cycle-5/t3-articles-375-composite-20260511.png" alt="composite 375">
+</details>
+
+<h2 id="tab-order">Keyboard Tab order on <code>/articles</code> (1280, first 20 stops)</h2>
+<table>
+  <thead><tr><th>#</th><th>Element</th><th>In main?</th><th>Target</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Skip to main content</td><td>—</td><td><code>#main-content</code></td></tr>
+    <tr><td>2</td><td>Logo link</td><td>—</td><td><code>/</code></td></tr>
+    <tr><td>3&ndash;8</td><td>Primary nav (Services, How we do it, Articles, Open source projects, About us, Contact us)</td><td>—</td><td>nav links</td></tr>
+    <tr><td>9</td><td>Breadcrumb "Home" link</td><td>—</td><td><code>/</code></td></tr>
+    <tr><td>10&ndash;14</td><td>Category filter pills (All / Automated Testing / Cypress / Open source / Talks)</td><td>main</td><td>filters</td></tr>
+    <tr><td>15&ndash;20</td><td>Article card titles (6 cards)</td><td>main</td><td>article URLs</td></tr>
+  </tbody>
+</table>
+<p>The page-title cream band sits between the skip-target anchor and the category filters. It contains static text only (kicker + H1 + lede), so it correctly produces no focus stops. Tab order reflects visual reading order.</p>
+
+<h2 id="headings">Heading hierarchy on <code>/articles</code></h2>
+<table>
+  <thead><tr><th>Tag</th><th>Visually hidden?</th><th>In <code>&lt;main&gt;</code>?</th><th>Text</th></tr></thead>
+  <tbody>
+    <tr><td>H2</td><td>yes</td><td>—</td><td>Main navigation (nav landmark label)</td></tr>
+    <tr><td>H2</td><td>yes</td><td>—</td><td>Breadcrumb (breadcrumb nav label)</td></tr>
+    <tr><td>H1</td><td>no</td><td>yes</td><td>Articles.</td></tr>
+    <tr><td>H3 &times; 6</td><td>no</td><td>yes</td><td>Article card titles</td></tr>
+    <tr><td>H2</td><td>yes</td><td>—</td><td>Footer (nav landmark label)</td></tr>
+    <tr><td>H3 &times; 3</td><td>no</td><td>—</td><td>Services / Resources / Company (footer)</td></tr>
+  </tbody>
+</table>
+<p>Single H1 inside <code>&lt;main&gt;</code>. Visually-hidden H2s correctly scope landmark labels. H2-to-H3 skip on article cards is pre-existing and out of scope for this cycle.</p>
+
+<h2>Acceptance criteria (visual + landmark portion)</h2>
+<table>
+  <thead><tr><th>Criterion</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;section class="page-title"&gt;</code> renders inside <code>&lt;main&gt;</code> on <code>/articles</code></td><td>PASS (DOM line 459 inside main 456&ndash;829)</td></tr>
+    <tr><td>No visual regression on <code>/articles</code> from the DOM move</td><td>PASS (0 px delta at 1280 and 375)</td></tr>
+    <tr><td>Heading hierarchy clean</td><td>PASS (single H1, no new skips)</td></tr>
+    <tr><td>Keyboard focus order logical</td><td>PASS (skip-link → header nav → breadcrumb → main-content)</td></tr>
+  </tbody>
+</table>
+
+<h2>Note on AC5 (pa11y)</h2>
+<p>Operator's spawn-prompt precondition override directs S to treat T's AC5 block as non-blocking: pa11y's four errors are pre-existing operator-approved brand-color deviations documented in <code>base.css</code>, not regressions introduced by Cycle 5. S did not re-run pa11y.</p>
+
+</body>
+</html>

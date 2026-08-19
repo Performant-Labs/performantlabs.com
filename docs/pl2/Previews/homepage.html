@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — homepage preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with webinars/email */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta (192° complement, desaturated) */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    .container--prose { max-width: var(--prose-max); margin: 0 auto; padding: 0 var(--space-lg); }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+    .btn--ghost-on-dark {
+      background: transparent;
+      color: var(--on-dark);
+      border-color: rgba(245,239,226,0.4);
+    }
+    .btn--ghost-on-dark:hover {
+      background: rgba(245,239,226,0.08);
+      color: var(--on-dark);
+      border-color: var(--on-dark);
+      text-decoration: none;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Sections ---------- */
+    section { padding: var(--space-section) 0; }
+    .section--canvas { background: var(--canvas); color: var(--ink); }
+    .section--cream { background: var(--cream); color: var(--ink); }
+    .section--espresso { background: var(--espresso); color: var(--on-dark); }
+    .section--espresso h1, .section--espresso h2, .section--espresso h3 { color: var(--on-dark); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 120px 0 var(--space-section); background: var(--canvas); }
+    .hero__inner { max-width: 920px; margin: 0 auto; text-align: center; }
+    .hero__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__kicker::before, .hero__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .hero h1 {
+      font-size: 72px;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--space-xl);
+    }
+    .hero__subhead {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--body);
+      max-width: 720px;
+      margin: 0 auto var(--space-2xl);
+    }
+    .hero__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+
+    /* ---------- Logo bar ---------- */
+    .logo-bar { padding: var(--space-2xl) 0; border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); background: var(--canvas); }
+    .logo-bar__label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: center;
+      margin-bottom: var(--space-xl);
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+    .logo-bar__row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--space-2xl); flex-wrap: wrap;
+    }
+    .logo-bar__row img {
+      max-height: 28px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%);
+      opacity: 0.7;
+    }
+    .logo-bar__row span {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--muted);
+      letter-spacing: -0.4px;
+      opacity: 0.8;
+    }
+
+    /* ---------- Feature cards ---------- */
+    .features { padding: var(--space-section) 0; background: var(--canvas); }
+    .features__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-lg);
+    }
+    .feature-card {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      transition: border-color 150ms ease-out;
+    }
+    .feature-card:hover { border-color: var(--primary); }
+    .feature-card__num {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-deep);
+      letter-spacing: 1px;
+      margin-bottom: var(--space-lg);
+    }
+    .feature-card__num::before {
+      content: "";
+      display: inline-block;
+      width: 24px; height: 1px;
+      background: var(--accent);
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.2px;
+      margin-bottom: var(--space-md);
+    }
+    .feature-card p { font-size: 16px; line-height: 1.6; color: var(--body); }
+
+    /* ---------- Section heads ---------- */
+    .section-head { text-align: center; margin-bottom: var(--space-2xl); }
+    .section-head h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      font-weight: 500;
+    }
+    .section-head__kicker {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-base);
+    }
+
+    /* ---------- Heal flow diagram ---------- */
+    .heal-flow {
+      background: var(--canvas);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius-lg);
+      padding: var(--space-2xl) var(--space-xl);
+      margin: 0 auto;
+      max-width: 1040px;
+    }
+    .heal-flow svg { width: 100%; height: auto; display: block; }
+    .heal-flow__caption {
+      max-width: var(--prose-max);
+      margin: var(--space-2xl) auto 0;
+      text-align: center;
+      color: var(--body);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .heal-flow__caption code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--surface-warm);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+    }
+
+    /* ---------- Built-for list ---------- */
+    .built-for { padding: var(--space-section) 0; background: var(--canvas); }
+    .built-for h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: var(--space-2xl);
+    }
+    .built-for__list { list-style: none; padding: 0; margin: 0; max-width: 720px; }
+    .built-for__list li {
+      display: flex; align-items: flex-start; gap: var(--space-md);
+      padding: var(--space-md) 0;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .built-for__list li::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 20px; height: 20px;
+      margin-top: 4px;
+      border-radius: 50%;
+      background: var(--primary);
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' d='M5 10l3 3 7-7'/></svg>");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* ---------- FAQ ---------- */
+    .faq { padding: var(--space-section) 0; background: var(--cream); }
+    .faq h2 {
+      font-size: 40px;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+    }
+    .faq__list {
+      max-width: 800px;
+      margin: 0 auto;
+      border-top: 1px solid var(--hairline);
+    }
+    .faq details { border-bottom: 1px solid var(--hairline); }
+    .faq summary {
+      cursor: pointer;
+      list-style: none;
+      padding: var(--space-lg) 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--ink);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: var(--space-md);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+";
+      color: var(--primary);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .faq details[open] summary::after { content: "−"; }
+    .faq__answer {
+      padding: 0 0 var(--space-lg);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--body);
+      max-width: 680px;
+    }
+
+    /* ---------- Closing CTA ---------- */
+    .closing-cta { padding: 120px 0; text-align: center; background: var(--espresso); }
+    .closing-cta__kicker {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: var(--space-xl);
+    }
+    .closing-cta__kicker::before, .closing-cta__kicker::after {
+      content: "";
+      width: 28px; height: 1px;
+      background: var(--accent);
+    }
+    .closing-cta h2 {
+      font-size: 56px;
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      font-weight: 500;
+      color: var(--on-dark);
+      margin: 0 auto var(--space-xl);
+      max-width: 880px;
+    }
+    .closing-cta p {
+      max-width: 640px;
+      margin: 0 auto var(--space-2xl);
+      color: var(--on-dark-muted);
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .closing-cta__ctas { display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .features__grid { grid-template-columns: 1fr; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 767px) {
+      section, .hero { padding: var(--space-3xl) 0; }
+      .hero h1 { font-size: 44px; letter-spacing: -1px; }
+      .section-head h2, .built-for h2, .faq h2 { font-size: 32px; letter-spacing: -0.8px; }
+      .closing-cta h2 { font-size: 36px; letter-spacing: -0.8px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="#" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="#">Services</a>
+        <a href="#">How we do it</a>
+        <a href="#">Articles</a>
+        <a href="#">Open source projects</a>
+        <a href="#">About us</a>
+        <a href="#">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <span class="hero__kicker">Drupal testing</span>
+      <h1>Ship Drupal releases<br>with confidence.</h1>
+      <p class="hero__subhead">
+        Performant Labs built the Drupal testing stack the ecosystem already uses (ATK, Testor), is building CTRFHub for the broader testing community, extends them with AI workflows that heal broken tests on their own — and embeds senior testing engineers alongside your team when you need it.
+      </p>
+      <div class="hero__ctas">
+        <a href="#" class="btn btn--primary">Book a testing review</a>
+        <a href="#" class="btn btn--secondary">See how we test this site</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGO BAR -->
+  <div class="logo-bar">
+    <div class="container">
+      <div class="logo-bar__label">Trusted by teams at</div>
+      <div class="logo-bar__row">
+        <img src="client-logos/CBS-Interactive-logo.png" alt="CBS Interactive logo">
+        <img src="client-logos/DocuSign-logo.png" alt="DocuSign logo">
+        <img src="client-logos/Orange-logo.png" alt="Orange logo">
+        <img src="client-logos/Renesas_Electronics_logo.png" alt="Renesas Electronics logo">
+        <img src="client-logos/Robert-Half-logo.png" alt="Robert Half logo">
+        <img src="client-logos/Tesla-logo.png" alt="Tesla logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE CARDS -->
+  <section class="features">
+    <div class="container">
+      <div class="features__grid">
+        <article class="feature-card">
+          <div class="feature-card__num">01 / Tools</div>
+          <h3>Tools the Drupal community uses</h3>
+          <p>ATK (Automated Testing Kit) and Testor are ours. CTRFHub is in active development. All actively maintained, adopted across the ecosystem. Read the source. Ask questions.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__num">02 / AI</div>
+          <h3>Tests that heal themselves</h3>
+          <p>Claude agents diagnose and fix broken Playwright tests in CI — nightly, on this very site. Not a demo. A shipped workflow, running right now.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__num">03 / People</div>
+          <h3>Experts alongside your team</h3>
+          <p>When you need hands, we embed senior testing engineers. Nearshore project leads available. Fully billable or fractional.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEAL NIGHTLY DIAGRAM -->
+  <section class="section--cream">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-head__kicker">Dogfooding</span>
+        <h2>We heal our own tests nightly.</h2>
+      </div>
+
+      <div class="heal-flow">
+        <svg viewBox="0 0 960 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Test fails, Claude diagnoses, PR opens, Engineer reviews">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#1893b4"/>
+            </marker>
+          </defs>
+
+          <!-- Node 1 -->
+          <g transform="translate(20,60)">
+            <rect width="200" height="80" rx="8" ry="8" fill="#FFFFFF" stroke="#E5E1DC" stroke-width="1"/>
+            <text x="20" y="32" font-family="'Consolas','Monaco',monospace" font-size="11" fill="#8E4A2A" font-weight="500" letter-spacing="1">01</text>
+            <text x="20" y="58" font-family="Rubik,sans-serif" font-size="16" fill="#2A2520" font-weight="500">Test fails in CI</text>
+          </g>
+          <line x1="220" y1="100" x2="270" y2="100" stroke="#1893b4" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Node 2 -->
+          <g transform="translate(270,60)">
+            <rect width="200" height="80" rx="8" ry="8" fill="#FFFFFF" stroke="#E5E1DC" stroke-width="1"/>
+            <text x="20" y="32" font-family="'Consolas','Monaco',monospace" font-size="11" fill="#8E4A2A" font-weight="500" letter-spacing="1">02</text>
+            <text x="20" y="58" font-family="Rubik,sans-serif" font-size="16" fill="#2A2520" font-weight="500">Claude diagnoses</text>
+          </g>
+          <line x1="470" y1="100" x2="520" y2="100" stroke="#1893b4" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Node 3 -->
+          <g transform="translate(520,60)">
+            <rect width="200" height="80" rx="8" ry="8" fill="#FFFFFF" stroke="#E5E1DC" stroke-width="1"/>
+            <text x="20" y="32" font-family="'Consolas','Monaco',monospace" font-size="11" fill="#8E4A2A" font-weight="500" letter-spacing="1">03</text>
+            <text x="20" y="58" font-family="Rubik,sans-serif" font-size="16" fill="#2A2520" font-weight="500">PR opens with fix</text>
+          </g>
+          <line x1="720" y1="100" x2="770" y2="100" stroke="#1893b4" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+          <!-- Node 4 (the human-in-the-loop endpoint, marked with primary border) -->
+          <g transform="translate(770,60)">
+            <rect width="170" height="80" rx="8" ry="8" fill="#FFFFFF" stroke="#1893b4" stroke-width="2"/>
+            <text x="20" y="32" font-family="'Consolas','Monaco',monospace" font-size="11" fill="#8E4A2A" font-weight="500" letter-spacing="1">04</text>
+            <text x="20" y="58" font-family="Rubik,sans-serif" font-size="16" fill="#2A2520" font-weight="500">Engineer reviews</text>
+          </g>
+        </svg>
+      </div>
+
+      <p class="heal-flow__caption">
+        Every night, Playwright tests run against this site in CI. When a test breaks, a Claude agent diagnoses the failure, classifies it (test issue or website issue), and — when appropriate — opens a pull request with the fix. No Monday-morning flake triage. The workflow is in our public repo. The code that decides what our AI is allowed to touch is <code>heal-tests-claude.yml</code>. <a href="#">See the workflow →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- BUILT FOR -->
+  <section class="built-for">
+    <div class="container container--prose">
+      <h2>Built for the whole Drupal team.</h2>
+      <ul class="built-for__list">
+        <li>Dev teams catch regressions before users do.</li>
+        <li>Engineers deploy with confidence, not anxiety.</li>
+        <li>Manual test cycles drop as automated runs cover the regression surface.</li>
+        <li>Leadership ships on schedule and on budget.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2>Frequently asked questions.</h2>
+      <div class="faq__list">
+        <details>
+          <summary>What is the Automated Testing Kit (ATK)?</summary>
+          <div class="faq__answer">
+            ATK is the open-source Drupal test framework we maintain on drupal.org. It wraps Playwright and Cypress with Drupal-specific helpers — content fixtures, role-based logins, contrib-module compatibility — so a fresh test suite on a Drupal site takes hours, not weeks.
+          </div>
+        </details>
+        <details>
+          <summary>Do you work with Drupal CMS and contributed distributions?</summary>
+          <div class="faq__answer">
+            Yes. We test stock Drupal core, Drupal CMS, and contributed distributions. If a distribution has unusual installation flow or content model, we cover it in the engagement scope.
+          </div>
+        </details>
+        <details>
+          <summary>How does a testing engagement work?</summary>
+          <div class="faq__answer">
+            We start with a 30-minute review of your existing setup. We look at your current workflow, tell you honestly where autonomous healing would help and where it wouldn't, and leave you with a one-page writeup. No sales pitch. No obligation.
+          </div>
+        </details>
+        <details>
+          <summary>Can you test a Drupal 7 or Drupal 9 migration in flight?</summary>
+          <div class="faq__answer">
+            Yes. Migration projects are where regression coverage matters most. We can build a parallel test suite against the legacy site, run the same suite against the new one, and surface every behavioral diff before launch.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="closing-cta">
+    <div class="container">
+      <span class="closing-cta__kicker">Book a review</span>
+      <h2>Ready for a release you don't have to babysit?</h2>
+      <p>Book a 30-minute testing review with a senior engineer. We'll look at your current workflow, tell you honestly where autonomous healing would (and wouldn't) help, and leave you with a one-page writeup. No sales pitch. No obligation.</p>
+      <div class="closing-cta__ctas">
+        <a href="#" class="btn btn--primary">Book a testing review</a>
+        <a href="#" class="btn btn--ghost-on-dark">Or test with the tools</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#">Testing-suite takeover</a></li>
+            <li><a href="#">Embedded testing engineer</a></li>
+            <li><a href="#">Autonomous healing pilot</a></li>
+            <li><a href="#">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Articles</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="#">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>© Performant Labs</span>
+        <span>Preview build — not yet implemented in Drupal</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

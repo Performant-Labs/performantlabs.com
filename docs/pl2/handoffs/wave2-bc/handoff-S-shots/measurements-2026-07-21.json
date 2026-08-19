@@ -1,0 +1,755 @@
+{
+  "viewports": {
+    "360": {
+      "scrollWidth": 345,
+      "innerWidth": 360,
+      "h1Count": 1,
+      "heroBottom": 1381,
+      "sections": [
+        {
+          "cls": "dy-section dy-section--proof-strip theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 p",
+          "top": 1381,
+          "bottom": 1924,
+          "h": 542,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 1924,
+          "bottom": 2922,
+          "h": 998,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "Product features"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy dy-section--feature-anatomy-reverse theme--white container dy-section--section-ma",
+          "top": 2922,
+          "bottom": 3794,
+          "h": 873,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "See patterns, not just red X's"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 3794,
+          "bottom": 4688,
+          "h": 894,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "Find the one failing assertion, fast"
+        },
+        {
+          "cls": "dy-section dy-section--centered-white theme--light container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "top": 4688,
+          "bottom": 6960,
+          "h": 2272,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "The team behind Aftersight tests Drupal for a living. ATK, T"
+        },
+        {
+          "cls": "dy-section dy-section--logo-grid dy-section--post-hero-logos theme--light container dy-section--section-max-width margin",
+          "top": 6960,
+          "bottom": 7396,
+          "h": 435,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "top": 7396,
+          "bottom": 8392,
+          "h": 996,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "We heal our own tests nightly."
+        },
+        {
+          "cls": "dy-section theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 8392,
+          "bottom": 9012,
+          "h": 620,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "Built for the whole Drupal team."
+        },
+        {
+          "cls": "dy-section theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 9012,
+          "bottom": 9697,
+          "h": 685,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "Frequently asked questions."
+        },
+        {
+          "cls": "dy-section theme--dark container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bot",
+          "top": 9697,
+          "bottom": 10363,
+          "h": 666,
+          "bg": "rgb(31, 26, 20)",
+          "bgImg": "none",
+          "padTop": "64px",
+          "padBottom": "64px",
+          "head": "Ready for a release you don’t have to babysit?"
+        }
+      ]
+    },
+    "768": {
+      "scrollWidth": 753,
+      "innerWidth": 768,
+      "h1Count": 1,
+      "heroBottom": 1643,
+      "sections": [
+        {
+          "cls": "dy-section dy-section--proof-strip theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 p",
+          "top": 1643,
+          "bottom": 1962,
+          "h": 320,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 1962,
+          "bottom": 2763,
+          "h": 801,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Product features"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy dy-section--feature-anatomy-reverse theme--white container dy-section--section-ma",
+          "top": 2763,
+          "bottom": 3432,
+          "h": 668,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "See patterns, not just red X's"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 3432,
+          "bottom": 4132,
+          "h": 701,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Find the one failing assertion, fast"
+        },
+        {
+          "cls": "dy-section dy-section--centered-white theme--light container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "top": 4132,
+          "bottom": 5658,
+          "h": 1525,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "The team behind Aftersight tests Drupal for a living. ATK, T"
+        },
+        {
+          "cls": "dy-section dy-section--logo-grid dy-section--post-hero-logos theme--light container dy-section--section-max-width margin",
+          "top": 5658,
+          "bottom": 6049,
+          "h": 391,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "top": 6049,
+          "bottom": 6862,
+          "h": 813,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "We heal our own tests nightly."
+        },
+        {
+          "cls": "dy-section theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 6862,
+          "bottom": 7433,
+          "h": 571,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Built for the whole Drupal team."
+        },
+        {
+          "cls": "dy-section theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 7433,
+          "bottom": 8042,
+          "h": 608,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Frequently asked questions."
+        },
+        {
+          "cls": "dy-section theme--dark container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bot",
+          "top": 8042,
+          "bottom": 8611,
+          "h": 569,
+          "bg": "rgb(31, 26, 20)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Ready for a release you don’t have to babysit?"
+        }
+      ]
+    },
+    "1280": {
+      "scrollWidth": 1265,
+      "innerWidth": 1280,
+      "h1Count": 1,
+      "heroBottom": 1689,
+      "sections": [
+        {
+          "cls": "dy-section dy-section--proof-strip theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 p",
+          "top": 1689,
+          "bottom": 1904,
+          "h": 215,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 1904,
+          "bottom": 2535,
+          "h": 631,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Product features"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy dy-section--feature-anatomy-reverse theme--white container dy-section--section-ma",
+          "top": 2535,
+          "bottom": 3089,
+          "h": 554,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "See patterns, not just red X's"
+        },
+        {
+          "cls": "dy-section dy-section--feature-anatomy theme--white container dy-section--section-max-width margin-top--0 margin-bottom-",
+          "top": 3089,
+          "bottom": 3643,
+          "h": 554,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Find the one failing assertion, fast"
+        },
+        {
+          "cls": "dy-section dy-section--centered-white theme--light container dy-section--section-max-width margin-top--0 margin-bottom--",
+          "top": 3643,
+          "bottom": 4627,
+          "h": 984,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "The team behind Aftersight tests Drupal for a living. ATK, T"
+        },
+        {
+          "cls": "dy-section dy-section--logo-grid dy-section--post-hero-logos theme--light container dy-section--section-max-width margin",
+          "top": 4627,
+          "bottom": 4918,
+          "h": 291,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "48px",
+          "padBottom": "48px",
+          "head": ""
+        },
+        {
+          "cls": "dy-section dy-section--centered-light theme--light full-width dy-section--section-edge-to-edge margin-top--0 margin-bott",
+          "top": 4918,
+          "bottom": 5723,
+          "h": 804,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "We heal our own tests nightly."
+        },
+        {
+          "cls": "dy-section theme--white container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 5723,
+          "bottom": 6224,
+          "h": 501,
+          "bg": "rgb(255, 255, 255)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Built for the whole Drupal team."
+        },
+        {
+          "cls": "dy-section theme--light container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bo",
+          "top": 6224,
+          "bottom": 6832,
+          "h": 608,
+          "bg": "rgb(245, 239, 226)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Frequently asked questions."
+        },
+        {
+          "cls": "dy-section theme--dark container dy-section--section-max-width margin-top--0 margin-bottom--0 padding-top--l padding-bot",
+          "top": 6832,
+          "bottom": 7381,
+          "h": 549,
+          "bg": "rgb(31, 26, 20)",
+          "bgImg": "none",
+          "padTop": "96px",
+          "padBottom": "96px",
+          "head": "Ready for a release you don’t have to babysit?"
+        }
+      ]
+    }
+  },
+  "wcag": [
+    {
+      "name": "navDemotedMobile(drawer)",
+      "fg": "rgb(184, 175, 160)",
+      "bg": "oklch(0.172672 0.00893194 none / 0.95)",
+      "ratio": "9.67"
+    },
+    {
+      "name": "proofFig",
+      "fg": "rgb(142, 74, 42)",
+      "bg": "rgb(245, 239, 226)",
+      "size": "16px",
+      "weight": "800",
+      "ratio": "5.79"
+    },
+    {
+      "name": "navDemoted",
+      "fg": "rgb(92, 84, 76)",
+      "bg": "rgba(0, 0, 0, 0)",
+      "size": "13px",
+      "weight": "400",
+      "ratio": "7.43"
+    },
+    {
+      "name": "svcBody",
+      "error": "not found"
+    }
+  ],
+  "nav": {
+    "desktop": [
+      {
+        "href": "/aftersight",
+        "text": "Aftersight",
+        "color": "rgb(42, 37, 32)",
+        "fw": "700",
+        "fs": "15px",
+        "w": 79,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/services",
+        "text": "Services",
+        "color": "rgb(92, 84, 76)",
+        "fw": "400",
+        "fs": "13px",
+        "w": 54,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/how-we-do-it",
+        "text": "How we do it",
+        "color": "rgb(92, 84, 76)",
+        "fw": "400",
+        "fs": "13px",
+        "w": 82,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/open-source-projects",
+        "text": "Open source projects",
+        "color": "rgb(42, 37, 32)",
+        "fw": "700",
+        "fs": "15px",
+        "w": 165,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/articles",
+        "text": "Articles",
+        "color": "rgb(42, 37, 32)",
+        "fw": "700",
+        "fs": "15px",
+        "w": 60,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/about-us",
+        "text": "About us",
+        "color": "rgb(92, 84, 76)",
+        "fw": "400",
+        "fs": "13px",
+        "w": 58,
+        "h": 23,
+        "visible": true
+      },
+      {
+        "href": "/contact-us",
+        "text": "Contact us",
+        "color": "rgb(92, 84, 76)",
+        "fw": "400",
+        "fs": "13px",
+        "w": 71,
+        "h": 23,
+        "visible": true
+      }
+    ]
+  },
+  "drawer": {
+    "360": {
+      "expanded": true,
+      "panelBg": "oklch(0.172672 0.00893194 none / 0.95)",
+      "links": [
+        {
+          "href": "/aftersight",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/services",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/how-we-do-it",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/open-source-projects",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/articles",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/about-us",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        },
+        {
+          "href": "/contact-us",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 279,
+          "h": 52
+        }
+      ]
+    },
+    "768": {
+      "expanded": true,
+      "panelBg": "oklch(0.172672 0.00893194 none / 0.95)",
+      "links": [
+        {
+          "href": "/aftersight",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/services",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/how-we-do-it",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/open-source-projects",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/articles",
+          "color": "rgb(255, 255, 255)",
+          "fw": "700",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/about-us",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        },
+        {
+          "href": "/contact-us",
+          "color": "rgb(184, 175, 160)",
+          "fw": "400",
+          "fs": "24px",
+          "w": 687,
+          "h": 52
+        }
+      ]
+    }
+  },
+  "focus": [
+    {
+      "sel": "drawer demoted /services @360",
+      "outline": "rgb(184, 175, 160) none 0px",
+      "outlineOffset": "0px",
+      "matchesFV": false
+    },
+    {
+      "sel": ".site-header .primary-menu__link--level-1[href=\"/aftersight\"]",
+      "outline": "rgb(24, 147, 180) dotted 3px",
+      "outlineColor": "rgb(24, 147, 180)",
+      "outlineWidth": "3px",
+      "outlineStyle": "dotted",
+      "offset": "3px",
+      "matchesFV": true
+    },
+    {
+      "sel": ".site-header .primary-menu__link--level-1[href=\"/services\"]",
+      "outline": "rgb(24, 147, 180) dotted 3px",
+      "outlineColor": "rgb(24, 147, 180)",
+      "outlineWidth": "3px",
+      "outlineStyle": "dotted",
+      "offset": "3px",
+      "matchesFV": true
+    }
+  ],
+  "services360": {
+    "sectionW": 317,
+    "padL": "0px",
+    "padR": "0px",
+    "innerCls": "dy-section__container ",
+    "innerW": 317,
+    "innerPadL": "16px",
+    "innerPadR": "16px",
+    "cardW": 245,
+    "cardX": 50,
+    "h2W": 285,
+    "h2X": 30,
+    "h2Size": "30px"
+  },
+  "rhythm": {},
+  "proof360": {
+    "stripBg": "rgb(245, 239, 226)",
+    "stripPadTop": "48px",
+    "stripPadBottom": "48px",
+    "stripH": 542,
+    "items": [
+      {
+        "text": "★ —starsrepo is private for now",
+        "x": 99,
+        "y": 1429,
+        "w": 148,
+        "h": 61,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "15px",
+        "nWeight": "800"
+      },
+      {
+        "text": "—watchingpublic count at launch",
+        "x": 98,
+        "y": 1531,
+        "w": 149,
+        "h": 61,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "15px",
+        "nWeight": "800"
+      },
+      {
+        "text": "v0.2.2-devcurrent buildself-hosted · CTRF-native",
+        "x": 89,
+        "y": 1632,
+        "w": 167,
+        "h": 61,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "15px",
+        "nWeight": "800"
+      }
+    ],
+    "pill": {
+      "text": "MIT licensed",
+      "color": "rgb(142, 74, 42)",
+      "bg": "rgb(255, 255, 255)",
+      "border": "rgb(142, 74, 42)"
+    },
+    "buildNote": "Latest build note: development is underway in the open — follow progress on the build."
+  },
+  "proof1280": {
+    "stripBg": "rgb(245, 239, 226)",
+    "stripPadTop": "48px",
+    "stripPadBottom": "48px",
+    "stripH": 215,
+    "items": [
+      {
+        "text": "★ —starsrepo is private for now",
+        "x": 235,
+        "y": 1737,
+        "w": 148,
+        "h": 62,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "16px",
+        "nWeight": "800"
+      },
+      {
+        "text": "—watchingpublic count at launch",
+        "x": 447,
+        "y": 1737,
+        "w": 149,
+        "h": 62,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "16px",
+        "nWeight": "800"
+      },
+      {
+        "text": "v0.2.2-devcurrent buildself-hosted · CTRF-native",
+        "x": 660,
+        "y": 1737,
+        "w": 167,
+        "h": 62,
+        "nColor": "rgb(142, 74, 42)",
+        "nSize": "16px",
+        "nWeight": "800"
+      }
+    ],
+    "pill": {
+      "text": "MIT licensed",
+      "color": "rgb(142, 74, 42)",
+      "bg": "rgb(255, 255, 255)",
+      "border": "rgb(142, 74, 42)"
+    },
+    "buildNote": "Latest build note: development is underway in the open — follow progress on the build."
+  },
+  "features1280": [
+    [
+      {
+        "cls": "grid-cell--feature-copy",
+        "x": 51,
+        "w": 550
+      },
+      {
+        "cls": "grid-cell--feature-crop",
+        "x": 664,
+        "w": 550
+      }
+    ],
+    [
+      {
+        "cls": "grid-cell--feature-copy",
+        "x": 664,
+        "w": 550
+      },
+      {
+        "cls": "grid-cell--feature-crop",
+        "x": 51,
+        "w": 550
+      }
+    ],
+    [
+      {
+        "cls": "grid-cell--feature-copy",
+        "x": 51,
+        "w": 550
+      },
+      {
+        "cls": "grid-cell--feature-crop",
+        "x": 664,
+        "w": 550
+      }
+    ]
+  ]
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 2e — /services SDC migration — Visual audit report</title>
+<style>
+  body { font: 14px/1.5 -apple-system, system-ui, sans-serif; max-width: 1320px; margin: 1em auto; padding: 0 1em; color: #222; }
+  h1 { margin-bottom: 0.25em; }
+  h2 { border-bottom: 2px solid #ddd; padding-bottom: 0.25em; margin-top: 2em; }
+  .verdict { display: inline-block; padding: 0.5em 1em; font-size: 1.4em; font-weight: 700; border-radius: 6px; background: #1f6f3b; color: #fff; }
+  .meta { color: #555; margin: 0.5em 0 1.5em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 0.5em 0; }
+  th, td { border: 1px solid #ccc; padding: 6px 10px; text-align: left; font-size: 13px; }
+  th { background: #f3f3f3; }
+  .vp-block { margin: 2em 0; padding: 1em; border: 1px solid #ddd; border-radius: 4px; }
+  .comparator { position: relative; width: 100%; overflow: hidden; border: 1px solid #aaa; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .slider { width: 100%; margin: 0.5em 0 1em 0; }
+  .full { display: block; width: 100%; height: auto; border: 1px solid #aaa; margin: 0.5em 0; }
+  .label { font-weight: 600; margin: 1em 0 0.25em 0; }
+  nav.toc a { display: inline-block; margin-right: 1em; }
+  ul.findings li { margin: 0.25em 0; }
+</style>
+</head>
+<body>
+
+<h1>Cycle 2e — /services SDC migration — Visual audit report</h1>
+<p class="meta">Branch <code>aa/pl-sprint-11-cycle-2e-services-sdc</code> · Date 2026-05-12 · Issue <code>cycle-2e-services-sdc-issue.md</code></p>
+
+<p><span class="verdict">PASS</span></p>
+
+<p>Per-viewport pixel deltas (temporal self-diff on the post-migration live page):</p>
+<table>
+  <tr><th>Viewport</th><th>AE (pixels different)</th><th>Delta %</th><th>md5 live#1</th><th>md5 live#2</th></tr>
+  <tr><td>1280×800</td><td>0</td><td>0.00%</td><td>2c7632…2a33</td><td>2c7632…2a33</td></tr>
+  <tr><td>768×1024</td><td>0</td><td>0.00%</td><td>19fe15…6532</td><td>19fe15…6532</td></tr>
+  <tr><td>375×667</td><td>0</td><td>0.00%</td><td>e985f9…d7d</td><td>e985f9…d7d</td></tr>
+</table>
+
+<nav class="toc">
+  <a href="#findings">Findings</a>
+  <a href="#method">Method</a>
+  <a href="#vp1280">1280</a>
+  <a href="#vp768">768</a>
+  <a href="#vp375">375</a>
+</nav>
+
+<h2 id="findings">What I see different</h2>
+<ul class="findings">
+  <li><strong>No visible differences detected at any viewport.</strong> The post-migration /services page is byte-identical to itself across temporal capture runs (AE=0 and matching md5 at 1280, 768, 375).</li>
+  <li>F's structural reasoning is corroborated: the orphan SDC (<code>performant_labs_20260418:card-canvas</code>) and replacement (<code>dripyard_base:card-canvas</code>) share identical version hash <code>552876d9540c5ead</code> and identical core props; T confirmed all 4 components in entity 3 now bind to the replacement at the same hash. By construction, the migration produces an identical render.</li>
+</ul>
+
+<h2 id="method">Method &amp; rationale (no stash baseline)</h2>
+<p>Standard Sprint 10/11 stash-baseline diffing was not applicable here: the migration is a database content change (canvas_page entity 3 component_id rewrite) plus the deletion of a single orphan YAML. <code>git stash</code> cannot capture the DB rewrite, and the orphan YAML's deletion means no "before" config is reconstructable from disk on this branch.</p>
+<p>Verification therefore combines two evidentiary streams:</p>
+<ol>
+  <li><strong>Structural construction.</strong> Drupal SDC <code>active_version</code> is a content-derived hash of the component schema + template + libraries. Both providers expose <code>active_version: 552876d9540c5ead</code>; both <code>source_local_id: card-canvas</code>; the dripyard_base config adds one additive optional prop (<code>loading</code>, default <code>lazy</code>). With the same hash and the same template the render is identical by construction.</li>
+  <li><strong>Temporal self-diff.</strong> The post-migration /services page is screenshotted twice at each viewport. AE=0 (and byte-identical PNG md5) confirms deterministic rendering, ruling out time-varying or per-request state that could mask a regression.</li>
+</ol>
+
+<h2 id="vp1280">1280×800 — Temporal self-diff comparator</h2>
+<div class="vp-block">
+  <div class="comparator" id="c1280">
+    <img src="screenshots/sprint-11-cycle-2e/t3-services-1280-live1-20260512.png" alt="live capture 1 @1280">
+    <img class="top" src="screenshots/sprint-11-cycle-2e/t3-services-1280-live2-20260512.png" alt="live capture 2 @1280">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" oninput="document.querySelector('#c1280 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  <p class="label">Side-by-side composite (capture 1 | capture 2):</p>
+  <img class="full" src="screenshots/sprint-11-cycle-2e/t3-services-1280-temporal-composite-20260512.png" alt="composite 1280">
+  <p>AE = 0. No diff PNG produced (no differing pixels).</p>
+</div>
+
+<h2 id="vp768">768×1024 — Temporal self-diff comparator</h2>
+<div class="vp-block">
+  <div class="comparator" id="c768">
+    <img src="screenshots/sprint-11-cycle-2e/t3-services-768-live1-20260512.png" alt="live capture 1 @768">
+    <img class="top" src="screenshots/sprint-11-cycle-2e/t3-services-768-live2-20260512.png" alt="live capture 2 @768">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" oninput="document.querySelector('#c768 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  <p class="label">Side-by-side composite (capture 1 | capture 2):</p>
+  <img class="full" src="screenshots/sprint-11-cycle-2e/t3-services-768-temporal-composite-20260512.png" alt="composite 768">
+  <p>AE = 0.</p>
+</div>
+
+<h2 id="vp375">375×667 — Temporal self-diff comparator</h2>
+<div class="vp-block">
+  <div class="comparator" id="c375">
+    <img src="screenshots/sprint-11-cycle-2e/t3-services-375-live1-20260512.png" alt="live capture 1 @375">
+    <img class="top" src="screenshots/sprint-11-cycle-2e/t3-services-375-live2-20260512.png" alt="live capture 2 @375">
+  </div>
+  <input class="slider" type="range" min="0" max="100" value="50" oninput="document.querySelector('#c375 .top').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  <p class="label">Side-by-side composite (capture 1 | capture 2):</p>
+  <img class="full" src="screenshots/sprint-11-cycle-2e/t3-services-375-temporal-composite-20260512.png" alt="composite 375">
+  <p>AE = 0.</p>
+</div>
+
+<h2>Per-section delta table</h2>
+<table>
+  <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr>
+  <tr><td>All sections (page-wide)</td><td>1280 / 768 / 375</td><td>MATCH</td><td>Post-migration render is byte-identical to itself across captures. Same SDC version hash as pre-migration provider → identical render by construction.</td></tr>
+</table>
+
+</body>
+</html>

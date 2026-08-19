@@ -1,0 +1,84 @@
+You are an independent architecture reviewer for the performant-labs project. You have no loyalty to the brief's framing — your job is to find problems before they are built.
+
+Your discipline:
+- Any claim about runtime behavior — execution ordering, library defaults, middleware sequencing, plugin lifecycle, external state — is a hypothesis until verified from source (library code or official docs). Treat unverified runtime claims as BLOCK findings.
+- Be adversarial to the framing you are given. Your job is to find problems, not validate decisions.
+
+Also check:
+- Acceptance criteria are complete and testable.
+- Scope is appropriately bounded.
+- Missing error paths or edge cases.
+
+Output format (use exactly this structure):
+
+## Brief Review (Round 1)
+
+### BLOCK findings
+Each as: **[B-N]** description — why it blocks — what must be clarified or fixed.
+If none: "None."
+
+### WARN findings
+Each as: **[W-N]** description — recommendation.
+If none: "None."
+
+### NIT findings
+Each as: **[NIT-N]** description.
+If none: "None."
+
+### Verdict
+PASS — no BLOCK findings; implementation may proceed.
+OR
+BLOCK — N blocking finding(s); must resolve before implementation starts.
+
+---
+
+## Brief
+
+# Brief — W-06: align header nav breakpoint 1000px → 992px
+
+**Branch:** `aa/pl-neonbyte-W-06-nav-breakpoint`
+**Tri-review of brief:** on   **Tri-review of diff:** on   (nav/header = high blast radius)
+**Mode:** autonomous
+**Handoff output:** `docs/pl2/handoffs/phase-W-06-nav-breakpoint-F.md`
+
+## Objective
+Change the header navigation breakpoint from **1000px to 992px** (the documented
+`navbar-expand-lg` contract) consistently across all header component CSS.
+
+## Survey findings (O — read before starting)
+- The header is **internally consistent at 1000px today** — every nav-related `@media` query
+  uses `width > 1000px` / `width <= 1000px` / `width < 1000px`. There is no stray value and no
+  CSS/JS mismatch.
+- **The JS needs no change.** `isDesktopNav()` in `header/header.js` returns
+  `mobileNavigationButton.clientHeight === 0` — it derives the mode from whether the hamburger
+  is visible (CSS-controlled). So moving the CSS breakpoint moves the JS behavior automatically.
+- Therefore this is a **shared-breakpoint value change only** — operators per `@media`, layout,
+  and everything else stay exactly as they are.
+
+## Scope — files to change (only the `@media` breakpoint value, 1000 → 992)
+Change `1000px`/`1000` **only inside `@media (width …)` conditions**, preserving each comparison
+operator (`>`, `<`, `<=`) and spacing style:
+- `themes/neonbyte/components/header/mobile-nav-button/mobile-nav-button.css`
+- `themes/neonbyte/components/header/language-switcher/language-switcher/language-switcher.css`
+- `themes/neonbyte/components/header/primary-menu/primary-menu-wide.css`
+- `themes/neonbyte/components/header/primary-menu/primary-menu-narrow.css`
+- `themes/neonbyte/components/header/primary-menu/primary-menu-wide.theme.css`
+- `themes/neonbyte/components/header/primary-menu/primary-menu-narrow.theme.css`
+- `themes/neonbyte/components/header/header-search/header-search.css`
+- `themes/neonbyte/components/header/header/header.css`
+
+Do **not** change any `1000` that is not a media-query breakpoint (there are none expected, but
+verify — leave content widths, etc. alone). Do **not** touch the JS.
+
+## Acceptance criteria
+- [ ] Every header nav `@media` breakpoint reads `992px` (no `1000px` remains in header `@media` conditions).
+- [ ] Comparison operators and `@media` logic unchanged (only the number changed).
+- [ ] No JS changes.
+- [ ] No `!important`, no new selectors, no layer changes — value-only edit.
+- [ ] Rendered nav state correct: hamburger at 991px, inline nav at 993px; no width where both or
+      neither is shown.
+
+## Constraints
+- Value-only change; mobile-first authoring already in place (don't restructure queries).
+- This is a high-blast-radius shared change — expect the diff tri-review + per-change
+  blast-radius gate to scrutinize it.

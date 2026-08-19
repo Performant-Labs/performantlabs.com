@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 16 Cycle 2 — Operator Report</title>
+<style>
+  :root { color-scheme: light; }
+  body { font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1.25rem; color: #1f1a14; }
+  h1 { font-size: 1.9rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1.25rem; margin: 2rem 0 .5rem; border-bottom: 1px solid #ddd; padding-bottom: .25rem; }
+  h3 { font-size: 1.05rem; margin: 1.25rem 0 .35rem; }
+  .verdict { display: inline-block; padding: .35rem .9rem; background: #1e7a3a; color: #fff; border-radius: .25rem; font-weight: 700; letter-spacing: .04em; }
+  .meta { color: #5C544C; margin: .25rem 0 1rem; }
+  table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: .35rem .55rem; vertical-align: top; text-align: left; }
+  th { background: #faf6f1; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+  pre { background: #f6f3ee; padding: .6rem .8rem; overflow: auto; border-radius: .25rem; }
+  .pass { color: #1e7a3a; font-weight: 600; }
+  .nope { color: #8E4A2A; font-weight: 600; }
+  .swatch { display: inline-block; width: 14px; height: 14px; vertical-align: middle; border: 1px solid #999; border-radius: 2px; margin-right: .25rem; }
+  img.shot { max-width: 100%; border: 1px solid #ccc; border-radius: .25rem; display: block; margin: .5rem 0 1rem; }
+  nav.toc a { display: inline-block; margin-right: 1rem; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 16 Cycle 2 — <code>/contact-us</code> form a11y batch</h1>
+<p class="meta">2026-05-13 · Branch <code>aa/pl-sprint-16-cycle-2-form-a11y</code> · Scope: F-NEW-16-B (autocomplete tokens) + F-NEW-16-C (required-marker no-op)</p>
+
+<p><span class="verdict">PASS</span></p>
+
+<nav class="toc">
+  <a href="#summary">What changed</a>
+  <a href="#autocomplete">Autocomplete tokens</a>
+  <a href="#marker">Required marker</a>
+  <a href="#screens">Form screenshots</a>
+  <a href="#articles">Articles regression</a>
+  <a href="#wcag">WCAG closure</a>
+</nav>
+
+<h2 id="summary">What I see different</h2>
+<ul>
+  <li>No visible pixel differences in the form region at either 1280 or 375 — this cycle's changes are an HTML attribute (<code>autocomplete=...</code>) which browsers don't paint, and the required-marker color (<code>#8E4A2A</code> terracotta asterisk) was already rendering correctly on live before this branch.</li>
+  <li>The Cycle 1 audit reported the required marker as body-grey; that was a probe error (the audit measured <code>color</code>, but Dripyard paints the asterisk via <code>background-color</code> on a mask-image pseudo). Confirmed visually correct now and previously.</li>
+  <li>Form is now keyboard-/AT-discoverable for autofill: a screen-reader user filling out the form will be told "name", "email", "organization", "tel" purposes per WCAG 1.3.5.</li>
+</ul>
+
+<h2 id="autocomplete">Autocomplete tokens (Playwright probe, 1280 + 375)</h2>
+<table>
+  <thead><tr><th>Element name</th><th>HTML tag</th><th>type</th><th>autocomplete (live)</th><th>Expected</th><th>Match</th></tr></thead>
+  <tbody>
+    <tr><td>name</td><td>input</td><td>text</td><td><code>name</code></td><td><code>name</code></td><td class="pass">YES</td></tr>
+    <tr><td>email</td><td>input</td><td>email</td><td><code>email</code></td><td><code>email</code></td><td class="pass">YES</td></tr>
+    <tr><td>company_name</td><td>input</td><td>text</td><td><code>organization</code></td><td><code>organization</code></td><td class="pass">YES</td></tr>
+    <tr><td>phone_number</td><td>input</td><td>tel</td><td><code>tel</code></td><td><code>tel</code></td><td class="pass">YES</td></tr>
+    <tr><td>message</td><td>textarea</td><td>—</td><td>(none)</td><td>(none — free text)</td><td class="pass">YES</td></tr>
+    <tr><td>url (honeypot)</td><td>input</td><td>text</td><td><code>off</code></td><td><code>off</code></td><td class="pass">YES</td></tr>
+  </tbody>
+</table>
+<p>Same result at both viewports. Raw output in <code>screenshots/sprint-16-cycle-2/probe-results.json</code>.</p>
+
+<h2 id="marker">Required marker (<code>::after</code>)</h2>
+<table>
+  <thead><tr><th>Label</th><th>background-color</th><th>color</th><th>Visually rendered</th></tr></thead>
+  <tbody>
+    <tr><td>"Your name"</td><td><code>rgb(142,74,42)</code></td><td><code>rgb(92,84,76)</code></td><td><span class="swatch" style="background:#8E4A2A"></span>terracotta (<code>#8E4A2A</code>)</td></tr>
+    <tr><td>"Your email"</td><td><code>rgb(142,74,42)</code></td><td><code>rgb(92,84,76)</code></td><td><span class="swatch" style="background:#8E4A2A"></span>terracotta</td></tr>
+    <tr><td>"Your message"</td><td><code>rgb(142,74,42)</code></td><td><code>rgb(92,84,76)</code></td><td><span class="swatch" style="background:#8E4A2A"></span>terracotta</td></tr>
+  </tbody>
+</table>
+<p>The visible asterisk color is set via <code>background-color</code> through a mask-image; <code>color</code> never reaches the screen. Existing <code>webform.css</code> L5 override (lines 125-128) was already producing the correct token. No code change made for F-NEW-16-C.</p>
+<p><strong>Contrast:</strong> <code>#8E4A2A</code> on <code>#FFFFFF</code> = <strong>6.64:1</strong> — passes WCAG 1.4.11 (3:1 non-text) <em>and</em> AA 4.5:1 body floor.</p>
+
+<h2 id="screens">Form region — live screenshots</h2>
+<h3>1280 × 800</h3>
+<img class="shot" src="screenshots/sprint-16-cycle-2/t3-contact-form-1280-live-20260513.png" alt="Live contact form region at 1280 width">
+<h3>375 × 667</h3>
+<img class="shot" src="screenshots/sprint-16-cycle-2/t3-contact-form-375-live-20260513.png" alt="Live contact form region at 375 width">
+
+<h2 id="articles">Articles cross-page regression</h2>
+<p>The <code>hook_form_alter()</code> function was restructured from early-return to conditional-block to accommodate both the articles exposed form and the contact webform. S re-verified:</p>
+<ul>
+  <li><code>GET /articles</code> → <strong>HTTP 200</strong></li>
+  <li>The <code>&lt;form id="views-exposed-form-articles-page-1"&gt;</code> wrapper is correctly stripped (Phase 3 behavior preserved — <code>$form['#theme_wrappers'] = []</code> still fires).</li>
+</ul>
+
+<h2 id="wcag">WCAG closure / Cycle 1 audit row update</h2>
+<table>
+  <thead><tr><th>Finding</th><th>Cycle 1</th><th>Cycle 2</th></tr></thead>
+  <tbody>
+    <tr><td>F-NEW-16-B autocomplete tokens (WCAG 1.3.5)</td><td class="nope">FAIL (regression)</td><td class="pass">CLOSED</td></tr>
+    <tr><td>F-NEW-16-C required-marker color</td><td class="nope">FAIL (audit probe error)</td><td class="pass">CLOSED (no-op verified)</td></tr>
+    <tr><td>F-NEW-16-A sidebar H2 size</td><td>Open</td><td>Open — deferred to Cycle 3</td></tr>
+    <tr><td>F-NEW-16-D sidebar card wrapper</td><td>Open</td><td>Open — deferred to Cycle 3</td></tr>
+    <tr><td>F-NEW-16-E §C "What to expect" H2</td><td>Open</td><td>Open — deferred to Cycle 3</td></tr>
+    <tr><td>F-NEW-16-F §D primary CTA token</td><td>Open</td><td>Open — deferred to Cycle 3</td></tr>
+    <tr><td>F-NEW-16-G CTA stacking</td><td>Open</td><td>Open — deferred to Cycle 3</td></tr>
+  </tbody>
+</table>
+
+<p style="margin-top:2rem;color:#5C544C;font-size:13px">Markdown handoff: <a href="sprint-16-cycle-2-S.md"><code>sprint-16-cycle-2-S.md</code></a> · T handoff: <a href="sprint-16-cycle-2-T.md"><code>sprint-16-cycle-2-T.md</code></a> · F handoff: <a href="sprint-16-cycle-2-F.md"><code>sprint-16-cycle-2-F.md</code></a></p>
+
+</body>
+</html>

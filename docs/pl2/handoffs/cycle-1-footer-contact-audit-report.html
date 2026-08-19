@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 8 Cycle 1 — Footer + contact audit</title>
+<style>
+  :root {
+    --ok: #1f7a3a;
+    --warn: #b25e09;
+    --bad: #b00020;
+    --ink: #1a1a1a;
+    --muted: #5f5f5f;
+    --bg: #fafafa;
+    --rule: #e3e3e3;
+  }
+  body { font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); margin: 0; padding: 2rem 1rem; }
+  main { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 1.9rem; margin: 0 0 0.4rem; }
+  h2 { font-size: 1.3rem; margin: 2rem 0 0.6rem; border-bottom: 1px solid var(--rule); padding-bottom: 0.3rem; }
+  h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; }
+  .verdict { padding: 1rem 1.25rem; border-radius: 8px; font-weight: 700; font-size: 1.4rem; display: inline-block; }
+  .verdict.pass { background: #e6f4ea; color: var(--ok); border: 1px solid var(--ok); }
+  .meta { color: var(--muted); margin-top: 0.3rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin: 0.6rem 0 1rem; background: white; }
+  th, td { border: 1px solid var(--rule); padding: 0.45rem 0.6rem; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  .pill { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+  .pill.ok { background: #e6f4ea; color: var(--ok); border: 1px solid var(--ok); }
+  .pill.warn { background: #fff3e6; color: var(--warn); border: 1px solid var(--warn); }
+  .pill.bad { background: #fde8eb; color: var(--bad); border: 1px solid var(--bad); }
+  nav.toc { background: white; border: 1px solid var(--rule); padding: 0.6rem 1rem; border-radius: 6px; margin: 1rem 0 2rem; }
+  nav.toc ol { margin: 0.2rem 0 0; padding-left: 1.2rem; }
+  details { background: white; border: 1px solid var(--rule); padding: 0.6rem 1rem; border-radius: 6px; margin: 0.6rem 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  blockquote { margin: 0.6rem 0; padding: 0.6rem 1rem; background: #fff8e6; border-left: 4px solid var(--warn); color: var(--ink); }
+  .key { background: #fff8e6; border-left: 4px solid var(--warn); padding: 0.6rem 1rem; margin: 0.6rem 0; }
+  .small { font-size: 0.85rem; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="verdict pass">PASS</div>
+    <h1 style="margin-top:0.6rem;">Sprint 8 Cycle 1 — Footer + contact audit</h1>
+    <div class="meta">
+      Branch <code>aa/pl-sprint-8-cycle-1-audit</code> · audit-only (no F, no T, no commit) · 2026-05-12 ·
+      Tech-debt items <code>F.8</code>, <code>F.9</code>, <code>ADV-C1</code>, <code>ADV-CU1</code>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#http">HTTP status of every routable destination</a></li>
+      <li><a href="#header">Header link inventory</a></li>
+      <li><a href="#footer">Footer link inventory</a></li>
+      <li><a href="#anchors"><code>/services</code> card-ID anchor check</a></li>
+      <li><a href="#h1"><code>/contact-us</code> headings + site-wide H1 audit</a></li>
+      <li><a href="#per-item">Tech-debt outcome per item</a></li>
+      <li><a href="#advc1">ADV-C1 remediation recommendation</a></li>
+      <li><a href="#f8">F.8 fix-direction recommendation</a></li>
+      <li><a href="#carve">Cycle 2 carve recommendation</a></li>
+    </ol>
+  </nav>
+
+  <section id="summary">
+    <h2>Summary</h2>
+    <div class="key">
+      <strong>Headline:</strong> all four targeted tech-debt items (F.8, F.9, ADV-C1, ADV-CU1) appear to be effectively closed by prior-sprint work. <strong>147 rendered link instances probed, 0 returning 404, 0 with broken <code>#fragment</code> targets, 0 hitting a 301-hop in rendered HTML.</strong> Every shipped page has exactly one body H1; <code>/contact-us</code> heading hierarchy clears WCAG 2.2 SC 2.4.6.
+    </div>
+    <p><strong>Stale runbook premise.</strong> The runbook states <code>/form/contact</code> returns 404. Live state: a Drupal <code>redirect</code> entity (ID 90) serves a 301 → <code>/contact-us</code>. The 404 has been gone for at least a sprint or two. Recommendation is to keep the redirect and stop chasing the 404.</p>
+  </section>
+
+  <section id="http">
+    <h2>HTTP status of every routable destination</h2>
+    <p class="small">Probed via <code>ddev exec curl</code> after <code>ddev drush cr</code>. Host-shell <code>curl</code> is unreliable for this site due to FU-4 SSL chain noise.</p>
+    <table>
+      <thead><tr><th>Path</th><th>First-hop</th><th>Final after <code>-L</code></th><th>Redirect target</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>/</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td>Homepage</td></tr>
+        <tr><td><code>/services</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td></td></tr>
+        <tr><td><code>/about-us</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td></td></tr>
+        <tr><td><code>/articles</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td></td></tr>
+        <tr><td><code>/contact-us</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td>Canonical contact route</td></tr>
+        <tr><td><code>/how-we-do-it</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td></td></tr>
+        <tr><td><code>/open-source-projects</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td></td></tr>
+        <tr><td><code>/privacy-policy</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td>Footer legal</td></tr>
+        <tr><td><code>/docs</code></td><td><span class="ok">200</span></td><td><span class="ok">200</span></td><td>—</td><td>Footer Resources column</td></tr>
+        <tr><td><code>/form/contact</code></td><td><span class="warn">301</span></td><td><span class="ok">200</span></td><td><code>/contact-us</code></td><td>Drupal redirect ID 90 — <strong>NOT 404</strong></td></tr>
+        <tr><td><code>/contact</code></td><td><span class="warn">301</span></td><td><span class="ok">200</span></td><td><code>/contact-us</code></td><td>Drupal redirect ID 89</td></tr>
+        <tr><td><code>/form/contact-us</code> (control)</td><td><span class="bad">404</span></td><td><span class="bad">404</span></td><td>—</td><td>Confirms 404 detection works</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="header">
+    <h2>Header link inventory</h2>
+    <p>Identical across all seven shipped pages. <strong>No "Call today" CTA</strong> in any rendered header (canonical header has no right-side CTA pill).</p>
+    <table>
+      <thead><tr><th>Label</th><th>href</th><th>HTTP</th></tr></thead>
+      <tbody>
+        <tr><td>(logo)</td><td><code>/</code></td><td class="ok">200</td></tr>
+        <tr><td>Services</td><td><code>/services</code></td><td class="ok">200</td></tr>
+        <tr><td>How we do it</td><td><code>/how-we-do-it</code></td><td class="ok">200</td></tr>
+        <tr><td>Articles</td><td><code>/articles</code></td><td class="ok">200</td></tr>
+        <tr><td>Open source projects</td><td><code>/open-source-projects</code></td><td class="ok">200</td></tr>
+        <tr><td>About us</td><td><code>/about-us</code></td><td class="ok">200</td></tr>
+        <tr><td>Contact us</td><td><code>/contact-us</code></td><td class="ok">200</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="footer">
+    <h2>Footer link inventory</h2>
+    <p>Identical across all seven shipped pages.</p>
+    <table>
+      <thead><tr><th>Column</th><th>Label</th><th>href</th><th>HTTP</th><th>Anchor target exists?</th></tr></thead>
+      <tbody>
+        <tr><td>Services (heading)</td><td>Services</td><td><code>/services</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Services</td><td>Testing-suite takeover</td><td><code>/services#test-suite-takeover</code></td><td class="ok">200</td><td class="ok">YES</td></tr>
+        <tr><td>Services</td><td>Embedded testing engineer</td><td><code>/services#embedded-testing-engineer</code></td><td class="ok">200</td><td class="ok">YES</td></tr>
+        <tr><td>Services</td><td>Autonomous healing pilot</td><td><code>/services#autonomous-healing-pilot</code></td><td class="ok">200</td><td class="ok">YES</td></tr>
+        <tr><td>Services</td><td>Accessibility testing</td><td><code>/services#accessibility-testing</code></td><td class="ok">200</td><td class="ok">YES</td></tr>
+        <tr><td>Resources (heading)</td><td>Resources</td><td><code>/articles</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Resources</td><td>Articles</td><td><code>/articles</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Resources</td><td>Documentation</td><td><code>/docs</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Company (heading)</td><td>(<code>&lt;nolink&gt;</code>)</td><td>—</td><td>n/a</td><td>n/a</td></tr>
+        <tr><td>Company</td><td>About us</td><td><code>/about-us</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Company</td><td>Contact us</td><td><code>/contact-us</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Company</td><td>Privacy policy</td><td><code>/privacy-policy</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Signature CTA</td><td>Get in touch →</td><td><code>/contact-us</code></td><td class="ok">200</td><td>n/a</td></tr>
+        <tr><td>Footer legal</td><td>Privacy Policy</td><td><code>/privacy-policy</code></td><td class="ok">200</td><td>n/a</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="anchors">
+    <h2><code>/services</code> card-ID anchor check (F.8 binding)</h2>
+    <p>Live <code>id</code> attributes on <code>/services</code> for the four engagement cards:</p>
+    <table>
+      <thead><tr><th>Card</th><th>Live ID</th><th>Footer href</th><th>Match</th></tr></thead>
+      <tbody>
+        <tr><td>Test-suite takeover</td><td><code>test-suite-takeover</code></td><td><code>#test-suite-takeover</code></td><td class="ok">YES</td></tr>
+        <tr><td>Embedded testing engineer</td><td><code>embedded-testing-engineer</code></td><td><code>#embedded-testing-engineer</code></td><td class="ok">YES</td></tr>
+        <tr><td>Autonomous healing pilot</td><td><code>autonomous-healing-pilot</code></td><td><code>#autonomous-healing-pilot</code></td><td class="ok">YES</td></tr>
+        <tr><td>Accessibility testing</td><td><code>accessibility-testing</code></td><td><code>#accessibility-testing</code></td><td class="ok">YES</td></tr>
+      </tbody>
+    </table>
+    <p class="small">Note: the legacy <code>#testing-suite-takeover</code> string (with the <em>-ing-</em>) still appears in the <strong>dead-code theme</strong> <code>performant_labs_20260418</code> as a comment. The active theme is <code>performant_labs_20260502</code>, which does not inherit from it.</p>
+  </section>
+
+  <section id="h1">
+    <h2><code>/contact-us</code> headings + site-wide H1 audit (ADV-CU1 binding)</h2>
+    <table>
+      <thead><tr><th>Page</th><th>Body H1 count</th><th>Header H1 count</th><th>WCAG 2.4.6</th></tr></thead>
+      <tbody>
+        <tr><td><code>/</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/services</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/about-us</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/articles</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/contact-us</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/how-we-do-it</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+        <tr><td><code>/open-source-projects</code></td><td>1</td><td>0</td><td class="ok">PASS</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary><code>/contact-us</code> full heading hierarchy</summary>
+      <pre class="mono">H2 [in header]  Main navigation
+H2 [body]       Breadcrumb
+H1 [body]       Let's talk about your quality and testing goals.
+H2 [body]       Prefer a quick call?
+H2 [body]       What to expect from the other side of this form.
+H3 [body]         A real reply, by a real engineer.
+H3 [body]         Thirty minutes, screen-share if helpful.
+H3 [body]         A short proposal, not a slide deck.
+H2 [body]       Skip the form — book the review.
+H2 [in footer]  Footer
+H3 [in footer]    Services
+H3 [in footer]    Resources
+H3 [in footer]    Company</pre>
+      <p>No skipped levels; clean.</p>
+    </details>
+  </section>
+
+  <section id="per-item">
+    <h2>Tech-debt outcome per item</h2>
+    <table>
+      <thead><tr><th>ID</th><th>Original concern</th><th>Live state</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>F.8</strong></td>
+          <td>Footer Services link uses <code>#testing-suite-takeover</code>; card ID is <code>#test-suite-takeover</code></td>
+          <td>Footer menu and card both use <code>test-suite-takeover</code></td>
+          <td><span class="pill ok">Already closed</span></td>
+        </tr>
+        <tr>
+          <td><strong>F.9</strong></td>
+          <td>Footer "Contact us" uses bare <code>/contact</code> (301 → <code>/contact-us</code>)</td>
+          <td>Footer menu link 44 and signature CTA both use <code>/contact-us</code> directly; bare <code>/contact</code> not in any rendered page</td>
+          <td><span class="pill ok">Already closed</span></td>
+        </tr>
+        <tr>
+          <td><strong>ADV-C1</strong></td>
+          <td><code>/form/contact</code> returns 404; affects global nav + header CTA + footer "Get in touch"</td>
+          <td><code>/form/contact</code> returns 301 → <code>/contact-us</code>; no rendered link points to <code>/form/contact</code> anywhere</td>
+          <td><span class="pill ok">Already closed</span></td>
+        </tr>
+        <tr>
+          <td><strong>ADV-CU1</strong></td>
+          <td><code>/contact-us</code> has no H1</td>
+          <td>Exactly one body H1; clean heading order</td>
+          <td><span class="pill ok">Already closed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="advc1">
+    <h2>ADV-C1 remediation recommendation</h2>
+    <p><strong>Path: (b) — update links to point to <code>/contact-us</code>.</strong> Already implemented across the rendered site. Keep the existing Drupal redirect entity as an external-bookmark safety net.</p>
+    <ul>
+      <li>Path (a) — webserver-level redirect: already covered by the Drupal redirect entity.</li>
+      <li>Path (b) — link rewrite: <strong>chosen + done</strong>.</li>
+      <li>Path (c) — create a Drupal route at <code>/form/contact</code>: rejected. Would double-canonicalize and contradicts the existing redirect.</li>
+    </ul>
+    <p><strong>Low-priority follow-up:</strong> two orphaned theme directories (<code>performant_labs_20260411</code>, <code>performant_labs_20260418</code>) still embed <code>&lt;a href="/contact"&gt;</code> in their <code>page--*.html.twig</code> files. They're dead code today (active theme is <code>_20260502</code> on a different base), but worth either deleting or in-place fixing so a future theme switch doesn't resurrect a 301-hop.</p>
+  </section>
+
+  <section id="f8">
+    <h2>F.8 fix-direction recommendation</h2>
+    <p><strong>No fix needed.</strong> Link and card ID already agree on <code>test-suite-takeover</code>. PC-3 default ("rename footer link to match live card ID") is moot.</p>
+  </section>
+
+  <section id="carve">
+    <h2>Cycle 2 carve recommendation</h2>
+    <div class="key">
+      <strong>Recommended: Option A — single small cleanup cycle.</strong> O → F → T → S. Scope ≤ 3 files, ≤ 30 lines.
+      <ol>
+        <li>Delete or in-place fix the orphaned theme directories' <code>&lt;a href="/contact"&gt;</code> strings.</li>
+        <li>Update or delete the stale comment in <code>card-canvas.component.yml</code>.</li>
+        <li>Close out F.8 / F.9 / ADV-C1 / ADV-CU1 in <code>tech-debt-register.md</code> §D with this audit as the closing reference.</li>
+      </ol>
+      <p><strong>Alternative: Option B — skip Cycle 2.</strong> Declare the four items closed in the wrap doc + register, on the strength of this audit. The orphaned themes are dead code with no rendered side-effect today.</p>
+      <p><strong>Do NOT split into 2a/2b</strong> — no Drupal config-import work, no routing change needed.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="border:none;">Verdict</h2>
+    <div class="verdict pass">PASS — audit complete; four tech-debt items effectively closed; Cycle 2 is optional cleanup</div>
+  </section>
+
+  <p class="small" style="margin-top:2rem;">Probe outputs and parsed inventories at <code>docs/pl2/handoffs/screenshots/sprint-8-cycle-1/</code>.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 16 Cycle 1 — /contact-us audit report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --ink: #1F1A14;
+    --body: #5C544C;
+    --canvas: #FFFFFF;
+    --cream: #F5EFE2;
+    --accent: #8E4A2A;
+    --primary: #1893B4;
+    --danger: #C0392B;
+    --good: #2C7A4B;
+    --hairline: #E5E1DC;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif; color: var(--ink); background: var(--canvas); margin: 0; line-height: 1.5; }
+  header.verdict { padding: 24px 32px; background: var(--cream); border-bottom: 1px solid var(--hairline); position: sticky; top: 0; z-index: 10; }
+  header.verdict h1 { margin: 0 0 4px; font-size: 22px; }
+  header.verdict .v { display: inline-block; padding: 4px 14px; border-radius: 4px; color: white; background: var(--danger); font-weight: 700; letter-spacing: 0.5px; margin-right: 12px; }
+  header.verdict .meta { font-size: 13px; color: var(--body); margin-top: 8px; }
+  header.verdict table { font-size: 13px; margin-top: 10px; border-collapse: collapse; }
+  header.verdict th, header.verdict td { border: 1px solid var(--hairline); padding: 4px 10px; text-align: left; background: white; }
+  header.verdict nav { margin-top: 12px; font-size: 13px; }
+  header.verdict nav a { color: var(--primary); margin-right: 14px; text-decoration: none; }
+  header.verdict nav a:hover { text-decoration: underline; }
+  main { padding: 0 32px 80px; max-width: 1600px; margin: 0 auto; }
+  section.block { margin: 32px 0 48px; }
+  section.block h2 { font-size: 19px; border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin: 32px 0 16px; }
+  section.block h3 { font-size: 16px; margin: 24px 0 8px; }
+  ul.deltas { line-height: 1.6; }
+  ul.deltas li.danger::marker { color: var(--danger); }
+  ul.deltas li.good::marker { color: var(--good); }
+  table.dtable { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.dtable th, table.dtable td { border: 1px solid var(--hairline); padding: 6px 8px; vertical-align: top; }
+  table.dtable th { background: var(--cream); text-align: left; }
+  table.dtable td.status-MATCH { background: #E8F5EE; color: var(--good); font-weight: 600; }
+  table.dtable td.status-DELTA { background: #FFF7E0; }
+  table.dtable td.status-REWORK { background: #FBE2DE; color: var(--danger); font-weight: 600; }
+  table.dtable img { max-width: 320px; height: auto; border: 1px solid var(--hairline); display: block; }
+  .vp-block { margin: 32px 0; padding: 16px; background: #FAFAF8; border: 1px solid var(--hairline); border-radius: 6px; }
+  .vp-block h3 { margin-top: 0; }
+  .vp-block .stat-row { font-size: 13px; color: var(--body); margin-bottom: 12px; }
+  .vp-block .stat-row b { color: var(--ink); }
+  .wipe { position: relative; max-width: 1280px; width: 100%; margin: 0 auto 16px; user-select: none; touch-action: none; }
+  .wipe-stage { position: relative; width: 100%; aspect-ratio: var(--ar, 0.95); background: #ddd; overflow: hidden; }
+  .wipe-stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: top center; display: block; }
+  .wipe-stage img.top { clip-path: inset(0 var(--w, 50%) 0 0); }
+  .wipe input[type=range] { width: 100%; margin-top: 6px; }
+  .wipe .legend { font-size: 12px; color: var(--body); display: flex; justify-content: space-between; padding: 0 6px 4px; }
+  .wipe .legend span:first-child { color: var(--good); }
+  .wipe .legend span:last-child { color: var(--accent); }
+  details.imgrow { margin: 12px 0; }
+  details.imgrow summary { cursor: pointer; font-size: 13px; color: var(--primary); padding: 4px 0; }
+  details.imgrow img { max-width: 100%; border: 1px solid var(--hairline); margin-top: 8px; }
+  details.imgrow .composite-img { max-height: 1400px; overflow: auto; display: block; }
+  .findings-summary { background: var(--cream); padding: 16px; border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; }
+  .findings-summary ol { margin: 4px 0 0; padding-left: 22px; }
+  .findings-summary ol li { margin: 6px 0; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+  .badge.rework { background: var(--danger); color: white; }
+  .badge.advisory { background: #B8AFA0; color: white; }
+  .badge.carry { background: #6B6358; color: white; }
+  footer.bottom { padding: 24px 32px; background: var(--cream); color: var(--body); font-size: 13px; border-top: 1px solid var(--hairline); }
+</style>
+</head>
+<body>
+
+<header class="verdict">
+  <h1><span class="v">REWORK</span> Sprint 16 Cycle 1 — <code>/contact-us</code> preview-fidelity audit</h1>
+  <div class="meta">2026-05-13 · S-only HQ audit (Playwright 2× DPR + ImageMagick DSSIM/PSNR/AE) · pa11y 0 errors</div>
+  <table>
+    <thead><tr><th>Viewport</th><th>Whole-page DSSIM</th><th>Per-section DSSIM range</th><th>AE-3% / total</th></tr></thead>
+    <tbody>
+      <tr><td>1280×800</td><td>0.203</td><td>0.173 – 0.196</td><td>23.83%</td></tr>
+      <tr><td>768×1024</td><td>0.247</td><td>0.182 – 0.208</td><td>39.62%</td></tr>
+      <tr><td>375×667</td><td>0.252</td><td>0.199 – 0.240</td><td>41.98%</td></tr>
+    </tbody>
+  </table>
+  <nav>
+    <a href="#summary">What I see different</a>
+    <a href="#vp-1280">1280</a>
+    <a href="#vp-768">768</a>
+    <a href="#vp-375">375</a>
+    <a href="#sectable">Per-section table</a>
+    <a href="#recs">Cycle 2..N recs</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="block" id="summary">
+  <h2>What I see different — plain-English summary</h2>
+  <div class="findings-summary">
+    <ol>
+      <li><span class="badge rework">REWORK</span> <b>Sidebar heading ("Prefer a quick call?") is much bigger on live</b> — 32 px on live vs 22 px on the preview at desktop. The sidebar's H2 looks like it belongs to the page rather than the contained card.</li>
+      <li><span class="badge rework">REWORK</span> <b>Form inputs on live have no <code>autocomplete</code> tokens</b>. The preview has <code>name</code>, <code>email</code>, <code>organization</code>, <code>tel</code> set correctly. WCAG 2.2 SC 1.3.5 fail on live. Browser autofill won't recognise the fields.</li>
+      <li><span class="badge rework">REWORK</span> <b>Required-field asterisk is wrong colour on live</b>. Preview uses terracotta (<code>#8E4A2A</code>); live uses body text colour (~<code>#5C544C</code>), so the <code>*</code> blends in instead of standing out.</li>
+      <li><span class="badge rework">REWORK</span> <b>Sidebar card wrapper is missing on live</b>. Preview wraps the SavvyCal sidebar in a rounded card (hairline border, 12 px radius, 32 px padding, sticky at ≥ 992). Live renders the sidebar children loose — no card, no sticky.</li>
+      <li><span class="badge rework">REWORK</span> <b>"What to expect" H2 is smaller on live than preview at both viewports</b> — live = 32/24 px (desktop/mobile); preview = 40/30 px (matches brief). Visible on diff PNGs of §C at all three viewports.</li>
+      <li><span class="badge rework">REWORK</span> <b>Closing-CTA primary button uses the wrong teal on both live and preview</b>. Both render <code>#62BBCB</code> + white (held by pa11y allowlist). Brief mandates <code>#5DC6E8</code> + espresso <code>#1F1A14</code> (~8.81:1, passes natively).</li>
+      <li><span class="badge rework">REWORK</span> <b>Closing-CTA buttons stack vertically on live desktop</b>; preview shows them side-by-side. Mobile both stack — that's correct.</li>
+      <li><span class="badge advisory">ADVISORY</span> Footer column headings render as H3 on live but H4 on preview. Sitewide live pattern; defensible.</li>
+      <li><span class="badge carry">CARRY</span> Hero subhead is ~2 px larger / different line-height than brief (body-lg sitewide drift — surfaced every page).</li>
+      <li><span class="badge carry">CARRY</span> Live closing-CTA primary appends a 32-px arrow icon (F-NEW-4) → 48 px pill vs preview's flat 45 px pill.</li>
+      <li><span class="badge"><span class="badge" style="background:var(--good);color:white">PASS</span></span> No orphan-word findings on this page at any viewport. Pa11y 7/7 URLs PASS.</li>
+    </ol>
+  </div>
+</section>
+
+<section class="block">
+  <h2>Tier 3 visual audit — per viewport</h2>
+
+  <!-- 1280 -->
+  <div class="vp-block" id="vp-1280">
+    <h3>1280 × 800 — drag the slider to wipe between live (left) and preview (right)</h3>
+    <div class="stat-row">DSSIM <b>0.203</b> · PSNR <b>0.097</b> · AE-3% <b>3,954,780</b> (<b>23.83%</b>) · live PNG 2560 × 6904, preview 2560 × 6482, common-H 6482</div>
+    <div class="wipe" data-vp="1280">
+      <div class="wipe-stage" style="--ar: 0.371">
+        <img class="bottom" src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-preview-20260513.png" alt="preview at 1280">
+        <img class="top" src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-live-20260513.png" alt="live at 1280">
+      </div>
+      <div class="legend"><span>← live</span><span>preview →</span></div>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.wipe-stage').style.setProperty('--w', (100-this.value)+'%')">
+    </div>
+    <details class="imgrow"><summary>Whole-page diff PNG (red = differing pixels, fuzz 3%)</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-wholepage-diff-fuzz3-20260513.png" alt="1280 whole-page diff"></details>
+    <details class="imgrow"><summary>Side-by-side composite (live | preview)</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-composite-20260513.png" alt="1280 composite"></details>
+  </div>
+
+  <!-- 768 -->
+  <div class="vp-block" id="vp-768">
+    <h3>768 × 1024</h3>
+    <div class="stat-row">DSSIM <b>0.247</b> · PSNR <b>0.071</b> · AE-3% <b>5,236,660</b> (<b>39.62%</b>) · live 1536 × 9628, preview 1536 × 8604</div>
+    <div class="wipe" data-vp="768">
+      <div class="wipe-stage" style="--ar: 0.179">
+        <img class="bottom" src="screenshots/sprint-16-cycle-1/t3-contact-us-768-preview-20260513.png" alt="preview at 768">
+        <img class="top" src="screenshots/sprint-16-cycle-1/t3-contact-us-768-live-20260513.png" alt="live at 768">
+      </div>
+      <div class="legend"><span>← live</span><span>preview →</span></div>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.wipe-stage').style.setProperty('--w', (100-this.value)+'%')">
+    </div>
+    <details class="imgrow"><summary>Whole-page diff PNG (fuzz 3%)</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-768-wholepage-diff-fuzz3-20260513.png" alt="768 whole-page diff"></details>
+    <details class="imgrow"><summary>Side-by-side composite</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-768-composite-20260513.png" alt="768 composite"></details>
+  </div>
+
+  <!-- 375 -->
+  <div class="vp-block" id="vp-375">
+    <h3>375 × 667</h3>
+    <div class="stat-row">DSSIM <b>0.252</b> · PSNR <b>0.080</b> · AE-3% <b>3,132,560</b> (<b>41.98%</b>) · live 750 × 11948, preview 750 × 9950</div>
+    <div class="wipe" data-vp="375">
+      <div class="wipe-stage" style="--ar: 0.075">
+        <img class="bottom" src="screenshots/sprint-16-cycle-1/t3-contact-us-375-preview-20260513.png" alt="preview at 375">
+        <img class="top" src="screenshots/sprint-16-cycle-1/t3-contact-us-375-live-20260513.png" alt="live at 375">
+      </div>
+      <div class="legend"><span>← live</span><span>preview →</span></div>
+      <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.wipe-stage').style.setProperty('--w', (100-this.value)+'%')">
+    </div>
+    <details class="imgrow"><summary>Whole-page diff PNG (fuzz 3%)</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-375-wholepage-diff-fuzz3-20260513.png" alt="375 whole-page diff"></details>
+    <details class="imgrow"><summary>Side-by-side composite</summary><img class="composite-img" src="screenshots/sprint-16-cycle-1/t3-contact-us-375-composite-20260513.png" alt="375 composite"></details>
+  </div>
+</section>
+
+<section class="block" id="sectable">
+  <h2>Per-section delta table (with diff-crop thumbnails)</h2>
+  <table class="dtable">
+    <thead>
+      <tr><th>Section</th><th>VP</th><th>DSSIM</th><th>Status</th><th>Plain-English</th><th>Diff crop</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Hero §A</td><td>1280</td><td>0.173</td><td class="status-DELTA">DELTA</td><td>Subhead is 20 px on live, 19 px preview, brief 18. Cascade across H1 below.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-hero-crop-thumb-20260513.png" alt="hero 1280 crop"></td></tr>
+      <tr><td>Hero §A</td><td>768</td><td>0.204</td><td class="status-DELTA">DELTA</td><td>Same subhead drift; H1 layout matches.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-768-hero-crop-thumb-20260513.png" alt="hero 768 crop"></td></tr>
+      <tr><td>Hero §A</td><td>375</td><td>0.240</td><td class="status-DELTA">DELTA</td><td>H1 36 vs 38 (sub-px); subhead 17 / 30 vs 17 / 27.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-375-hero-crop-thumb-20260513.png" alt="hero 375 crop"></td></tr>
+
+      <tr><td>Form §B</td><td>1280</td><td>0.174</td><td class="status-REWORK">REWORK</td><td>Sidebar H2 too big (32 vs 22); sidebar card wrapper missing; live form inputs lack <code>autocomplete</code> tokens; req-marker wrong colour.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-form-crop-thumb-20260513.png" alt="form 1280 crop"></td></tr>
+      <tr><td>Form §B</td><td>768</td><td>0.182</td><td class="status-REWORK">REWORK</td><td>Same findings; grid collapse OK.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-768-form-crop-thumb-20260513.png" alt="form 768 crop"></td></tr>
+      <tr><td>Form §B</td><td>375</td><td>0.209</td><td class="status-REWORK">REWORK</td><td>Stacks correctly. Sidebar still missing card; submit button full-width; req-marker still wrong colour; <code>autocomplete</code> still missing.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-375-form-crop-thumb-20260513.png" alt="form 375 crop"></td></tr>
+
+      <tr><td>What to expect §C</td><td>1280</td><td>0.196</td><td class="status-REWORK">REWORK</td><td>Live H2 = 32 vs preview = 40 (brief = 40). Live under-shoots; cards otherwise match.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-whattoexpect-crop-thumb-20260513.png" alt="whattoexpect 1280 crop"></td></tr>
+      <tr><td>What to expect §C</td><td>768</td><td>0.208</td><td class="status-REWORK">REWORK</td><td>Same as 1280.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-768-whattoexpect-crop-thumb-20260513.png" alt="whattoexpect 768 crop"></td></tr>
+      <tr><td>What to expect §C</td><td>375</td><td>0.227</td><td class="status-REWORK">REWORK</td><td>Live H2 = 24 vs preview = 30 (brief = 30). Cards collapse 3→1 OK.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-375-whattoexpect-crop-thumb-20260513.png" alt="whattoexpect 375 crop"></td></tr>
+
+      <tr><td>Closing-CTA §D</td><td>1280</td><td>0.174</td><td class="status-REWORK">REWORK</td><td>Buttons stack on live (preview side-by-side); primary CTA wrong colour token; F-NEW-4 chrome carry.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-closing-cta-crop-thumb-20260513.png" alt="closing-cta 1280 crop"></td></tr>
+      <tr><td>Closing-CTA §D</td><td>768</td><td>0.194</td><td class="status-REWORK">REWORK</td><td>Same — stacked on live; preview shows row.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-768-closing-cta-crop-thumb-20260513.png" alt="closing-cta 768 crop"></td></tr>
+      <tr><td>Closing-CTA §D</td><td>375</td><td>0.237</td><td class="status-DELTA">DELTA</td><td>Both stack (correct mobile). Token still wrong; F-NEW-4 chrome carry.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-375-closing-cta-crop-thumb-20260513.png" alt="closing-cta 375 crop"></td></tr>
+
+      <tr><td>Footer</td><td>1280</td><td>0.179</td><td class="status-DELTA">DELTA</td><td>Live footer richer; column heads H3 vs preview H4. Sitewide.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-1280-footer-crop-thumb-20260513.png" alt="footer 1280 crop"></td></tr>
+      <tr><td>Footer</td><td>768</td><td>0.188</td><td class="status-DELTA">DELTA</td><td>Same.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-768-footer-crop-thumb-20260513.png" alt="footer 768 crop"></td></tr>
+      <tr><td>Footer</td><td>375</td><td>0.199</td><td class="status-DELTA">DELTA</td><td>Same.</td><td><img src="screenshots/sprint-16-cycle-1/t3-contact-us-375-footer-crop-thumb-20260513.png" alt="footer 375 crop"></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="block" id="recs">
+  <h2>Sub-issue recommendations — Cycle 2..N carve</h2>
+  <ol>
+    <li>
+      <b>Cycle 2 — preview-doc + L5 batch</b><br>
+      Branch: <code>aa/pl-sprint-16-cycle-2-contact-us-preview-doc-and-l5</code><br>
+      Scope: F-NEW-16-A (sidebar H2 to 22 px), F-NEW-16-B (webform <code>autocomplete</code> tokens), F-NEW-16-C (req-marker terracotta), F-NEW-16-D (sidebar card wrapper — L3 or L5; F's Step-3 trace decides), F-NEW-16-G (closing-CTA buttons side-by-side at ≥ 768 — L3 or L5; F's Step-3 trace decides; PC-3 cross-page sweep on /about-us /how-we-do-it /services /open-source-projects /).
+    </li>
+    <li>
+      <b>Cycle 3 — F-NEW-16-E §C H2 <code>display-md</code> (L1 token)</b><br>
+      Branch: <code>aa/pl-sprint-16-cycle-3-display-md-section-head</code><br>
+      Scope: raise live <code>.section-head h2</code> / <code>.dy-section--centered-light h2</code> to 40 / 1.1 desktop, 30 / 1.1 mobile to match brief. <b>PC-3 mandatory cross-page sweep.</b>
+    </li>
+    <li>
+      <b>Cycle 4 (optional, may merge into Cycle 3) — F-NEW-16-F dark-zone primary CTA token</b><br>
+      Branch: <code>aa/pl-sprint-16-cycle-4-espresso-primary-token</code><br>
+      Scope: replace <code>#62BBCB</code> + white with <code>#5DC6E8</code> + <code>#1F1A14</code> on espresso primary; preview-doc same edit. Remove the pa11y allowlist entry once contrast passes (~8.81:1). <b>PC-3 cross-page sweep mandatory.</b>
+    </li>
+    <li>
+      <b>Operator decisions needed before Cycle 2 opens:</b>
+      <ul>
+        <li>F-NEW-16-D — Canvas restructure (L3) vs CSS-only (L5) for sidebar wrapper. Recommend L5 if Canvas children stable.</li>
+        <li>F-NEW-16-G — Canvas button-row wrapper (L3) vs CSS sibling-row (L5). PC-3 sweep across closing-CTAs on every page.</li>
+        <li>Cycle 3 vs Cycle 4 ordering — bundle both L1 token changes into one PC-3 sweep, or run them sequentially? Recommend bundling.</li>
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<section class="block">
+  <h2>WCAG 2.2 AA — full enumeration</h2>
+  <p>33 criteria + 4 responsive a11y checks. Hard pass: 27. N/A: 8. Mixed (carry-forward): 2 (1.4.3 sitewide CTA contrast allowlist, 2.5.8 sitewide footer link size). New fail on live: 1 — <b>1.3.5 Identify input purpose</b> (no <code>autocomplete</code> tokens on form inputs). See the markdown handoff for the full table.</p>
+  <p>Pa11y-ci ran clean on all 7 URLs (0 errors) under the existing Sprint 9 allowlist.</p>
+</section>
+
+<footer class="bottom">
+  Artifacts: <code>docs/pl2/handoffs/screenshots/sprint-16-cycle-1/</code> (PNGs, measurements.json, diff-results.json, probes.json) · Scripts: <code>scripts/sprint-16-cycle-1-{capture,measure,diff,probe}.mjs</code> · Markdown handoff: <code>docs/pl2/handoffs/sprint-16-cycle-1-audit.md</code>
+</footer>
+
+</main>
+
+<script>
+  // Initialize wipe sliders.
+  document.querySelectorAll('.wipe').forEach(w => {
+    const stage = w.querySelector('.wipe-stage');
+    stage.style.setProperty('--w', '50%');
+  });
+</script>
+
+</body>
+</html>

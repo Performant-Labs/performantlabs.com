@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 11 — Cycle 1 — Hygiene audit report</title>
+<style>
+  :root { --ok: #1f7a3a; --warn: #b35a00; --bad: #a3201f; --ink: #1b2226; --muted: #5a6770; --bg: #fafbfc; --rule: #e3e8ec; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background: var(--bg); margin: 0; padding: 0 24px 96px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  header.banner { padding: 28px 0 12px; border-bottom: 1px solid var(--rule); margin-bottom: 24px; }
+  .verdict { display: inline-block; padding: 6px 14px; border-radius: 6px; font-weight: 700; letter-spacing: 0.5px; }
+  .verdict.pass { background: #e7f4ec; color: var(--ok); border: 1px solid #c6e3d1; }
+  h1 { font-size: 28px; margin: 8px 0 4px; }
+  h2 { font-size: 20px; margin: 36px 0 10px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  h3 { font-size: 16px; margin: 22px 0 8px; }
+  .meta { color: var(--muted); font-size: 13px; }
+  nav.toc { margin: 16px 0 0; }
+  nav.toc a { display: inline-block; margin: 0 14px 6px 0; color: #205280; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 14px; font-size: 14px; }
+  th, td { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #f1f4f7; font-weight: 600; }
+  code, pre { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 13px; }
+  pre { background: #f1f4f7; padding: 10px 12px; border-radius: 6px; overflow-x: auto; border: 1px solid var(--rule); }
+  code { background: #f1f4f7; padding: 1px 5px; border-radius: 3px; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .pill.ok { background: #e7f4ec; color: var(--ok); }
+  .pill.warn { background: #fbeed9; color: var(--warn); }
+  .pill.bad { background: #f7dcdc; color: var(--bad); }
+  ul.findings li { margin: 4px 0; }
+  figure { margin: 14px 0; }
+  figure img { max-width: 100%; border: 1px solid var(--rule); border-radius: 6px; display: block; }
+  figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .small { font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="banner">
+  <span class="verdict pass">PASS — audit complete</span>
+  <h1>Sprint 11 — Cycle 1 — Hygiene audit (S-only)</h1>
+  <div class="meta">2026-05-12 · branch <code>aa/pl-sprint-11-cycle-1-audit</code> · pipeline O → S → O · autonomous</div>
+  <nav class="toc">
+    <a href="#summary">What I found</a>
+    <a href="#a">A · Orphan themes</a>
+    <a href="#b">B · Merged branches</a>
+    <a href="#c">C · FU-5 header</a>
+    <a href="#d">D · P2 marker</a>
+    <a href="#e">E · FU-4 SSL</a>
+    <a href="#carve">Cycle 2 carve</a>
+  </nav>
+</header>
+
+<section id="summary">
+  <h2>What I found — plain-English summary</h2>
+  <ul class="findings">
+    <li><strong>Thread A (orphan themes):</strong> The two orphan theme directories are <em>still installed</em> in Drupal (`drush pm:list` confirms Enabled), not just abandoned on disk. They cannot be deleted blindly — they must be `drush theme:uninstall`-ed first, which also drops 22 orphan `block.block.*.yml` configs and 2 `core.extension.yml` entries. Disk impact: 2.8 MB, 84 files freed once safely removed.</li>
+    <li><strong>Thread B (merged branches):</strong> 34 fully-merged sprint branches identified. All `git branch -d` safe-deletable. Local-only — no remote push.</li>
+    <li><strong>Thread C (FU-5 header at 1280):</strong> <span class="pill ok">CLEAN</span> — "How we do it" renders on a single line; full six-label nav at y=24.75, height=22.5 (line-height-correct). No wrap, no regression.</li>
+    <li><strong>Thread D (P2 marker):</strong> Community section identified as <code>canvas_page</code> id=5, delta=11 (section, theme=white) with kicker at delta=12. The new <code>.dy-section--centered-white</code> marker class already exists in CSS; only the Canvas data + old `:has()` half need touching. Single Cycle 2b refactor scope confirmed.</li>
+    <li><strong>Thread E (FU-4 SSL):</strong> Probe verified: setting <code>CURL_CA_BUNDLE</code> to <code>$(mkcert -CAROOT)/rootCA.pem</code> in <code>~/.zshrc</code> resolves SSL error 60 (200 OK confirmed). One-line operator action, cannot be applied by F/O.</li>
+  </ul>
+</section>
+
+<section id="a">
+  <h2>Thread A — Orphan theme directories</h2>
+
+  <h3>Install state</h3>
+  <p>Source: <code>ddev exec drush pm:list --type=theme</code>.</p>
+  <table>
+    <thead><tr><th>Theme</th><th>core.extension</th><th>pm:list</th><th>Default?</th></tr></thead>
+    <tbody>
+      <tr><td><code>performant_labs_20260411</code></td><td>listed (weight 0)</td><td><span class="pill warn">Enabled</span></td><td>no</td></tr>
+      <tr><td><code>performant_labs_20260418</code></td><td>listed (weight 0)</td><td><span class="pill warn">Enabled</span></td><td>no</td></tr>
+      <tr><td><code>performant_labs_20260502</code></td><td>listed (weight 0)</td><td><span class="pill ok">Enabled</span></td><td><strong>default</strong></td></tr>
+      <tr><td><code>performant_labs</code></td><td>listed (weight 0)</td><td>Enabled</td><td>no</td></tr>
+    </tbody>
+  </table>
+  <p class="small"><strong>Correction to prior assumption.</strong> The `0` value in <code>core.extension.yml</code> under <code>theme:</code> is the <em>weight</em>, not the install flag — presence under the <code>theme:</code> key means installed.</p>
+
+  <h3>Disk impact</h3>
+  <table>
+    <thead><tr><th>Path</th><th>Size</th><th>Files</th></tr></thead>
+    <tbody>
+      <tr><td><code>web/themes/custom/performant_labs_20260411</code></td><td>1.8 MB</td><td>45</td></tr>
+      <tr><td><code>web/themes/custom/performant_labs_20260418</code></td><td>976 KB</td><td>39</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Live consumers (grep across active theme + modules + <code>config/sync/</code>)</h3>
+  <ul>
+    <li>Active theme <code>performant_labs_20260502</code>: 3 hits — comments only (historical implementation notes in <code>footer.css</code> + a template comment). No live `@import`, library ref, or template include.</li>
+    <li><code>web/modules/custom/</code>: 0 hits.</li>
+    <li><code>config/sync/</code>: <strong>22 hits across 22 orphan <code>block.block.performant_labs_2026041{1,8}_*.yml</code> files</strong> + the two <code>core.extension.yml</code> entries.</li>
+  </ul>
+
+  <h3>Recommendation</h3>
+  <pre>ddev exec drush theme:uninstall performant_labs_20260411 performant_labs_20260418
+ddev exec drush cex -y
+rm -rf web/themes/custom/performant_labs_20260411 web/themes/custom/performant_labs_20260418
+# commit disk + config/sync deletions together</pre>
+  <p>Cycle 2a is single-operator-applicable but <strong>not "doc-only-ish"</strong> — ~26 yml deletions in <code>config/sync/</code> + 84 files removed from disk. Recommend AE binding at 1280 on the homepage before merge to confirm zero visual impact.</p>
+</section>
+
+<section id="b">
+  <h2>Thread B — Merged cycle branches</h2>
+  <p>34 branches listed by <code>git branch --merged main | grep aa/pl-sprint-</code>. All genuinely merged.</p>
+
+  <h3>Classification</h3>
+  <ul>
+    <li><strong>Cycle / phase branches (30):</strong> <code>aa/pl-sprint-1-conversion-repair</code>, all <code>sprint-{2..10}-cycle-*</code> and <code>sprint-{2..10}-phase-*</code> branches.</li>
+    <li><strong>Integration / umbrella branches (4):</strong> <code>aa/pl-sprint-10-architecture-cleanup</code>, <code>aa/pl-sprint-5-services-fidelity</code>, <code>aa/pl-sprint-6-services-polish-and-recon</code>, <code>aa/pl-sprint-11-hygiene</code>.</li>
+    <li><strong>Current working branch (excluded):</strong> <code>aa/pl-sprint-11-cycle-1-audit</code>.</li>
+  </ul>
+
+  <h3>Spot-checks (<code>git log &lt;branch&gt; --oneline | head</code>)</h3>
+  <ul>
+    <li><code>aa/pl-sprint-10-cycle-2b4-homepage-logo-grid</code> → tip "refactor(architecture): cycle 2b.4 — homepage logo-grid selector-class markers (ADV-3)".</li>
+    <li><code>aa/pl-sprint-11-hygiene</code> → tip "Merge Sprint 10 architectural cleanup ... into main".</li>
+    <li><code>aa/pl-sprint-1-conversion-repair</code> → tip "chore(sprint-1): remove deploy script — DB pushed to prod directly".</li>
+  </ul>
+
+  <h3>Recommendation</h3>
+  <p>Cycle 2a one-liner (uses safe <code>-d</code>, never <code>-D</code>):</p>
+  <pre>git branch --merged main | grep -E "aa/pl-sprint-" | grep -v "aa/pl-sprint-11-cycle-1-audit" | xargs -n1 git branch -d</pre>
+  <p>Local-only per project rules — no remote push.</p>
+</section>
+
+<section id="c">
+  <h2>Thread C — FU-5 homepage §J.4 "How we do it" header wrap at 1280</h2>
+  <p><span class="pill ok">CLEAN</span> — no regression. Phase-8.6 header rework resolved it.</p>
+
+  <figure>
+    <img src="screenshots/sprint-11-cycle-1/t3-home-1280-header-20260512.png" alt="Homepage header at 1280: Services | How we do it | Articles | Open source projects | About us | Contact us — single line">
+    <figcaption>Header crop at 1280 — all six nav labels on a single line.</figcaption>
+  </figure>
+
+  <h3>Computed geometry</h3>
+  <table>
+    <thead><tr><th>Label</th><th>x</th><th>y</th><th>width</th><th>height</th></tr></thead>
+    <tbody>
+      <tr><td>Services</td><td>526.30</td><td>24.75</td><td>62.05</td><td>22.5</td></tr>
+      <tr><td><strong>How we do it</strong></td><td>620.34</td><td>24.75</td><td>94.80</td><td>22.5</td></tr>
+      <tr><td>Articles</td><td>747.14</td><td>24.75</td><td>54.78</td><td>22.5</td></tr>
+      <tr><td>Open source projects</td><td>833.92</td><td>24.75</td><td>160.63</td><td>22.5</td></tr>
+      <tr><td>About us</td><td>1026.55</td><td>24.75</td><td>66.36</td><td>22.5</td></tr>
+      <tr><td>Contact us</td><td>1124.91</td><td>24.75</td><td>82.39</td><td>22.5</td></tr>
+    </tbody>
+  </table>
+  <p>All six labels share <code>y=24.75</code> and <code>height=22.5</code> — single text line (computed line-height ~22.5). Header bbox: 1265×73. Well within 1280 viewport.</p>
+  <p>Consistent with the canonical <code>navbar-expand-lg</code> pattern (full inline at ≥ 992). Memory <code>design_header_nav_breakpoint</code> confirmed.</p>
+
+  <figure>
+    <img src="screenshots/sprint-11-cycle-1/t3-home-1280-live-20260512.png" alt="Homepage full page at 1280">
+    <figcaption>Full homepage at 1280×800 for context.</figcaption>
+  </figure>
+</section>
+
+<section id="d">
+  <h2>Thread D — <code>/open-source-projects</code> Community section P2 marker</h2>
+
+  <h3>Identification (binding: <code>canvas_page__components</code>)</h3>
+  <ul>
+    <li>Legacy node id: 5 (<code>node_field_data.title = "Open Source Projects"</code>)</li>
+    <li>Canvas page id: <strong>5</strong></li>
+    <li>Path: <code>/open-source-projects</code> → <code>/page/5</code></li>
+  </ul>
+
+  <h3>Section + kicker map</h3>
+  <table>
+    <thead><tr><th>delta</th><th>component</th><th>inputs</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>section</td><td>theme=white, additional_classes=<code>landing-hero</code></td></tr>
+      <tr><td>1</td><td>kicker</td><td>text="Open source", variant=<strong>centered</strong></td></tr>
+      <tr><td>4</td><td>section</td><td>theme=light</td></tr>
+      <tr><td>5</td><td>kicker</td><td>text="Testing tools", variant=centered</td></tr>
+      <tr style="background:#fff7d6;"><td><strong>11</strong></td><td><strong>section</strong></td><td><strong>theme=white</strong> (no additional_classes)</td></tr>
+      <tr style="background:#fff7d6;"><td><strong>12</strong></td><td><strong>kicker</strong></td><td><strong>text="Community", variant=centered</strong></td></tr>
+      <tr><td>18</td><td>section</td><td>theme=white, additional_classes=<code>dy-section--other-modules</code> (own marker)</td></tr>
+      <tr><td>22</td><td>section</td><td>theme=dark</td></tr>
+      <tr><td>23</td><td>kicker</td><td>text="Contribute", variant=centered</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Selector reach</h3>
+  <p>The new <code>.dy-section--centered-white</code> marker is already defined in <code>dy-section.css</code> (lines 132, 140, 151). The old <code>.theme--white:has(.kicker--centered)</code> half (lines 133, 141, 152) is currently the only thing styling the Community section at delta=11. Delta=0 ("Open source") also matches the old selector — but its <code>landing-hero</code> additional class likely scopes hero-specific overrides; verify during Cycle 2b that no hero regression occurs.</p>
+
+  <h3>Recommendation — single Cycle 2b refactor</h3>
+  <ol>
+    <li>Add <code>dy-section--centered-white</code> to canvas page id=5 delta=11 <code>additional_classes</code>.</li>
+    <li>Drop the old <code>:has()</code> half of P2 in <code>dy-section.css</code> (lines 133, 141, 152).</li>
+    <li>AE=0 at 1280/768/375 on <code>/open-source-projects</code> per Sprint 10 method.</li>
+    <li>If delta=0 hero regresses, add the marker there too — but the hero's own rules likely override.</li>
+  </ol>
+</section>
+
+<section id="e">
+  <h2>Thread E — FU-4 mkcert SSL chain (operator-side fix)</h2>
+
+  <h3>Verification</h3>
+  <table>
+    <thead><tr><th>Probe</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>mkcert -CAROOT</code></td><td><code>/Users/andreangelantoni/Library/Application Support/mkcert</code></td></tr>
+      <tr><td>Root CA file</td><td>Present (1883 bytes, dated 2021-12-13)</td></tr>
+      <tr><td>host <code>curl https://...:8493/</code> (no env)</td><td><span class="pill bad">curl: (60) SSL certificate problem</span></td></tr>
+      <tr><td><code>CURL_CA_BUNDLE=...rootCA.pem curl ...</code></td><td><span class="pill ok">HTTP 200</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exact fix — one line in <code>~/.zshrc</code></h3>
+  <pre># mkcert CA for host-side curl (DDEV HTTPS chain) — Sprint 11 FU-4
+export CURL_CA_BUNDLE="$(mkcert -CAROOT)/rootCA.pem"</pre>
+  <p>Re-source with <code>source ~/.zshrc</code> or open a new terminal. Verify:</p>
+  <pre>curl -sS -o /dev/null -w "%{http_code}\n" https://pl-performantlabs.com.3.ddev.site:8493/
+# expect: 200</pre>
+  <p><strong>Cannot be applied by F/O</strong> — <code>~/.zshrc</code> is outside the repo. Document in <code>sprint-11-wrap.md</code> as an operator action item.</p>
+</section>
+
+<section id="carve">
+  <h2>Cycle 2 carve recommendation</h2>
+  <p>Pre-committed carve in <code>pl-plan--sprint-11-hygiene.md</code> §Cycles 2..N stands. One clarification on Cycle 2a scope (not strictly "doc-only-ish").</p>
+  <table>
+    <thead><tr><th>Cycle</th><th>Pipeline</th><th>Scope</th></tr></thead>
+    <tbody>
+      <tr><td>2a — Theme + branch cleanup</td><td>O direct</td><td>theme:uninstall + cex + rm -rf + branch -d (34 branches). ~26 yml deletions + 84 files. AE bind on homepage before merge.</td></tr>
+      <tr><td>2b — <code>/open-source-projects</code> P2 marker + cleanup</td><td>O → F → T → S → O</td><td>Add <code>dy-section--centered-white</code> to canvas id=5 delta=11; drop <code>:has()</code> half of P2. AE=0 at 1280/768/375.</td></tr>
+      <tr><td>2c — FU-4 + FU-5 docs</td><td>O direct</td><td>FU-4 operator action in wrap. FU-5 closed (Thread C clean).</td></tr>
+      <tr><td>Final — Zero-debt verification baseline</td><td>T + S</td><td>Tech-debt register at zero. Pa11y 0 errors. AE 1280/768/375.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Verdict</h2>
+  <p><span class="verdict pass">PASS</span> — all five threads resolved with binding signals. Operator may proceed to Cycle 2a.</p>
+
+  <h2>Advisory notes</h2>
+  <ul>
+    <li>After 2a, consider uninstalling the plain <code>performant_labs</code> theme too if it has no consumers — out of scope for Sprint 11.</li>
+    <li><code>web/sites/default/files/sync/</code> contains a stale <code>config/sync</code> snapshot (historical export). Flag for future hygiene only.</li>
+  </ul>
+</section>
+
+</div>
+</body>
+</html>

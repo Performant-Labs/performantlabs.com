@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phase 8.6 Polish — Visual Audit Report</title>
+<style>
+  :root {
+    --pass: #2f8a4e;
+    --rework: #c0392b;
+    --delta: #d97706;
+    --bg: #fdfaf3;
+    --ink: #1f1a14;
+    --muted: #6b6258;
+    --line: #e5e1dc;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 24px; }
+  header.banner { background: var(--rework); color: #fff; padding: 32px 24px; margin: -24px -24px 32px; border-radius: 0 0 8px 8px; }
+  header.banner h1 { margin: 0 0 8px; font-size: 36px; font-weight: 800; }
+  header.banner .verdict { font-size: 28px; font-weight: 700; margin-top: 8px; }
+  header.banner .meta { margin-top: 12px; font-size: 14px; opacity: 0.95; }
+  header.banner .meta table { border-collapse: collapse; margin-top: 8px; }
+  header.banner .meta th, header.banner .meta td { padding: 4px 12px; text-align: left; border: 1px solid rgba(255,255,255,0.3); font-size: 13px; }
+  nav.toc { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 16px 24px; margin-bottom: 32px; }
+  nav.toc h2 { margin: 0 0 12px; font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
+  nav.toc ol { margin: 0; padding-left: 20px; }
+  nav.toc li { margin: 4px 0; }
+  nav.toc a { color: #0F6F8A; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 24px 32px; margin-bottom: 32px; }
+  section h2 { margin: 0 0 16px; font-size: 24px; border-bottom: 2px solid var(--line); padding-bottom: 12px; }
+  section h3 { margin: 20px 0 8px; font-size: 18px; }
+  ul.findings li { margin: 8px 0; line-height: 1.5; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .badge.pass { background: #d6f0dc; color: var(--pass); }
+  .badge.rework { background: #fadbd8; color: var(--rework); }
+  .badge.delta { background: #fde9c8; color: var(--delta); }
+  table.data { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  table.data th, table.data td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; font-size: 14px; vertical-align: top; }
+  table.data th { background: #f6f1e6; font-weight: 700; }
+  .comparator { margin: 24px 0; }
+  .comparator h3 { margin-bottom: 8px; }
+  .slider-wrap { position: relative; width: 100%; max-width: 1280px; margin: 0 auto; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .slider-wrap img { display: block; width: 100%; height: auto; }
+  .slider-wrap .preview-layer { position: absolute; top: 0; left: 0; right: 0; height: 100%; }
+  .slider-wrap .live-layer { position: relative; }
+  .slider-wrap input[type="range"] { position: absolute; bottom: 8px; left: 8px; right: 8px; width: calc(100% - 16px); z-index: 10; }
+  .labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin: 6px 4px; }
+  .pixels-strip { font-size: 13px; color: var(--muted); margin: 8px 0; }
+  .crop-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+  .crop-row figure { flex: 1 1 380px; margin: 0; border: 1px solid var(--line); border-radius: 4px; padding: 8px; background: #faf7ef; }
+  .crop-row figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .crop-row img { width: 100%; height: auto; display: block; border-radius: 2px; }
+  details { background: #faf7ef; padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  code { background: #f1ede2; padding: 1px 6px; border-radius: 3px; font-size: 13px; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .twocol { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="banner">
+  <h1>Phase 8.6 — Polish batch · Visual Audit Report</h1>
+  <div class="verdict">VERDICT: REWORK</div>
+  <div class="meta">
+    Branch: <code>aa/pl-homepage-phase-8.6-polish</code> · Date: 2026-05-11<br>
+    <table>
+      <tr><th>Viewport</th><th>Pixels diff (AE)</th><th>Delta %</th><th>Note</th></tr>
+      <tr><td>1280×800</td><td>2,787,290</td><td>50.16%</td><td>Cumulative vertical-offset cascade (live 925 px taller). Per-section evidence binding.</td></tr>
+      <tr><td>768×1024</td><td>1,925,460</td><td>51.12%</td><td>Live 1,350 px taller; same cascade.</td></tr>
+      <tr><td>375×667</td><td>1,256,820</td><td>54.38%</td><td>Live 1,098 px taller; same cascade.</td></tr>
+    </table>
+  </div>
+</header>
+
+<nav class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#summary">What I see different (plain English)</a></li>
+    <li><a href="#item-results">Per-item results</a></li>
+    <li><a href="#regressions">Regression spot-checks (8.1–8.5)</a></li>
+    <li><a href="#vp-1280">Wipe-slider comparator — 1280</a></li>
+    <li><a href="#vp-768">Wipe-slider comparator — 768</a></li>
+    <li><a href="#vp-375">Wipe-slider comparator — 375</a></li>
+    <li><a href="#crops">Section crops</a></li>
+    <li><a href="#rework">Required rework</a></li>
+  </ol>
+</nav>
+
+<section id="summary">
+  <h2>What I see different — plain English</h2>
+  <ul class="findings">
+    <li><span class="badge pass">Match</span> <strong>FAQ accordions (item 2)</strong> — all three viewports: closed accordion rows display a <code>+</code> glyph in teal, right-aligned. The previous chevron-down SVG is hidden. Matches preview exactly.</li>
+    <li><span class="badge pass">Match</span> <strong>Hamburger button (item 5)</strong> — at 375 and 768: bordered with 8 px rounded corners, 44×44 touch target. Matches preview.</li>
+    <li><span class="badge pass">Match</span> <strong>Footer column link labels (item 1)</strong> — at 1280: all sentence case ("Testing-suite takeover", "Embedded testing engineer", etc.). Matches preview.</li>
+    <li><span class="badge pass">Match</span> <strong>Footer-CTA primary pill (item 3)</strong> — at 1280: "Book a testing review" displays with no arrow glyph.</li>
+    <li><span class="badge pass">Match</span> <strong>Built-for-the-team checklist (item 4)</strong> — at 1280: all four items end with terminal periods.</li>
+    <li><span class="badge rework">Rework</span> <strong>Header nav cluster (item 6)</strong> at 1280: live "Services" left edge sits at x=342, preview at x=536 (<strong>194 px delta</strong>). Live "Contact us" right edge at x=1054, preview at x=1214 (<strong>160 px delta</strong>). F's handoff measured this as ~7 px sub-threshold based on container-width arithmetic on the logo's left edge — but the logo positions are essentially identical (101 vs 103 px). The actual visible offset is in the nav cluster on the right side, where the live header clusters nav left-aligned immediately after the logo while preview pushes nav to the right of a 1200 px container.</li>
+    <li><span class="badge pass">Pass</span> <strong>All five prior regressions (8.1–8.5)</strong> hold: no header pill, hero padding-inline 0 with no 768 overflow, 6 grayscale logos at 28 px in single row, feature cards 1-col stack at 768, hero min-height auto with tight transition.</li>
+    <li><em>Advisory (out of 8.6 scope):</em> Primary CTA pill color treatment differs between live (deep teal #0F6F8A) and preview (lighter cyan ~#4FB6CB). Pre-existing condition not addressed in any 8.x cycle; flag for global Phase 8 re-audit.</li>
+  </ul>
+</section>
+
+<section id="item-results">
+  <h2>Per-item results</h2>
+  <table class="data">
+    <tr><th>#</th><th>Item</th><th>Target</th><th>Rendered</th><th>Result</th></tr>
+    <tr><td>1</td><td>Footer link casing</td><td>Sentence case</td><td>Sentence case in <code>.footer-column__link</code></td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>2</td><td>FAQ accordion icons</td><td><code>+</code> closed, <code>−</code> open</td><td><code>+</code> shown closed across viewports</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>3</td><td>Footer-CTA pill arrow</td><td>No arrow</td><td>No arrow</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>4</td><td>Checklist periods</td><td>Terminal periods</td><td>All four items end with periods</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>5</td><td>Hamburger border + radius</td><td>1 px hairline + 8 px radius, 44×44</td><td>1 px hairline + 8 px radius, 44×44</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>6</td><td>Nav-cluster offset at 1280</td><td>Preview position (right-aligned in 1200 px container)</td><td>Live left-clustered after logo; 160–194 px delta</td><td><span class="badge rework">Rework</span></td></tr>
+  </table>
+</section>
+
+<section id="regressions">
+  <h2>Regression spot-checks (8.1–8.5)</h2>
+  <table class="data">
+    <tr><th>Sub-cycle</th><th>Check</th><th>Viewport</th><th>Result</th></tr>
+    <tr><td>8.1</td><td>No "Book a testing review" pill in header; header height ~73 px; hamburger gating at &lt;992 px</td><td>1280 / 768 / 375</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>8.2</td><td>Hero <code>padding-inline: 0</code>; no horizontal overflow at 768</td><td>768</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>8.3</td><td>6 grayscale bitmap logos at 28 px, single row at 1280</td><td>1280</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>8.4</td><td>Feature cards 3-col desktop, 1-col stack at 768 / 375</td><td>768</td><td><span class="badge pass">Pass</span></td></tr>
+    <tr><td>8.5</td><td>Hero <code>min-height: auto</code>; tight hero→logo-bar gap (96/96/64 px)</td><td>768 / 1280</td><td><span class="badge pass">Pass</span></td></tr>
+  </table>
+</section>
+
+<section id="vp-1280">
+  <h2>Wipe-slider comparator — 1280×800</h2>
+  <p class="pixels-strip">Pixels differing: 2,787,290 / 5,556,480 = <strong>50.16%</strong> (whole-page; dominated by vertical-offset cascade — see per-section crops for binding evidence).</p>
+  <div class="slider-wrap" data-id="s1280">
+    <div class="live-layer"><img src="screenshots/cycle-8.6/t3-homepage-1280-live-20260511.png" alt="Live 1280"></div>
+    <div class="preview-layer" id="prev-s1280"><img src="screenshots/cycle-8.6/t3-homepage-1280-preview-20260511.png" alt="Preview 1280"></div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('prev-s1280').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  </div>
+  <div class="labels"><span>← Live</span><span>Drag slider to wipe</span><span>Preview →</span></div>
+  <h3>Diff PNG (red = differing pixels)</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-1280-diff-20260511.png" alt="Diff 1280" style="max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;">
+  <h3>Side-by-side composite (live | preview)</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-1280-composite-20260511.png" alt="Composite 1280" style="max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;">
+</section>
+
+<section id="vp-768">
+  <h2>Wipe-slider comparator — 768×1024</h2>
+  <p class="pixels-strip">Pixels differing: 1,925,460 / 3,766,272 = <strong>51.12%</strong> (whole-page; vertical cascade).</p>
+  <div class="slider-wrap" data-id="s768">
+    <div class="live-layer"><img src="screenshots/cycle-8.6/t3-homepage-768-live-20260511.png" alt="Live 768"></div>
+    <div class="preview-layer" id="prev-s768"><img src="screenshots/cycle-8.6/t3-homepage-768-preview-20260511.png" alt="Preview 768"></div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('prev-s768').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  </div>
+  <div class="labels"><span>← Live</span><span>Drag slider to wipe</span><span>Preview →</span></div>
+  <h3>Diff PNG</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-768-diff-20260511.png" alt="Diff 768" style="max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;">
+  <h3>Side-by-side composite</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-768-composite-20260511.png" alt="Composite 768" style="max-width:100%;height:auto;border:1px solid var(--line);border-radius:4px;">
+</section>
+
+<section id="vp-375">
+  <h2>Wipe-slider comparator — 375×667</h2>
+  <p class="pixels-strip">Pixels differing: 1,256,820 / 2,311,125 = <strong>54.38%</strong> (whole-page; vertical cascade).</p>
+  <div class="slider-wrap" data-id="s375" style="max-width:480px;">
+    <div class="live-layer"><img src="screenshots/cycle-8.6/t3-homepage-375-live-20260511.png" alt="Live 375"></div>
+    <div class="preview-layer" id="prev-s375"><img src="screenshots/cycle-8.6/t3-homepage-375-preview-20260511.png" alt="Preview 375"></div>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('prev-s375').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+  </div>
+  <div class="labels"><span>← Live</span><span>Drag slider to wipe</span><span>Preview →</span></div>
+  <h3>Diff PNG</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-375-diff-20260511.png" alt="Diff 375" style="max-width:480px;height:auto;border:1px solid var(--line);border-radius:4px;">
+  <h3>Side-by-side composite</h3>
+  <img src="screenshots/cycle-8.6/t3-homepage-375-composite-20260511.png" alt="Composite 375" style="max-width:780px;height:auto;border:1px solid var(--line);border-radius:4px;">
+</section>
+
+<section id="crops">
+  <h2>Section crops — focused evidence per item</h2>
+
+  <h3>Item 2 — FAQ accordion at 1280 (closed = <code>+</code>)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-faq-1280-live-crop-20260511.png"><figcaption>Live · <span class="badge pass">Match</span></figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-faq-1280-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Item 5 — Hamburger button at 375 (bordered, 8 px radius)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-header-375-live-crop-20260511.png"><figcaption>Live · <span class="badge pass">Match</span></figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-header-375-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Item 1 — Footer column links at 1280 (sentence case)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-footer-1280-live-crop-20260511.png"><figcaption>Live · <span class="badge pass">Match</span> (Privacy Policy bottom-bar element is a separate Drupal config artifact; out of 8.6 scope)</figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-footer-1280-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Item 3 — Footer-CTA primary pill (no arrow)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-footercta-1280-live-crop-20260511.png"><figcaption>Live · <span class="badge pass">Match</span> (no arrow on pill)</figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-footercta-1280-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Item 4 — Built-for-the-team checklist (terminal periods)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-checklist-1280-live-crop-20260511.png"><figcaption>Live · <span class="badge pass">Match</span></figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-checklist-1280-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Item 6 — Header nav cluster at 1280 (REWORK)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-header-1280-live-crop-20260511.png"><figcaption>Live · <span class="badge rework">Rework</span><br>"Services" left edge at x=342, "Contact us" right edge at x=1054.</figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-header-1280-preview-crop-20260511.png"><figcaption>Preview<br>"Services" left edge at x=536, "Contact us" right edge at x=1214.</figcaption></figure>
+  </div>
+  <p>Logo position is essentially identical between live (x=101) and preview (x=103). The 160–194 px delta is entirely in the nav cluster's horizontal alignment. F's handoff measured the logo position, not the nav position — the cited 7 px sub-threshold is an artifact of measuring the wrong feature.</p>
+
+  <h3>Regression — header at 1280 (no pill, sentence-case nav)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-header-1280-live-crop-20260511.png"><figcaption>Live · 8.1 regression intact (no header pill, ~73 px header height)</figcaption></figure>
+  </div>
+
+  <h3>Regression — hero band at 768 (no horizontal overflow, tight transition)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-hero-768-live-crop-20260511.png"><figcaption>Live · 8.2 + 8.5 regressions intact</figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-hero-768-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+
+  <h3>Regression — feature cards at 768 (1-col stack of 3)</h3>
+  <div class="crop-row">
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-features-768-live-crop-20260511.png"><figcaption>Live · 8.4 regression intact</figcaption></figure>
+    <figure><img src="screenshots/cycle-8.6/t3-homepage-features-768-preview-crop-20260511.png"><figcaption>Preview</figcaption></figure>
+  </div>
+</section>
+
+<section id="rework">
+  <h2>Required rework</h2>
+  <ol>
+    <li>
+      <strong>Item 6 — header nav-cluster alignment at 1280.</strong>
+      <ul>
+        <li><strong>Branch:</strong> <code>aa/pl-homepage-phase-8.6.1-nav-cluster-offset</code></li>
+        <li><strong>Problem:</strong> Live header places nav cluster immediately after the logo (left-aligned cluster pattern); preview places nav right-aligned to a 1200 px container. Measured delta: 160 px (right edge) to 194 px (left edge).</li>
+        <li><strong>F's measurement error:</strong> F's container-width arithmetic measured the logo's left edge, where the values agree within ~2 px. The visible offset is in the nav cluster on the right side of the header.</li>
+        <li><strong>Likely fix:</strong> L5 in <code>header.css</code> — adjust the header inner container's flex distribution (likely <code>justify-content: space-between</code> on a wrapper) or add <code>margin-inline-start: auto</code> to the nav block so it pushes to the right of the container.</li>
+        <li><strong>Operator decision needed:</strong> confirm preview alignment is canonical for the header nav before F traces neonbyte header layout.</li>
+      </ul>
+    </li>
+  </ol>
+  <p><strong>Items 1, 2, 3, 4, 5 all pass</strong> and need no further work in the rework branch. Do not unwind the accordion (item 2) or hamburger-border (item 5) CSS — both verified visually matching preview.</p>
+</section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Sprint 17 Cycle 1 — /open-source-projects preview-fidelity (HQ audit)</title>
+<style>
+  :root {
+    --ink: #1F1A14; --ink-soft: #2A2520; --canvas: #F5EFE2; --cream: #FAF7EE;
+    --teal: #1893B4; --terra: #C97B5C; --rework: #B0301B; --pass: #2A7A3E;
+    --hairline: #DEE2E6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #fff; color: var(--ink); }
+  body { max-width: 1180px; margin: 0 auto; padding: 24px 32px 64px; line-height: 1.5; }
+  header.verdict { padding: 24px; border: 1px solid var(--hairline); border-radius: 12px; margin-bottom: 32px; background: var(--cream); }
+  .verdict h1 { margin: 0 0 8px; font-size: 26px; font-weight: 600; letter-spacing: -0.4px; }
+  .verdict .badge { display: inline-block; padding: 4px 14px; border-radius: 999px; background: var(--rework); color: #fff; font-weight: 700; font-size: 14px; letter-spacing: 0.4px; }
+  .verdict p { margin: 12px 0 0; max-width: 64ch; }
+  nav.toc { margin-bottom: 32px; padding: 12px 16px; border: 1px solid var(--hairline); border-radius: 8px; background: #fafafa; font-size: 14px; }
+  nav.toc a { color: var(--teal); text-decoration: none; margin-right: 16px; }
+  nav.toc a:hover { text-decoration: underline; }
+  h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.2px; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--hairline); }
+  h3 { font-size: 17px; font-weight: 600; margin: 20px 0 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  th { background: #fafafa; font-weight: 600; }
+  td.delta { color: var(--rework); font-weight: 600; }
+  td.match { color: var(--pass); font-weight: 600; }
+  td.num { font-variant-numeric: tabular-nums; }
+  ul { padding-left: 20px; }
+  ul li { margin: 4px 0; }
+  .comparator-block { margin: 24px 0 40px; padding: 16px; border: 1px solid var(--hairline); border-radius: 8px; background: #fff; }
+  .comparator-block h3 { margin-top: 0; }
+  .comparator { position: relative; width: 100%; max-width: 1100px; margin: 8px 0 12px; border: 1px solid var(--hairline); overflow: hidden; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .comparator .top img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+  .comparator .slider { width: 100%; margin-top: 6px; }
+  .comparator .legend { font-size: 13px; color: #555; padding: 0 4px; display: flex; justify-content: space-between; }
+  .composite, .diff { width: 100%; max-width: 1100px; height: auto; border: 1px solid var(--hairline); margin: 8px 0; }
+  .diff-caption { font-size: 13px; color: #555; margin: 4px 0 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 720px) { .grid-2 { grid-template-columns: 1fr; } }
+  code { background: #f4f4f4; padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+  .finding-card { padding: 12px 16px; border-left: 4px solid var(--terra); background: #fff8f3; margin: 12px 0; border-radius: 4px; }
+  .finding-card.pass { border-left-color: var(--pass); background: #f3f9f4; }
+  .finding-card h4 { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
+  .vp-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 14px; }
+  .vp-stats .stat { padding: 6px 12px; background: #fff; border: 1px solid var(--hairline); border-radius: 6px; }
+  .vp-stats .stat strong { font-variant-numeric: tabular-nums; color: var(--ink); }
+</style>
+</head>
+<body>
+
+<header class="verdict">
+  <span class="badge">REWORK</span>
+  <h1>Sprint 17 Cycle 1 — /open-source-projects HQ preview-fidelity audit</h1>
+  <p><strong>Six actionable findings</strong> — four preview-doc edits (one PC-11 card-CTA restructure, one H1/H3 color token, one missing Payment Stripe card, one hero H1 wrap container width), one canvas-content / copy candidate (orphan word "contributions" at 375), one CTA-chrome carry. All structural a11y floors hold. No live WCAG regression. Cycle 2..N carve recommended.</p>
+  <div class="vp-stats">
+    <div class="stat">1280 whole-page DSSIM <strong>0.219</strong> • AE 8.42 M (~39%)</div>
+    <div class="stat">768 whole-page DSSIM <strong>0.207</strong> • AE 13.81 M (~64%)</div>
+    <div class="stat">375 whole-page DSSIM <strong>0.221</strong> • AE 5.07 M (~45%)</div>
+  </div>
+  <p style="margin-top: 12px; font-size: 13px; color: #555;">Whole-page numbers are drift-dominated and informative only — per-section DSSIM is binding (see Per-section table). Markdown audit: <a href="sprint-17-cycle-1-audit.md"><code>sprint-17-cycle-1-audit.md</code></a></p>
+</header>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#what-i-see">What I see different</a>
+  <a href="#per-section">Per-section table</a>
+  <a href="#vp-1280">1280</a>
+  <a href="#vp-768">768</a>
+  <a href="#vp-375">375</a>
+  <a href="#findings">Findings</a>
+  <a href="#recommendations">Cycle 2 plan</a>
+</nav>
+
+<section id="what-i-see">
+  <h2>What I see different — plain-English summary</h2>
+  <ul>
+    <li><strong>Hero (all viewports):</strong> H1 sits ~180 px lower on live than preview (Drupal hero padding cascade). At 1280, live's H1 "What we maintain in the open" fits on <em>one line</em>; preview wraps it to <em>two lines</em> ("What we maintain" / "in the open"). Preview's hero `__inner` container is narrower (920 px vs live's ~959 px).</li>
+    <li><strong>Heading color:</strong> Live H1 + every card H3 renders in espresso <code>#1F1A14</code>; preview uses the slightly lighter <code>#2A2520</code>. Both are legitimate brief tokens, but the live darker token has been the Sprint 13–16 sitewide baseline.</li>
+    <li><strong>Card structure (PC-11):</strong> On live, the entire card title is the link (you can click the title to open the project page). On preview, the title is plain text and there's a separate "Read the docs →" footer link in each card. Per PC-11 pre-commitment, <strong>live is canonical; preview will be updated</strong> to title-as-link with no separate footer link.</li>
+    <li><strong>Other modules (§D):</strong> Live has a <em>Payment Stripe</em> card under the "Other modules we maintain" heading; preview's section is empty. Preview-doc needs to add this card.</li>
+    <li><strong>Mobile 375 / §C "Community contributions":</strong> H2 wraps to 2 lines with last line = "contributions" (single-word orphan) on BOTH live and preview. Needs a `<wbr>` between "Community" and "contributions" or a 5-word copy edit.</li>
+    <li><strong>Closing CTA:</strong> Live's "Drop us a line" button is a taller outline pill (56 px) with a chevron-circle suffix icon; preview's is a shorter ghost pill (45 px). Sitewide carry (F-NEW-4), not /open-source-projects-specific.</li>
+    <li><strong>Hero kicker / subhead / body P:</strong> Sub-pixel line-height drifts (body-lg sitewide carry). Not blocking.</li>
+  </ul>
+</section>
+
+<section id="per-section">
+  <h2>Per-section DSSIM table (binding)</h2>
+  <p style="font-size: 13px; color: #555;">DSSIM < 0.01 MATCH; 0.01–0.05 MINOR; ≥ 0.05 REAL. Values normalized to 0–1.</p>
+  <table>
+    <thead><tr><th>Viewport</th><th>Section</th><th>DSSIM (norm)</th><th>PSNR (norm)</th><th>AE @ 0%</th><th>AE @ 3%</th><th>AE-3% ÷ total</th><th>Class</th></tr></thead>
+    <tbody>
+      <tr><td>1280</td><td>hero</td><td class="num delta">0.192</td><td class="num">0.118</td><td class="num">268,581</td><td class="num">260,957</td><td class="num">10.15%</td><td class="delta">REAL</td></tr>
+      <tr><td>1280</td><td>testing-tools</td><td class="num delta">0.189</td><td class="num">0.144</td><td class="num">2</td><td class="num">2</td><td class="num">&lt;0.001%</td><td class="delta">REAL (DSSIM)</td></tr>
+      <tr><td>1280</td><td>drupal-qa</td><td class="num delta">0.201</td><td class="num">0.129</td><td class="num">1</td><td class="num">1</td><td class="num">&lt;0.001%</td><td class="delta">REAL (DSSIM)</td></tr>
+      <tr><td>1280</td><td>other-modules</td><td class="num delta">0.151</td><td class="num">0.171</td><td class="num">51,125</td><td class="num">49,355</td><td class="num">3.12%</td><td class="delta">REAL</td></tr>
+      <tr><td>1280</td><td>closing-cta</td><td class="num delta">0.162</td><td class="num">0.127</td><td class="num">141,378</td><td class="num">139,654</td><td class="num">6.29%</td><td class="delta">REAL</td></tr>
+      <tr><td>1280</td><td>footer</td><td class="num delta">0.178</td><td class="num">0.147</td><td class="num">117,072</td><td class="num">112,333</td><td class="num">5.84%</td><td class="delta">REAL</td></tr>
+      <tr><td>768</td><td>hero</td><td class="num delta">0.225</td><td class="num">0.106</td><td class="num">272,856</td><td class="num">264,567</td><td class="num">14.70%</td><td class="delta">REAL</td></tr>
+      <tr><td>768</td><td>testing-tools</td><td class="num delta">0.178</td><td class="num">0.152</td><td class="num">6</td><td class="num">6</td><td class="num">&lt;0.001%</td><td class="delta">REAL (DSSIM)</td></tr>
+      <tr><td>768</td><td>drupal-qa</td><td class="num delta">0.182</td><td class="num">0.143</td><td class="num">2</td><td class="num">2</td><td class="num">&lt;0.001%</td><td class="delta">REAL (DSSIM)</td></tr>
+      <tr><td>768</td><td>other-modules</td><td class="num delta">0.161</td><td class="num">0.158</td><td class="num">47,642</td><td class="num">46,102</td><td class="num">4.55%</td><td class="delta">REAL</td></tr>
+      <tr><td>768</td><td>closing-cta</td><td class="num delta">0.183</td><td class="num">0.110</td><td class="num">137,233</td><td class="num">135,517</td><td class="num">10.16%</td><td class="delta">REAL</td></tr>
+      <tr><td>768</td><td>footer</td><td class="num delta">0.188</td><td class="num">0.140</td><td class="num">112,527</td><td class="num">107,816</td><td class="num">6.87%</td><td class="delta">REAL</td></tr>
+      <tr><td>375</td><td>hero</td><td class="num delta">0.251</td><td class="num">0.104</td><td class="num">155,187</td><td class="num">149,948</td><td class="num">16.61%</td><td class="delta">REAL</td></tr>
+      <tr><td>375</td><td>testing-tools</td><td class="num delta">0.208</td><td class="num">0.136</td><td class="num">2</td><td class="num">2</td><td class="num">&lt;0.001%</td><td class="delta">REAL (DSSIM)</td></tr>
+      <tr><td>375</td><td>drupal-qa</td><td class="num delta">0.205</td><td class="num">0.140</td><td class="num">830,704</td><td class="num">814,150</td><td class="num">22.59%</td><td class="delta">REAL</td></tr>
+      <tr><td>375</td><td>other-modules</td><td class="num delta">0.187</td><td class="num">0.141</td><td class="num">37,962</td><td class="num">36,523</td><td class="num">7.54%</td><td class="delta">REAL</td></tr>
+      <tr><td>375</td><td>closing-cta</td><td class="num delta">0.225</td><td class="num">0.098</td><td class="num">78,899</td><td class="num">77,560</td><td class="num">15.21%</td><td class="delta">REAL</td></tr>
+      <tr><td>375</td><td>footer</td><td class="num delta">0.198</td><td class="num">0.133</td><td class="num">87,911</td><td class="num">84,085</td><td class="num">7.91%</td><td class="delta">REAL</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 13px; color: #555;">Note: testing-tools / drupal-qa AE≈0 at 1280 / 768 is an anchor-crop artefact (cumulative drift puts the preview crop in canvas while live crop is mid-card). DSSIM correctly registers real structural divergence — the diff PNGs show the actual content delta.</p>
+</section>
+
+<section id="vp-1280">
+  <h2>1280 — desktop comparator</h2>
+
+  <div class="comparator-block">
+    <h3>Wipe slider — drag to reveal live behind preview</h3>
+    <div class="comparator" id="comp-1280">
+      <img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-preview-20260513.png" alt="Preview at 1280" />
+      <div class="top"><img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-live-masked-20260513.png" alt="Live at 1280 (chrome masked)" /></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" class="slider" data-target="comp-1280" />
+    <div class="legend"><span>← live (chrome masked)</span><span>preview →</span></div>
+
+    <h3>ImageMagick diff (red = pixel mismatch, fuzz 3%)</h3>
+    <img class="diff" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-wholepage-diff-fuzz3-20260513.png" alt="Whole-page diff 1280 fuzz3" />
+    <p class="diff-caption">Red overlay marks every pixel that differs by &gt; 3% RGB between live and preview at 1280.</p>
+
+    <h3>Side-by-side composite</h3>
+    <img class="composite" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-1280-composite-20260513.png" alt="1280 composite live + preview" />
+    <p class="diff-caption">Left: live (chrome masked). Right: preview. Equal heights cropped to common-H.</p>
+  </div>
+</section>
+
+<section id="vp-768">
+  <h2>768 — tablet comparator</h2>
+
+  <div class="comparator-block">
+    <h3>Wipe slider</h3>
+    <div class="comparator" id="comp-768">
+      <img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-768-preview-20260513.png" alt="Preview at 768" />
+      <div class="top"><img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-768-live-masked-20260513.png" alt="Live at 768" /></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" class="slider" data-target="comp-768" />
+    <div class="legend"><span>← live</span><span>preview →</span></div>
+
+    <h3>ImageMagick diff (fuzz 3%)</h3>
+    <img class="diff" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-768-wholepage-diff-fuzz3-20260513.png" alt="Whole-page diff 768 fuzz3" />
+
+    <h3>Composite</h3>
+    <img class="composite" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-768-composite-20260513.png" alt="768 composite" />
+  </div>
+</section>
+
+<section id="vp-375">
+  <h2>375 — mobile comparator</h2>
+
+  <div class="comparator-block">
+    <h3>Wipe slider</h3>
+    <div class="comparator" id="comp-375">
+      <img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-375-preview-20260513.png" alt="Preview at 375" />
+      <div class="top"><img src="screenshots/sprint-17-cycle-1/t3-open-source-projects-375-live-masked-20260513.png" alt="Live at 375" /></div>
+    </div>
+    <input type="range" min="0" max="100" value="50" class="slider" data-target="comp-375" />
+    <div class="legend"><span>← live</span><span>preview →</span></div>
+
+    <h3>ImageMagick diff (fuzz 3%)</h3>
+    <img class="diff" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-375-wholepage-diff-fuzz3-20260513.png" alt="Whole-page diff 375 fuzz3" />
+
+    <h3>Composite</h3>
+    <img class="composite" src="screenshots/sprint-17-cycle-1/t3-open-source-projects-375-composite-20260513.png" alt="375 composite" />
+  </div>
+</section>
+
+<section id="findings">
+  <h2>Findings</h2>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-CARD — Card-CTA structural delta (PC-11 pre-commitment)</h4>
+    <p>Live: <code>&lt;a class="card__link"&gt;&lt;h3&gt;…&lt;/h3&gt;…&lt;/a&gt;</code> (title is the link). Preview: plain H3 + separate <code>.project-card__link</code> footer. Per PC-11 — <strong>live is canonical; preview-doc fix</strong>. Improves a11y link-purpose 2.4.4 (descriptive link name = card title vs ambiguous "Read the docs").</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-A — H1 / card H3 color: live #1F1A14, preview #2A2520</h4>
+    <p>Both are legitimate brief tokens (ink-strong vs ink). Live has used #1F1A14 sitewide since Sprint 13 baseline. <strong>Preview-doc update to #1F1A14.</strong></p>
+  </div>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-B — Hero H1 wraps differently at 1280: live 1 line vs preview 2 lines</h4>
+    <p>Preview <code>.hero__inner { max-width: 920px }</code>; live container ~1040 px wide. <strong>Option A (default):</strong> widen preview hero-inner to ~1040 px. Option B: accept the 2-line preview look. <strong>Operator decision recommended.</strong></p>
+  </div>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-C — §C H2 "Community contributions" orphan "contributions" at 375 on both renders</h4>
+    <p>Memory <code>feedback_no_orphan_words.md</code>. Option A (autonomous default): Canvas-content <code>&lt;wbr&gt;</code> insertion. Option B: copy edit. Option C: accept. <strong>Operator decision recommended.</strong></p>
+  </div>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-D — Preview missing Payment Stripe card in §D</h4>
+    <p>Live renders one card under "Other modules we maintain"; preview's section is empty (heading + intro only). <strong>Preview-doc add a Payment Stripe card</strong> using the title-as-link structure from F-NEW-17-CARD.</p>
+  </div>
+
+  <div class="finding-card">
+    <h4>F-NEW-17-E (advisory) — CTA chrome carry F-NEW-4</h4>
+    <p>Closing-CTA "Drop us a line" — live uses outline + chevron-circle suffix (56 px); preview uses ghost pill (45 px). Sitewide; awaits Sprint 14 operator decision.</p>
+  </div>
+</section>
+
+<section id="recommendations">
+  <h2>Cycle 2 plan (sub-issue recommendations)</h2>
+
+  <ol>
+    <li>
+      <strong>Branch:</strong> <code>aa/pl-sprint-17-cycle-2-preview-doc</code><br>
+      <strong>Scope:</strong> Single preview-doc edit batch closing F-NEW-17-CARD, F-NEW-17-A, F-NEW-17-D, F-NEW-17-B Option A (if operator accepts default).<br>
+      <strong>Operator decision needed before F starts:</strong>
+      <ul>
+        <li>F-NEW-17-B — Option A (widen preview hero <code>__inner</code> to ~1040 px) <em>or</em> Option B (accept 2-line preview hero)?</li>
+        <li>F-NEW-17-C — fold into Cycle 2 as Canvas-content <code>&lt;wbr&gt;</code> insert (Option A), defer to Cycle 3, or accept (Option C)?</li>
+      </ul>
+    </li>
+    <li>
+      <strong>Branch (conditional):</strong> <code>aa/pl-sprint-17-cycle-3-orphan-and-hero-wrap</code><br>
+      <strong>Scope:</strong> Whatever F-NEW-17-B / F-NEW-17-C options weren't folded into Cycle 2.
+    </li>
+  </ol>
+  <p>Sprint-out-of-scope carry-forwards: F-NEW-4 CTA suffix-icon, body-lg sitewide drift, display-md lh sitewide, footer richness, footer-column heading H3/H4. All remain catalogued for future sitewide cycles.</p>
+</section>
+
+<script>
+  document.querySelectorAll('.slider').forEach(s => {
+    const tgt = document.getElementById(s.dataset.target).querySelector('.top');
+    function apply(v) { tgt.style.clipPath = `inset(0 ${100 - v}% 0 0)`; }
+    apply(s.value);
+    s.addEventListener('input', e => apply(e.target.value));
+  });
+</script>
+
+</body>
+</html>
