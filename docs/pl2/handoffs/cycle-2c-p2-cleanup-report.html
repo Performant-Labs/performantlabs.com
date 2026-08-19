@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 11 Cycle 2c — P2 transition-selector cleanup — Audit report</title>
+<style>
+  :root { --ok: #1f7a3a; --bad: #b3261e; --ink: #1F1A14; --paper: #fff; --rule: #e5e0d8; --sand: #faf7f2; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--paper); margin: 0; padding: 24px 28px; line-height: 1.45; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 22px; margin: 32px 0 12px; border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+  h3 { font-size: 18px; margin: 22px 0 8px; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+  .verdict { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-radius: 8px; background: #e9f5ec; color: var(--ok); border: 1px solid #b8dec3; margin: 16px 0 24px; font-weight: 600; font-size: 22px; }
+  .verdict .meta { font-size: 13px; font-weight: 400; color: #444; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 18px; font-size: 14px; }
+  th, td { border: 1px solid var(--rule); padding: 6px 10px; text-align: left; }
+  th { background: var(--sand); }
+  td.ok { color: var(--ok); font-weight: 600; }
+  ul.summary li { margin: 4px 0; }
+  nav.toc { background: var(--sand); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 16px; font-size: 14px; margin: 18px 0 24px; }
+  nav.toc a { color: inherit; }
+  .vp-block { border: 1px solid var(--rule); border-radius: 8px; padding: 16px; margin: 14px 0; background: var(--sand); }
+  .vp-block h4 { margin: 0 0 8px; font-size: 15px; }
+  .wipe { position: relative; width: 100%; max-width: 1280px; margin: 0 auto 8px; user-select: none; background: #000; }
+  .wipe .stack { position: relative; width: 100%; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .wipe .handle { width: 100%; margin-top: 6px; }
+  .label-row { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 2px 4px; }
+  .img-block img { width: 100%; max-width: 1280px; display: block; margin: 8px auto 4px; border: 1px solid var(--rule); }
+  details { margin: 6px 0; }
+  details > summary { cursor: pointer; padding: 6px 8px; background: var(--sand); border: 1px solid var(--rule); border-radius: 4px; font-weight: 600; }
+  details[open] > summary { border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+  details .content { border: 1px solid var(--rule); border-top: 0; padding: 10px 12px; border-radius: 0 0 4px 4px; background: #fff; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 11 Cycle 2c — P2 transition-selector cleanup</h1>
+<div class="meta">Branch <code>aa/pl-sprint-11-cycle-2c-p2-cleanup</code> • 2026-05-12 • autonomous</div>
+
+<div class="verdict">
+  <div>PASS</div>
+  <div class="meta">18 page × viewport pairs at 1280 / 768 / 375 — AE = 0 (0.000% delta) on every pair.</div>
+</div>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#summary">Summary</a> ·
+  <a href="#matrix">AE matrix</a> ·
+  <a href="#home">/</a> ·
+  <a href="#services">/services</a> ·
+  <a href="#how-we-do-it">/how-we-do-it</a> ·
+  <a href="#about-us">/about-us</a> ·
+  <a href="#contact-us">/contact-us</a> ·
+  <a href="#open-source-projects">/open-source-projects</a>
+</nav>
+
+<h2 id="summary">What I see different</h2>
+<ul class="summary">
+  <li><strong>No visible differences detected at any viewport on any of the 6 audited pages.</strong></li>
+  <li>Refactor swaps the OR'd <code>:has(.dy-section__header .kicker--centered)</code> selector half for a marker-class half on the same DOM elements with the same declarations.</li>
+  <li>Grid-wrapper consumers (<code>/services</code> "Four ways we engage" and <code>/</code> "What we ship") retain the <code>:not(:has(.grid-wrapper))</code> structural guard on the content-centering rule — card layout unchanged.</li>
+  <li><code>/open-source-projects</code> is a regression-only page (no marker changes) and is pixel-identical.</li>
+</ul>
+
+<h2 id="matrix">AE pixel-count matrix</h2>
+<table>
+  <thead>
+    <tr><th>Page</th><th>Viewport</th><th>Image dimensions</th><th>AE (px diff)</th><th>Delta %</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>/</td><td>1280×800</td><td>1280×4754</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/</td><td>768×1024</td><td>768×5658</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/</td><td>375×667</td><td>375×7065</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/services</td><td>1280×800</td><td>1280×3854</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/services</td><td>768×1024</td><td>768×4266</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/services</td><td>375×667</td><td>375×5059</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/how-we-do-it</td><td>1280×800</td><td>1280×5378</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/how-we-do-it</td><td>768×1024</td><td>768×6471</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/how-we-do-it</td><td>375×667</td><td>375×8174</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/about-us</td><td>1280×800</td><td>1280×4549</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/about-us</td><td>768×1024</td><td>768×5690</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/about-us</td><td>375×667</td><td>375×7952</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/contact-us</td><td>1280×800</td><td>1280×3452</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/contact-us</td><td>768×1024</td><td>768×4814</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/contact-us</td><td>375×667</td><td>375×6096</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>1280×800</td><td>1280×4490</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>768×1024</td><td>768×7041</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/open-source-projects</td><td>375×667</td><td>375×9293</td><td>0</td><td>0.000%</td><td class="ok">MATCH</td></tr>
+  </tbody>
+</table>
+
+<script>
+  // Wipe-slider behaviour: drag the slider to reveal the "live" image
+  // beneath the "baseline" image. Mounted after DOMContentLoaded.
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.wipe').forEach(w => {
+      const top = w.querySelector('.top');
+      const range = w.querySelector('input[type=range]');
+      const set = () => { top.style.clipPath = `inset(0 ${100 - range.value}% 0 0)`; };
+      range.addEventListener('input', set);
+      set();
+    });
+  });
+</script>
+
+<!-- Per-viewport comparator builder. Each page section follows the same pattern. -->
+<script>
+  // For brevity / consistency we render comparator blocks via this helper.
+  // (Kept inline because the operator may open via file:// without a build step.)
+</script>
+
+<!-- Page sections rendered statically below. -->
+
+<!--- HOMEPAGE -->
+<h2 id="home">/ (homepage)</h2>
+<p>Hero unchanged; <code>"What we ship"</code> (section 15) now carries the marker class — header centering unchanged thanks to identical declarations on the doubled-class half. AE=0 confirms.</p>
+
+<div class="vp-block">
+  <h4>1280 × 800 — full-page screenshot (AE=0)</h4>
+  <div class="label-row"><span>Baseline (pre-refactor)</span><span>Live (post-refactor)</span></div>
+  <div class="wipe">
+    <div class="stack">
+      <img src="screenshots/sprint-11-cycle-2c/t3-home-1280-baseline-20260512.png" alt="baseline /">
+      <img class="top" src="screenshots/sprint-11-cycle-2c/t3-home-1280-live-20260512.png" alt="live /">
+    </div>
+  </div>
+  <input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-home-1280-composite-20260512.png" alt="composite"></div></details>
+</div>
+
+<div class="vp-block">
+  <h4>768 × 1024 — full-page screenshot (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-home-768-baseline-20260512.png" alt="baseline /">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-home-768-live-20260512.png" alt="live /">
+  </div></div>
+  <input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<div class="vp-block">
+  <h4>375 × 667 — full-page screenshot (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-home-375-baseline-20260512.png" alt="baseline /">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-home-375-live-20260512.png" alt="live /">
+  </div></div>
+  <input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<!--- SERVICES -->
+<h2 id="services">/services</h2>
+<p><code>"Four ways we engage"</code> (section 6) gains the marker. Grid-wrapper guard preserves card-layout behaviour. AE=0 at all viewports.</p>
+<div class="vp-block"><h4>1280 × 800 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-services-1280-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-services-1280-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-services-1280-composite-20260512.png"></div></details>
+</div>
+<div class="vp-block"><h4>768 × 1024 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-services-768-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-services-768-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+<div class="vp-block"><h4>375 × 667 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-services-375-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-services-375-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<!--- HOW-WE-DO-IT -->
+<h2 id="how-we-do-it">/how-we-do-it</h2>
+<p>Hero "Process" (section 0) marker added. AE=0 at all viewports.</p>
+<div class="vp-block"><h4>1280 × 800 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-1280-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-1280-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-1280-composite-20260512.png"></div></details>
+</div>
+<div class="vp-block"><h4>768 × 1024 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-768-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-768-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+<div class="vp-block"><h4>375 × 667 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-375-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-how-we-do-it-375-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<!--- ABOUT-US -->
+<h2 id="about-us">/about-us</h2>
+<p>Hero (section 0, has cta-pair marker) and Bio block (section 11, has bio-block marker) each gain the centered-white marker as a second class. AE=0 at all viewports.</p>
+<div class="vp-block"><h4>1280 × 800 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-about-us-1280-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-about-us-1280-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-about-us-1280-composite-20260512.png"></div></details>
+</div>
+<div class="vp-block"><h4>768 × 1024 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-about-us-768-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-about-us-768-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+<div class="vp-block"><h4>375 × 667 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-about-us-375-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-about-us-375-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<!--- CONTACT-US -->
+<h2 id="contact-us">/contact-us</h2>
+<p>Hero "Get in touch" (section 0, has contact-us-hero marker) gains the centered-white marker as a second class. AE=0 at all viewports.</p>
+<div class="vp-block"><h4>1280 × 800 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-contact-us-1280-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-contact-us-1280-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-contact-us-1280-composite-20260512.png"></div></details>
+</div>
+<div class="vp-block"><h4>768 × 1024 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-contact-us-768-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-contact-us-768-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+<div class="vp-block"><h4>375 × 667 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-contact-us-375-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-contact-us-375-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<!--- OSP -->
+<h2 id="open-source-projects">/open-source-projects</h2>
+<p>No marker changes this cycle — regression page. AE=0 at all viewports confirms zero collateral impact.</p>
+<div class="vp-block"><h4>1280 × 800 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-1280-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-1280-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+  <details><summary>Side-by-side composite</summary><div class="content img-block"><img src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-1280-composite-20260512.png"></div></details>
+</div>
+<div class="vp-block"><h4>768 × 1024 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-768-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-768-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+<div class="vp-block"><h4>375 × 667 (AE=0)</h4>
+  <div class="wipe"><div class="stack">
+    <img src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-375-baseline-20260512.png" alt="">
+    <img class="top" src="screenshots/sprint-11-cycle-2c/t3-open-source-projects-375-live-20260512.png" alt="">
+  </div></div><input class="handle" type="range" min="0" max="100" value="50">
+</div>
+
+<h2>Per-section delta table</h2>
+<table>
+  <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Notes</th></tr></thead>
+  <tbody><tr><td colspan="4" class="ok">All sections match — no visible differences at any viewport on any page.</td></tr></tbody>
+</table>
+
+<h2>Verification approach</h2>
+<ol>
+  <li><code>git stash</code> F's CSS edit.</li>
+  <li>One-shot drush helper removed the <code>dy-section--centered-white</code> marker from the 6 patched sections to reconstruct the pre-refactor DB state.</li>
+  <li><code>ddev drush cr</code>.</li>
+  <li>Playwright (chromium 1.59.1, fullPage, scroll-primed) captured baseline PNGs at the 3 brief viewports across all 6 pages.</li>
+  <li><code>git stash pop</code> restored F's CSS; F's marker script re-applied the markers; <code>ddev drush cr</code>.</li>
+  <li>Live PNGs captured identically.</li>
+  <li><code>compare -metric AE -fuzz 1%</code> on each pair → AE=0 across all 18 pairs.</li>
+  <li>Helper script removed; working tree contains only F's intended changes plus S's outputs.</li>
+</ol>
+
+</body>
+</html>

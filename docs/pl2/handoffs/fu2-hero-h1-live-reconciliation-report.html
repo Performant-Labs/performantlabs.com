@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FU-2 Hero H1 Live Reconciliation — S Visual Report</title>
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; color: #1F1A14; background: #fafafa; line-height: 1.5; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 24px; }
+  .verdict { background: #d6f5dc; border: 2px solid #2e7d32; border-radius: 8px; padding: 24px; margin: 0 0 32px; }
+  .verdict h1 { margin: 0 0 12px; font-size: 36px; color: #1b5e20; }
+  .verdict .sub { font-size: 14px; color: #1b5e20; }
+  h2 { border-bottom: 2px solid #ddd; padding-bottom: 6px; margin-top: 40px; }
+  h3 { margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #f0f0f0; }
+  .match { color: #2e7d32; font-weight: 600; }
+  .delta { color: #c62828; font-weight: 600; }
+  .neutral { color: #666; }
+  ul { margin: 8px 0; padding-left: 20px; }
+  .vp-block { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 24px 0; }
+  .vp-block h3 { margin-top: 0; }
+  .comparator { position: relative; max-width: 100%; margin: 16px 0; user-select: none; }
+  .comparator .stack { position: relative; overflow: hidden; border: 1px solid #aaa; }
+  .comparator .stack img { display: block; width: 100%; height: auto; }
+  .comparator .top-layer { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin-top: 4px; }
+  .comparator .labels { display: flex; justify-content: space-between; font-size: 12px; color: #555; padding: 2px 4px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 8px 0; }
+  .pair > div { border: 1px solid #ddd; }
+  .pair img { width: 100%; display: block; }
+  .pair .caption { background: #f5f5f5; padding: 4px 8px; font-size: 12px; }
+  .diff-img { max-width: 100%; border: 1px solid #ddd; margin: 8px 0; display: block; }
+  .toc { background: white; border: 1px solid #ddd; padding: 12px 18px; border-radius: 8px; }
+  .toc a { color: #1565c0; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+  .small { font-size: 12px; color: #666; }
+  code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="verdict">
+  <h1>PASS</h1>
+  <div class="sub">
+    FU-2 Hero H1 Live-CSS Reconciliation — Branch <code>aa/pl-fu2-hero-h1-live-reconciliation</code>
+    <br>
+    All four landing pages (<code>/</code>, <code>/services</code>, <code>/how-we-do-it</code>, <code>/open-source-projects</code>) render hero H1 at brief-canonical
+    <strong>72px / 500 / -2px / 1.05</strong> desktop and <strong>44px / 500 / -1px / 1.05</strong> mobile.
+  </div>
+</div>
+
+<div class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#summary">What I see different</a></li>
+    <li><a href="#home-1280">Comparator: home @ 1280</a></li>
+    <li><a href="#services-1280">Comparator: services @ 1280</a></li>
+    <li><a href="#hwdi-1280">Comparator: how-we-do-it @ 1280</a></li>
+    <li><a href="#oss-1280">Comparator: open-source-projects @ 1280</a></li>
+    <li><a href="#home-375">Comparator: home @ 375</a></li>
+    <li><a href="#services-375">Comparator: services @ 375</a></li>
+    <li><a href="#hwdi-375">Comparator: how-we-do-it @ 375</a></li>
+    <li><a href="#oss-375">Comparator: open-source-projects @ 375</a></li>
+    <li><a href="#section-table">Per-section delta table</a></li>
+  </ul>
+</div>
+
+<h2 id="summary">What I see different</h2>
+<p>For the audit-relevant element (the hero H1 typography), there are <strong>no visible differences</strong> between live and preview at any viewport. Multi-line wrap behavior, character size, letter-spacing, line-height, weight, and color all match across all four pages and both viewports.</p>
+<p>The diff PNGs do show large red regions, but they trace to <strong>pre-existing, out-of-scope</strong> differences:</p>
+<ul>
+  <li><strong>Hero band background color.</strong> Live: cream/off-white. Preview: pure white. Affects the whole hero band on the three non-home pages. Pre-existing — not introduced by FU-2.</li>
+  <li><strong>Breadcrumb row.</strong> Live: "Home &gt; Services" (or similar) above the hero. Preview: no breadcrumb. Pre-existing CMS chrome.</li>
+  <li><strong>Header right-side CTA pill.</strong> Preview: "Call today" / "Book a testing review" pill. Live: no pill (canonical header per the design memory). Pre-existing from prior header reassessment cycle.</li>
+</ul>
+<p>None of those are typography concerns and none were touched by FU-2. The Cycle 3 divergence (<code>-1.8px / 1.10</code> on the three non-home pages) is gone — live now matches the brief and the previews on H1 metrics.</p>
+
+<h2 id="comparators">Per-viewport comparator blocks</h2>
+
+<!-- One block per page/viewport combo -->
+<script>
+function bindSlider(id) {
+  const root = document.getElementById(id);
+  const slider = root.querySelector('input[type=range]');
+  const top = root.querySelector('.top-layer');
+  slider.addEventListener('input', () => {
+    top.style.clipPath = 'inset(0 ' + (100 - slider.value) + '% 0 0)';
+  });
+}
+</script>
+
+<!-- HOME 1280 -->
+<div class="vp-block" id="home-1280">
+  <h3>home @ 1280 — 124,045 px differ (9.69% of cropped band)</h3>
+  <p class="small">Drag the slider to compare. Left of slider = live. Right of slider = preview.</p>
+  <div class="comparator">
+    <div class="stack" id="cmp-home-1280">
+      <img src="screenshots/fu2-hero-h1/t3-home-1280-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-home-1280-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-home-1280 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-home-1280-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-home-1280-composite-20260511.png" alt="composite">
+</div>
+
+<!-- SERVICES 1280 -->
+<div class="vp-block" id="services-1280">
+  <h3>services @ 1280 — 322,504 px differ (25.20% of cropped band)</h3>
+  <p class="small">Drag the slider to compare. Hero H1 "Testing engagements for Drupal teams." — typography matches; deltas are header pill (preview only), cream band (live only), breadcrumb (live only).</p>
+  <div class="comparator">
+    <div class="stack" id="cmp-svc-1280">
+      <img src="screenshots/fu2-hero-h1/t3-services-1280-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-services-1280-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-svc-1280 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-services-1280-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-services-1280-composite-20260511.png" alt="composite">
+</div>
+
+<!-- HWDI 1280 -->
+<div class="vp-block" id="hwdi-1280">
+  <h3>how-we-do-it @ 1280 — 512,058 px differ (40.00% of cropped band)</h3>
+  <p class="small">Hero H1 "How a testing engagement runs." — typography matches; deltas are header pill, cream band, breadcrumb.</p>
+  <div class="comparator">
+    <div class="stack" id="cmp-hwdi-1280">
+      <img src="screenshots/fu2-hero-h1/t3-hwdi-1280-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-hwdi-1280-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-hwdi-1280 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-hwdi-1280-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-hwdi-1280-composite-20260511.png" alt="composite">
+</div>
+
+<!-- OSS 1280 -->
+<div class="vp-block" id="oss-1280">
+  <h3>open-source-projects @ 1280 — 458,461 px differ (35.82% of cropped band)</h3>
+  <p class="small">Hero H1 "What we maintain in the open" — typography matches.</p>
+  <div class="comparator">
+    <div class="stack" id="cmp-oss-1280">
+      <img src="screenshots/fu2-hero-h1/t3-oss-1280-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-oss-1280-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-oss-1280 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-oss-1280-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-oss-1280-composite-20260511.png" alt="composite">
+</div>
+
+<!-- HOME 375 -->
+<div class="vp-block" id="home-375">
+  <h3>home @ 375 — 71,217 px differ (23.74% of cropped band)</h3>
+  <div class="comparator">
+    <div class="stack" id="cmp-home-375">
+      <img src="screenshots/fu2-hero-h1/t3-home-375-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-home-375-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-home-375 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-home-375-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-home-375-composite-20260511.png" alt="composite">
+</div>
+
+<!-- SERVICES 375 -->
+<div class="vp-block" id="services-375">
+  <h3>services @ 375 — 130,885 px differ (43.63% of cropped band)</h3>
+  <p class="small">Mobile hero H1 "Testing / engagements / for Drupal / teams." — 4-line wrap is identical; FU-7 mobile parallel (44px) confirmed.</p>
+  <div class="comparator">
+    <div class="stack" id="cmp-svc-375">
+      <img src="screenshots/fu2-hero-h1/t3-services-375-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-services-375-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-svc-375 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-services-375-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-services-375-composite-20260511.png" alt="composite">
+</div>
+
+<!-- HWDI 375 -->
+<div class="vp-block" id="hwdi-375">
+  <h3>how-we-do-it @ 375 — 128,041 px differ (42.68% of cropped band)</h3>
+  <div class="comparator">
+    <div class="stack" id="cmp-hwdi-375">
+      <img src="screenshots/fu2-hero-h1/t3-hwdi-375-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-hwdi-375-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-hwdi-375 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-hwdi-375-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-hwdi-375-composite-20260511.png" alt="composite">
+</div>
+
+<!-- OSS 375 -->
+<div class="vp-block" id="oss-375">
+  <h3>open-source-projects @ 375 — 133,647 px differ (44.55% of cropped band)</h3>
+  <div class="comparator">
+    <div class="stack" id="cmp-oss-375">
+      <img src="screenshots/fu2-hero-h1/t3-oss-375-preview-hero-20260511.png" alt="preview">
+      <img class="top-layer" src="screenshots/fu2-hero-h1/t3-oss-375-live-hero-20260511.png" alt="live">
+    </div>
+    <input type="range" min="0" max="100" value="50" oninput="document.querySelector('#cmp-oss-375 .top-layer').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)'">
+    <div class="labels"><span>live</span><span>preview</span></div>
+  </div>
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-oss-375-diff-hero-20260511.png" alt="diff">
+  <img class="diff-img" src="screenshots/fu2-hero-h1/t3-oss-375-composite-20260511.png" alt="composite">
+</div>
+
+<h2 id="section-table">Per-section delta table</h2>
+<table>
+  <thead>
+    <tr><th>Section</th><th>Viewport(s)</th><th>Status</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Hero H1 typography</td><td>1280 + 375 (all 4 pages)</td><td class="match">MATCH</td><td>72/500/-2px/1.05 desktop; 44/500/-1px/1.05 mobile. Multi-line wraps identical to preview.</td></tr>
+    <tr><td>Hero band background</td><td>all</td><td class="neutral">DELTA (pre-existing)</td><td>Live cream, preview white. Out of FU-2 scope.</td></tr>
+    <tr><td>Breadcrumb row</td><td>all (non-home)</td><td class="neutral">DELTA (pre-existing)</td><td>Live has CMS breadcrumb, preview does not.</td></tr>
+    <tr><td>Header right-side CTA pill</td><td>all</td><td class="neutral">DELTA (pre-existing)</td><td>Preview has it; live (canonical header per design memory) does not.</td></tr>
+    <tr><td>Heading hierarchy</td><td>all</td><td class="match">MATCH</td><td>Single H1 per page; no level skips.</td></tr>
+    <tr><td>Visual H1 hierarchy / clipping</td><td>all</td><td class="match">MATCH</td><td>No ascender/descender clipping at 1.05 line-height.</td></tr>
+    <tr><td>WCAG contrast (hero H1)</td><td>all</td><td class="match">PASS (AAA)</td><td>17.27:1 (#1F1A14 on #FFFFFF).</td></tr>
+  </tbody>
+</table>
+
+<p class="small">Generated 2026-05-11. Screenshots and diffs live in <code>docs/pl2/handoffs/screenshots/fu2-hero-h1/</code>. Markdown handoff: <code>docs/pl2/handoffs/fu2-hero-h1-live-reconciliation-S.md</code>.</p>
+
+</div>
+</body>
+</html>

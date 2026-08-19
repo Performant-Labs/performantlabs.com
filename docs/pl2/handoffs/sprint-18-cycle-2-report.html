@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 18 Cycle 2 — /articles preview-doc batch (S report)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root { --ink:#1F1A14; --body:#5C544C; --line:#E5E1DC; --cream:#F5EFE2; --pass:#0A7A3B; --warn:#B8771F; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background:#fff; }
+  header.banner { background: var(--cream); padding: 28px 40px; border-bottom: 1px solid var(--line); }
+  header.banner h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: -0.4px; }
+  header.banner .verdict { display: inline-block; margin-top: 8px; padding: 8px 18px; border-radius: 999px; background: var(--pass); color: #fff; font-weight: 700; letter-spacing: 0.3px; font-size: 18px; }
+  header.banner .meta { color: var(--body); font-size: 14px; margin-top: 8px; }
+  nav.toc { padding: 12px 40px; background: #fafafa; border-bottom: 1px solid var(--line); font-size: 14px; }
+  nav.toc a { color: #0A4E7A; margin-right: 18px; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  main { padding: 0 40px 80px; max-width: 1500px; }
+  section { padding: 36px 0; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 22px; letter-spacing: -0.2px; margin: 0 0 14px; }
+  h3 { font-size: 17px; margin: 24px 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #fafafa; }
+  ul { margin: 6px 0 6px 22px; }
+  code { background: #f3efe8; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .pass { color: var(--pass); font-weight: 600; }
+  .delta { color: var(--warn); font-weight: 600; }
+  .small { font-size: 13px; color: var(--body); }
+  img.diff { max-width: 100%; border: 1px solid var(--line); margin: 8px 0; }
+  /* Wipe slider */
+  .wipe { position: relative; width: 100%; max-width: 1280px; margin: 12px 0; user-select: none; }
+  .wipe .frame { position: relative; width: 100%; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+  .wipe .frame img { display: block; width: 100%; height: auto; }
+  .wipe .frame img.top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); transition: clip-path 0.05s linear; }
+  .wipe input[type=range] { width: 100%; margin-top: 8px; }
+  .wipe .labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--body); margin-top: 4px; }
+  .wipe .left-label, .wipe .right-label { font-weight: 600; color: var(--ink); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } main { padding: 0 18px 60px; } header.banner, nav.toc { padding-left: 18px; padding-right: 18px; } }
+  .legend { font-size: 13px; color: var(--body); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <h1>Sprint 18 Cycle 2 — <code>/articles</code> preview-doc batch</h1>
+  <div class="meta">Scoped re-audit · 2026-05-13 · branch <code>aa/pl-sprint-18-cycle-2-preview-doc-batch</code></div>
+  <div class="verdict">PASS</div>
+  <div class="meta">
+    Preview-doc-only (6 fixes A–F). Live theme untouched. Sprint 9 visually-hidden
+    <code>&lt;h2&gt;Articles&lt;/h2&gt;</code> on live verified intact.
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#summary">What changed</a>
+  <a href="#comparators">Wipe comparators</a>
+  <a href="#dssim">DSSIM table</a>
+  <a href="#probes">DOM probes</a>
+  <a href="#sprint9">Sprint 9</a>
+  <a href="#oos">Out-of-scope</a>
+</nav>
+
+<main>
+
+<section id="summary">
+  <h2>What I see different vs Cycle 1 preview</h2>
+  <ul>
+    <li><strong>Chip strip (1280 + 375):</strong> active "All" pill changed from teal <code>#1893B4</code> to deep blue <code>#005AA0</code>. Last two chips swapped order — now <em>Open source</em> precedes <em>Talks</em>, matching live.</li>
+    <li><strong>Pagination (1280 + 375):</strong> current-page "1" pill changed from teal to deep blue, same token.</li>
+    <li><strong>Card border (1280 + 375):</strong> visibly darker hairline around each card. Color went from pale <code>#E5E1DC</code> to <code>#8E867A</code> (matches live exactly).</li>
+    <li><strong>Card H3 title color:</strong> subtle nudge from <code>#2A2520</code> to <code>#1F1A14</code> (ink-strong). Visible in DOM probe; visually very subtle (both pass &gt; 12:1 contrast on white).</li>
+    <li><strong>Mobile chip tap height (375):</strong> chip rows now 46 px tall (was 32 px). Above WCAG 2.5.8 floor by 22 px and above the AAA / Apple HIG 44 px target.</li>
+    <li><strong>Skip-link target (DOM only, non-visual):</strong> <code>href="#main-content"</code> now resolves to an in-flow anchor inside <code>&lt;main&gt;</code> (was <code>#main</code> on the <code>&lt;main&gt;</code> element itself). Matches live Drupal pattern.</li>
+  </ul>
+  <p class="small">No visible deltas detected in page-title, footer, header, or anywhere outside the chip strip / card / pagination chrome.</p>
+</section>
+
+<section id="comparators">
+  <h2>Per-section wipe comparators</h2>
+  <p class="legend">Drag the slider to wipe Cycle-1 preview (left) over post-fix preview (right). Top image = post-fix; revealing leftward shows the pre-fix Cycle-1 baseline.</p>
+
+  <h3>Chip strip @ 1280 — pre vs post</h3>
+  <div class="wipe" data-wipe>
+    <div class="frame">
+      <img class="bot" src="screenshots/sprint-18-cycle-2/chip-strip-1280-pre.png" alt="Cycle 1 chip strip 1280">
+      <img class="top" src="screenshots/sprint-18-cycle-2/chip-strip-1280-post.png" alt="Post-fix chip strip 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50">
+    <div class="labels"><span class="left-label">← post-fix (Cycle 2)</span><span class="right-label">Cycle 1 (pre) →</span></div>
+  </div>
+
+  <h3>Chip strip @ 1280 — live vs post-fix preview</h3>
+  <div class="wipe" data-wipe>
+    <div class="frame">
+      <img class="bot" src="screenshots/sprint-18-cycle-2/chip-strip-1280-live.png" alt="Live chip strip 1280">
+      <img class="top" src="screenshots/sprint-18-cycle-2/chip-strip-1280-post.png" alt="Post-fix chip strip 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50">
+    <div class="labels"><span class="left-label">← post-fix preview</span><span class="right-label">live →</span></div>
+  </div>
+
+  <h3>Card section @ 1280 — pre vs post (border + H3 color)</h3>
+  <div class="wipe" data-wipe>
+    <div class="frame">
+      <img class="bot" src="screenshots/sprint-18-cycle-2/card-section-1280-pre.png" alt="Cycle 1 card section 1280">
+      <img class="top" src="screenshots/sprint-18-cycle-2/card-section-1280-post.png" alt="Post-fix card section 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50">
+    <div class="labels"><span class="left-label">← post-fix (Cycle 2)</span><span class="right-label">Cycle 1 (pre) →</span></div>
+  </div>
+
+  <h3>Card section @ 1280 — live vs post-fix preview</h3>
+  <div class="wipe" data-wipe>
+    <div class="frame">
+      <img class="bot" src="screenshots/sprint-18-cycle-2/card-section-1280-live.png" alt="Live card section 1280">
+      <img class="top" src="screenshots/sprint-18-cycle-2/card-section-1280-post.png" alt="Post-fix card section 1280">
+    </div>
+    <input type="range" min="0" max="100" value="50">
+    <div class="labels"><span class="left-label">← post-fix preview</span><span class="right-label">live →</span></div>
+  </div>
+
+  <p class="small">Live capture content differs (PC-13: views-listing content fluctuation); the comparator shows chrome — border weight, corner radius, H3 weight/color, eyebrow positioning. Card chrome is now visually congruent with live.</p>
+</section>
+
+<section id="dssim">
+  <h2>Scoped DSSIM — post-fix preview vs Cycle-1 preview</h2>
+  <p class="legend">Non-zero only on sections that Cycle 2 touched. <code>page-title</code> and <code>footer</code> at 1280 are exactly 0 (untouched). At 375 the chip-strip padding bump shifts content below it by ~12 px, so <code>grid</code> / <code>articles-view</code> / <code>footer</code> register vertical drift — expected, not a regression.</p>
+  <table>
+    <thead><tr><th>Viewport</th><th>Section</th><th>AE</th><th>DSSIM (norm)</th><th>Class</th></tr></thead>
+    <tbody>
+      <tr><td>1280</td><td>page-title</td><td>0</td><td>0.000</td><td class="pass">MATCH (untouched)</td></tr>
+      <tr><td>1280</td><td>articles-view</td><td>155,540</td><td>0.0049</td><td class="delta">DELTA (intentional: chip color/order)</td></tr>
+      <tr><td>1280</td><td>grid</td><td>139,195</td><td>0.0051</td><td class="delta">DELTA (intentional: card border + H3)</td></tr>
+      <tr><td>1280</td><td>pagination</td><td>5,094</td><td>0.0039</td><td class="delta">DELTA (intentional: current-page color)</td></tr>
+      <tr><td>1280</td><td>footer</td><td>0</td><td>0.000</td><td class="pass">MATCH (untouched)</td></tr>
+      <tr><td>1280</td><td>whole-page</td><td>155,540</td><td>0.0035</td><td class="pass">scoped-non-zero</td></tr>
+      <tr><td>375</td><td>page-title</td><td>0</td><td>0.000</td><td class="pass">MATCH</td></tr>
+      <tr><td>375</td><td>articles-view</td><td>715,608</td><td>0.0930</td><td class="delta">DELTA (intentional: chip pad +12 px shifts content; chip color/order)</td></tr>
+      <tr><td>375</td><td>grid</td><td>667,810</td><td>0.0958</td><td class="delta">DELTA (positional drift from chip-pad bump + border/H3)</td></tr>
+      <tr><td>375</td><td>pagination</td><td>9,018</td><td>0.0833</td><td class="delta">DELTA (positional drift + current-page color)</td></tr>
+      <tr><td>375</td><td>footer</td><td>97,225</td><td>0.0917</td><td class="delta">DELTA (positional drift only — footer chrome unchanged)</td></tr>
+      <tr><td>375</td><td>whole-page</td><td>812,833</td><td>0.0827</td><td class="pass">scoped-non-zero</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Live (Cycle 1) vs post-fix preview @ 1280</h3>
+  <table>
+    <thead><tr><th>Comparison</th><th>AE</th><th>DSSIM (norm)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Cycle 1: live vs preview</td><td>7.35 M</td><td>0.502</td><td>baseline (pre-fix)</td></tr>
+      <tr><td>Cycle 2: live vs post-fix preview</td><td>7.34 M</td><td>0.205</td><td class="pass">−59% DSSIM reduction; chip + card chrome now visually closer to live</td></tr>
+    </tbody>
+  </table>
+  <p class="small">AE is dominated by PC-13 article-content drift (different article set on live vs preview) — the AE near-equality is expected. DSSIM, the binding metric, drops materially.</p>
+</section>
+
+<section id="probes">
+  <h2>DOM / computed-style probes (post-fix preview)</h2>
+  <table>
+    <thead><tr><th>Check</th><th>Expected</th><th>1280</th><th>375</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td><code>.chip.is-active</code> background</td><td><code>rgb(0,90,160)</code></td><td>rgb(0,90,160)</td><td>rgb(0,90,160)</td><td class="pass">PASS</td></tr>
+      <tr><td><code>.pagination .is-current</code> background</td><td><code>rgb(0,90,160)</code></td><td>rgb(0,90,160)</td><td>rgb(0,90,160)</td><td class="pass">PASS</td></tr>
+      <tr><td><code>.article-card</code> border-color</td><td><code>rgb(142,134,122)</code></td><td>rgb(142,134,122)</td><td>rgb(142,134,122)</td><td class="pass">PASS</td></tr>
+      <tr><td><code>.article-card h3 a</code> color</td><td><code>rgb(31,26,20)</code></td><td>rgb(31,26,20)</td><td>rgb(31,26,20)</td><td class="pass">PASS</td></tr>
+      <tr><td>Chip DOM order</td><td>All / Automated Testing / Cypress / Open source / Talks</td><td colspan="2">All / Automated Testing / Cypress / Open source / Talks</td><td class="pass">PASS</td></tr>
+      <tr><td>Mobile chip height (375)</td><td>≥ 44 px</td><td>34 px (desktop MQ)</td><td>46 px</td><td class="pass">PASS</td></tr>
+      <tr><td>Skip-link <code>href</code></td><td><code>#main-content</code></td><td colspan="2"><code>#main-content</code></td><td class="pass">PASS</td></tr>
+      <tr><td>Skip-link target</td><td>in-flow <code>&lt;a id="main-content" tabindex="-1"&gt;</code></td><td colspan="2">tag=A · tabindex=-1</td><td class="pass">PASS</td></tr>
+      <tr><td><code>&lt;main&gt;</code> has no <code>id</code></td><td>null</td><td colspan="2">null</td><td class="pass">PASS</td></tr>
+      <tr><td>H1 count</td><td>1</td><td colspan="2">1</td><td class="pass">PASS</td></tr>
+      <tr><td>Horizontal scroll</td><td>none</td><td colspan="2">pageW = clientW</td><td class="pass">PASS</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="sprint9">
+  <h2>Sprint 9 visually-hidden <code>&lt;h2&gt;Articles&lt;/h2&gt;</code> — live status</h2>
+  <p>Probed live at 1280. Visually-hidden H2s emitted by the Drupal views template:</p>
+  <table>
+    <thead><tr><th>Text</th><th>Classes</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Main navigation</td><td><code>visually-hidden h3 menu-block__title</code></td><td>in-flow</td></tr>
+      <tr><td>Breadcrumb</td><td><code>visually-hidden</code></td><td>in-flow</td></tr>
+      <tr><td><strong>Articles</strong></td><td><code>visually-hidden</code></td><td class="pass">in-flow — Sprint 9 fix intact</td></tr>
+      <tr><td>Footer</td><td><code>visually-hidden h3 menu-block__title</code></td><td>in-flow</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Cycle 2 touched no live theme files; this verification is a sanity re-check, not a regression risk surface.</p>
+</section>
+
+<section id="oos">
+  <h2>Out-of-scope items (re-confirmed)</h2>
+  <ul>
+    <li><strong>F-NEW-18-G</strong> — Page-title H1 rendered rect-height delta (live 50 px / preview 59 px at 1280). Cosmetic; both render the same font-size and line-height. <span class="pass">No regression; accepted.</span></li>
+    <li><strong>PC-13</strong> — Views-listing card-content fluctuation (different lead article on live vs preview). Acknowledged not flagged. <span class="pass">No regression; accepted.</span></li>
+    <li><strong>Carry F-NEW-16-H</strong> — Footer column heading H3 vs H4 sitewide. Not in /articles scope.</li>
+  </ul>
+</section>
+
+</main>
+
+<script>
+  document.querySelectorAll('[data-wipe]').forEach(w => {
+    const top = w.querySelector('img.top');
+    const slider = w.querySelector('input[type=range]');
+    slider.addEventListener('input', () => {
+      const pct = 100 - slider.value;
+      top.style.clipPath = `inset(0 ${pct}% 0 0)`;
+    });
+  });
+</script>
+</body>
+</html>

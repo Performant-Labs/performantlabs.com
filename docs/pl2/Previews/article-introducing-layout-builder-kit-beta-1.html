@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<!--
+  Preview 2026-05-06 — article detail page.
+  Sample content: /articles/introducing-layout-builder-kit-beta-1.
+  Source content captured in docs/pl2/Existing Pages/Actual1/article-lbk-beta-1.md.
+  Content type: article (NOT a Canvas / Layout Builder page).
+  Drupal renderer: themes/contrib/neonbyte/templates/content/node--article--full.html.twig
+                   + neonbyte:header-article SDC for the masthead.
+  Visual baseline: docs/pl2/Previews/articles.html (same chrome, tokens, fonts).
+  New decisions made here (none of these exist on the listing page):
+    - Article masthead: terracotta tag chips → H1 → hero image overlap (matches header-article.css -150px image rise).
+    - Prose typography: H2 / H3 / H4 ramp for body sections.
+    - Inline link styling, blockquote, ordered-list marker treatment.
+    - Inline code + <pre> styling (anticipated for future code-heavy articles).
+    - Category label/value pair (field_category, label-above) displayed at top of prose.
+    - End-of-article CTA block (closing routing slot, brand-aligned: no exclamation).
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Performant Labs — introducing layout builder kit beta 1 preview (teal + terracotta)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600&family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Brand teal — locked, shared with /articles listing */
+      --primary: #1893b4;
+      --primary-light: #62bbcb;
+      --primary-deep: #005AA0;
+      --link-hover: #005AA0;
+
+      /* Secondary accent — terracotta */
+      --accent: #C97B5C;
+      --accent-deep: #8E4A2A;
+      --accent-tint: #EBC0AB;
+
+      /* Surfaces */
+      --canvas: #FFFFFF;
+      --cream: #F5EFE2;
+      --surface-warm: #F2EFED;
+      --espresso: #1F1A14;
+      --espresso-tint: #2A2520;
+
+      /* Text */
+      --ink: #2A2520;
+      --body: #5C544C;
+      --muted: #6B6358;
+      --on-dark: #F5EFE2;
+      --on-dark-muted: #B8AFA0;
+
+      /* Hairlines */
+      --hairline: #E5E1DC;
+
+      /* Type */
+      --font-display: "Rubik", sans-serif;
+      --font-body: "Poppins", sans-serif;
+      --font-mono: Consolas, Monaco, "Andale Mono", monospace;
+
+      /* Spacing */
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 12px;
+      --space-base: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+      --space-section: 96px;
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 30px;
+
+      --content-max: 1200px;
+      --prose-max: 720px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0;
+      text-wrap: balance;
+    }
+    p { margin: 0; }
+    a { color: var(--primary); text-decoration: none; transition: color 150ms ease-out; }
+    a:hover { color: var(--link-hover); text-decoration: underline; }
+
+    .container {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    .container--prose { max-width: var(--prose-max); margin: 0 auto; padding: 0 var(--space-lg); }
+
+    /* ---------- Skip link ---------- */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      z-index: 1000;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+    .skip-link:focus {
+      position: fixed;
+      left: 16px;
+      top: 0;
+      width: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      border: 1px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+    }
+    .btn--primary { background: var(--primary-light); color: #fff; }
+    .btn--primary:hover { background: var(--primary); color: #fff; text-decoration: none; }
+    .btn--secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+    .btn--secondary:hover { color: var(--primary-deep); border-color: var(--primary-deep); text-decoration: none; }
+
+    /* ---------- Header (system block, identical to articles.html) ---------- */
+    .site-header { background: var(--canvas); border-bottom: 1px solid var(--hairline); }
+    .site-header__inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 72px;
+    }
+    .site-header__brand {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .site-header__brand-mark {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: 14px; font-weight: 600;
+    }
+    .site-header__nav { display: flex; align-items: center; gap: var(--space-xl); }
+    .site-header__nav a { color: var(--ink); font-size: 15px; }
+    .site-header__nav a:hover { color: var(--primary); }
+    .site-header__nav a.is-current { color: var(--primary); font-weight: 500; }
+    .site-header__hamburger {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      background: transparent;
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      color: var(--ink);
+      cursor: pointer;
+      padding: 0;
+    }
+    .site-header__hamburger-icon {
+      display: block;
+      width: 18px; height: 2px;
+      background: currentColor;
+      position: relative;
+    }
+    .site-header__hamburger-icon::before,
+    .site-header__hamburger-icon::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 18px; height: 2px;
+      background: currentColor;
+    }
+    .site-header__hamburger-icon::before { top: -6px; }
+    .site-header__hamburger-icon::after  { top:  6px; }
+
+    /* ---------- Breadcrumb (system block, identical to articles.html) ---------- */
+    .breadcrumb {
+      padding: var(--space-lg) 0 0;
+      background: var(--canvas);
+    }
+    .breadcrumb__list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; gap: var(--space-sm);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb__list li:not(:last-child)::after {
+      content: "/";
+      margin-left: var(--space-sm);
+      color: var(--hairline);
+    }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+
+    /* ============================================================ */
+    /* SDC SCOPE — neonbyte:header-article (article masthead).       */
+    /* This block is owned by the article-full template + the SDC.   */
+    /* Mirrors: themes/neonbyte/components/header-article/...        */
+    /* ============================================================ */
+
+    .article-masthead {
+      padding-top: var(--space-2xl);
+      /* Generous bottom padding: the hero image lifts up via negative
+         margin-top, and this padding is the empty band it rises into.
+         Must exceed the hero's negative margin so the image doesn't
+         visually overlap the title. */
+      padding-bottom: 180px;
+      background: linear-gradient(to bottom, transparent, var(--cream));
+    }
+    .article-masthead__inner {
+      max-width: var(--prose-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    /* Tag chips above the title — terracotta, distinct from teal listing chips. */
+    .tag-chips {
+      list-style: none; padding: 0; margin: 0 0 var(--space-base);
+      display: flex; flex-wrap: wrap; gap: var(--space-sm);
+    }
+    .tag-chips a {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      background: var(--accent-tint);
+      color: var(--accent-deep);
+      border: 1px solid transparent;
+    }
+    .tag-chips a:hover {
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .article-masthead h1 {
+      font-size: 48px;
+      line-height: 1.1;
+      letter-spacing: -1.2px;
+      margin: 0;
+    }
+
+    /* Hero image — overlaps the prose body as in header-article.css.
+       The negative margin-top on .article-hero is the neonbyte signature
+       (see -150px in components/header-article/header-article.css line 31). */
+    .article-hero {
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+    .article-hero__frame {
+      margin-top: -120px;          /* preview-tuned; production uses -150px */
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--hairline);  /* PL2 elevation rule: hairlines, not shadows */
+    }
+    .article-hero img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+
+    /* ============================================================ */
+    /* PROSE SCOPE — node--article--full body region.                */
+    /* Renders {{ content|without('field_tags','field_image') }}.    */
+    /* Width follows --prose-max (720px), centered.                  */
+    /* ============================================================ */
+
+    .article-body {
+      padding: var(--space-3xl) 0 var(--space-section);
+      background: var(--canvas);
+    }
+
+    /* field_category — label-above field rendered above the prose. */
+    .article-category {
+      margin-bottom: var(--space-2xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--hairline);
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+    }
+    .article-category__label {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .article-category__value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Prose container. Drupal's body field is wrapped in
+       .field--name-body > .field__item; we replicate the styling
+       with a single .article-body__prose class and rely on element
+       selectors so the captured WYSIWYG markup styles correctly. */
+    .article-body__prose {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+    .article-body__prose > * + * { margin-top: var(--space-lg); }
+    .article-body__prose p { color: var(--ink); }
+    .article-body__prose strong { color: var(--ink); }
+
+    /* Headings inside prose — body H2 is the first-level section.
+       Production HTML emits <h2> for the article's section breaks
+       (Commercial Offerings / Layout Builder Kit / Component Placement). */
+    .article-body__prose h2 {
+      font-size: 30px;
+      line-height: 1.2;
+      letter-spacing: -0.6px;
+      margin-top: var(--space-2xl);
+    }
+    .article-body__prose h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+      margin-top: var(--space-xl);
+    }
+    .article-body__prose h4 {
+      font-size: 18px;
+      line-height: 1.35;
+      letter-spacing: -0.2px;
+      margin-top: var(--space-lg);
+    }
+
+    /* Inline links — solid teal, underline on hover only (peer-to-peer voice). */
+    .article-body__prose a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--primary-light);
+      transition: color 150ms ease-out, border-color 150ms ease-out, background-color 150ms ease-out;
+    }
+    .article-body__prose a:hover {
+      color: var(--primary-deep);
+      border-bottom-color: var(--primary-deep);
+      text-decoration: none;
+    }
+
+    /* Lists — inherit prose color, generous indent. */
+    .article-body__prose ul,
+    .article-body__prose ol {
+      padding-left: var(--space-xl);
+      margin: 0;
+    }
+    .article-body__prose ul { list-style: disc; }
+    .article-body__prose ul li::marker { color: var(--accent); }
+    .article-body__prose ol { list-style: decimal; }
+    .article-body__prose ol li::marker { color: var(--accent-deep); font-weight: 600; }
+    .article-body__prose li + li { margin-top: var(--space-sm); }
+    .article-body__prose li > p:first-child { margin-top: 0; }
+
+    /* Blockquote — terracotta rule, slightly indented, used for pulled context. */
+    .article-body__prose blockquote {
+      margin: 0;
+      padding: var(--space-md) var(--space-xl);
+      border-left: 3px solid var(--accent);
+      color: var(--body);
+      font-style: italic;
+    }
+
+    /* Inline code & code blocks — surface-warm background, mono token. */
+    .article-body__prose code {
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+      background: var(--surface-warm);
+      color: var(--espresso);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+    }
+    .article-body__prose pre {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      line-height: 1.5;
+      background: var(--espresso);
+      color: var(--on-dark);
+      padding: var(--space-lg);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+    .article-body__prose pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    /* Inline images mid-article. */
+    .article-body__prose img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-md);
+      margin: var(--space-xl) auto;
+    }
+
+    /* Horizontal rule. */
+    .article-body__prose hr {
+      border: 0;
+      height: 1px;
+      background: var(--hairline);
+      margin: var(--space-2xl) 0;
+    }
+
+    /* ---------- End-of-article CTA (preview-only block) ----------
+       Brand brief alignment: peer-to-peer, no exclamation, named CTA.
+       Routes readers wanting hands-on testing help to /contact. */
+    .article-cta {
+      max-width: var(--prose-max);
+      margin: var(--space-2xl) auto 0;
+      padding: var(--space-xl);
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .article-cta h3 {
+      font-size: 22px;
+      line-height: 1.3;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+      margin: 0;
+    }
+    .article-cta p {
+      color: var(--body);
+      font-size: 15px;
+    }
+    .article-cta__actions {
+      display: flex; flex-wrap: wrap; gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+
+    /* ---------- Footer (system block, identical to articles.html) ---------- */
+    .footer {
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: var(--canvas);
+      border-top: 1px solid var(--hairline);
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.4fr;
+      gap: var(--space-xl);
+    }
+    .footer h4 {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: var(--space-base);
+    }
+    .footer ul { list-style: none; padding: 0; margin: 0; }
+    .footer li { padding: 4px 0; }
+    .footer a { color: var(--ink); font-size: 15px; }
+    .footer a:hover { color: var(--primary); }
+    .footer__signature {
+      font-family: var(--font-display);
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .footer__signature a { color: var(--primary); }
+    .footer__legal {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--hairline);
+      display: flex; justify-content: space-between;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 991px) {
+      .site-header__nav { display: none; }
+      .site-header__hamburger { display: inline-flex; }
+      .footer__inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .article-masthead { padding-top: var(--space-xl); padding-bottom: var(--space-2xl); }
+      .article-masthead h1 { font-size: 32px; letter-spacing: -0.6px; }
+      .article-hero__frame { margin-top: -60px; }
+      .article-body { padding: var(--space-2xl) 0 var(--space-3xl); }
+      .article-body__prose { font-size: 16px; }
+      .article-body__prose h2 { font-size: 24px; }
+      .article-body__prose h3 { font-size: 20px; }
+      .footer__inner { grid-template-columns: 1fr; }
+      .footer__signature { font-size: 22px; }
+      .footer__legal { flex-direction: column; gap: var(--space-sm); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK (WCAG 2.4.1) -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- HEADER (system block) -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="/" class="site-header__brand">
+        <span class="site-header__brand-mark">P</span>
+        <span>performant labs</span>
+      </a>
+      <nav class="site-header__nav">
+        <a href="/services">Services</a>
+        <a href="/how-we-do-it">How we do it</a>
+        <a href="/articles" class="is-current">Articles</a>
+        <a href="/open-source-projects">Open source projects</a>
+        <a href="/about-us">About us</a>
+        <a href="/contact-us">Contact us</a>
+      </nav>
+      <button type="button" class="site-header__hamburger" aria-label="Open menu" aria-expanded="false">
+        <span class="site-header__hamburger-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB (system block) -->
+  <div class="breadcrumb">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/articles">Articles</a></li>
+        <li>Introducing Layout Builder Kit Beta 1</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+
+  <!-- ARTICLE SCOPE START — node--article--full.html.twig          -->
+  <!-- Drupal templates that own this region:                       -->
+  <!--   themes/contrib/neonbyte/templates/content/                 -->
+  <!--     node--article--full.html.twig                            -->
+  <!--   themes/neonbyte/components/header-article/                 -->
+  <!--     header-article.twig                                      -->
+  <!-- ============================================================ -->
+
+  <article class="node node--type-article node--view-mode-full">
+
+    <!-- header-article SDC: tags + h1 + (no byline; display_submitted=false) -->
+    <header class="article-masthead">
+      <div class="article-masthead__inner">
+        <ul class="tag-chips">
+          <li><a href="/taxonomy/term/1">Layout Builder Kit</a></li>
+          <li><a href="/taxonomy/term/8">Drupal Planet</a></li>
+        </ul>
+        <h1>Introducing Layout Builder Kit Beta 1</h1>
+      </div>
+    </header>
+
+    <!-- header-article SDC image_content block — overlaps prose -->
+    <div class="article-hero">
+      <div class="article-hero__frame">
+        <img
+          src="https://pl-performantlabs.com.3.ddev.site:8493/sites/default/files/styles/16_9_512x288_focal_point_webp/public/migration/articles/9_article-bg2_0.png.avif"
+          alt="">
+      </div>
+    </div>
+
+    <!-- Body region: {{ content|without('field_tags','field_image','comment') }} -->
+    <div class="article-body">
+      <div class="container--prose">
+
+        <!-- field_category, label-above (rendered as part of {{ content }}) -->
+        <div class="article-category">
+          <span class="article-category__label">Category</span>
+          <span class="article-category__value"><a href="/taxonomy/term/13">Talks</a></span>
+        </div>
+
+        <div class="article-body__prose">
+
+          <p>With <a href="https://www.drupal.org/docs/8/core/modules/layout-builder">Layout Builder</a> now available, making pages in Drupal is entering a new era of drag and drop functionality. Though it was possible to place components (also called blocks) using contributed modules like Panels, Display Suite and others, now that capability is built into Drupal core. More people will know about it and use it.</p>
+
+          <p>Though Layout Builder gives site builders the ability to drag and drop components onto pages, it&rsquo;s just the platform. It makes available the essential blocks Drupal provides, like a Search block or Login block, but does not include any more. Where do the more interesting components come from that we will be a-dragging and a-dropping?</p>
+
+          <h2>Commercial Offerings</h2>
+
+          <p>There are at least two commercial libraries of components available right now. The first, <a href="https://www.acquia.com/products-services/acquia-cohesion">CohesionDX</a>, has just been purchased by Acquia. Before the acquisition using the product required a subscription and likely this will remain the same now that Acquia has purchased it. Acquia likely sees it as a useful addition to their ecosystem of products that allows it to compete with other CMSs out there. You&rsquo;ll need to contact Acquia to get the pricing and it&rsquo;s possible you might already need to be a customer (it&rsquo;s too early to know; check with them).</p>
+
+          <p>The second product, <a href="https://www.sooperthemes.com/drupal-modules/glazed-builder">Glazed Builder</a>, is by Sooper Themes. It too requires a subscription. A single editor costs under $100/year and 10 editors is $360/year.</p>
+
+          <p>Both products offer a visual page builder (that is almost certainly not based atop Layout Builder, someone text me on Slack if I&rsquo;m wrong) and a library of components including tabs, pricing tables, carousels, and more. I don&rsquo;t have personal experience with either product but they are a welcome addition to the Drupal world. Drupal 8 addressed a lot of my concerns around modernizing Drupal from a programmer&rsquo;s perspective (yaay Symfony). These commercial page layout products plus Layout Builder are addressing my longstanding concern (and not just my concern): how do we make Drupal easier for content editors?</p>
+
+          <h2>Layout Builder Kit</h2>
+
+          <p>What if you don&rsquo;t want to lock yourself into a vendor&rsquo;s solution? What if they offer too much for your uses and you just need a few simple components? What if you want to create your own custom components and don&rsquo;t want to start from scratch? If you are in any of these groups, you may want to try <a href="https://www.drupal.org/project/layout_builder_kit">Layout Builder Kit</a>.</p>
+
+          <p><a href="https://www.drupal.org/project/layout_builder_kit">Layout Builder Kit</a> has just entered beta and includes the following components:</p>
+
+          <ul>
+            <li>Rich Text</li>
+            <li>Image</li>
+            <li>Icon</li>
+            <li>Tab</li>
+            <li>Video</li>
+            <li>Book Navigation</li>
+          </ul>
+
+          <p>Each component is subclassed from <code>LBKBaseComponent</code>, which provides some basic common functionality, like whether to display the title or a textfield for extra classes to include when rendering the component.</p>
+
+          <h2>Component Placement and Storage</h2>
+
+          <p>In Layout Builder, the position of the component is always stored in the Layout field in a serialized string (which can be located in two places; more on that in a future post). When it comes storing the component configuration&mdash;the title, the alignment of the text, and all the other settings&mdash;that can be stored in multiple ways.</p>
+
+          <p>It&rsquo;s important to understand how configuration is stored because if you&rsquo;re not careful it&rsquo;s very possible to break other functionality in Drupal or use a method that is very slow. We recently worked on a site with over 40 components on a single page (not Layout Builder Kit components, custom ones). With that many components on a page, a slow storage mechanism will generate a lot of complaints from the content editors.</p>
+
+          <p>The three ways (so far) to store component configuration are:</p>
+
+          <ol>
+            <li>In the Layout field, along with the placement (as a serialized string).</li>
+            <li>Using the Field API through the Drupal GUI.</li>
+            <li>Using the Entity API plus the Field API.</li>
+          </ol>
+
+          <p>This first group of components in Layout Builder Kit all use the first method, storing the configuration in the Layout field as part of the serialized string. Though this method is more work because it makes us construct our own forms, it preserves the ability to use many if not all of the other Drupal features, like pulling up a prior revision of the page.</p>
+
+          <p>We specifically chose not to use the Field API because it makes a table for every field. Working with 40+ components on a field and multiple fields per component translates into lots of extra work for the database and Drupal to piece things together. (Translation: it&rsquo;s slow.)</p>
+
+          <p>However, we are looking into the ramifications of using the Entity API to store component configuration. Some initial tests worked well but there are more to go. If we release components that use the Entity API, they will go into a new whole version (2.x instead of 1.x) or we will name them differently and release two sets.</p>
+
+          <p>In the meantime, these components are ready to try and there won&rsquo;t be a forced upgrade to a new storage mechanism in the future.</p>
+
+        </div><!-- /.article-body__prose -->
+
+        <!-- End-of-article CTA — preview-only block, brand-aligned. -->
+        <aside class="article-cta">
+          <h3>Working on a Layout Builder site?</h3>
+          <p>If you&rsquo;re weighing custom components against the commercial libraries, or wrestling with how to store component configuration without slowing the editor down, we can help. We&rsquo;ve done this work on production Drupal sites — and we maintain Layout Builder Kit.</p>
+          <div class="article-cta__actions">
+            <a href="/contact-us" class="btn btn--primary">Talk to us</a>
+            <a href="/articles" class="btn btn--secondary">More articles</a>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </article>
+  <!-- ARTICLE SCOPE END -->
+
+  </main>
+
+  <!-- FOOTER (system block) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="/services#test-suite-takeover">Test-suite takeover</a></li>
+            <li><a href="/services#embedded-testing-engineer">Embedded testing engineer</a></li>
+            <li><a href="/services#autonomous-healing-pilot">Autonomous-healing pilot</a></li>
+            <li><a href="/services#accessibility-testing">Accessibility testing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/articles">Articles</a></li>
+            <li><a href="/docs">Documentation</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="/about-us">About us</a></li>
+            <li><a href="/contact-us">Contact us</a></li>
+            <li><a href="/privacy-policy">Privacy policy</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer__signature">Drupal testing, done by the people who wrote the tools. <a href="/contact-us">Get in touch →</a></p>
+        </div>
+      </div>
+      <div class="footer__legal">
+        <span>© Performant Labs</span>
+        <span>Preview build — not yet implemented in Drupal</span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

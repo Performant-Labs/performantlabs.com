@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 6 Cycle 3 — § nearshore container-cap — S report</title>
+<style>
+  :root { --ok: #1a7a3a; --bad: #b21a1a; --note: #5b4a2a; --bg: #faf7f0; --ink: #1c1a18; --line: #ddd5c4; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+  header.banner { background: var(--ok); color: #fff; padding: 24px 32px; }
+  header.banner h1 { margin: 0 0 8px; font-size: 28px; }
+  header.banner .verdict { font-size: 48px; font-weight: 800; letter-spacing: 1px; }
+  header.banner .meta { margin-top: 12px; font-size: 14px; opacity: 0.95; }
+  main { max-width: 1320px; margin: 0 auto; padding: 32px; }
+  nav.toc { background: #fff; border: 1px solid var(--line); padding: 16px 24px; margin-bottom: 32px; border-radius: 6px; }
+  nav.toc ul { margin: 0; padding-left: 18px; }
+  nav.toc a { color: #2a4d8f; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { background: #fff; border: 1px solid var(--line); padding: 24px 28px; margin-bottom: 32px; border-radius: 6px; }
+  section h2 { margin-top: 0; border-bottom: 2px solid var(--line); padding-bottom: 8px; }
+  section h3 { margin-top: 28px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f0e8d4; }
+  .pass { color: var(--ok); font-weight: 600; }
+  .fail { color: var(--bad); font-weight: 600; }
+  .note { color: var(--note); font-weight: 600; }
+  .summary li { margin: 6px 0; }
+  .comparator { position: relative; width: 100%; max-width: 1280px; margin: 16px auto; user-select: none; border: 1px solid var(--line); background: #f0e8d4; }
+  .comparator .stack { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; top: 0; left: 0; width: 100%; clip-path: inset(0 50% 0 0); }
+  .comparator .slider { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: #ff3366; pointer-events: none; transform: translateX(-1px); }
+  .comparator .handle { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); background: #ff3366; color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 12px; pointer-events: none; }
+  .comparator input[type=range] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+  .labels { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin: 4px 4px 0; }
+  figure { margin: 16px 0; }
+  figcaption { font-size: 13px; color: #555; margin-top: 6px; }
+  .diff-img, .composite-img { width: 100%; max-width: 1280px; height: auto; border: 1px solid var(--line); display: block; }
+  .composite-img { background: #fff; }
+  details { margin: 12px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <h1>Sprint 6 Cycle 3 — § nearshore container-cap (FU-S5-5)</h1>
+  <div class="verdict">PASS</div>
+  <div class="meta">
+    Branch: <code>aa/pl-sprint-6-cycle-3-nearshore-cap</code> · Date: 2026-05-11 ·
+    1280 AE: 250,953 px (29.09% — structural offset noise; binding judgment per-section)
+    · 768 AE: 233,528 (39.75%) · 375 AE: 214,304 (51.21%)
+  </div>
+</header>
+
+<main>
+
+<nav class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#summary">What I see different</a></li>
+    <li><a href="#v1280">§ nearshore @ 1280 (binding)</a></li>
+    <li><a href="#v768">§ nearshore @ 768</a></li>
+    <li><a href="#v375">§ nearshore @ 375</a></li>
+    <li><a href="#table">Per-section delta table</a></li>
+    <li><a href="#fullpage">Full-page references</a></li>
+  </ul>
+</nav>
+
+<section id="summary">
+  <h2>What I see different (plain English)</h2>
+  <ul class="summary">
+    <li><strong>1280 — H2 wrap:</strong> Live wraps "Senior testing capacity, / when you need more hands." into two balanced lines (3 + 4 words). Preview wraps the same H2 with the single word "hands." orphaned on line 2. <strong>Live is better than preview here</strong>, and matches both the issue's explicit ~640 px cap and the no-orphan-words memory rule.</li>
+    <li><strong>1280 — body paragraph:</strong> Both wrap to ~5 lines centered within a ~720 px column. Visually equivalent.</li>
+    <li><strong>768 — unchanged:</strong> H2 wraps to two balanced lines, body wraps in container. No regression.</li>
+    <li><strong>375 — unchanged:</strong> H2 stacks at mobile typography, body wraps single-column, no horizontal scroll.</li>
+    <li><strong>Pre-existing accepted deviations</strong> (out of scope): CTA pill style (live = filled cyan; preview = outlined teal); section vertical padding (live = looser dy-section default).</li>
+  </ul>
+  <p>Note on the 29–51% AE numbers: these are dominated by vertical-padding offsets between live's <code>dy-section</code> chrome and the preview's bare <code>&lt;section&gt;</code>, plus the pre-existing CTA pill style delta. None of the AE delta is driven by H2 wrap, body wrap, or the content-cap behavior this cycle targets. Computed-style verification on the live page returned the expected values exactly: H2 <code>max-width: 640px</code>, <code>text-wrap: balance</code>, rendered width 640 px; body <code>max-width: 720px</code>, rendered width 720 px.</p>
+</section>
+
+<section id="v1280">
+  <h2>§ nearshore @ 1280 (binding viewport)</h2>
+
+  <h3>Wipe-slider comparator (live ↔ preview)</h3>
+  <div class="comparator" data-id="c1">
+    <div class="stack">
+      <img class="bot" src="screenshots/sprint-6-cycle-3/nearshore-1280-preview-20260511.png" alt="Preview at 1280">
+      <img class="top" src="screenshots/sprint-6-cycle-3/nearshore-1280-live-20260511.png" alt="Live at 1280">
+      <div class="slider"></div>
+      <div class="handle">drag</div>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <div class="labels"><span>← LIVE</span><span>PREVIEW →</span></div>
+
+  <h3>Diff PNG (red = pixel deltas)</h3>
+  <figure>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/diff-nearshore-1280-20260511.png" alt="Diff PNG at 1280">
+    <figcaption>Red regions concentrate around vertical-padding offset and CTA pill — both pre-existing/structural. The H2 wrap area shows minor red because live wraps differently (and better) than preview.</figcaption>
+  </figure>
+
+  <h3>Side-by-side composite</h3>
+  <figure>
+    <img class="composite-img" src="screenshots/sprint-6-cycle-3/composite-nearshore-1280-20260511.png" alt="Composite at 1280">
+    <figcaption>Left = live; right = preview.</figcaption>
+  </figure>
+</section>
+
+<section id="v768">
+  <h2>§ nearshore @ 768</h2>
+
+  <h3>Wipe-slider comparator</h3>
+  <div class="comparator" data-id="c2">
+    <div class="stack">
+      <img class="bot" src="screenshots/sprint-6-cycle-3/nearshore-768-preview-20260511.png" alt="Preview at 768">
+      <img class="top" src="screenshots/sprint-6-cycle-3/nearshore-768-live-20260511.png" alt="Live at 768">
+      <div class="slider"></div>
+      <div class="handle">drag</div>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <div class="labels"><span>← LIVE</span><span>PREVIEW →</span></div>
+
+  <figure>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/diff-nearshore-768-20260511.png" alt="Diff PNG at 768">
+    <figcaption>Diff dominated by vertical-padding offset and CTA pill style.</figcaption>
+  </figure>
+  <figure>
+    <img class="composite-img" src="screenshots/sprint-6-cycle-3/composite-nearshore-768-20260511.png" alt="Composite at 768">
+  </figure>
+</section>
+
+<section id="v375">
+  <h2>§ nearshore @ 375</h2>
+
+  <h3>Wipe-slider comparator</h3>
+  <div class="comparator" data-id="c3">
+    <div class="stack">
+      <img class="bot" src="screenshots/sprint-6-cycle-3/nearshore-375-preview-20260511.png" alt="Preview at 375">
+      <img class="top" src="screenshots/sprint-6-cycle-3/nearshore-375-live-20260511.png" alt="Live at 375">
+      <div class="slider"></div>
+      <div class="handle">drag</div>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <div class="labels"><span>← LIVE</span><span>PREVIEW →</span></div>
+
+  <figure>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/diff-nearshore-375-20260511.png" alt="Diff PNG at 375">
+    <figcaption>Live crop is taller (Drupal section padding); preview ends earlier. The header overlay in the live crop is a screenshot-tool artifact (element-relative crop captured behind sticky header) — the live page itself has no overlap. <code>scrollWidth - clientWidth = 0</code>.</figcaption>
+  </figure>
+  <figure>
+    <img class="composite-img" src="screenshots/sprint-6-cycle-3/composite-nearshore-375-20260511.png" alt="Composite at 375">
+  </figure>
+</section>
+
+<section id="table">
+  <h2>Per-section delta table</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td>§ nearshore — H2 wrap</td><td>1280</td><td class="pass">PASS</td><td>Live wraps to 3+4-word balanced two-line pattern within 640 px cap. Preview shows orphan "hands." — live improves on preview per no-orphan-words rule.</td></tr>
+      <tr><td>§ nearshore — body wrap</td><td>1280</td><td class="pass">MATCH</td><td>Both centered within ~720 px column.</td></tr>
+      <tr><td>§ nearshore — H2 + body</td><td>768</td><td class="pass">MATCH</td><td>Unchanged from prior cycles; balanced wrap; no clipping.</td></tr>
+      <tr><td>§ nearshore — H2 + body</td><td>375</td><td class="pass">MATCH</td><td>Unchanged from prior cycles; mobile typography stack; no horizontal scroll.</td></tr>
+      <tr><td>CTA pill style</td><td>all</td><td class="note">DELTA (out of scope)</td><td>Live = filled cyan; preview = outlined teal. Pre-existing accepted deviation.</td></tr>
+      <tr><td>Section vertical padding</td><td>all</td><td class="note">DELTA (out of scope)</td><td>Live uses dy-section default padding-block; preview is bare section. Pre-existing.</td></tr>
+      <tr><td>Other dy-section instances</td><td>all</td><td class="pass">NO REGRESSION</td><td>Marker class on exactly 1 of 6 sections on /services; 0 on / and /about-us.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="fullpage">
+  <h2>Full-page reference screenshots</h2>
+  <details>
+    <summary>1280 — full live</summary>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-1280-live-20260511.png" alt="Live full page at 1280">
+  </details>
+  <details>
+    <summary>1280 — full preview</summary>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-1280-preview-20260511.png" alt="Preview full page at 1280">
+  </details>
+  <details>
+    <summary>768 — full live / preview</summary>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-768-live-20260511.png" alt="Live full page at 768">
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-768-preview-20260511.png" alt="Preview full page at 768">
+  </details>
+  <details>
+    <summary>375 — full live / preview</summary>
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-375-live-20260511.png" alt="Live full page at 375">
+    <img class="diff-img" src="screenshots/sprint-6-cycle-3/services-375-preview-20260511.png" alt="Preview full page at 375">
+  </details>
+</section>
+
+</main>
+
+<script>
+  document.querySelectorAll('.comparator').forEach(function(c){
+    var top = c.querySelector('.top');
+    var slider = c.querySelector('.slider');
+    var handle = c.querySelector('.handle');
+    var input = c.querySelector('input[type=range]');
+    function set(v) {
+      var pct = Math.max(0, Math.min(100, v));
+      top.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      slider.style.left = pct + '%';
+      handle.style.left = pct + '%';
+    }
+    input.addEventListener('input', function(){ set(parseFloat(input.value)); });
+    set(50);
+  });
+</script>
+
+</body>
+</html>

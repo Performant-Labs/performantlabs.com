@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 9 — Cycle 2 — S report</title>
+<style>
+  :root { --ok: #1f7a3a; --bad: #b3261e; --bg: #f7f6f1; --fg: #1a1a1a; --muted: #555; --border: #d8d4c4; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--fg); margin: 0; padding: 0 24px 64px; line-height: 1.5; }
+  header { padding: 32px 0 16px; border-bottom: 1px solid var(--border); }
+  h1 { margin: 0 0 8px; font-size: 28px; }
+  h2 { margin: 32px 0 12px; font-size: 22px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+  h3 { margin: 20px 0 8px; font-size: 17px; }
+  .verdict { display: inline-block; padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 22px; letter-spacing: 0.5px; }
+  .verdict.pass { background: var(--ok); color: white; }
+  .verdict.rework { background: var(--bad); color: white; }
+  .meta { color: var(--muted); font-size: 14px; margin-top: 8px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: rgba(0,0,0,0.04); font-weight: 600; }
+  pre { background: #efece1; padding: 12px 14px; border-radius: 4px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 13px; }
+  ul { padding-left: 22px; }
+  li { margin: 4px 0; }
+  .note { background: #fff8e6; border-left: 4px solid #d9a800; padding: 10px 14px; margin: 12px 0; border-radius: 4px; font-size: 14px; }
+  .ok-tag { color: var(--ok); font-weight: 600; }
+  .ss { display: block; width: 100%; max-width: 1000px; border: 1px solid var(--border); margin: 8px 0 20px; }
+  nav.toc { font-size: 14px; margin: 12px 0 8px; }
+  nav.toc a { margin-right: 14px; }
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sprint 9 — Cycle 2 — Spec Auditor report</h1>
+  <div class="meta">
+    FU-3 (pa11y allowlist) + FU-7b (articles heading hierarchy) ·
+    Branch: <code>aa/pl-sprint-9-cycle-2-fixes</code> · Date: 2026-05-12 · Mode: autonomous
+  </div>
+  <p style="margin:18px 0 4px"><span class="verdict pass">PASS</span></p>
+  <div class="meta">pa11y-ci: 7/7 URLs · 0 errors with allowlist applied. /articles heading: H1 → H2[hidden] → H3 (no skip).</div>
+  <nav class="toc">
+    <a href="#summary">What changed</a>
+    <a href="#pa11y">pa11y-ci</a>
+    <a href="#headings">Heading hierarchy</a>
+    <a href="#visual">Visual sanity</a>
+    <a href="#wcag">WCAG 2.2 AA</a>
+    <a href="#verdict">Verdict</a>
+  </nav>
+</header>
+
+<section id="summary">
+  <h2>What I see different — plain English</h2>
+  <p>This cycle made two changes. Neither produces any visible delta a sighted operator would notice on the page.</p>
+  <ul>
+    <li><strong>New file</strong> <code>.pa11yci.json</code> at repo root. This is a configuration file for the pa11y-ci tool. It is not rendered.</li>
+    <li><strong>Edit</strong> to <code>views-view-unformatted--articles--page-1.html.twig</code>: added a screen-reader-only <code>&lt;h2&gt;Articles&lt;/h2&gt;</code> between the page title and the list of article cards on <code>/articles</code>. The new heading is positioned off-screen (1×1 px clipped) and is invisible to sighted users. The only consumer is assistive technology, which now reads H1 → H2 → H3 without the previous skip.</li>
+  </ul>
+  <p><strong>No visible differences detected on <code>/articles</code>, <code>/</code>, or <code>/services</code> at 1280 px.</strong></p>
+</section>
+
+<section id="pa11y">
+  <h2>pa11y-ci — independent S re-run</h2>
+  <p>S executed <code>npx --yes pa11y-ci --config .pa11yci.json</code> at the repo root. Result:</p>
+  <pre>Running Pa11y on 7 URLs:
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/ - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/services - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/about-us - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/articles - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/contact-us - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/how-we-do-it - 0 errors
+ &gt; https://pl-performantlabs.com.3.ddev.site:8493/open-source-projects - 0 errors
+
+✔ 7/7 URLs passed</pre>
+  <p>Matches F and T. <span class="ok-tag">PASS.</span></p>
+</section>
+
+<section id="headings">
+  <h2>/articles heading sequence — Playwright live DOM</h2>
+  <p>Captured at 1280×800 via Playwright against the live ddev site. The full heading sequence on <code>/articles</code> is:</p>
+  <pre>H2 [visually-hidden] :: Main navigation     (nav-block helper, pre-existing)
+H2 [visually-hidden] :: Breadcrumb          (system, pre-existing)
+H1                   :: Articles.
+H2 [visually-hidden] :: Articles            (FU-7b insertion — NEW)
+H3                   :: CTRFHub: building a CTRF-native...
+H3                   :: Version 1.0 of Automated Testing Kit Is Ready!
+H3                   :: Introducing Automated Testing Kit
+H3                   :: Cypress on Drupal Cheat Sheet
+H3                   :: BADCamp 2020-Components Can Break Your Site...
+H3                   :: Our talk at DrupalCon...
+H2 [visually-hidden] :: Footer              (system, pre-existing)
+H3                   :: Services
+H3                   :: Resources
+H3                   :: Company</pre>
+  <p>The H1 in main content is followed by the new visually-hidden H2 "Articles", then the article-card H3s. No skip. <span class="ok-tag">PASS.</span></p>
+
+  <h3>Computed-style confirmation that the new H2 is invisible</h3>
+  <p>Playwright probed the new <code>h2.visually-hidden</code> element on /articles:</p>
+  <table>
+    <tr><th>Property</th><th>Value</th></tr>
+    <tr><td><code>position</code></td><td><code>absolute</code></td></tr>
+    <tr><td><code>clip</code></td><td><code>rect(1px, 1px, 1px, 1px)</code></td></tr>
+    <tr><td><code>width</code></td><td><code>1px</code></td></tr>
+    <tr><td><code>height</code></td><td><code>1px</code></td></tr>
+    <tr><td>Bounding rect</td><td>x=50.59, y=826.86, w=1, h=1</td></tr>
+  </table>
+  <p>This matches Drupal core's <code>.visually-hidden</code> recipe exactly. Zero visible surface, zero layout shift, zero text visible in chrome. <span class="ok-tag">PASS.</span></p>
+</section>
+
+<section id="visual">
+  <h2>Light visual sanity at 1280 px</h2>
+  <p>Full-page Playwright captures, 1280×800, against the live ddev site. No reference preview exists for <code>/articles</code> (predates Sprint 4 brief work), and this cycle adds zero visible surface — so a pixel-diff would be uninformative. The captures below confirm the page renders normally with no regression.</p>
+
+  <h3>/articles</h3>
+  <img class="ss" src="screenshots/sprint-9-cycle-2/t3-articles-1280-live-20260512.png" alt="/articles full page at 1280">
+
+  <h3>/ (home — cross-check)</h3>
+  <img class="ss" src="screenshots/sprint-9-cycle-2/t3-home-1280-live-20260512.png" alt="/ full page at 1280">
+
+  <h3>/services (cross-check)</h3>
+  <img class="ss" src="screenshots/sprint-9-cycle-2/t3-services-1280-live-20260512.png" alt="/services full page at 1280">
+</section>
+
+<section id="wcag">
+  <h2>WCAG 2.2 AA — combined table</h2>
+  <table>
+    <tr><th>Check</th><th>Result</th><th>Notes</th></tr>
+    <tr><td>Keyboard navigation</td><td><span class="ok-tag">PASS</span> (carried)</td><td>No interactive elements added.</td></tr>
+    <tr><td>Focus ring visibility</td><td><span class="ok-tag">PASS</span> (carried)</td><td>No CSS touched.</td></tr>
+    <tr><td>Forced-colors mode</td><td><span class="ok-tag">PASS</span> (carried)</td><td>No new visible surfaces.</td></tr>
+    <tr><td>Reduced-motion</td><td><span class="ok-tag">PASS</span> (carried)</td><td>No transitions added.</td></tr>
+    <tr><td>200% zoom</td><td><span class="ok-tag">PASS</span></td><td>Re-checked /articles via Playwright.</td></tr>
+    <tr><td>Heading hierarchy /articles</td><td><span class="ok-tag">PASS</span></td><td>H1 → H2[vh] → H3, no skip.</td></tr>
+    <tr><td>Heading hierarchy 6 other pages</td><td><span class="ok-tag">PASS</span></td><td>T verified all 6; S re-verified / and /services.</td></tr>
+    <tr><td>Image alt text</td><td><span class="ok-tag">PASS</span> (carried)</td><td>No images touched.</td></tr>
+    <tr><td>Mobile touch targets</td><td>N/A</td><td>No interactive elements added.</td></tr>
+    <tr><td>Mobile typography scale</td><td>N/A</td><td>No type changes.</td></tr>
+    <tr><td>Mobile layout</td><td>N/A</td><td>No layout changes.</td></tr>
+    <tr><td>pa11y-ci 7-URL sweep</td><td><span class="ok-tag">PASS</span></td><td>0 errors with allowlist applied.</td></tr>
+    <tr><td><code>!important</code> introduction</td><td><span class="ok-tag">PASS</span></td><td>0 matches in both changed files.</td></tr>
+  </table>
+</section>
+
+<section id="verdict">
+  <h2>Verdict</h2>
+  <p><span class="verdict pass">PASS</span></p>
+  <p>All acceptance criteria met. pa11y-ci 0 errors (independently re-run by S). /articles heading sequence H1 → H2[vh] → H3 confirmed in live DOM with the new H2 properly clipped 1×1 px off-screen. No visible regression on /articles, /, or /services. No <code>!important</code> added.</p>
+  <p>Ready for O to commit:</p>
+  <pre>feat(a11y): cycle 2 — pa11y allowlist + articles heading hierarchy (FU-3 + FU-7b)</pre>
+
+  <h3>Advisory notes (non-blocking)</h3>
+  <ul>
+    <li><strong>teal-deep token candidate</strong> — carried from Cycle 1; future sprint.</li>
+    <li><strong><code>wait: 500</code> + <code>--ignore-certificate-errors</code></strong> in <code>.pa11yci.json</code> are ddev-environment-coupled. Make conditional if pa11y-ci ever runs against a real cert.</li>
+    <li><strong>PC-5 wording retirement</strong> — sprint-wrap pa11y line moves to "0 errors with allowlist applied".</li>
+  </ul>
+</section>
+
+<footer>
+  Handoff: <code>docs/pl2/handoffs/cycle-2-a11y-fixes-S.md</code> ·
+  Screenshots: <code>docs/pl2/handoffs/screenshots/sprint-9-cycle-2/</code>
+</footer>
+
+</body>
+</html>

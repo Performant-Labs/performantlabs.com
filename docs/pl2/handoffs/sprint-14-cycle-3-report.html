@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 14 Cycle 3 — Spec Auditor Report</title>
+<style>
+  :root { --ok: #1b8a4d; --warn: #b86b00; --bad: #c4351c; --ink: #1F1A14; --soft: #f6f3ee; --line: #e3ddd1; }
+  html, body { margin: 0; padding: 0; }
+  body { font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: #fff; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  h1 { font-size: 36px; letter-spacing: -1px; margin: 0 0 8px; }
+  h2 { font-size: 24px; margin: 48px 0 12px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+  h3 { font-size: 18px; margin: 28px 0 10px; }
+  .verdict { display: inline-block; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 20px; color: white; background: var(--ok); }
+  .verdict.rework { background: var(--bad); }
+  .meta { color: #555; font-size: 14px; margin-bottom: 16px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 8px 0 16px; }
+  th, td { text-align: left; border-bottom: 1px solid var(--line); padding: 8px 10px; vertical-align: top; }
+  th { background: var(--soft); }
+  ul li { margin: 4px 0; }
+  .nav { background: var(--soft); padding: 12px 18px; border-radius: 8px; margin: 12px 0 28px; font-size: 14px; }
+  .nav a { margin-right: 14px; }
+  .slider { position: relative; max-width: 560px; margin: 12px 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .slider .frame { position: relative; width: 100%; aspect-ratio: 750 / 1400; }
+  .slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; user-select: none; pointer-events: none; }
+  .slider .top { clip-path: inset(0 50% 0 0); }
+  .slider input[type=range] { width: 100%; margin-top: 8px; }
+  .slider .labels { display: flex; justify-content: space-between; font-size: 12px; padding: 4px 8px; color: #555; }
+  .composite img, .diff img { max-width: 100%; border: 1px solid var(--line); border-radius: 6px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .grid4 figure { margin: 0; }
+  .grid4 figcaption { font-size: 12px; color: #555; padding-top: 4px; }
+  .grid4 img { width: 100%; border: 1px solid var(--line); border-radius: 4px; }
+  .ok { color: var(--ok); font-weight: 600; }
+  .warn { color: var(--warn); font-weight: 600; }
+  .bad { color: var(--bad); font-weight: 600; }
+  code { background: var(--soft); padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="verdict">PASS</div>
+<h1 style="margin-top:18px;">Sprint 14 Cycle 3 — /about-us mobile H1 raised to 44 px</h1>
+<div class="meta">
+  Auditor: Spec Auditor (S) &middot; Date: 2026-05-13 &middot;
+  Branch: <code>aa/pl-sprint-14-cycle-3-mobile-display-xl-token</code><br>
+  Scope: live <code>/about-us</code> mobile/desktop + cross-page no-regression spot-check (5 landing-page heroes at 375 px).
+</div>
+
+<div class="nav">
+  <a href="#summary">Summary</a>
+  <a href="#aboutus-375">/about-us 375</a>
+  <a href="#aboutus-1280">/about-us 1280</a>
+  <a href="#crosspage">Cross-page sweep</a>
+  <a href="#sections">Per-section deltas</a>
+  <a href="#wcag">WCAG</a>
+  <a href="#advisory">Advisory</a>
+</div>
+
+<h2 id="summary">What I see (plain English)</h2>
+<ul>
+  <li><strong>The headline grew on /about-us mobile, as intended.</strong> Before the fix it was 36 px; now it&rsquo;s 44 px with the slightly looser <code>-1 px</code> letter-spacing the brief calls for. Everything below it has shifted down by roughly the headline&rsquo;s extra height.</li>
+  <li><strong>The two big teal stacked buttons still fit cleanly at 375 px.</strong> 56 px tall, full-width, no overlap, no clipping, no horizontal scroll.</li>
+  <li><strong>The /about-us H1 still wraps cleanly with no orphan.</strong> Last line reads &ldquo;wrote the tools.&rdquo; (three words).</li>
+  <li><strong>Desktop /about-us is unchanged.</strong> H1 still renders at 72 px, <code>-2 px</code> tracking, Rubik 500 — matches Cycle 2&rsquo;s state.</li>
+  <li><strong>No regressions on the four sibling landing pages</strong> (<code>/</code>, <code>/services</code>, <code>/how-we-do-it</code>, <code>/open-source-projects</code>). All five landing-page heroes now render with identical typography (44 px, Rubik 500, <code>-1 px</code>, line-height 1.05) at 375 px. CTAs are stacked. No horizontal scroll anywhere.</li>
+  <li><strong>Advisory only (not introduced this cycle):</strong> three of the sibling pages (home, services, how-we-do-it) produce single-word last lines (&ldquo;confidence.&rdquo;, &ldquo;teams.&rdquo;, &ldquo;runs.&rdquo;) at 375 px even with <code>text-wrap: balance</code> active. /about-us itself is fine. These orphans are pre-existing from Sprint 4 Cycle 3&rsquo;s FU-2 work, NOT introduced by Cycle 3. Worth a future cleanup.</li>
+</ul>
+
+<h2 id="aboutus-375">/about-us — 375 px (the target of this cycle)</h2>
+<h3>Before-vs-after wipe slider (Cycle 1 baseline vs Cycle 3 post-fix, both live)</h3>
+<div class="slider">
+  <div class="frame">
+    <img src="screenshots/sprint-14-cycle-3/t3-about-us-375-hero-prefix-cycle1.png" alt="Cycle 1 baseline (36 px H1)">
+    <img class="top" id="slider-aboutus-img" src="screenshots/sprint-14-cycle-3/t3-about-us-375-hero-postfix-padded.png" alt="Cycle 3 post-fix (44 px H1)">
+  </div>
+  <input type="range" min="0" max="100" value="50" oninput="document.getElementById('slider-aboutus-img').style.clipPath = `inset(0 ${100-this.value}% 0 0)`">
+  <div class="labels"><span>Cycle 3 (post-fix, 44 px)</span><span>Cycle 1 (pre-fix, 36 px)</span></div>
+</div>
+
+<h3>Live vs preview, post-fix (hero band only)</h3>
+<div class="composite"><img src="screenshots/sprint-14-cycle-3/t3-about-us-375-hero-composite.png" alt="Live left, preview right, /about-us hero 375"></div>
+<p style="font-size:14px;color:#555;">Visible differences: live renders a chevron glyph after &ldquo;Book a testing review&rdquo;; preview omits it. Pre-existing Drupal button-template behavior — not introduced this cycle. Typography, color, spacing, and stacking otherwise match.</p>
+
+<h3>H1 measurements at 375 px</h3>
+<table>
+  <thead><tr><th>Property</th><th>Brief (typography-mobile)</th><th>Live</th><th>Match</th></tr></thead>
+  <tbody>
+    <tr><td>font-size</td><td>44 px (display-xl mobile)</td><td>44 px</td><td class="ok">YES</td></tr>
+    <tr><td>font-family</td><td>Rubik</td><td>Rubik, sans-serif</td><td class="ok">YES</td></tr>
+    <tr><td>font-weight</td><td>500</td><td>500</td><td class="ok">YES</td></tr>
+    <tr><td>letter-spacing</td><td>-1 px (mobile relaxation from desktop -2 px)</td><td>-1 px</td><td class="ok">YES</td></tr>
+    <tr><td>line-height</td><td>1.05</td><td>46.2 px (= 44 &times; 1.05)</td><td class="ok">YES</td></tr>
+    <tr><td>text-wrap</td><td>balance</td><td>balance</td><td class="ok">YES</td></tr>
+    <tr><td>last-line orphan?</td><td>no single-word orphans</td><td>&ldquo;wrote the tools.&rdquo; (3 words)</td><td class="ok">PASS</td></tr>
+    <tr><td>horizontal scroll?</td><td>none</td><td>none (docW 360 &lt; winW 375)</td><td class="ok">PASS</td></tr>
+  </tbody>
+</table>
+
+<h2 id="aboutus-1280">/about-us — 1280 px (desktop sanity)</h2>
+<table>
+  <thead><tr><th>Property</th><th>Brief desktop</th><th>Live (1280)</th><th>Match</th></tr></thead>
+  <tbody>
+    <tr><td>font-size</td><td>72 px (display-xl desktop)</td><td>72 px</td><td class="ok">YES</td></tr>
+    <tr><td>letter-spacing</td><td>-2 px</td><td>-2 px</td><td class="ok">YES</td></tr>
+    <tr><td>line-height</td><td>1.05</td><td>75.6 px (= 72 &times; 1.05)</td><td class="ok">YES</td></tr>
+    <tr><td>font-weight</td><td>500</td><td>500</td><td class="ok">YES</td></tr>
+    <tr><td>horizontal scroll?</td><td>none</td><td>none (docW 1265 &lt; winW 1280)</td><td class="ok">PASS</td></tr>
+  </tbody>
+</table>
+<p style="font-size:14px;color:#555;">Desktop output is identical to Cycle 2's verified state — the Canvas marker activates the existing dy-section.css FU-2 desktop rule (72 px) AND mobile rule (44 px) in one move.</p>
+
+<h2 id="crosspage">Cross-page no-regression sweep at 375 px</h2>
+
+<div class="grid4">
+  <figure><img src="screenshots/sprint-14-cycle-3/t3-home-375-hero-live-crop-20260513.png"><figcaption>/ (homepage)</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-3/t3-services-375-hero-live-crop-20260513.png"><figcaption>/services</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-3/t3-how-we-do-it-375-hero-live-crop-20260513.png"><figcaption>/how-we-do-it</figcaption></figure>
+  <figure><img src="screenshots/sprint-14-cycle-3/t3-opensource-375-hero-live-crop-20260513.png"><figcaption>/open-source-projects</figcaption></figure>
+</div>
+
+<table>
+  <thead><tr><th>Page</th><th>H1 font-size</th><th>Letter-spacing</th><th>H1 wrap (last line)</th><th>CTAs at 375</th><th>Horizontal scroll</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>/</td><td>44 px</td><td>-1 px</td><td>&ldquo;confidence.&rdquo; <span class="warn">orphan</span></td><td>2 CTAs full-width-stacked, 56 px tall</td><td>none</td><td class="ok">No regression (orphan pre-existing)</td></tr>
+    <tr><td>/services</td><td>44 px</td><td>-1 px</td><td>&ldquo;teams.&rdquo; <span class="warn">orphan</span></td><td>2 CTAs full-width-stacked, 56 px tall</td><td>none</td><td class="ok">No regression (orphan pre-existing)</td></tr>
+    <tr><td>/how-we-do-it</td><td>44 px</td><td>-1 px</td><td>&ldquo;runs.&rdquo; <span class="warn">orphan</span></td><td>(no CTAs in hero)</td><td>none</td><td class="ok">No regression (orphan pre-existing)</td></tr>
+    <tr><td>/open-source-projects</td><td>44 px</td><td>-1 px</td><td>&ldquo;the open&rdquo; (2 words)</td><td>(no CTAs in hero)</td><td>none</td><td class="ok">MATCH</td></tr>
+    <tr><td>/about-us</td><td>44 px <strong>(was 36 px in Cycle 1)</strong></td><td>-1 px</td><td>&ldquo;wrote the tools.&rdquo; (3 words)</td><td>2 CTAs full-width-stacked, 56 px tall</td><td>none</td><td class="ok">FIXED &mdash; intended change</td></tr>
+  </tbody>
+</table>
+
+<h2 id="sections">Per-section delta table</h2>
+<table>
+  <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td>Hero (§A) — /about-us</td><td>375</td><td class="ok">REWORK COMPLETE</td><td>H1 raised 36 &rarr; 44 px as intended; wraps to 4 lines, no orphan, no overflow.</td></tr>
+    <tr><td>Hero (§A) — /about-us</td><td>1280</td><td class="ok">MATCH</td><td>Desktop H1 unchanged at 72 px / -2 px / Rubik 500.</td></tr>
+    <tr><td>Closing CTA (§E) — /about-us</td><td>1280/375</td><td class="ok">MATCH</td><td>Cycle 2 already addressed; tokens preserved on the integration branch.</td></tr>
+    <tr><td>Hero — /, /services, /how-we-do-it, /open-source-projects</td><td>375</td><td class="ok">NO REGRESSION</td><td>44 px H1 unchanged (these pages were already at 44 px before this cycle); CTA stacking and horizontal-scroll behavior unchanged.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="wcag">WCAG 2.2 AA spot-check on /about-us (deltas vs Sprint 14 Cycle 1)</h2>
+<table>
+  <thead><tr><th>Check</th><th>Result</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Heading hierarchy</td><td class="ok">PASS</td><td>Single H1; H1 &rarr; H2 &rarr; H3. (T2-7, T2-8)</td></tr>
+    <tr><td>H1 contrast (44 px Rubik 500 on white)</td><td class="ok">PASS (AAA)</td><td>17.27:1 vs 3:1 large-text threshold. No color change in this cycle.</td></tr>
+    <tr><td>Image alt text</td><td class="ok">PASS</td><td>No new images; Cycle 1 alts retained.</td></tr>
+    <tr><td>Touch targets at 375</td><td class="ok">PASS</td><td>Hero CTAs 56 px tall, full-width (above 44 px threshold).</td></tr>
+    <tr><td>Mobile typography scale</td><td class="ok">PASS</td><td>Now matches typography-mobile display-xl block exactly (44 / -1 / 1.05).</td></tr>
+    <tr><td>Mobile layout / horizontal scroll</td><td class="ok">PASS</td><td>No horizontal scroll at 375 across all five landing pages.</td></tr>
+    <tr><td>Forced-colors / reduced-motion / 200% zoom / keyboard nav / focus rings</td><td class="ok">No delta vs Cycle 1</td><td>No interactive elements or transitions added; chrome unchanged. Refer to Sprint 14 Cycle 1 audit enumeration.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="advisory">Advisory notes (non-blocking, for future cycles)</h2>
+<ol>
+  <li><strong>Pre-existing single-word H1 orphans on 3 sibling landing pages at 375 px</strong> — /, /services, /how-we-do-it. <code>text-wrap: balance</code> is active and still cannot avoid them given long single words at 375 px. Memory <code>feedback_no_orphan_words.md</code> says no orphans; current state predates this cycle. Recommend a copy-edit pass on those three H1 strings, OR a typographic hyphenation/break-hint pass in a separate sub-issue. Not blocking for Cycle 3 (which is /about-us-scoped).</li>
+  <li><strong>Stale comment in dy-section.css FU-2 block</strong> says "/about-us: no .landing-hero class — NOT matched". Comment is now stale (per T2 advisory note 3). Trivial fix in a future cycle.</li>
+  <li><strong>Live CTA chevron glyph on first button</strong> is in Drupal but not in the preview. Pre-existing template asymmetry; small visual delta, not load-bearing for this cycle.</li>
+</ol>
+
+</div>
+</body>
+</html>

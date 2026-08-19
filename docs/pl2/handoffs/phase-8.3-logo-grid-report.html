@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 8.3 — Logo grid parity visual audit</title>
+<style>
+  :root { --ok:#1f7a3a; --warn:#a86b00; --bad:#a52a2a; --bg:#fafaf9; --fg:#222; --muted:#5C544C; }
+  * { box-sizing: border-box; }
+  body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 32px 48px; line-height: 1.55; max-width: 1320px; }
+  h1, h2, h3, h4 { line-height: 1.25; }
+  h1 { font-size: 2rem; margin: 0 0 .3em; }
+  h2 { font-size: 1.4rem; margin: 2em 0 .5em; border-bottom: 1px solid #e4e1de; padding-bottom: .2em; }
+  h3 { font-size: 1.1rem; margin: 1.4em 0 .4em; }
+  h4 { font-size: 1rem; margin: 1.1em 0 .3em; color: var(--muted); }
+  .banner { padding: 18px 24px; border-radius: 10px; margin: 1em 0 2em; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .banner.pass { background: #e7f4ec; border: 1px solid #1f7a3a; }
+  .banner .verdict { font-size: 2.2rem; font-weight: 700; color: var(--ok); letter-spacing: .03em; }
+  .banner .meta { font-size: .95rem; }
+  .banner .meta b { display: inline-block; min-width: 60px; }
+  table { border-collapse: collapse; width: 100%; margin: .8em 0; font-size: .92rem; }
+  th, td { border: 1px solid #e4e1de; padding: .5em .7em; text-align: left; vertical-align: top; }
+  th { background: #f1eeea; }
+  .status-match { color: var(--ok); font-weight: 600; }
+  .status-delta { color: var(--warn); font-weight: 600; }
+  .status-rework { color: var(--bad); font-weight: 600; }
+  .what-i-see { background: #fff; border-left: 4px solid var(--ok); padding: 14px 22px; margin: 1em 0 1.5em; border-radius: 4px; }
+  .what-i-see ul { padding-left: 1.4em; }
+  .what-i-see li { margin-bottom: .4em; }
+  .nav { background: #fff; border: 1px solid #e4e1de; border-radius: 6px; padding: 12px 18px; margin: 0 0 2em; }
+  .nav ul { margin: 0; padding-left: 1.3em; }
+  .nav li { margin: .2em 0; }
+  .vp-block { background: #fff; border: 1px solid #e4e1de; border-radius: 8px; padding: 18px 22px; margin: 1.2em 0; }
+  /* Wipe slider */
+  .wipe { position: relative; width: 100%; overflow: hidden; border: 1px solid #ccc; background: #fff; user-select: none; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top-wrap { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); pointer-events: none; }
+  .wipe .top-wrap img { width: 100%; height: 100%; object-fit: contain; object-position: top left; }
+  .wipe .slider { position: absolute; top: 0; bottom: 0; width: 2px; background: #d22; left: 50%; transform: translateX(-50%); pointer-events: none; }
+  .wipe .slider::after { content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; background: #d22; border-radius: 50%; }
+  .wipe input[type=range] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+  .wipe .label-left, .wipe .label-right { position: absolute; top: 8px; padding: 2px 8px; background: rgba(255,255,255,0.85); font-size: .8rem; border-radius: 3px; color: #333; font-weight: 600; pointer-events: none; }
+  .wipe .label-left { left: 8px; }
+  .wipe .label-right { right: 8px; }
+  .pair { display: grid; grid-template-columns: 1fr; gap: 14px; margin: 12px 0 18px; }
+  .pair img.full { width: 100%; height: auto; display: block; border: 1px solid #ccc; }
+  .crop-thumb { max-width: 320px; max-height: 120px; border: 1px solid #ccc; display: block; }
+  code { background: #f1eeea; padding: 1px 5px; border-radius: 3px; font-size: .9em; }
+  .footnote { font-size: .85rem; color: var(--muted); margin-top: .8em; }
+  details { margin: .5em 0; }
+  summary { cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Phase 8.3 — Logo grid presentation parity</h1>
+<p><b>Date:</b> 2026-05-11 &middot; <b>Branch:</b> <code>aa/pl-homepage-phase-8.3-logo-grid</code> &middot; <b>Audit cycle:</b> 8.3 (logo bar parity only)</p>
+
+<div class="banner pass">
+  <div class="verdict">PASS</div>
+  <div class="meta">
+    <div><b>1280</b> logo bar &mdash; treatment matches preview; horizontal position shift only (documented infra deviation)</div>
+    <div><b>768</b>&nbsp; logo bar &mdash; wrap = <b>4+2</b> on live = <b>4+2</b> on preview (open question resolved)</div>
+    <div><b>375</b>&nbsp; logo bar &mdash; wrap = <b>2+2+2</b> on live = <b>2+2+2</b> on preview</div>
+    <div style="margin-top: .5em;">Regressions on 8.1 / 8.2 / 8.4 / 8.5: all PASS</div>
+  </div>
+</div>
+
+<div class="nav">
+  <b>Jump to:</b>
+  <ul>
+    <li><a href="#what-i-see">What I see different (plain English)</a></li>
+    <li><a href="#wrap-resolution">768 wrap-pattern resolution</a></li>
+    <li><a href="#vp-1280">1280 viewport</a></li>
+    <li><a href="#vp-768">768 viewport</a></li>
+    <li><a href="#vp-375">375 viewport</a></li>
+    <li><a href="#delta-table">Per-section delta table</a></li>
+    <li><a href="#regression">Regression spot-checks (8.1, 8.2, 8.4, 8.5)</a></li>
+  </ul>
+</div>
+
+<h2 id="what-i-see">What I see different (plain English)</h2>
+<div class="what-i-see">
+<ul>
+  <li><b>Logo bar wrap pattern matches preview at every viewport.</b> 1280: single row of 6. 768: 4 logos top, 2 bottom (the brief's "two rows of three" is stale). 375: 2+2+2. This resolves F's open question.</li>
+  <li><b>Logo treatment matches preview exactly.</b> Each logo on live has the same grayscale level, the same 0.7 opacity, the same 28&nbsp;px height, and the same set of six logos in the same order as the preview. Visually the bar reads identically.</li>
+  <li><b>Horizontal positions of individual logos differ between live and preview.</b> On live each logo is centered within a <i>uniform</i> 140&nbsp;px cell; on preview each logo uses its <i>intrinsic</i> width (CBS&nbsp;145&nbsp;px, Robert Half&nbsp;200&nbsp;px, Tesla&nbsp;22&nbsp;px). This shifts each logo by a few dozen pixels horizontally. This is an accepted infrastructure constraint documented in F's handoff: Drupal's Canvas responsive-image template requires an explicit CSS width or images render at 0&times;0.</li>
+  <li><b>Vertical gap above the logo bar differs from preview.</b> On live at 768 there is ~140&nbsp;px of whitespace between the "TRUSTED BY TEAMS AT" label and the first logo row; on preview the gap is ~20&nbsp;px. This is hero/section padding, not a logo-bar concern, and is out of scope for 8.3. Flag for 8.6 footer/polish cycle if desired.</li>
+  <li><b>Whole-page screenshots are ~1000&nbsp;px taller on live than preview at every viewport.</b> This is not a logo-bar issue. It reflects section spacing differences in hero, feature cards block, and footer/CTA bands that are owned by 8.6 (next cycle).</li>
+  <li><b>No regressions detected</b> on prior fixes (8.1 header pill, 8.2 hero padding-inline, 8.4 feature card 1-col stack at 768, 8.5 hero min-height).</li>
+</ul>
+</div>
+
+<h2 id="wrap-resolution">768 wrap-pattern resolution (binding for 8.3 verdict)</h2>
+<table>
+  <tr><th>Viewport</th><th>Live pattern</th><th>Preview pattern</th><th>Brief says</th><th>Live=Preview?</th><th>Verdict</th></tr>
+  <tr><td>1280</td><td>1 row of 6</td><td>1 row of 6</td><td>1 row of 6</td><td>YES</td><td class="status-match">MATCH</td></tr>
+  <tr><td>768</td><td><b>4 + 2</b></td><td><b>4 + 2</b></td><td>2 rows of 3 (3+3)</td><td><b>YES</b></td><td class="status-match">MATCH (preview canonical; brief stale)</td></tr>
+  <tr><td>375</td><td>2 + 2 + 2</td><td>2 + 2 + 2</td><td>3 rows of 2</td><td>YES</td><td class="status-match">MATCH</td></tr>
+</table>
+<p>Per operator rule "preview is canonical": <b>live matches preview at 768 → PASS for 8.3</b>. The brief's "two rows of three at md" is stale; flag separately for a doc-only brief update cycle.</p>
+
+<h2 id="vp-1280">1280 viewport &mdash; logo bar</h2>
+<div class="vp-block">
+  <h3>Wipe-slider comparator (drag the red bar to reveal live vs preview)</h3>
+  <div class="wipe" id="wipe-1280-logo">
+    <img src="screenshots/cycle-8.3/t3-homepage-logobar-1280-preview-20260511.png" alt="preview 1280 logo bar">
+    <div class="top-wrap"><img src="screenshots/cycle-8.3/t3-homepage-logobar-1280-live-20260511.png" alt="live 1280 logo bar"></div>
+    <div class="slider"></div>
+    <span class="label-left">LIVE</span><span class="label-right">PREVIEW</span>
+    <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.top-wrap').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'; this.parentNode.querySelector('.slider').style.left = this.value + '%';">
+  </div>
+
+  <h3>Aligned-position logo-bar diff (red = pixels that differ)</h3>
+  <p class="footnote">Crops aligned so each site's logo container starts at the same y. AE pixel count: <b>11,705 of 138,240 (8.47%)</b>. Inspect the red areas: the deltas are exclusively horizontal-position shifts of <i>identical</i> logo content. No per-logo treatment delta.</p>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-1280-diff-20260511.png" alt="1280 logo bar diff">
+
+  <h3>Side-by-side composite (live | preview)</h3>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-1280-composite-20260511.png" alt="1280 logo bar composite">
+</div>
+
+<h2 id="vp-768">768 viewport &mdash; logo bar</h2>
+<div class="vp-block">
+  <h3>Wipe-slider comparator</h3>
+  <div class="wipe" id="wipe-768-logo">
+    <img src="screenshots/cycle-8.3/t3-homepage-logobar-768-preview-20260511.png" alt="preview 768 logo bar">
+    <div class="top-wrap"><img src="screenshots/cycle-8.3/t3-homepage-logobar-768-live-20260511.png" alt="live 768 logo bar"></div>
+    <div class="slider"></div>
+    <span class="label-left">LIVE</span><span class="label-right">PREVIEW</span>
+    <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.top-wrap').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'; this.parentNode.querySelector('.slider').style.left = this.value + '%';">
+  </div>
+
+  <h3>Aligned diff</h3>
+  <p class="footnote">AE pixel count: <b>12,227 of 129,024 (9.48%)</b>. Red regions are horizontal-position shifts (uniform 140&nbsp;px cells on live vs intrinsic widths on preview) and the secondary-row "Robert Half" position (live centers row 2, preview anchors Robert Half left and Tesla right via space-between &mdash; both are wrap = 4+2).</p>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-768-diff-20260511.png" alt="768 logo bar diff">
+
+  <h3>Side-by-side composite</h3>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-768-composite-20260511.png" alt="768 logo bar composite">
+</div>
+
+<h2 id="vp-375">375 viewport &mdash; logo bar</h2>
+<div class="vp-block">
+  <h3>Wipe-slider comparator</h3>
+  <div class="wipe" id="wipe-375-logo" style="max-width: 500px;">
+    <img src="screenshots/cycle-8.3/t3-homepage-logobar-375-preview-20260511.png" alt="preview 375 logo bar">
+    <div class="top-wrap"><img src="screenshots/cycle-8.3/t3-homepage-logobar-375-live-20260511.png" alt="live 375 logo bar"></div>
+    <div class="slider"></div>
+    <span class="label-left">LIVE</span><span class="label-right">PREVIEW</span>
+    <input type="range" min="0" max="100" value="50" oninput="this.parentNode.querySelector('.top-wrap').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'; this.parentNode.querySelector('.slider').style.left = this.value + '%';">
+  </div>
+
+  <h3>Aligned diff</h3>
+  <p class="footnote">AE pixel count: <b>13,969 of 79,500 (17.57%)</b>. Higher percentage because (a) tighter viewport amplifies any horizontal shift, and (b) live's xs rule sets <code>width: 100%</code> on logos to fill 50%-cells, so each logo's content fills its row half &mdash; preview's logos use intrinsic widths so the right column logos (DocuSign 99&nbsp;px, Renesas 168&nbsp;px, Tesla 22&nbsp;px) sit further right than live's filled cells. Wrap pattern (2+2+2) matches.</p>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-375-diff-20260511.png" alt="375 logo bar diff">
+
+  <h3>Side-by-side composite</h3>
+  <img class="full" src="screenshots/cycle-8.3/t3-homepage-logobar-aligned-375-composite-20260511.png" alt="375 logo bar composite">
+</div>
+
+<h2 id="delta-table">Per-section delta table</h2>
+<table>
+  <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Crop</th></tr>
+  <tr>
+    <td>Logo bar &mdash; wrap pattern</td><td>1280 / 768 / 375</td>
+    <td class="status-match">MATCH</td>
+    <td>Live = preview at every viewport (6 / 4+2 / 2+2+2).</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Logo bar &mdash; treatment</td><td>1280 / 768 / 375</td>
+    <td class="status-match">MATCH</td>
+    <td>filter <code>grayscale(1)</code>, opacity <code>0.7</code>, height <code>28px</code>, <code>object-fit: contain</code> on every logo, every viewport.</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Logo bar &mdash; per-logo horizontal position</td><td>1280 / 768 / 375</td>
+    <td class="status-delta">DELTA (accepted)</td>
+    <td>Live uses uniform 140&nbsp;px cells; preview uses intrinsic widths. F's handoff §"Deviations from spec" #1 documents this as an infrastructure constraint of Drupal's Canvas <code>sizes="auto"</code> responsive-image template, which requires an explicit CSS width.</td>
+    <td><img class="crop-thumb" src="screenshots/cycle-8.3/t3-homepage-logobar-1280-composite-20260511.png" alt="composite"></td>
+  </tr>
+  <tr>
+    <td>Label-to-logos vertical gap</td><td>768</td>
+    <td class="status-delta">DELTA (out of scope)</td>
+    <td>Live ~140&nbsp;px vs preview ~20&nbsp;px. Belongs to section-spacing pass in cycle 8.6, not logo-bar parity.</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<h2 id="regression">Regression spot-checks (8.1, 8.2, 8.4, 8.5)</h2>
+<table>
+  <tr><th>Phase</th><th>Check</th><th>Viewport</th><th>Result</th><th>Evidence</th></tr>
+  <tr><td>8.1</td><td>No "Book a testing review" pill in header; logo + nav + (hamburger on mobile) only</td><td>1280</td><td class="status-match">PASS</td><td>Header crop shows "performant labs" logo, 6 nav links, no pill, no CTA pill. Height ~73&nbsp;px.</td></tr>
+  <tr><td>8.1</td><td>Hamburger button on mobile</td><td>768</td><td class="status-match">PASS</td><td>Hero crop shows hamburger icon top right at 768.</td></tr>
+  <tr><td>8.2</td><td>Hero <code>padding-inline: 0</code>, no overflow at 768</td><td>768</td><td class="status-match">PASS</td><td>Hero crop shows hero text flush with viewport edges via padding-inline: 0, no horizontal scroll.</td></tr>
+  <tr><td>8.5</td><td>Hero <code>min-height: auto</code>, tight hero-to-next-band</td><td>768</td><td class="status-match">PASS</td><td>Hero crop confirms hero ends cleanly below CTAs without excess vertical padding.</td></tr>
+  <tr><td>8.4</td><td>Feature cards 1-col stack of 3 at 768</td><td>768</td><td class="status-match">PASS</td><td>Features crop shows three cards stacked vertically: Tools / Tests that heal themselves / Experts alongside your team.</td></tr>
+</table>
+
+<h3>Regression crops</h3>
+<h4>8.1 &mdash; Header at 1280 (live)</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-header-1280-live-20260511.png" alt="header 1280 live">
+
+<h4>8.2 + 8.5 &mdash; Hero at 768 (live)</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-hero-768-live-20260511.png" alt="hero 768 live" style="max-width: 768px;">
+
+<h4>8.4 &mdash; Feature cards at 768 (live)</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-features-768-live-20260511.png" alt="features 768 live" style="max-width: 768px;">
+
+<h2>Whole-page composites (informational)</h2>
+<p>These are for context only. Whole-page diff numbers are dominated by section-spacing differences (live is ~1000&nbsp;px taller per viewport) that are owned by sub-cycle 8.6, not 8.3.</p>
+<details>
+<summary>Show whole-page composites</summary>
+<h4>1280</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-1280-composite-20260511.png" alt="whole-page 1280" style="max-width: 2560px;">
+<h4>768</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-768-composite-20260511.png" alt="whole-page 768" style="max-width: 1536px;">
+<h4>375</h4>
+<img class="full" src="screenshots/cycle-8.3/t3-homepage-375-composite-20260511.png" alt="whole-page 375" style="max-width: 750px;">
+</details>
+
+<h2>Advisory follow-ups (non-blocking, for the operator)</h2>
+<ol>
+  <li><b>Brief is stale at 768 wrap pattern.</b> <code>docs/pl2/Briefs/pl_design_brief.md</code> §"Per-section mobile behavior" §"Logo bar" says "two rows of three at md" but the canonical preview produces 4+2 at 768. Update the brief to read "wraps naturally at md (currently 4+2 due to logo widths)" so future audits do not flag this as a divergence. Doc-only.</li>
+  <li><b>Whole-page vertical spacing differences</b> (live ~1000&nbsp;px taller per viewport) belong to cycle 8.6 footer/FAQ/polish.</li>
+  <li><b>Pre-existing working-tree change</b> <code>config/sync/views.view.articles.yml</code> is unstaged on this branch and unrelated to 8.3 (T flagged in §"Advisory notes").</li>
+</ol>
+
+<p class="footnote">Generated by Spec Auditor 2026-05-11. Branch <code>aa/pl-homepage-phase-8.3-logo-grid</code>.</p>
+
+</body>
+</html>

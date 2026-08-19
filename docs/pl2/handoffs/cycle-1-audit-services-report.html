@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 5 — Cycle 1 — Services Preview-vs-Live Audit</title>
+<style>
+  :root {
+    --canvas: #ffffff;
+    --cream:  #f5f0e6;
+    --espresso: #2b1d14;
+    --ink: #1a1a1a;
+    --muted: #5a5a5a;
+    --terracotta: #c8553d;
+    --teal: #1ca0a0;
+    --rule: #e5dfd2;
+    --status-match: #1f7a3a;
+    --status-delta: #b07a00;
+    --status-rework: #b8392d;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--canvas); color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 32px 24px 96px; }
+  header.banner { background: var(--espresso); color: #fff; padding: 32px 24px; border-radius: 8px;
+    display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: space-between; }
+  header.banner h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; }
+  header.banner .meta { font-size: 14px; color: #d9cdb8; }
+  .verdict {
+    display: inline-block; padding: 10px 18px; border-radius: 999px; font-weight: 700; font-size: 18px;
+    background: #1f7a3a; color: #fff; letter-spacing: 0.5px;
+  }
+  .vp-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px;
+    background: #3a2a1f; padding: 12px; border-radius: 6px; }
+  .vp-summary div { color: #f5e9d4; font-size: 13px; }
+  .vp-summary strong { display: block; color: #fff; font-size: 16px; margin-bottom: 4px; }
+  nav.toc { position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--rule); padding: 12px 24px; margin: 24px -24px 24px; z-index: 100; }
+  nav.toc a { color: var(--ink); text-decoration: none; margin-right: 18px; font-size: 14px; font-weight: 600; }
+  nav.toc a:hover { color: var(--terracotta); }
+  h2 { font-size: 26px; letter-spacing: -0.4px; margin-top: 56px; padding-top: 12px; border-top: 2px solid var(--rule); }
+  h3 { font-size: 20px; margin-top: 32px; }
+  h4 { font-size: 16px; margin-top: 18px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  ul.summary li { margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { background: var(--cream); font-weight: 700; }
+  .status { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 700;
+    color: #fff; letter-spacing: 0.5px; }
+  .status.match  { background: var(--status-match); }
+  .status.delta  { background: var(--status-delta); }
+  .status.rework { background: var(--status-rework); }
+  .comparator { position: relative; width: 100%; max-width: 1280px; margin: 16px 0; overflow: hidden;
+    border: 1px solid var(--rule); border-radius: 6px; background: #ccc; }
+  .comparator .stage { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; user-select: none; }
+  .comparator img.top { position: absolute; top: 0; left: 0; }
+  .comparator input[type=range] { position: absolute; left: 0; right: 0; bottom: 8px; width: 96%; margin: 0 2%;
+    z-index: 5; }
+  .comparator .label { position: absolute; top: 8px; padding: 4px 10px; background: rgba(0,0,0,0.7); color: #fff;
+    font-size: 12px; font-weight: 700; border-radius: 4px; z-index: 4; }
+  .comparator .label.live { left: 8px; }
+  .comparator .label.prev { right: 8px; }
+  .diff-img, .composite-img { display: block; width: 100%; height: auto; border: 1px solid var(--rule);
+    border-radius: 6px; margin-top: 12px; }
+  .crop { width: 280px; height: auto; border: 1px solid var(--rule); border-radius: 4px; }
+  .legend { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  details { margin-top: 12px; border: 1px solid var(--rule); border-radius: 6px; padding: 8px 14px; }
+  summary { font-weight: 700; cursor: pointer; padding: 4px 0; }
+  code { background: var(--cream); padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+  .callout { background: var(--cream); border-left: 4px solid var(--terracotta); padding: 12px 16px;
+    margin: 16px 0; border-radius: 0 6px 6px 0; }
+  .callout strong { color: var(--terracotta); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="banner">
+  <div>
+    <h1>Sprint 5 — Cycle 1 — Services preview-vs-live audit</h1>
+    <div class="meta">2026-05-11 · branch <code>aa/pl-sprint-5-cycle-1-audit</code> · audit-only (no F, no T, no commit)</div>
+  </div>
+  <div>
+    <span class="verdict">PASS — catalog ready</span>
+    <div class="vp-summary">
+      <div><strong>1280 × 800</strong>AE 3,150,090 px · 53.70 %<br>(chrome offset; see report)</div>
+      <div><strong>768 × 1024</strong>AE 2,131,700 px · 51.44 %</div>
+      <div><strong>375 × 667</strong>AE 1,406,880 px · 53.10 %</div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="#whatisee">What I see different</a>
+  <a href="#fu6">FU-6 answer</a>
+  <a href="#viewports">Per-viewport comparators</a>
+  <a href="#deltas">Per-section deltas</a>
+  <a href="#carve">Cycle carve</a>
+</nav>
+
+<section id="whatisee">
+  <h2>What I see different — plain-English summary</h2>
+  <ul class="summary">
+    <li><strong>Engagement cards (all viewports):</strong> live cards are skeletal — a thin top rule, transparent background, plain text. Preview cards have a soft cream surface fill with inner padding so each card reads as a contained block.</li>
+    <li><strong>Engagement card numerals (all viewports):</strong> live reads "01 / TAKEOVER" in all-caps; preview reads "01 / Takeover" in title-case. Same casing difference on Embed / Pilot / a11y.</li>
+    <li><strong>Engagement card titles (all viewports):</strong> preview h3 strings end with a period ("Test-suite takeover."); live versions have no period.</li>
+    <li><strong>Logo strip (all viewports):</strong> live shows ~8 bitmap technology logos (Drupal, Playwright, Cypress, PHP, JS, React, Anthropic, plus one more) inside a "WE SPEAK"-labelled strip. Preview replaces this with a text-only inline wordmark row — six plain-text tool names spaced across a hairline-bounded strip, with "WE SPEAK" demoted INSIDE the strip as a small-caps label above the row.</li>
+    <li><strong>Closing CTA (1280):</strong> live left-aligns the H2 with the primary button pushed to its right, and a separate secondary ghost CTA centered below. Preview centers the H2, places body copy under it, and aligns both buttons together in a single centered CTA row.</li>
+    <li><strong>Closing CTA element order (1280):</strong> preview is kicker → H2 → body → buttons. Live is kicker → body → H2 → buttons (split layout).</li>
+    <li><strong>Nearshore H2 wrap (1280):</strong> live wraps differently from preview because live uses the full page container width (~1140 px) whereas preview uses a content-cap around 640 px. Visible difference; everything else in this section matches.</li>
+    <li><strong>Hero (all viewports):</strong> matches between live and preview at the brief spec (FU-2 canonical, excluded from rework).</li>
+    <li><strong>Mobile (375):</strong> all sections collapse to single column on both. The card-surface and logo-strip deltas persist on mobile; the closing-cta layout delta collapses out.</li>
+  </ul>
+  <div class="callout">
+    <strong>Why the whole-page delta is 50–54 %:</strong> the preview is a standalone HTML file with minimal chrome; the live page wraps the same sections inside the full Drupal site header / breadcrumb / footer, which adds ~10–14 % more height and offsets every section below the hero by ~50–100 vertical pixels. After that offset, almost every pixel below the hero registers as a delta. <em>The per-section delta classification below is the binding signal, not the whole-page percentage.</em>
+  </div>
+</section>
+
+<section id="fu6">
+  <h2>FU-6 answer — does the preview contain a heal-flow section?</h2>
+  <p><strong>No.</strong> The preview at <code>docs/pl2/Previews/services.html</code> contains five <code>&lt;section&gt;</code> elements:</p>
+  <ol>
+    <li><code>.hero</code> — out of scope (FU-2 canonical).</li>
+    <li><code>.engagements</code> — four-card grid.</li>
+    <li><code>.nearshore</code> — cream capacity band.</li>
+    <li><code>.proof</code> — dogfooding pitch + "We Speak" text-only logo strip.</li>
+    <li><code>.closing-cta</code> — espresso final CTA.</li>
+  </ol>
+  <p>No <em>heal-flow</em>, <em>healing</em>, or comparable section exists. The string <code>healing</code> appears only inside engagement-card #3 body copy ("Autonomous-healing pilot") and inside nearshore body copy.</p>
+  <p><strong>Resolution per sprint runbook §"Approval Checkpoints":</strong> close FU-6 as "Services does not need heal-flow." Do <em>not</em> open a dedicated heal-flow cycle.</p>
+</section>
+
+<section id="viewports">
+  <h2>Per-viewport wipe-slider comparators</h2>
+  <p class="legend">Drag the slider to wipe live (top) over preview (bottom). The diff PNG below each comparator highlights changed pixels in red; the side-by-side composite shows both renders in parallel.</p>
+
+  <h3>1280 × 800</h3>
+  <div class="comparator" data-w="1280" data-h="4583">
+    <div class="stage" style="aspect-ratio: 1280 / 4583;">
+      <img class="bottom" src="screenshots/sprint-5-cycle-1/t3-services-1280-preview-20260511.png" alt="preview 1280">
+      <img class="top"    src="screenshots/sprint-5-cycle-1/t3-services-1280-live-20260511.png"    alt="live 1280" style="clip-path: inset(0 50% 0 0);">
+      <span class="label live">LIVE →</span>
+      <span class="label prev">← PREVIEW</span>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-1/t3-services-1280-diff-20260511.png" alt="1280 diff (red overlay)">
+  <details><summary>Side-by-side composite (1280)</summary>
+    <img class="composite-img" src="screenshots/sprint-5-cycle-1/t3-services-1280-composite-20260511.png" alt="1280 composite">
+  </details>
+
+  <h3>768 × 1024</h3>
+  <div class="comparator" data-w="768" data-h="5396">
+    <div class="stage" style="aspect-ratio: 768 / 5396;">
+      <img class="bottom" src="screenshots/sprint-5-cycle-1/t3-services-768-preview-20260511.png" alt="preview 768">
+      <img class="top"    src="screenshots/sprint-5-cycle-1/t3-services-768-live-20260511.png"    alt="live 768" style="clip-path: inset(0 50% 0 0);">
+      <span class="label live">LIVE →</span>
+      <span class="label prev">← PREVIEW</span>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-1/t3-services-768-diff-20260511.png" alt="768 diff (red overlay)">
+  <details><summary>Side-by-side composite (768)</summary>
+    <img class="composite-img" src="screenshots/sprint-5-cycle-1/t3-services-768-composite-20260511.png" alt="768 composite">
+  </details>
+
+  <h3>375 × 667</h3>
+  <div class="comparator" data-w="375" data-h="7065">
+    <div class="stage" style="aspect-ratio: 375 / 7065;">
+      <img class="bottom" src="screenshots/sprint-5-cycle-1/t3-services-375-preview-20260511.png" alt="preview 375">
+      <img class="top"    src="screenshots/sprint-5-cycle-1/t3-services-375-live-20260511.png"    alt="live 375" style="clip-path: inset(0 50% 0 0);">
+      <span class="label live">LIVE →</span>
+      <span class="label prev">← PREVIEW</span>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
+  <img class="diff-img" src="screenshots/sprint-5-cycle-1/t3-services-375-diff-20260511.png" alt="375 diff (red overlay)">
+  <details><summary>Side-by-side composite (375)</summary>
+    <img class="composite-img" src="screenshots/sprint-5-cycle-1/t3-services-375-composite-20260511.png" alt="375 composite">
+  </details>
+</section>
+
+<section id="deltas">
+  <h2>Per-section delta table</h2>
+
+  <h3>§ engagements (4-card grid)</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Delta</th><th>Viewports</th><th>Category</th><th>Layer</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>E1</td><td>Card surface: live has top-rule + transparent bg; preview has cream surface w/ inner padding</td><td>1280·768·375</td><td>TOKEN + COMPONENT</td><td>L5 (card-canvas)</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>E2</td><td>Eyebrow numerals: "01 / TAKEOVER" (live, all-caps) vs "01 / Takeover" (preview, title-case)</td><td>all</td><td>TYPO + COPY</td><td>Canvas content</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>E3</td><td>H3 trailing period: preview h3 ends in "."; live has no period</td><td>all</td><td>COPY</td><td>Canvas content</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>E4</td><td>Grid columns at 1280 (2×2), 768 (2×2), 375 (1-col)</td><td>all</td><td>LAYOUT</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>E5</td><td>Eyebrow underline accent stroke/spacing</td><td>1280</td><td>TOKEN</td><td>L5 (card-canvas)</td><td><span class="status delta">DELTA</span></td></tr>
+      <tr><td>E6</td><td>Inter-card row gap: ~32 px (live) vs ~48 px (preview)</td><td>1280</td><td>LAYOUT</td><td>L5 (card-canvas grid)</td><td><span class="status rework">REWORK</span></td></tr>
+    </tbody>
+  </table>
+  <p><img class="crop" src="screenshots/sprint-5-cycle-1/engagements-1280-composite.png" alt="engagements composite crop"></p>
+
+  <h3>§ nearshore (Capacity, cream band)</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Delta</th><th>Viewports</th><th>Category</th><th>Layer</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>N1</td><td>Section background + kicker treatment</td><td>1280·768</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>N2</td><td>H2 wrap differs because live uses page container (~1140) vs preview content-cap (~640)</td><td>1280</td><td>LAYOUT</td><td>L5 (nearshore CSS)</td><td><span class="status delta">DELTA</span></td></tr>
+      <tr><td>N3</td><td>CTA "Talk about capacity" pill</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>N4</td><td>Mobile stacking at 375</td><td>375</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+  <p><img class="crop" src="screenshots/sprint-5-cycle-1/nearshore-1280-composite.png" alt="nearshore composite crop"></p>
+
+  <h3>§ proof (dogfooding + logo strip)</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Delta</th><th>Viewports</th><th>Category</th><th>Layer</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>P1</td><td>Logo strip: text-only wordmarks (preview) vs raster logo-grid SDC (live)</td><td>all</td><td>COMPONENT + TOKEN</td><td>Canvas content + L5</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>P2</td><td>"WE SPEAK" label placement — inside hairline strip (preview) vs above raster row (live)</td><td>all</td><td>LAYOUT</td><td>L5</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>P3</td><td>Dogfooding H2 copy</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>P4</td><td>Dogfooding body copy</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>P5</td><td>Dogfooding CTA "See how we test this site"</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>P6</td><td>"DOGFOODING" kicker small-caps</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+  <p><img class="crop" src="screenshots/sprint-5-cycle-1/proof-1280-composite.png" alt="proof composite crop"></p>
+  <p><img class="crop" src="screenshots/sprint-5-cycle-1/proof-deep-composite.png" alt="proof deep crop (logo strip)"></p>
+
+  <h3>§ closing-cta (espresso final CTA)</h3>
+  <table>
+    <thead><tr><th>ID</th><th>Delta</th><th>Viewports</th><th>Category</th><th>Layer</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>C1</td><td>Element order: kicker→H2→body→buttons (preview) vs kicker→body→H2→buttons-split (live)</td><td>1280</td><td>LAYOUT + COMPONENT</td><td>Canvas content + L5</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>C2</td><td>H2 alignment: centered (preview) vs left-aligned with primary button beside it (live)</td><td>1280</td><td>LAYOUT</td><td>L5</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>C3</td><td>CTA cluster: side-by-side centered (preview) vs split (live)</td><td>1280</td><td>LAYOUT</td><td>L5</td><td><span class="status rework">REWORK</span></td></tr>
+      <tr><td>C4</td><td>Mobile stack (375)</td><td>375</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>C5</td><td>Espresso bg + terracotta kicker + cream H2 tokens</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+      <tr><td>C6</td><td>Ghost-on-dark secondary variant</td><td>all</td><td>—</td><td>—</td><td><span class="status match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+  <p><img class="crop" src="screenshots/sprint-5-cycle-1/cta-1280-composite.png" alt="closing-cta composite crop"></p>
+</section>
+
+<section id="carve">
+  <h2>Recommended cycle carve (input to O)</h2>
+  <table>
+    <thead><tr><th>Cycle</th><th>Section</th><th>Primary deltas</th><th>Layer(s)</th><th>F file budget</th></tr></thead>
+    <tbody>
+      <tr><td><strong>2</strong></td><td>§ engagements</td><td>E1 surface, E5 accent, E6 row gap + ride-along E2/E3</td><td>L5 + Canvas content</td><td>3–4 files</td></tr>
+      <tr><td><strong>3</strong></td><td>§ closing-cta</td><td>C1 order, C2 alignment, C3 cluster placement</td><td>L5 + Canvas content</td><td>3–4 files</td></tr>
+      <tr><td><strong>4</strong></td><td>§ proof / logo strip</td><td>P1 text wordmarks, P2 label placement</td><td>Canvas content + L5 (potentially L1 if new SDC)</td><td>4–6 files</td></tr>
+      <tr><td><strong>5</strong></td><td>§ nearshore (optional)</td><td>N2 content-cap</td><td>L5</td><td>1–2 files</td></tr>
+      <tr><td><strong>Final</strong></td><td>Whole page</td><td>Cross-section + WCAG verification</td><td>T → S</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p><strong>Rationale:</strong> Cycle 2 first (largest visible weight, contained to <code>card-canvas</code>). Cycle 3 second (small, layout-only, fast win). Cycle 4 third (most architecturally invasive — component swap). Cycle 5 only if F's scope-cap allows folding it; else close as no-op. FU-6: close as "not needed." Typography canon: not indicated; close as no-op.</p>
+</section>
+
+<script>
+  // Wire each comparator's range input to a clip-path on the .top image.
+  document.querySelectorAll('.comparator').forEach(function(c) {
+    var range = c.querySelector('input[type=range]');
+    var top   = c.querySelector('img.top');
+    if (!range || !top) return;
+    function update() {
+      var v = parseFloat(range.value);
+      top.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+    }
+    range.addEventListener('input', update);
+    update();
+  });
+</script>
+
+</div>
+</body>
+</html>

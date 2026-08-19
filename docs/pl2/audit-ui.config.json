@@ -1,0 +1,38 @@
+{
+  "$comment": "Machine-readable slice of the project profile for the audit UI (serve.py). Copy into the project repo and fill in. The UI runs the deterministic chain from the project dir.",
+  "name": "performantlabs.com (canonical)",
+  "project": "~/Sites/pl-performantlabs.com",
+  "siteBaseUrl": "https://dev-performant-labs-v2.pantheonsite.io",
+  "roots": ["web/themes/custom/performant_labs_v2", "web/themes/dripyard_themes/neonbyte", "web/themes/dripyard_themes/dripyard_base"],
+  "injectedPrefixes": ["--theme-setting-", "--drupal-displace-", "--offset-from-header"],
+  "componentAttr": "data-component-id",
+  "renderThemeVars": ["--theme-surface", "--theme-text-color-loud", "--space-for-fixed-header", "--spacing-component-internal"],
+  "navSelector": "[data-drupal-selector=\"mobile-nav-button\"]",
+  "auditDir": "docs/pl2/handoffs/audits",
+  "toolsDir": "~/Projects/website-audit/core/tools",
+  "cookies": [
+    { "name": "Deterrence-Bypass", "value": "1", "domain": "dev-performant-labs-v2.pantheonsite.io", "path": "/" }
+  ],
+  "stateInvariants": [
+    {
+      "surface": "mobile-nav",
+      "selector": "[data-drupal-selector=\"mobile-nav-button\"]",
+      "page": "/",
+      "viewport": { "width": 375, "height": 812 }
+    }
+  ],
+  "pages": [
+    ["Homepage (v2)", "/"],
+    ["Services", "/services"],
+    ["How a testing engagement runs", "/how-we-do-it"],
+    ["Open Source Projects", "/open-source-projects"],
+    ["Introduction to ATK", "/page/11"],
+    ["Articles", "/articles-v2"],
+    ["Contact Us", "/contact-us"],
+    ["Automated testing", "/automated-testing"],
+    ["How We Built This Site", "/how-we-built-this-site"],
+    ["About Us", "/about-us"],
+    ["Documentation", "/docs"],
+    ["CTRFHub", "/ctrfhub"]
+  ]
+}

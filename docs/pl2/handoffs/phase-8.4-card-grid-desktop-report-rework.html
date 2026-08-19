@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Phase 8.4 Round 2 — Visual Audit Report</title>
+  <style>
+    :root {
+      --ink: #14253a;
+      --muted: #5a6a82;
+      --pass: #1f8a5b;
+      --rework: #b32d2e;
+      --bg: #fdfbf7;
+      --card: #ffffff;
+      --rule: #e6dfd2;
+      --accent: #c45a39;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      margin: 0;
+    }
+    .wrap { max-width: 1400px; margin: 0 auto; padding: 32px 28px 80px; }
+    h1 { font-size: 28px; margin: 0 0 8px; letter-spacing: -0.5px; }
+    h2 { font-size: 22px; margin: 36px 0 14px; padding-bottom: 6px; border-bottom: 1px solid var(--rule); }
+    h3 { font-size: 18px; margin: 22px 0 10px; }
+    p, li { color: var(--ink); }
+    code { background: #f3eee5; padding: 1px 5px; border-radius: 3px; font-size: 14px; }
+    .verdict {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 18px; flex-wrap: wrap;
+      padding: 22px 26px; border-radius: 10px;
+      background: var(--pass); color: white;
+      margin: 14px 0 28px;
+    }
+    .verdict.rework { background: var(--rework); }
+    .verdict .label { font-size: 36px; font-weight: 700; letter-spacing: -1px; }
+    .verdict .meta { font-size: 14px; line-height: 1.4; opacity: 0.95; }
+    .verdict table { color: white; border-collapse: collapse; }
+    .verdict td { padding: 2px 10px 2px 0; }
+    nav.toc { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 20px; margin: 0 0 24px; font-size: 14px; }
+    nav.toc a { color: var(--accent); text-decoration: none; margin-right: 18px; }
+    nav.toc a:hover { text-decoration: underline; }
+    .summary { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 18px 22px; }
+    .summary ul { margin: 6px 0 0 18px; padding: 0; }
+    .summary li { margin: 6px 0; }
+
+    .vp-block { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 22px 24px; margin: 18px 0; }
+    .vp-block .head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .vp-block .head h3 { margin: 0; }
+    .vp-block .pill { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: #eef6ef; color: var(--pass); font-weight: 600; }
+    .vp-block .pill.rework { background: #fbe7e7; color: var(--rework); }
+    .vp-stats { font-size: 13px; color: var(--muted); }
+
+    /* Wipe slider */
+    .wipe {
+      position: relative; width: 100%; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px;
+      background: #f7f3ec;
+    }
+    .wipe img {
+      display: block; width: 100%; height: auto;
+      position: absolute; top: 0; left: 0;
+    }
+    .wipe img.live { position: relative; z-index: 1; }
+    .wipe img.preview { z-index: 2; clip-path: inset(0 0 0 50%); }
+    .wipe-controls { display: flex; align-items: center; gap: 10px; margin: 8px 0 14px; font-size: 13px; color: var(--muted); }
+    .wipe-controls input[type=range] { flex: 1; }
+    .wipe-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+    .wipe-labels b { color: var(--ink); }
+
+    .img-group { margin: 18px 0; }
+    .img-group h4 { font-size: 14px; margin: 0 0 6px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .img-group img { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 4px; }
+
+    table.delta { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+    table.delta th, table.delta td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--rule); vertical-align: top; }
+    table.delta th { background: #f3eee5; font-weight: 600; font-size: 13px; }
+    table.delta tr:last-child td { border-bottom: none; }
+    table.delta img { max-width: 220px; height: auto; border: 1px solid var(--rule); border-radius: 3px; }
+    .status-match { color: var(--pass); font-weight: 600; }
+    .status-delta { color: #b07d2e; font-weight: 600; }
+    .status-rework { color: var(--rework); font-weight: 600; }
+    .oos { color: var(--muted); font-style: italic; }
+
+    details { background: var(--card); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 18px; margin: 14px 0; }
+    summary { cursor: pointer; font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Phase 8.4 — Card Grid Desktop, Round 2 Visual Audit</h1>
+  <p style="color:var(--muted); margin-top:0;">
+    Branch: <code>aa/pl-homepage-phase-8.4-card-grid-desktop</code> &nbsp;·&nbsp;
+    Date: 2026-05-09 &nbsp;·&nbsp;
+    Scope: feature-card grid (round-2 fix) + 8.2 hero regression + 8.4 round-1 desktop regression.
+  </p>
+
+  <div class="verdict" id="verdict">
+    <div>
+      <div class="label">PASS</div>
+      <div class="meta">Sub-cycle 8.4 round 2: feature-card grid renders 3 / 1 / 1 at 1280 / 768 / 375, matching preview literally. 8.2 hero fix and 8.4 round-1 desktop fix both preserved. Ready for O to commit + merge.</div>
+    </div>
+    <div class="meta">
+      <table>
+        <tr><th style="text-align:left;">Crop</th><th style="text-align:left; padding-left:18px;">Pixels diff</th><th style="text-align:left; padding-left:18px;">Delta %</th></tr>
+        <tr><td>feature 1280</td><td style="padding-left:18px;">75,416</td><td style="padding-left:18px;">9.50%</td></tr>
+        <tr><td>feature 768</td><td style="padding-left:18px;">65,910</td><td style="padding-left:18px;">6.68%</td></tr>
+        <tr><td>feature 375</td><td style="padding-left:18px;">74,415</td><td style="padding-left:18px;">11.85%</td></tr>
+        <tr><td>hero 768 (regression)</td><td style="padding-left:18px;">116,320</td><td style="padding-left:18px;">15.78%</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <nav class="toc">
+    <a href="#summary">What I see</a>
+    <a href="#vp-1280">1280</a>
+    <a href="#vp-768">768</a>
+    <a href="#vp-375">375</a>
+    <a href="#hero-768">Hero 768</a>
+    <a href="#delta-table">Per-section table</a>
+    <a href="#oos">Out of scope</a>
+    <a href="#raw">Raw numbers</a>
+  </nav>
+
+  <h2 id="summary">What I see different (plain English)</h2>
+  <div class="summary">
+    <p><b>In scope (sub-cycle 8.4):</b></p>
+    <ul>
+      <li><b>1280 (desktop):</b> Feature-card grid is a single row of 3 cards on both live and preview. Round-1 desktop fix is preserved. <span class="status-match">MATCH on layout.</span></li>
+      <li><b>768 (tablet):</b> Feature-card grid is a 1-column stack of 3 cards on both live and preview. This is the round-2 fix. Round 1 was 2+1 at 768; round 2 is 1-col, matching preview literally. <span class="status-match">MATCH on layout.</span></li>
+      <li><b>375 (mobile):</b> Feature-card grid is a 1-column stack on both live and preview. Unchanged from round 1. <span class="status-match">MATCH on layout.</span></li>
+      <li><b>Hero band at 768:</b> Live hero spans full viewport width with no horizontal overflow; CTAs and copy render cleanly. The 8.2 hero fix (<code>padding-inline: 0</code> on <code>.hero.theme--white</code>) is preserved. <span class="status-match">No regression.</span></li>
+    </ul>
+    <p><b>Card-chrome differences vs preview (intentional, Phase 4.1):</b></p>
+    <ul>
+      <li>Live cards have a corner arrow icon in the top-right; preview cards do not.</li>
+      <li>Live cards include an internal "01 / TOOLS" eyebrow with a slightly different style (uppercased + underline) than the preview's "01 / Tools".</li>
+      <li>Live has a section-head ("WHAT WE SHIP" eyebrow + H2 "Tools, AI, and experts. All there.") above the card grid; the preview omits this section-head.</li>
+      <li>Live cards are slightly narrower (305 px at 1280) than preview cards (368 px at 1280) because of the surrounding container's padding.</li>
+    </ul>
+    <p>These chrome / section-head differences account for the bulk of the non-zero pixel delta in the feature-card crops. They are intentional design decisions from earlier phases and are not regressions.</p>
+    <p><b>Out of scope (other unrun sub-cycles):</b> Header chrome (CTA, logo treatment), hero whitespace, footer-CTA polish, FAQ icons, footer casing all still show DELTA against the preview because they belong to sub-cycles 8.1, 8.5, 8.6. These are NOT inputs to the round-2 verdict.</p>
+  </div>
+
+  <h2>Per-viewport comparators</h2>
+
+  <div class="vp-block" id="vp-1280">
+    <div class="head">
+      <h3>1280 — Feature-card grid (round-1 desktop fix retention)</h3>
+      <span class="pill">MATCH on layout</span>
+    </div>
+    <div class="vp-stats">3 cards in a single row on both sides. Diff dimensions 1280×620. 75,416 differing pixels (9.50%). Delta concentration: card chrome (corner arrow, internal eyebrow) and section-head text above cards in live.</div>
+
+    <div class="wipe-labels"><b>Live</b><span>← drag the slider to reveal preview →</span><b>Preview</b></div>
+    <div class="wipe-controls">
+      <span>Live</span><input type="range" min="0" max="100" value="50" oninput="document.getElementById('w1280').style.clipPath='inset(0 0 0 '+this.value+'%)'"><span>Preview</span>
+    </div>
+    <div class="wipe" style="aspect-ratio: 1280/620;">
+      <img class="live" src="screenshots/cycle-8.4-rework/t3-homepage-feature-1280-live-20260509.png" alt="Live feature crop at 1280">
+      <img id="w1280" class="preview" src="screenshots/cycle-8.4-rework/t3-homepage-feature-1280-preview-20260509.png" alt="Preview feature crop at 1280" style="clip-path: inset(0 0 0 50%);">
+    </div>
+
+    <div class="img-group">
+      <h4>Pixel diff (red overlay)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-1280-diff.png" alt="Diff PNG feature 1280">
+    </div>
+    <div class="img-group">
+      <h4>Side-by-side composite (live left, preview right)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-1280-composite.png" alt="Composite feature 1280">
+    </div>
+  </div>
+
+  <div class="vp-block" id="vp-768">
+    <div class="head">
+      <h3>768 — Feature-card grid (round-2 fix: 2+1 → 1-col)</h3>
+      <span class="pill">MATCH on layout</span>
+    </div>
+    <div class="vp-stats">3 cards stacked 1-col on both sides. Diff dimensions 768×1285. 65,910 differing pixels (6.68%). Delta concentration: section-head text in live, card chrome, accumulated y-shift from card-height differences.</div>
+
+    <div class="wipe-labels"><b>Live</b><span>← drag the slider to reveal preview →</span><b>Preview</b></div>
+    <div class="wipe-controls">
+      <span>Live</span><input type="range" min="0" max="100" value="50" oninput="document.getElementById('w768').style.clipPath='inset(0 0 0 '+this.value+'%)'"><span>Preview</span>
+    </div>
+    <div class="wipe" style="aspect-ratio: 768/1285;">
+      <img class="live" src="screenshots/cycle-8.4-rework/t3-homepage-feature-768-live-20260509.png" alt="Live feature crop at 768">
+      <img id="w768" class="preview" src="screenshots/cycle-8.4-rework/t3-homepage-feature-768-preview-20260509.png" alt="Preview feature crop at 768" style="clip-path: inset(0 0 0 50%);">
+    </div>
+
+    <div class="img-group">
+      <h4>Pixel diff (red overlay)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-768-diff.png" alt="Diff PNG feature 768">
+    </div>
+    <div class="img-group">
+      <h4>Side-by-side composite (live left, preview right)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-768-composite.png" alt="Composite feature 768">
+    </div>
+  </div>
+
+  <div class="vp-block" id="vp-375">
+    <div class="head">
+      <h3>375 — Feature-card grid (no regression from round 1)</h3>
+      <span class="pill">MATCH on layout</span>
+    </div>
+    <div class="vp-stats">3 cards stacked 1-col on both sides. Diff dimensions 375×1674. 74,415 differing pixels (11.85%). Delta concentration: section-head text in live + card chrome + text-wrap differences from narrower live container width.</div>
+
+    <div class="wipe-labels"><b>Live</b><span>← drag the slider to reveal preview →</span><b>Preview</b></div>
+    <div class="wipe-controls">
+      <span>Live</span><input type="range" min="0" max="100" value="50" oninput="document.getElementById('w375').style.clipPath='inset(0 0 0 '+this.value+'%)'"><span>Preview</span>
+    </div>
+    <div class="wipe" style="aspect-ratio: 375/1674;">
+      <img class="live" src="screenshots/cycle-8.4-rework/t3-homepage-feature-375-live-20260509.png" alt="Live feature crop at 375">
+      <img id="w375" class="preview" src="screenshots/cycle-8.4-rework/t3-homepage-feature-375-preview-20260509.png" alt="Preview feature crop at 375" style="clip-path: inset(0 0 0 50%);">
+    </div>
+
+    <div class="img-group">
+      <h4>Pixel diff (red overlay)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-375-diff.png" alt="Diff PNG feature 375">
+    </div>
+    <div class="img-group">
+      <h4>Side-by-side composite (live left, preview right)</h4>
+      <img src="screenshots/cycle-8.4-rework/feature-375-composite.png" alt="Composite feature 375">
+    </div>
+  </div>
+
+  <div class="vp-block" id="hero-768">
+    <div class="head">
+      <h3>Hero band at 768 — 8.2 regression check</h3>
+      <span class="pill">No regression</span>
+    </div>
+    <div class="vp-stats">Live hero spans full viewport width; no horizontal overflow; H1 + sub-copy + 2 CTAs render cleanly. Diff dimensions 768×960. 116,320 differing pixels (15.78%). Delta concentration: header-chrome differences (out of scope, 8.1) and slight vertical shift from header height; the hero <i>band</i> itself matches expected behavior.</div>
+
+    <div class="wipe-labels"><b>Live</b><span>← drag the slider to reveal preview →</span><b>Preview</b></div>
+    <div class="wipe-controls">
+      <span>Live</span><input type="range" min="0" max="100" value="50" oninput="document.getElementById('whero').style.clipPath='inset(0 0 0 '+this.value+'%)'"><span>Preview</span>
+    </div>
+    <div class="wipe" style="aspect-ratio: 768/960;">
+      <img class="live" src="screenshots/cycle-8.4-rework/t3-homepage-hero-768-live-20260509.png" alt="Live hero crop at 768">
+      <img id="whero" class="preview" src="screenshots/cycle-8.4-rework/t3-homepage-hero-768-preview-20260509.png" alt="Preview hero crop at 768" style="clip-path: inset(0 0 0 50%);">
+    </div>
+
+    <div class="img-group">
+      <h4>Pixel diff (red overlay)</h4>
+      <img src="screenshots/cycle-8.4-rework/hero-768-diff.png" alt="Diff PNG hero 768">
+    </div>
+    <div class="img-group">
+      <h4>Side-by-side composite (live left, preview right)</h4>
+      <img src="screenshots/cycle-8.4-rework/hero-768-composite.png" alt="Composite hero 768">
+    </div>
+  </div>
+
+  <h2 id="delta-table">Per-section delta table</h2>
+  <table class="delta">
+    <thead>
+      <tr>
+        <th>Section</th>
+        <th>Viewport</th>
+        <th>Status</th>
+        <th>Description (plain English)</th>
+        <th>Diff thumbnail</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Feature-card grid</td>
+        <td>1280</td>
+        <td class="status-match">MATCH on layout</td>
+        <td>3 cards in a single row on both sides. Round-1 desktop fix preserved. Pixel deltas come from the section-head H2 / "WHAT WE SHIP" eyebrow and card chrome (corner arrow, internal eyebrow) — both intentional from Phase 4.1.</td>
+        <td><img src="screenshots/cycle-8.4-rework/feature-1280-diff-thumb.png" alt="thumb 1280"></td>
+      </tr>
+      <tr>
+        <td>Feature-card grid</td>
+        <td>768</td>
+        <td class="status-match">MATCH on layout</td>
+        <td>1-col stack of 3 cards on both sides. Round-2 fix in place: was 2+1 in round 1, now 1-col matching preview literally. Pixel deltas come from section-head + card chrome + accumulated y-shift; layout is correct.</td>
+        <td><img src="screenshots/cycle-8.4-rework/feature-768-diff-thumb.png" alt="thumb 768"></td>
+      </tr>
+      <tr>
+        <td>Feature-card grid</td>
+        <td>375</td>
+        <td class="status-match">MATCH on layout</td>
+        <td>1-col stack on both sides. No regression from round 1. Pixel deltas come from section-head + card chrome + text-wrap differences from container width.</td>
+        <td><img src="screenshots/cycle-8.4-rework/feature-375-diff-thumb.png" alt="thumb 375"></td>
+      </tr>
+      <tr>
+        <td>Hero band (8.2 regression check)</td>
+        <td>768</td>
+        <td class="status-match">No regression</td>
+        <td>Hero spans full viewport width on live. <code>padding-inline: 0</code> on <code>.hero.theme--white</code> still in place. No horizontal overflow at 768. Pixel deltas come from header chrome (out of scope, 8.1) and slight vertical shift, not from the hero band.</td>
+        <td><img src="screenshots/cycle-8.4-rework/hero-768-diff-thumb.png" alt="thumb hero 768"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="oos">Out of scope (other unrun sub-cycles)</h2>
+  <p class="oos">These sections still show DELTA against the preview because they are owned by other sub-cycles. They are <b>not</b> inputs to the round-2 8.4 verdict. Listed here for transparency only:</p>
+  <ul>
+    <li><b>8.1 Header:</b> live has full header chrome (logo, nav, "Call today" CTA); preview has a minimal placeholder header.</li>
+    <li><b>8.5 Footer-CTA / FAQ:</b> closing CTA, FAQ icons, footer copy and casing differ.</li>
+    <li><b>8.6 Heal-flow diagram, "Built for" cards, logo grid:</b> visual treatments not yet aligned to preview.</li>
+  </ul>
+
+  <h2 id="raw">Raw numbers (for reference)</h2>
+  <details>
+    <summary>All ImageMagick <code>compare -metric AE</code> results</summary>
+    <table class="delta" style="margin-top:10px;">
+      <thead>
+        <tr><th>Crop</th><th>Dimensions</th><th>Pixels diff</th><th>Total pixels</th><th>Delta %</th><th>Verdict input?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>feature-1280</td><td>1280×620</td><td>75,416</td><td>793,600</td><td>9.50%</td><td>YES (round-1 fix retention)</td></tr>
+        <tr><td>feature-768</td><td>768×1285</td><td>65,910</td><td>986,880</td><td>6.68%</td><td>YES (round-2 fix)</td></tr>
+        <tr><td>feature-375</td><td>375×1674</td><td>74,415</td><td>627,750</td><td>11.85%</td><td>YES (mobile no-regression)</td></tr>
+        <tr><td>hero-768</td><td>768×960</td><td>116,320</td><td>737,280</td><td>15.78%</td><td>YES (8.2 regression check; mostly out-of-scope header)</td></tr>
+        <tr><td>full-1280</td><td>1280×5555</td><td>3,930,210</td><td>7,110,400</td><td>55.27%</td><td>NO — whole-page noise dominated by out-of-scope sections (8.1, 8.5, 8.6)</td></tr>
+        <tr><td>full-768</td><td>768×6625</td><td>2,280,840</td><td>5,088,000</td><td>44.83%</td><td>NO — same reason</td></tr>
+        <tr><td>full-375</td><td>375×7899</td><td>1,346,970</td><td>2,962,125</td><td>45.47%</td><td>NO — same reason</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:13px; color:var(--muted); margin-top:14px;">
+      Layout shape was confirmed by Playwright DOM measurement: live cards at 1280 share <code>top=1744</code> with three distinct <code>left</code> values (3-col); at 768 share <code>left=50</code> with three distinct <code>top</code> values (1-col stack); at 375 share <code>left=34</code> with three distinct <code>top</code> values (1-col stack). Preview equivalents: 1280 share <code>top=1020</code> with three distinct <code>left</code> values; 768 and 375 share <code>left</code> with three distinct <code>top</code> values. Layout shapes match at all three viewports.
+    </p>
+  </details>
+
+  <h2>How to verify visually</h2>
+  <ol>
+    <li>Drag the wipe slider in each per-viewport block. The card layout should be identical on both sides at all three viewports — 3-col at 1280, 1-col stack at 768 and 375.</li>
+    <li>The visible deltas (chrome, section-head, header) are intentional from earlier phases or belong to other sub-cycles.</li>
+    <li>If you see a card layout difference (e.g. 2+1 at 768 on either side), that's a real regression and the verdict is wrong.</li>
+  </ol>
+
+</div>
+</body>
+</html>

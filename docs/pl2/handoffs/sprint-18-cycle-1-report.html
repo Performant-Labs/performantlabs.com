@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sprint 18 Cycle 1 — /articles HQ preview-fidelity report</title>
+<style>
+  :root { --ink:#1F1A14; --body:#5C544C; --cream:#F5EFE2; --primary:#1893B4; --primary-deep:#005AA0; --hairline:#E5E1DC; --warn:#C97B5C; --bad:#B94B2E; --ok:#1F7A5A; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; color: var(--ink); background:#FAF8F4; line-height:1.5; }
+  header { background: var(--cream); padding: 24px 32px; border-bottom: 1px solid var(--hairline); position: sticky; top: 0; z-index: 10; }
+  header h1 { margin: 0 0 8px 0; font-size: 22px; }
+  header .meta { font-size: 13px; color: var(--body); }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px; }
+  .verdict { display: inline-block; padding: 6px 14px; border-radius: 30px; font-weight: 600; font-size: 16px; }
+  .verdict.rework { background: var(--bad); color: white; }
+  .verdict.pass { background: var(--ok); color: white; }
+  .vp-stats { font-size: 13px; color: var(--body); margin-left: 12px; }
+  nav.toc { background: white; border: 1px solid var(--hairline); border-radius: 12px; padding: 16px 20px; margin: 24px 0; }
+  nav.toc h3 { margin: 0 0 8px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--body); }
+  nav.toc ul { margin: 0; padding-left: 18px; }
+  nav.toc li { margin: 4px 0; }
+  nav.toc a { color: var(--primary-deep); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin: 48px 0; }
+  h2 { font-size: 22px; border-bottom: 2px solid var(--hairline); padding-bottom: 8px; margin-top: 0; }
+  h3 { font-size: 17px; margin-top: 24px; }
+  .summary-list li { margin: 8px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; background: white; }
+  th, td { border: 1px solid var(--hairline); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--cream); font-weight: 600; }
+  code { font-family: "SF Mono", Menlo, monospace; font-size: 13px; background: var(--cream); padding: 1px 5px; border-radius: 3px; }
+  .status-match { color: var(--ok); font-weight: 600; }
+  .status-delta { color: var(--warn); font-weight: 600; }
+  .status-rework { color: var(--bad); font-weight: 600; }
+  .vp-block { background: white; border: 1px solid var(--hairline); border-radius: 12px; padding: 24px; margin: 32px 0; }
+  .vp-block h3 { margin-top: 0; }
+  .wipe { position: relative; width: 100%; max-width: 1200px; margin: 0 auto; border: 1px solid var(--hairline); overflow: hidden; background:#fff; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .wipe .top img { width: 100%; height: 100%; object-fit: contain; object-position: top; }
+  .wipe-controls { display: flex; align-items: center; gap: 12px; margin: 12px 0; font-size: 13px; color: var(--body); }
+  .wipe-controls input[type=range] { flex: 1; max-width: 600px; }
+  .wipe-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--body); margin-top: 4px; }
+  .diff-block { margin-top: 24px; }
+  .diff-block img { display: block; max-width: 100%; border: 1px solid var(--hairline); }
+  .diff-block h4 { margin: 16px 0 8px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--body); }
+  .crop-thumb { max-width: 600px; height: auto; border: 1px solid var(--hairline); }
+  .small { font-size: 12px; color: var(--body); }
+  details { background: white; border: 1px solid var(--hairline); border-radius: 8px; padding: 12px 16px; margin: 12px 0; }
+  details summary { cursor: pointer; font-weight: 600; }
+  .finding { background: white; border-left: 4px solid var(--warn); padding: 14px 18px; margin: 14px 0; border-radius: 4px; }
+  .finding.live-wrong { border-left-color: var(--bad); }
+  .finding.advisory { border-left-color: var(--primary); }
+  .finding h4 { margin: 0 0 6px 0; font-size: 15px; }
+  .finding .scope { font-size: 12px; color: var(--body); margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sprint 18 Cycle 1 — <code>/articles</code> HQ preview-fidelity audit</h1>
+  <div class="meta">Date 2026-05-13 · S-only · Autonomous mode · <a href="sprint-18-cycle-1-audit.md">handoff (markdown)</a></div>
+</header>
+
+<div class="container">
+
+<section id="verdict">
+  <span class="verdict rework">REWORK</span>
+  <span class="vp-stats">
+    <strong>1280:</strong> wholepage DSSIM 0.502 · AE 7.35 M ·
+    <strong>768:</strong> 0.644 · 8.83 M ·
+    <strong>375:</strong> 0.577 · 3.47 M ·
+    page-level <strong>no horizontal scroll</strong> on any viewport
+  </span>
+  <p style="margin-top: 16px;">Five actionable preview-doc findings + one advisory. <strong>Sprint 9 a11y fix verified intact</strong> (visually-hidden <code>&lt;h2&gt;Articles&lt;/h2&gt;</code> rendered by <code>views-view-unformatted--articles--page-1.html.twig</code> present in live DOM at all viewports). <strong>PC-13 correctly excludes card-content fluctuation</strong> between live and preview (different article sets) from fix candidates.</p>
+</section>
+
+<nav class="toc">
+  <h3>Jump to</h3>
+  <ul>
+    <li><a href="#what-different">What I see different</a></li>
+    <li><a href="#vp-1280">1280 comparator</a></li>
+    <li><a href="#vp-768">768 comparator</a></li>
+    <li><a href="#vp-375">375 comparator</a></li>
+    <li><a href="#section-table">Per-section delta table</a></li>
+    <li><a href="#findings">Findings catalog</a></li>
+    <li><a href="#cycle-2">Cycle 2 recommendations</a></li>
+  </ul>
+</nav>
+
+<section id="what-different">
+  <h2>What I see different (plain English)</h2>
+  <ul class="summary-list">
+    <li><strong>The "active" pill (the "All" chip + the current-page "1" in pagination) is a darker, deeper blue on live than on preview.</strong> Live uses the deep-teal token (<code>#005AA0</code>); preview uses the lighter brand teal (<code>#1893B4</code>). Visible at every viewport. <em>Live's darker color is also the only one that passes the AA small-text contrast floor.</em></li>
+    <li><strong>Card borders look noticeably darker on live than on preview.</strong> Live's card border is a warm-grey (~<code>#8E867A</code>); preview's is the spec's pale hairline (<code>#E5E1DC</code>). <em>Live's darker border is actually the only one that passes the AA UI-component contrast floor — so this finding requires a brief decision rather than a "fix live" reflex.</em></li>
+    <li><strong>Article-card titles are slightly darker on live than on preview.</strong> Live H3 is <code>#1F1A14</code> (ink-strong, the sitewide baseline since Sprint 13); preview H3 is <code>#2A2520</code> (ink). Same as the Sprint 17 H3-color finding — preview catches up to the live canonical.</li>
+    <li><strong>The last two filter chips swap order between live and preview.</strong> Live: <em>All / Automated Testing / Cypress / Open source / Talks</em>. Preview: <em>All / Automated Testing / Cypress / Talks / Open source</em>. Cosmetic; preview-doc reorder.</li>
+    <li><strong>At mobile (375), preview chips are visibly shorter / less tappable than live chips.</strong> Live chip tap-height ~44 px; preview chip ~32 px. Both pass the 24×24 AA floor; only live hits the 44 px Apple HIG / WCAG 2.5.5 AAA target.</li>
+    <li><strong>The big rendered <code>Articles.</code> page-title text sits ~9 px taller on preview than on live.</strong> Cosmetic only — same font, same line-height. Possible <code>display: inline-block</code> vs <code>block</code> nuance.</li>
+    <li><strong>Footer is richer on live (column headings rendered as large H3 text + more links).</strong> Sitewide carry — preview footer is a stripped reference; live is the canonical Drupal footer.</li>
+    <li><strong>Different articles in the grid.</strong> Live leads with "CTRFHub" (2026-04-27); preview leads with "Version 1.0 of Automated Testing Kit" (2023-11-20). Expected per PC-13 (views-listing content fluctuation); <strong>not a fix candidate</strong>.</li>
+  </ul>
+</section>
+
+<section id="vp-1280" class="vp-block">
+  <h3>Viewport 1280 × 800 (desktop)</h3>
+  <p class="small">DSSIM 0.502 · AE 7,345,370 pixels · 50.2% of pixels differ. Per-section: page-title DSSIM 0.166 / AE 6.4% · pagination DSSIM 0.152 / AE 5.2% · footer DSSIM 0.177 / AE 5.7%. Articles-view & grid: DSSIM ≈ 0.23 (high — content fluctuation per PC-13).</p>
+
+  <div class="wipe-controls">
+    <span>Preview</span>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-1280-top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+    <span>Live</span>
+  </div>
+  <div class="wipe">
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-1280-preview-20260513.png" alt="Preview /articles at 1280">
+    <div class="top" id="wipe-1280-top" style="clip-path: inset(0 50% 0 0);">
+      <img src="screenshots/sprint-18-cycle-1/t3-articles-1280-live-20260513.png" alt="Live /articles at 1280">
+    </div>
+  </div>
+  <div class="wipe-labels"><span>← Live</span><span>Preview →</span></div>
+
+  <div class="diff-block">
+    <h4>ImageMagick diff (red = where the pixels disagree)</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-1280-wholepage-diff-fuzz3-20260513.png" alt="1280 whole-page diff" style="max-height: 800px; object-fit: contain;">
+    <h4>Side-by-side composite (live left, preview right)</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-1280-composite-20260513.png" alt="1280 composite" style="max-height: 600px; object-fit: contain;">
+  </div>
+</section>
+
+<section id="vp-768" class="vp-block">
+  <h3>Viewport 768 × 1024 (tablet)</h3>
+  <p class="small">DSSIM 0.644 · AE 8,827,470 pixels. Per-section: page-title DSSIM 0.193 / AE 10.4% · pagination DSSIM 0.170 / AE 8.7% · footer DSSIM 0.187 / AE 6.8%.</p>
+
+  <div class="wipe-controls">
+    <span>Preview</span>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-768-top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+    <span>Live</span>
+  </div>
+  <div class="wipe">
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-768-preview-20260513.png" alt="Preview /articles at 768">
+    <div class="top" id="wipe-768-top" style="clip-path: inset(0 50% 0 0);">
+      <img src="screenshots/sprint-18-cycle-1/t3-articles-768-live-20260513.png" alt="Live /articles at 768">
+    </div>
+  </div>
+  <div class="wipe-labels"><span>← Live</span><span>Preview →</span></div>
+
+  <div class="diff-block">
+    <h4>ImageMagick diff</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-768-wholepage-diff-fuzz3-20260513.png" alt="768 whole-page diff" style="max-height: 800px; object-fit: contain;">
+    <h4>Composite</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-768-composite-20260513.png" alt="768 composite" style="max-height: 600px; object-fit: contain;">
+  </div>
+</section>
+
+<section id="vp-375" class="vp-block">
+  <h3>Viewport 375 × 667 (mobile)</h3>
+  <p class="small">DSSIM 0.577 · AE 3,474,390 pixels. Per-section: page-title DSSIM 0.250 / AE 17.5% · pagination DSSIM 0.213 / AE 18.0% (driven by F-NEW-18-A active-pill red disc + chip-padding height drift) · footer DSSIM 0.195 / AE 7.6%.</p>
+
+  <div class="wipe-controls">
+    <span>Preview</span>
+    <input type="range" min="0" max="100" value="50" oninput="document.getElementById('wipe-375-top').style.clipPath = 'inset(0 ' + (100-this.value) + '% 0 0)'">
+    <span>Live</span>
+  </div>
+  <div class="wipe">
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-375-preview-20260513.png" alt="Preview /articles at 375">
+    <div class="top" id="wipe-375-top" style="clip-path: inset(0 50% 0 0);">
+      <img src="screenshots/sprint-18-cycle-1/t3-articles-375-live-20260513.png" alt="Live /articles at 375">
+    </div>
+  </div>
+  <div class="wipe-labels"><span>← Live</span><span>Preview →</span></div>
+
+  <div class="diff-block">
+    <h4>ImageMagick diff</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-375-wholepage-diff-fuzz3-20260513.png" alt="375 whole-page diff" style="max-height: 800px; object-fit: contain;">
+    <h4>Composite</h4>
+    <img src="screenshots/sprint-18-cycle-1/t3-articles-375-composite-20260513.png" alt="375 composite" style="max-height: 600px; object-fit: contain;">
+  </div>
+</section>
+
+<section id="section-table">
+  <h2>Per-section delta table</h2>
+  <table>
+    <thead>
+      <tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description</th><th>Diff crop</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Page-title (cream band)</td>
+        <td>1280</td>
+        <td class="status-delta">DELTA</td>
+        <td>Chip-order swap (last two); H1 rect height delta (cosmetic); lede wrap differs (no orphan).</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-1280-page-title-thumb-20260513.png" alt="1280 page-title diff"></td>
+      </tr>
+      <tr>
+        <td>Page-title</td>
+        <td>768</td>
+        <td class="status-delta">DELTA</td>
+        <td>Same as 1280; chip-order swap remains.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-768-page-title-thumb-20260513.png" alt="768 page-title diff"></td>
+      </tr>
+      <tr>
+        <td>Page-title + toolbar</td>
+        <td>375</td>
+        <td class="status-rework">REWORK</td>
+        <td>Chip mobile padding 9 px (preview) vs 15 px (live) — preview tap-height 32 px misses 44 px target.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-375-page-title-thumb-20260513.png" alt="375 page-title diff"></td>
+      </tr>
+      <tr>
+        <td>Articles toolbar (chips)</td>
+        <td>all</td>
+        <td class="status-rework">REWORK</td>
+        <td>Active chip "All" bg: live <code>#005AA0</code> vs preview <code>#1893B4</code>. Chip order: last two swapped. Mobile padding (at 375) per row above.</td>
+        <td><em>Embedded in page-title crop above.</em></td>
+      </tr>
+      <tr>
+        <td>Article-card grid (chrome)</td>
+        <td>all</td>
+        <td class="status-rework">REWORK</td>
+        <td>Card border: live <code>~#8E867A</code> (darker; AA-OK for 1.4.11) vs preview <code>#E5E1DC</code> (brief; AA-fail 1.4.11). Card H3 color: live <code>#1F1A14</code> vs preview <code>#2A2520</code>.</td>
+        <td><em>Visible in wipe-slider at every viewport.</em></td>
+      </tr>
+      <tr>
+        <td>Article-card grid (content)</td>
+        <td>all</td>
+        <td class="status-match">MATCH (per PC-13)</td>
+        <td>6 cards on both. Content differs (different article set). <strong>Not a fix candidate</strong> — views-listings fluctuate.</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Pagination</td>
+        <td>1280</td>
+        <td class="status-rework">REWORK</td>
+        <td>Solid red disc on the "1" current-page pill — active bg color delta. F-NEW-18-A.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-1280-pagination-thumb-20260513.png" alt="1280 pagination diff"></td>
+      </tr>
+      <tr>
+        <td>Pagination</td>
+        <td>768</td>
+        <td class="status-rework">REWORK</td>
+        <td>Same as 1280.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-768-pagination-thumb-20260513.png" alt="768 pagination diff"></td>
+      </tr>
+      <tr>
+        <td>Pagination</td>
+        <td>375</td>
+        <td class="status-rework">REWORK</td>
+        <td>Same as 1280; pagination items 40–44 px high on both.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-375-pagination-thumb-20260513.png" alt="375 pagination diff"></td>
+      </tr>
+      <tr>
+        <td>Footer</td>
+        <td>1280</td>
+        <td class="status-delta">DELTA (sitewide carry)</td>
+        <td>Live H3 column headings vs preview H4. Footer richness divergence. F-NEW-16-H — sitewide, out of scope.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-1280-footer-thumb-20260513.png" alt="1280 footer diff"></td>
+      </tr>
+      <tr>
+        <td>Footer</td>
+        <td>768</td>
+        <td class="status-delta">DELTA (carry)</td>
+        <td>Same.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-768-footer-thumb-20260513.png" alt="768 footer diff"></td>
+      </tr>
+      <tr>
+        <td>Footer</td>
+        <td>375</td>
+        <td class="status-delta">DELTA (carry)</td>
+        <td>Same.</td>
+        <td><img class="crop-thumb" src="screenshots/sprint-18-cycle-1/t3-articles-375-footer-thumb-20260513.png" alt="375 footer diff"></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="findings">
+  <h2>Findings catalog</h2>
+
+  <div class="finding">
+    <h4>F-NEW-18-A — Active-state color: live <code>#005AA0</code>, preview <code>#1893B4</code></h4>
+    <div class="scope">Affects: <code>.chip.is-active</code> AND <code>.pagination .is-current</code>. All three viewports.</div>
+    <p>Preview's <code>#1893B4</code> on white 14 px text ≈ 3.2:1 — marginally fails WCAG 1.4.3 small-text. Live's <code>#005AA0</code> on white ≈ 7.2:1 — passes cleanly. <strong>Live is the a11y-correct value.</strong></p>
+    <p><strong>Remediation (recommended autonomous default):</strong> preview-doc change <code>background: var(--primary)</code> → <code>background: var(--primary-deep)</code> on both rules. Add brief note that active-pill background uses <code>--primary-deep</code>.</p>
+  </div>
+
+  <div class="finding live-wrong">
+    <h4>F-NEW-18-B — Card border color: live <code>~#8E867A</code> (darker), preview <code>#E5E1DC</code> (brief <code>--hairline</code>) — operator decision needed</h4>
+    <div class="scope">Affects: <code>.article-card</code> resting border. All three viewports.</div>
+    <p>Live border <code>#8E867A</code> on white ≈ 3.4:1 → <strong>passes WCAG 1.4.11 non-text contrast (3:1 floor)</strong>. Preview border <code>#E5E1DC</code> on white ≈ 1.5:1 → <strong>fails 1.4.11</strong>. <em>Live is a11y-correct; preview matches the brief token.</em></p>
+    <p><strong>Operator decision required:</strong></p>
+    <ul>
+      <li><strong>Option B (recommended):</strong> update brief <code>--hairline</code> to a darker value (live's <code>#8E867A</code> or similar). Then preview matches both brief and live. Sitewide implication — verify other <code>--hairline</code>-using components.</li>
+      <li><strong>Option A:</strong> update live <code>card.html.twig</code> SDC border to <code>#E5E1DC</code>. Accepts the 1.4.11 marginal fail (sitewide allowlist may apply).</li>
+    </ul>
+  </div>
+
+  <div class="finding">
+    <h4>F-NEW-18-C — Card H3 color: live <code>#1F1A14</code>, preview <code>#2A2520</code></h4>
+    <div class="scope">Sitewide carry from Sprint 13/14/15/17. Same pattern as Sprint 17 F-NEW-17-A. All three viewports.</div>
+    <p><strong>Remediation:</strong> preview-doc update <code>.article-card h3 a { color: #1F1A14; }</code> (or add <code>--ink-strong</code> token to preview <code>:root</code>). One-line CSS edit.</p>
+  </div>
+
+  <div class="finding">
+    <h4>F-NEW-18-D — Chip order: live <code>All / Automated Testing / Cypress / Open source / Talks</code>; preview swaps last two</h4>
+    <div class="scope">Affects: <code>.articles-toolbar</code> chip order. All three viewports.</div>
+    <p><strong>Remediation:</strong> preview-doc — swap chip anchors at preview HTML lines 543 and 544 so order matches live taxonomy order.</p>
+  </div>
+
+  <div class="finding">
+    <h4>F-NEW-18-E — Mobile chip padding: preview tap height ~32 px at 375, live ~44 px</h4>
+    <div class="scope">Affects: <code>.chip</code> at <code>@media (max-width: 767px)</code> in preview only. 375 viewport.</div>
+    <p>Both pass WCAG 2.5.8 (24×24 floor). Only live hits 2.5.5 AAA / Apple HIG 44 px target.</p>
+    <p><strong>Remediation:</strong> preview-doc — add <code>.articles-toolbar .chip { padding: 15px 16px; }</code> inside preview's <code>@media (max-width: 767px)</code> block.</p>
+  </div>
+
+  <div class="finding advisory">
+    <h4>F-NEW-18-F (advisory) — Skip-link href: live <code>#main-content</code>, preview <code>#main</code></h4>
+    <div class="scope">Affects: <code>a.skip-link</code> href + <code>&lt;main&gt;</code> id. All viewports.</div>
+    <p>Both work in-context. Live uses Drupal-canonical anchor.</p>
+    <p><strong>Remediation:</strong> preview-doc — change preview <code>href="#main"</code> → <code>#main-content</code> AND <code>&lt;main id="main"&gt;</code> → <code>id="main-content"</code>.</p>
+  </div>
+
+  <div class="finding advisory">
+    <h4>F-NEW-18-G (advisory) — Page-title H1 rect height: live 50 px, preview 59 px at 1280</h4>
+    <div class="scope">Cosmetic. All viewports.</div>
+    <p>Both render <code>font-size: 56px / line-height: 58.8px</code> (PASS brief). The 9 px rect-height delta is likely a <code>display: inline-block</code> vs <code>block</code> nuance. Low priority.</p>
+  </div>
+</section>
+
+<section id="cycle-2">
+  <h2>Cycle 2..N recommendations</h2>
+  <ol>
+    <li><strong>Cycle 2 — Preview-doc batch.</strong> Branch <code>aa/pl-sprint-18-cycle-2-preview-doc</code>. Bundle F-NEW-18-A + C + D + E + F (advisory). Five edits inside <code>docs/pl2/Previews/articles.html</code>. Re-run <code>scripts/sprint-18-cycle-1-*.mjs</code> to verify per-section DSSIM drops materially.</li>
+    <li><strong>Cycle 3 — F-NEW-18-B card border decision.</strong> Operator-gated. Branch <code>aa/pl-sprint-18-cycle-3-card-border</code>. Recommendation: Option B (update brief to a darker hairline that satisfies 1.4.11; cascade preview + all card-using pages). Sitewide implication.</li>
+    <li><strong>Deferred:</strong> F-NEW-18-G (H1 rect height — cosmetic), F-NEW-16-H (footer column heading H3/H4 — sitewide carry). Not Sprint 18 scope.</li>
+  </ol>
+</section>
+
+<section id="sprint-9-verify">
+  <h2>Sprint 9 a11y fix verification</h2>
+  <p>The Sprint 9 fix added <code>&lt;h2 class="visually-hidden"&gt;Articles&lt;/h2&gt;</code> to <code>views-view-unformatted--articles--page-1.html.twig</code> to restore the H1 → H2 → H3 heading hierarchy on this page (cards emit H3 but the page lacks a section-level H2 between the page-title H1 and the cards). <strong>Verified intact on live at all three viewports</strong> via DOM probe: <code>h2.visually-hidden.h3.menu-block__title</code> with <code>textContent="Articles"</code> present at <code>y=827</code> (1280) / <code>y=827</code> (768) / <code>y=941</code> (375) — between the page-title H1 and the first card H3. WCAG 1.3.1 PASS.</p>
+</section>
+
+<section id="scripts">
+  <h2>Artefacts</h2>
+  <ul>
+    <li><code>scripts/sprint-18-cycle-1-capture.mjs</code></li>
+    <li><code>scripts/sprint-18-cycle-1-measure.mjs</code></li>
+    <li><code>scripts/sprint-18-cycle-1-diff.mjs</code></li>
+    <li><code>scripts/sprint-18-cycle-1-probe.mjs</code></li>
+    <li><code>docs/pl2/handoffs/screenshots/sprint-18-cycle-1/</code> — 6 full-page PNGs, 5 per-section diffs × 3 VPs × 4 metrics, composites, thumbnails, <code>measurements.json</code>, <code>diff-results.json</code>, <code>probes.json</code>.</li>
+  </ul>
+</section>
+
+</div>
+
+</body>
+</html>

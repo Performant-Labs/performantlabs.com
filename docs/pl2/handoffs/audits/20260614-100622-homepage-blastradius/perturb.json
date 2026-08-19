@@ -1,0 +1,55 @@
+{
+  "url": "https://pl-performantlabs.com.3.ddev.site:8493/",
+  "tool": "perturb.cjs",
+  "perturbed": 2,
+  "budget": 25,
+  "results": [
+    {
+      "selector": ".header-navigation-wrapper:not(.is-expanded) .primary-menu",
+      "scopedTo": "primary-menu",
+      "escapeComponents": [
+        "menu-block"
+      ],
+      "escapedCount": 1,
+      "highRiskProps": [
+        "display"
+      ],
+      "rulesFound": 1,
+      "verdict": "DORMANT (masked — bites later)",
+      "severity": "WARNING",
+      "changes": []
+    },
+    {
+      "selector": ".primary-menu",
+      "scopedTo": "primary-menu",
+      "escapeComponents": [
+        "menu-block"
+      ],
+      "escapedCount": 1,
+      "highRiskProps": [],
+      "rulesFound": 5,
+      "verdict": "ACTIVE (live over-reach)",
+      "severity": "WARNING",
+      "changes": [
+        {
+          "el": 0,
+          "prop": "--top-level-link-font-size",
+          "from": "1rem",
+          "to": ""
+        },
+        {
+          "el": 0,
+          "prop": "--top-level-link-font-weight",
+          "from": "normal",
+          "to": ""
+        },
+        {
+          "el": 0,
+          "prop": "--top-level-link-color",
+          "from": "#1F1A14",
+          "to": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 14 Cycle 2 — /about-us preview-doc audit (S report)</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --ink: #1F1A14;
+    --muted: #555;
+    --line: #ddd;
+    --pass-bg: #d6f5dc;
+    --pass-ink: #08381a;
+    --accent: #5DC6E8;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 0; font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); }
+  main { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
+  h1 { font-size: 32px; margin: 0 0 8px; }
+  h2 { font-size: 22px; margin: 48px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--line); }
+  h3 { font-size: 17px; margin: 24px 0 8px; }
+  code { font: 13px/1.4 ui-monospace, Menlo, Consolas, monospace; background: #eee; padding: 1px 5px; border-radius: 3px; }
+  .verdict { display: inline-block; padding: 14px 22px; border-radius: 10px; font-size: 26px; font-weight: 700; background: var(--pass-bg); color: var(--pass-ink); letter-spacing: -.5px; }
+  .summary-table, .meta-table { width: 100%; border-collapse: collapse; margin: 12px 0 8px; font-size: 14px; }
+  .summary-table th, .summary-table td, .meta-table th, .meta-table td { padding: 8px 10px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .summary-table th { background: #f0f0f0; }
+  .scope-card { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 14px 18px; margin: 8px 0 24px; }
+  .scope-card h3 { margin-top: 0; }
+  ul.findings { margin: 6px 0 0 18px; padding: 0; }
+  ul.findings li { margin: 6px 0; }
+  .meta-list dt { font-weight: 600; margin-top: 6px; }
+  .meta-list dd { margin: 0 0 4px; }
+  nav.toc { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 18px; margin: 16px 0 24px; }
+  nav.toc a { display: inline-block; margin-right: 18px; color: #0a64aa; text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+
+  /* Wipe-slider comparator */
+  .wipe { position: relative; width: 100%; max-width: 1200px; margin: 12px 0 8px; user-select: none; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; background: #000; }
+  .wipe .frame { position: relative; width: 100%; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .wipe .label { position: absolute; top: 10px; padding: 4px 9px; font-size: 12px; font-weight: 600; color: #fff; background: rgba(0,0,0,.65); border-radius: 4px; pointer-events: none; }
+  .wipe .label.left { left: 10px; }
+  .wipe .label.right { right: 10px; }
+  .wipe input[type=range] { width: 100%; margin: 8px 0 0; }
+  .wipe .hint { font-size: 12px; color: var(--muted); margin: 4px 2px 0; }
+  .pair { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .pair img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; }
+  .pair-row { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; align-items: start; }
+  .caption { font-size: 13px; color: var(--muted); margin: 4px 0 8px; }
+  footer { margin-top: 60px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <h1>Sprint 14 Cycle 2 — <code>/about-us</code> preview-doc audit</h1>
+  <p class="caption"><strong>Date:</strong> 2026-05-13 &nbsp;·&nbsp; <strong>Branch:</strong> <code>aa/pl-sprint-14-cycle-2-about-us-preview-doc</code> &nbsp;·&nbsp; <strong>Auditor:</strong> S (Spec Auditor) &nbsp;·&nbsp; <strong>Pipeline mode:</strong> autonomous &nbsp;·&nbsp; <strong>Scope:</strong> F-NEW-1 + F-NEW-3 preview-doc batch only</p>
+  <p class="verdict">VERDICT: PASS</p>
+</header>
+
+<nav class="toc">
+  <a href="#summary">What I see different</a>
+  <a href="#hero">Hero@1280 comparator</a>
+  <a href="#cta">Closing-CTA@1280 comparator</a>
+  <a href="#tables">Per-section delta table</a>
+  <a href="#tokens">Token compliance</a>
+  <a href="#wcag">WCAG re-check</a>
+  <a href="#scope">Scope guard</a>
+</nav>
+
+<section id="summary">
+  <h2>What I see different (plain English)</h2>
+  <ul class="findings">
+    <li><strong>Hero H1 (desktop 1280):</strong> the headline "Drupal testing, done by the people who wrote the tools." is now visibly larger and wraps to 3 lines instead of 2. Letter spacing is slightly tighter. The subhead and CTA buttons below it shift down by ~93 px to accommodate the bigger headline. No single-word orphan on the final line — <code>text-wrap: balance</code> keeps wrapping clean ("Drupal testing, done" / "by the people who" / "wrote the tools.").</li>
+    <li><strong>Closing-CTA primary button (desktop 1280):</strong> the "Book a testing review" button now has a brighter cyan background (<code>#5DC6E8</code>) and dark espresso text (<code>#1F1A14</code>) instead of the previous teal+white. Visually pops against the espresso section background and reads cleanly (8.81:1 contrast). The secondary "See the testing menu" outline button is unchanged.</li>
+    <li><strong>Nothing else moved.</strong> Hero CTAs (light-zone) still on <code>#62BBCB</code>+white. §D dogfood CTA unchanged. Mobile hero H1 still at 40 px (Cycle 3 scope). CTA-component chrome (45 px pill vs live 56 px) intentionally not touched (silent-park, F-NEW-4).</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="hero">Hero @1280 — preview pre-fix vs preview post-fix</h2>
+  <p>Drag the slider to wipe between Cycle&nbsp;1 preview (left, H1 at 64 px / -1.6 px / 2 lines) and Cycle&nbsp;2 preview (right, H1 at 72 px / -2 px / 3 lines). The new heading matches brief <code>display-xl</code> token exactly.</p>
+
+  <div class="wipe" data-wipe="hero">
+    <div class="frame">
+      <img class="base" src="screenshots/sprint-14-cycle-2/t3-about-us-1280-hero-preview-postfix-crop-20260513.png" alt="Hero post-fix (72px H1)">
+      <img class="top"  src="screenshots/sprint-14-cycle-2/t3-about-us-1280-hero-preview-prefix-20260513.png" alt="Hero pre-fix (64px H1)">
+      <span class="label left">PRE-FIX (64px)</span>
+      <span class="label right">POST-FIX (72px)</span>
+    </div>
+  </div>
+  <input type="range" min="0" max="100" value="50" data-wipe-input="hero">
+  <p class="hint">Slider position: left = entirely pre-fix; right = entirely post-fix.</p>
+
+  <h3>Pixel diff (red = changed pixels)</h3>
+  <p class="caption">AE = 355,939 px (11.55% of crop). DSSIM = 0.0807. Red ink is concentrated exclusively on the H1 word stack and the reflow shift of the subhead/CTA block below. CTAs in the hero are not red-tagged (they're just shifted positionally).</p>
+  <div class="pair"><img src="screenshots/sprint-14-cycle-2/t3-about-us-1280-hero-preview-prevs-post-diff-20260513.png" alt="Hero diff PNG"></div>
+
+  <h3>Side-by-side (pre-fix | post-fix)</h3>
+  <div class="pair"><img src="screenshots/sprint-14-cycle-2/t3-about-us-1280-hero-preview-prevs-post-composite-20260513.png" alt="Hero side-by-side"></div>
+</section>
+
+<section>
+  <h2 id="cta">Closing-CTA @1280 — preview pre-fix vs preview post-fix</h2>
+  <p>Drag to wipe. The primary button changes from teal+white to cyan+espresso. All other content is identical.</p>
+
+  <div class="wipe" data-wipe="cta">
+    <div class="frame">
+      <img class="base" src="screenshots/sprint-14-cycle-2/t3-about-us-1280-closing-cta-preview-postfix-crop-20260513.png" alt="Closing-CTA post-fix">
+      <img class="top"  src="screenshots/sprint-14-cycle-2/t3-about-us-1280-closing-cta-preview-prefix-20260513.png" alt="Closing-CTA pre-fix">
+      <span class="label left">PRE-FIX (#62BBCB+white)</span>
+      <span class="label right">POST-FIX (#5DC6E8+#1F1A14)</span>
+    </div>
+  </div>
+  <input type="range" min="0" max="100" value="50" data-wipe-input="cta">
+
+  <h3>Pixel diff</h3>
+  <p class="caption">AE = 38,000 px (1.50% of crop). DSSIM = 0.00234. Red ink localized entirely on the primary button shape — the heading, eyebrow, subhead, and secondary outline CTA produce zero red, confirming the override is scoped correctly to <code>.closing-cta .btn--primary</code> only.</p>
+  <div class="pair"><img src="screenshots/sprint-14-cycle-2/t3-about-us-1280-closing-cta-preview-prevs-post-diff-20260513.png" alt="CTA diff PNG"></div>
+
+  <h3>Side-by-side (pre-fix | post-fix)</h3>
+  <div class="pair"><img src="screenshots/sprint-14-cycle-2/t3-about-us-1280-closing-cta-preview-prevs-post-composite-20260513.png" alt="CTA side-by-side"></div>
+</section>
+
+<section>
+  <h2 id="tables">Per-section delta table (preview pre-fix vs post-fix, 1280)</h2>
+  <table class="summary-table">
+    <thead><tr><th>Section</th><th>Viewport</th><th>AE pixels</th><th>AE %</th><th>DSSIM</th><th>Status</th><th>What changed</th></tr></thead>
+    <tbody>
+      <tr><td>Hero</td><td>1280</td><td>355,939</td><td>11.55%</td><td>0.0807</td><td>EXPECTED DELTA</td><td>H1 64→72px, ls -1.6→-2px, 2→3 lines, subhead/CTAs shift down. Matches F-NEW-1 spec.</td></tr>
+      <tr><td>Closing-CTA</td><td>1280</td><td>38,000</td><td>1.50%</td><td>0.00234</td><td>EXPECTED DELTA</td><td>Primary button bg #62BBCB→#5DC6E8, color #fff→#1F1A14. Matches F-NEW-3 spec. Scoped correctly — heading/eyebrow/subhead/secondary CTA all unchanged.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Live-vs-preview DSSIM (out of Cycle 2 scope — informational)</h3>
+  <p class="caption">F re-ran the Cycle 1 capture+diff scripts post-fix. Per-section live-vs-preview DSSIM at 1280 is essentially unchanged from Cycle 1 (hero 0.194→0.193, closing-cta 0.169→0.169). This is expected and documented in the Cycle 1 audit: per-section DSSIM at these two sections is dominated by F-NEW-4 (CTA-chrome 45 px pill vs 56 px live component) and body-lg drift (live 20 px vs preview 19 px vs brief 18 px) — both outside Cycle 2 scope. The binding signal for this preview-doc-only cycle is the T2 computed-style probe (PASS) and the preview-vs-preview pixel diff above, both of which confirm both fixes landed cleanly.</p>
+</section>
+
+<section>
+  <h2 id="tokens">Token compliance (post-fix, computed style at 1280)</h2>
+  <table class="summary-table">
+    <thead><tr><th>Token</th><th>Brief value</th><th>Computed (post-fix)</th><th>Match</th></tr></thead>
+    <tbody>
+      <tr><td>Hero H1 font-size</td><td>72px (display-xl)</td><td>72px</td><td>YES</td></tr>
+      <tr><td>Hero H1 line-height</td><td>1.05 (= 75.6px @72)</td><td>75.6px</td><td>YES</td></tr>
+      <tr><td>Hero H1 letter-spacing</td><td>-2px</td><td>-2px</td><td>YES</td></tr>
+      <tr><td>Hero H1 font-weight</td><td>500 (Rubik Medium)</td><td>500</td><td>YES</td></tr>
+      <tr><td>Hero H1 wrap behavior</td><td>no single-word orphan</td><td>3 lines, balanced: "Drupal testing, done" / "by the people who" / "wrote the tools." — no orphan</td><td>YES</td></tr>
+      <tr><td>Closing-CTA primary bg</td><td>#5DC6E8 (brief line 319)</td><td>rgb(93,198,232) = #5DC6E8</td><td>YES</td></tr>
+      <tr><td>Closing-CTA primary text</td><td>#1F1A14 (espresso)</td><td>rgb(31,26,20) = #1F1A14</td><td>YES</td></tr>
+      <tr><td>Light-zone hero primary (regression guard)</td><td>#62BBCB + white (unchanged)</td><td>rgb(98,187,203) + white</td><td>YES (unchanged)</td></tr>
+      <tr><td>§D dogfood primary (regression guard)</td><td>#62BBCB + white (unchanged)</td><td>rgb(98,187,203) + white</td><td>YES (unchanged)</td></tr>
+      <tr><td>Mobile H1 (regression guard)</td><td>40px (Cycle 3 will raise to 44)</td><td>40px (unchanged)</td><td>YES (unchanged)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2 id="wcag">WCAG re-check (Cycle 2 deltas only)</h2>
+  <table class="summary-table">
+    <thead><tr><th>Element</th><th>Foreground</th><th>Background</th><th>Ratio</th><th>Requirement</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>Closing-CTA primary button text (NEW)</td><td>#1F1A14</td><td>#5DC6E8</td><td>8.81:1</td><td>≥ 4.5:1 (AA normal)</td><td>PASS</td></tr>
+      <tr><td>Closing-CTA primary button hover state (F autonomous add)</td><td>#1F1A14</td><td>#4AB8DA</td><td>~7.91:1 (computed: 4AB8DA luminance ≈ 0.448)</td><td>≥ 4.5:1</td><td>PASS</td></tr>
+      <tr><td>Focus ring (espresso bg)</td><td>#1893B4</td><td>#1F1A14</td><td>4.83:1</td><td>≥ 3:1 (non-text)</td><td>PASS</td></tr>
+      <tr><td>Light-zone primary CTA text (UNCHANGED — pre-existing carry-forward)</td><td>#FFFFFF</td><td>#62BBCB</td><td>2.21:1</td><td>≥ 4.5:1</td><td>FAIL (ADV-S5, Sprint 9 pa11y allowlist — not introduced by Cycle 2)</td></tr>
+    </tbody>
+  </table>
+  <p class="caption">Full per-page WCAG enumeration (keyboard nav, focus order, forced-colors, reduced-motion, 200% zoom, heading hierarchy, alt text, mobile touch targets, typography scale, layout) was performed in Cycle 1 — see <code>docs/pl2/handoffs/sprint-14-cycle-1-audit.md</code>. No live theme code changed in Cycle 2, so those checks carry forward unchanged. The only WCAG-relevant Cycle 2 delta is the new dark-zone primary CTA contrast (8.81:1, PASS) and the autonomous hover state (~7.91:1, PASS).</p>
+</section>
+
+<section>
+  <h2 id="scope">Scope guard — what F did NOT touch</h2>
+  <div class="scope-card">
+    <h3>Confirmed out-of-scope (no surprise edits)</h3>
+    <ul class="findings">
+      <li><strong>Mobile hero H1 (F-NEW-2, Cycle 3 scope):</strong> preview still reads <code>font-size: 40px; letter-spacing: -1px</code> at <code>@media (max-width: 767px)</code> (line 514). Unmodified.</li>
+      <li><strong>CTA-chrome component delta (F-NEW-4, silent-park):</strong> preview still renders 45 px pill with inline arrow glyph. Live still renders 56 px pill with SVG suffix-icon. Unchanged — explains why per-section live-vs-preview DSSIM did not drop materially.</li>
+      <li><strong>Body-lg drift (F-NEW-5):</strong> preview subhead still 19 px, live still 20 px, brief still 18 px. Sprint-13 carry-forward, out of Cycle 2 scope.</li>
+      <li><strong>Section labels / eyebrow positioning (F-NEW-6, F-NEW-7):</strong> untouched.</li>
+      <li><strong>Live theme files:</strong> <code>git diff --name-only main</code> shows no <code>web/themes/...</code>, no Drupal templates, no <code>.module</code>, no <code>.yml</code>. Only <code>docs/pl2/Previews/about-us.html</code> + ancillary Cycle-1/Cycle-2 capture artifacts in <code>docs/pl2/handoffs/</code>.</li>
+      <li><strong>No <code>!important</code> introduced:</strong> grep confirms zero matches in the preview file.</li>
+      <li><strong>Selector specificity:</strong> the new <code>.closing-cta .btn--primary</code> (0,2,0) cleanly overrides the base <code>.btn--primary</code> (0,1,0). No global override; hero + §D CTAs unaffected.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Generated by S (Spec Auditor) for Sprint 14 Cycle 2. Full markdown handoff: <code>docs/pl2/handoffs/sprint-14-cycle-2-S.md</code>. Cycle 1 baseline audit: <code>docs/pl2/handoffs/sprint-14-cycle-1-audit.md</code>. Capture artifacts: <code>docs/pl2/handoffs/screenshots/sprint-14-cycle-2/</code>.</p>
+</footer>
+
+</main>
+
+<script>
+(function () {
+  document.querySelectorAll('input[data-wipe-input]').forEach(function (input) {
+    var key = input.getAttribute('data-wipe-input');
+    var wipe = document.querySelector('[data-wipe="' + key + '"]');
+    if (!wipe) return;
+    var top = wipe.querySelector('.top');
+    function apply() {
+      var v = parseInt(input.value, 10);
+      // top image is pre-fix; clip from right by (100 - v)% so dragging left shows post-fix
+      top.style.clipPath = 'inset(0 ' + (100 - v) + '% 0 0)';
+    }
+    input.addEventListener('input', apply);
+    apply();
+  });
+})();
+</script>
+</body>
+</html>

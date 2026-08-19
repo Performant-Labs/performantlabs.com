@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cycle 2b.4 — Homepage logo-grid selector-class refactor — S report</title>
+<style>
+  :root { --ok: #0a7d2a; --bad: #b40000; --bg: #fafafa; --fg: #222; --muted: #666; --border: #ddd; }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--fg); background: var(--bg); margin: 0; padding: 0 24px 80px; max-width: 1500px; margin: 0 auto; }
+  h1 { margin: 32px 0 8px; }
+  h2 { margin: 40px 0 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+  h3 { margin: 24px 0 8px; }
+  .verdict { display: inline-block; padding: 12px 24px; font-size: 28px; font-weight: 700; color: #fff; background: var(--ok); border-radius: 6px; margin: 8px 0 24px; }
+  .meta { color: var(--muted); font-size: 13px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  th, td { text-align: left; padding: 6px 10px; border: 1px solid var(--border); font-size: 13px; }
+  th { background: #f0f0f0; }
+  td.match { color: var(--ok); font-weight: 600; }
+  ul.summary { margin: 12px 0 24px; padding-left: 20px; }
+  ul.summary li { margin: 4px 0; }
+  nav.toc { background: #fff; border: 1px solid var(--border); padding: 12px 18px; margin: 16px 0 24px; }
+  nav.toc a { display: inline-block; margin-right: 16px; }
+  .comparator-block { margin: 24px 0 40px; padding: 16px; background: #fff; border: 1px solid var(--border); }
+  .comparator-block h4 { margin: 0 0 10px; }
+  .wipe { position: relative; width: 100%; background: #000; overflow: hidden; }
+  .wipe img { display: block; width: 100%; height: auto; }
+  .wipe .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .wipe input[type=range] { width: 100%; margin: 8px 0; }
+  .wipe-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .diff-img, .composite-img { width: 100%; height: auto; display: block; margin: 8px 0; border: 1px solid var(--border); }
+  .small { font-size: 12px; color: var(--muted); }
+  details { margin: 6px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<h1>Cycle 2b.4 — Homepage logo-grid selector-class refactor</h1>
+<p class="meta">Date: 2026-05-12 · Branch: <code>aa/pl-sprint-10-cycle-2b4-homepage-logo-grid</code> · Mode: autonomous</p>
+
+<div class="verdict">PASS — AE = 0 on all 15 comparators</div>
+
+<table>
+  <thead><tr><th>Page</th><th>1280 AE</th><th>768 AE</th><th>375 AE</th></tr></thead>
+  <tbody>
+    <tr><td>/ (homepage, primary target)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td></tr>
+    <tr><td>/services</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td></tr>
+    <tr><td>/about-us</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td></tr>
+    <tr><td>/how-we-do-it</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td></tr>
+    <tr><td>/open-source-projects</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td><td class="match">0 (0.00%)</td></tr>
+  </tbody>
+</table>
+
+<h2>What I see different</h2>
+<ul class="summary">
+  <li><strong>No visible differences detected at any viewport on any page.</strong></li>
+  <li>The two markers (<code>dy-section--logo-grid</code> and <code>dy-section--post-hero-logos</code>) and the three rewritten CSS selectors carry identical declarations to the prior <code>:has()</code> / sibling-combinator rules. The shipped pixel state is preserved exactly.</li>
+  <li>Cross-page reach check is empirically confirmed: /services, /about-us, /how-we-do-it and /open-source-projects all render byte-identical to baseline at every viewport — the prior selectors had no reach to those pages, and the new selectors don't either.</li>
+</ul>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#home">Homepage /</a>
+  <a href="#services">/services</a>
+  <a href="#about-us">/about-us</a>
+  <a href="#how-we-do-it">/how-we-do-it</a>
+  <a href="#open-source-projects">/open-source-projects</a>
+</nav>
+
+<h2>Verification approach</h2>
+<p>Pre-refactor state reconstructed locally: stashed F's <code>logo-grid.css</code> rewrite, ran a temporary undo script to strip both markers from canvas_page id=20 [6] (<code>component_version</code> preserved), cache-cleared, captured baseline screenshots with Playwright, then restored F's CSS and re-applied F's markers, cache-cleared, captured live screenshots. <code>compare -metric AE</code> on all 15 baseline/live pairs.</p>
+
+<script>
+function setupWipes() {
+  document.querySelectorAll('.wipe').forEach(function (w) {
+    var top = w.querySelector('.top');
+    var slider = w.querySelector('input[type=range]');
+    slider.addEventListener('input', function () {
+      top.style.clipPath = 'inset(0 ' + (100 - slider.value) + '% 0 0)';
+    });
+  });
+}
+window.addEventListener('DOMContentLoaded', setupWipes);
+
+function vpBlock(slug, vp) {
+  return '' +
+    '<div class="comparator-block">' +
+      '<h4>' + vp + '×… viewport</h4>' +
+      '<div class="wipe">' +
+        '<img src="screenshots/sprint-10-cycle-2b4/t3-' + slug + '-' + vp + '-baseline-20260512.png" alt="baseline">' +
+        '<img class="top" src="screenshots/sprint-10-cycle-2b4/t3-' + slug + '-' + vp + '-live-20260512.png" alt="live">' +
+      '</div>' +
+      '<input type="range" min="0" max="100" value="50">' +
+      '<div class="wipe-labels"><span>← baseline (pre-refactor)</span><span>live (F state) →</span></div>' +
+      '<details><summary>Diff PNG (red overlay; should be blank for AE=0)</summary>' +
+      '<img class="diff-img" src="screenshots/sprint-10-cycle-2b4/t3-' + slug + '-' + vp + '-diff-20260512.png" alt="diff"></details>' +
+      '<details><summary>Side-by-side composite (baseline | live)</summary>' +
+      '<img class="composite-img" src="screenshots/sprint-10-cycle-2b4/t3-' + slug + '-' + vp + '-composite-20260512.png" alt="composite"></details>' +
+    '</div>';
+}
+</script>
+
+<h2 id="home">/ (homepage — primary AC target)</h2>
+<div id="home-vps"></div>
+
+<h2 id="services">/services</h2>
+<div id="services-vps"></div>
+
+<h2 id="about-us">/about-us</h2>
+<div id="about-us-vps"></div>
+
+<h2 id="how-we-do-it">/how-we-do-it</h2>
+<div id="how-we-do-it-vps"></div>
+
+<h2 id="open-source-projects">/open-source-projects</h2>
+<div id="open-source-projects-vps"></div>
+
+<script>
+['home', 'services', 'about-us', 'how-we-do-it', 'open-source-projects'].forEach(function (slug) {
+  var html = ['1280', '768', '375'].map(function (vp) { return vpBlock(slug, vp); }).join('');
+  document.getElementById(slug + '-vps').innerHTML = html;
+});
+setupWipes();
+</script>
+
+<h2>Sub-issue recommendations</h2>
+<p>None — verdict is PASS. No rework required.</p>
+
+<h2>Notes for operator</h2>
+<ul class="summary">
+  <li>F's two-marker strategy (rather than a single merged marker) keeps the CSS semantics precise — one marker for header typography, one for hero-adjacent spacing.</li>
+  <li>F autonomously corrected the canvas_page target from id=1 to id=20 (the live "Homepage v2"). This was the correct target.</li>
+  <li>Specificity reduction on the spacing rules (sibling-combinator removed) is safe — utility-class competitors at (0,1,0) remain dominated by the new (0,2,0) marker selectors.</li>
+  <li>Cycle 1 audit ADV-3 is closed by this cycle.</li>
+</ul>
+
+</body>
+</html>

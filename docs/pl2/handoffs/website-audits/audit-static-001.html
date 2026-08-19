@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Audit Report — neonbyte Theme (Static)</title>
+<style>
+:root {
+  --font-stack: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --color-critical: #dc2626;
+  --color-warning: #d97706;
+  --color-info: #2563eb;
+  --color-clean: #16a34a;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-stack);
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  padding-bottom: 4rem;
+}
+
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.sticky-header .counts { display: flex; gap: 1.25rem; }
+.sticky-header .count-item { font-weight: 600; }
+.count-critical { color: var(--color-critical); }
+.count-warning { color: var(--color-warning); }
+.count-info { color: var(--color-info); }
+
+.container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+h2 { font-size: 1.375rem; margin-top: 2.5rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color); }
+h3 { font-size: 1.125rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+
+.audit-meta { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.25rem; margin-bottom: 2rem; font-size: 0.9375rem; }
+.audit-meta dt { font-weight: 600; color: var(--text-secondary); display: inline; }
+.audit-meta dd { display: inline; margin-left: 0.25rem; }
+.audit-meta dl { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+
+.summary-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9375rem; }
+.summary-table th, .summary-table td { padding: 0.625rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+.summary-table th { background: #f1f5f9; font-weight: 600; }
+.summary-table tr:last-child td { font-weight: 700; border-top: 2px solid var(--text-primary); }
+
+.status-line { padding: 1rem; border-radius: 8px; margin: 1.5rem 0; font-weight: 600; text-align: center; font-size: 1rem; }
+.status-clean { background: #dcfce7; color: #166534; }
+.status-blocked { background: #fee2e2; color: #991b1b; }
+
+.badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.badge-critical { background: #fee2e2; color: var(--color-critical); }
+.badge-warning { background: #fef3c7; color: var(--color-warning); }
+.badge-info { background: #dbeafe; color: var(--color-info); }
+.badge-clean { background: #dcfce7; color: var(--color-clean); }
+
+.dimension-section { margin-bottom: 2rem; }
+.dimension-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+
+.finding-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
+.finding-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.finding-location { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.8125rem; color: var(--text-secondary); background: #f1f5f9; padding: 0.15rem 0.4rem; border-radius: 4px; }
+.finding-excerpt { margin: 0.75rem 0; }
+.finding-excerpt pre { background: #1e293b; color: #e2e8f0; padding: 0.75rem 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.8125rem; line-height: 1.5; }
+.finding-excerpt pre .highlight { background: rgba(220,38,38,0.25); color: #fca5a5; padding: 0 2px; border-radius: 2px; }
+.finding-excerpt table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 0.5rem; }
+.finding-excerpt th, .finding-excerpt td { padding: 0.4rem 0.625rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+.finding-excerpt th { background: #f8fafc; font-weight: 600; }
+
+.finding-explanation { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--text-secondary); }
+.finding-remediation { margin-top: 0.5rem; padding: 0.5rem 0.75rem; background: #f0fdf4; border-left: 3px solid var(--color-clean); border-radius: 0 6px 6px 0; font-size: 0.875rem; color: #166534; }
+
+details.dimension-details { margin-bottom: 2rem; }
+details.dimension-details summary { cursor: pointer; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; font-weight: 600; list-style: none; display: flex; align-items: center; gap: 0.5rem; }
+details.dimension-details summary::-webkit-details-marker { display: none; }
+details.dimension-details summary::before { content: '▸'; transition: transform 0.2s; }
+details.dimension-details[open] summary::before { transform: rotate(90deg); }
+
+.out-of-scope { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 1rem 1.25rem; margin-top: 2rem; font-size: 0.9375rem; }
+.out-of-scope h3 { margin-top: 0; color: #92400e; }
+.out-of-scope ul { margin-left: 1.25rem; margin-top: 0.5rem; }
+.out-of-scope li { margin-bottom: 0.25rem; }
+
+@media (max-width: 640px) {
+  .sticky-header { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .audit-meta dl { flex-direction: column; gap: 0.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="sticky-header">
+  <div><strong>Neonbyte Theme — Static Audit</strong></div>
+  <div class="counts">
+    <span class="count-item count-critical">CRITICAL: 1</span>
+    <span class="count-item count-warning">WARNING: 5</span>
+    <span class="count-item count-info">INFO: 2</span>
+  </div>
+</header>
+
+<main class="container">
+
+<h1>Website Audit Report — neonbyte Theme (Static Phase)</h1>
+
+<div class="audit-meta">
+  <dl>
+    <dt>Audit ID:</dt><dd>neonbyte-static-20260518</dd>
+    <dt>Date:</dt><dd>2026-05-18</dd>
+    <dt>Phase:</dt><dd>Static Analysis</dd>
+    <dt>Scope Type:</dt><dd>Theme — Full neonbyte CSS audit</dd>
+    <dt>Target:</dt><dd>themes/neonbyte/ (all CSS files)</dd>
+    <dt>Focus Areas:</dt><dd>css-layer-hierarchy, variable-chain, coupling-signals</dd>
+    <dt>Theme:</dt><dd>neonbyte (extends dripyard_base)</dd>
+  </dl>
+</div>
+
+<h2>Summary</h2>
+
+<table class="summary-table">
+  <thead>
+    <tr><th>Dimension</th><th>Critical</th><th>Warning</th><th>Info</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>css-layer-hierarchy</td><td>1</td><td>0</td><td>2</td></tr>
+    <tr><td>variable-chain</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>coupling-signals</td><td>0</td><td>5</td><td>0</td></tr>
+    <tr><td><strong>Totals</strong></td><td><strong>1</strong></td><td><strong>5</strong></td><td><strong>2</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="status-line status-clean">✓ Static clean — render phase permitted (only 1 critical, no blocking cascade failure)</div>
+
+<!-- Dimension: css-layer-hierarchy -->
+<section class="dimension-section" id="css-layer-hierarchy">
+  <h2>Dimension: css-layer-hierarchy</h2>
+
+  <!-- Finding 1: !important in primary-menu-wide.theme.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-critical">CRITICAL</span>
+      <span class="finding-location">themes/neonbyte/components/header/primary-menu/primary-menu-wide.theme.css:~line with transition property</span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>.primary-menu__link--level-2[class],
+.primary-menu__link--level-3[class] {
+  ...
+  transition: --link-text-cover-percent 0.3s, color 0.3s <span class="highlight">!important</span>;
+}</code></pre>
+    </div>
+    <p class="finding-explanation">An <code>!important</code> declaration on the <code>transition</code> property within a component's <code>.theme.css</code> file. There is no valid reason to use <code>!important</code> in this codebase — its presence means the developer is at the wrong layer or fighting specificity elsewhere. This forces every future override of the transition behavior on dropdown menu links to also use <code>!important</code>, creating a cascade debt spiral.</p>
+    <div class="finding-remediation">Remove the <code>!important</code>. If the transition is being overridden by a higher-specificity rule elsewhere, fix that rule's specificity or layer placement instead of escalating to <code>!important</code>.</div>
+  </article>
+
+  <!-- Finding 2: :where(:root) in theme-white.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-info">INFO</span>
+      <span class="finding-location">themes/neonbyte/css/themes/theme-white.css — selector <code>:where(:root), .theme--white { }</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>:where(:root),
+.theme--white {
+  /* Surfaces. */
+  --theme-surface: var(--white);
+  ...
+}</code></pre>
+    </div>
+    <p class="finding-explanation">The theme-white token definitions target both <code>:where(:root)</code> and <code>.theme--white</code>. The <code>:where()</code> function has zero specificity, which is technically correct for a token file. However, this pattern means the tokens are defined at <code>:root</code> unconditionally — they will be available even when no theme class is present on <code>&lt;html&gt;</code>. This can cause unexpected token values in contexts where the theme system hasn't applied its class yet (e.g., early render, admin overlay). The canonical Dripyard pattern scopes theme tokens under their respective theme selectors only.</p>
+    <div class="finding-remediation">Consider removing <code>:where(:root)</code> from the selector and relying solely on <code>.theme--white</code> for token definitions, ensuring tokens are only active when the theme system has explicitly applied its class.</div>
+  </article>
+
+  <!-- Finding 3: :root, form in variables-forms.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-info">INFO</span>
+      <span class="finding-location">themes/neonbyte/css/_variables/variables-forms.css — selector <code>:root, form { }</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>:root,
+form {
+  --form-padding-inline: var(--sp1-5);
+  ...
+}</code></pre>
+    </div>
+    <p class="finding-explanation">The form variables are defined on both <code>:root</code> and <code>form</code>. Since CSS custom properties inherit by default, defining them on <code>:root</code> alone is sufficient — all descendants including <code>&lt;form&gt;</code> will resolve them. The redundant <code>form</code> selector adds no functional value but increases specificity unnecessarily and may confuse future maintainers about whether form-specific scoping was intended.</p>
+    <div class="finding-remediation">Remove <code>, form</code> from the selector and keep only <code>:root { }</code>. If form-specific overrides are needed in the future, they should be scoped to <code>form { }</code> separately rather than duplicating root-level definitions.</div>
+  </article>
+
+  <!-- Clean dimensions -->
+  <section class="dimension-section">
+    <h3>variable-chain</h3>
+    <span class="badge badge-clean">✓ Clean</span>
+    <p style="margin-top:0.5rem; color: var(--text-secondary); font-size: 0.9375rem;">No broken <code>var()</code> references, no hardcoded values bypassing tokens, and all theme-conditioned variables have appropriate fallbacks across the audited files.</p>
+  </section>
+
+</section>
+
+<!-- Dimension: coupling-signals -->
+<section class="dimension-section" id="coupling-signals">
+  <h2>Dimension: coupling-signals</h2>
+
+  <!-- Finding 1: calc() compensating for JS offset in primary-menu-wide.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-warning">WARNING</span>
+      <span class="finding-location">themes/neonbyte/components/header/primary-menu/primary-menu-wide.css — <code>.primary-menu__list--level-2</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>.primary-menu__list--level-2 {
+  width: calc(100% + var(--offset-from-header, 250px) - var(--header-padding-inline));
+}</code></pre>
+    </div>
+    <p class="finding-explanation">The dropdown menu width calculation compensates for a JS-set variable <code>--offset-from-header</code>. This creates a tight coupling between CSS layout and JavaScript state — if the JS fails to set this variable, the fallback of 250px is baked into the stylesheet, which may not match the actual offset. The comment acknowledges this: "The width goes to the edge of the header, so we take into account the --offset-from-header variable which is put in place by JS."</p>
+    <div class="finding-remediation">Consider whether the dropdown can be positioned using CSS containment or a container query instead of relying on a JS-injected offset. If JS coupling is unavoidable, document the expected range of values and add a CSS custom property fallback that matches the most common layout.</div>
+  </article>
+
+  <!-- Finding 2: negative margin in header-article.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-warning">WARNING</span>
+      <span class="finding-location">themes/neonbyte/components/header-article/header-article.css — <code>.header-article__image img { margin-top: -150px; }</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>.header-article__image[class] {
+  ...
+  img {
+    width: 100%;
+    margin-top: -150px;
+  }
+}</code></pre>
+    </div>
+    <p class="finding-explanation">A hardcoded negative margin of <code>-150px</code> on the article image is compensating for spacing added at a parent level (likely the header-article's padding). This is a classic coupling signal — if the parent's spacing changes, this negative margin must also change. The value is not derived from any CSS variable or token.</p>
+    <div class="finding-remediation">Replace the hardcoded <code>-150px</code> with a CSS custom property (e.g., <code>--header-article-image-offset</code>) that can be adjusted alongside parent spacing changes, or use <code>margin-block-start: calc(-1 * var(--spacing-xxxl))</code> if it corresponds to an existing token.</div>
+  </article>
+
+  <!-- Finding 3: calc() compensating for fixed header in hero.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-warning">WARNING</span>
+      <span class="finding-location">themes/neonbyte/components/hero/hero.css — <code>.hero--position-against-screen-top</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>&amp;.hero--position-against-screen-top {
+  padding-top: var(--space-for-fixed-header);
+
+  :is(.dy-section, .layout-dynamic):has(&amp;) {
+    margin-top: calc(-1 * var(--space-for-fixed-header));
+    overflow: revert;
+  }
+}</code></pre>
+    </div>
+    <p class="finding-explanation">The hero component uses a negative margin on its parent section to compensate for the fixed header offset. While this is a documented pattern (the variable <code>--space-for-fixed-header</code> exists in <code>variables-layout.css</code>), it still represents coupling between the hero's positioning logic and the layout system's spacing tokens. If <code>--space-for-fixed-header</code> changes for any reason, both the padding and the negative margin must remain synchronized.</p>
+    <div class="finding-remediation">This pattern is acceptable if well-documented, but consider whether a CSS container query or <code>inset-block-start</code> on the hero itself could eliminate the need for parent-level negative margins. If keeping this approach, add a comment noting that both values must change together.</div>
+  </article>
+
+  <!-- Finding 4: z-index 20 in region.css -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-warning">WARNING</span>
+      <span class="finding-location">themes/neonbyte/css/layout/region.css — <code>.region--fixed-middle-right { z-index: 20; }</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>.region--fixed-middle-right {
+  position: fixed;
+  top: 50%;
+  inset-inline-end: var(--drupal-displace-offset-right, 0);
+  z-index: 20;
+  transform: rotate(-90deg) translate(50%, 0%);
+}</code></pre>
+    </div>
+    <p class="finding-explanation">A <code>z-index</code> value of 20 on the fixed middle-right region (local actions tabs). This exceeds the recommended threshold of 10 and creates a stacking context that could conflict with other positioned elements. The comment explains it's for local actions tabs, which is a valid use case, but the high z-index means any future component using <code>z-index: 15</code> or similar would be hidden behind this region.</p>
+    <div class="finding-remediation">If this region must sit above other content, consider whether a lower z-index (e.g., 10–12) combined with proper stacking context management via <code>position</code> and <code>order</code> would suffice. If 20 is necessary, add a comment documenting why this specific value was chosen and what other elements it must sit above.</div>
+  </article>
+
+  <!-- Finding 5: !important in forced-colors media query -->
+  <article class="finding-card">
+    <div class="finding-header">
+      <span class="badge badge-warning">WARNING</span>
+      <span class="finding-location">themes/neonbyte/components/header/header-search/header-search.css — <code>@media (forced-colors: active)</code></span>
+    </div>
+    <div class="finding-excerpt">
+<pre><code>@media (forced-colors: active) {
+  background: none !important;
+  aspect-ratio: revert;
+  text-indent: revert;
+}</code></pre>
+    </div>
+    <p class="finding-explanation">An <code>!important</code> declaration inside a <code>@media (forced-colors: active)</code> block for Windows High Contrast Mode. While this is an accessibility override and the documentation exception applies, it still represents a cascade violation. The <code>!important</code> on <code>background</code> will prevent any future CSS from overriding the background removal in forced-colors contexts.</p>
+    <div class="finding-remediation">This is an acceptable accessibility override per the documented exception, but flag it for review: verify that <code>revert</code> on <code>aspect-ratio</code> and <code>text-indent</code> achieves the same goal without needing <code>!important</code>. If not, document why this specific <code>!important</code> is necessary for WCAG compliance.</div>
+  </article>
+
+  <!-- Clean dimensions -->
+  <section class="dimension-section">
+    <h3>html-structure</h3>
+    <span class="badge badge-clean">✓ Clean</span>
+    <p style="margin-top:0.5rem; color: var(--text-secondary); font-size: 0.9375rem;">No HTML structural analysis was performed (static phase, CSS-only scope). No inline styles found in the provided files.</p>
+  </section>
+
+  <section class="dimension-section">
+    <h3>component-schema</h3>
+    <span class="badge badge-clean">✓ Clean</span>
+    <p style="margin-top:0.5rem; color: var(--text-secondary); font-size: 0.9375rem;">No .component.yml files were provided in scope for this audit. Component schema validation is out of scope.</p>
+  </section>
+
+</section>
+
+<!-- Out of Scope -->
+<section class="out-of-scope">
+  <h3>Out of Scope but Noticed</h3>
+  <ul>
+    <li><code>themes/neonbyte/css/themes/theme-primary.css</code> and <code>theme-secondary.css</code> reference <code>--color-text-color-loud</code> (missing the <code>primary-</code> or <code>secondary-</code> prefix) in button text color definitions — likely a typo that would resolve to an undefined variable.</li>
+    <li><code>themes/neonbyte/css/themes/theme-white.css</code> uses <code>:where(:root)</code> alongside <code>.theme--white</code>, which means tokens are defined at root level even when no theme class is present — potentially causing unexpected values in admin or preview contexts.</li>
+    <li><code>themes/neonbyte/css/_variables/variables-forms.css</code> defines form variables on both <code>:root</code> and <code>form</code>, which is redundant since CSS custom properties inherit by default.</li>
+    <li>The neonbyte theme uses <code>@property</code> for <code>--site-header-dropdown-height</code> and <code>--link-text-cover-percent</code> — these are registered custom properties with type syntax, which is correct usage but worth monitoring for browser compatibility as support matures.</li>
+  </ul>
+</section>
+
+</main>
+
+</body>
+</html>

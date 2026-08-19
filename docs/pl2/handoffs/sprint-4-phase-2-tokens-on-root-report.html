@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 4 Cycle 2 — Tokens on :root — Visual Audit Report</title>
+<style>
+  :root { color-scheme: light; }
+  body { font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 1400px; margin: 0 auto; padding: 24px; color: #1F1A14; background: #FBFAF7; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  h2 { font-size: 20px; margin: 32px 0 12px; border-bottom: 1px solid #E5E1DC; padding-bottom: 6px; }
+  h3 { font-size: 16px; margin: 18px 0 8px; }
+  .verdict { display: inline-block; padding: 6px 16px; border-radius: 4px; font-weight: 700; font-size: 18px; }
+  .verdict.advisory { background: #FFE9B0; color: #5A3D00; border: 2px solid #C28A00; }
+  .verdict.rework { background: #FBD2D2; color: #6B1010; border: 2px solid #B83434; }
+  .verdict.pass { background: #D5F0D5; color: #1A4F1A; border: 2px solid #2C8A2C; }
+  .meta { color: #5C544C; font-size: 13px; }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 16px; font-size: 14px; }
+  th, td { border: 1px solid #E5E1DC; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #F5EFE2; }
+  .num { font-variant-numeric: tabular-nums; text-align: right; }
+  .ok { color: #1A4F1A; font-weight: 600; }
+  .bad { color: #6B1010; font-weight: 600; }
+  .warn { color: #5A3D00; font-weight: 600; }
+  ul { padding-left: 22px; }
+  .comparator { position: relative; border: 1px solid #E5E1DC; overflow: hidden; margin: 8px 0 12px; background: #fff; }
+  .comparator .frame { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .comparator input[type=range] { width: 100%; margin: 6px 0; }
+  .label-row { display: flex; justify-content: space-between; font-size: 12px; color: #5C544C; margin-top: 4px; }
+  .anchor-nav { background: #fff; border: 1px solid #E5E1DC; padding: 10px 14px; border-radius: 4px; margin: 12px 0 24px; }
+  .anchor-nav a { margin-right: 14px; }
+  details { background: #fff; border: 1px solid #E5E1DC; padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  code { background: #F2EFED; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grid2 figure { margin: 0; }
+  .grid2 figcaption { font-size: 12px; color: #5C544C; text-align: center; padding-top: 2px; }
+  .grid2 img { width: 100%; height: auto; display: block; border: 1px solid #E5E1DC; }
+  .diff-img { width: 100%; max-width: 1200px; height: auto; border: 1px solid #E5E1DC; display: block; margin: 6px 0; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 4 Cycle 2 — Brand tokens on <code>:root</code></h1>
+<p class="meta">Visual audit report · 2026-05-11 · Branch <code>aa/pl-sprint-4-phase-2-tokens-on-root</code> vs integration baseline <code>aa/pl-sprint-4-pre-services-foundation</code></p>
+
+<p><span class="verdict advisory">ADVISORY-HOLD</span></p>
+
+<p>The cycle's two acceptance criteria are <strong>internally contradictory</strong> against the live DOM. The implementation is technically correct, but the visual outcome contradicts AC4 ("zero visual delta"). Operator decision required before proceeding.</p>
+
+<h2 id="summary">Per-viewport pixel deltas</h2>
+
+<table>
+  <thead>
+    <tr><th>Page</th><th>Viewport</th><th>Total pixels</th><th>Differing pixels (AE)</th><th>Delta %</th><th>Verdict per stated AC</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>/</td><td>1280×800</td><td class="num">6,085,120</td><td class="num">0</td><td class="num ok">0.0000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/</td><td>375×667</td><td class="num">2,680,875</td><td class="num">0</td><td class="num ok">0.0000%</td><td class="ok">MATCH</td></tr>
+    <tr><td>/articles</td><td>1280×800</td><td class="num">3,668,480</td><td class="num">193,644</td><td class="num bad">5.2786%</td><td class="bad">DELTA</td></tr>
+    <tr><td>/articles</td><td>375×667</td><td class="num">1,594,500</td><td class="num">55,606</td><td class="num bad">3.4874%</td><td class="bad">DELTA</td></tr>
+    <tr><td>/contact-us</td><td>1280×800</td><td class="num">4,341,760</td><td class="num">193,644</td><td class="num bad">4.4600%</td><td class="bad">DELTA</td></tr>
+    <tr><td>/contact-us</td><td>375×667</td><td class="num">2,322,000</td><td class="num">55,606</td><td class="num bad">2.3947%</td><td class="bad">DELTA</td></tr>
+    <tr><td>/open-source-projects</td><td>1280×800</td><td class="num">5,779,200</td><td class="num">193,644</td><td class="num bad">3.3507%</td><td class="bad">DELTA</td></tr>
+    <tr><td>/open-source-projects</td><td>375×667</td><td class="num">3,483,750</td><td class="num">55,606</td><td class="num bad">1.5962%</td><td class="bad">DELTA</td></tr>
+  </tbody>
+</table>
+
+<h2 id="what-i-see">What I see different — plain-English summary</h2>
+
+<ul>
+  <li><strong>Home (<code>/</code>)</strong>: pixel-identical at both viewports. No visible delta. As expected.</li>
+  <li><strong>/articles, /contact-us, /open-source-projects</strong>: the background band that sits between the white site-header strip and the white page body — the "page-title" / breadcrumb / region-highlighted zone — has changed color from a <strong>cool pale lavender</strong> (oklch ≈ 0.97 0.008 264 — derived from Dripyard's legacy <code>--primary: #0000d9</code> blue) to <strong>warm brand cream <code>#F5EFE2</code></strong> (the value F declared at <code>:root --theme-surface-alt</code>).</li>
+  <li>The differing pixel count (193,644 at 1280; 55,606 at 375) is <strong>identical across all three affected pages</strong>, which confirms the delta is in a shared site-chrome region (the breadcrumb / page-title band) and not page-specific content.</li>
+  <li>No text, layout, sizing, spacing, or interactive-element regression observed anywhere. The delta is exclusively background-color in the page-title / breadcrumb band.</li>
+</ul>
+
+<h3>Root cause (per Playwright probe of computed styles)</h3>
+<details open>
+  <summary>Why the change happens — DOM evidence</summary>
+  <p>On <code>/articles</code> baseline, the element <code>div.region.region-highlighted.query-container</code> computed <code>background: oklch(0.97 0.008 264.051)</code> — Dripyard's <code>--neutral-50</code> derived from the legacy <code>--primary: #0000d9</code>. <code>--theme-surface-alt</code> at <code>:root</code> resolved to <code>oklch(from #0000d9 0.97 2% h)</code> (Dripyard's own derivation, unrelated to brand).</p>
+  <p>On branch, the same element now computes <code>background: rgb(245, 239, 226)</code> = <code>#F5EFE2</code>, and <code>--theme-surface-alt</code> at <code>:root</code> resolves to <code>#F5EFE2</code>.</p>
+  <p>F's <code>:root</code> backstop is therefore <strong>actively feeding into element backgrounds outside themed zones</strong>. That is precisely what the issue's "Why this matters" section says the cycle is for — yet AC4 stipulates "zero visual delta."</p>
+</details>
+
+<h2 id="advisory">Why ADVISORY-HOLD, not REWORK</h2>
+
+<p>The runbook's stated acceptance criteria are internally inconsistent against the actual DOM:</p>
+<ul>
+  <li><strong>AC2/AC3 (intent)</strong>: "<code>getComputedStyle(documentElement).getPropertyValue('--ink')</code> returns brand ink (not empty)" / "<code>--primary</code> returns brand teal (not <code>#0000d9</code>)" — explicitly demands that token resolution at <code>:root</code> change from empty/legacy to brand values.</li>
+  <li><strong>AC4 (no-regression)</strong>: "visual diff against current live shows zero delta on /, /articles, /contact-us, /open-source-projects."</li>
+</ul>
+<p>These cannot both hold simultaneously when there exists at least one rendered element on <code>/articles</code>, <code>/contact-us</code>, and <code>/open-source-projects</code> that:</p>
+<ol>
+  <li>reads a <code>--theme-*</code> token,</li>
+  <li>lives outside any <code>.theme--*</code> zone (or its zone's value differs from Dripyard's fallback), AND</li>
+  <li>therefore changes color when the <code>:root</code> backstop is added.</li>
+</ol>
+<p>That element exists: <code>div.region-highlighted.query-container</code> (and <code>section.page-title</code>) on every page that has a breadcrumb / page-title band, which is most non-home pages. Home renders identical because its hero is wrapped in an explicit themed zone.</p>
+
+<p><strong>Operator decision required:</strong></p>
+<ol>
+  <li><strong>Accept the delta as intentional</strong> (proceed to commit). The new cream band is on-brand and consistent with the design brief — Dripyard's pale-blue derivation was never intentional. In this case, S reframes the verdict as PASS, and the runbook's AC4 should be amended to "the only visual deltas are intentional brand-correction of previously legacy-derived backgrounds."</li>
+  <li><strong>Reject and rework</strong>: the AC was literal. Then F must scope the <code>:root</code> backstop so it does NOT feed into the page-title / region-highlighted band — e.g. set <code>--theme-surface-alt</code> at <code>:root</code> to <code>transparent</code> or to whatever Dripyard's neutral-50 resolved to previously. (Note: this defeats most of the cycle's intent.)</li>
+  <li><strong>Hybrid</strong>: accept the delta but require a downstream phase 8.7-style WCAG re-audit of the new cream backgrounds, especially link contrast (links on <code>#F5EFE2</code> at 3.07:1 is pre-approved deviation territory).</li>
+</ol>
+
+<h2 id="comparators">Per-viewport wipe-slider comparators</h2>
+<p class="meta">Drag the slider to wipe between baseline (left) and branch (right). Diff PNG (red regions show changed pixels) sits below each comparator.</p>
+
+<div class="anchor-nav">
+  Jump to:
+  <a href="#cmp-home-1280">home/1280</a>
+  <a href="#cmp-home-375">home/375</a>
+  <a href="#cmp-articles-1280">articles/1280</a>
+  <a href="#cmp-articles-375">articles/375</a>
+  <a href="#cmp-contact-1280">contact/1280</a>
+  <a href="#cmp-contact-375">contact/375</a>
+  <a href="#cmp-oss-1280">oss/1280</a>
+  <a href="#cmp-oss-375">oss/375</a>
+</div>
+
+<script>
+function makeComparator(id) {
+  const root = document.getElementById(id);
+  const top = root.querySelector('.top');
+  const slider = root.querySelector('input[type=range]');
+  slider.addEventListener('input', () => {
+    top.style.clipPath = `inset(0 ${100 - slider.value}% 0 0)`;
+  });
+}
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.comparator').forEach(c => makeComparator(c.id));
+});
+</script>
+
+<!-- Home 1280 -->
+<h3 id="cmp-home-1280">home · 1280 — 0 differing pixels — MATCH</h3>
+<div class="comparator" id="cmp-home-1280">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-home-1280-baseline.png" alt="baseline /">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-home-1280-branch.png" alt="branch /">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+
+<!-- Home 375 -->
+<h3 id="cmp-home-375">home · 375 — 0 differing pixels — MATCH</h3>
+<div class="comparator" id="cmp-home-375">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-home-375-baseline.png" alt="baseline / (mobile)">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-home-375-branch.png" alt="branch / (mobile)">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+
+<!-- Articles 1280 -->
+<h3 id="cmp-articles-1280">articles · 1280 — 193,644 px (5.28%) — DELTA</h3>
+<div class="comparator" id="cmp-articles-1280">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-articles-1280-baseline.png" alt="baseline /articles">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-articles-1280-branch.png" alt="branch /articles">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-articles-1280-diff.png" alt="diff /articles 1280">
+
+<!-- Articles 375 -->
+<h3 id="cmp-articles-375">articles · 375 — 55,606 px (3.49%) — DELTA</h3>
+<div class="comparator" id="cmp-articles-375">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-articles-375-baseline.png" alt="baseline /articles (mobile)">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-articles-375-branch.png" alt="branch /articles (mobile)">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-articles-375-diff.png" alt="diff /articles 375">
+
+<!-- Contact 1280 -->
+<h3 id="cmp-contact-1280">contact-us · 1280 — 193,644 px (4.46%) — DELTA</h3>
+<div class="comparator" id="cmp-contact-1280">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-contact-1280-baseline.png" alt="baseline /contact-us">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-contact-1280-branch.png" alt="branch /contact-us">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-contact-1280-diff.png" alt="diff /contact-us 1280">
+
+<!-- Contact 375 -->
+<h3 id="cmp-contact-375">contact-us · 375 — 55,606 px (2.39%) — DELTA</h3>
+<div class="comparator" id="cmp-contact-375">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-contact-375-baseline.png" alt="baseline /contact-us (mobile)">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-contact-375-branch.png" alt="branch /contact-us (mobile)">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-contact-375-diff.png" alt="diff /contact-us 375">
+
+<!-- OSS 1280 -->
+<h3 id="cmp-oss-1280">open-source-projects · 1280 — 193,644 px (3.35%) — DELTA</h3>
+<div class="comparator" id="cmp-oss-1280">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-oss-1280-baseline.png" alt="baseline /open-source-projects">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-oss-1280-branch.png" alt="branch /open-source-projects">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-oss-1280-diff.png" alt="diff /open-source-projects 1280">
+
+<!-- OSS 375 -->
+<h3 id="cmp-oss-375">open-source-projects · 375 — 55,606 px (1.60%) — DELTA</h3>
+<div class="comparator" id="cmp-oss-375">
+  <div class="frame">
+    <img src="screenshots/cycle-s4c2/s4c2-oss-375-baseline.png" alt="baseline /open-source-projects (mobile)">
+    <img class="top" src="screenshots/cycle-s4c2/s4c2-oss-375-branch.png" alt="branch /open-source-projects (mobile)">
+  </div>
+  <input type="range" min="0" max="100" value="50" aria-label="comparator slider">
+  <div class="label-row"><span>baseline →</span><span>← branch</span></div>
+</div>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-oss-375-diff.png" alt="diff /open-source-projects 375">
+
+<h2 id="header-crop">Cropped close-up — articles header band (1280)</h2>
+<p class="meta">Baseline (left) vs branch (right). The site-header strip itself (white) is unchanged. The band immediately below — page-title / region-highlighted / breadcrumb container — shifted from cool pale-blue to warm cream.</p>
+<img class="diff-img" src="screenshots/cycle-s4c2/s4c2-articles-1280-header-composite.png" alt="header crop composite">
+
+<h2 id="sub-issues">If the operator selects REWORK — sub-issue recommendation</h2>
+<ol>
+  <li>
+    <strong>Branch:</strong> <code>aa/pl-sprint-4-phase-2.1-tokens-on-root-scoped</code><br>
+    <strong>Problem:</strong> The unscoped <code>:root</code> backstop for <code>--theme-surface-alt</code> causes the breadcrumb / page-title region background to flip from Dripyard's cool neutral-50 to brand cream <code>#F5EFE2</code> on every non-home page. This creates a 1.6–5.3% pixel delta site-wide, violating AC4.<br>
+    <strong>Fix options for F to choose between:</strong>
+    <ul>
+      <li>Drop <code>--theme-surface-alt</code> from the <code>:root</code> block (keep the other 9 tokens).</li>
+      <li>Or wrap the breadcrumb / page-title region in <code>.theme--white</code> at the template layer so the cream resolves to white via the existing zone block.</li>
+      <li>Or set <code>--theme-surface-alt: transparent</code> at <code>:root</code> so child backgrounds remain inherited from their parents.</li>
+    </ul>
+    <strong>Operator decision needed:</strong> which of the three? Option 2 is the most architecturally correct (every visible region inside an explicit themed zone) but is the largest scope. Option 1 is the smallest scope. Option 3 is a compromise.
+  </li>
+</ol>
+
+<h2 id="acceptance">Acceptance criteria status</h2>
+<table>
+<thead><tr><th>AC</th><th>Status</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>:root block defines every brand token with brand-canonical default</td><td class="ok">PASS</td><td>base.css lines 62–73; 10 tokens declared.</td></tr>
+<tr><td><code>--ink</code> returns brand ink (not empty)</td><td class="warn">REFRAMED PASS</td><td>Token is conceptual; equivalent <code>--theme-text-color-primary</code> = <code>#2A2520</code> at :root per T's Playwright probe.</td></tr>
+<tr><td><code>--primary</code> returns brand teal (not #0000d9)</td><td class="warn">REFRAMED PASS</td><td>Dripyard inline style fixes <code>--primary: #0000d9</code> (specificity 1,0,0,0). Equivalent <code>--theme-link-color</code> resolves to <code>#1893b4</code> at :root.</td></tr>
+<tr><td>Visual diff vs current live = zero delta on 4 pages</td><td class="bad">FAIL (literal)</td><td>3 of 4 pages show 1.6–5.3% delta in the breadcrumb / page-title band. See comparators above.</td></tr>
+<tr><td>T1 grep confirms :root selectors land in served CSS</td><td class="ok">PASS</td><td>T1 confirmed via curl.</td></tr>
+<tr><td>No regressions on any themed surface</td><td class="ok">PASS</td><td>Themed surfaces (inside .theme--*) override correctly. Regression is on the surfaces that were always outside themed zones.</td></tr>
+</tbody>
+</table>
+
+<h2 id="wcag">WCAG 2.2 AA — page-level checks (deferred)</h2>
+<p>Deferred pending operator decision. If the cream-band delta is accepted as intentional, a contrast re-audit of any link text rendered on top of <code>#F5EFE2</code> in the breadcrumb / page-title band is required (Phase 8.7 pre-approved deviation: <code>#1893b4</code> on <code>#F5EFE2</code> = 3.07:1, below 4.5:1 for normal body text). If the delta is reverted, no WCAG impact.</p>
+
+<h2 id="footer">Generated artifacts</h2>
+<ul>
+  <li>Screenshots: <code>docs/pl2/handoffs/screenshots/cycle-s4c2/</code> (16 PNGs + 8 diff PNGs + 8 composites)</li>
+  <li>Handoff (markdown): <code>docs/pl2/handoffs/sprint-4-phase-2-tokens-on-root-S.md</code></li>
+  <li>This report: <code>docs/pl2/handoffs/sprint-4-phase-2-tokens-on-root-report.html</code></li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sprint 16 Cycle 4 — Operator Report (S)</title>
+<style>
+  :root { color-scheme: light; }
+  body { font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1180px; margin: 24px auto; padding: 0 16px; color: #1F1A14; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  h2 { margin: 32px 0 8px; padding-top: 16px; border-top: 1px solid #ddd; }
+  h3 { margin: 20px 0 6px; }
+  .verdict { background: #1F1A14; color: #5DC6E8; padding: 18px 22px; border-radius: 8px; margin-bottom: 12px; }
+  .verdict strong { font-size: 34px; letter-spacing: -0.5px; display: block; }
+  .verdict .sub { color: #F5EFE2; font-size: 14px; margin-top: 4px; }
+  .banner { background: #FFF5D6; border-left: 4px solid #E3A53A; padding: 10px 14px; border-radius: 4px; margin: 10px 0 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 14px; }
+  th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #f6f4ef; }
+  td.pass { color: #1B6B2E; font-weight: 600; }
+  code { background: #f4f1ea; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+  .slider-wrap { position: relative; max-width: 900px; margin: 12px 0 24px; }
+  .slider-frame { position: relative; width: 100%; overflow: hidden; border: 1px solid #ddd; border-radius: 4px; }
+  .slider-frame img { display: block; width: 100%; }
+  .slider-frame .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); }
+  .slider-range { width: 100%; margin-top: 6px; }
+  .legend { font-size: 12px; color: #555; display: flex; justify-content: space-between; margin-top: 2px; }
+  .toc { background: #f8f6f0; padding: 12px 16px; border-radius: 4px; }
+  .toc a { color: #1893B4; }
+</style>
+</head>
+<body>
+
+<h1>Sprint 16 Cycle 4 — Operator Report (S)</h1>
+<p style="margin:0;color:#555;">Date: 2026-05-13 · Branch: <code>aa/pl-sprint-16-cycle-4-tokens-sweep</code> · Page: <code>/contact-us</code></p>
+
+<div class="verdict">
+  <strong>PASS</strong>
+  <div class="sub">Cycle 1 false-positives F-NEW-16-E and F-NEW-16-F confirmed: live already brief-correct. Cycle 4 is preview-doc-only.</div>
+</div>
+
+<div class="banner">
+  <strong>Cycle 1 audit correction.</strong> Two of the seven Cycle 1 findings (E, F) turned out to be probe-measurement errors, not real regressions on live. S independently re-probed at 1280 + 375 and confirms live <code>/contact-us</code> §C "What to expect" H2 already renders 40/30 px, and §D closing-CTA primary already renders <code>rgb(93,198,232)</code> on <code>rgb(31,26,20)</code>. The only change this cycle is two preview-doc lines so the static preview matches what live already does.
+</div>
+
+<div class="toc">
+  <strong>Sections</strong>
+  <ul style="margin:6px 0 0 18px;padding:0;">
+    <li><a href="#what-i-see">What I see different</a></li>
+    <li><a href="#live-probe">Live computed-style probe (independent verification)</a></li>
+    <li><a href="#diff-scope">Diff scope</a></li>
+    <li><a href="#wipe-1280">§D wipe slider — preview pre vs post (1280)</a></li>
+    <li><a href="#wipe-375">§D wipe slider — preview pre vs post (375)</a></li>
+    <li><a href="#live-unchanged">Live unchanged (top 1500 px byte-identical to Cycle 1 baseline)</a></li>
+    <li><a href="#process">Process gap from Cycle 1</a></li>
+  </ul>
+</div>
+
+<h2 id="what-i-see">What I see different</h2>
+<ul>
+  <li>Preview-doc only: §D closing-CTA primary button changes from the default <code>.btn--primary</code> teal background (matching the form-submit cascade) to the brief's dark-zone <code>#5DC6E8</code> on <code>#1F1A14</code>. Visible only on the "Book a testing review" pill in §D.</li>
+  <li>Live: no visible change. Top 1500 px of the live page is byte-identical at both 1280 and 375 versus the Cycle 1 baseline.</li>
+</ul>
+
+<h2 id="live-probe">Live computed-style probe — independent verification</h2>
+<p>S Playwright probe (<code>scripts/sprint-16-cycle-4-s-probe.mjs</code>) — DPR 2, <code>reducedMotion: reduce</code>. Selectors target the §C "What to expect" H2 by text match and the §D primary CTA inside <code>.dy-section--cta-pair</code> explicitly (not the form submit).</p>
+
+<table>
+  <thead>
+    <tr><th>Element</th><th>Viewport</th><th>Property</th><th>Brief target</th><th>S measured</th><th>Result</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>§C H2 "What to expect…"</td><td>1280</td><td>font-size</td><td>40px</td><td>40px</td><td class="pass">PASS</td></tr>
+    <tr><td>§C H2</td><td>1280</td><td>line-height</td><td>≤ 44px (1.10 advisory)</td><td>45.2px (1.13 sitewide carry)</td><td>Advisory only</td></tr>
+    <tr><td>§C H2</td><td>375</td><td>font-size</td><td>30px</td><td>30px</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA "Book a testing review"</td><td>1280</td><td>background-color</td><td>rgb(93,198,232)</td><td>rgb(93,198,232)</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA</td><td>1280</td><td>color</td><td>rgb(31,26,20)</td><td>rgb(31,26,20)</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA</td><td>1280</td><td>height (touch)</td><td>≥ 44px</td><td>56px</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA</td><td>375</td><td>background-color</td><td>rgb(93,198,232)</td><td>rgb(93,198,232)</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA</td><td>375</td><td>color</td><td>rgb(31,26,20)</td><td>rgb(31,26,20)</td><td class="pass">PASS</td></tr>
+    <tr><td>§D primary CTA</td><td>375</td><td>height (touch)</td><td>≥ 44px</td><td>56px (331×56)</td><td class="pass">PASS</td></tr>
+    <tr><td>Form submit (sanity — different cascade)</td><td>1280</td><td>background-color</td><td>n/a</td><td>rgb(98,187,203)</td><td>Different from §D — expected</td></tr>
+  </tbody>
+</table>
+<p>Contrast: <code>#1F1A14</code> on <code>#5DC6E8</code> = 8.81:1 (≥ 4.5 normal-text floor). PASS.</p>
+
+<h2 id="diff-scope">Diff scope</h2>
+<p><code>git diff main</code> for Cycle 4 contains exactly two added lines in <code>docs/pl2/Previews/contact-us.html</code>:</p>
+<pre style="background:#f4f1ea;padding:10px;border-radius:4px;overflow:auto;font-size:12px;">    .closing-cta .btn--primary { background: #5DC6E8; color: #1F1A14; }
+    .closing-cta .btn--primary:hover { background: #4AB8DA; color: #1F1A14; }</pre>
+<p>Matches the <code>about-us.html</code> / <code>how-we-do-it.html</code> precedent. No live theme files changed in Cycle 4. No Canvas scripts. No <code>!important</code>.</p>
+
+<h2 id="wipe-1280">§D wipe slider — preview pre/post (1280)</h2>
+<p>Drag the slider to reveal the post-Cycle-4 preview on top of the pre-Cycle-4 preview. The button colour shifts from default teal to <code>#5DC6E8</code> on <code>#1F1A14</code> espresso text. ImageMagick AE = 9530 px on the §D crop (1.4 % of the cropped region) — concentrated entirely on the button pill.</p>
+<div class="slider-wrap">
+  <div class="slider-frame" id="frame-1280">
+    <img src="screenshots/sprint-16-cycle-4/t3-contact-us-1280-closing-cta-preview-pre-20260513.png" alt="preview pre Cycle 4 — 1280">
+    <img class="top" id="top-1280" src="screenshots/sprint-16-cycle-4/t3-contact-us-1280-closing-cta-preview-post-20260513.png" alt="preview post Cycle 4 — 1280">
+  </div>
+  <input type="range" class="slider-range" min="0" max="100" value="50" oninput="document.getElementById('top-1280').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  <div class="legend"><span>pre-Cycle-4 (left of slider)</span><span>post-Cycle-4 (right of slider)</span></div>
+</div>
+
+<h2 id="wipe-375">§D wipe slider — preview pre/post (375)</h2>
+<div class="slider-wrap" style="max-width:420px;">
+  <div class="slider-frame" id="frame-375">
+    <img src="screenshots/sprint-16-cycle-4/t3-contact-us-375-closing-cta-preview-pre-20260513.png" alt="preview pre Cycle 4 — 375">
+    <img class="top" id="top-375" src="screenshots/sprint-16-cycle-4/t3-contact-us-375-closing-cta-preview-post-20260513.png" alt="preview post Cycle 4 — 375">
+  </div>
+  <input type="range" class="slider-range" min="0" max="100" value="50" oninput="document.getElementById('top-375').style.clipPath = 'inset(0 ' + (100 - this.value) + '% 0 0)'">
+  <div class="legend"><span>pre-Cycle-4 (left)</span><span>post-Cycle-4 (right)</span></div>
+</div>
+
+<h2 id="live-unchanged">Live unchanged — top-region byte-identical vs Cycle 1 baseline</h2>
+<table>
+  <thead><tr><th>Viewport</th><th>Region</th><th>AE (differing pixels)</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td>1280 (DPR 2)</td><td>Top 1500 px (header + hero)</td><td class="pass">0</td><td>Cycle 4 live identical to Cycle 1 baseline</td></tr>
+    <tr><td>375 (DPR 2)</td><td>Top 1500 px (header + hero)</td><td class="pass">0</td><td>Cycle 4 live identical to Cycle 1 baseline</td></tr>
+    <tr><td>1280 full page</td><td>Whole page (cropped to common height)</td><td>694,622 (0.04 %)</td><td>Drift below the fold (form state / footer dynamic content). No content delta.</td></tr>
+    <tr><td>375 full page</td><td>Whole page (cropped to common height)</td><td>510,705 (0.06 %)</td><td>Same — below-the-fold drift only.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="process">Process gap surfaced for Sprint 16 wrap</h2>
+<p><strong>The Cycle 1 audit probe script measured the wrong selectors and produced two false-positive findings (E + F).</strong></p>
+<ul>
+  <li><code>scripts/sprint-16-cycle-1-probe.mjs</code> collected only <code>h2s[0]</code> (sidebar "Prefer a quick call?") and <code>h2s[h2s.length-1]</code> (§D closing-CTA H2). The §C "What to expect" H2 (3rd content H2 in DOM) was never directly measured. Its size was inferred from a DSSIM-based section diff, which actually reflected layout / chrome differences, not an H2 type-scale problem.</li>
+  <li>For §D, the Cycle 1 probe measured the form submit button (<code>rgb(98,187,203)</code> + white) and attributed those values to the closing-CTA primary as well. The closing-CTA primary <code>a.button--primary</code> inside <code>.dy-section--cta-pair</code> was already on the <code>theme--dark .button--primary</code> cascade and already resolved to <code>#5DC6E8</code> + <code>#1F1A14</code>.</li>
+</ul>
+<p><strong>Recommended remediation for future audits.</strong> Audit probe scripts must:</p>
+<ol>
+  <li>Enumerate <em>all</em> <code>&lt;h2&gt;</code> elements with their text and section ancestor — not just <code>[0]</code> and <code>[-1]</code> by array index.</li>
+  <li>Probe each section's primary CTA by section ancestor (e.g. <code>.dy-section--cta-pair .button--primary</code>), not the first <code>.button--primary</code> found in the page.</li>
+  <li>When a per-section DSSIM signals "real visible delta" but the per-token probe doesn't surface a value mismatch, flag for follow-up rather than reverse-inferring the cause — DSSIM-on-section is a sensitive but not specific signal.</li>
+</ol>
+<p>Three of the seven Cycle 1 findings (D-marker, E, F) turned out to be probe artefacts. The remaining four (A, B, C, G) were real and have been merged in Cycles 1–3.</p>
+
+</body>
+</html>

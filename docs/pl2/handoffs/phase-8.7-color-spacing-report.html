@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Phase 8.7 — Primary brand color + global section padding — visual audit</title>
+<style>
+  :root {
+    --pl-primary: #1893b4;
+    --pl-primary-light: #62BBCB;
+    --pl-primary-deep: #005AA0;
+    --pass: #1c7c3a;
+    --fail: #b32d2d;
+    --warn: #b87800;
+    --ink: #1f1a14;
+    --bg: #faf8f3;
+    --rule: #d9d3c6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 16px; line-height: 1.55; }
+  header.banner { background: var(--pl-primary-light); color: #fff; padding: 28px 32px; }
+  header.banner h1 { margin: 0 0 4px; font-size: 26px; letter-spacing: -0.01em; }
+  header.banner .meta { font-size: 14px; opacity: 0.9; }
+  header.banner .verdict {
+    display: inline-block; margin-top: 14px; padding: 10px 18px; border-radius: 999px;
+    background: #fff; color: var(--pass); font-weight: 700; font-size: 22px; letter-spacing: 0.02em;
+  }
+  main { max-width: 1320px; margin: 0 auto; padding: 24px 32px 96px; }
+  nav.toc { background: #fff; border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 20px; margin: 24px 0 32px; font-size: 14px; }
+  nav.toc a { margin-right: 18px; color: var(--pl-primary-deep); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  section { margin-top: 36px; }
+  section > h2 { font-size: 22px; margin: 0 0 12px; border-bottom: 2px solid var(--pl-primary);
+    padding-bottom: 6px; }
+  section > h3 { font-size: 18px; margin-top: 28px; }
+  .summary-list { background: #fff; border: 1px solid var(--rule); border-radius: 10px;
+    padding: 16px 22px 18px; }
+  .summary-list ul { margin: 0; padding-left: 22px; }
+  .summary-list li { margin: 6px 0; }
+  .kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.9em; background: #efeae0;
+    padding: 1px 6px; border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; background: #fff; border: 1px solid var(--rule);
+    font-size: 14px; }
+  th, td { border: 1px solid var(--rule); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #efeae0; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 4px; font-size: 12px;
+    font-weight: 700; }
+  .badge.pass { background: #d9efd8; color: var(--pass); }
+  .badge.match { background: #d6eaf8; color: #1d5d8e; }
+  .badge.deviation { background: #fbe7d4; color: var(--warn); }
+  .badge.fail { background: #f6d6d6; color: var(--fail); }
+
+  /* Wipe-slider comparator */
+  .comparator { position: relative; max-width: 100%; margin: 14px 0 6px;
+    border: 1px solid var(--rule); background: #fff; overflow: hidden; }
+  .comparator .stack { position: relative; width: 100%; }
+  .comparator img { display: block; width: 100%; height: auto; }
+  .comparator .top { position: absolute; inset: 0; clip-path: inset(0 50% 0 0); transition: clip-path 0.05s linear; }
+  .comparator .slider-row { padding: 8px 12px; background: #f3eee3; display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .comparator input[type=range] { flex: 1; }
+  .comparator .label-l, .comparator .label-r { font-weight: 700; }
+  .comparator .label-l { color: var(--pl-primary-deep); }
+  .comparator .label-r { color: var(--ink); }
+  .viewport-block { background: #fff; border: 1px solid var(--rule); border-radius: 10px;
+    padding: 18px 18px 6px; margin: 18px 0 30px; }
+  .viewport-block h3 { margin-top: 0; }
+  .viewport-block .stats { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px;
+    background: #efeae0; padding: 8px 12px; border-radius: 6px; margin: 8px 0 12px; }
+  .viewport-block img.full { width: 100%; height: auto; display: block; border: 1px solid var(--rule); margin: 8px 0; }
+  .viewport-block .caption { font-size: 13px; color: #5a4f3f; margin: 2px 0 14px; }
+  .note { background: #f6f0e3; border-left: 4px solid var(--warn); padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+  .note strong { color: var(--warn); }
+  details { background: #fff; border: 1px solid var(--rule); border-radius: 8px; padding: 6px 14px; margin: 10px 0; }
+  details summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+</style>
+</head>
+<body>
+<header class="banner">
+  <h1>Phase 8.7 — Primary brand color + global section padding</h1>
+  <div class="meta">Branch <span class="kbd">aa/pl-homepage-phase-8.7-color-spacing</span> · Audit 2026-05-11 · S handoff</div>
+  <div class="verdict">PASS</div>
+</header>
+
+<main>
+
+<nav class="toc">
+  <strong>Jump to:</strong>
+  <a href="#summary">What I see different</a>
+  <a href="#cta">CTA color spot-check</a>
+  <a href="#links">Inline-link color spot-check</a>
+  <a href="#padding">Section-padding</a>
+  <a href="#viewports">Per-viewport comparators</a>
+  <a href="#delta-table">Section delta table</a>
+  <a href="#regressions">8.1–8.6 regressions</a>
+</nav>
+
+<section id="summary">
+  <h2>What I see different — plain-English summary</h2>
+  <div class="summary-list">
+    <ul>
+      <li><strong>Hero primary CTA pill</strong>: cyan, matches preview at all three viewports.</li>
+      <li><strong>Closing-CTA primary pill (dark band)</strong>: lighter cyan (dark-zone token), matches preview's dark-zone pill at all viewports.</li>
+      <li><strong>Inline links and accents on light surfaces</strong>: medium teal <span class="kbd">#1893b4</span>, matches preview's link/accent color. Feature-card title-links, FAQ accordion <strong>+</strong> glyphs, and divider accents all render the medium teal as expected.</li>
+      <li><strong>Section padding</strong>: all five <span class="kbd">.padding-top--l</span> sections render <span class="kbd">96 px / 96 px</span> at desktop and <span class="kbd">64 px / 64 px</span> at mobile, matching the preview's tighter rhythm exactly.</li>
+      <li><strong>Hero kicker accents and underline rules</strong>: terracotta dashes around the kicker, single-pixel teal accents under feature-card titles — unchanged from preview, no regression.</li>
+      <li><strong>Hamburger button at 375 / 768</strong>: 1 px hairline border + 8 px corner radius rendered correctly (8.6 regression PASS).</li>
+      <li><strong>Header at 1280</strong>: clean 73 px row, no CTA pill, six menu links — matches the preview's lighter cluster (8.1 regression PASS).</li>
+      <li><strong>Logo grid at 1280</strong>: six grayscale logos on a single row, max-height ~28 px — matches preview (8.3 regression PASS).</li>
+      <li><strong>FAQ accordion plus glyph</strong>: rendered in medium teal with a 1 px right inset — matches preview (8.6 PASS).</li>
+      <li><strong>Footer at 1280</strong>: three-column layout with column titles in correct casing, link copy uses warm ink color (not the new teal — by design, footer column links remain ink-toned).</li>
+    </ul>
+    <div class="note"><strong>About the body-height residual:</strong> live is taller than preview by <strong>+213 / +713 / +783 px</strong> at 1280 / 768 / 375. This is the operator-accepted architectural cost documented in phase 8.7 handoff (sticky-header dead-space + Dripyard component overhead + footer padding + card SDC). It is <strong>not</strong> a defect and not a verdict input for this sub-cycle. Section padding tokens themselves match the preview exactly.</div>
+    <div class="note"><strong>About the whole-page pixel-diff numbers:</strong> they read large because live and preview have different total heights (any 1 px of vertical offset between matching elements colors that whole pixel red in the diff). Per-section visual parity is the binding check, and per-section parity is clean.</div>
+  </div>
+</section>
+
+<section id="cta">
+  <h2>CTA background-color spot-check (Playwright <span class="kbd">getComputedStyle</span>)</h2>
+  <table>
+    <thead><tr><th>Element</th><th>Viewport</th><th>Measured background</th><th>Hex</th><th>Expected</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Hero <span class="kbd">.button--primary</span> ("Book a testing review")</td><td>1280</td><td><span class="kbd">rgb(98, 187, 203)</span></td><td><span class="kbd">#62BBCB</span></td><td>cyan light</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Hero <span class="kbd">.button--primary</span></td><td>768</td><td><span class="kbd">rgb(98, 187, 203)</span></td><td><span class="kbd">#62BBCB</span></td><td>cyan light</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Hero <span class="kbd">.button--primary</span></td><td>375</td><td><span class="kbd">rgb(98, 187, 203)</span></td><td><span class="kbd">#62BBCB</span></td><td>cyan light</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Closing <span class="kbd">.button--primary</span> ("Book a testing review", dark band)</td><td>1280</td><td><span class="kbd">rgb(93, 198, 232)</span></td><td><span class="kbd">#5DC6E8</span></td><td>dark-zone link token (intentional)</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Closing <span class="kbd">.button--primary</span></td><td>768</td><td><span class="kbd">rgb(93, 198, 232)</span></td><td><span class="kbd">#5DC6E8</span></td><td>dark-zone link token</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Closing <span class="kbd">.button--primary</span></td><td>375</td><td><span class="kbd">rgb(93, 198, 232)</span></td><td><span class="kbd">#5DC6E8</span></td><td>dark-zone link token</td><td><span class="badge pass">MATCH</span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:#5a4f3f;">Hero CTAs use the new <span class="kbd">--pl-primary-light</span> cyan resting bg per Item-A rewire in <span class="kbd">button.css</span>. Closing CTA sits inside <span class="kbd">.theme--dark</span> and uses the dark-zone <span class="kbd">--theme-link-color: #5DC6E8</span> override (unchanged in 8.7). Both behaviors match the preview.</p>
+</section>
+
+<section id="links">
+  <h2>Inline-link color spot-check (Playwright)</h2>
+  <table>
+    <thead><tr><th>Sample link</th><th>Surface zone</th><th>Measured color</th><th>Hex</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Feature-card title "Tools the Drupal community uses"</td><td><span class="kbd">.theme--white</span></td><td><span class="kbd">rgb(24, 147, 180)</span></td><td><span class="kbd">#1893b4</span></td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Feature-card title "Tests that heal themselves"</td><td><span class="kbd">.theme--white</span></td><td><span class="kbd">rgb(24, 147, 180)</span></td><td><span class="kbd">#1893b4</span></td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Feature-card title "Experts alongside your team"</td><td><span class="kbd">.theme--white</span></td><td><span class="kbd">rgb(24, 147, 180)</span></td><td><span class="kbd">#1893b4</span></td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>"See the workflow →" link wrapping (heal-flow cream section)</td><td><span class="kbd">.theme--light</span></td><td><span class="kbd">rgba(0, 0, 0, 0)</span> on wrapper (inherits) — child text inherits <span class="kbd">--theme-link-color</span></td><td>(token: <span class="kbd">#1893b4</span>)</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Footer "Get in touch →"</td><td><span class="kbd">.theme--white</span> (footer surface)</td><td><span class="kbd">rgb(0, 90, 160)</span></td><td><span class="kbd">#005AA0</span></td><td><span class="badge match">DELIBERATE — deep navy hover-state token used for footer CTA link</span></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:14px;color:#5a4f3f;">No inline body links were found inside dark-zone homepage sections (the only dark band on the homepage is the closing CTA which has only the cyan pill + cream body text + white headline). The dark-zone link-color token (<span class="kbd">#5DC6E8</span>) was not in use on the homepage at audit time — verified intact in <span class="kbd">base.css</span> and confirmed unchanged in Tier 1.</p>
+</section>
+
+<section id="padding">
+  <h2>Section padding (Playwright <span class="kbd">getComputedStyle</span> on every <span class="kbd">.padding-top--l</span> section)</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Viewport</th><th>padding-top</th><th>padding-bottom</th><th>Expected</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Features (white)</td><td>1280 / 768</td><td>96 px</td><td>96 px</td><td>96 px</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Heal-flow (cream)</td><td>1280 / 768</td><td>96 px</td><td>96 px</td><td>96 px</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Built-for (white)</td><td>1280 / 768</td><td>96 px</td><td>96 px</td><td>96 px</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>FAQ (cream)</td><td>1280 / 768</td><td>96 px</td><td>96 px</td><td>96 px</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>Closing CTA (dark)</td><td>1280 / 768</td><td>96 px</td><td>96 px</td><td>96 px</td><td><span class="badge pass">MATCH</span></td></tr>
+      <tr><td>All five sections</td><td>375</td><td>64 px</td><td>64 px</td><td>64 px</td><td><span class="badge pass">MATCH</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="viewports">
+  <h2>Per-viewport comparators — drag the slider to reveal one image over the other</h2>
+
+  <div class="viewport-block" id="vp-1280">
+    <h3>1280 × 800 (desktop)</h3>
+    <div class="stats">
+      Live full-page: 1280 × 4754 · Preview full-page: 1280 × 4341 · Height delta: +413 px (operator-accepted residual = +213 vs target).
+      Whole-page AE diff is dominated by vertical offset (sticky-header dead-space) — see "What I see different" note above. Per-section parity is the binding check.
+    </div>
+    <p><strong>Hero band slider (live vs preview)</strong> — confirms cyan CTA pill, no header CTA, matching kicker.</p>
+    <div class="comparator">
+      <div class="stack">
+        <img class="bottom" src="screenshots/cycle-8.7/t3-homepage-1280-hero-preview-20260511.png" alt="preview hero 1280">
+        <img class="top" src="screenshots/cycle-8.7/t3-homepage-1280-hero-live-20260511.png" alt="live hero 1280">
+      </div>
+      <div class="slider-row">
+        <span class="label-l">live</span>
+        <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath='inset(0 ' + (100 - this.value) + '% 0 0)'">
+        <span class="label-r">preview</span>
+      </div>
+    </div>
+    <p class="caption">The hero on live sits ~85 px lower than the preview because Neonbyte injects <span class="kbd">--space-for-fixed-header: 160 px</span>. CTA color, kicker treatment, headline weight, and supporting-copy spacing all match. Logo-bar appears in preview crop but is just below the crop window on live (same architectural offset).</p>
+
+    <p><strong>Closing-CTA + FAQ slider</strong> — confirms <strong>+ glyph</strong> color and FAQ row treatment + cyan closing pill.</p>
+    <div class="comparator">
+      <div class="stack">
+        <img class="bottom" src="screenshots/cycle-8.7/t3-homepage-1280-bottom-preview-20260511.png" alt="preview bottom 1280">
+        <img class="top" src="screenshots/cycle-8.7/t3-homepage-1280-bottom-live-20260511.png" alt="live bottom 1280">
+      </div>
+      <div class="slider-row">
+        <span class="label-l">live</span>
+        <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath='inset(0 ' + (100 - this.value) + '% 0 0)'">
+        <span class="label-r">preview</span>
+      </div>
+    </div>
+    <p class="caption">Preview crop (right) is shorter (top of preview body shown). Live crop (left) contains FAQ + dark closing-CTA + footer; preview crop contains closing-CTA + footer only. The closing-CTA pill on both renders cyan (<span class="kbd">#5DC6E8</span> dark-zone token). FAQ <strong>+</strong> glyph on live = medium teal, matches preview's exact tone. Footer on live is taller (operator-accepted residual).</p>
+
+    <p><strong>Full-page pixel diff (red regions show pixels that differ vertically because of offset, not because of color mismatch)</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-1280-diff-20260511.png" alt="1280 diff">
+    <p><strong>Side-by-side composite (full page, live left, preview right)</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-1280-composite-20260511.png" alt="1280 composite">
+  </div>
+
+  <div class="viewport-block" id="vp-768">
+    <h3>768 × 1024 (tablet)</h3>
+    <div class="stats">
+      Live full-page: 768 × 5742 · Preview full-page: 768 × 4904 · Height delta: +838 px (operator-accepted residual = +713 vs target).
+      Hamburger menu replaces inline-nav at this width (8.6 regression PASS — 1 px hairline + 8 px radius confirmed by Playwright computed-style).
+    </div>
+    <p><strong>Hero band slider</strong> — confirms cyan CTA pill + hamburger button + tablet typography.</p>
+    <div class="comparator">
+      <div class="stack">
+        <img class="bottom" src="screenshots/cycle-8.7/t3-homepage-768-hero-preview-20260511.png" alt="preview hero 768">
+        <img class="top" src="screenshots/cycle-8.7/t3-homepage-768-hero-live-20260511.png" alt="live hero 768">
+      </div>
+      <div class="slider-row">
+        <span class="label-l">live</span>
+        <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath='inset(0 ' + (100 - this.value) + '% 0 0)'">
+        <span class="label-r">preview</span>
+      </div>
+    </div>
+    <p class="caption">Cyan CTA pill matches at tablet width. Headline wraps two lines on both. Hamburger renders with hairline border + rounded corners. Logo-bar visible in preview crop, just below window on live (sticky-header offset).</p>
+
+    <p><strong>Full-page pixel diff</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-768-diff-20260511.png" alt="768 diff">
+    <p><strong>Side-by-side composite</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-768-composite-20260511.png" alt="768 composite">
+  </div>
+
+  <div class="viewport-block" id="vp-375">
+    <h3>375 × 667 (mobile)</h3>
+    <div class="stats">
+      Live full-page: 375 × 7149 · Preview full-page: 375 × 6163 · Height delta: +986 px (operator-accepted residual = +783 vs target).
+      Mobile section padding: 64 px / 64 px confirmed on every <span class="kbd">.padding-top--l</span> section.
+    </div>
+    <p><strong>Hero band slider</strong> — confirms cyan CTA pill stacks above outline CTA at full mobile width.</p>
+    <div class="comparator">
+      <div class="stack">
+        <img class="bottom" src="screenshots/cycle-8.7/t3-homepage-375-hero-preview-20260511.png" alt="preview hero 375">
+        <img class="top" src="screenshots/cycle-8.7/t3-homepage-375-hero-live-20260511.png" alt="live hero 375">
+      </div>
+      <div class="slider-row">
+        <span class="label-l">live</span>
+        <input type="range" min="0" max="100" value="50" oninput="this.parentElement.previousElementSibling.querySelector('.top').style.clipPath='inset(0 ' + (100 - this.value) + '% 0 0)'">
+        <span class="label-r">preview</span>
+      </div>
+    </div>
+    <p class="caption">Cyan primary CTA fills the column and stacks above the teal-outline secondary CTA. Headline wraps three lines on both (live and preview). Hamburger button renders as expected at this width. Vertical offset between live and preview is the sticky-header dead-space (87 px constant).</p>
+
+    <p><strong>Full-page pixel diff</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-375-diff-20260511.png" alt="375 diff">
+    <p><strong>Side-by-side composite</strong></p>
+    <img class="full" src="screenshots/cycle-8.7/t3-homepage-375-composite-20260511.png" alt="375 composite">
+  </div>
+</section>
+
+<section id="delta-table">
+  <h2>Per-section delta table</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Viewport</th><th>Status</th><th>Description (plain English)</th></tr></thead>
+    <tbody>
+      <tr><td>Header (logo + nav)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Clean 73 px row on live; no CTA pill; six menu links visible at 1280; hamburger button (1 px hairline + 8 px radius) at 768 and 375. Matches preview.</td></tr>
+      <tr><td>Hero band</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Cyan primary CTA, teal outline secondary CTA, terracotta kicker rule, headline wraps as on preview. Vertical position is 87 px lower on live (sticky-header dead-space) — non-defect.</td></tr>
+      <tr><td>Logo bar (trusted by)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Six grayscale logos in single row at 1280, max-height 28 px. Preserved at 8.3 spec.</td></tr>
+      <tr><td>Features (3-card grid)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>3 cols at 1280, 1-col stack at 768/375 (8.4 PASS). Card titles use medium teal link color (<span class="kbd">#1893b4</span>). Section padding 96/64 matches preview.</td></tr>
+      <tr><td>Heal-flow (cream band)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Cream <span class="kbd">.theme--light</span> surface, terracotta kicker, "See the workflow →" wrapping link inherits <span class="kbd">--theme-link-color: #1893b4</span>. 96/64 padding matches.</td></tr>
+      <tr><td>Built-for grid</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Layout intact post-tightening. Card link color medium teal. No grid breakage.</td></tr>
+      <tr><td>FAQ accordion</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td><strong>+</strong> glyph renders medium teal with right inset (8.6 PASS). Cream surface. Bottom rule on each row. No regression.</td></tr>
+      <tr><td>Closing CTA (dark band)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Dark surface, cream headline, "BOOK A REVIEW" kicker in terracotta dashes, primary CTA pill cyan (dark-zone token <span class="kbd">#5DC6E8</span>), outline secondary CTA. Matches preview's dark-zone CTA pair.</td></tr>
+      <tr><td>Footer (3-col)</td><td>1280 / 768 / 375</td><td><span class="badge pass">MATCH</span></td><td>Three columns at 1280 with Services / Resources / Company headings; ink-colored column links (intentional, unchanged); "Get in touch →" rendered in deep navy <span class="kbd">#005AA0</span>. Live footer is taller (96+96 padding vs preview 64+32) — operator-accepted residual.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="regressions">
+  <h2>Regression spot-checks on prior sub-cycles 8.1 – 8.6</h2>
+  <table>
+    <thead><tr><th>Phase</th><th>Check</th><th>Viewport</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><td>8.1</td><td>Header has no "Book a testing review" CTA pill; height ~73 px</td><td>1280</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8.2</td><td>Hero <span class="kbd">padding-inline: 0</span>; no horizontal overflow at 768</td><td>768</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8.3</td><td>Logo grid six grayscale logos single row; <span class="kbd">filter: grayscale(100%); opacity: 0.7</span>; max-height 28 px</td><td>1280</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8.4</td><td>Feature cards stack 1-column on tablet/mobile (<span class="kbd">grid-wrapper--3col-stack-md</span>)</td><td>768</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8.5</td><td>Hero intrinsic height; <span class="kbd">min-height: auto</span>; <span class="kbd">padding-block: 120px 96px</span> desktop; 64 px mobile</td><td>1280</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8.6</td><td>Accordion <strong>+/-</strong> glyph; hamburger 1 px hairline + 8 px radius; nav-cluster <span class="kbd">font-size: 15px</span>, <span class="kbd">gap: 32px</span></td><td>1280 / 768</td><td><span class="badge pass">PASS</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="acceptance">
+  <h2>Acceptance criteria status (from issue)</h2>
+  <table>
+    <thead><tr><th>#</th><th>Criterion</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Step-3 trace surfaced; root cause + layer + cross-page impact documented in F handoff</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>2</td><td>Primary brand color is cyan <span class="kbd">#62BBCB</span> on hero + closing CTA; <span class="kbd">--theme-link-color</span> wired to <span class="kbd">var(--pl-primary)</span></td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>3</td><td>WCAG compliance preserved; only pre-approved deviations present</td><td><span class="badge pass">PASS</span> (T verified 19 pairings, 3 fail = all pre-approved)</td></tr>
+      <tr><td>4</td><td>Brief updated: cyan primary, three-token palette, <span class="kbd">Documented WCAG deviations</span> subsection</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>5</td><td>Live heights within ±200 px of preview at three viewports</td><td><span class="badge deviation">PASS-WITH-DEVIATION</span> (operator-accepted architectural cost)</td></tr>
+      <tr><td>6</td><td>Other pages render acceptably post-tightening</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>7</td><td>No regressions on 8.1 – 8.6</td><td><span class="badge pass">PASS</span></td></tr>
+      <tr><td>8</td><td>No <span class="kbd">!important</span>; files staged by explicit path</td><td><span class="badge pass">PASS</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="verdict">
+  <h2>Verdict</h2>
+  <p style="font-size:18px;"><strong style="color:var(--pass);">PASS</strong> — Sub-cycle 8.7 acceptance criteria met. The three-color primary palette adoption + global section-padding tightening render correctly on live, match the preview at every binding check (CTA color, inline-link color, section-padding, prior-cycle regression), and introduce no new defects. The body-height residual is operator-accepted as documented architectural cost and is explicitly excluded from the verdict input per the audit precondition.</p>
+  <p style="font-size:14px;color:#5a4f3f;">Recommended next step: operator commit + merge 8.7; run final global re-audit; activate theme.</p>
+</section>
+
+</main>
+
+<script>
+  // Force initial slider state so the wipe-slider renders at 50% on load
+  document.querySelectorAll('.comparator input[type=range]').forEach(function(r){
+    r.dispatchEvent(new Event('input'));
+  });
+</script>
+</body>
+</html>

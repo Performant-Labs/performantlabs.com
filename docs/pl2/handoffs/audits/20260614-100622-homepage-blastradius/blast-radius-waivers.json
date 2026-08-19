@@ -1,0 +1,7 @@
+{
+  "waivers": [
+    { "selector": ".primary-menu", "scopedTo": "primary-menu",
+      "reason": "primary-menu intentionally sets --top-level-link-* custom props its composed menu-block consumes; by-design composition, not a leak",
+      "authority": "operator", "date": "2026-06-12" }
+  ]
+}
