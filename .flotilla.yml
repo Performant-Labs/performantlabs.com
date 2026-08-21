@@ -60,6 +60,14 @@ services:
     image: php:8.3-apache
     default: true
     depends: [db]
+    # apt-get's privilege-drop-to-`_apt` during `apt-get update`/`install` (in
+    # the init hook below) needs SETUID/SETGID. Flotilla's app-service
+    # hardening is CapDrop:['ALL'] by default for every service; declaring the
+    # specific caps a step needs is the supported opt-in (Flotilla issue
+    # found+fixed 2026-08-21 — capability opt-in used to be dependency-only,
+    # which blocked this exact apt-get call). See
+    # ~/Projects/flotilla/docs/integration/getting-started.md §4.
+    capabilities: [SETUID, SETGID]
     env:
       COMPOSER_ALLOW_SUPERUSER: '1'
     commands:
