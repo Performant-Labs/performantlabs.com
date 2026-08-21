@@ -61,6 +61,11 @@ sqldump:
 # in config/default/sync/system.site.yml. A fixed per-repo value is right here
 # (not one read from the preview) precisely because the preview must converge on
 # the repo's committed config. DbUuidNormalize's default command is
-# `drush config:set system.site uuid %uuid% -y`, which is correct for drush 13.
+# `drush config:set system.site uuid %uuid% -y`, which assumes a global `drush`
+# binary on PATH — this repo (and every environment restoring into it, including
+# a Flotilla preview container) only has `vendor/bin/drush`, so the default
+# fails with "drush: not found" (real-world find, restoring PR #318's preview).
+# Override with the project-local binary path, matching `sql.command` above.
 uuid:
   value: '4b7619a0-08db-43a2-9bc9-f85e7599ab92'
+  command: 'vendor/bin/drush config:set system.site uuid %uuid% -y'
