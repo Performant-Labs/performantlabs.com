@@ -61,13 +61,17 @@ services:
     default: true
     depends: [db]
     # apt-get's privilege-drop-to-`_apt` during `apt-get update`/`install` (in
-    # the init hook below) needs SETUID/SETGID. Flotilla's app-service
-    # hardening is CapDrop:['ALL'] by default for every service; declaring the
-    # specific caps a step needs is the supported opt-in (Flotilla issue
-    # found+fixed 2026-08-21 — capability opt-in used to be dependency-only,
-    # which blocked this exact apt-get call). See
+    # the init hook below) needs SETUID/SETGID to drop privileges, plus
+    # CHOWN/DAC_OVERRIDE/FOWNER for its sandbox directory setup
+    # (chown/chmod/removing files under /var/lib/apt, /var/cache/apt —
+    # confirmed via a real failed run: "chown to _apt:root ... Operation not
+    # permitted" once SETUID/SETGID alone weren't enough). Flotilla's
+    # app-service hardening is CapDrop:['ALL'] by default for every service;
+    # declaring the specific caps a step needs is the supported opt-in
+    # (Flotilla issue found+fixed 2026-08-21 — capability opt-in used to be
+    # dependency-only, which blocked this exact apt-get call). See
     # ~/Projects/flotilla/docs/integration/getting-started.md §4.
-    capabilities: [SETUID, SETGID]
+    capabilities: [CHOWN, DAC_OVERRIDE, FOWNER, SETUID, SETGID]
     env:
       COMPOSER_ALLOW_SUPERUSER: '1'
     commands:
