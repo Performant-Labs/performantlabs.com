@@ -122,6 +122,12 @@ jobs:
 
       - name: Clone Pantheon repo locally.
         run: |
+          # CI_RUNNER is self-hosted and persists its filesystem between
+          # jobs, unlike GitHub-hosted runners — a bare `mkdir` (no -p) then
+          # hard-fails on the 2nd+ run if a prior job's $PANTHEON_REPO_DIR
+          # wasn't cleaned up. Same class of bug as the stale-Terminus-install
+          # fix; clear it first so this step is idempotent.
+          rm -rf "$PANTHEON_REPO_DIR"
           mkdir "$PANTHEON_REPO_DIR"
           cd "$PANTHEON_REPO_DIR"
           git init
