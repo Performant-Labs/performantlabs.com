@@ -91,6 +91,16 @@ jobs:
           known_hosts: ' '
           if_key_exists: replace
 
+      - name: Clean up any stale Terminus install from a previous run.
+        # CI_RUNNER is self-hosted and persists its filesystem between jobs, unlike
+        # GitHub-hosted runners. pantheon-systems/terminus-github-actions@main does a
+        # bare `mkdir $HOME/terminus` + `ln -s .../terminus /usr/local/bin/terminus`
+        # with no -p/-f, so it hard-fails (exit 1) if a prior job already installed
+        # Terminus here. Clear both before it runs so the step is idempotent.
+        run: |
+          rm -rf "$HOME/terminus"
+          sudo rm -f /usr/local/bin/terminus
+
       - name: Install Terminus as standalone command to avoid dependency interference.
         uses: pantheon-systems/terminus-github-actions@main
         with:
