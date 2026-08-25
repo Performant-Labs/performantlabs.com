@@ -44,8 +44,14 @@ test.describe('Taxonomy tests.', () => {
       // retry budget can exceed the default hook timeout, so extend this
       // hook's own timeout to give it room to actually finish.
       test.setTimeout(150000)
-      await atkCommands.execDrushGuaranteed('entity:delete', ['taxonomy_term', pendingTid], ['--yes'])
-      pendingTid = null
+      // finally, not just a trailing assignment: see the identical comment
+      // in atk_menu.spec.js's afterEach — if execDrushGuaranteed throws,
+      // pendingTid must still be cleared or it leaks into whatever runs next.
+      try {
+        await atkCommands.execDrushGuaranteed('entity:delete', ['taxonomy_term', pendingTid], ['--yes'])
+      } finally {
+        pendingTid = null
+      }
     }
   })
 

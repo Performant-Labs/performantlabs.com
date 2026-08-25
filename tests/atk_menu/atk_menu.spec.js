@@ -67,8 +67,16 @@ test.describe('Menu tests.', () => {
       // attempts x 45s + backoff) can exceed the default hook timeout, so
       // extend this hook's own timeout to give it room to actually finish.
       test.setTimeout(150000)
-      await atkCommands.execDrushGuaranteed('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
-      pendingMid = null
+      // finally, not just a trailing assignment: if execDrushGuaranteed
+      // throws (every retry exhausted), pendingMid must still be cleared —
+      // otherwise it leaks into whatever runs next (a retry of this same
+      // test, or a later test in this describe block), which would then
+      // attempt to re-delete/re-track an entity that isn't actually its own.
+      try {
+        await atkCommands.execDrushGuaranteed('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
+      } finally {
+        pendingMid = null
+      }
     }
   })
 
