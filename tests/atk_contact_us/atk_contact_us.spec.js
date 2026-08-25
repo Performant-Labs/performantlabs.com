@@ -23,6 +23,19 @@ const qaUsers = atkUtilities.qaUsers;
 test.describe('Contact Us tests.', () => {
   const ctx = {}
 
+  //
+  // This test never deleted the webform submission it creates — by design,
+  // not as a bug (there's no admin flow being validated for deleting a
+  // submission, unlike ATK-PW-1120/1150 where deletion is the feature under
+  // test). Every nightly run against live added one permanent row; 696 had
+  // accumulated since 2024-12-10 before this was caught. Sweeping before
+  // each run caps the accumulation at "at most one, until the next run"
+  // instead of unbounded growth. See sweep-stray-webform-submissions.php.
+  //
+  test.beforeAll(async () => {
+    atkCommands.execDrush('php:script', ['tests/support/scripts/sweep-stray-webform-submissions.php'])
+  })
+
   test.beforeAll(() => {
     if (!atkConfig.email?.reroute) {
       return

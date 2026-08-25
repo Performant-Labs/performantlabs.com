@@ -19,6 +19,30 @@ import { expect, test } from '../support/atk_fixture.js';
 
 test.describe('Taxonomy tests.', () => {
   //
+  // Belt-and-suspenders guard (same failure shape as ATK-PW-1150 — see
+  // sweep-stray-taxonomy-terms.php): sweep any stray ATK-PW-1120 terms out
+  // of the "tags" vocabulary before this suite runs, regardless of what
+  // left them there.
+  //
+  test.beforeAll(async () => {
+    atkCommands.execDrush('php:script', ['tests/support/scripts/sweep-stray-taxonomy-terms.php'])
+  })
+
+  // Tracks the tid of a just-created term so afterEach can guarantee its
+  // removal even if the in-test UI-driven delete never runs (e.g. a
+  // Playwright test-timeout force-closes the browser context first — see
+  // ATK-PW-1150's postmortem in atk_menu.spec.js for why a try/finally
+  // around a browser-driven delete alone is not sufficient).
+  let pendingTid = null
+
+  test.afterEach(async () => {
+    if (pendingTid) {
+      atkCommands.execDrush('entity:delete', ['taxonomy_term', pendingTid], ['--yes'])
+      pendingTid = null
+    }
+  })
+
+  //
   // Create taxonomy term, confirm it, update it, confirm update then delete it via the UI.
   //
   test('(ATK-PW-1120) Create, update, delete a taxonomy term via the UI. @ATK-PW-1120 @taxonomy @smoke @alters-db', async ({ page, context }) => {
@@ -59,6 +83,7 @@ test.describe('Taxonomy tests.', () => {
     const regex = /\/taxonomy\/term\/(\d+)(?:\/([a-zA-Z0-9_-]+))?/
     const tidArray = workingUrl.match(regex)
     const tid = tidArray[1]
+    pendingTid = tid // Hand off to afterEach as the guaranteed-cleanup target.
 
     const termEditUrl = `/taxonomy/term/${tid}/edit`
     const termViewUrl = `/taxonomy/term/${tid}`
@@ -87,6 +112,7 @@ test.describe('Taxonomy tests.', () => {
     //
     await page.goto(termDeleteUrl)
     await page.getByRole('button', { name: 'Delete' }).click()
+    pendingTid = null // UI-driven delete completed; afterEach has nothing to do.
 
     // Adjust this confirmation to your needs.
     const divContainer = await page.textContent('.messages--status')
