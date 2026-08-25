@@ -113,7 +113,9 @@
    * Beats neonbyte's .primary-menu__link--level-1[class] at (0,2,0). */
   .site-header .primary-menu__link--level-1[class] {
     font-family: "Poppins", sans-serif;
-    font-size: 0.9375rem;
+    /* 0.65625rem = 10.5px: 30% smaller than the prior 0.9375rem (15px), so
+     * all top-level items fit on one line without wrapping. */
+    font-size: 0.65625rem;
     color: var(--theme-text-color-primary);
     padding: 0;
   }
