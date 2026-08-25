@@ -66,6 +66,12 @@ test.describe('Menu tests.', () => {
       // silently leaving the entity behind. Its retry budget (up to 3
       // attempts x 45s + backoff) can exceed the default hook timeout, so
       // extend this hook's own timeout to give it room to actually finish.
+      // Confirmed against Playwright's own source
+      // (lib/worker/timeoutManager.js): calling setTimeout() while a
+      // runnable (this afterEach) is actively running immediately clears
+      // its existing timer and recomputes the deadline from that
+      // runnable's own start/elapsed time — it extends THIS hook's
+      // already-ticking deadline, not just some future one.
       test.setTimeout(150000)
       // finally, not just a trailing assignment: if execDrushGuaranteed
       // throws (every retry exhausted), pendingMid must still be cleared —

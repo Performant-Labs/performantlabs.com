@@ -43,6 +43,9 @@ test.describe('Taxonomy tests.', () => {
       // dev -> test -> live in August 2026 despite this hook existing. Its
       // retry budget can exceed the default hook timeout, so extend this
       // hook's own timeout to give it room to actually finish.
+      // Confirmed against Playwright's source (see the identical comment in
+      // atk_menu.spec.js's afterEach) that this extends the currently-
+      // running afterEach's own deadline, not just a future one.
       test.setTimeout(150000)
       // finally, not just a trailing assignment: see the identical comment
       // in atk_menu.spec.js's afterEach — if execDrushGuaranteed throws,
