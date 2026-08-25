@@ -1,0 +1,32 @@
+--- a/src/Element/RenderSafeComponentContainer.php	2026-08-25 16:18:18
++++ b/src/Element/RenderSafeComponentContainer.php	2026-08-25 16:18:18
+@@ -70,6 +70,29 @@
+         throw $e;
+       }
+       catch (\Throwable $e) {
++        // TRICKY: when a component's render tree contains a nested Twig
++        // render boundary (e.g. an SDC slot rendered via #type =>
++        // 'inline_template', as happens for Block-plugin components placed
++        // inside another component's slot), Twig\Template::yield() catches
++        // *any* \Throwable bubbling out of template execution — including
++        // Drupal's EnforcedResponseException/FormAjaxException, which are
++        // form API's intentional "break out of rendering" escape hatches —
++        // and rewraps it as a Twig\Error\RuntimeError. That rewrapping
++        // defeats the re-throw above, because the exception reaching this
++        // catch-all is no longer an EnforcedResponseException/
++        // FormAjaxException instance, even though one still exists in its
++        // getPrevious() chain. Walk that chain and re-throw the original if
++        // found, instead of swallowing a form redirect/AJAX response as a
++        // "component failed to render" fallback.
++        // @see https://www.drupal.org/i/2367555
++        // @see \Drupal\canvas\Plugin\Field\FieldType\ComponentTreeItemList (same pattern)
++        $cause = $e;
++        while ($cause !== NULL) {
++          if ($cause instanceof EnforcedResponseException || $cause instanceof FormAjaxException) {
++            throw $cause;
++          }
++          $cause = $cause->getPrevious();
++        }
+         // In this scenario because rendering fails the context isn't updated or
+         // bubbled.
+         // TRICKY: depending on where an exception is thrown, it is possible

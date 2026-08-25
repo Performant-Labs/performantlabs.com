@@ -419,7 +419,8 @@
                 "The userswitch.user.user_list key is used twice in userswitch.links.action.yml": "https://www.drupal.org/files/issues/2020-10-16/userswitch.patch"
             },
             "drupal/canvas": {
-                "Fix null context_definitions crash in BlockComponentDiscovery": "project/patches/canvas-null-context-definitions.patch"
+                "Fix null context_definitions crash in BlockComponentDiscovery": "project/patches/canvas-null-context-definitions.patch",
+                "Re-throw EnforcedResponseException/FormAjaxException rewrapped by nested Twig rendering (issue #328)": "project/patches/canvas-enforced-response-in-nested-twig.patch"
             },
             "drupal/core": {
                 "Views pager offset causes fatal error if empty": "project/patches/ViewsPagerOffset.patch"
