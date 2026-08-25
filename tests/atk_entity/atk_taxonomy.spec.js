@@ -37,8 +37,24 @@ test.describe('Taxonomy tests.', () => {
 
   test.afterEach(async () => {
     if (pendingTid) {
-      atkCommands.execDrush('entity:delete', ['taxonomy_term', pendingTid], ['--yes'])
-      pendingTid = null
+      // execDrushGuaranteed (not execDrush): see the identical comment in
+      // atk_menu.spec.js's afterEach — execDrush() silently swallows
+      // terminus failures, which is how stray test entities leaked through
+      // dev -> test -> live in August 2026 despite this hook existing. Its
+      // retry budget can exceed the default hook timeout, so extend this
+      // hook's own timeout to give it room to actually finish.
+      // Confirmed against Playwright's source (see the identical comment in
+      // atk_menu.spec.js's afterEach) that this extends the currently-
+      // running afterEach's own deadline, not just a future one.
+      test.setTimeout(150000)
+      // finally, not just a trailing assignment: see the identical comment
+      // in atk_menu.spec.js's afterEach — if execDrushGuaranteed throws,
+      // pendingTid must still be cleared or it leaks into whatever runs next.
+      try {
+        await atkCommands.execDrushGuaranteed('entity:delete', ['taxonomy_term', pendingTid], ['--yes'])
+      } finally {
+        pendingTid = null
+      }
     }
   })
 

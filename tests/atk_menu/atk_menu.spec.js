@@ -57,8 +57,32 @@ test.describe('Menu tests.', () => {
     // already succeeded, pendingMid is null here and this is a no-op.
     //
     if (pendingMid) {
-      atkCommands.execDrush('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
-      pendingMid = null
+      // execDrushGuaranteed (not execDrush): under concurrent CI load a
+      // single terminus call can be slow/flaky, and execDrush() silently
+      // swallows that failure — which is how stray Test<random> links
+      // leaked through dev -> test -> live in August 2026 despite this
+      // hook existing. execDrushGuaranteed retries and throws (failing the
+      // test loudly) if cleanup genuinely can't complete, instead of
+      // silently leaving the entity behind. Its retry budget (up to 3
+      // attempts x 45s + backoff) can exceed the default hook timeout, so
+      // extend this hook's own timeout to give it room to actually finish.
+      // Confirmed against Playwright's own source
+      // (lib/worker/timeoutManager.js): calling setTimeout() while a
+      // runnable (this afterEach) is actively running immediately clears
+      // its existing timer and recomputes the deadline from that
+      // runnable's own start/elapsed time — it extends THIS hook's
+      // already-ticking deadline, not just some future one.
+      test.setTimeout(150000)
+      // finally, not just a trailing assignment: if execDrushGuaranteed
+      // throws (every retry exhausted), pendingMid must still be cleared —
+      // otherwise it leaks into whatever runs next (a retry of this same
+      // test, or a later test in this describe block), which would then
+      // attempt to re-delete/re-track an entity that isn't actually its own.
+      try {
+        await atkCommands.execDrushGuaranteed('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
+      } finally {
+        pendingMid = null
+      }
     }
   })
 
