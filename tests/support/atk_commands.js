@@ -341,6 +341,80 @@ function execPantheonDrush(cmd) {
   return result
 }
 
+/**
+ * Run execDrush() with retries and a hard per-attempt timeout, throwing if
+ * every attempt fails.
+ *
+ * execDrush()/execPantheonDrush() intentionally swallow errors (many callers
+ * use them for best-effort setup/sweeps and don't want a transient failure
+ * to abort the test). That contract is wrong for "guaranteed cleanup" hooks
+ * (afterEach deleting an entity created by the test): under concurrent CI
+ * load a single terminus call to Pantheon can be slow enough to exceed the
+ * hook's timeout, or fail transiently, and a silently-swallowed failure
+ * there means the entity is never deleted — with zero signal that cleanup
+ * didn't happen. That's how stray `Test<random>` menu links leaked through
+ * dev -> test -> live in August 2026 despite the afterEach hook existing:
+ * it ran, terminus was slow/flaky under load, the failure was logged and
+ * ignored, and the test still passed/failed on its own merits.
+ *
+ * Use this instead of execDrush() for any cleanup that MUST happen for the
+ * test suite to be trusted not to leak data into shared/production
+ * environments.
+ *
+ * @param {string} cmd The Drush command.
+ * @param {array} args Array of string arguments to pass to Drush.
+ * @param {array} options Array of string options to pass to Drush.
+ * @param {object} retryOptions Optional { attempts, delayMs, timeoutMs }.
+ * @returns {string} The output from executing the command in a shell.
+ * @throws {Error} If every attempt fails.
+ */
+async function execDrushGuaranteed(cmd, args = [], options = [], retryOptions = {}) {
+  const attempts = retryOptions.attempts ?? 3
+  const delayMs = retryOptions.delayMs ?? 5000
+  const timeoutMs = retryOptions.timeoutMs ?? 45000
+
+  let lastError = null
+
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      return execDrushWithTimeout(cmd, args, options, timeoutMs)
+    } catch (error) {
+      lastError = error
+      console.error(`execDrushGuaranteed: attempt ${attempt}/${attempts} failed for "${cmd} ${args.join(' ')}": ${error.message}`)
+      if (attempt < attempts) {
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => { setTimeout(resolve, delayMs) })
+      }
+    }
+  }
+
+  throw new Error(`execDrushGuaranteed: all ${attempts} attempts failed for "${cmd} ${args.join(' ')}". Last error: ${lastError?.message}. This entity was NOT cleaned up and may leak into promoted environments.`)
+}
+
+/**
+ * Same shape as execDrush(), but with an explicit timeout and without
+ * swallowing errors — the caller (execDrushGuaranteed) needs to know when
+ * an attempt failed.
+ */
+function execDrushWithTimeout(cmd, args = [], options = [], timeoutMs = 45000) {
+  const drushAlias = getDrushAlias()
+  const argsString = args.join(' ')
+  const optionsString = options.join(' ')
+
+  if (atkConfig.pantheon.isTarget) {
+    const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
+    const remoteCmd = `terminus remote:drush ${atkConfig.pantheon.site}.${atkConfig.pantheon.environment} -- ${command.substring(5)}`
+    return execSync(remoteCmd, { timeout: timeoutMs }).toString()
+  } if (atkConfig.tugboat.isTarget) {
+    const command = `${drushAlias} ${cmd} ${argsString} ${optionsString}`
+    const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${command}"`
+    return execSync(remoteCmd, { timeout: timeoutMs }).toString()
+  }
+
+  const command = `ddev exec drush ${cmd} ${argsString} ${optionsString}`
+  return execSync(command, { timeout: timeoutMs }).toString()
+}
+
 function execTugboatDrush(cmd) {
   const remoteCmd = `tugboat shell ${atkConfig.tugboat.service} command="${cmd}"`
 
@@ -809,6 +883,7 @@ export {
   deleteUserWithUid,
   deleteUserWithUserName,
   execDrush,
+  execDrushGuaranteed,
   execPantheonDrush,
   expectEmail,
   expectMessage,

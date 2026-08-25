@@ -57,7 +57,17 @@ test.describe('Menu tests.', () => {
     // already succeeded, pendingMid is null here and this is a no-op.
     //
     if (pendingMid) {
-      atkCommands.execDrush('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
+      // execDrushGuaranteed (not execDrush): under concurrent CI load a
+      // single terminus call can be slow/flaky, and execDrush() silently
+      // swallows that failure — which is how stray Test<random> links
+      // leaked through dev -> test -> live in August 2026 despite this
+      // hook existing. execDrushGuaranteed retries and throws (failing the
+      // test loudly) if cleanup genuinely can't complete, instead of
+      // silently leaving the entity behind. Its retry budget (up to 3
+      // attempts x 45s + backoff) can exceed the default hook timeout, so
+      // extend this hook's own timeout to give it room to actually finish.
+      test.setTimeout(150000)
+      await atkCommands.execDrushGuaranteed('entity:delete', ['menu_link_content', pendingMid], ['--yes'])
       pendingMid = null
     }
   })
