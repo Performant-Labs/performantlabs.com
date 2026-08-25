@@ -42,7 +42,7 @@ jobs:
 
       - name: List the directories in the project (x1).
         run: |
-          tree -d -L 3
+          find . -maxdepth 3 -type d | sort
 
       - name: Validate composer.json and composer.lock.
         continue-on-error: true
@@ -74,7 +74,7 @@ jobs:
         run: |
           echo "Showing vendor directory."
           pwd
-          tree -d -L 4
+          find . -maxdepth 4 -type d | sort
 
       - name: Install SSH Key.
         uses: shimataro/ssh-key-action@v2.5.0
@@ -102,7 +102,7 @@ jobs:
       - name: List the directories in the project (x2).
         run: |
           cd web
-          tree -d -L 4
+          find . -maxdepth 4 -type d | sort
 
       - name: Enable maintenance mode.
         run: |
