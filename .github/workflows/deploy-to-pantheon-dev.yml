@@ -222,6 +222,22 @@ jobs:
         run: |
           terminus workflow:wait $PANTHEON_SITE_NAME.$PANTHEON_ENV
 
+      - name: Run database updates and import config.
+        # pantheon.yml's Quicksilver `deploy` hook (which runs updatedb,
+        # config:import, and cache:rebuild) only fires for Pantheon's own
+        # internal "deploy" workflow, i.e. `terminus env:deploy` promoting
+        # code between environments. Pushing straight to dev's git remote
+        # (above) is a different underlying Pantheon workflow and never
+        # triggers it, so dev's active config silently never picks up
+        # config/default/sync changes unless this is run explicitly.
+        # Confirmed directly: a config-only change stayed empty in dev's
+        # active config after a full deploy here, despite deploying
+        # correctly to test/live (which do go through `env:deploy`).
+        run: |
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- updatedb -y
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- config:import -y
+          terminus remote:drush $PANTHEON_SITE_NAME.$PANTHEON_ENV -- cache:rebuild
+
       - name: Check out repository code.
         uses: actions/checkout@v3
 
