@@ -156,10 +156,24 @@ jobs:
       - name: Change playwright.atk.config.js
         run: |
           set -x
-          sed -i 's/operatingMode: "native"/operatingMode: "pantheon"/g' playwright.atk.config.js
+          # BUG (found 2026-08-26): playwright.atk.config.js has always used
+          # single quotes (operatingMode: 'native', environment: 'dev', ...),
+          # but these sed patterns matched double quotes and so silently
+          # never matched anything. environment in particular stayed stuck
+          # at its checked-in default of 'dev' regardless of $PANTHEON_ENV,
+          # meaning every drush/terminus call the test framework made
+          # (sweep scripts, guaranteed cleanup, everything) silently ran
+          # against dev even when testing against test/live — while the
+          # browser correctly hit the right site via BASE_URL (a separate
+          # mechanism). This is what let stray Test<random> menu links and
+          # taxonomy terms leak onto test/live over and over despite
+          # multiple rounds of fixing the test-level cleanup logic itself:
+          # the cleanup was firing successfully, just against the wrong
+          # environment every time.
+          sed -i "s/operatingMode: 'native'/operatingMode: 'pantheon'/g" playwright.atk.config.js
           sed -i 's/isTarget: false/isTarget: true/g' playwright.atk.config.js
-          sed -i 's/site: "aSite"/site: "'$PANTHEON_SITE_NAME'"/g' playwright.atk.config.js
-          sed -i 's/environment: "dev"/environment: "'$PANTHEON_ENV'"/g' playwright.atk.config.js
+          sed -i "s/site: 'aSite'/site: '$PANTHEON_SITE_NAME'/g" playwright.atk.config.js
+          sed -i "s/environment: 'dev'/environment: '$PANTHEON_ENV'/g" playwright.atk.config.js
           echo "----playwright.atk.config.js----"
           cat playwright.atk.config.js
 
