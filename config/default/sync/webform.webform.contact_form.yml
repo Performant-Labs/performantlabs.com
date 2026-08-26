@@ -141,7 +141,7 @@ settings:
   confirmation_type: page
   confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: ''
+  confirmation_message: "Thank you. We'll get in contact with you right away."
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
