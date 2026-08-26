@@ -60,6 +60,18 @@ services:
     image: php:8.3-apache
     default: true
     depends: [db]
+    # apt-get's privilege-drop-to-`_apt` during `apt-get update`/`install` (in
+    # the init hook below) needs SETUID/SETGID to drop privileges, plus
+    # CHOWN/DAC_OVERRIDE/FOWNER for its sandbox directory setup
+    # (chown/chmod/removing files under /var/lib/apt, /var/cache/apt —
+    # confirmed via a real failed run: "chown to _apt:root ... Operation not
+    # permitted" once SETUID/SETGID alone weren't enough). Flotilla's
+    # app-service hardening is CapDrop:['ALL'] by default for every service;
+    # declaring the specific caps a step needs is the supported opt-in
+    # (Flotilla issue found+fixed 2026-08-21 — capability opt-in used to be
+    # dependency-only, which blocked this exact apt-get call). See
+    # ~/Projects/flotilla/docs/integration/getting-started.md §4.
+    capabilities: [CHOWN, DAC_OVERRIDE, FOWNER, SETUID, SETGID]
     env:
       COMPOSER_ALLOW_SUPERUSER: '1'
     commands:
@@ -100,14 +112,20 @@ services:
         # Composer resolve it against this Drupal site's own constraints rather
         # than failing on a stale lock.
         - composer require --dev --no-interaction --no-progress --with-all-dependencies "performantlabs/testor:^1.11"
-        # The S3 secret is NOT committed. Flotilla injects it as FLOTILLA_S3_SECRET
-        # (repo secret); Testor reads `${s3_secret}` from .testor_secret.yml
-        # (gitignored). Write it WITHOUT echoing the value into the build log.
+        # The S3 secret is NOT committed. Flotilla's org/project secrets UI
+        # injects it as TESTOR_S3_SECRET (org-level secret, epic #301); Testor
+        # reads `${s3_secret}` from .testor_secret.yml (gitignored). NOT named
+        # FLOTILLA_S3_SECRET: the FLOTILLA_* prefix is reserved for Flotilla's
+        # own platform context (FLOTILLA_ROOT/REPO_ID/PREVIEW_ID/…, #302
+        # Decision 2.3) and is rejected outright if an operator tries to set it
+        # via the secrets UI — an earlier draft of this hook used that name and
+        # could never actually receive a value. Write it WITHOUT echoing the
+        # value into the build log.
         - >-
-          if [ -n "${FLOTILLA_S3_SECRET:-}" ]; then
-          printf 's3_secret: %s\n' "${FLOTILLA_S3_SECRET}" > .testor_secret.yml;
+          if [ -n "${TESTOR_S3_SECRET:-}" ]; then
+          printf 's3_secret: %s\n' "${TESTOR_S3_SECRET}" > .testor_secret.yml;
           echo "wrote .testor_secret.yml"; else
-          echo "FLOTILLA_S3_SECRET not set — snapshot:restore will fail to reach S3" >&2; fi
+          echo "TESTOR_S3_SECRET not set — snapshot:restore will fail to reach S3" >&2; fi
 
       # build — runs on each PR build. Wire settings, restore the sanitized
       # snapshot, then finish the Drupal bootstrap.
