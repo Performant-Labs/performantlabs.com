@@ -125,6 +125,27 @@
     color: var(--theme-link-color);
   }
 
+  /* Hovering ONE nav item must not visually change the others.
+   *
+   * neonbyte primary-menu-wide.theme.css:62 dims every sibling when any
+   * top-level item is hovered:
+   *   :where(.primary-menu__list--level-1:has(.primary-menu__list-item--level-1:hover))
+   *     .primary-menu__list-item--level-1:not(:hover) { opacity: 0.5; }
+   * The :has() is on the shared <ul> ancestor, so a single hover repaints the
+   * whole menu -- reads as "all the items change" rather than just the one
+   * under the cursor. The hovered item's own colour change (P12 rule above)
+   * plus the active-trail underline are the intended affordances.
+   *
+   * neonbyte's selector is (0,2,0): :where() contributes 0, leaving
+   * .primary-menu__list-item--level-1:not(:hover). Mirroring it under
+   * .site-header lands at (0,6,0) -- .site-header (0,1,0) +
+   * .primary-menu__list--level-1 (0,1,0) + :has() taking its argument's
+   * (0,2,0) + the subject's (0,2,0) -- so this wins on specificity, not just
+   * on load order. */
+  .site-header .primary-menu__list--level-1:has(.primary-menu__list-item--level-1:hover) .primary-menu__list-item--level-1:not(:hover) {
+    opacity: 1;
+  }
+
   /* Active-trail. (0,3,0) or higher depending on selector. */
   .theme--white .primary-menu__link--level-1.primary-menu__link--active-trail,
   .theme--white .primary-menu__list-item--active-trail > .primary-menu__link--level-1 {
