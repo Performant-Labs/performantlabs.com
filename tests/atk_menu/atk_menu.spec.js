@@ -143,4 +143,53 @@ test.describe('Menu tests.', () => {
     await page.goto('/admin/structure/menu/manage/main')
     await expect(page.getByText(menuItemTitle)).toHaveCount(0) // Ensure the item is gone.
   })
+
+  //
+  // Regression guard for the nav-hover bug fixed alongside this test.
+  //
+  // neonbyte's primary-menu-wide.theme.css dims every NON-hovered top-level
+  // item to opacity 0.5 whenever any one of them is hovered, because its
+  // :has() is rooted on the shared <ul> ancestor rather than on the item:
+  //   :where(.primary-menu__list--level-1:has(.primary-menu__list-item--level-1:hover))
+  //     .primary-menu__list-item--level-1:not(:hover) { opacity: 0.5; }
+  // The visible symptom is that hovering one item appears to change all of
+  // them. performant_labs_v2/css/components/header.css overrides it back to
+  // opacity 1 at higher specificity. This test fails if that override is
+  // removed or is ever out-specificity'd again.
+  //
+  // Wide viewport only: the offending rule lives in @media (width > 1000px),
+  // so the whole interaction does not exist on the mobile menu.
+  //
+  test('(ATK-PW-1151) Hovering a top-level nav item does not dim the others @ATK-PW-1151 @menu @smoke', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/')
+
+    const items = page.locator('.primary-menu__list--level-1 > .primary-menu__list-item--level-1')
+    const count = await items.count()
+
+    //
+    // "The others" is only meaningful with at least two top-level items.
+    // Skip rather than fail: a single-item menu is a CONTENT condition, and
+    // this test is an assertion about CSS. Failing here would red the suite
+    // on an environment whose menu happens to differ, which tells us nothing
+    // about the hover behaviour under test.
+    //
+    test.skip(count < 2, 'Main menu has fewer than two top-level items.')
+
+    await items.first().hover()
+
+    //
+    // Assert on the resolved opacity of every sibling. The property is
+    // transitioned (transition: opacity 0.2s), so poll via toPass rather
+    // than reading once and racing the animation.
+    //
+    await expect(async () => {
+      for (let i = 1; i < count; i += 1) {
+        const opacity = await items.nth(i).evaluate(
+          (el) => window.getComputedStyle(el).opacity,
+        )
+        expect(Number(opacity)).toBeCloseTo(1, 2)
+      }
+    }).toPass({ timeout: 5000 })
+  })
 })
