@@ -89,6 +89,7 @@ glob = [
   'package-lock.json',
   'yarn.lock',
   'pnpm-lock.yaml',
+  'composer.lock',
   'dist/**',
   'coverage/**',
   '*.min.js',
