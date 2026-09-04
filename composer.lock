@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34ecbfe1124c85b7b7fb78cf8d50b221",
+    "content-hash": "b754139adb5682e3acffca6b15ed5f52",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6309,27 +6309,27 @@
         },
         {
             "name": "drupal/svg_image",
-            "version": "3.2.1",
+            "version": "3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/svg_image.git",
-                "reference": "3.2.1"
+                "reference": "3.2.4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/svg_image-3.2.1.zip",
-                "reference": "3.2.1",
-                "shasum": "4623b9d0de4c624857df10daaa8c68793942ad87"
+                "url": "https://ftp.drupal.org/files/projects/svg_image-3.2.4.zip",
+                "reference": "3.2.4",
+                "shasum": "5424ea4d7d96c2407244340b3bebba0a9809eef0"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11",
-                "enshrined/svg-sanitize": ">=0.15 <1.0"
+                "enshrined/svg-sanitize": ">=0.22 <1.0"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.2.1",
-                    "datestamp": "1736865227",
+                    "version": "3.2.4",
+                    "datestamp": "1783014075",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7316,16 +7316,16 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.21.0",
+            "version": "0.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "5e477468fac5c5ce933dce53af3e8e4e58dcccc9"
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/5e477468fac5c5ce933dce53af3e8e4e58dcccc9",
-                "reference": "5e477468fac5c5ce933dce53af3e8e4e58dcccc9",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/0afa95ea74be155a7bcd6c6fb60c276c39984500",
+                "reference": "0afa95ea74be155a7bcd6c6fb60c276c39984500",
                 "shasum": ""
             },
             "require": {
@@ -7355,9 +7355,9 @@
             "description": "An SVG sanitizer for PHP",
             "support": {
                 "issues": "https://github.com/darylldoyle/svg-sanitizer/issues",
-                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.21.0"
+                "source": "https://github.com/darylldoyle/svg-sanitizer/tree/0.22.0"
             },
-            "time": "2025-01-13T09:32:25+00:00"
+            "time": "2025-08-12T10:13:48+00:00"
         },
         {
             "name": "giggsey/libphonenumber-for-php",
