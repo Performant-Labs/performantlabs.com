@@ -9,8 +9,7 @@ project:
 
 # ── PR-Agent (CI automated review) ───────────────────────────────────────────
 pr_agent:
-  # Model for standard PR reviews (any Qodo-supported model string).
-  model: "deepseek/deepseek-v4-pro"
+  # Model: omitted, so the playbook default applies (add a `model:` key to override).
 
   # Model for PRs carrying high_stakes_label. Use a more capable model here.
   # Defaults to model if omitted.
