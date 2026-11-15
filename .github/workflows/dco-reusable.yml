@@ -41,7 +41,13 @@ permissions:
 jobs:
   dco:
     name: DCO sign-off check
-    runs-on: ${{ vars.CI_RUNNER }}
+    # The self-hosted fleet (org variable CI_RUNNER) only for a pull request
+    # from a branch of this repo whose author is in the org variable
+    # TRUSTED_CI_AUTHORS (a JSON list of logins); any other pull request, a
+    # fork's included, runs on ubuntu-latest (free for this public repo), as
+    # does everything when CI_RUNNER is unset. A called workflow sees the
+    # caller's event.
+    runs-on: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && contains(fromJSON(vars.TRUSTED_CI_AUTHORS || '[]'), github.event.pull_request.user.login))) && (vars.CI_RUNNER || 'ubuntu-latest') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0  # v7.0.0
         with:
