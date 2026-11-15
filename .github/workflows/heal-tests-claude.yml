@@ -9,8 +9,15 @@ on:
 
 jobs:
   heal-tests:
-    # Only run if the issue has the 'auto-heal' label
-    if: contains(github.event.issue.labels.*.name, 'auto-heal')
+    # Only run if the issue has the 'auto-heal' label and was opened by a
+    # trusted author: OWNER/MEMBER/COLLABORATOR, or a login in the org variable
+    # TRUSTED_CI_AUTHORS (a JSON list). Claude spends API money and this job
+    # runs on the self-hosted fleet (org variable CI_RUNNER; ubuntu-latest when
+    # unset), so anyone else's issue starts nothing.
+    if: >-
+      contains(github.event.issue.labels.*.name, 'auto-heal') &&
+      (contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association) ||
+       contains(fromJSON(vars.TRUSTED_CI_AUTHORS || '[]'), github.event.issue.user.login))
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     permissions:
       contents: write
@@ -21,9 +28,11 @@ jobs:
     steps:
       - name: Extract branch from issue
         id: get-branch
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
-          BRANCH=$(echo "${{ github.event.issue.body }}" | grep -oP '(?<=Branch: )\S+' || echo "")
-          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          BRANCH=$(printf '%s\n' "$ISSUE_BODY" | grep -oP '(?<=Branch: )\S+' || echo "")
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
           echo "Extracted branch: ${BRANCH:-default}"
 
       - name: Check out repository code
@@ -100,6 +109,7 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
         run: |
           # Find the claude branch via GitHub API (git branch -r only shows locally fetched refs)
           CLAUDE_BRANCH=$(gh api repos/${{ github.repository }}/branches --paginate \
@@ -113,7 +123,7 @@ jobs:
           echo "Found branch: $CLAUDE_BRANCH"
 
           # Base PR on the branch that triggered the issue
-          BASE_BRANCH=$(echo "${{ github.event.issue.body }}" | grep -oP 'Branch: \K[^\s]+' || echo "main")
+          BASE_BRANCH=$(printf '%s\n' "$ISSUE_BODY" | grep -oP 'Branch: \K[^\s]+' || echo "main")
           echo "Base branch: $BASE_BRANCH"
 
           # Create PR
