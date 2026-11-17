@@ -10,7 +10,7 @@ project:
 # ── PR-Agent (CI automated review) ───────────────────────────────────────────
 pr_agent:
   # Model for standard PR reviews (any Qodo-supported model string).
-  model: "deepseek/deepseek-v4-pro"
+  model: "openai/glm-5.3"  # z.ai GLM Coding Plan (ZAI_API_KEY); was deepseek/deepseek-v4-pro
 
   # Model for PRs carrying high_stakes_label. Use a more capable model here.
   # Defaults to model if omitted.
